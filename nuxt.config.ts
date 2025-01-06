@@ -14,7 +14,11 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
+    'nuxt-svgo',
   ],
+  svgo: {
+    autoImportPath: './public/svg/',
+  },
   plugins: ['~/plugins/api.ts'],
   eslint: {
     config: {

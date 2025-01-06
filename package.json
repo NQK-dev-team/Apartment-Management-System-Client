@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "mitt": "^3.0.1",
     "nuxt": "^3.14.1592",
+    "nuxt-svgo": "^4.0.11",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",
     "vue": "latest",

@@ -7,11 +7,14 @@ export default {
   add_bill: 'Add bill',
 
   B: 'b',
+  bill: 'Bill',
 
   C: 'c',
   choose_option: 'Choose an option',
   cancel: 'Cancel',
   choose_file: 'Choose file',
+  customer: 'Customer',
+  contract: 'Contract',
 
   D: 'd',
 
@@ -33,6 +36,7 @@ export default {
   I: 'i',
   import_file: 'Import data from file',
   import_type_list: 'Import type list',
+  income_report: 'Income report',
 
   J: 'j',
 
@@ -45,6 +49,7 @@ export default {
   M: 'm',
 
   N: 'n',
+  notice: 'Notice',
 
   O: 'o',
 
@@ -57,8 +62,11 @@ export default {
 
   R: 'r',
   remember_me: 'Remember me',
+  room: 'Room',
 
   S: 's',
+  staff: 'Staff',
+  support_ticket: 'Support ticket',
 
   T: 't',
 

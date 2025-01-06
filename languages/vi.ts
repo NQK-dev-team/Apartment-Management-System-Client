@@ -7,11 +7,14 @@ export default {
   add_bill: 'Thêm hóa đơn',
 
   B: 'b',
+  bill: 'Hóa đơn',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
+  customer: 'Khách hàng',
+  contract: 'Hợp đồng',
 
   D: 'd',
 
@@ -33,6 +36,7 @@ export default {
   I: 'i',
   import_file: 'Thêm dữ liệu từ tệp tin',
   import_type_list: 'Danh mục thêm',
+  income_report: 'Báo cáo doanh thu',
 
   J: 'j',
 
@@ -45,6 +49,7 @@ export default {
   M: 'm',
 
   N: 'n',
+  notice: 'Thông báo',
 
   O: 'o',
 
@@ -57,8 +62,11 @@ export default {
 
   R: 'r',
   remember_me: 'Lưu mật khẩu',
+  room: 'Phòng',
 
   S: 's',
+  staff: 'Nhân viên',
+  support_ticket: 'Phiếu hỗ trợ',
 
   T: 't',
 

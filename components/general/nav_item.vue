@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="!(props.isChild && props.collapse)"
+    v-if="!(props.isChild && props.collapse) || props.childMustDisplay"
     class="h-[40px] flex items-center px-5"
     :href="props.href"
     :class="[
@@ -47,6 +47,10 @@ const props = defineProps({
     required: true,
   },
   isChild: {
+    type: Boolean,
+    default: false,
+  },
+  childMustDisplay: {
     type: Boolean,
     default: false,
   },

@@ -50,6 +50,10 @@ export default {
 
   N: 'n',
   notice: 'Thông báo',
+  new_notice: 'Thông báo mới',
+  notice_inbox: 'Hộp thư đến',
+  notice_starred: 'Đánh dấu',
+  notice_sent: 'Đã gửi',
 
   O: 'o',
 

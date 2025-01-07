@@ -22,7 +22,13 @@
     </div>
     <div class="flex flex-col w-full flex-1">
       <template v-if="props.role !== '001'">
-        <GeneralNavItem href="/staff" :icon="Staff" :label="$t('staff')" :collapse="collapse" />
+        <GeneralNavItem
+          v-if="props.role === '110'"
+          href="/staff"
+          :icon="Staff"
+          :label="$t('staff')"
+          :collapse="collapse"
+        />
         <GeneralNavItem class="my-1" href="/customer" :icon="User" :label="$t('customer')" :collapse="collapse" />
         <GeneralNavItem class="my-1" href="/contract" :icon="Contract" :label="$t('contract')" :collapse="collapse" />
         <GeneralNavItem class="my-1" href="/bill" :icon="Card" :label="$t('bill')" :collapse="collapse" />
@@ -33,10 +39,75 @@
           :label="$t('support_ticket')"
           :collapse="collapse"
         />
-        <GeneralNavItem class="my-1" href="/report" :icon="Report" :label="$t('income_report')" :collapse="collapse" />
+        <GeneralNavItem
+          v-if="props.role === '110'"
+          class="my-1"
+          href="/report"
+          :icon="Report"
+          :label="$t('income_report')"
+          :collapse="collapse"
+        />
+        <GeneralNavItemCollapse
+          v-if="props.role === '110'"
+          :label="$t('notice')"
+          :icon="Notice"
+          :collapse="collapse"
+          :children="[
+            {
+              label: $t('notice_sent'),
+              icon: Sent,
+              href: '/notice/sent',
+              isChild: true,
+              childMustDisplay: true,
+            },
+            {
+              label: $t('new_notice'),
+              icon: Write,
+              href: '/notice/new',
+              isChild: true,
+              childMustDisplay: true,
+            },
+          ]"
+        />
+        <GeneralNavItemCollapse
+          v-if="props.role === '010'"
+          :label="$t('notice')"
+          :icon="Notice"
+          :collapse="collapse"
+          :children="[
+            {
+              label: $t('notice_inbox'),
+              icon: Inbox,
+              href: '/notice/inbox',
+              isChild: true,
+              childMustDisplay: true,
+            },
+            {
+              label: $t('notice_starred'),
+              icon: Star,
+              href: '/notice/starred',
+              isChild: true,
+              childMustDisplay: true,
+            },
+            {
+              label: $t('notice_sent'),
+              icon: Sent,
+              href: '/notice/sent',
+              isChild: true,
+              childMustDisplay: true,
+            },
+            {
+              label: $t('new_notice'),
+              icon: Write,
+              href: '/notice/new',
+              isChild: true,
+              childMustDisplay: true,
+            },
+          ]"
+        />
       </template>
       <template v-if="props.role === '001'">
-        <GeneralNavItem class="my-1" href="/room" :icon="House" :label="$t('room')" :collapse="collapse" />
+        <GeneralNavItem href="/room" :icon="House" :label="$t('room')" :collapse="collapse" />
         <GeneralNavItem class="my-1" href="/contract" :icon="Contract" :label="$t('contract')" :collapse="collapse" />
         <GeneralNavItem class="my-1" href="/bill" :icon="Card" :label="$t('bill')" :collapse="collapse" />
         <GeneralNavItem
@@ -45,6 +116,27 @@
           :icon="Edit"
           :label="$t('support_ticket')"
           :collapse="collapse"
+        />
+        <GeneralNavItemCollapse
+          :label="$t('notice')"
+          :icon="Notice"
+          :collapse="collapse"
+          :children="[
+            {
+              label: $t('notice_inbox'),
+              icon: Inbox,
+              href: '/notice/inbox',
+              isChild: true,
+              childMustDisplay: true,
+            },
+            {
+              label: $t('notice_starred'),
+              icon: Star,
+              href: '/notice/starred',
+              isChild: true,
+              childMustDisplay: true,
+            },
+          ]"
         />
       </template>
     </div>
@@ -59,6 +151,11 @@ import Card from '~/public/svg/card.svg';
 import Edit from '~/public/svg/edit.svg';
 import Report from '~/public/svg/report.svg';
 import House from '~/public/svg/house.svg';
+import Notice from '~/public/svg/notice.svg';
+import Sent from '~/public/svg/sent.svg';
+import Write from '~/public/svg/write.svg';
+import Star from '~/public/svg/star.svg';
+import Inbox from '~/public/svg/inbox.svg';
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const collapse = ref<boolean>(false);

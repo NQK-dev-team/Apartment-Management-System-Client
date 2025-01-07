@@ -20,8 +20,12 @@
       props.collapse ? 'justify-center' : 'justify-start',
     ]"
   >
-    <component :is="props.icon" :class="[props.collapse ? 'text-2xl' : 'text-xl']" />
-    <p v-show="!props.collapse" class="ms-3 flex-1 text-sm">{{ props.label }}</p>
+    <component
+      :is="props.icon"
+      v-show="(props.isChild && props.collapse) || !props.isChild"
+      :class="[props.collapse ? 'text-2xl' : 'text-xl']"
+    />
+    <p v-show="!props.collapse" :class="[props.icon ? 'ms-3' : '']" class="flex-1 text-sm">{{ props.label }}</p>
   </a>
 </template>
 
@@ -35,8 +39,8 @@ const props = defineProps({
     required: true,
   },
   icon: {
-    type: Object,
-    required: true,
+    type: [Object, String],
+    default: null,
   },
   href: {
     type: String,

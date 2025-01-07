@@ -46,18 +46,28 @@
         <UpArrow v-show="isDropdownOpen" />
       </span>
     </div>
-    <div v-if="isDropdownOpen || props.collapse" class="flex flex-col" :class="[props.collapse ? '' : 'bg-[#F9F9F9]']">
-      <GeneralNavItem
-        v-for="(child, index) in props.children"
-        :key="index"
-        :collapse="props.collapse"
-        :label="child.label"
-        :icon="child.icon"
-        :href="child.href"
-        :is-child="child.isChild"
-        :child-must-display="child.childMustDisplay"
-        :class="[index !== props.children.length - 1 && props.collapse ? 'my-1' : '']"
-      />
+    <div
+      v-if="isDropdownOpen || props.collapse"
+      class="flex flex-col"
+      :class="[
+        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+          ? props.collapse
+            ? ''
+            : 'bg-[#F9F9F9]'
+          : '',
+      ]"
+    >
+      <template v-for="(child, index) in props.children" :key="index">
+        <GeneralNavItem
+          :collapse="props.collapse"
+          :label="child.label"
+          :icon="child.icon"
+          :href="child.href"
+          :is-child="child.isChild"
+          :child-must-display="child.childMustDisplay"
+          :class="[index !== props.children.length - 1 && props.collapse ? 'my-1' : '']"
+        />
+      </template>
     </div>
   </div>
 </template>

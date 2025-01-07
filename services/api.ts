@@ -1,5 +1,6 @@
 import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
+import { apiRoutes } from '~/consts/api_routes';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -9,7 +10,7 @@ function getApiInstance() {
 const authentication = {
   login: async (email: string, password: string, remember: boolean): Promise<APIResponse<null>> => {
     const $api = getApiInstance();
-    return $api('/authentication/login', {
+    return $api(apiRoutes.authentication.login, {
       method: 'POST',
       body: {
         email,
@@ -20,10 +21,10 @@ const authentication = {
   },
   logout: async (): Promise<APIResponse<null>> => {
     const $api = getApiInstance();
-    return $api('/authentication/logout', {
+    return $api(apiRoutes.authentication.logout, {
       method: 'POST',
     });
-  }
+  },
 };
 
 const api = {

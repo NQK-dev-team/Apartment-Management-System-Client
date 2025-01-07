@@ -24,17 +24,35 @@
       <template v-if="props.role !== '001'">
         <GeneralNavItem
           v-if="props.role === '110'"
-          href="/staff"
+          :href="pageRoutes.common.staff.list"
           :icon="Staff"
           :label="$t('staff')"
           :collapse="collapse"
         />
-        <GeneralNavItem class="my-1" href="/customer" :icon="User" :label="$t('customer')" :collapse="collapse" />
-        <GeneralNavItem class="my-1" href="/contract" :icon="Contract" :label="$t('contract')" :collapse="collapse" />
-        <GeneralNavItem class="my-1" href="/bill" :icon="Card" :label="$t('bill')" :collapse="collapse" />
         <GeneralNavItem
           class="my-1"
-          href="/support-ticket"
+          :href="pageRoutes.common.customer.list"
+          :icon="User"
+          :label="$t('customer')"
+          :collapse="collapse"
+        />
+        <GeneralNavItem
+          class="my-1"
+          :href="pageRoutes.common.contract.list"
+          :icon="Contract"
+          :label="$t('contract')"
+          :collapse="collapse"
+        />
+        <GeneralNavItem
+          class="my-1"
+          :href="pageRoutes.common.bill.list"
+          :icon="Card"
+          :label="$t('bill')"
+          :collapse="collapse"
+        />
+        <GeneralNavItem
+          class="my-1"
+          :href="pageRoutes.common.support_ticket.list"
           :icon="Edit"
           :label="$t('support_ticket')"
           :collapse="collapse"
@@ -42,7 +60,7 @@
         <GeneralNavItem
           v-if="props.role === '110'"
           class="my-1"
-          href="/report"
+          :href="pageRoutes.common.report.page"
           :icon="Report"
           :label="$t('income_report')"
           :collapse="collapse"
@@ -56,14 +74,14 @@
             {
               label: $t('notice_sent'),
               icon: Sent,
-              href: '/notice/sent',
+              href: pageRoutes.common.notice.sent,
               isChild: true,
               childMustDisplay: true,
             },
             {
               label: $t('new_notice'),
               icon: Write,
-              href: '/notice/new',
+              href: pageRoutes.common.notice.new,
               isChild: true,
               childMustDisplay: true,
             },
@@ -78,28 +96,28 @@
             {
               label: $t('notice_inbox'),
               icon: Inbox,
-              href: '/notice/inbox',
+              href: pageRoutes.common.notice.inbox,
               isChild: true,
               childMustDisplay: true,
             },
             {
               label: $t('notice_starred'),
               icon: Star,
-              href: '/notice/starred',
+              href: pageRoutes.common.notice.starred,
               isChild: true,
               childMustDisplay: true,
             },
             {
               label: $t('notice_sent'),
               icon: Sent,
-              href: '/notice/sent',
+              href: pageRoutes.common.notice.sent,
               isChild: true,
               childMustDisplay: true,
             },
             {
               label: $t('new_notice'),
               icon: Write,
-              href: '/notice/new',
+              href: pageRoutes.common.notice.new,
               isChild: true,
               childMustDisplay: true,
             },
@@ -107,12 +125,24 @@
         />
       </template>
       <template v-if="props.role === '001'">
-        <GeneralNavItem href="/room" :icon="House" :label="$t('room')" :collapse="collapse" />
-        <GeneralNavItem class="my-1" href="/contract" :icon="Contract" :label="$t('contract')" :collapse="collapse" />
-        <GeneralNavItem class="my-1" href="/bill" :icon="Card" :label="$t('bill')" :collapse="collapse" />
+        <GeneralNavItem :href="pageRoutes.common.room.list" :icon="House" :label="$t('room')" :collapse="collapse" />
         <GeneralNavItem
           class="my-1"
-          href="/support-ticket"
+          :href="pageRoutes.common.contract.list"
+          :icon="Contract"
+          :label="$t('contract')"
+          :collapse="collapse"
+        />
+        <GeneralNavItem
+          class="my-1"
+          :href="pageRoutes.common.bill.list"
+          :icon="Card"
+          :label="$t('bill')"
+          :collapse="collapse"
+        />
+        <GeneralNavItem
+          class="my-1"
+          :href="pageRoutes.common.support_ticket.list"
           :icon="Edit"
           :label="$t('support_ticket')"
           :collapse="collapse"
@@ -125,14 +155,14 @@
             {
               label: $t('notice_inbox'),
               icon: Inbox,
-              href: '/notice/inbox',
+              href: pageRoutes.common.notice.inbox,
               isChild: true,
               childMustDisplay: true,
             },
             {
               label: $t('notice_starred'),
               icon: Star,
-              href: '/notice/starred',
+              href: pageRoutes.common.notice.starred,
               isChild: true,
               childMustDisplay: true,
             },
@@ -156,6 +186,7 @@ import Sent from '~/public/svg/sent.svg';
 import Write from '~/public/svg/write.svg';
 import Star from '~/public/svg/star.svg';
 import Inbox from '~/public/svg/inbox.svg';
+import { pageRoutes } from '~/consts/page_routes';
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const collapse = ref<boolean>(false);

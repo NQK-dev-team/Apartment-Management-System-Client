@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import authenticationRoutes from './pages/authentication/routes';
-import commonRoutes from './pages/common/routes';
+import { appRoutes } from "./pages/routes";
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -78,7 +77,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'pages:extend'(pages) {
-      pages.push(...authenticationRoutes, ...commonRoutes);
+      pages.push(...appRoutes);
     },
   },
   piniaPluginPersistedstate: {

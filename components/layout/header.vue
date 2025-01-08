@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[50px] bg-[#001529] flex justify-between items-center px-3">
+  <div class="w-full h-[50px] bg-[#1f1f1f] flex justify-between items-center px-3">
     <div class="flex items-center">
       <img src="/svg/logo.svg" alt="Logo" class="w-[32px] h-[32px] select-none" />
       <h2 class="ms-2 text-white">NQK Management</h2>
@@ -27,13 +27,7 @@
             <img src="/svg/locale.svg" alt="Choose locale" class="w-[15px] h-[15px] select-none" />
           </div>
           <template #overlay>
-            <a-menu
-              :class="[
-                lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                  ? ''
-                  : 'bg-[#001529] border border-[#272727]',
-              ]"
-            >
+            <a-menu>
               <a-menu-item
                 key="vi"
                 :class="[
@@ -95,13 +89,7 @@
             <img src="/svg/notification.svg" alt="Notification" class="w-[17px] h-[17px] select-none" />
           </div>
           <template #overlay>
-            <a-menu
-              :class="[
-                lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                  ? ''
-                  : 'bg-[#001529] border border-[#272727]',
-              ]"
-            >
+            <a-menu>
               <a-menu-item key="TBD"> To Be Developed </a-menu-item>
               <a-menu-divider />
             </a-menu>
@@ -114,14 +102,7 @@
             <img :src="imageSrc" alt="avatar" class="w-[22px] h-[22px] rounded-full select-none" />
           </div>
           <template #overlay>
-            <a-menu
-              class="shadow-2xl"
-              :class="[
-                lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                  ? ''
-                  : 'bg-[#001529] border border-[#272727]',
-              ]"
-            >
+            <a-menu class="shadow-2xl">
               <div class="px-[12px] py-[5px]">
                 <span
                   class="font-bold"

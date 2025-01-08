@@ -27,8 +27,22 @@ const authentication = {
   },
 };
 
+const common = {
+  building: {},
+  room: {},
+  profile: {},
+  staff: {},
+  customer: {},
+  bill: {},
+  support_ticket: {},
+  notice: {},
+  contract: {},
+  import: {},
+};
+
 const api = {
   authentication,
+  common,
 };
 
 export { api };

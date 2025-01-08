@@ -8,7 +8,7 @@ export default {
 
   B: 'b',
   bill: 'Hóa đơn',
-  building: 'Tòa nhà',
+  building: 'Tòa nhà {name}',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -25,6 +25,7 @@ export default {
   example_file_xls: 'Tệp tin XLS/XLSX mẫu',
   email_require: 'Email không được để trống!',
   email_format: 'Email không đúng định dạng!',
+  enter_search: 'Nhập giá trị tìm kiếm',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -67,7 +68,7 @@ export default {
 
   R: 'r',
   remember_me: 'Lưu mật khẩu',
-  room: 'Phòng',
+  room: 'Phòng {name}',
 
   S: 's',
   staff: 'Nhân viên',

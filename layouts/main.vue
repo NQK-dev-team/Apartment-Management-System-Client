@@ -1,8 +1,8 @@
 <template>
   <div class="w-full h-full flex flex-col">
-    <GeneralHeader :is-admin="tokenStore.getRole !== '001'" />
+    <LayoutHeader :is-admin="tokenStore.getRole !== '001'" />
     <div class="flex w-full flex-1">
-      <GeneralNavMenu :role="tokenStore.getRole" />
+      <LayoutNavMenu :role="tokenStore.getRole" />
       <div
         class="flex-1 w-full"
         :class="{

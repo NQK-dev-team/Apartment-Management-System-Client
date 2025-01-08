@@ -83,29 +83,59 @@
           : '',
       ]"
     >
-      <template v-for="(child, index) in props.children" :key="index">
-        <GeneralNavItem
-          v-if="!child.children || !child.children.length"
-          :collapse="props.collapse"
-          :label="child.label"
-          :icon="child.icon"
-          :href="child.href"
-          :is-child="child.isChild"
-          :hide-when-collapse="child.hideWhenCollapse"
-          :item-level="child.itemLevel"
-        />
-        <GeneralNavItemCollapse
-          v-else
-          :collapse="props.collapse"
-          :label="child.label"
-          :icon="child.icon"
-          :children="child.children"
-          :href="child.href"
-          :is-child="child.isChild"
-          :hide-when-collapse="child.hideWhenCollapse"
-          :item-level="child.itemLevel"
-        />
-      </template>
+      <div v-if="props.searchChildren" class="px-5">
+        <a-select
+          v-show="!props.collapse"
+          v-model:value="selectValue"
+          :options="
+            props.children.map((child) => ({
+              value: child.itemValue,
+            }))
+          "
+          mode="multiple"
+          :placeholder="$t('enter_search')"
+          class="w-full"
+          :class="[props.isChild && navItemPaddings[props.itemLevel]]"
+        ></a-select>
+      </div>
+      <div
+        :class="[
+          props.children.every((child) => !child.children || !child.children.length)
+            ? 'overflow-auto max-h-[200px]'
+            : '',
+        ]"
+      >
+        <template v-for="(child, index) in props.children" :key="index">
+          <template v-if="!child.children || !child.children.length">
+            <LayoutNavItem
+              v-show="!selectValue.length || selectValue.includes(child.itemValue ?? '')"
+              :collapse="props.collapse"
+              :label="child.label"
+              :icon="child.icon"
+              :href="child.href"
+              :is-child="child.isChild"
+              :hide-when-collapse="child.hideWhenCollapse"
+              :item-level="child.itemLevel"
+              :item-value="child.itemValue"
+            />
+          </template>
+          <template v-else>
+            <LayoutNavItemCollapse
+              v-show="!selectValue.length || selectValue.includes(child.itemValue ?? '')"
+              :collapse="props.collapse"
+              :label="child.label"
+              :icon="child.icon"
+              :children="child.children"
+              :href="child.href"
+              :is-child="child.isChild"
+              :hide-when-collapse="child.hideWhenCollapse"
+              :item-level="child.itemLevel"
+              :search-children="child.searchChildren"
+              :item-value="child.itemValue"
+            />
+          </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -123,6 +153,8 @@ type Children = {
   hideWhenCollapse?: boolean;
   children?: Children[];
   itemLevel: number;
+  searchChildren?: boolean;
+  itemValue?: string;
 };
 
 // ---------------------- Variables ----------------------
@@ -161,8 +193,17 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  searchChildren: {
+    type: Boolean,
+    default: false,
+  },
+  itemValue: {
+    type: String,
+    default: '',
+  },
 });
-const isDropdownOpen = ref<boolean>(false);
+const isDropdownOpen = ref<boolean>(true);
+const selectValue = ref<string[]>([]);
 
 // ---------------------- Functions ----------------------
 function toggleDropdown(e: Event) {

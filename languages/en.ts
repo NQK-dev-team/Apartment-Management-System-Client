@@ -8,7 +8,7 @@ export default {
 
   B: 'b',
   bill: 'Bill',
-  building: 'Building',
+  building: 'Building {name}',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -25,6 +25,7 @@ export default {
   example_file_xls: 'Example XLS/XLSX file',
   email_require: 'Please enter your email!',
   email_format: 'Email is not valid!',
+  enter_search: 'Enter search value',
 
   F: 'f',
   finish_import: 'Import',
@@ -67,7 +68,7 @@ export default {
 
   R: 'r',
   remember_me: 'Remember me',
-  room: 'Room',
+  room: 'Room {name}',
 
   S: 's',
   staff: 'Staff',

@@ -8,6 +8,7 @@ export default {
 
   B: 'b',
   bill: 'Bill',
+  building: 'Building',
 
   C: 'c',
   choose_option: 'Choose an option',

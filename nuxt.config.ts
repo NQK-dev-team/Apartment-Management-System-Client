@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { appRoutes } from "./pages/routes";
+import { appRoutes } from './pages/routes';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',

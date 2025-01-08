@@ -8,6 +8,7 @@ export default {
 
   B: 'b',
   bill: 'Hóa đơn',
+  building: 'Tòa nhà',
 
   C: 'c',
   choose_option: 'Chọn danh mục',

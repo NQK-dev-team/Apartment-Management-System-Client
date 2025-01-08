@@ -1,7 +1,8 @@
 <template>
   <a
-    v-if="!(props.isChild && props.collapse) || props.childMustDisplay"
-    class="h-[40px] flex items-center px-5"
+    v-show="!props.collapse || !props.hideWhenCollapse"
+    class="h-[40px] items-center pe-5"
+    style="display: flex"
     :href="props.href"
     :class="[
       lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
@@ -17,19 +18,30 @@
       !props.collapse
         ? 'light_selected_border'
         : '',
-      props.collapse ? 'justify-center' : 'justify-start',
+      props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
+      !props.isChild ? 'my-1' : props.collapse ? 'my-1' : 'my-0',
     ]"
   >
     <component
       :is="props.icon"
-      v-show="(props.isChild && props.collapse) || !props.isChild"
+      v-show="!props.isChild || (props.isChild && props.collapse && !props.hideWhenCollapse)"
       :class="[props.collapse ? 'text-2xl' : 'text-xl']"
     />
-    <p v-show="!props.collapse" :class="[props.icon ? 'ms-3' : '']" class="flex-1 text-sm">{{ props.label }}</p>
+    <p
+      v-show="!props.collapse"
+      :class="[
+        !props.isChild || (props.isChild && props.collapse && !props.hideWhenCollapse) ? 'ms-3' : '',
+        props.isChild && navItemPaddings[props.itemLevel],
+      ]"
+      class="flex-1 text-sm"
+    >
+      {{ props.label }}
+    </p>
   </a>
 </template>
 
 <script lang="ts" setup>
+import { navItemPaddings } from './nav_menu.vue';
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const currentRoute = useRoute();
@@ -54,9 +66,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  childMustDisplay: {
+  hideWhenCollapse: {
     type: Boolean,
     default: false,
+  },
+  itemLevel: {
+    type: Number,
+    default: 0,
   },
 });
 </script>

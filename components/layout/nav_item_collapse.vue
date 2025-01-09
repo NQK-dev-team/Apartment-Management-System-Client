@@ -86,6 +86,7 @@
       <div v-if="props.searchChildren" class="px-5">
         <a-select
           v-show="!props.collapse"
+          :id="props.label + ' search'"
           v-model:value="selectValue"
           :options="
             props.children.map((child) => ({

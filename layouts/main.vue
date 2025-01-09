@@ -1,7 +1,9 @@
 <template>
   <div class="w-full h-full flex flex-col">
-    <LayoutHeader :is-admin="tokenStore.getRole !== '001'" />
-    <div class="flex w-full flex-1">
+    <div class="header">
+      <LayoutHeader :is-admin="tokenStore.getRole !== '001'" />
+    </div>
+    <div class="flex w-full content">
       <LayoutNavMenu :role="tokenStore.getRole" />
       <div
         class="flex-1 w-full"
@@ -20,3 +22,13 @@
 const lightModeCookie = useCookie('lightMode');
 const tokenStore = jwtStore();
 </script>
+
+<style lang="css" scope>
+.header {
+  height: 50px;
+}
+
+.content{
+  height: calc(100% - 50px);
+}
+</style>

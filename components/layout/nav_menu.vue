@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-2xl menu_transition"
+    class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-2xl menu_transition overflow-auto hideBrowserScrollbar"
     :class="[
       lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
         ? ''
@@ -8,7 +8,7 @@
       !collapse ? 'w-[250px]' : 'w-[75px]',
     ]"
   >
-    <div class="absolute top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[92%]' : 'left-[70%]']">
+    <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
       <DoubleLeftOutlined
         class="text-xl shadow-2xl border-[1px] border-solid rounded-full w-10 h-10 flex items-center justify-center"
         :class="[
@@ -545,10 +545,10 @@ export const navItemPaddings = ['', 'ps-8', 'ps-12', 'ps-16', 'ps-20'];
 
 <style lang="css" scoped>
 .menu_transition{
-  transition: width 0.25s;
+  transition: width 0.25s ease-out;
 }
 
 .collapse_button_transform{
-  transition: left 0.1s linear;
+  transition: left 0.25s ease-out;
 }
 </style>

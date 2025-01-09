@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[50px] bg-[#1f1f1f] flex justify-between items-center px-3">
+  <div class="w-full h-full bg-[#1f1f1f] flex justify-between items-center px-3">
     <div class="flex items-center">
       <img src="/svg/logo.svg" alt="Logo" class="w-[32px] h-[32px] select-none" />
       <h2 class="ms-2 text-white">NQK Management</h2>

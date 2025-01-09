@@ -95,6 +95,7 @@
           "
           mode="multiple"
           :placeholder="$t('enter_search')"
+          max-tag-count="responsive"
           class="w-full"
           :class="[props.isChild && navItemPaddings[props.itemLevel]]"
         ></a-select>

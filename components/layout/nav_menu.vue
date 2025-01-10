@@ -22,14 +22,16 @@
     </div>
     <div class="flex flex-col w-full flex-1">
       <template v-if="props.role !== '001'">
-        <LayoutNavItemCollapse
-          class="mb-1"
-          :label="$t('building')"
-          :icon="House"
-          :collapse="collapse"
-          :href="pageRoutes.common.building.list"
-          :children="buildingList"
-        />
+        <ClientOnly>
+          <LayoutNavItemCollapse
+            class="mb-1"
+            :label="$t('building')"
+            :icon="House"
+            :collapse="collapse"
+            :href="pageRoutes.common.building.list"
+            :children="buildingList"
+          />
+        </ClientOnly>
         <LayoutNavItem
           v-if="props.role === '110'"
           :href="pageRoutes.common.staff.list"
@@ -63,68 +65,72 @@
           :label="$t('income_report')"
           :collapse="collapse"
         />
-        <LayoutNavItemCollapse
-          v-if="props.role === '110'"
-          :label="$t('notice')"
-          :icon="Notice"
-          :collapse="collapse"
-          :hide-when-collapse="true"
-          :children="[
-            {
-              label: $t('notice_sent'),
-              icon: Sent,
-              href: pageRoutes.common.notice.sent,
-              isChild: true,
-              itemLevel: 1,
-            },
-            {
-              label: $t('new_notice'),
-              icon: Write,
-              href: pageRoutes.common.notice.new,
-              isChild: true,
-              itemLevel: 1,
-            },
-          ]"
-          :class="[collapse ? '' : 'my-1']"
-        />
-        <LayoutNavItemCollapse
-          v-if="props.role === '010'"
-          :label="$t('notice')"
-          :icon="Notice"
-          :collapse="collapse"
-          :hide-when-collapse="true"
-          :children="[
-            {
-              label: $t('notice_inbox'),
-              icon: Inbox,
-              href: pageRoutes.common.notice.inbox,
-              isChild: true,
-              itemLevel: 1,
-            },
-            {
-              label: $t('notice_starred'),
-              icon: Star,
-              href: pageRoutes.common.notice.starred,
-              isChild: true,
-              itemLevel: 1,
-            },
-            {
-              label: $t('notice_sent'),
-              icon: Sent,
-              href: pageRoutes.common.notice.sent,
-              isChild: true,
-              itemLevel: 1,
-            },
-            {
-              label: $t('new_notice'),
-              icon: Write,
-              href: pageRoutes.common.notice.new,
-              isChild: true,
-              itemLevel: 1,
-            },
-          ]"
-          :class="[collapse ? '' : 'my-1']"
-        />
+        <ClientOnly>
+          <LayoutNavItemCollapse
+            v-if="props.role === '110'"
+            :label="$t('notice')"
+            :icon="Notice"
+            :collapse="collapse"
+            :hide-when-collapse="true"
+            :children="[
+              {
+                label: $t('notice_sent'),
+                icon: Sent,
+                href: pageRoutes.common.notice.sent,
+                isChild: true,
+                itemLevel: 1,
+              },
+              {
+                label: $t('new_notice'),
+                icon: Write,
+                href: pageRoutes.common.notice.new,
+                isChild: true,
+                itemLevel: 1,
+              },
+            ]"
+            :class="[collapse ? '' : 'my-1']"
+          />
+        </ClientOnly>
+        <ClientOnly>
+          <LayoutNavItemCollapse
+            v-if="props.role === '010'"
+            :label="$t('notice')"
+            :icon="Notice"
+            :collapse="collapse"
+            :hide-when-collapse="true"
+            :children="[
+              {
+                label: $t('notice_inbox'),
+                icon: Inbox,
+                href: pageRoutes.common.notice.inbox,
+                isChild: true,
+                itemLevel: 1,
+              },
+              {
+                label: $t('notice_starred'),
+                icon: Star,
+                href: pageRoutes.common.notice.starred,
+                isChild: true,
+                itemLevel: 1,
+              },
+              {
+                label: $t('notice_sent'),
+                icon: Sent,
+                href: pageRoutes.common.notice.sent,
+                isChild: true,
+                itemLevel: 1,
+              },
+              {
+                label: $t('new_notice'),
+                icon: Write,
+                href: pageRoutes.common.notice.new,
+                isChild: true,
+                itemLevel: 1,
+              },
+            ]"
+            :class="[collapse ? '' : 'my-1']"
+          />
+        </ClientOnly>
       </template>
       <template v-if="props.role === '001'">
         <LayoutNavItem :href="pageRoutes.common.room.list" :icon="House" :label="$t('room')" :collapse="collapse" />
@@ -141,35 +147,37 @@
           :label="$t('support_ticket')"
           :collapse="collapse"
         />
-        <LayoutNavItemCollapse
-          :label="$t('notice')"
-          :icon="Notice"
-          :collapse="collapse"
-          :hide-when-collapse="true"
-          :children="[
-            {
-              label: $t('notice_inbox'),
-              icon: Inbox,
-              href: pageRoutes.common.notice.inbox,
-              isChild: true,
-              itemLevel: 1,
-            },
-            {
-              label: $t('notice_starred'),
-              icon: Star,
-              href: pageRoutes.common.notice.starred,
-              isChild: true,
-              itemLevel: 1,
-            },
-          ]"
-          :class="[collapse ? '' : 'my-1']"
-        />
+        <ClientOnly>
+          <LayoutNavItemCollapse
+            :label="$t('notice')"
+            :icon="Notice"
+            :collapse="collapse"
+            :hide-when-collapse="true"
+            :children="[
+              {
+                label: $t('notice_inbox'),
+                icon: Inbox,
+                href: pageRoutes.common.notice.inbox,
+                isChild: true,
+                itemLevel: 1,
+              },
+              {
+                label: $t('notice_starred'),
+                icon: Star,
+                href: pageRoutes.common.notice.starred,
+                isChild: true,
+                itemLevel: 1,
+              },
+            ]"
+            :class="[collapse ? '' : 'my-1']"
+          />
+        </ClientOnly>
       </template>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import Staff from '~/public/svg/staff.svg';
 import User from '~/public/svg/user.svg';
 import Contract from '~/public/svg/contract.svg';
@@ -183,6 +191,26 @@ import Write from '~/public/svg/write.svg';
 import Star from '~/public/svg/star.svg';
 import Inbox from '~/public/svg/inbox.svg';
 import { pageRoutes } from '~/consts/page_routes';
+import { computedAsync } from '@vueuse/core';
+
+// ---------------------- Types ----------------------
+type NavChildren = {
+  label: string;
+  icon?: string;
+  href: string;
+  isChild?: boolean;
+  hideWhenCollapse?: boolean;
+  children?: NavChildren[];
+  itemLevel: number;
+  searchChildren?: boolean;
+  itemValue?: string;
+};
+
+export type { NavChildren };
+export const navItemPaddings = ['', 'ps-8', 'ps-12', 'ps-16', 'ps-20'];
+</script>
+
+<script lang="ts" setup>
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
@@ -193,354 +221,14 @@ const props = defineProps({
     required: true,
   },
 });
-const buildingList = ref([
-  {
-    label: t('building', { name: '123' }),
-    href: '/building/123',
-    isChild: true,
-    hideWhenCollapse: true,
-    itemLevel: 1,
-    searchChildren: true,
-    children: [
-      {
-        label: t('room', { name: '123' }),
-        itemValue: '123',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-    ],
-  },
-  {
-    label: t('building', { name: '123' }),
-    href: '/building/123',
-    isChild: true,
-    hideWhenCollapse: true,
-    itemLevel: 1,
-    searchChildren: true,
-    children: [
-      {
-        label: t('room', { name: '123' }),
-        itemValue: '123',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'asdasda' }),
-        itemValue: 'asdasda',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'adasd1' }),
-        itemValue: 'adasd1',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-      {
-        label: t('room', { name: 'jihgipfjhio' }),
-        itemValue: 'jihgipfjhio',
-        href: '/building/123/room/123',
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 2,
-      },
-    ],
-  },
-]);
+const buildingList = computedAsync(async () => {
+  return await getBuildingList();
+}, []);
 
 // ---------------------- Functions ----------------------
-</script>
-
-<script lang="ts">
-export const navItemPaddings = ['', 'ps-8', 'ps-12', 'ps-16', 'ps-20'];
+async function getBuildingList(): Promise<NavChildren[]> {
+  return [];
+}
 </script>
 
 <style lang="css" scoped>

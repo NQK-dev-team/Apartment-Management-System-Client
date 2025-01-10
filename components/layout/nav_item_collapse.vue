@@ -32,6 +32,7 @@
           {{ props.label }}
         </p>
         <span
+          v-if="props.children.length"
           v-show="!props.collapse"
           style="display: flex"
           class="items-center w-12 h-full justify-center"
@@ -64,7 +65,12 @@
         >
           {{ props.label }}
         </p>
-        <span v-show="!props.collapse" style="display: flex" class="items-center w-12 h-full justify-center">
+        <span
+          v-if="props.children.length"
+          v-show="!props.collapse"
+          style="display: flex"
+          class="items-center w-12 h-full justify-center"
+        >
           <DownArrow v-show="isDropdownOpen" />
           <UpArrow v-show="!isDropdownOpen" />
         </span>
@@ -86,7 +92,7 @@
       <div v-if="props.searchChildren" class="px-5">
         <a-select
           v-show="!props.collapse"
-          :id="props.label + ' search'"
+          :id="`${props.itemValue} select`"
           v-model:value="selectValue"
           :options="
             props.children.map((child) => ({
@@ -145,19 +151,7 @@
 <script lang="ts" setup>
 import DownArrow from '~/public/svg/down_arrow.svg';
 import UpArrow from '~/public/svg/up_arrow.svg';
-import { navItemPaddings } from './nav_menu.vue';
-// ---------------------- Types ----------------------
-type Children = {
-  label: string;
-  icon?: string;
-  href: string;
-  isChild?: boolean;
-  hideWhenCollapse?: boolean;
-  children?: Children[];
-  itemLevel: number;
-  searchChildren?: boolean;
-  itemValue?: string;
-};
+import { navItemPaddings, type NavChildren } from './nav_menu.vue';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -184,7 +178,7 @@ const props = defineProps({
     default: false,
   },
   children: {
-    type: Array as PropType<Children[]>,
+    type: Array as PropType<NavChildren[]>,
     default: () => [],
   },
   isChild: {
@@ -204,7 +198,7 @@ const props = defineProps({
     default: '',
   },
 });
-const isDropdownOpen = ref<boolean>(true);
+const isDropdownOpen = ref<boolean>(false);
 const selectValue = ref<string[]>([]);
 
 // ---------------------- Functions ----------------------

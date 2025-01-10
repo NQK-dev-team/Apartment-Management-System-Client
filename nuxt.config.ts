@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
     'nuxt-svgo',
+    '@vueuse/nuxt',
   ],
   svgo: {
     autoImportPath: './public/svg/',

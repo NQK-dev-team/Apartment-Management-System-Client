@@ -1,5 +1,5 @@
-<template lang="html">
-  <div class="w-full h-[50px] bg-[#001529] flex justify-between items-center px-3">
+<template>
+  <div class="w-full h-full bg-[#1f1f1f] flex justify-between items-center px-3">
     <div class="flex items-center">
       <img src="/svg/logo.svg" alt="Logo" class="w-[32px] h-[32px] select-none" />
       <h2 class="ms-2 text-white">NQK Management</h2>
@@ -22,27 +22,56 @@
         </div>
       </div>
       <div class="mx-3 h-[24px]">
-        <a-dropdown
-          class="h-[22px] flex items-center"
-          :trigger="['click']"
-          placement="bottomRight"
-          :arrow="{ pointAtCenter: true }"
-        >
+        <a-dropdown class="h-[22px] flex items-center" :trigger="['click']" placement="bottomRight">
           <div class="ant-dropdown-link cursor-pointer">
             <img src="/svg/locale.svg" alt="Choose locale" class="w-[15px] h-[15px] select-none" />
           </div>
           <template #overlay>
             <a-menu>
-              <a-menu-item key="vi" @click="setLocale('vi')">
+              <a-menu-item
+                key="vi"
+                :class="[
+                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                    ? ''
+                    : 'hover:bg-[#222F3C]',
+                ]"
+                @click="setLocale('vi')"
+              >
                 <div class="flex items-center">
                   <img src="/svg/vi.svg" alt="Vietnamese" class="w-[24px] h-[24px] select-none" />
-                  <p class="ms-2">Tiếng Việt</p>
+                  <p
+                    class="ms-2"
+                    :class="[
+                      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                        ? ''
+                        : 'text-white',
+                    ]"
+                  >
+                    Tiếng Việt
+                  </p>
                 </div>
               </a-menu-item>
-              <a-menu-item key="en" @click="setLocale('en')">
+              <a-menu-item
+                key="en"
+                :class="[
+                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                    ? ''
+                    : 'hover:bg-[#222F3C]',
+                ]"
+                @click="setLocale('en')"
+              >
                 <div class="flex items-center">
                   <img src="/svg/en.svg" alt="English" class="w-[24px] h-[24px] select-none" />
-                  <p class="ms-2">English</p>
+                  <p
+                    class="ms-2"
+                    :class="[
+                      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                        ? ''
+                        : 'text-white',
+                    ]"
+                  >
+                    English
+                  </p>
                 </div>
               </a-menu-item>
             </a-menu>
@@ -55,7 +84,7 @@
         </button>
       </div>
       <div class="mx-3 h-[24px]">
-        <a-dropdown :trigger="['click']" placement="bottomRight" :arrow="{ pointAtCenter: true }">
+        <a-dropdown :trigger="['click']" placement="bottomRight">
           <div class="ant-dropdown-link cursor-pointer h-[22px] flex items-center" @click="getNotificationList">
             <img src="/svg/notification.svg" alt="Notification" class="w-[17px] h-[17px] select-none" />
           </div>
@@ -68,23 +97,53 @@
         </a-dropdown>
       </div>
       <div class="ms-3 h-[24px]">
-        <a-dropdown :trigger="['click']" placement="bottomRight" :arrow="{ pointAtCenter: true }">
+        <a-dropdown :trigger="['click']" placement="bottomRight">
           <div class="ant-dropdown-link cursor-pointer">
             <img :src="imageSrc" alt="avatar" class="w-[22px] h-[22px] rounded-full select-none" />
           </div>
           <template #overlay>
-            <a-menu>
+            <a-menu class="shadow-2xl">
               <div class="px-[12px] py-[5px]">
-                <span class="font-bold">{{ userName }}</span>
+                <span
+                  class="font-bold"
+                  :class="[
+                    lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                      ? ''
+                      : 'text-white',
+                  ]"
+                  >{{ userName }}123</span
+                >
               </div>
               <a-menu-divider />
-              <a-menu-item key="profile">
-                <a href="/profile" class="flex items-center">
-                  <img src="/svg/profile.svg" alt="Profile" class="w-[12px] h-[12px] select-none" />
+              <a-menu-item
+                key="profile"
+                :class="[
+                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                    ? ''
+                    : 'hover:bg-[#222F3C]',
+                ]"
+              >
+                <a
+                  href="/profile"
+                  class="flex items-center"
+                  :class="[
+                    lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                      ? ''
+                      : 'text-white',
+                  ]"
+                >
+                  <Profile class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2">{{ $t('profile') }}</p>
                 </a>
               </a-menu-item>
-              <a-menu-item key="logout">
+              <a-menu-item
+                key="logout"
+                :class="[
+                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+                    ? ''
+                    : 'hover:bg-[#222F3C]',
+                ]"
+              >
                 <button class="flex items-center" @click="logout">
                   <img src="/svg/sign_out.svg" alt="Log out" class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2 text-red-500">{{ $t('log_out') }}</p>
@@ -101,6 +160,7 @@
 
 <script lang="ts" setup>
 import type { UploadFile } from '~/types/upload_file';
+import Profile from '~/public/svg/profile.svg';
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
 const { $event } = useNuxtApp();
@@ -166,5 +226,3 @@ onMounted(() => {
   }
 });
 </script>
-
-<style lang="css" scoped></style>

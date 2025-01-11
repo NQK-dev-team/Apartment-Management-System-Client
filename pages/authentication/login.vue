@@ -62,7 +62,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { LoginForm } from '~/types/login';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { api } from '~/services/api';
 
@@ -80,6 +79,13 @@ useHead({
     },
   ],
 });
+
+// ---------------------- Types ----------------------
+type LoginForm = {
+  email: string;
+  password: string;
+  remember: boolean;
+};
 
 // ---------------------- Variables ----------------------
 const { setLocale, locale, t } = useI18n();

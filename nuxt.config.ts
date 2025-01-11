@@ -1,12 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import authenticationRoutes from './pages/authentication/routes';
-import type { NuxtPage } from 'nuxt/schema';
-import commonRoutes from './pages/common/routes';
+import { appRoutes } from './pages/routes';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   ssr: true,
+  // nitro: {
+  //   preset: 'node-server', // Set nitro preset for the building process
+  // },
   modules: [
     '@nuxt/eslint',
     '@nuxtjs/i18n',
@@ -14,7 +15,12 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
+    'nuxt-svgo',
+    '@vueuse/nuxt',
   ],
+  svgo: {
+    autoImportPath: './public/svg/',
+  },
   plugins: ['~/plugins/api.ts'],
   eslint: {
     config: {
@@ -75,22 +81,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'pages:extend'(pages) {
-      pages.push(...authenticationRoutes, ...commonRoutes);
-
-      function removePagesMatching(pattern: RegExp, pages: NuxtPage[] = []) {
-        const pagesToRemove: NuxtPage[] = [];
-        for (const page of pages) {
-          if (page.file && pattern.test(page.file)) {
-            pagesToRemove.push(page);
-          } else {
-            removePagesMatching(pattern, page.children);
-          }
-        }
-        for (const page of pagesToRemove) {
-          pages.splice(pages.indexOf(page), 1);
-        }
-      }
-      removePagesMatching(/\.ts$/, pages);
+      pages.push(...appRoutes);
     },
   },
   piniaPluginPersistedstate: {

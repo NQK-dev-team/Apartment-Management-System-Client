@@ -1,6 +1,7 @@
 import { jwtStore } from '~/stores/token';
 import type { RuntimeConfig } from 'nuxt/schema';
 import type { APITokenResponse } from '~/types/api_response';
+import { pageRoutes } from '~/consts/page_routes';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
@@ -69,7 +70,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     maxAge: 60 * 60 * 24 * 7,
     sameSite: 'strict',
   });
-  const nonAuthRoutes = ['/login', '/forgot-password', '/reset-password'];
+  const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
       if (refreshToken && refreshToken.value) {

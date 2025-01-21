@@ -16,6 +16,10 @@ export default {
   choose_file: 'Choose file',
   customer: 'Customer',
   contract: 'Contract',
+  confirm_new_password: 'Confirm new password',
+  confirm_new_password_require: 'Please confirm your new password!',
+  confirm: 'Confirm',
+  confirm_new_password_not_match: 'Confirm new password does not match!',
 
   D: 'd',
 
@@ -26,6 +30,7 @@ export default {
   email_require: 'Please enter your email!',
   email_format: 'Email is not valid!',
   enter_search: 'Enter search value',
+  email_invalid: 'Email is not valid!',
 
   F: 'f',
   finish_import: 'Import',
@@ -56,6 +61,8 @@ export default {
   notice_inbox: 'Received',
   notice_starred: 'Starred',
   notice_sent: 'Sent',
+  new_password: 'New password',
+  new_password_require:'Please enter your new password!',
 
   O: 'o',
 
@@ -69,10 +76,13 @@ export default {
   R: 'r',
   remember_me: 'Remember me',
   room: 'Room {name}',
+  recovery_email: 'Recovery email',
+  return_to_login: 'Return to login page',
 
   S: 's',
   staff: 'Staff',
   support_ticket: 'Support ticket',
+  submit: 'Submit',
 
   T: 't',
 

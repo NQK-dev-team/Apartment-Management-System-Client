@@ -16,6 +16,10 @@ export default {
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
   contract: 'Hợp đồng',
+  confirm_new_password: 'Xác nhận mật khẩu mới',
+  confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
+  confirm: 'Xác nhận',
+  confirm_new_password_not_match: 'Mật khẩu xác nhận không khớp!',
 
   D: 'd',
 
@@ -26,6 +30,7 @@ export default {
   email_require: 'Email không được để trống!',
   email_format: 'Email không đúng định dạng!',
   enter_search: 'Nhập giá trị tìm kiếm',
+  email_invalid: 'Email không hợp lệ!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -56,6 +61,8 @@ export default {
   notice_inbox: 'Hộp thư đến',
   notice_starred: 'Đánh dấu',
   notice_sent: 'Đã gửi',
+  new_password: 'Mật khẩu mới',
+  new_password_require: 'Vui lòng nhập mật khẩu mới!',
 
   O: 'o',
 
@@ -69,10 +76,13 @@ export default {
   R: 'r',
   remember_me: 'Lưu mật khẩu',
   room: 'Phòng {name}',
+  recovery_email: 'Email khôi phục',
+  return_to_login: 'Quay lại trang đăng nhập',
 
   S: 's',
   staff: 'Nhân viên',
   support_ticket: 'Phiếu hỗ trợ',
+  submit: 'Gửi',
 
   T: 't',
 

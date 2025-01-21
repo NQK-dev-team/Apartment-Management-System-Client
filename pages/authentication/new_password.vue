@@ -10,7 +10,7 @@
         autocomplete="off"
         :hide-required-mark="true"
         layout="vertical"
-        @finish="login"
+        @finish="setNewPassword"
       >
         <div class="flex items-center justify-center mb-5">
           <img src="/svg/logo.svg" alt="Logo" class="w-[50px] h-[50px] select-none" />
@@ -37,24 +37,20 @@
             </a-dropdown>
           </div>
         </div>
-        <a-form-item class="mb-1" label="Email" name="email">
-          <a-input v-model:value="formData.email" autocomplete="email" type="email" />
+        <a-form-item class="mb-1" :label="t('new_password')" name="newPassword">
+          <a-input v-model:value="formData.newPassword" autocomplete="off" type="password" />
         </a-form-item>
 
-        <a-form-item class="mb-1" :label="$t('password')" name="password">
-          <a-input-password v-model:value="formData.password" autocomplete="off" />
+        <a-form-item class="mb-1" :label="t('confirm_new_password')" name="confirmPassword">
+          <a-input v-model:value="formData.confirmPassword" autocomplete="off" type="password" />
         </a-form-item>
 
-        <a-form-item name="remember" class="mb-5">
-          <a-checkbox v-model:checked="formData.remember">{{ $t('remember_me') }}</a-checkbox>
-        </a-form-item>
-
-        <a-form-item class="mb-0">
-          <a-button class="w-full" type="primary" html-type="submit">{{ $t('log_in') }}</a-button>
+        <a-form-item class="mb-0 mt-5">
+          <a-button class="w-full" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
         </a-form-item>
 
         <a-form-item class="flex justify-center mb-0">
-          <a-button type="link" :href="pageRoutes.authentication.recovery">{{ $t('forgot_password') }}</a-button>
+          <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -62,58 +58,63 @@
 </template>
 
 <script lang="ts" setup>
+import { api } from '~/services/api';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { pageRoutes } from '~/consts/page_routes';
-import { api } from '~/services/api';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Login',
+  name: 'New Password',
 });
 
 useHead({
-  title: 'Login',
+  title: 'New Password',
   meta: [
     {
       name: 'description',
-      content: 'Login page of the system',
+      content: 'Set new user password',
     },
   ],
 });
 
 // ---------------------- Types ----------------------
-type LoginForm = {
-  email: string;
-  password: string;
-  remember: boolean;
+type PasswordForm = {
+  newPassword: string;
+  confirmPassword: string;
 };
 
 // ---------------------- Variables ----------------------
 const { setLocale, locale, t } = useI18n();
-const formData = ref<LoginForm>({
-  email: '',
-  password: '',
-  remember: false,
+const formData = ref<PasswordForm>({
+  newPassword: '',
+  confirmPassword: '',
 });
 const rules = computed(() => ({
-  email: [
+  newPassword: [
     {
       required: true,
-      message: t('email_require'),
+      message: t('new_password_require'),
       trigger: 'blur',
     },
   ] as RuleObject[],
-  password: [
+  confirmPassword: [
     {
       required: true,
-      message: t('password_require'),
+      message: t('confirm_new_password_require'),
+      trigger: 'blur',
+    },
+    {
+      validator: async (_: RuleObject, value: string) => {
+        if (value && value !== formData.value.newPassword) {
+          return Promise.reject(t('confirm_new_password_not_match'));
+        }
+        return Promise.resolve();
+      },
       trigger: 'blur',
     },
   ] as RuleObject[],
 }));
 
 // ---------------------- Functions ----------------------
-async function login() {
-  api.authentication.login(formData.value.email, formData.value.password, formData.value.remember).then((res) => {});
-}
+async function setNewPassword() {}
 </script>

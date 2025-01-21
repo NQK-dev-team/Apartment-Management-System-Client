@@ -2,6 +2,7 @@ const pageRoutes = {
   authentication: {
     login: '/login',
     recovery: '/forgot-password',
+    newPassword: '/new-password',
   },
   common: {
     building: {

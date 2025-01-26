@@ -1,7 +1,10 @@
+import NewPassword from "~/pages/authentication/newPassword.vue";
+
 const pageRoutes = {
   authentication: {
     login: '/login',
     recovery: '/forgot-password',
+    newPassword: '/new-password',
   },
   common: {
     building: {

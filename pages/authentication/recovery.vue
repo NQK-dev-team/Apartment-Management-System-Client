@@ -41,7 +41,7 @@
         </a-form-item>
 
         <a-form-item class="flex justify-center mb-0">
-          <a-button type="link" href="">{{ $t('back') }}</a-button>
+          <a-button type="link" onclick="history.back()">{{ $t('back') }}</a-button>
         </a-form-item>
       </a-form>
     </div>

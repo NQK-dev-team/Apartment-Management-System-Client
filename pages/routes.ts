@@ -14,6 +14,7 @@ const authenticationRoutes: Route[] = [
     path: pageRoutes.authentication.recovery,
     file: authenticationBaseRoute + 'recovery.vue',
   },
+  // set route bug 
   {
     name: 'New Password',
     path: pageRoutes.authentication.newPassword,

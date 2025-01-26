@@ -71,6 +71,7 @@ export default {
   R: 'r',
   remember_me: 'Lưu mật khẩu',
   room: 'Phòng {name}',
+  recover_password: 'Khôi phục mật khẩu',
 
   S: 's',
   staff: 'Nhân viên',

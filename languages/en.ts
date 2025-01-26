@@ -71,6 +71,7 @@ export default {
   R: 'r',
   remember_me: 'Remember me',
   room: 'Room {name}',
+  recover_password: 'Recover Password',
 
   S: 's',
   staff: 'Staff',

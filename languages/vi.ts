@@ -18,6 +18,9 @@ export default {
   customer: 'Khách hàng',
   contract: 'Hợp đồng',
   confirm: 'Xác nhận',
+  create_new_password: 'Tạo mật khẩu mới',
+  confirm_password: 'Xác nhận mật khẩu mới',
+  confirm_password_require: 'Please confirm your new password!',
 
   D: 'd',
 

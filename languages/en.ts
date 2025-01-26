@@ -18,6 +18,9 @@ export default {
   customer: 'Customer',
   contract: 'Contract',
   confirm: 'Confirm',
+  create_new_password: 'Create New Password',
+  confirm_password: 'Confirm your new password',
+  confirm_password_require: 'Please confirm your new password!',
 
   D: 'd',
 

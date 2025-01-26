@@ -49,6 +49,7 @@
 </template>
 
 <script lang="ts" setup>
+// create new form and import later
 import type { LoginForm } from '~/types/login';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { api } from '~/services/api';
@@ -86,7 +87,7 @@ const rules = computed(() => ({
 }));
 
 // ---------------------- Functions ----------------------
-async function login() {
+async function recover() {
   // api.authentication.login(formDta.value.email, formDta.value.password, formDta.value.remember).then((res) => { });
 }
 </script>

@@ -7,11 +7,15 @@ export default {
   add_bill: 'Add bill',
 
   B: 'b',
+  bill: 'Bill',
+  building: 'Building {name}',
 
   C: 'c',
   choose_option: 'Choose an option',
   cancel: 'Cancel',
   choose_file: 'Choose file',
+  customer: 'Customer',
+  contract: 'Contract',
 
   D: 'd',
 
@@ -21,6 +25,7 @@ export default {
   example_file_xls: 'Example XLS/XLSX file',
   email_require: 'Please enter your email!',
   email_format: 'Email is not valid!',
+  enter_search: 'Enter search value',
 
   F: 'f',
   finish_import: 'Import',
@@ -33,6 +38,7 @@ export default {
   I: 'i',
   import_file: 'Import data from file',
   import_type_list: 'Import type list',
+  income_report: 'Income report',
 
   J: 'j',
 
@@ -45,6 +51,11 @@ export default {
   M: 'm',
 
   N: 'n',
+  notice: 'Notice',
+  new_notice: 'New',
+  notice_inbox: 'Received',
+  notice_starred: 'Starred',
+  notice_sent: 'Sent',
 
   O: 'o',
 
@@ -57,8 +68,11 @@ export default {
 
   R: 'r',
   remember_me: 'Remember me',
+  room: 'Room {name}',
 
   S: 's',
+  staff: 'Staff',
+  support_ticket: 'Support ticket',
 
   T: 't',
 

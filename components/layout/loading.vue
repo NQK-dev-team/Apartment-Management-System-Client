@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div v-if="displaySpinner" class="h-full w-full flex justify-center items-center fixed">
     <div id="loading_backdrop"></div>
     <a-spin :indicator="indicator" />

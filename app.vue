@@ -1,7 +1,16 @@
 <template>
-  <a-config-provider :locale="localeRef">
+  <a-config-provider
+    :locale="localeRef"
+    :theme="{
+      algorithm: darkModeException.find((route) => currentRoute.path.includes(route))
+        ? theme.defaultAlgorithm
+        : lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+          ? theme.defaultAlgorithm
+          : theme.darkAlgorithm,
+    }"
+  >
     <div class="w-full h-full flex flex-col">
-      <GeneralLoading />
+      <LayoutLoading />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
@@ -12,6 +21,8 @@
 <script lang="ts" setup>
 import enUS from 'ant-design-vue/es/locale/en_US';
 import viVN from 'ant-design-vue/es/locale/vi_VN';
+import { theme } from 'ant-design-vue';
+import { pageRoutes } from './consts/page_routes';
 
 // ---------------------- Variables ----------------------
 const localeRef = ref(viVN);
@@ -20,6 +31,8 @@ const { locale } = useI18n();
 const lightModeCookie = useCookie('lightMode', {
   maxAge: 60 * 60 * 24 * 365,
 });
+const currentRoute = useRoute();
+const darkModeException = Object.values(pageRoutes.authentication);
 
 // ---------------------- Event Listeners ----------------------
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,5 +85,26 @@ body {
 #__nuxt {
   height: 100%;
   width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7a7a7a;
+  border-radius: 3px;
+}
+
+.hideBrowserScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hideBrowserScrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 </style>

@@ -7,11 +7,15 @@ export default {
   add_bill: 'Thêm hóa đơn',
 
   B: 'b',
+  bill: 'Hóa đơn',
+  building: 'Tòa nhà {name}',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
+  customer: 'Khách hàng',
+  contract: 'Hợp đồng',
 
   D: 'd',
 
@@ -21,6 +25,7 @@ export default {
   example_file_xls: 'Tệp tin XLS/XLSX mẫu',
   email_require: 'Email không được để trống!',
   email_format: 'Email không đúng định dạng!',
+  enter_search: 'Nhập giá trị tìm kiếm',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -33,6 +38,7 @@ export default {
   I: 'i',
   import_file: 'Thêm dữ liệu từ tệp tin',
   import_type_list: 'Danh mục thêm',
+  income_report: 'Báo cáo doanh thu',
 
   J: 'j',
 
@@ -45,6 +51,11 @@ export default {
   M: 'm',
 
   N: 'n',
+  notice: 'Thông báo',
+  new_notice: 'Thông báo mới',
+  notice_inbox: 'Hộp thư đến',
+  notice_starred: 'Đánh dấu',
+  notice_sent: 'Đã gửi',
 
   O: 'o',
 
@@ -57,8 +68,11 @@ export default {
 
   R: 'r',
   remember_me: 'Lưu mật khẩu',
+  room: 'Phòng {name}',
 
   S: 's',
+  staff: 'Nhân viên',
+  support_ticket: 'Phiếu hỗ trợ',
 
   T: 't',
 

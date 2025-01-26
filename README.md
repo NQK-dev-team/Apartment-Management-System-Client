@@ -18,6 +18,9 @@ yarn install
 
 # bun
 bun install
+
+#Set Up Environment Variables: Copy the .env.dist file to .env and fill in the necessary environment variables.
+cp .env.dist .env
 ```
 
 ## Development Server

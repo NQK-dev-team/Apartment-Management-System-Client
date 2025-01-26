@@ -20,7 +20,7 @@ export default {
   confirm: 'Xác nhận',
   create_new_password: 'Tạo mật khẩu mới',
   confirm_password: 'Xác nhận mật khẩu mới',
-  confirm_password_require: 'Please confirm your new password!',
+  confirm_password_require: 'Vui lòng xác nhận lại mật khẩu mới!',
 
   D: 'd',
 

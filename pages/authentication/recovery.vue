@@ -8,6 +8,9 @@
           <img src="/svg/logo.svg" alt="Logo" class="w-[50px] h-[50px] select-none" />
           <h1 class="ms-2 font-bold text-2xl">NQK Management</h1>
         </div>
+        <a-form-item class="flex justify-center mb-0">
+          <a class="ms-2 font-bold text-2xl">{{ $t('recover_password') }}</a>
+        </a-form-item>
         <div class="flex justify-end">
           <div>
             <a-dropdown :trigger="['click']" placement="bottomRight">
@@ -29,9 +32,6 @@
             </a-dropdown>
           </div>
         </div>
-        <a-form-item class="flex justify-center mb-0">
-          <a class="ms-2 font-bold text-2xl">{{ $t('recover_password') }}</a>
-        </a-form-item>
         <a-form-item class="mb-1" label="Email" name="email">
           <a-input v-model:value="formDta.email" autocomplete="email" type="email" />
         </a-form-item>

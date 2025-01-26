@@ -9,6 +9,7 @@ export default {
   B: 'b',
   bill: 'Bill',
   building: 'Building {name}',
+  back: 'Back',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -16,6 +17,7 @@ export default {
   choose_file: 'Choose file',
   customer: 'Customer',
   contract: 'Contract',
+  confirm: 'Confirm',
 
   D: 'd',
 

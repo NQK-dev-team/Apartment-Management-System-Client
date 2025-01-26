@@ -63,9 +63,13 @@ useHead({
     },
   ],
 });
+// ---------------------- Types ----------------------
+type RecoverStep1Form = {
+  email: string;
+};
 // ---------------------- Variables ----------------------
 const { setLocale, locale, t } = useI18n();
-const formDta = ref<LoginForm>({
+const formDta = ref<RecoverStep1Form>({
   email: '',
 });
 const rules = computed(() => ({

@@ -9,6 +9,7 @@ export default {
   B: 'b',
   bill: 'Hóa đơn',
   building: 'Tòa nhà {name}',
+  back: 'Quay lại',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -16,6 +17,7 @@ export default {
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
   contract: 'Hợp đồng',
+  confirm: 'Xác nhận',
 
   D: 'd',
 

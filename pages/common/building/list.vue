@@ -1,5 +1,14 @@
 <template>
-  <div></div>
+  <div>
+    <div class="card">
+      <h4>Building A1-01.01</h4>
+      <img>
+      <div class="container">
+        <p>144 Tran Duy Phuong, Binh Hung Hoa, Binh Tan</p>
+        <p>ZZ Floors - CC Rooms</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

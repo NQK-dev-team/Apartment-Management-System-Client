@@ -2,10 +2,10 @@
   <div>
     <div class="card">
       <h4>Building A1-01.01</h4>
-      <img>
+      <img src="/image/R.jpg">
       <div class="container">
         <p>144 Tran Duy Phuong, Binh Hung Hoa, Binh Tan</p>
-        <p>ZZ Floors - CC Rooms</p>
+        <p class="sub-info">ZZ Floors - CC Rooms</p>
       </div>
     </div>
   </div>
@@ -41,4 +41,10 @@ useHead({
             text-align: center;
             font-family: Arial, sans-serif;
         }
+.container{
+  text-align: left;
+}
+.sub-info{
+  color: grey;
+}
 </style>

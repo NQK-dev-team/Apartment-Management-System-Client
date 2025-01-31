@@ -30,4 +30,15 @@ useHead({
 });
 </script>
 
-<style></style>
+<style>
+.card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 16px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+</style>

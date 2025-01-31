@@ -35,6 +35,7 @@ export default {
   F: 'f',
   finish_import: 'Import',
   forgot_password: 'Forgot password?',
+  floors: 'Floors',
 
   G: 'g',
 
@@ -75,6 +76,7 @@ export default {
   remember_me: 'Remember me',
   room: 'Room {name}',
   recover_password: 'Recover Password',
+  rooms: 'Rooms',
 
   S: 's',
   staff: 'Staff',

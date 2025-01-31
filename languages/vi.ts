@@ -35,6 +35,7 @@ export default {
   F: 'f',
   finish_import: 'Hoàn tất',
   forgot_password: 'Quên mật khẩu?',
+  floors: 'Tầng',
 
   G: 'g',
 
@@ -75,6 +76,7 @@ export default {
   remember_me: 'Lưu mật khẩu',
   room: 'Phòng {name}',
   recover_password: 'Khôi phục mật khẩu',
+  rooms: 'Phòng',
 
   S: 's',
   staff: 'Nhân viên',

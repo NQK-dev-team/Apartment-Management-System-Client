@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="card">
-      <h4>Building A1-01.01</h4>
+    <a href="#">
+      <h4>{{$t('building')}}</h4>
       <img src="/image/R.jpg">
       <div class="container">
         <p>144 Tran Duy Phuong, Binh Hung Hoa, Binh Tan</p>
-        <p class="sub-info">ZZ Floors - CC Rooms</p>
+        <p class="sub-info">ZZ {{$t('floors')}} - CC {{ $t('rooms') }}</p>
       </div>
+    </a>
     </div>
   </div>
 </template>

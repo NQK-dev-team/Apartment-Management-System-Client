@@ -37,6 +37,13 @@
             </a-dropdown>
           </div>
         </div>
+        <a-alert
+          v-show="!isValid"
+          class="my-3 h-[40px] max-h-[40px]"
+          :message="$t('invalid_credentials')"
+          type="error"
+        />
+
         <a-form-item class="mb-1" label="Email" name="email">
           <a-input v-model:value="formData.email" autocomplete="email" type="email" />
         </a-form-item>
@@ -57,13 +64,17 @@
           <a-button type="link" :href="pageRoutes.authentication.recovery">{{ $t('forgot_password') }}</a-button>
         </a-form-item>
       </a-form>
+      <button v-show="false" ref="showEmailVerifyModalButton" @click="info"></button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { RuleObject } from 'ant-design-vue/es/form';
+import { Modal } from 'ant-design-vue';
+import { getMessageCode } from '~/consts/api_response';
 import { pageRoutes } from '~/consts/page_routes';
+import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
 
 // ---------------------- Metadata ----------------------
@@ -111,9 +122,83 @@ const rules = computed(() => ({
     },
   ] as RuleObject[],
 }));
+const isValid = ref<boolean>(true);
+const info = () => {
+  Modal.info({
+    title: t('notice'),
+    content: t('email_verify'),
+    width: '500px',
+  });
+};
+const showEmailVerifyModalButton = ref<HTMLButtonElement | null>(null);
+const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
 async function login() {
-  api.authentication.login(formData.value.email, formData.value.password, formData.value.remember).then((res) => {});
+  // api.authentication
+  //   .login(formData.value.email, formData.value.password, formData.value.remember)
+  //   .then(async () => {
+  //     const roleCookie = useCookie('userRole');
+  //     let targetRoute = '';
+  //     if (
+  //       roleCookie &&
+  //       roleCookie.value &&
+  //       (roleCookie.value.toString() === roles.owner || roleCookie.value.toString() === roles.manager)
+  //     ) {
+  //       targetRoute = pageRoutes.common.building.list;
+  //     } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.customer) {
+  //       targetRoute = pageRoutes.common.room.list;
+  //     }
+  //     roleCookie.value = null;
+  //     await navigateTo(targetRoute);
+  //   })
+  //   .catch((err) => {
+  //     if (err.status === 500) {
+  //       notification.error({
+  //         message: t('system_error_title'),
+  //         description: t('system_error_description'),
+  //       });
+  //     } else if (err.response._data.message === getMessageCode('EMAIL_NOT_VERIFIED')) {
+  //       if (showEmailVerifyModalButton.value) {
+  //         showEmailVerifyModalButton.value.click();
+  //       }
+  //     } else {
+  //       isValid.value = false;
+  //     }
+  //   });
+
+  try {
+    isValid.value = true;
+    $event.emit('loading');
+    await api.authentication.login(formData.value.email, formData.value.password, formData.value.remember);
+    const roleCookie = useCookie('userRole');
+    let targetRoute = '';
+    if (
+      roleCookie &&
+      roleCookie.value &&
+      (roleCookie.value.toString() === roles.owner || roleCookie.value.toString() === roles.manager)
+    ) {
+      targetRoute = pageRoutes.common.building.list;
+    } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.customer) {
+      targetRoute = pageRoutes.common.room.list;
+    }
+    roleCookie.value = null;
+    await navigateTo(targetRoute);
+  } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (err.response._data.message === getMessageCode('EMAIL_NOT_VERIFIED')) {
+      if (showEmailVerifyModalButton.value) {
+        showEmailVerifyModalButton.value.click();
+      }
+    } else {
+      isValid.value = false;
+    }
+  } finally {
+    $event.emit('loading');
+  }
 }
 </script>

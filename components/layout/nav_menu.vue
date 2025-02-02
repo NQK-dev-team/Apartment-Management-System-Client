@@ -21,7 +21,7 @@
       />
     </div>
     <div class="flex flex-col w-full flex-1">
-      <template v-if="props.role !== '001'">
+      <template v-if="props.role !== roles.customer">
         <ClientOnly>
           <LayoutNavItemCollapse
             class="mb-1"
@@ -33,7 +33,7 @@
           />
         </ClientOnly>
         <LayoutNavItem
-          v-if="props.role === '110'"
+          v-if="props.role === roles.owner"
           :href="pageRoutes.common.staff.list"
           :icon="Staff"
           :label="$t('staff')"
@@ -59,7 +59,7 @@
           :collapse="collapse"
         />
         <LayoutNavItem
-          v-if="props.role === '110'"
+          v-if="props.role === roles.owner"
           :href="pageRoutes.common.report.page"
           :icon="Report"
           :label="$t('income_report')"
@@ -67,7 +67,7 @@
         />
         <ClientOnly>
           <LayoutNavItemCollapse
-            v-if="props.role === '110'"
+            v-if="props.role === roles.owner"
             :label="$t('notice')"
             :icon="Notice"
             :collapse="collapse"
@@ -93,7 +93,7 @@
         </ClientOnly>
         <ClientOnly>
           <LayoutNavItemCollapse
-            v-if="props.role === '010'"
+            v-if="props.role === roles.manager"
             :label="$t('notice')"
             :icon="Notice"
             :collapse="collapse"
@@ -132,7 +132,7 @@
           />
         </ClientOnly>
       </template>
-      <template v-if="props.role === '001'">
+      <template v-if="props.role === roles.customer">
         <LayoutNavItem :href="pageRoutes.common.room.list" :icon="House" :label="$t('room')" :collapse="collapse" />
         <LayoutNavItem
           :href="pageRoutes.common.contract.list"
@@ -192,6 +192,7 @@ import Star from '~/public/svg/star.svg';
 import Inbox from '~/public/svg/inbox.svg';
 import { pageRoutes } from '~/consts/page_routes';
 import { computedAsync } from '@vueuse/core';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Types ----------------------
 type NavChildren = {

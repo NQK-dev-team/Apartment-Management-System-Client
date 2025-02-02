@@ -37,6 +37,9 @@
             </a-dropdown>
           </div>
         </div>
+        <a-alert v-show="!isValid" class="my-3 h-[40px] max-h-[40px]" :message="$t('invalid_email')" type="error" />
+        <a-alert v-show="!isFound" class="my-3 h-[40px] max-h-[40px]" :message="$t('user_not_found')" type="error" />
+
         <a-form-item class="mb-1" :label="t('recovery_email')" name="email">
           <a-input v-model:value="formData.email" autocomplete="email" type="email" />
         </a-form-item>
@@ -49,6 +52,8 @@
           <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
         </a-form-item>
       </a-form>
+      <button v-show="false" ref="showSpamModal" @click="warning"></button>
+      <button v-show="false" ref="showEmailRecoveryModal" @click="info"></button>
     </div>
   </div>
 </template>
@@ -57,6 +62,7 @@
 import { api } from '~/services/api';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { pageRoutes } from '~/consts/page_routes';
+import { getMessageCode } from '~/consts/api_response';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -80,6 +86,7 @@ type RecoveryForm = {
 
 // ---------------------- Variables ----------------------
 const { setLocale, locale, t } = useI18n();
+const { $event } = useNuxtApp();
 const formData = ref<RecoveryForm>({
   email: '',
 });
@@ -97,7 +104,49 @@ const rules = computed(() => ({
     },
   ] as RuleObject[],
 }));
+const isFound = ref<boolean>(true);
+const isValid = ref<boolean>(true);
+const warning = () => {
+  Modal.warning({
+    title: t('warning'),
+    content: t('spam_warning'),
+  });
+};
+const info = () => {
+  Modal.info({
+    title: t('notice'),
+    content: t('password_recovery_notice'),
+  });
+};
+const showSpamModal = ref<HTMLButtonElement | null>(null);
+const showEmailRecoveryModal = ref<HTMLButtonElement | null>(null);
 
 // ---------------------- Functions ----------------------
-async function recover() {}
+async function recover() {
+  try {
+    isFound.value = true;
+    $event.emit('loading');
+    await api.authentication.recovery(formData.value.email);
+    if (showEmailRecoveryModal.value) {
+      showEmailRecoveryModal.value.click();
+    }
+  } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (err.response._data.message === getMessageCode('REQUEST_SPAM')) {
+      if (showSpamModal.value) {
+        showSpamModal.value.click();
+      }
+    } else if (err.response._data.message === getMessageCode('USER_NOT_FOUND')) {
+      isFound.value = false;
+    } else {
+      isValid.value = false;
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
 </script>

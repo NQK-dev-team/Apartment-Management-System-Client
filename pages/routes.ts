@@ -14,6 +14,16 @@ const authenticationRoutes: Route[] = [
     path: pageRoutes.authentication.recovery,
     file: authenticationBaseRoute + 'recovery.vue',
   },
+  {
+    name: 'New Password',
+    path: pageRoutes.authentication.newPassword,
+    file: authenticationBaseRoute + 'new_password.vue',
+  },
+  {
+    name: 'Email Verification',
+    path: pageRoutes.authentication.verifyEmail,
+    file: authenticationBaseRoute + 'verify_email.vue',
+  },
 ];
 
 const buildingBaseRoute = '@/pages/common/building/';

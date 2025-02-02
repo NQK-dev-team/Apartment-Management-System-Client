@@ -161,6 +161,10 @@
 <script lang="ts" setup>
 import type { UploadFile } from '~/types/upload_file';
 import Profile from '~/public/svg/profile.svg';
+import { api } from '~/services/api';
+import { pageRoutes } from '~/consts/page_routes';
+import { getMessageCode } from '~/consts/api_response';
+
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
 const { $event } = useNuxtApp();
@@ -181,6 +185,7 @@ const modalImportData = ref<{ isOpen: boolean; importOption: number; fileList: U
 });
 const imageSrc = ref<string>('/image/default_user_image.png');
 const userName = ref<string>('');
+const { t } = useI18n();
 
 // ---------------------- Functions ----------------------
 function openImportModal() {
@@ -193,7 +198,22 @@ function switchThemeMode() {
   $event.emit('toggleTheme', { isLightMode: !currentMode });
 }
 
-function logout() {}
+async function logout() {
+  try {
+    await api.authentication.logout();
+    await navigateTo(pageRoutes.authentication.login);
+    $event.emit('loading');
+  } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
 
 function getNotificationList() {}
 

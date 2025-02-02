@@ -1,6 +1,10 @@
 import { jwtStore } from '~/stores/token';
 import type { RuntimeConfig } from 'nuxt/schema';
 import type { APITokenResponse } from '~/types/api_response';
+import { pageRoutes } from '~/consts/page_routes';
+import { apiRoutes } from '~/consts/api_routes';
+import { roles } from '~/consts/roles';
+import { getRoleFromJWT } from '~/utils/jwt';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
@@ -14,7 +18,7 @@ function getServerBaseUrl(): string {
 
 async function verifyToken(token: string): Promise<boolean> {
   // Verify the token
-  const response = await fetch(getServerBaseUrl() + '/authentication/verify-token', {
+  const response = await fetch(getServerBaseUrl() + apiRoutes.authentication.verifyToken, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json, multipart/form-data, image/*',
@@ -30,7 +34,7 @@ async function verifyToken(token: string): Promise<boolean> {
 
 async function getNewToken(refreshToken: string): Promise<string> {
   // Get a new token
-  const response = await fetch(getServerBaseUrl() + '/authentication/refresh-token', {
+  const response = await fetch(getServerBaseUrl() + apiRoutes.authentication.refreshToken, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json, multipart/form-data, image/*',
@@ -57,6 +61,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // skip middleware on client side entirely
   if (import.meta.client) return;
 
+  let isJWTValid = false;
   const config: RuntimeConfig = useRuntimeConfig();
   const jwt = useCookie('jwt', {
     httpOnly: true,
@@ -69,7 +74,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     maxAge: 60 * 60 * 24 * 7,
     sameSite: 'strict',
   });
-  const nonAuthRoutes = ['/login', '/forgot-password', '/reset-password'];
+  const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
       if (refreshToken && refreshToken.value) {
@@ -77,14 +82,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         if (newToken) {
           jwt.value = newToken;
           storeToken(newToken);
+          isJWTValid = true;
         } else if (!nonAuthRoutes.includes(to.path)) {
-          return navigateTo('/login');
+          return navigateTo(pageRoutes.authentication.login);
         }
       } else if (!nonAuthRoutes.includes(to.path)) {
-        return navigateTo('/login');
+        return navigateTo(pageRoutes.authentication.login);
       }
     } else {
       storeToken(jwt.value);
+      isJWTValid = true;
     }
   } else {
     if (refreshToken && refreshToken.value) {
@@ -92,11 +99,22 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       if (newToken) {
         jwt.value = newToken;
         storeToken(newToken);
+        isJWTValid = true;
       } else if (!nonAuthRoutes.includes(to.path)) {
-        return navigateTo('/login');
+        return navigateTo(pageRoutes.authentication.login);
       }
     } else if (!nonAuthRoutes.includes(to.path)) {
-      return navigateTo('/login');
+      return navigateTo(pageRoutes.authentication.login);
+    }
+  }
+
+  if (nonAuthRoutes.includes(to.path) && isJWTValid) {
+    const role = jwt && jwt.value ? getRoleFromJWT(jwt.value) : '';
+
+    if (role === roles.owner || role === roles.manager) {
+      return navigateTo(pageRoutes.common.building.list);
+    } else if (role === roles.customer) {
+      return navigateTo(pageRoutes.common.room.list);
     }
   }
 });

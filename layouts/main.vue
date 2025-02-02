@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full flex flex-col">
     <div class="header">
-      <LayoutHeader :is-admin="tokenStore.getRole !== '001'" />
+      <LayoutHeader :is-admin="tokenStore.getRole !== roles.customer" />
     </div>
     <div class="flex w-full content">
       <LayoutNavMenu :role="tokenStore.getRole" />
@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import { roles } from '~/consts/roles';
+
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const tokenStore = jwtStore();

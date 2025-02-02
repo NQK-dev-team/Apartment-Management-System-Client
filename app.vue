@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import enUS from 'ant-design-vue/es/locale/en_US';
 import viVN from 'ant-design-vue/es/locale/vi_VN';
-import { theme } from 'ant-design-vue';
+import { theme, notification } from 'ant-design-vue';
 import { pageRoutes } from './consts/page_routes';
 
 // ---------------------- Variables ----------------------
@@ -34,13 +34,19 @@ const lightModeCookie = useCookie('lightMode', {
 const currentRoute = useRoute();
 const darkModeException = Object.values(pageRoutes.authentication);
 
+notification.config({
+  placement: 'topRight',
+  rtl: false,
+  duration: 5,
+});
+
 // ---------------------- Event Listeners ----------------------
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 $event.on('toggleTheme', (e: any) => {
   lightModeCookie.value = e.isLightMode ? '1' : '0';
 });
 
-// ---------------------- Life Cycles ----------------------
+// ---------------------- Lifecycles ----------------------
 watch(
   () => locale.value,
   (newVal) => {

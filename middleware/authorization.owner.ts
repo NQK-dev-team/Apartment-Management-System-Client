@@ -1,3 +1,5 @@
+import { roles } from "~/consts/roles";
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export default defineNuxtRouteMiddleware((to, from) => {
   // skip middleware on client side entirely
@@ -5,7 +7,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const tokenStore = jwtStore();
   const role = tokenStore.getRole;
 
-  if (role !== '110') {
+  if (role !== roles.owner) {
     return abortNavigation();
   }
 });

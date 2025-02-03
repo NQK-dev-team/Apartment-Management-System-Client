@@ -2,15 +2,20 @@
   <div class="w-full h-full">
     <img src="/image/auth_background.png" class="w-full h-full fixed" />
     <div class="w-full h-full flex items-center justify-center relative">
-      <a-form class="w-96 bg-white p-8 rounded-lg shadow-lg" :model="formDta" :rules="rules" name="basic"
-        autocomplete="off" :hide-required-mark="true" layout="vertical" @finish="login">
+      <a-form
+        class="w-96 bg-white p-8 rounded-lg shadow-lg"
+        :model="formData"
+        :rules="rules"
+        name="basic"
+        autocomplete="off"
+        :hide-required-mark="true"
+        layout="vertical"
+        @finish="recover"
+      >
         <div class="flex items-center justify-center mb-5">
           <img src="/svg/logo.svg" alt="Logo" class="w-[50px] h-[50px] select-none" />
           <h1 class="ms-2 font-bold text-2xl">NQK Management</h1>
         </div>
-        <a-form-item class="flex justify-center mb-0">
-          <a class="ms-2 font-bold text-2xl">{{ $t('recover_password') }}</a>
-        </a-form-item>
         <div class="flex justify-end">
           <div>
             <a-dropdown :trigger="['click']" placement="bottomRight">
@@ -32,34 +37,40 @@
             </a-dropdown>
           </div>
         </div>
-        <a-form-item class="mb-1" label="Email" name="email">
-          <a-input v-model:value="formDta.email" autocomplete="email" type="email" />
+        <a-alert v-show="!isValid" class="my-3 h-[40px] max-h-[40px]" :message="$t('invalid_email')" type="error" />
+        <a-alert v-show="!isFound" class="my-3 h-[40px] max-h-[40px]" :message="$t('user_not_found')" type="error" />
+
+        <a-form-item class="mb-1" :label="t('recovery_email')" name="email">
+          <a-input v-model:value="formData.email" autocomplete="email" type="email" />
         </a-form-item>
 
-        <a-form-item class="mb-0">
+        <a-form-item class="mb-0 mt-5">
           <a-button class="w-full" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
         </a-form-item>
 
         <a-form-item class="flex justify-center mb-0">
-          <a-button type="link" onclick="history.back()">{{ $t('back') }}</a-button>
+          <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
         </a-form-item>
       </a-form>
+      <button v-show="false" ref="showSpamModal" @click="warning"></button>
+      <button v-show="false" ref="showEmailRecoveryModal" @click="info"></button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-// create new form and import later
-import type { LoginForm } from '~/types/login';
-import type { RuleObject } from 'ant-design-vue/es/form';
 import { api } from '~/services/api';
+import type { RuleObject } from 'ant-design-vue/es/form';
+import { pageRoutes } from '~/consts/page_routes';
+import { getMessageCode } from '~/consts/api_response';
+
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Forgot Password',
+  name: 'Recovery',
 });
 
 useHead({
-  title: 'Forgot Password',
+  title: 'Recovery',
   meta: [
     {
       name: 'description',
@@ -67,13 +78,16 @@ useHead({
     },
   ],
 });
+
 // ---------------------- Types ----------------------
-type RecoverStep1Form = {
+type RecoveryForm = {
   email: string;
 };
+
 // ---------------------- Variables ----------------------
 const { setLocale, locale, t } = useI18n();
-const formDta = ref<RecoverStep1Form>({
+const { $event } = useNuxtApp();
+const formData = ref<RecoveryForm>({
   email: '',
 });
 const rules = computed(() => ({
@@ -81,13 +95,58 @@ const rules = computed(() => ({
     {
       required: true,
       message: t('email_require'),
-      trigger: 'change',
+      trigger: 'blur',
+    },
+    {
+      type: 'email',
+      message: t('email_invalid'),
+      trigger: 'blur',
     },
   ] as RuleObject[],
 }));
+const isFound = ref<boolean>(true);
+const isValid = ref<boolean>(true);
+const warning = () => {
+  Modal.warning({
+    title: t('warning'),
+    content: t('spam_warning'),
+  });
+};
+const info = () => {
+  Modal.info({
+    title: t('notice'),
+    content: t('password_recovery_notice'),
+  });
+};
+const showSpamModal = ref<HTMLButtonElement | null>(null);
+const showEmailRecoveryModal = ref<HTMLButtonElement | null>(null);
 
 // ---------------------- Functions ----------------------
 async function recover() {
-  // api.authentication.login(formDta.value.email, formDta.value.password, formDta.value.remember).then((res) => { });
+  try {
+    isFound.value = true;
+    $event.emit('loading');
+    await api.authentication.recovery(formData.value.email);
+    if (showEmailRecoveryModal.value) {
+      showEmailRecoveryModal.value.click();
+    }
+  } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (err.response._data.message === getMessageCode('REQUEST_SPAM')) {
+      if (showSpamModal.value) {
+        showSpamModal.value.click();
+      }
+    } else if (err.response._data.message === getMessageCode('USER_NOT_FOUND')) {
+      isFound.value = false;
+    } else {
+      isValid.value = false;
+    }
+  } finally {
+    $event.emit('loading');
+  }
 }
 </script>

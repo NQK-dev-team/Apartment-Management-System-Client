@@ -5,6 +5,7 @@ const pageRoutes = {
     login: '/login',
     recovery: '/forgot-password',
     newPassword: '/new-password',
+    verifyEmail: '/verify-email',
   },
   common: {
     building: {

@@ -1,26 +1,37 @@
 <template>
-  <div v-if="displaySpinner" class="h-full w-full flex justify-center items-center fixed">
-    <div id="loading_backdrop"></div>
-    <a-spin :indicator="indicator" />
+  <div v-if="displaySpinner" class="h-full w-full flex justify-center items-center fixed" style="z-index: 20000">
+    <div
+      id="loading_backdrop"
+      :class="[
+        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+          ? 'bg-[#d5d5d580]'
+          : 'bg-[#41414180]',
+      ]"
+    ></div>
+    <a-spin :indicator="indicator" :class="[
+      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+        ? 'text-[#737373]'
+        : 'text-black',
+    ]"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { LoadingOutlined } from '@ant-design/icons-vue';
 
+// ---------------------- Variables ----------------------
+const lightModeCookie = useCookie('lightMode');
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: '64px',
-    color: '#737373',
-    'z-index': 2010,
+    'z-index': 20010,
   },
   spin: true,
 });
-
 const displaySpinner = ref(false);
-
 const { $event } = useNuxtApp();
 
+// ---------------------- Lifecycles ----------------------
 onMounted(() => {
   $event.on('loading', () => {
     displaySpinner.value = !displaySpinner.value;
@@ -30,8 +41,7 @@ onMounted(() => {
 
 <style lang="css" scoped>
 #loading_backdrop {
-  background-color: rgba(213, 213, 213, 0.5);
-  z-index: 2000;
+  z-index: 20000;
   position: fixed;
   top: 0;
   left: 0;

@@ -10,7 +10,7 @@ const pageRoutes = {
   common: {
     building: {
       list: '/building',
-      detail: 'building/detail',
+      detail: '/building/detail',
     },
     room: {
       list: '/room',

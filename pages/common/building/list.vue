@@ -3,7 +3,7 @@
     <div class="card">
       <a href="#">
         <h4>{{ $t('building') }}</h4>
-        <img src="/image/R.jpg">
+        <img src="/image/building.jpg">
         <div class="container">
           <p>144 Tran Duy Phuong, Binh Hung Hoa, Binh Tan</p>
           <p class="sub-info">ZZ {{ $t('floors') }} - CC {{ $t('rooms') }}</p>

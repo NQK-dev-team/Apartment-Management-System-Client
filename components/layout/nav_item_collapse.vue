@@ -22,17 +22,18 @@
             : '',
           props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
         ]"
+        :title="props.label"
       >
         <component :is="props.icon" :class="[props.collapse ? 'text-2xl' : 'text-xl']" />
-        <p
+        <span
           v-show="!props.collapse"
           :class="[props.icon ? 'ms-3' : '', props.isChild && navItemPaddings[props.itemLevel]]"
-          class="flex-1 text-sm"
+          class="flex-1 text-sm truncate"
         >
           {{ props.label }}
-        </p>
+        </span>
         <span
-          v-if="props.children.length"
+          v-if="props.children.length || props.mustHaveChildren"
           v-show="!props.collapse"
           style="display: flex"
           class="items-center w-12 h-full justify-center"
@@ -41,7 +42,7 @@
           <DownArrow v-show="isDropdownOpen" />
           <UpArrow v-show="!isDropdownOpen" />
         </span>
-        <span v-if="props.isChild" class="h-full w-[4px]"></span>
+        <!-- <span v-if="props.isChild" class="h-full w-[4px]"></span> -->
       </a>
     </template>
     <template v-else>
@@ -55,18 +56,19 @@
             : 'dark_nav',
           props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
         ]"
+        :title="props.label"
         @click="toggleDropdown"
       >
         <component :is="props.icon" :class="[props.collapse ? 'text-2xl' : 'text-xl']" />
-        <p
+        <span
           v-show="!props.collapse"
           :class="[props.icon ? 'ms-3' : '', props.isChild && navItemPaddings[props.itemLevel]]"
-          class="flex-1 text-sm"
+          class="flex-1 text-sm truncate"
         >
           {{ props.label }}
-        </p>
+        </span>
         <span
-          v-if="props.children.length"
+          v-if="props.children.length || props.mustHaveChildren"
           v-show="!props.collapse"
           style="display: flex"
           class="items-center w-12 h-full justify-center"
@@ -74,7 +76,7 @@
           <DownArrow v-show="isDropdownOpen" />
           <UpArrow v-show="!isDropdownOpen" />
         </span>
-        <span v-if="props.isChild" class="h-full w-[4px]"></span>
+        <!-- <span v-if="props.isChild" class="h-full w-[4px]"></span> -->
       </div>
     </template>
     <div
@@ -109,12 +111,12 @@
       <div
         :class="[
           props.children.every((child) => !child.children || !child.children.length)
-            ? 'overflow-auto max-h-[200px]'
+            ? 'overflow-auto max-h-[200px] hideBrowserScrollbar'
             : '',
         ]"
       >
         <template v-for="(child, index) in props.children" :key="index">
-          <template v-if="!child.children || !child.children.length">
+          <template v-if="(!child.children || !child.children.length) && !child.mustHaveChildren">
             <LayoutNavItem
               v-show="!selectValue.length || selectValue.includes(child.itemValue ?? '')"
               :collapse="props.collapse"
@@ -140,6 +142,7 @@
               :item-level="child.itemLevel"
               :search-children="child.searchChildren"
               :item-value="child.itemValue"
+              :must-have-children="child.mustHaveChildren"
             />
           </template>
         </template>
@@ -196,6 +199,10 @@ const props = defineProps({
   itemValue: {
     type: String,
     default: '',
+  },
+  mustHaveChildren: {
+    type: Boolean,
+    default: false,
   },
 });
 const isDropdownOpen = ref<boolean>(false);

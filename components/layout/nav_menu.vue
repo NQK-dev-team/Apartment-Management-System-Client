@@ -193,6 +193,8 @@ import Inbox from '~/public/svg/inbox.svg';
 import { pageRoutes } from '~/consts/page_routes';
 import { computedAsync } from '@vueuse/core';
 import { roles } from '~/consts/roles';
+import { getMessageCode } from '~/consts/api_response';
+import { api } from '~/services/api';
 
 // ---------------------- Types ----------------------
 type NavChildren = {
@@ -205,6 +207,7 @@ type NavChildren = {
   itemLevel: number;
   searchChildren?: boolean;
   itemValue?: string;
+  mustHaveChildren?: boolean;
 };
 
 export type { NavChildren };
@@ -228,6 +231,31 @@ const buildingList = computedAsync(async () => {
 
 // ---------------------- Functions ----------------------
 async function getBuildingList(): Promise<NavChildren[]> {
+  try {
+    const response = await api.common.building.getList();
+    const data = response.data;
+
+    return data.map((elem) => {
+      return {
+        label: elem.name,
+        itemValue: elem.name,
+        href: pageRoutes.common.building.detail(elem.ID),
+        isChild: true,
+        hideWhenCollapse: true,
+        itemLevel: 1,
+        searchChildren: true,
+        children: [],
+        mustHaveChildren: !!elem.totalRoom,
+      };
+    });
+  } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
   return [];
 }
 </script>

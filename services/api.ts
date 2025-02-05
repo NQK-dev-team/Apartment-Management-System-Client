@@ -1,6 +1,7 @@
 import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
+import type { Building } from '~/types/building';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -74,7 +75,14 @@ const authentication = {
 };
 
 const common = {
-  building: {},
+  building: {
+    getList: async (): Promise<APIResponse<Building[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.list, {
+        method: 'GET',
+      });
+    },
+  },
   room: {},
   profile: {},
   staff: {},

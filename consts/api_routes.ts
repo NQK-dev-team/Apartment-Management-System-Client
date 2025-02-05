@@ -9,7 +9,11 @@ const apiRoutes = {
     resetPassword: '/authentication/reset-password',
     verifyEmail: '/authentication/verify-email',
   },
-  building: {},
+  building: {
+    list: '/building/',
+    detail: (buildingId: number) => `/building/${buildingId}`,
+    room: (buildingId: number) => `/building/${buildingId}/room`,
+  },
   room: {},
   profile: {},
   staff: {},

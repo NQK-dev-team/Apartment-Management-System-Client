@@ -21,22 +21,23 @@
       props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
       !props.isChild ? 'my-1' : props.collapse ? 'my-1' : 'my-0',
     ]"
+    :title="props.label"
   >
     <component
       :is="props.icon"
       v-show="!props.isChild || (props.isChild && props.collapse && !props.hideWhenCollapse)"
       :class="[props.collapse ? 'text-2xl' : 'text-xl']"
     />
-    <p
+    <span
       v-show="!props.collapse"
       :class="[
         !props.isChild || (props.isChild && props.collapse && !props.hideWhenCollapse) ? 'ms-3' : '',
         props.isChild && navItemPaddings[props.itemLevel],
       ]"
-      class="flex-1 text-sm"
+      class="flex-1 text-sm truncate"
     >
       {{ props.label }}
-    </p>
+    </span>
   </a>
 </template>
 

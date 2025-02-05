@@ -8,6 +8,8 @@ const pageRoutes = {
   common: {
     building: {
       list: '/building',
+      detail: (buildingId: number) => `/building/${buildingId}`,
+      room: (buildingId: number) => `/building/${buildingId}/room`,
     },
     room: {
       list: '/room',

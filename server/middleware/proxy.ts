@@ -82,6 +82,21 @@ export default defineEventHandler(async (event) => {
             sameSite: 'strict',
             maxAge: 0,
           });
+          setCookie(event, 'userRole', '', {
+            secure: config.public.isHttps,
+            sameSite: 'strict',
+            maxAge: 0,
+          });
+          setCookie(event, 'userName', '', {
+            secure: config.public.isHttps,
+            sameSite: 'strict',
+            maxAge: 0,
+          });
+          setCookie(event, 'userImage', '', {
+            secure: config.public.isHttps,
+            sameSite: 'strict',
+            maxAge: 0,
+          });
         }
 
         e.node.res.end(JSON.stringify(body));

@@ -13,7 +13,7 @@
     <div class="w-full h-full">
       <div class="flex items-center">
         <label for="select_import_type" class="font-medium">{{ $t('import_type_list') }}</label>
-        <img src="/svg/asterisk.svg" alt="Asterisk" class="ms-1 select-none" />
+        <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
       </div>
       <a-select id="select_import_type" ref="select" v-model:value="data.importOption" class="w-full mt-1">
         <a-select-option :value="0" class="hidden">{{ $t('choose_option') }}</a-select-option>
@@ -43,7 +43,7 @@
       <div v-if="data.importOption" class="mt-4">
         <div class="flex items-center">
           <label for="select_import_type" class="font-medium">{{ $t('choose_file') }}</label>
-          <img src="/svg/asterisk.svg" alt="Asterisk" class="ms-1 select-none" />
+          <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
         </div>
         <div class="mt-1">
           <a-upload v-model:file-list="data.fileList" name="file" accept=".csv,.xlsx,.xls" multiple>
@@ -59,6 +59,7 @@
 </template>
 
 <script lang="ts" setup>
+import { svgPaths } from '~/consts/svg_paths';
 import type { UploadFile } from '~/types/upload_file';
 // ---------------------- Variables ----------------------
 const props = defineProps({

@@ -13,24 +13,24 @@
         @finish="recover"
       >
         <div class="flex items-center justify-center mb-5">
-          <img src="/svg/logo.svg" alt="Logo" class="w-[50px] h-[50px] select-none" />
+          <img :src="svgPaths.logo" alt="Logo" class="w-[50px] h-[50px] select-none" />
           <h1 class="ms-2 font-bold text-2xl">NQK Management</h1>
         </div>
         <div class="flex justify-end">
           <div>
             <a-dropdown :trigger="['click']" placement="bottomRight">
               <p class="text-center cursor-pointer flex items-center">
-                <img v-show="locale === 'vi'" src="/svg/vi.svg" alt="Vietnamese" class="w-[20px]" />
-                <img v-show="locale === 'en'" src="/svg/en.svg" alt="English" class="w-[20px]" />
+                <img v-show="locale === 'vi'" :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
+                <img v-show="locale === 'en'" :src="svgPaths.en" alt="English" class="w-[20px]" />
                 <down-outlined style="font-size: 11px" class="ms-1"></down-outlined>
               </p>
               <template #overlay>
                 <a-menu>
                   <a-menu-item key="vi" @click="setLocale('vi')">
-                    <img src="/svg/vi.svg" alt="Vietnamese" class="w-[20px]" />
+                    <img :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
                   </a-menu-item>
                   <a-menu-item key="en" @click="setLocale('en')">
-                    <img src="/svg/en.svg" alt="English" class="w-[20px]" />
+                    <img :src="svgPaths.en" alt="English" class="w-[20px]" />
                   </a-menu-item>
                 </a-menu>
               </template>
@@ -63,6 +63,7 @@ import { api } from '~/services/api';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
+import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

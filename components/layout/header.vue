@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full bg-[#1f1f1f] flex justify-between items-center px-3">
     <div class="flex items-center">
-      <img src="/svg/logo.svg" alt="Logo" class="w-[32px] h-[32px] select-none" />
+      <img :src="svgPaths.logo" alt="Logo" class="w-[32px] h-[32px] select-none" />
       <h2 class="ms-2 text-white">NQK Management</h2>
     </div>
     <div class="flex items-center">
@@ -11,20 +11,20 @@
           class="cursor-pointer"
           @click="switchThemeMode"
         >
-          <img src="/svg/light_mode.svg" alt="Light mode" class="w-[24px] h-[24px] select-none" />
+          <img :src="svgPaths.lightMode" alt="Light mode" class="w-[24px] h-[24px] select-none" />
         </div>
         <div
           v-show="!(lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie))"
           class="cursor-pointer"
           @click="switchThemeMode"
         >
-          <img src="/svg/dark_mode.svg" alt="Dark mode" class="w-[22px] h-[22px] select-none" />
+          <img :src="svgPaths.darkMode" alt="Dark mode" class="w-[22px] h-[22px] select-none" />
         </div>
       </div>
       <div class="mx-3 h-[24px]">
         <a-dropdown class="h-[22px] flex items-center" :trigger="['click']" placement="bottomRight">
           <div class="ant-dropdown-link cursor-pointer">
-            <img src="/svg/locale.svg" alt="Choose locale" class="w-[15px] h-[15px] select-none" />
+            <img :src="svgPaths.locale" alt="Choose locale" class="w-[15px] h-[15px] select-none" />
           </div>
           <template #overlay>
             <a-menu>
@@ -38,7 +38,7 @@
                 @click="setLocale('vi')"
               >
                 <div class="flex items-center">
-                  <img src="/svg/vi.svg" alt="Vietnamese" class="w-[24px] h-[24px] select-none" />
+                  <img :src="svgPaths.vi" alt="Vietnamese" class="w-[24px] h-[24px] select-none" />
                   <p
                     class="ms-2"
                     :class="[
@@ -61,7 +61,7 @@
                 @click="setLocale('en')"
               >
                 <div class="flex items-center">
-                  <img src="/svg/en.svg" alt="English" class="w-[24px] h-[24px] select-none" />
+                  <img :src="svgPaths.en" alt="English" class="w-[24px] h-[24px] select-none" />
                   <p
                     class="ms-2"
                     :class="[
@@ -80,13 +80,13 @@
       </div>
       <div v-if="displayImport" class="mx-3 h-[24px]">
         <button class="h-[22px]" @click="openImportModal">
-          <img src="/svg/upload.svg" alt="Import" class="w-[14px] h-[14px] select-none" />
+          <img :src="svgPaths.upload" alt="Import" class="w-[14px] h-[14px] select-none" />
         </button>
       </div>
       <div class="mx-3 h-[24px]">
         <a-dropdown :trigger="['click']" placement="bottomRight">
           <div class="ant-dropdown-link cursor-pointer h-[22px] flex items-center" @click="getNotificationList">
-            <img src="/svg/notification.svg" alt="Notification" class="w-[17px] h-[17px] select-none" />
+            <img :src="svgPaths.notification" alt="Notification" class="w-[17px] h-[17px] select-none" />
           </div>
           <template #overlay>
             <a-menu>
@@ -124,7 +124,7 @@
                 ]"
               >
                 <a
-                  href="/profile"
+                  :href="pageRoutes.common.profile.page"
                   class="flex items-center"
                   :class="[
                     lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
@@ -146,7 +146,7 @@
                 @click="logout"
               >
                 <div class="flex items-center">
-                  <img src="/svg/sign_out.svg" alt="Log out" class="w-[12px] h-[12px] select-none" />
+                  <img :src="svgPaths.signOut" alt="Log out" class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2 text-red-500">{{ $t('log_out') }}</p>
                 </div>
               </a-menu-item>
@@ -165,6 +165,7 @@ import Profile from '~/public/svg/profile.svg';
 import { api } from '~/services/api';
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
+import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();

@@ -182,7 +182,7 @@ async function login() {
     } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.customer) {
       targetRoute = pageRoutes.common.room.list;
     }
-    roleCookie.value = null;
+    // roleCookie.value = null;
     await navigateTo(targetRoute);
   } catch (err: any) {
     if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {

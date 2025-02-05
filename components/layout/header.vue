@@ -111,7 +111,7 @@
                       ? ''
                       : 'text-white',
                   ]"
-                  >{{ userName }}123</span
+                  >{{ userName }}</span
                 >
               </div>
               <a-menu-divider />
@@ -143,11 +143,12 @@
                     ? ''
                     : 'hover:bg-[#222F3C]',
                 ]"
+                @click="logout"
               >
-                <button class="flex items-center" @click="logout">
+                <div class="flex items-center">
                   <img src="/svg/sign_out.svg" alt="Log out" class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2 text-red-500">{{ $t('log_out') }}</p>
-                </button>
+                </div>
               </a-menu-item>
             </a-menu>
           </template>
@@ -177,6 +178,8 @@ const props = defineProps({
 });
 const displayImport = toRef(props, 'isAdmin');
 const lightModeCookie = useCookie('lightMode');
+const userNameCookie = useCookie('userName');
+const userImageCookie = useCookie('userImage');
 const notifcationCount = ref<number>(0);
 const modalImportData = ref<{ isOpen: boolean; importOption: number; fileList: UploadFile[] }>({
   isOpen: false,
@@ -237,9 +240,12 @@ $event.on('addNotification', (e: any) => {
 
 // ------------------------ Lifecycles ----------------------
 onMounted(() => {
-  // Get user name and image from JWT token
+  // Get user name and image from JWT token store
   userName.value = '';
   imageSrc.value = '';
+
+  userName.value = userNameCookie && userNameCookie.value ? userNameCookie.value : '';
+  imageSrc.value = userImageCookie && userImageCookie.value ? userImageCookie.value : '';
 
   if (!imageSrc.value) {
     imageSrc.value = '/image/default_user_image.png';

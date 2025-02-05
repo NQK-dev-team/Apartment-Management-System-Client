@@ -1,7 +1,7 @@
 import type { RuntimeConfig } from 'nuxt/schema';
 import { defineEventHandler, proxyRequest } from 'h3';
 import { apiRoutes } from '~/consts/api_routes';
-import { getRoleFromJWT } from '~/utils/jwt';
+import { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT } from '~/utils/jwt';
 
 export default defineEventHandler(async (event) => {
   if (event._path?.includes('api')) {
@@ -41,13 +41,21 @@ export default defineEventHandler(async (event) => {
             sameSite: 'strict',
           });
 
-          if (event._path?.includes(apiRoutes.authentication.login)) {
-            // Set the user role in the cookie
-            setCookie(event, 'userRole', getRoleFromJWT(body.jwtToken), {
-              secure: config.public.isHttps,
-              sameSite: 'strict',
-            });
-          }
+          // if (event._path?.includes(apiRoutes.authentication.login)) {
+          // Set the user role in the cookie
+          setCookie(event, 'userRole', getRoleFromJWT(body.jwtToken), {
+            secure: config.public.isHttps,
+            sameSite: 'strict',
+          });
+          setCookie(event, 'userName', getUserNameFromJWT(body.jwtToken), {
+            secure: config.public.isHttps,
+            sameSite: 'strict',
+          });
+          setCookie(event, 'userImage', getUserImageFromJWT(body.jwtToken), {
+            secure: config.public.isHttps,
+            sameSite: 'strict',
+          });
+          // }
         }
         if (body.refreshToken) {
           setCookie(event, 'refreshToken', body.refreshToken, {

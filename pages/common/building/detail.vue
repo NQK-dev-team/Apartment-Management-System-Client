@@ -1,5 +1,10 @@
 <template>
-    <div></div>
+    <div>
+        <form>
+            <label for="building_id">Building ID</label><br>
+            <input type="text" id="building_id" name="buidling_id" value="A01-01" readonly><br>
+        </form>
+    </div>
 </template>
 
 <script lang="ts" setup>

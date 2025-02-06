@@ -207,7 +207,6 @@ type NavChildren = {
   itemLevel: number;
   searchChildren?: boolean;
   itemValue?: string;
-  mustHaveChildren?: boolean;
 };
 
 export type { NavChildren };
@@ -245,7 +244,6 @@ async function getBuildingList(): Promise<NavChildren[]> {
         itemLevel: 1,
         searchChildren: true,
         children: [],
-        mustHaveChildren: !!elem.totalRoom,
       };
     });
   } catch (err: any) {

@@ -33,7 +33,7 @@
           {{ props.label }}
         </span>
         <span
-          v-if="props.children.length || props.mustHaveChildren"
+          v-if="props.children.length"
           v-show="!props.collapse"
           style="display: flex"
           class="items-center w-12 h-full justify-center"
@@ -68,7 +68,7 @@
           {{ props.label }}
         </span>
         <span
-          v-if="props.children.length || props.mustHaveChildren"
+          v-if="props.children.length"
           v-show="!props.collapse"
           style="display: flex"
           class="items-center w-12 h-full justify-center"
@@ -111,12 +111,12 @@
       <div
         :class="[
           props.children.every((child) => !child.children || !child.children.length)
-            ? 'overflow-auto max-h-[200px] hideBrowserScrollbar'
+            ? 'overflow-auto max-h-[200px]'
             : '',
         ]"
       >
         <template v-for="(child, index) in props.children" :key="index">
-          <template v-if="(!child.children || !child.children.length) && !child.mustHaveChildren">
+          <template v-if="!child.children || !child.children.length">
             <LayoutNavItem
               v-show="!selectValue.length || selectValue.includes(child.itemValue ?? '')"
               :collapse="props.collapse"
@@ -142,7 +142,6 @@
               :item-level="child.itemLevel"
               :search-children="child.searchChildren"
               :item-value="child.itemValue"
-              :must-have-children="child.mustHaveChildren"
             />
           </template>
         </template>
@@ -199,10 +198,6 @@ const props = defineProps({
   itemValue: {
     type: String,
     default: '',
-  },
-  mustHaveChildren: {
-    type: Boolean,
-    default: false,
   },
 });
 const isDropdownOpen = ref<boolean>(false);

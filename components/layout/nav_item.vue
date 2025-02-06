@@ -1,9 +1,9 @@
 <template>
-  <a
+  <NuxtLink
     v-show="!props.collapse || !props.hideWhenCollapse"
     class="h-[40px] items-center pe-5"
     style="display: flex"
-    :href="props.href"
+    :to="props.href"
     :class="[
       lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
         ? 'light_nav'
@@ -38,7 +38,7 @@
     >
       {{ props.label }}
     </span>
-  </a>
+  </NuxtLink>
 </template>
 
 <script lang="ts" setup>

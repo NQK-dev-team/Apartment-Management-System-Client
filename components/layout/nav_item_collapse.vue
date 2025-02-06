@@ -1,11 +1,11 @@
 <template>
   <div>
     <template v-if="props.href">
-      <a
+      <NuxtLink
         v-show="!props.collapse || !props.hideWhenCollapse"
         class="h-[40px] items-center flex-1"
         style="display: flex"
-        :href="props.href"
+        :to="props.href"
         :class="[
           lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
             ? 'light_nav'
@@ -43,7 +43,7 @@
           <UpArrow v-show="!isDropdownOpen" />
         </span>
         <!-- <span v-if="props.isChild" class="h-full w-[4px]"></span> -->
-      </a>
+      </NuxtLink>
     </template>
     <template v-else>
       <div

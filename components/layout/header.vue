@@ -123,8 +123,8 @@
                     : 'hover:bg-[#222F3C]',
                 ]"
               >
-                <a
-                  :href="pageRoutes.common.profile.page"
+                <NuxtLink
+                  :to="pageRoutes.common.profile.page"
                   class="flex items-center"
                   :class="[
                     lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
@@ -134,7 +134,7 @@
                 >
                   <Profile class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2">{{ $t('profile') }}</p>
-                </a>
+                </NuxtLink>
               </a-menu-item>
               <a-menu-item
                 key="logout"

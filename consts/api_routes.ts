@@ -10,9 +10,10 @@ const apiRoutes = {
     verifyEmail: '/authentication/verify-email',
   },
   building: {
-    list: '/building/',
+    list: '/building',
     detail: (buildingId: number) => `/building/${buildingId}`,
     room: (buildingId: number) => `/building/${buildingId}/room`,
+    roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
   },
   room: {},
   profile: {},

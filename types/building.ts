@@ -7,4 +7,13 @@ type Building = BasicModel & {
   totalRoom: number;
 };
 
-export type { Building };
+type Room = BasicModel & {
+  no: number;
+  floor: number;
+  description: string;
+  area: number;
+  status: number;
+  buildingID: number;
+};
+
+export type { Building, Room };

@@ -4,12 +4,8 @@
             <label for="building_id">Building ID</label><br>
             <input type="text" id="building_id" name="buidling_id" value="A01-01" readonly><br>
             <label for="building_address">Address</label><br>
-            <span type="input" id="building_address" name="buidling_address" role="textbox" contenteditable
-                aria-readonly="true">144
-                Tran Duy
-                Phuong,
-                Binh
-                Hung Hoa, Binh Tan</span><br>
+            <textarea id="building_address"
+                name="building_address">144 Tran Duy Phuong, Binh Hung Hoa, Binh Tan</textarea><br>
             <label for="building_name">Building Name</label><br>
             <input type="text" id="building_name" name="buidling_name" value="A01-01" readonly><br>
             <label for="building_floors">Number of Floors</label><br>
@@ -73,7 +69,7 @@ input {
     padding-right: 2%;
 }
 
-span {
+textarea {
     border: 2px solid grey;
     border-radius: 10px;
     padding-left: 2%;

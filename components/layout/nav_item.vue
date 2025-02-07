@@ -43,6 +43,7 @@
 
 <script lang="ts" setup>
 import { navItemPaddings } from './nav_menu.vue';
+
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const currentRoute = useRoute();

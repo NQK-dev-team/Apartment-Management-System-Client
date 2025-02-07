@@ -14,6 +14,7 @@ type Room = BasicModel & {
   area: number;
   status: number;
   buildingID: number;
+  building: Building;
 };
 
 export type { Building, Room };

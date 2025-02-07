@@ -23,14 +23,7 @@
     <div class="flex flex-col w-full flex-1">
       <template v-if="props.role !== roles.customer">
         <ClientOnly>
-          <LayoutNavItemCollapse
-            class="mb-1"
-            :label="$t('building')"
-            :icon="House"
-            :collapse="collapse"
-            :href="pageRoutes.common.building.list"
-            :children="buildingList"
-          />
+          <LayoutBuildingNav class="mb-1" :collapse="collapse" />
         </ClientOnly>
         <LayoutNavItem
           v-if="props.role === roles.owner"
@@ -65,72 +58,6 @@
           :label="$t('income_report')"
           :collapse="collapse"
         />
-        <ClientOnly>
-          <LayoutNavItemCollapse
-            v-if="props.role === roles.owner"
-            :label="$t('notice')"
-            :icon="Notice"
-            :collapse="collapse"
-            :hide-when-collapse="true"
-            :children="[
-              {
-                label: $t('notice_sent'),
-                icon: Sent,
-                href: pageRoutes.common.notice.sent,
-                isChild: true,
-                itemLevel: 1,
-              },
-              {
-                label: $t('new_notice'),
-                icon: Write,
-                href: pageRoutes.common.notice.new,
-                isChild: true,
-                itemLevel: 1,
-              },
-            ]"
-            :class="[collapse ? '' : 'my-1']"
-          />
-        </ClientOnly>
-        <ClientOnly>
-          <LayoutNavItemCollapse
-            v-if="props.role === roles.manager"
-            :label="$t('notice')"
-            :icon="Notice"
-            :collapse="collapse"
-            :hide-when-collapse="true"
-            :children="[
-              {
-                label: $t('notice_inbox'),
-                icon: Inbox,
-                href: pageRoutes.common.notice.inbox,
-                isChild: true,
-                itemLevel: 1,
-              },
-              {
-                label: $t('notice_starred'),
-                icon: Star,
-                href: pageRoutes.common.notice.starred,
-                isChild: true,
-                itemLevel: 1,
-              },
-              {
-                label: $t('notice_sent'),
-                icon: Sent,
-                href: pageRoutes.common.notice.sent,
-                isChild: true,
-                itemLevel: 1,
-              },
-              {
-                label: $t('new_notice'),
-                icon: Write,
-                href: pageRoutes.common.notice.new,
-                isChild: true,
-                itemLevel: 1,
-              },
-            ]"
-            :class="[collapse ? '' : 'my-1']"
-          />
-        </ClientOnly>
       </template>
       <template v-if="props.role === roles.customer">
         <LayoutNavItem :href="pageRoutes.common.room.list" :icon="House" :label="$t('room')" :collapse="collapse" />
@@ -147,32 +74,10 @@
           :label="$t('support_ticket')"
           :collapse="collapse"
         />
-        <ClientOnly>
-          <LayoutNavItemCollapse
-            :label="$t('notice')"
-            :icon="Notice"
-            :collapse="collapse"
-            :hide-when-collapse="true"
-            :children="[
-              {
-                label: $t('notice_inbox'),
-                icon: Inbox,
-                href: pageRoutes.common.notice.inbox,
-                isChild: true,
-                itemLevel: 1,
-              },
-              {
-                label: $t('notice_starred'),
-                icon: Star,
-                href: pageRoutes.common.notice.starred,
-                isChild: true,
-                itemLevel: 1,
-              },
-            ]"
-            :class="[collapse ? '' : 'my-1']"
-          />
-        </ClientOnly>
       </template>
+      <ClientOnly>
+        <LayoutNotificationNav :role="props.role" :collapse="collapse" :class="[collapse ? '' : 'my-1']" />
+      </ClientOnly>
     </div>
   </div>
 </template>
@@ -185,37 +90,15 @@ import Card from '~/public/svg/card.svg';
 import Edit from '~/public/svg/edit.svg';
 import Report from '~/public/svg/report.svg';
 import House from '~/public/svg/house.svg';
-import Notice from '~/public/svg/notice.svg';
-import Sent from '~/public/svg/sent.svg';
-import Write from '~/public/svg/write.svg';
-import Star from '~/public/svg/star.svg';
-import Inbox from '~/public/svg/inbox.svg';
 import { pageRoutes } from '~/consts/page_routes';
-import { computedAsync } from '@vueuse/core';
 import { roles } from '~/consts/roles';
-import { getMessageCode } from '~/consts/api_response';
-import { api } from '~/services/api';
 
-// ---------------------- Types ----------------------
-type NavChildren = {
-  label: string;
-  icon?: string;
-  href: string;
-  isChild?: boolean;
-  hideWhenCollapse?: boolean;
-  children?: NavChildren[];
-  itemLevel: number;
-  searchChildren?: boolean;
-  itemValue?: string;
-};
-
-export type { NavChildren };
+// ---------------------- Variables ----------------------
 export const navItemPaddings = ['', 'ps-8', 'ps-12', 'ps-16', 'ps-20'];
 </script>
 
 <script lang="ts" setup>
 // ---------------------- Variables ----------------------
-const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const collapse = ref<boolean>(false);
 const props = defineProps({
@@ -224,38 +107,6 @@ const props = defineProps({
     required: true,
   },
 });
-const buildingList = computedAsync(async () => {
-  return await getBuildingList();
-}, []);
-
-// ---------------------- Functions ----------------------
-async function getBuildingList(): Promise<NavChildren[]> {
-  try {
-    const response = await api.common.building.getList();
-    const data = response.data;
-
-    return data.map((elem) => {
-      return {
-        label: elem.name,
-        itemValue: elem.name,
-        href: pageRoutes.common.building.detail(elem.ID),
-        isChild: true,
-        hideWhenCollapse: true,
-        itemLevel: 1,
-        searchChildren: true,
-        children: [],
-      };
-    });
-  } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
-      notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
-      });
-    }
-  }
-  return [];
-}
 </script>
 
 <style lang="css" scoped>

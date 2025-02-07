@@ -82,7 +82,7 @@ const common = {
         method: 'GET',
       });
     },
-    getRoom: async (buildingId: number): Promise<APIResponse<Room[]>> => {
+    getRoomList: async (buildingId: number): Promise<APIResponse<Room[]>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.building.room(buildingId), {
         method: 'GET',

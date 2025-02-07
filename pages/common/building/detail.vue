@@ -57,16 +57,26 @@ useHead({
     text-align: left;
     font-family: Arial, sans-serif;
     display: flex;
+    justify-content: flex-start;
 }
 
 .card form {
     display: inline;
 }
 
+input {
+    border: 2px solid grey;
+    border-radius: 10px;
+}
+
+span {
+    border: 2px solid grey;
+    border-radius: 10px;
+}
+
 .card img {
     margin-top: 0;
-    width: 30%;
-    height: 30%;
-    justify-self: right;
+    width: 25%;
+    height: 25%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card flex items-center justify-between">
         <form>
             <label for="building_id">Building ID</label><br>
             <input type="text" id="building_id" name="buidling_id" value="A01-01" readonly><br>
@@ -23,7 +23,9 @@
             <label for="unpaid_rooms">Number of Unpaid Rooms</label><br>
             <input type="text" id="unpaid_rooms" name="unpaid_rooms" value="0" readonly><br>
         </form>
-        <img src="/image/building.jpg">
+        <div class="pic">
+            <img src="/image/building.jpg">
+        </div>
     </div>
 </template>
 
@@ -78,7 +80,7 @@ span {
     padding-right: 2%;
 }
 
-.card img {
+.pic {
     margin-top: 0;
     width: 25%;
     height: 25%;

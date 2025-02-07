@@ -67,11 +67,15 @@ useHead({
 input {
     border: 2px solid grey;
     border-radius: 10px;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 span {
     border: 2px solid grey;
     border-radius: 10px;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 .card img {

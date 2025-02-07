@@ -1,7 +1,7 @@
 <template>
     <div class="card flex items-center justify-around">
-        <div class="row flex items-center justify-around">
-            <form>
+        <form>
+            <div class="row flex items-center justify-around">
                 <div class="column">
                     <label for="building_id">Building ID</label><br>
                     <input type="text" id="building_id" name="buidling_id" value="A01-01" readonly><br>
@@ -24,9 +24,8 @@
                     <label for="unpaid_rooms">Number of Unpaid Rooms</label><br>
                     <input type="text" id="unpaid_rooms" name="unpaid_rooms" value="0" readonly><br>
                 </div>
-
-            </form>
-        </div>
+            </div>
+        </form>
         <div class="pic">
             <img src="/image/building.jpg">
         </div>

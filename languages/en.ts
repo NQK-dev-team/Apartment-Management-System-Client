@@ -1,14 +1,22 @@
 export default {
   A: 'a',
-  add_building: 'Add building',
-  add_room: 'Add room',
-  add_employee: 'Add employee',
-  add_customer: 'Add customer',
-  add_bill: 'Add bill',
+  add_building: 'Add new building',
+  add_room: 'Add new room',
+  add_employee: 'Add new employee',
+  add_customer: 'Add new customer',
+  add_bill: 'Add new bill',
+  add_buildings: 'Add new buildings',
+  add_rooms: 'Add new rooms',
+  add_employees: 'Add new employees',
+  add_customers: 'Add new customers',
+  add_bills: 'Add new bills',
 
   B: 'b',
   bill: 'Bill',
   building: 'Building {name}',
+  building_info: 'Building information',
+  back: 'Back',
+  building_list: 'Building list',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -38,6 +46,7 @@ export default {
   F: 'f',
   finish_import: 'Import',
   forgot_password: 'Forgot password?',
+  finish: 'Finish',
 
   G: 'g',
 
@@ -70,6 +79,7 @@ export default {
   notice_sent: 'Sent',
   new_password: 'New password',
   new_password_require: 'Please enter your new password!',
+  next: 'Next',
 
   O: 'o',
 
@@ -81,6 +91,7 @@ export default {
     'An email has been sent to your email address. Please check your email and click on the link to reset your password.',
   password_format_error:
     'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.',
+  previous: 'Previous',
 
   Q: 'q',
 
@@ -90,6 +101,7 @@ export default {
   recovery_email: 'Recovery email',
   return_to_login: 'Return to login page',
   reset_password_complete: 'Password has been reset successfully!',
+  room_info: 'Room information',
 
   S: 's',
   staff: 'Staff',

@@ -6,8 +6,10 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config: RuntimeConfig = useRuntimeConfig();
   const isDevMode = config.public.isDevMode as boolean;
 
+  const baseURL = `${config.public.isHttps ? 'https' : 'http'}://${config.public.host}:${config.public.port}/api`;
+
   const api = $fetch.create({
-    baseURL: 'api',
+    baseURL,
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     onRequest({ request, options, error }) {
       options.headers.set('Content-Type', 'application/json, multipart/form-data, image/*');

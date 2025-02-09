@@ -1,14 +1,22 @@
 export default {
   A: 'a',
-  add_building: 'Thêm tòa nhà',
-  add_room: 'Thêm phòng',
-  add_employee: 'Thêm nhân viên',
-  add_customer: 'Thêm khách hàng',
-  add_bill: 'Thêm hóa đơn',
+  add_building: 'Thêm tòa nhà mới',
+  add_room: 'Thêm phòng mới',
+  add_employee: 'Thêm nhân viên mới',
+  add_customer: 'Thêm khách hàng mới',
+  add_bill: 'Thêm hóa đơn mới',
+  add_buildings: 'Thêm tòa nhà mới',
+  add_rooms: 'Thêm phòng mới',
+  add_employees: 'Thêm nhân viên mới',
+  add_customers: 'Thêm khách hàng mới',
+  add_bills: 'Thêm hóa đơn mới',
 
   B: 'b',
   bill: 'Hóa đơn',
   building: 'Tòa nhà {name}',
+  building_info: 'Thông tin tòa nhà',
+  back: 'Quay lại',
+  building_list: 'Danh sách tòa nhà',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -38,6 +46,7 @@ export default {
   F: 'f',
   finish_import: 'Hoàn tất',
   forgot_password: 'Quên mật khẩu?',
+  finish: 'Hoàn tất',
 
   G: 'g',
 
@@ -70,6 +79,7 @@ export default {
   notice_sent: 'Đã gửi',
   new_password: 'Mật khẩu mới',
   new_password_require: 'Vui lòng nhập mật khẩu mới!',
+  next: 'Tiếp theo',
 
   O: 'o',
 
@@ -81,6 +91,7 @@ export default {
     'Email khôi phục mật khẩu đã được gửi đến hộp thư của bạn. Vui lòng kiểm tra email và bấm vào liên kết để khôi phục mật khẩu của bạn.',
   password_format_error:
     'Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ cái viết hoa, chữ cái viết thường, số và ký tự đặc biệt.',
+  previous: 'Trước',
 
   Q: 'q',
 
@@ -90,6 +101,7 @@ export default {
   recovery_email: 'Email khôi phục',
   return_to_login: 'Quay lại trang đăng nhập',
   reset_password_complete: 'Mật khẩu đã được đặt lại thành công!',
+  room_info: 'Thông tin phòng',
 
   S: 's',
   staff: 'Nhân viên',

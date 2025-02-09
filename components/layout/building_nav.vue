@@ -88,7 +88,6 @@ async function getBuildingList(): Promise<Building[]> {
   try {
     const response = await api.common.building.getList();
     const data = response.data;
-
     return data;
   } catch (err: any) {
     if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {

@@ -17,11 +17,11 @@
       </div>
       <a-select id="select_import_type" ref="select" v-model:value="data.importOption" class="w-full mt-1">
         <a-select-option :value="0" class="hidden">{{ $t('choose_option') }}</a-select-option>
-        <a-select-option :value="1">{{ $t('add_building') }}</a-select-option>
-        <a-select-option :value="2">{{ $t('add_room') }}</a-select-option>
-        <a-select-option :value="3">{{ $t('add_employee') }}</a-select-option>
-        <a-select-option :value="4">{{ $t('add_customer') }}</a-select-option>
-        <a-select-option :value="5">{{ $t('add_bill') }}</a-select-option>
+        <a-select-option :value="1">{{ $t('add_buildings') }}</a-select-option>
+        <a-select-option :value="2">{{ $t('add_rooms') }}</a-select-option>
+        <a-select-option :value="3">{{ $t('add_employees') }}</a-select-option>
+        <a-select-option :value="4">{{ $t('add_customers') }}</a-select-option>
+        <a-select-option :value="5">{{ $t('add_bills') }}</a-select-option>
       </a-select>
       <div v-if="data.importOption" class="mt-4">
         <p class="font-medium">{{ $t('example_file') }}</p>

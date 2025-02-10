@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex flex-col px-5">
-    <div class="px-5 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+    <div class="px-3 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
           ><NuxtLink :to="pageRoutes.common.building.list">{{ $t('building_list') }}</NuxtLink></a-breadcrumb-item
@@ -280,10 +280,16 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 flex flex-col px-5 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
-      <div v-show="step === 1" class="flex-1"></div>
-      <div v-show="step === 2" class="flex-1"></div>
-      <div v-show="step === 3" class="flex-1"></div>
+    <div class="flex-1 flex flex-col px-3 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+      <div v-show="step === 1" class="flex-1">
+        <CommonBuildingAddStep1 :building-info="buildingInfo" />
+      </div>
+      <div v-show="step === 2" class="flex-1">
+        <CommonBuildingAddStep2 :building-info="buildingInfo" />
+      </div>
+      <div v-show="step === 3" class="flex-1">
+        <CommonBuildingAddStep3 :building-info="buildingInfo" />
+      </div>
       <div v-show="step === 4" class="flex-1"></div>
       <div class="steps-action flex flex-col items-center mb-3">
         <a-button
@@ -295,6 +301,9 @@
               step++;
               if (step > highestStep) {
                 highestStep = step;
+              }
+              if (step === 4) {
+                createNewBuilding();
               }
             }
           "
@@ -314,7 +323,7 @@
 
 <script lang="ts" setup>
 import { pageRoutes } from '~/consts/page_routes';
-import { isLightMode } from '#build/imports';
+import type { NewBuildingInfo } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -337,9 +346,20 @@ useHead({
 const lightModeCookie = useCookie('lightMode');
 const step = ref<number>(1);
 const highestStep = ref<number>(1);
-const lightMode = computed(() => isLightMode(lightModeCookie.value));
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
+const buildingInfo = ref<NewBuildingInfo>({
+  name: '',
+  address: '',
+  images: [],
+  services: [],
+  managers: [],
+  floors: [],
+});
 
 // ---------------------- Functions ----------------------
+function createNewBuilding() {}
 </script>
 
 <style lang="css" scoped>

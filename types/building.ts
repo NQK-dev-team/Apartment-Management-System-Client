@@ -1,4 +1,5 @@
 import type { BasicModel } from './basic_model';
+import type { UploadFile } from './upload_file';
 
 type Building = BasicModel & {
   name: string;
@@ -17,4 +18,29 @@ type Room = BasicModel & {
   building: Building;
 };
 
-export type { Building, Room };
+type NewBuildingInfo = {
+  name: string;
+  address: string;
+  images: UploadFile[];
+  services: {
+    name: string;
+    price: number;
+  }[];
+  managers: {
+    ID: number;
+    startDate: Date;
+    endDate: Date | null;
+  }[];
+  floors: {
+    name: string;
+    rooms: {
+      no: number;
+      status: number;
+      area: number;
+      description: string;
+      images: UploadFile[];
+    }[];
+  }[];
+};
+
+export type { Building, Room, NewBuildingInfo };

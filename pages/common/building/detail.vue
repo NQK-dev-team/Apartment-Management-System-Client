@@ -83,6 +83,7 @@ useHead({
 
 .row {
     display: flex;
+    column-gap: 25%;
 }
 
 .column {

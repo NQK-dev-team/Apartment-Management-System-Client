@@ -5,17 +5,9 @@
     style="display: flex"
     :to="props.href"
     :class="[
-      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-        ? 'light_nav'
-        : 'dark_nav',
-      currentRoute.path.includes(props.href)
-        ? lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? 'light_selected'
-          : 'dark_selected'
-        : '',
-      currentRoute.path.includes(props.href) &&
-      (lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1) &&
-      !props.collapse
+      lightMode ? 'light_nav' : 'dark_nav',
+      currentRoute.path.includes(props.href) ? (lightMode ? 'light_selected' : 'dark_selected') : '',
+      currentRoute.path.includes(props.href) && lightMode && !props.collapse
         ? 'light_selected_border'
         : '',
       props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
@@ -43,6 +35,7 @@
 
 <script lang="ts" setup>
 import { navItemPaddings } from './nav_menu.vue';
+import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -77,6 +70,7 @@ const props = defineProps({
     default: 0,
   },
 });
+const lightMode = computed(() => isLightMode(lightModeCookie.value));
 </script>
 
 <style lang="css" scoped>

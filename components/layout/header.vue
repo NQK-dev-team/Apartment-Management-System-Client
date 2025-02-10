@@ -30,48 +30,22 @@
             <a-menu>
               <a-menu-item
                 key="vi"
-                :class="[
-                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                    ? ''
-                    : 'hover:bg-[#222F3C]',
-                ]"
+                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
                 @click="setLocale('vi')"
               >
                 <div class="flex items-center">
                   <img :src="svgPaths.vi" alt="Vietnamese" class="w-[24px] h-[24px] select-none" />
-                  <p
-                    class="ms-2"
-                    :class="[
-                      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                        ? ''
-                        : 'text-white',
-                    ]"
-                  >
-                    Tiếng Việt
-                  </p>
+                  <p class="ms-2" :class="[lightMode ? '' : 'text-white']">Tiếng Việt</p>
                 </div>
               </a-menu-item>
               <a-menu-item
                 key="en"
-                :class="[
-                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                    ? ''
-                    : 'hover:bg-[#222F3C]',
-                ]"
+                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
                 @click="setLocale('en')"
               >
                 <div class="flex items-center">
                   <img :src="svgPaths.en" alt="English" class="w-[24px] h-[24px] select-none" />
-                  <p
-                    class="ms-2"
-                    :class="[
-                      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                        ? ''
-                        : 'text-white',
-                    ]"
-                  >
-                    English
-                  </p>
+                  <p class="ms-2" :class="[lightMode ? '' : 'text-white']">English</p>
                 </div>
               </a-menu-item>
             </a-menu>
@@ -104,33 +78,16 @@
           <template #overlay>
             <a-menu class="shadow-2xl">
               <div class="px-[12px] py-[5px]">
-                <span
-                  class="font-bold"
-                  :class="[
-                    lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                      ? ''
-                      : 'text-white',
-                  ]"
-                  >{{ userName }}</span
-                >
+                <span class="font-bold" :class="[lightMode ? '' : 'text-white']">{{
+                  userName
+                }}</span>
               </div>
               <a-menu-divider />
-              <a-menu-item
-                key="profile"
-                :class="[
-                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                    ? ''
-                    : 'hover:bg-[#222F3C]',
-                ]"
-              >
+              <a-menu-item key="profile" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
                 <NuxtLink
                   :to="pageRoutes.common.profile.page"
                   class="flex items-center"
-                  :class="[
-                    lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                      ? ''
-                      : 'text-white',
-                  ]"
+                  :class="[lightMode ? '' : 'text-white']"
                 >
                   <Profile class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2">{{ $t('profile') }}</p>
@@ -138,11 +95,7 @@
               </a-menu-item>
               <a-menu-item
                 key="logout"
-                :class="[
-                  lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-                    ? ''
-                    : 'hover:bg-[#222F3C]',
-                ]"
+                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
                 @click="logout"
               >
                 <div class="flex items-center">
@@ -166,6 +119,7 @@ import { api } from '~/services/api';
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { svgPaths } from '~/consts/svg_paths';
+import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
@@ -190,6 +144,7 @@ const modalImportData = ref<{ isOpen: boolean; importOption: number; fileList: U
 const imageSrc = ref<string>('/image/default_user_image.png');
 const userName = ref<string>('');
 const { t } = useI18n();
+const lightMode = computed(() => isLightMode(lightModeCookie.value));
 
 // ---------------------- Functions ----------------------
 function openImportModal() {

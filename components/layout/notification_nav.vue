@@ -5,9 +5,7 @@
       style="display: flex"
       class="h-[40px] items-center flex-1 cursor-pointer select-none"
       :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? 'light_nav'
-          : 'dark_nav',
+        lightMode ? 'light_nav' : 'dark_nav',
         props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
       ]"
       :title="$t('notice')"
@@ -27,13 +25,7 @@
       v-show="isDropdownOpen || props.collapse"
       class="flex-col"
       style="display: flex"
-      :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? props.collapse
-            ? ''
-            : 'bg-[#FAFAFA]'
-          : '',
-      ]"
+      :class="[lightMode ? (props.collapse ? '' : 'bg-[#FAFAFA]') : '']"
     >
       <div>
         <LayoutNavItem
@@ -87,6 +79,7 @@ import DownArrow from '~/public/svg/down_arrow.svg';
 import UpArrow from '~/public/svg/up_arrow.svg';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
+import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -101,6 +94,7 @@ const props = defineProps({
   },
 });
 const isDropdownOpen = ref<boolean>(false);
+const lightMode = computed(() => isLightMode(lightModeCookie.value));
 
 // ---------------------- Functions ----------------------
 function toggleDropdown(e: Event) {

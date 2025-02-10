@@ -6,16 +6,14 @@
       style="display: flex"
       :to="pageRoutes.common.building.detail(building.ID)"
       :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? 'light_nav'
-          : 'dark_nav',
+        lightMode ? 'light_nav' : 'dark_nav',
         currentRoute.path.includes(pageRoutes.common.building.detail(building.ID))
-          ? lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+          ? lightMode
             ? 'light_selected'
             : 'dark_selected'
           : '',
         currentRoute.path.includes(pageRoutes.common.building.detail(building.ID)) &&
-        (lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1) &&
+        lightMode &&
         !props.collapse
           ? 'light_selected_border'
           : '',
@@ -42,13 +40,7 @@
     v-show="isDropdownOpen || props.collapse"
     class="flex-col"
     style="display: flex"
-    :class="[
-      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-        ? props.collapse
-          ? ''
-          : 'bg-[#FAFAFA]'
-        : '',
-    ]"
+    :class="[lightMode ? (props.collapse ? '' : 'bg-[#FAFAFA]') : '']"
   >
     <div class="px-5">
       <a-select
@@ -90,6 +82,7 @@ import type { Building, Room } from '~/types/building';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import { navItemPaddings } from './nav_menu.vue';
+import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -108,6 +101,7 @@ const props = defineProps({
 const isDropdownOpen = ref<boolean>(false);
 const roomList = ref<Room[]>([]);
 const selectValue = ref<number[]>([]);
+const lightMode = computed(() => isLightMode(lightModeCookie.value));
 
 // ---------------------- Functions ----------------------
 async function getBuildingRoom() {

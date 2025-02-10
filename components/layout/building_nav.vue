@@ -5,17 +5,13 @@
       style="display: flex"
       :to="pageRoutes.common.building.list"
       :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? 'light_nav'
-          : 'dark_nav',
+        lightMode ? 'light_nav' : 'dark_nav',
         currentRoute.path.includes(pageRoutes.common.building.list)
-          ? lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+          ? lightMode
             ? 'light_selected'
             : 'dark_selected'
           : '',
-        currentRoute.path.includes(pageRoutes.common.building.list) &&
-        (lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1) &&
-        !props.collapse
+        currentRoute.path.includes(pageRoutes.common.building.list) && lightMode && !props.collapse
           ? 'light_selected_border'
           : '',
         props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
@@ -42,13 +38,7 @@
     v-show="isDropdownOpen || props.collapse"
     class="flex-col"
     style="display: flex"
-    :class="[
-      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-        ? props.collapse
-          ? ''
-          : 'bg-[#FAFAFA]'
-        : '',
-    ]"
+    :class="[lightMode ? (props.collapse ? '' : 'bg-[#FAFAFA]') : '']"
   >
     <template v-for="(building, index) in buildingList" :key="index">
       <LayoutBuildingNavItem :collapse="collapse" :building="building" />
@@ -65,6 +55,7 @@ import { api } from '~/services/api';
 import { getMessageCode } from '~/consts/api_response';
 import { computedAsync } from '@vueuse/core';
 import type { Building } from '~/types/building';
+import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -77,6 +68,7 @@ const props = defineProps({
   },
 });
 const isDropdownOpen = ref<boolean>(false);
+const lightMode = computed(() => isLightMode(lightModeCookie.value));
 
 // ---------------------- Functions ----------------------
 function toggleDropdown(e: Event) {

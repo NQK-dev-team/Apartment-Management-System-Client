@@ -2,17 +2,15 @@
   <div
     class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-xl menu_transition overflow-auto hideBrowserScrollbar"
     :class="[
-      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-        ? 'bg-white'
-        : 'bg-[#1f1f1f] text-white',
-      !collapse ? 'w-[250px]' : 'w-[75px]',
+      lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white',
+      !collapse ? 'w-[250px] min-w-[250px] max-w-[250px]' : 'w-[75px] min-w-[75px] max-w-[75px]',
     ]"
   >
     <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
       <DoubleLeftOutlined
         class="text-xl border-[1px] border-solid rounded-full w-10 h-10 flex items-center justify-center"
         :class="[
-          lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+          lightMode
             ? 'bg-white border-[#0505050f] text-gray-500 shadow-2xl'
             : 'bg-[#1f1f1f] border-[#272727] text-white',
         ]"
@@ -92,6 +90,7 @@ import Report from '~/public/svg/report.svg';
 import House from '~/public/svg/house.svg';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
+import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 export const navItemPaddings = ['', 'ps-8', 'ps-12', 'ps-16', 'ps-20'];
@@ -107,6 +106,7 @@ const props = defineProps({
     required: true,
   },
 });
+const lightMode = computed(() => isLightMode(lightModeCookie.value));
 </script>
 
 <style lang="css" scoped>

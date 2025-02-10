@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 import { LoadingOutlined } from '@ant-design/icons-vue';
-import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -20,8 +19,9 @@ const indicator = h(LoadingOutlined, {
 });
 const displaySpinner = ref(false);
 const { $event } = useNuxtApp();
-const lightMode = computed(() => isLightMode(lightModeCookie.value));
-
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 // ---------------------- Lifecycles ----------------------
 onMounted(() => {
   $event.on('loading', () => {

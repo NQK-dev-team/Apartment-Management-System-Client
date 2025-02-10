@@ -1,17 +1,14 @@
 <template>
   <NuxtLink
-    v-show="!props.collapse || !props.hideWhenCollapse"
     class="h-[40px] items-center pe-5"
-    style="display: flex"
     :to="props.href"
     :class="[
       lightMode ? 'light_nav' : 'dark_nav',
       currentRoute.path.includes(props.href) ? (lightMode ? 'light_selected' : 'dark_selected') : '',
-      currentRoute.path.includes(props.href) && lightMode && !props.collapse
-        ? 'light_selected_border'
-        : '',
+      currentRoute.path.includes(props.href) && lightMode && !props.collapse ? 'light_selected_border' : '',
       props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
       !props.isChild ? 'my-1' : props.collapse ? 'my-1' : 'my-0',
+      !props.collapse || !props.hideWhenCollapse ? 'flex' : 'hidden',
     ]"
     :title="props.label"
   >
@@ -35,7 +32,6 @@
 
 <script lang="ts" setup>
 import { navItemPaddings } from './nav_menu.vue';
-import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -70,7 +66,9 @@ const props = defineProps({
     default: 0,
   },
 });
-const lightMode = computed(() => isLightMode(lightModeCookie.value));
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 </script>
 
 <style lang="css" scoped>

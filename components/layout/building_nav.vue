@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div class="mb-1">
     <NuxtLink
-      class="h-[40px] items-center flex-1"
-      style="display: flex"
+      class="h-[40px] items-center flex-1 flex"
       :to="pageRoutes.common.building.list"
       :class="[
         lightMode ? 'light_nav' : 'dark_nav',
@@ -23,22 +22,23 @@
         {{ $t('building') }}
       </span>
       <span
-        v-show="!props.collapse"
-        style="display: flex"
         class="items-center w-12 h-full justify-center"
+        :class="[
+          !props.collapse ? 'flex' : 'hidden',
+        ]"
         @click="toggleDropdown"
       >
         <DownArrow v-show="isDropdownOpen" />
         <UpArrow v-show="!isDropdownOpen" />
       </span>
-      <!-- <span class="h-full w-[4px]"></span> -->
     </NuxtLink>
   </div>
   <div
-    v-show="isDropdownOpen || props.collapse"
     class="flex-col"
-    style="display: flex"
-    :class="[lightMode ? (props.collapse ? '' : 'bg-[#FAFAFA]') : '']"
+    :class="[
+      lightMode ? (props.collapse ? '' : 'bg-[#FAFAFA]') : '',
+      isDropdownOpen || props.collapse ? 'flex' : 'hidden',
+    ]"
   >
     <template v-for="(building, index) in buildingList" :key="index">
       <LayoutBuildingNavItem :collapse="collapse" :building="building" />
@@ -53,9 +53,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import House from '~/public/svg/house.svg';
 import { api } from '~/services/api';
 import { getMessageCode } from '~/consts/api_response';
-import { computedAsync } from '@vueuse/core';
 import type { Building } from '~/types/building';
-import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -68,19 +66,21 @@ const props = defineProps({
   },
 });
 const isDropdownOpen = ref<boolean>(false);
-const lightMode = computed(() => isLightMode(lightModeCookie.value));
-
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
+const buildingList = ref<Building[]>([]);
 // ---------------------- Functions ----------------------
 function toggleDropdown(e: Event) {
   e.preventDefault();
   isDropdownOpen.value = !isDropdownOpen.value;
 }
 
-async function getBuildingList(): Promise<Building[]> {
+async function getBuildingList() {
   try {
     const response = await api.common.building.getList();
     const data = response.data;
-    return data;
+    buildingList.value = data;
   } catch (err: any) {
     if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
       notification.error({
@@ -89,13 +89,12 @@ async function getBuildingList(): Promise<Building[]> {
       });
     }
   }
-  return [];
 }
 
-// ---------------------- Variables ----------------------
-const buildingList = computedAsync(async () => {
-  return await getBuildingList();
-}, []);
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+  getBuildingList();
+});
 </script>
 
 <style lang="css" scoped>

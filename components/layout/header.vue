@@ -119,7 +119,6 @@ import { api } from '~/services/api';
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { svgPaths } from '~/consts/svg_paths';
-import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
@@ -144,8 +143,9 @@ const modalImportData = ref<{ isOpen: boolean; importOption: number; fileList: U
 const imageSrc = ref<string>('/image/default_user_image.png');
 const userName = ref<string>('');
 const { t } = useI18n();
-const lightMode = computed(() => isLightMode(lightModeCookie.value));
-
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 // ---------------------- Functions ----------------------
 function openImportModal() {
   modalImportData.value.isOpen = true;

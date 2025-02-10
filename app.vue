@@ -23,7 +23,6 @@ import enUS from 'ant-design-vue/es/locale/en_US';
 import viVN from 'ant-design-vue/es/locale/vi_VN';
 import { theme, notification } from 'ant-design-vue';
 import { pageRoutes } from './consts/page_routes';
-import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const localeRef = ref(viVN);
@@ -34,7 +33,9 @@ const lightModeCookie = useCookie('lightMode', {
 });
 const currentRoute = useRoute();
 const darkModeException = Object.values(pageRoutes.authentication);
-const lightMode = computed(() => isLightMode(lightModeCookie.value));
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 
 notification.config({
   placement: 'topRight',

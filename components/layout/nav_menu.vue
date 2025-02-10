@@ -3,7 +3,7 @@
     class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-xl menu_transition overflow-auto hideBrowserScrollbar"
     :class="[
       lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white',
-      !collapse ? 'w-[250px] min-w-[250px] max-w-[250px]' : 'w-[75px] min-w-[75px] max-w-[75px]',
+      !collapse ? 'w-[250px]' : 'w-[75px]',
     ]"
   >
     <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
@@ -20,9 +20,7 @@
     </div>
     <div class="flex flex-col w-full flex-1">
       <template v-if="props.role !== roles.customer">
-        <ClientOnly>
-          <LayoutBuildingNav class="mb-1" :collapse="collapse" />
-        </ClientOnly>
+        <LayoutBuildingNav :collapse="collapse" />
         <LayoutNavItem
           v-if="props.role === roles.owner"
           :href="pageRoutes.common.staff.list"
@@ -90,7 +88,6 @@ import Report from '~/public/svg/report.svg';
 import House from '~/public/svg/house.svg';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
-import { isLightMode } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 export const navItemPaddings = ['', 'ps-8', 'ps-12', 'ps-16', 'ps-20'];
@@ -106,7 +103,9 @@ const props = defineProps({
     required: true,
   },
 });
-const lightMode = computed(() => isLightMode(lightModeCookie.value));
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 </script>
 
 <style lang="css" scoped>

@@ -41,11 +41,11 @@
         <a-alert v-show="!isValid" class="my-3 h-[40px] max-h-[40px]" :message="$t('invalid_password')" type="error" />
 
         <a-form-item class="mb-1" :label="t('new_password')" name="newPassword">
-          <a-input-password v-model:value="formData.newPassword" autocomplete="off" />
+          <a-input-password v-model:value.lazy="formData.newPassword" autocomplete="off" />
         </a-form-item>
 
         <a-form-item class="mb-1" :label="t('confirm_new_password')" name="confirmPassword">
-          <a-input-password v-model:value="formData.confirmPassword" autocomplete="off" />
+          <a-input-password v-model:value.lazy="formData.confirmPassword" autocomplete="off" />
         </a-form-item>
 
         <a-form-item class="mb-0 mt-5">

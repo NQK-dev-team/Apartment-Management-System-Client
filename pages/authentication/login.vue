@@ -45,11 +45,11 @@
         />
 
         <a-form-item class="mb-1" label="Email" name="email">
-          <a-input v-model:value="formData.email" autocomplete="email" type="email" />
+          <a-input v-model:value.lazy="formData.email" autocomplete="email" type="email" />
         </a-form-item>
 
         <a-form-item class="mb-1" :label="$t('password')" name="password">
-          <a-input-password v-model:value="formData.password" autocomplete="off" />
+          <a-input-password v-model:value.lazy="formData.password" autocomplete="off" />
         </a-form-item>
 
         <a-form-item name="remember" class="mb-5">

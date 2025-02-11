@@ -3,25 +3,25 @@
         <form>
             <div class="row flex items-center justify-around">
                 <div class="column">
-                    <label for="building_id">Building ID</label><br>
+                    <label for="building_id">{{ $t('buildingID') }}</label><br>
                     <input type="text" id="building_id" name="buidling_id" value="A01-01" readonly><br>
-                    <label for="building_address">Address</label><br>
+                    <label for="building_address">{{ $t('address') }}</label><br>
                     <textarea id="building_address"
                         name="building_address">144 Tran Duy Phuong, Binh Hung Hoa, Binh Tan</textarea><br>
-                    <label for="building_name">Building Name</label><br>
+                    <label for="building_name">{{ $t('buildingName') }}</label><br>
                     <input type="text" id="building_name" name="buidling_name" value="A01-01" readonly><br>
-                    <label for="building_floors">Number of Floors</label><br>
+                    <label for="building_floors">{{ $t('numberFloors') }}</label><br>
                     <input type="text" id="building_floors" name="buidling_floors" value="12" readonly><br>
 
                 </div>
                 <div class="column">
-                    <label for="building_rooms">Number of Rooms</label><br>
+                    <label for="building_rooms">{{ $t('numberRooms') }}</label><br>
                     <input type="text" id="building_rooms" name="buidling_rooms" value="72" readonly><br>
-                    <label for="contracted_rooms">Number of Contracted Rooms</label><br>
+                    <label for="contracted_rooms">{{ $t('contractedRooms') }}</label><br>
                     <input type="text" id="contracted_rooms" name="contracted_rooms" value="32" readonly><br>
-                    <label for="paid_rooms">Number of Paid Rooms</label><br>
+                    <label for="paid_rooms">{{ $t('paidRooms') }}</label><br>
                     <input type="text" id="paid_rooms" name="Paid_rooms" value="32" readonly><br>
-                    <label for="unpaid_rooms">Number of Unpaid Rooms</label><br>
+                    <label for="unpaid_rooms">{{ $t('unpaidRooms') }}</label><br>
                     <input type="text" id="unpaid_rooms" name="unpaid_rooms" value="0" readonly><br>
                 </div>
             </div>
@@ -33,14 +33,14 @@
     <table>
         <thead>
             <tr>
-                <th>No.</th>
-                <th>Manager's Name</th>
-                <th>Employee ID</th>
-                <th>SSN</th>
-                <th>Phone No.</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Actions</th>
+                <th>{{ $t('no') }}</th>
+                <th>{{ $t('managerName') }}</th>
+                <th>{{ $t('employeeID') }}</th>
+                <th>{{ $t('ssn') }}</th>
+                <th>{{ $t('phone') }}</th>
+                <th>{{ $t('start') }}</th>
+                <th>{{ $t('end') }}</th>
+                <th>{{ $t('actions') }}</th>
             </tr>
         </thead>
         <tbody>

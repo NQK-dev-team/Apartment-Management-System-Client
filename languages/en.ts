@@ -1,3 +1,5 @@
+import { build } from "nuxt";
+
 export default {
   A: 'a',
   add_building: 'Add building',
@@ -5,11 +7,15 @@ export default {
   add_employee: 'Add employee',
   add_customer: 'Add customer',
   add_bill: 'Add bill',
+  address: 'Address',
+  actions:'Actions',
 
   B: 'b',
   bill: 'Bill',
   building: 'Building {name}',
   back: 'Back',
+  buildingID: 'Building ID',
+  buildingName: 'Building Name',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -21,6 +27,7 @@ export default {
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
   confirm_new_password_not_match: 'Confirm new password does not match!',
+  contractedRooms: 'Number of contracted rooms',
 
   D: 'd',
 
@@ -35,6 +42,8 @@ export default {
   email_verify:
     'We have sent you an email to verify your account. Please check your email and click on the link to verify your account.',
   email_verify_success: 'Your email has been verified successfully!',
+  employeeID:'Employee ID',
+  end:'End date',
 
   F: 'f',
   finish_import: 'Import',
@@ -63,6 +72,7 @@ export default {
   log_in: 'Log in',
 
   M: 'm',
+  managerName:'Manager\'s Name',
 
   N: 'n',
   notice: 'Notice',
@@ -72,6 +82,9 @@ export default {
   notice_sent: 'Sent',
   new_password: 'New password',
   new_password_require: 'Please enter your new password!',
+  numberFloors: 'Number of Floors',
+  numberRooms: 'Number of Rooms',
+  no:'No.',
 
   O: 'o',
 
@@ -83,6 +96,8 @@ export default {
     'An email has been sent to your email address. Please check your email and click on the link to reset your password.',
   password_format_error:
     'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.',
+  paidRooms: 'Number of paid rooms',
+  phone:'Phone No.',
 
   Q: 'q',
 
@@ -100,12 +115,15 @@ export default {
   system_error_title: 'System error',
   system_error_description: 'An error occurred while processing your request. Please try again later.',
   spam_warning: 'You are sending too many requests. Please try again later.',
+  ssn:'SSN',
+  start:'Start date',
 
   T: 't',
 
   U: 'u',
   upload_file: 'Upload file',
   user_not_found: 'User not found!',
+  unpaidRooms: 'Number of unpaid rooms',
 
   V: 'v',
 

@@ -30,7 +30,35 @@
             <img src="/image/building.jpg">
         </div>
     </div>
-
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Manager's Name</th>
+                <th>Employee ID</th>
+                <th>SSN</th>
+                <th>Phone No.</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Nguyen Van A</td>
+                <td>123456789</td>
+                <td>987654321</td>
+                <td>0987654321</td>
+                <td>01/01/2020</td>
+                <td>N/A</td>
+                <td>
+                    <a class="adj" href="#">Adjust</a>
+                    <a class="del" href="#">&nbsp;&nbsp;Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
 <script lang="ts" setup>
@@ -107,5 +135,26 @@ textarea {
 
 .pic {
     max-width: 20%;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+}
+
+.adj {
+    color: deepskyblue;
+}
+
+.adj:hover {
+    color: grey;
+}
+
+.del {
+    color: red;
+}
+
+.del:hover {
+    color: grey;
 }
 </style>

@@ -1,0 +1,38 @@
+<template>
+  <a-modal
+    v-model:open="open"
+    :title="$t('confirm_deletion')"
+    :ok-text="$t('delete')"
+    ok-type="danger"
+    @ok="handleDelete"
+    @cancel="closeDeleteModal"
+  >
+    <p>{{ $t('delete_modal_content') }}</p>
+  </a-modal>
+</template>
+
+<script lang="ts" setup>
+// ---------------------- Variables ----------------------
+const props = defineProps({
+  open: {
+    type: Boolean,
+    required: true,
+  },
+  fallback: {
+    type: Function as PropType<() => void>,
+    required: true,
+  },
+});
+const open = toRef(props, 'open');
+const { $event } = useNuxtApp();
+
+// ---------------------- Functions ----------------------
+const closeDeleteModal = () => {
+  $event.emit('closeDeleteModal');
+};
+
+const handleDelete = () => {
+  closeDeleteModal();
+  props.fallback();
+};
+</script>

@@ -10,6 +10,7 @@ export default {
   add_employees: 'Add new employees',
   add_customers: 'Add new customers',
   add_bills: 'Add new bills',
+  action: 'Action',
 
   B: 'b',
   bill: 'Bill',
@@ -17,6 +18,9 @@ export default {
   building_info: 'Building information',
   back: 'Back',
   building_list: 'Building list',
+  building_name: 'Building name',
+  building_address: 'Building address',
+  building_image: 'Building image',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -28,8 +32,11 @@ export default {
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
   confirm_new_password_not_match: 'Confirm new password does not match!',
+  confirm_deletion: 'Confirm deletion',
 
   D: 'd',
+  delete: 'Delete',
+  delete_modal_content: 'Are you sure you want to delete the selected item(s)?',
 
   E: 'e',
   example_file: 'Example files',
@@ -42,11 +49,18 @@ export default {
   email_verify:
     'We have sent you an email to verify your account. Please check your email and click on the link to verify your account.',
   email_verify_success: 'Your email has been verified successfully!',
+  enter_building_name: 'Enter building name',
+  enter_building_address: 'Enter building address',
+  enter_service_name: 'Enter service name',
+  enter_service_price: 'Enter service price',
+  enter_floor_name: 'Enter floor name',
 
   F: 'f',
   finish_import: 'Import',
   forgot_password: 'Forgot password?',
   finish: 'Finish',
+  floor_list: 'Floor list',
+  floor_name: 'Floor name',
 
   G: 'g',
 
@@ -80,6 +94,7 @@ export default {
   new_password: 'New password',
   new_password_require: 'Please enter your new password!',
   next: 'Next',
+  no: 'No',
 
   O: 'o',
 
@@ -102,6 +117,8 @@ export default {
   return_to_login: 'Return to login page',
   reset_password_complete: 'Password has been reset successfully!',
   room_info: 'Room information',
+  room_list: 'Room list',
+  recommended_resolution: 'Recommended resolution: 640x640',
 
   S: 's',
   staff: 'Staff',
@@ -110,8 +127,12 @@ export default {
   system_error_title: 'System error',
   system_error_description: 'An error occurred while processing your request. Please try again later.',
   spam_warning: 'You are sending too many requests. Please try again later.',
+  service_list: 'Service list',
+  service_name: 'Service name',
+  service_price: 'Service price (VND/month)',
 
   T: 't',
+  total: 'Total',
 
   U: 'u',
   upload_file: 'Upload file',

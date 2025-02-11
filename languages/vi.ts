@@ -10,6 +10,7 @@ export default {
   add_employees: 'Thêm nhân viên mới',
   add_customers: 'Thêm khách hàng mới',
   add_bills: 'Thêm hóa đơn mới',
+  action: 'Tác vụ',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -17,6 +18,9 @@ export default {
   building_info: 'Thông tin tòa nhà',
   back: 'Quay lại',
   building_list: 'Danh sách tòa nhà',
+  building_name: 'Tên tòa nhà',
+  building_address: 'Địa chỉ tòa nhà',
+  building_image: 'Hình ảnh tòa nhà',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -28,8 +32,11 @@ export default {
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
   confirm: 'Xác nhận',
   confirm_new_password_not_match: 'Mật khẩu xác nhận không khớp!',
+  confirm_deletion: 'Xác nhận xóa',
 
   D: 'd',
+  delete: 'Xóa',
+  delete_modal_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
 
   E: 'e',
   example_file: 'Tệp tin mẫu',
@@ -42,11 +49,18 @@ export default {
   email_verify:
     'Chúng tôi đã gửi email xác thực tài khoản của bạn. Vui lòng kiểm tra email và nhấn vào liên kết để xác thực tài khoản của bạn.',
   email_verify_success: 'Email của bạn đã được xác thực thành công!',
+  enter_building_name: 'Nhập tên tòa nhà',
+  enter_building_address: 'Nhập địa chỉ tòa nhà',
+  enter_service_name: 'Nhập tên dịch vụ',
+  enter_service_price: 'Nhập phí dịch vụ',
+  enter_floor_name: 'Nhập tên tầng',
 
   F: 'f',
   finish_import: 'Hoàn tất',
   forgot_password: 'Quên mật khẩu?',
   finish: 'Hoàn tất',
+  floor_list: 'Danh sách tầng',
+  floor_name: 'Tên tầng',
 
   G: 'g',
 
@@ -80,6 +94,7 @@ export default {
   new_password: 'Mật khẩu mới',
   new_password_require: 'Vui lòng nhập mật khẩu mới!',
   next: 'Tiếp theo',
+  no: 'STT',
 
   O: 'o',
 
@@ -102,6 +117,8 @@ export default {
   return_to_login: 'Quay lại trang đăng nhập',
   reset_password_complete: 'Mật khẩu đã được đặt lại thành công!',
   room_info: 'Thông tin phòng',
+  room_list: 'Danh sách phòng',
+  recommended_resolution: 'Độ phân giải khuyến nghị: 640x640',
 
   S: 's',
   staff: 'Nhân viên',
@@ -110,8 +127,12 @@ export default {
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',
   spam_warning: 'Bạn đang gửi quá nhiều yêu cầu. Vui lòng thử lại sau!',
+  service_list: 'Danh sách dịch vụ',
+  service_name: 'Tên dịch vụ',
+  service_price: 'Phí dịch vụ (VNĐ/tháng)',
 
   T: 't',
+  total: 'Tổng',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

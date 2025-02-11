@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex flex-col px-5">
-    <div class="px-3 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+    <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
           ><NuxtLink :to="pageRoutes.common.building.list">{{ $t('building_list') }}</NuxtLink></a-breadcrumb-item
@@ -280,7 +280,10 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 flex flex-col px-3 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div
+      class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
+      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+    >
       <div v-show="step === 1" class="flex-1">
         <CommonBuildingAddStep1 :building-info="buildingInfo" />
       </div>
@@ -291,7 +294,7 @@
         <CommonBuildingAddStep3 :building-info="buildingInfo" />
       </div>
       <div v-show="step === 4" class="flex-1"></div>
-      <div class="steps-action flex flex-col items-center mb-3">
+      <div class="steps-action flex flex-col items-center mb-3 mt-10">
         <a-button
           v-if="step < 4"
           type="primary"
@@ -324,6 +327,7 @@
 <script lang="ts" setup>
 import { pageRoutes } from '~/consts/page_routes';
 import type { NewBuildingInfo } from '~/types/building';
+import type { UploadFile } from 'ant-design-vue/es/upload/interface';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -359,7 +363,10 @@ const buildingInfo = ref<NewBuildingInfo>({
 });
 
 // ---------------------- Functions ----------------------
-function createNewBuilding() {}
+function createNewBuilding() {
+  buildingInfo.value.images = buildingInfo.value.images.filter((image: UploadFile) => image.status === 'done');
+  console.log(buildingInfo.value);
+}
 </script>
 
 <style lang="css" scoped>

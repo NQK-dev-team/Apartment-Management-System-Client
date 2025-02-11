@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card">
-      <a href="#">
+      <a href="./building/detail">
         <h4>{{ $t('building') }}</h4>
         <img src="/image/building.jpg">
         <div class="container">

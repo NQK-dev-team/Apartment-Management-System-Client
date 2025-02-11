@@ -62,6 +62,7 @@ useHead({
   padding: 16px;
   text-align: center;
   font-family: Arial, sans-serif;
+  display:block;
 }
 
 .container {

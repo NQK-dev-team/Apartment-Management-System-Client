@@ -30,6 +30,7 @@
             <img src="/image/building.jpg">
         </div>
     </div>
+
 </template>
 
 <script lang="ts" setup>

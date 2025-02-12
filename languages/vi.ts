@@ -11,6 +11,7 @@ export default {
   add_customers: 'Thêm khách hàng mới',
   add_bills: 'Thêm hóa đơn mới',
   action: 'Tác vụ',
+  area: 'Diện tích',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -21,6 +22,7 @@ export default {
   building_name: 'Tên tòa nhà',
   building_address: 'Địa chỉ tòa nhà',
   building_image: 'Hình ảnh tòa nhà',
+  building_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho tòa nhà!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -37,6 +39,7 @@ export default {
   D: 'd',
   delete: 'Xóa',
   delete_modal_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
+  description: 'Mô tả',
 
   E: 'e',
   example_file: 'Tệp tin mẫu',
@@ -54,6 +57,10 @@ export default {
   enter_service_name: 'Nhập tên dịch vụ',
   enter_service_price: 'Nhập phí dịch vụ',
   enter_floor_name: 'Nhập tên tầng',
+  empty_building_name: 'Tên tòa nhà không được để trống!',
+  empty_building_address: 'Địa chỉ tòa nhà không được để trống!',
+  empty_service_name: 'Tên dịch vụ không được để trống!',
+  empty_floor_name: 'Tên tầng không được để trống!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -61,6 +68,7 @@ export default {
   finish: 'Hoàn tất',
   floor_list: 'Danh sách tầng',
   floor_name: 'Tên tầng',
+  floor: 'Tầng {name}',
 
   G: 'g',
 
@@ -74,6 +82,7 @@ export default {
   invalid_link: 'Liên kết này không hợp lệ hoặc đã hết hạn.',
   invalid_email: 'Email không hợp lệ!',
   invalid_password: 'Mật khẩu không hợp lệ!',
+  image: 'Hình ảnh',
 
   J: 'j',
 
@@ -119,6 +128,7 @@ export default {
   room_info: 'Thông tin phòng',
   room_list: 'Danh sách phòng',
   recommended_resolution: 'Độ phân giải khuyến nghị: 640x640',
+  room_no: 'Số phòng',
 
   S: 's',
   staff: 'Nhân viên',
@@ -130,6 +140,8 @@ export default {
   service_list: 'Danh sách dịch vụ',
   service_name: 'Tên dịch vụ',
   service_price: 'Phí dịch vụ (VNĐ/tháng)',
+  status: 'Trạng thái',
+  select_floor: 'Chọn tầng',
 
   T: 't',
   total: 'Tổng',
@@ -148,4 +160,5 @@ export default {
   Y: 'y',
 
   Z: 'z',
+  zero_service_price: 'Phí dịch vụ phải lớn hơn 0!',
 };

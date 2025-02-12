@@ -347,6 +347,7 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
+const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const step = ref<number>(1);
 const highestStep = ref<number>(1);
@@ -367,6 +368,64 @@ function createNewBuilding() {
   buildingInfo.value.images = buildingInfo.value.images.filter((image: UploadFile) => image.status === 'done');
   console.log(buildingInfo.value);
 }
+
+function checkStep1(): boolean {
+  if (buildingInfo.value.name === '') {
+    notification.error({
+      message: t('empty_building_name'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.address === '') {
+    notification.error({
+      message: t('empty_building_address'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.images.length === 0) {
+    notification.error({
+      message: t('building_image_require'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.services.find((service) => service.name === '') !== undefined) {
+    notification.error({
+      message: t('empty_service_name'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.services.find((service) => service.price === 0) !== undefined) {
+    notification.error({
+      message: t('zero_service_price'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.floors.find((floor) => floor.name === '') !== undefined) {
+    notification.error({
+      message: t('empty_floor_name'),
+    });
+    return false;
+  }
+  return true;
+}
+
+function checkStep2(): boolean {
+  return true;
+}
+
+// ---------------------- Watchers ----------------------
+watch(step, () => {
+  if (step.value === 2) {
+    if (!checkStep1()) {
+      step.value = 1;
+    }
+  }
+  if (step.value === 3) {
+    if (!checkStep2()) {
+      step.value = 2;
+    }
+  }
+});
 </script>
 
 <style lang="css" scoped>

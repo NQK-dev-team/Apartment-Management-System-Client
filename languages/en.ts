@@ -11,6 +11,7 @@ export default {
   add_customers: 'Add new customers',
   add_bills: 'Add new bills',
   action: 'Action',
+  area: 'Area',
 
   B: 'b',
   bill: 'Bill',
@@ -21,6 +22,7 @@ export default {
   building_name: 'Building name',
   building_address: 'Building address',
   building_image: 'Building image',
+  building_image_require: 'Please at least one image for the building!',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -37,6 +39,7 @@ export default {
   D: 'd',
   delete: 'Delete',
   delete_modal_content: 'Are you sure you want to delete the selected item(s)?',
+  description: 'Description',
 
   E: 'e',
   example_file: 'Example files',
@@ -54,6 +57,10 @@ export default {
   enter_service_name: 'Enter service name',
   enter_service_price: 'Enter service price',
   enter_floor_name: 'Enter floor name',
+  empty_building_name: 'Building name cannot be empty!',
+  empty_building_address: 'Building address cannot be empty!',
+  empty_service_name: 'Service name cannot be empty!',
+  empty_floor_name: 'Floor name cannot be empty!',
 
   F: 'f',
   finish_import: 'Import',
@@ -61,6 +68,7 @@ export default {
   finish: 'Finish',
   floor_list: 'Floor list',
   floor_name: 'Floor name',
+  floor: 'Floor {name}',
 
   G: 'g',
 
@@ -74,6 +82,7 @@ export default {
   invalid_link: 'This link is invalid or has expired.',
   invalid_email: 'Invalid email!',
   invalid_password: 'Invalid password!',
+  image: 'Image',
 
   J: 'j',
 
@@ -119,6 +128,7 @@ export default {
   room_info: 'Room information',
   room_list: 'Room list',
   recommended_resolution: 'Recommended resolution: 640x640',
+  room_no: 'Room number',
 
   S: 's',
   staff: 'Staff',
@@ -130,6 +140,8 @@ export default {
   service_list: 'Service list',
   service_name: 'Service name',
   service_price: 'Service price (VND/month)',
+  status: 'Status',
+  select_floor: 'Select floor',
 
   T: 't',
   total: 'Total',
@@ -148,4 +160,5 @@ export default {
   Y: 'y',
 
   Z: 'z',
+  zero_service_price: 'Service price must be greater than 0!',
 };

@@ -5,7 +5,7 @@
     :ok-text="$t('delete')"
     ok-type="danger"
     @ok="handleDelete"
-    @cancel="closeDeleteModal"
+    @cancel="closeDeleteModalAddBuilding"
   >
     <p>{{ $t('delete_modal_content') }}</p>
   </a-modal>
@@ -27,12 +27,12 @@ const open = toRef(props, 'open');
 const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
-const closeDeleteModal = () => {
-  $event.emit('closeDeleteModal');
+const closeDeleteModalAddBuilding = () => {
+  $event.emit('closeDeleteModalAddBuilding');
 };
 
 const handleDelete = () => {
-  closeDeleteModal();
+  closeDeleteModalAddBuilding();
   props.fallback();
 };
 </script>

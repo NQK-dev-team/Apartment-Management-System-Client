@@ -32,9 +32,7 @@ type NewBuildingInfo = {
     endDate: Date | null;
   }[];
   floors: {
-    name: string;
     rooms: {
-      no: number;
       status: number;
       area: number;
       description: string;

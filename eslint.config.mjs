@@ -16,6 +16,7 @@ export default withNuxt({
     'vue/require-v-for-key': 'warn',
     'vue/html-self-closing': 'off',
     'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   files: [
     'composables/**/*.{js,ts,jsx,tsx}',

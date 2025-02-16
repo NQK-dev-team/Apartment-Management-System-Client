@@ -80,18 +80,24 @@
                 </th>
                 <th class="text-sm font-normal text-center align-middle py-[16px]">
                   <div
-                    class="border-r-[1px] h-[20px]"
+                    class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
                     {{ $t('service_name') }}
+                    <div class="flex items-center">
+                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                    </div>
                   </div>
                 </th>
                 <th class="text-sm font-normal text-center align-middle py-[16px]">
                   <div
-                    class="border-r-[1px] h-[20px]"
+                    class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
                     {{ $t('service_price') }}
+                    <div class="flex items-center">
+                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                    </div>
                   </div>
                 </th>
                 <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
@@ -136,7 +142,6 @@
               class="ms-2 flex items-center justify-center w-10 h-10"
               @click="
                 buildingInfo.floors.push({
-                  name: '',
                   rooms: [],
                 })
               "
@@ -163,20 +168,12 @@
                     ></a-checkbox>
                   </div>
                 </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('no') }}
-                  </div>
-                </th>
                 <th class="text-sm font-normal text-center align-middle py-[16px]">
                   <div
                     class="border-r-[1px] h-[20px]"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
-                    {{ $t('floor_name') }}
+                    {{ $t('floor_number') }}
                   </div>
                 </th>
                 <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
@@ -191,7 +188,6 @@
                 v-for="(floor, index) in buildingInfo.floors"
                 :key="index"
                 :index="index"
-                :floor="floor"
                 :floor-delete-bucket="floorDeleteBucket"
               />
             </tbody>
@@ -236,6 +232,7 @@
 import type { NewBuildingInfo } from '~/types/building';
 import { svgPaths } from '~/consts/svg_paths';
 import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
+import { getBase64 } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -264,15 +261,6 @@ const fallback = ref<() => void>(() => {});
 const imageList = ref<string[]>([]);
 
 // ---------------------- Functions ----------------------
-function getBase64(file: File) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
-
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
   let isDone = true;
 
@@ -304,6 +292,7 @@ function deleteServices() {
 }
 
 function deleteFloors() {
+  $event.emit('resetSelectedFloor', [floorDeleteBucket.value]);
   buildingInfo.value.floors = buildingInfo.value.floors.filter((_, index) => !floorDeleteBucket.value.includes(index));
   floorDeleteBucket.value = [];
 }
@@ -324,6 +313,7 @@ function deleteService(index: number) {
 }
 
 function deleteFloor(index: number) {
+  $event.emit('resetSelectedFloor', [index]);
   buildingInfo.value.floors = buildingInfo.value.floors.filter((_, idx) => idx !== index);
   const tempBucket: number[] = [];
   floorDeleteBucket.value.forEach((idx) => {
@@ -387,7 +377,7 @@ $event.on('removeFloorFromDeleteBucket', (e: any) => {
   floorDeleteBucket.value = floorDeleteBucket.value.filter((idx) => idx !== e);
 });
 
-$event.on('closeDeleteModal', () => {
+$event.on('closeDeleteModalAddBuilding', () => {
   openModal.value = false;
 });
 </script>

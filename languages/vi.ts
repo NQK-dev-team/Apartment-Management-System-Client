@@ -12,6 +12,7 @@ export default {
   add_bills: 'Thêm hóa đơn mới',
   action: 'Tác vụ',
   area: 'Diện tích',
+  available: 'Còn trống',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -56,18 +57,20 @@ export default {
   enter_building_address: 'Nhập địa chỉ tòa nhà',
   enter_service_name: 'Nhập tên dịch vụ',
   enter_service_price: 'Nhập phí dịch vụ',
-  enter_floor_name: 'Nhập tên tầng',
+  enter_floor_number: 'Nhập số tầng',
   empty_building_name: 'Tên tòa nhà không được để trống!',
   empty_building_address: 'Địa chỉ tòa nhà không được để trống!',
   empty_service_name: 'Tên dịch vụ không được để trống!',
-  empty_floor_name: 'Tên tầng không được để trống!',
+  enter_room_no: 'Nhập số phòng',
+  enter_room_area: 'Nhập diện tích phòng',
+  enter_room_description: 'Nhập mô tả phòng',
 
   F: 'f',
   finish_import: 'Hoàn tất',
   forgot_password: 'Quên mật khẩu?',
   finish: 'Hoàn tất',
   floor_list: 'Danh sách tầng',
-  floor_name: 'Tên tầng',
+  floor_number: 'Số tầng',
   floor: 'Tầng {name}',
 
   G: 'g',
@@ -93,6 +96,7 @@ export default {
   log_in: 'Đăng nhập',
 
   M: 'm',
+  maintenance: 'Bảo trì',
 
   N: 'n',
   notice: 'Thông báo',
@@ -129,6 +133,7 @@ export default {
   room_list: 'Danh sách phòng',
   recommended_resolution: 'Độ phân giải khuyến nghị: 640x640',
   room_no: 'Số phòng',
+  rented: 'Đã thuê',
 
   S: 's',
   staff: 'Nhân viên',
@@ -142,6 +147,8 @@ export default {
   service_price: 'Phí dịch vụ (VNĐ/tháng)',
   status: 'Trạng thái',
   select_floor: 'Chọn tầng',
+  select_status: 'Chọn trạng thái',
+  sold: 'Đã bán',
 
   T: 't',
   total: 'Tổng',
@@ -149,6 +156,7 @@ export default {
   U: 'u',
   upload_file: 'Tải tệp tin',
   user_not_found: 'Người dùng không tồn tại!',
+  unavailable: 'Không khả dụng',
 
   V: 'v',
 
@@ -161,4 +169,5 @@ export default {
 
   Z: 'z',
   zero_service_price: 'Phí dịch vụ phải lớn hơn 0!',
+  zero_floor_number:'Số tầng phải lớn hơn 0!',
 };

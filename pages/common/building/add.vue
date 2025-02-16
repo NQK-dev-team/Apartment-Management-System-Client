@@ -400,17 +400,38 @@ function checkStep1(): boolean {
     });
     return false;
   }
-  if (buildingInfo.value.floors.find((floor) => floor.name === '') !== undefined) {
-    notification.error({
-      message: t('empty_floor_name'),
-    });
-    return false;
-  }
   return true;
 }
 
 function checkStep2(): boolean {
-  return true;
+  let isOK = true;
+
+  buildingInfo.value.floors.forEach((floor) => {
+    if (!isOK) return;
+    floor.rooms.forEach((room) => {
+      if (!isOK) return;
+      if (room.status === 0) {
+        // notification.error({
+        //   message: t('empty_building_name'),
+        // });
+        isOK = false;
+      }
+      if (room.area === 0) {
+        // notification.error({
+        //   message: t('empty_building_name'),
+        // });
+        isOK = false;
+      }
+      if (room.images.length === 0) {
+        // notification.error({
+        //   message: t('empty_building_name'),
+        // });
+        isOK = false;
+      }
+    });
+  });
+
+  return isOK;
 }
 
 // ---------------------- Watchers ----------------------

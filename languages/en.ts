@@ -12,6 +12,7 @@ export default {
   add_bills: 'Add new bills',
   action: 'Action',
   area: 'Area',
+  available: 'Available',
 
   B: 'b',
   bill: 'Bill',
@@ -56,18 +57,20 @@ export default {
   enter_building_address: 'Enter building address',
   enter_service_name: 'Enter service name',
   enter_service_price: 'Enter service price',
-  enter_floor_name: 'Enter floor name',
+  enter_floor_number: 'Enter floor number',
   empty_building_name: 'Building name cannot be empty!',
   empty_building_address: 'Building address cannot be empty!',
   empty_service_name: 'Service name cannot be empty!',
-  empty_floor_name: 'Floor name cannot be empty!',
+  enter_room_no: 'Enter room number',
+  enter_room_area: 'Enter room area',
+  enter_room_description: 'Enter room description',
 
   F: 'f',
   finish_import: 'Import',
   forgot_password: 'Forgot password?',
   finish: 'Finish',
   floor_list: 'Floor list',
-  floor_name: 'Floor name',
+  floor_number: 'Floor number',
   floor: 'Floor {name}',
 
   G: 'g',
@@ -93,6 +96,7 @@ export default {
   log_in: 'Log in',
 
   M: 'm',
+  maintenance: 'Maintenance',
 
   N: 'n',
   notice: 'Notice',
@@ -129,6 +133,7 @@ export default {
   room_list: 'Room list',
   recommended_resolution: 'Recommended resolution: 640x640',
   room_no: 'Room number',
+  rented: 'Rented',
 
   S: 's',
   staff: 'Staff',
@@ -142,6 +147,8 @@ export default {
   service_price: 'Service price (VND/month)',
   status: 'Status',
   select_floor: 'Select floor',
+  select_status: 'Select status',
+  sold: 'Sold',
 
   T: 't',
   total: 'Total',
@@ -149,6 +156,7 @@ export default {
   U: 'u',
   upload_file: 'Upload file',
   user_not_found: 'User not found!',
+  unavailable: 'Unavailable',
 
   V: 'v',
 
@@ -161,4 +169,5 @@ export default {
 
   Z: 'z',
   zero_service_price: 'Service price must be greater than 0!',
+  zero_floor_number: 'Floor number must be greater than 0!',
 };

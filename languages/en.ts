@@ -60,10 +60,11 @@ export default {
   enter_floor_number: 'Enter floor number',
   empty_building_name: 'Building name cannot be empty!',
   empty_building_address: 'Building address cannot be empty!',
-  empty_service_name: 'Service name cannot be empty!',
+  empty_service_name: 'Service {no} name cannot be empty!',
   enter_room_no: 'Enter room number',
   enter_room_area: 'Enter room area',
   enter_room_description: 'Enter room description',
+  empty_room_status: 'Room {no} status cannot be empty!',
 
   F: 'f',
   finish_import: 'Import',
@@ -134,6 +135,7 @@ export default {
   recommended_resolution: 'Recommended resolution: 640x640',
   room_no: 'Room number',
   rented: 'Rented',
+  room_image_require: 'Please at least one image for room {no}!',
 
   S: 's',
   staff: 'Staff',
@@ -168,6 +170,7 @@ export default {
   Y: 'y',
 
   Z: 'z',
-  zero_service_price: 'Service price must be greater than 0!',
+  zero_service_price: 'Service {no} price must be greater than 0!',
   zero_floor_number: 'Floor number must be greater than 0!',
+  zero_room_area: 'Room {no} area must be greater than 0!',
 };

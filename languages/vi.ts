@@ -60,10 +60,11 @@ export default {
   enter_floor_number: 'Nhập số tầng',
   empty_building_name: 'Tên tòa nhà không được để trống!',
   empty_building_address: 'Địa chỉ tòa nhà không được để trống!',
-  empty_service_name: 'Tên dịch vụ không được để trống!',
+  empty_service_name: 'Tên dịch vụ {no} không được để trống!',
   enter_room_no: 'Nhập số phòng',
   enter_room_area: 'Nhập diện tích phòng',
   enter_room_description: 'Nhập mô tả phòng',
+  empty_room_status: 'Trạng thái phòng {no} không được để trống!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -134,6 +135,7 @@ export default {
   recommended_resolution: 'Độ phân giải khuyến nghị: 640x640',
   room_no: 'Số phòng',
   rented: 'Đã thuê',
+  room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
 
   S: 's',
   staff: 'Nhân viên',
@@ -168,6 +170,7 @@ export default {
   Y: 'y',
 
   Z: 'z',
-  zero_service_price: 'Phí dịch vụ phải lớn hơn 0!',
-  zero_floor_number:'Số tầng phải lớn hơn 0!',
+  zero_service_price: 'Phí dịch vụ {no} phải lớn hơn 0!',
+  zero_floor_number: 'Số tầng phải lớn hơn 0!',
+  zero_room_area: 'Diện tích phòng {no} phải lớn hơn 0!',
 };

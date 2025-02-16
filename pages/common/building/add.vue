@@ -390,13 +390,17 @@ function checkStep1(): boolean {
   }
   if (buildingInfo.value.services.find((service) => service.name === '') !== undefined) {
     notification.error({
-      message: t('empty_service_name'),
+      message: t('empty_service_name', {
+        no: buildingInfo.value.services.findIndex((service) => service.name === '') + 1,
+      }),
     });
     return false;
   }
   if (buildingInfo.value.services.find((service) => service.price === 0) !== undefined) {
     notification.error({
-      message: t('zero_service_price'),
+      message: t('zero_service_price', {
+        no: buildingInfo.value.services.findIndex((service) => service.price === 0) + 1,
+      }),
     });
     return false;
   }
@@ -406,26 +410,32 @@ function checkStep1(): boolean {
 function checkStep2(): boolean {
   let isOK = true;
 
-  buildingInfo.value.floors.forEach((floor) => {
+  buildingInfo.value.floors.forEach((floor, floorIdx) => {
     if (!isOK) return;
     floor.rooms.forEach((room) => {
       if (!isOK) return;
-      if (room.status === 0) {
-        // notification.error({
-        //   message: t('empty_building_name'),
-        // });
+      if (room.status === 0 && isOK) {
+        notification.error({
+          message: t('empty_room_status', {
+            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
+          }),
+        });
         isOK = false;
       }
-      if (room.area === 0) {
-        // notification.error({
-        //   message: t('empty_building_name'),
-        // });
+      if (room.area === 0 && isOK) {
+        notification.error({
+          message: t('zero_room_area', {
+            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
+          }),
+        });
         isOK = false;
       }
-      if (room.images.length === 0) {
-        // notification.error({
-        //   message: t('empty_building_name'),
-        // });
+      if (room.images.length === 0 && isOK) {
+        notification.error({
+          message: t('room_image_require', {
+            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
+          }),
+        });
         isOK = false;
       }
     });

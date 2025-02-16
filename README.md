@@ -76,3 +76,7 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Requirement:
+
+# install node.js 22.x.x: https://nodejs.org/en/download

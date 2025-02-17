@@ -89,12 +89,32 @@ const common = {
       });
     },
     addNewBuilding: async (building: NewBuildingInfo): Promise<APIResponse<null>> => {
+      // const $api = getApiInstance();
+      // return $api(apiRoutes.building.add, {
+      //   method: 'POST',
+      //   body: {
+      //     building,
+      //   },
+      // });
+
       const $api = getApiInstance();
+      const formData = new FormData();
+
+      formData.append('name', building.name);
+      formData.append('address', building.address);
+      building.services.forEach((service) => {
+        formData.append('services[]', JSON.stringify(service));
+      });
+      building.managers.forEach((manager) => {
+        formData.append('managers[]', JSON.stringify(manager));
+      });
+      building.images.forEach((image) => {
+        formData.append('images[]', image);
+      });
+
       return $api(apiRoutes.building.add, {
         method: 'POST',
-        body: {
-          building,
-        },
+        body: formData,
       });
     },
   },

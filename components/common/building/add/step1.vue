@@ -9,7 +9,7 @@
           </label>
           <a-input
             id="building_name_1"
-            v-model:value.lazy="buildingInfo.name"
+            v-model:value="buildingInfo.name"
             :placeholder="$t('enter_building_name')"
           />
         </div>
@@ -20,7 +20,7 @@
           </label>
           <a-input
             id="building_address_1"
-            v-model:value.lazy="buildingInfo.address"
+            v-model:value="buildingInfo.address"
             :placeholder="$t('enter_building_address')"
           />
         </div>

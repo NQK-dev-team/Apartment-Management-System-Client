@@ -41,7 +41,7 @@
         <a-alert v-show="!isFound" class="my-3 h-[40px] max-h-[40px]" :message="$t('user_not_found')" type="error" />
 
         <a-form-item class="mb-1" :label="t('recovery_email')" name="email">
-          <a-input v-model:value.lazy="formData.email" autocomplete="email" type="email" />
+          <a-input v-model:value="formData.email" autocomplete="email" type="email" />
         </a-form-item>
 
         <a-form-item class="mb-0 mt-5">

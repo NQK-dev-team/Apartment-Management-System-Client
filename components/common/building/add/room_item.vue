@@ -2,7 +2,11 @@
   <tr :class="[lightMode ? 'hover:bg-[#f1f1f1]' : 'hover:bg-[#32323280]']">
     <td v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-checkbox :checked="checked" @click="checked ? removeFromBucket() : addToBucket()"></a-checkbox>
+        <a-checkbox
+          :id="`check_room_${1000 * (props.floor + 1) + props.index + 1}`"
+          :checked="checked"
+          @click="checked ? removeFromBucket() : addToBucket()"
+        ></a-checkbox>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
@@ -15,6 +19,7 @@
         <div class="px-3">
           <a-select
             v-if="!props.readOnly"
+            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1`"
             v-model:value="roomInfo.status"
             placeholder="{{ $t('select_status') }}"
             class="w-full text-left"
@@ -28,6 +33,7 @@
           </a-select>
           <a-select
             v-else
+            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_3`"
             :value="roomInfo.status"
             placeholder="{{ $t('select_status') }}"
             class="w-full text-left"
@@ -49,6 +55,7 @@
         <div class="px-3">
           <a-input
             v-if="!props.readOnly"
+            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_area_1`"
             :placeholder="$t('enter_room_area')"
             type="number"
             :min="0"
@@ -60,6 +67,7 @@
           />
           <a-input
             v-else
+            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_area_3`"
             :value="roomInfo.area"
             :placeholder="$t('enter_room_area')"
             type="number"
@@ -75,11 +83,13 @@
         <div class="px-3">
           <a-textarea
             v-if="!props.readOnly"
+            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_description_1`"
             v-model:value="roomInfo.description"
             :placeholder="$t('enter_room_description')"
           />
           <a-textarea
             v-else
+            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_description_3`"
             :value="roomInfo.description"
             :placeholder="$t('enter_room_description')"
             disabled
@@ -92,6 +102,7 @@
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
           <a-upload
+            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_images_${props.readOnly ? 3 : 1}`"
             v-model:file-list="roomInfo.images"
             accept=".png,.jpg,.jpeg"
             multiple

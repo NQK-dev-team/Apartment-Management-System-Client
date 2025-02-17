@@ -13,6 +13,8 @@ export default {
   action: 'Action',
   area: 'Area',
   available: 'Available',
+  add_building_success_title: 'New building information has been added successfully',
+  add_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
 
   B: 'b',
   bill: 'Bill',
@@ -111,6 +113,7 @@ export default {
   new_password_require: 'Please enter your new password!',
   next: 'Next',
   no: 'No',
+  no_floor: 'This building has no floor, you can continue or go back to add new floor',
 
   O: 'o',
 

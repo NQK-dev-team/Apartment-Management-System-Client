@@ -3,19 +3,23 @@
     <div class="flex-1 h-full flex flex-col me-10">
       <div class="flex">
         <div class="flex-1">
-          <label for="building_name" class="flex mb-1">
+          <label for="building_name_1" class="flex mb-1">
             <span>{{ $t('building_name') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input id="building_name" v-model:value.lazy="buildingInfo.name" :placeholder="$t('enter_building_name')" />
+          <a-input
+            id="building_name_1"
+            v-model:value.lazy="buildingInfo.name"
+            :placeholder="$t('enter_building_name')"
+          />
         </div>
         <div class="flex-1 ms-5">
-          <label for="building_address" class="flex mb-1">
+          <label for="building_address_1" class="flex mb-1">
             <span>{{ $t('building_address') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
-            id="building_address"
+            id="building_address_1"
             v-model:value.lazy="buildingInfo.address"
             :placeholder="$t('enter_building_address')"
           />
@@ -64,6 +68,7 @@
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
                     <a-checkbox
+                      id="check_all_services_1"
                       :disabled="!buildingInfo.services.length"
                       :checked="checkAllServices"
                       @click="checkAllServices ? removeAllServicesFromBucket() : addAllServicesToBucket()"
@@ -162,6 +167,7 @@
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
                     <a-checkbox
+                      id="check_all_floors_1"
                       :disabled="!buildingInfo.floors.length"
                       :checked="checkAllFloors"
                       @click="() => (checkAllFloors ? removeAllFloorsFromBucket() : addAllFloorsToBucket())"

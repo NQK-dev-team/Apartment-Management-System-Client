@@ -2,7 +2,11 @@
   <tr :class="[lightMode ? 'hover:bg-[#f1f1f1]' : 'hover:bg-[#32323280]']">
     <td v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-checkbox :checked="checked" @click="checked ? removeFromBucket() : addToBucket()"></a-checkbox>
+        <a-checkbox
+          :id="`check_floor_${props.index + 1}`"
+          :checked="checked"
+          @click="checked ? removeFromBucket() : addToBucket()"
+        ></a-checkbox>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">

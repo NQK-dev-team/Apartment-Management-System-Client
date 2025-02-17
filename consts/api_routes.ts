@@ -14,6 +14,7 @@ const apiRoutes = {
     detail: (buildingId: number) => `/building/${buildingId}`,
     room: (buildingId: number) => `/building/${buildingId}/room`,
     roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
+    add: '/building/add',
   },
   room: {},
   profile: {},

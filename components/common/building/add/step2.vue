@@ -1,13 +1,21 @@
 <template>
-  <div class="mt-5">
-    <div class="flex items-center">
+  <div class="mt-5 h-full w-full">
+    <div v-if="buildingInfo.floors.length" class="flex items-center">
       <h2 class="text-xl font-bold">{{ $t('floor') }}</h2>
       <div class="ms-5">
-        <a-select v-model:value="selectedFloor" style="width: 150px" placeholder="{{ $t('select_floor') }}">
+        <a-select
+          id="select_floor_2"
+          v-model:value="selectedFloor"
+          style="width: 150px"
+          placeholder="{{ $t('select_floor') }}"
+        >
           <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
           <a-select-option v-for="(_, index) in buildingInfo.floors" :key="index">{{ index + 1 }}</a-select-option>
         </a-select>
       </div>
+    </div>
+    <div v-else class="flex items-center justify-center w-full h-full">
+      <h2 class="text-center text-gray-400 text-2xl">{{ $t('no_floor') }}</h2>
     </div>
     <div v-if="selectedFloor !== -1" class="mt-10">
       <div class="flex items-center justify-between">
@@ -51,6 +59,7 @@
               <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   <a-checkbox
+                    id="check_all_room_2"
                     :checked="checkAllRooms"
                     @click="checkAllRooms ? removeAllRoomsFromDeleteBucket() : addAllRoomsToDeleteBucket()"
                   ></a-checkbox>

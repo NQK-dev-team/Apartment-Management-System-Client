@@ -12,13 +12,6 @@
         <div>
           <div
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
-            :class="[
-              highestStep - 1 >= 0 && step !== 4
-                ? step !== 1
-                  ? 'cursor-pointer custom_step'
-                  : ''
-                : 'cursor-not-allowed',
-            ]"
             @click="
               () => {
                 if (highestStep - 1 >= 0 && step !== 4 && step !== 1) {
@@ -28,49 +21,60 @@
             "
           >
             <div
-              class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
+              class="flex items-center justify-center"
               :class="[
-                step > 1 && highestStep - 1 >= 0
-                  ? lightMode
-                    ? 'step_number_background_completed'
-                    : 'step_number_background_completed_dark'
-                  : step === 1 && highestStep - 1 >= 0
-                    ? 'step_number_background_selected'
-                    : lightMode
-                      ? 'step_number_background'
-                      : 'step_number_background_dark',
+                highestStep - 1 >= 0 && step !== 4
+                  ? step !== 1
+                    ? 'cursor-pointer custom_step'
+                    : ''
+                  : 'cursor-not-allowed',
               ]"
             >
-              <CheckOutlined v-show="step > 1" class="text-[#1677ff]" />
-              <p
-                v-show="step <= 1"
+              <div
+                class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
                 :class="[
-                  step >= 1 && highestStep - 1 >= 0
-                    ? !lightMode
-                      ? 'step_number_selected_dark'
-                      : 'step_number_selected'
-                    : lightMode
-                      ? 'step_number'
-                      : 'step_number_dark',
+                  step > 1 && highestStep - 1 >= 0
+                    ? lightMode
+                      ? 'step_number_background_completed'
+                      : 'step_number_background_completed_dark'
+                    : step === 1 && highestStep - 1 >= 0
+                      ? 'step_number_background_selected'
+                      : lightMode
+                        ? 'step_number_background'
+                        : 'step_number_background_dark',
                 ]"
               >
-                1
+                <CheckOutlined v-show="step > 1" class="text-[#1677ff]" />
+                <p
+                  v-show="step <= 1"
+                  :class="[
+                    step >= 1 && highestStep - 1 >= 0
+                      ? !lightMode
+                        ? 'step_number_selected_dark'
+                        : 'step_number_selected'
+                      : lightMode
+                        ? 'step_number'
+                        : 'step_number_dark',
+                  ]"
+                >
+                  1
+                </p>
+              </div>
+              <p
+                :class="[
+                  step >= 1
+                    ? !lightMode
+                      ? 'step_title_selected_dark'
+                      : 'step_title_selected'
+                    : lightMode
+                      ? 'step_title'
+                      : 'step_title_dark',
+                ]"
+                class="mt-1"
+              >
+                {{ $t('building_info') }}
               </p>
             </div>
-            <p
-              :class="[
-                step >= 1
-                  ? !lightMode
-                    ? 'step_title_selected_dark'
-                    : 'step_title_selected'
-                  : lightMode
-                    ? 'step_title'
-                    : 'step_title_dark',
-              ]"
-              class="mt-1"
-            >
-              {{ $t('building_info') }}
-            </p>
           </div>
           <div
             :class="[step === 1 && highestStep - 1 >= 0 ? 'bg-[#1890ff] border-[#1890ff]' : 'border-transparent']"
@@ -81,13 +85,6 @@
         <div>
           <div
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
-            :class="[
-              highestStep - 2 >= 0 && step !== 4
-                ? step !== 2
-                  ? 'cursor-pointer custom_step'
-                  : ''
-                : 'cursor-not-allowed',
-            ]"
             @click="
               () => {
                 if (highestStep - 2 >= 0 && step !== 4 && step !== 2) {
@@ -97,49 +94,60 @@
             "
           >
             <div
-              class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
+              class="flex items-center justify-center"
               :class="[
-                step > 2 && highestStep - 2 >= 0
-                  ? lightMode
-                    ? 'step_number_background_completed'
-                    : 'step_number_background_completed_dark'
-                  : step === 2 && highestStep - 2 >= 0
-                    ? 'step_number_background_selected'
-                    : lightMode
-                      ? 'step_number_background'
-                      : 'step_number_background_dark',
+                highestStep - 2 >= 0 && step !== 4
+                  ? step !== 2
+                    ? 'cursor-pointer custom_step'
+                    : ''
+                  : 'cursor-not-allowed',
               ]"
             >
-              <CheckOutlined v-show="step > 2" class="text-[#1677ff]" />
-              <p
-                v-show="step <= 2"
+              <div
+                class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
                 :class="[
-                  step >= 2 && highestStep - 2 >= 0
-                    ? !lightMode
-                      ? 'step_number_selected_dark'
-                      : 'step_number_selected'
-                    : lightMode
-                      ? 'step_number'
-                      : 'step_number_dark',
+                  step > 2 && highestStep - 2 >= 0
+                    ? lightMode
+                      ? 'step_number_background_completed'
+                      : 'step_number_background_completed_dark'
+                    : step === 2 && highestStep - 2 >= 0
+                      ? 'step_number_background_selected'
+                      : lightMode
+                        ? 'step_number_background'
+                        : 'step_number_background_dark',
                 ]"
               >
-                2
+                <CheckOutlined v-show="step > 2" class="text-[#1677ff]" />
+                <p
+                  v-show="step <= 2"
+                  :class="[
+                    step >= 2 && highestStep - 2 >= 0
+                      ? !lightMode
+                        ? 'step_number_selected_dark'
+                        : 'step_number_selected'
+                      : lightMode
+                        ? 'step_number'
+                        : 'step_number_dark',
+                  ]"
+                >
+                  2
+                </p>
+              </div>
+              <p
+                :class="[
+                  step >= 2
+                    ? !lightMode
+                      ? 'step_title_selected_dark'
+                      : 'step_title_selected'
+                    : lightMode
+                      ? 'step_title'
+                      : 'step_title_dark',
+                ]"
+                class="mt-1"
+              >
+                {{ $t('room_info') }}
               </p>
             </div>
-            <p
-              :class="[
-                step >= 2
-                  ? !lightMode
-                    ? 'step_title_selected_dark'
-                    : 'step_title_selected'
-                  : lightMode
-                    ? 'step_title'
-                    : 'step_title_dark',
-              ]"
-              class="mt-1"
-            >
-              {{ $t('room_info') }}
-            </p>
           </div>
           <div
             :class="[step === 2 && highestStep - 2 >= 0 ? 'bg-[#1890ff] border-[#1890ff]' : 'border-transparent']"
@@ -150,13 +158,6 @@
         <div>
           <div
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
-            :class="[
-              highestStep - 3 >= 0 && step !== 4
-                ? step !== 3
-                  ? 'cursor-pointer custom_step'
-                  : ''
-                : 'cursor-not-allowed',
-            ]"
             @click="
               () => {
                 if (highestStep - 3 >= 0 && step !== 4 && step !== 3) {
@@ -166,49 +167,60 @@
             "
           >
             <div
-              class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
+              class="flex items-center justify-center"
               :class="[
-                step > 3 && highestStep - 3 >= 0
-                  ? lightMode
-                    ? 'step_number_background_completed'
-                    : 'step_number_background_completed_dark'
-                  : step === 3 && highestStep - 3 >= 0
-                    ? 'step_number_background_selected'
-                    : lightMode
-                      ? 'step_number_background'
-                      : 'step_number_background_dark',
+                highestStep - 3 >= 0 && step !== 4
+                  ? step !== 3
+                    ? 'cursor-pointer custom_step'
+                    : ''
+                  : 'cursor-not-allowed',
               ]"
             >
-              <CheckOutlined v-show="step > 3" class="text-[#1677ff]" />
-              <p
-                v-show="step <= 3"
+              <div
+                class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
                 :class="[
-                  step >= 3 && highestStep - 3 >= 0
-                    ? !lightMode
-                      ? 'step_number_selected_dark'
-                      : 'step_number_selected'
-                    : lightMode
-                      ? 'step_number'
-                      : 'step_number_dark',
+                  step > 3 && highestStep - 3 >= 0
+                    ? lightMode
+                      ? 'step_number_background_completed'
+                      : 'step_number_background_completed_dark'
+                    : step === 3 && highestStep - 3 >= 0
+                      ? 'step_number_background_selected'
+                      : lightMode
+                        ? 'step_number_background'
+                        : 'step_number_background_dark',
                 ]"
               >
-                3
+                <CheckOutlined v-show="step > 3" class="text-[#1677ff]" />
+                <p
+                  v-show="step <= 3"
+                  :class="[
+                    step >= 3 && highestStep - 3 >= 0
+                      ? !lightMode
+                        ? 'step_number_selected_dark'
+                        : 'step_number_selected'
+                      : lightMode
+                        ? 'step_number'
+                        : 'step_number_dark',
+                  ]"
+                >
+                  3
+                </p>
+              </div>
+              <p
+                :class="[
+                  step >= 3
+                    ? !lightMode
+                      ? 'step_title_selected_dark'
+                      : 'step_title_selected'
+                    : lightMode
+                      ? 'step_title'
+                      : 'step_title_dark',
+                ]"
+                class="mt-1"
+              >
+                {{ $t('confirm') }}
               </p>
             </div>
-            <p
-              :class="[
-                step >= 3
-                  ? !lightMode
-                    ? 'step_title_selected_dark'
-                    : 'step_title_selected'
-                  : lightMode
-                    ? 'step_title'
-                    : 'step_title_dark',
-              ]"
-              class="mt-1"
-            >
-              {{ $t('confirm') }}
-            </p>
           </div>
           <div
             :class="[step === 3 && highestStep - 3 >= 0 ? 'bg-[#1890ff] border-[#1890ff]' : 'border-transparent']"
@@ -219,7 +231,6 @@
         <div>
           <div
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
-            :class="[highestStep - 4 >= 0 && step !== 4 ? 'custom_step cursor-pointer' : 'cursor-not-allowed']"
             @click="
               () => {
                 if (highestStep - 4 >= 0 && step !== 4) {
@@ -229,49 +240,54 @@
             "
           >
             <div
-              class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
-              :class="[
-                step > 4 && highestStep - 4 >= 0
-                  ? lightMode
-                    ? 'step_number_background_completed'
-                    : 'step_number_background_completed_dark'
-                  : step === 4 && highestStep - 4 >= 0
-                    ? 'step_number_background_selected'
-                    : lightMode
-                      ? 'step_number_background'
-                      : 'step_number_background_dark',
-              ]"
+              class="flex items-center justify-center"
+              :class="[highestStep - 4 >= 0 && step !== 4 ? 'custom_step cursor-pointer' : 'cursor-not-allowed']"
             >
-              <CheckOutlined v-show="step > 4" class="text-[#1677ff]" />
-              <p
-                v-show="step <= 4"
+              <div
+                class="w-[32px] h-[32px] rounded-full flex items-center justify-center me-2"
                 :class="[
-                  step >= 4 && highestStep - 4 >= 0
-                    ? !lightMode
-                      ? 'step_number_selected_dark'
-                      : 'step_number_selected'
-                    : lightMode
-                      ? 'step_number'
-                      : 'step_number_dark',
+                  step > 4 && highestStep - 4 >= 0
+                    ? lightMode
+                      ? 'step_number_background_completed'
+                      : 'step_number_background_completed_dark'
+                    : step === 4 && highestStep - 4 >= 0
+                      ? 'step_number_background_selected'
+                      : lightMode
+                        ? 'step_number_background'
+                        : 'step_number_background_dark',
                 ]"
               >
-                4
+                <CheckOutlined v-show="step > 4" class="text-[#1677ff]" />
+                <p
+                  v-show="step <= 4"
+                  :class="[
+                    step >= 4 && highestStep - 4 >= 0
+                      ? !lightMode
+                        ? 'step_number_selected_dark'
+                        : 'step_number_selected'
+                      : lightMode
+                        ? 'step_number'
+                        : 'step_number_dark',
+                  ]"
+                >
+                  4
+                </p>
+              </div>
+              <p
+                :class="[
+                  step >= 4
+                    ? !lightMode
+                      ? 'step_title_selected_dark'
+                      : 'step_title_selected'
+                    : lightMode
+                      ? 'step_title'
+                      : 'step_title_dark',
+                ]"
+                class="mt-1"
+              >
+                {{ $t('finish') }}
               </p>
             </div>
-            <p
-              :class="[
-                step >= 4
-                  ? !lightMode
-                    ? 'step_title_selected_dark'
-                    : 'step_title_selected'
-                  : lightMode
-                    ? 'step_title'
-                    : 'step_title_dark',
-              ]"
-              class="mt-1"
-            >
-              {{ $t('finish') }}
-            </p>
           </div>
           <div
             :class="[step === 4 && highestStep - 4 >= 0 ? 'bg-[#1890ff] border-[#1890ff]' : 'border-transparent']"
@@ -293,7 +309,21 @@
       <div v-show="step === 3" class="flex-1">
         <CommonBuildingAddStep3 :building-info="buildingInfo" :step="step" />
       </div>
-      <div v-show="step === 4" class="flex-1"></div>
+      <div v-show="step === 4" class="flex-1">
+        <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+          <div class="flex items-center justify-center mt-5">
+            <Success class="text-green-600 text-4xl" />
+          </div>
+          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+          <p class="text-center my-2">{{ $t('add_building_success_title') }}</p>
+          <p class="text-center my-2">{{ $t('add_building_success_note') }}</p>
+          <div class="my-2 w-[100px]">
+            <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.list">
+              <a-button type="primary" class="w-full h-full">{{ $t('back') }}</a-button>
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
       <div class="steps-action flex flex-col items-center mb-3 mt-10">
         <a-button
           v-if="step < 4"
@@ -315,9 +345,6 @@
         <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px]" @click="step--">{{
           $t('previous')
         }}</a-button>
-        <NuxtLink v-show="step === 4" class="my-2 w-[100px]" :to="pageRoutes.common.building.list">
-          <a-button type="primary" class="w-full h-full">{{ $t('back') }}</a-button>
-        </NuxtLink>
         <a-button v-if="step < 4" v-show="step === 1" class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
       </div>
     </div>
@@ -328,6 +355,9 @@
 import { pageRoutes } from '~/consts/page_routes';
 import type { NewBuildingInfo } from '~/types/building';
 import type { UploadFile } from 'ant-design-vue/es/upload/interface';
+import Success from '~/public/svg/success.svg';
+import { getMessageCode } from '~/consts/api_response';
+import { api } from '~/services/api';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -362,11 +392,36 @@ const buildingInfo = ref<NewBuildingInfo>({
   managers: [],
   floors: [],
 });
+const addSuccess = ref<boolean>(false);
+const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
-function createNewBuilding() {
-  buildingInfo.value.images = buildingInfo.value.images.filter((image: UploadFile) => image.status === 'done');
-  console.log(buildingInfo.value);
+async function createNewBuilding() {
+  buildingInfo.value.services.forEach((service) => {
+    service.price = parseFloat(service.price.toString());
+  });
+  buildingInfo.value.floors.forEach((floor) => {
+    floor.rooms.forEach((room) => {
+      room.area = parseFloat(room.area.toString());
+    });
+  });
+
+  try {
+    $event.emit('loading');
+    await api.common.building.addNewBuilding(buildingInfo.value);
+
+    addSuccess.value = true;
+  } catch (err: any) {
+    step.value--;
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
 }
 
 function checkStep1(): boolean {
@@ -463,6 +518,7 @@ watch(step, () => {
     if (!checkStep2()) {
       step.value = 2;
     }
+    buildingInfo.value.images = buildingInfo.value.images.filter((image: UploadFile) => image.status === 'done');
   }
 });
 </script>

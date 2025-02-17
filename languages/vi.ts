@@ -13,6 +13,8 @@ export default {
   action: 'Tác vụ',
   area: 'Diện tích',
   available: 'Còn trống',
+  add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
+  add_building_success_note: 'Bạn có thể quay lại trang danh sách tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -111,6 +113,7 @@ export default {
   new_password_require: 'Vui lòng nhập mật khẩu mới!',
   next: 'Tiếp theo',
   no: 'STT',
+  no_floor:'Tòa nhà này không có dữ liệu về các tầng, bạn có thể tiếp tục hoặc quay lại để thêm tầng mới',
 
   O: 'o',
 

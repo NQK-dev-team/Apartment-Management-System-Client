@@ -3,12 +3,12 @@
     <div class="flex-1 h-full flex flex-col me-10">
       <div class="flex">
         <div class="flex-1">
-          <label for="building_name" class="flex mb-1">
+          <label for="building_name_3" class="flex mb-1">
             <span>{{ $t('building_name') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
-            id="building_name"
+            id="building_name_3"
             :placeholder="$t('enter_building_name')"
             :value="buildingInfo.name"
             disabled
@@ -16,12 +16,12 @@
           />
         </div>
         <div class="flex-1 ms-5">
-          <label for="building_address" class="flex mb-1">
+          <label for="building_address_3" class="flex mb-1">
             <span>{{ $t('building_address') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
-            id="building_address"
+            id="building_address_3"
             :value="buildingInfo.address"
             :placeholder="$t('enter_building_address')"
             disabled
@@ -119,10 +119,10 @@
         <p>{{ $t('total') }}: {{ buildingInfo.floors.length }}</p>
       </div>
       <div class="mt-10">
-        <div class="flex items-center">
+        <div v-if="buildingInfo.floors.length" class="flex items-center">
           <h2 class="text-xl font-bold">{{ $t('floor') }}</h2>
           <div class="ms-5">
-            <a-select v-model:value="selectedFloor" style="width: 150px" placeholder="{{ $t('select_floor') }}">
+            <a-select id="select_floor_3" v-model:value="selectedFloor" style="width: 150px" placeholder="{{ $t('select_floor') }}">
               <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
               <a-select-option v-for="(_, index) in buildingInfo.floors" :key="index">{{ index + 1 }}</a-select-option>
             </a-select>

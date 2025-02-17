@@ -28,8 +28,11 @@
             </a-dropdown>
           </div>
         </div>
-        <p v-if="tokenInvalid" class="mt-5 mb-3 text-center">{{ $t('invalid_link') }}</p>
-        <p v-if="userNotFound" class="mt-5 mb-3 text-center">{{ $t('user_not_found') }}</p>
+        <div class="flex items-center justify-center mt-5">
+          <Fail class="text-red-600 text-3xl" />
+        </div>
+        <p v-if="tokenInvalid" class="my-2 text-center">{{ $t('invalid_link') }}</p>
+        <p v-if="userNotFound" class="my-2 text-center">{{ $t('user_not_found') }}</p>
         <div class="flex items-center justify-center">
           <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
         </div>
@@ -60,7 +63,10 @@
             </a-dropdown>
           </div>
         </div>
-        <p class="mt-5 mb-3 text-center">{{ $t('email_verify_success') }}</p>
+        <div class="flex items-center justify-center mt-5">
+          <Success class="text-green-600 text-3xl" />
+        </div>
+        <p class="my-2 text-center">{{ $t('email_verify_success') }}</p>
         <div class="flex items-center justify-center">
           <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
         </div>
@@ -74,6 +80,8 @@ import { api } from '~/services/api';
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { svgPaths } from '~/consts/svg_paths';
+import Success from '~/public/svg/success.svg';
+import Fail from '~/public/svg/fail.svg';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

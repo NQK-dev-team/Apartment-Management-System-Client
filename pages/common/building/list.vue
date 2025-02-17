@@ -7,7 +7,7 @@
 definePageMeta({
   name: 'Building List',
   layout: 'main',
-  // middleware: ['authorization-manager']
+  middleware: ['authorization-manager']
 });
 
 useHead({

@@ -1,18 +1,7 @@
 <template>
   <div v-if="displaySpinner" class="h-full w-full flex justify-center items-center fixed" style="z-index: 20000">
-    <div
-      id="loading_backdrop"
-      :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? 'bg-[#d5d5d580]'
-          : 'bg-[#41414180]',
-      ]"
-    ></div>
-    <a-spin :indicator="indicator" :class="[
-      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-        ? 'text-[#737373]'
-        : 'text-black',
-    ]"/>
+    <div id="loading_backdrop" :class="[lightMode ? 'bg-[#d5d5d580]' : 'bg-[#41414180]']"></div>
+    <a-spin :indicator="indicator" :class="[lightMode ? 'text-[#737373]' : 'text-black']" />
   </div>
 </template>
 
@@ -30,7 +19,9 @@ const indicator = h(LoadingOutlined, {
 });
 const displaySpinner = ref(false);
 const { $event } = useNuxtApp();
-
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 // ---------------------- Lifecycles ----------------------
 onMounted(() => {
   $event.on('loading', () => {

@@ -1,14 +1,31 @@
 export default {
   A: 'a',
-  add_building: 'Thêm tòa nhà',
-  add_room: 'Thêm phòng',
-  add_employee: 'Thêm nhân viên',
-  add_customer: 'Thêm khách hàng',
-  add_bill: 'Thêm hóa đơn',
+  add_building: 'Thêm tòa nhà mới',
+  add_room: 'Thêm phòng mới',
+  add_employee: 'Thêm nhân viên mới',
+  add_customer: 'Thêm khách hàng mới',
+  add_bill: 'Thêm hóa đơn mới',
+  add_buildings: 'Thêm tòa nhà mới',
+  add_rooms: 'Thêm phòng mới',
+  add_employees: 'Thêm nhân viên mới',
+  add_customers: 'Thêm khách hàng mới',
+  add_bills: 'Thêm hóa đơn mới',
+  action: 'Tác vụ',
+  area: 'Diện tích',
+  available: 'Còn trống',
+  add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
+  add_building_success_note: 'Bạn có thể quay lại trang danh sách tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
 
   B: 'b',
   bill: 'Hóa đơn',
   building: 'Tòa nhà {name}',
+  building_info: 'Thông tin tòa nhà',
+  back: 'Quay lại',
+  building_list: 'Danh sách tòa nhà',
+  building_name: 'Tên tòa nhà',
+  building_address: 'Địa chỉ tòa nhà',
+  building_image: 'Hình ảnh tòa nhà',
+  building_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho tòa nhà!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -20,8 +37,12 @@ export default {
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
   confirm: 'Xác nhận',
   confirm_new_password_not_match: 'Mật khẩu xác nhận không khớp!',
+  confirm_deletion: 'Xác nhận xóa',
 
   D: 'd',
+  delete: 'Xóa',
+  delete_modal_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
+  description: 'Mô tả',
 
   E: 'e',
   example_file: 'Tệp tin mẫu',
@@ -34,10 +55,28 @@ export default {
   email_verify:
     'Chúng tôi đã gửi email xác thực tài khoản của bạn. Vui lòng kiểm tra email và nhấn vào liên kết để xác thực tài khoản của bạn.',
   email_verify_success: 'Email của bạn đã được xác thực thành công!',
+  enter_building_name: 'Nhập tên tòa nhà',
+  enter_building_address: 'Nhập địa chỉ tòa nhà',
+  enter_service_name: 'Nhập tên dịch vụ',
+  enter_service_price: 'Nhập phí dịch vụ',
+  enter_floor_number: 'Nhập số tầng',
+  empty_building_name: 'Tên tòa nhà không được để trống!',
+  empty_building_address: 'Địa chỉ tòa nhà không được để trống!',
+  empty_service_name: 'Tên dịch vụ {no} không được để trống!',
+  enter_room_no: 'Nhập số phòng',
+  enter_room_area: 'Nhập diện tích phòng',
+  enter_room_description: 'Nhập mô tả phòng',
+  empty_room_status: 'Trạng thái phòng {no} không được để trống!',
+  empty_room_area: 'Diện tích phòng {no} không được để trống!',
+  empty_service_price: 'Phí dịch vụ {no} không được để trống!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
   forgot_password: 'Quên mật khẩu?',
+  finish: 'Hoàn tất',
+  floor_list: 'Danh sách tầng',
+  floor_number: 'Số tầng',
+  floor: 'Tầng {name}',
 
   G: 'g',
 
@@ -51,6 +90,7 @@ export default {
   invalid_link: 'Liên kết này không hợp lệ hoặc đã hết hạn.',
   invalid_email: 'Email không hợp lệ!',
   invalid_password: 'Mật khẩu không hợp lệ!',
+  image: 'Hình ảnh',
 
   J: 'j',
 
@@ -61,6 +101,7 @@ export default {
   log_in: 'Đăng nhập',
 
   M: 'm',
+  maintenance: 'Bảo trì',
 
   N: 'n',
   notice: 'Thông báo',
@@ -70,6 +111,9 @@ export default {
   notice_sent: 'Đã gửi',
   new_password: 'Mật khẩu mới',
   new_password_require: 'Vui lòng nhập mật khẩu mới!',
+  next: 'Tiếp theo',
+  no: 'STT',
+  no_floor:'Tòa nhà này không có dữ liệu về các tầng, bạn có thể tiếp tục hoặc quay lại để thêm tầng mới',
 
   O: 'o',
 
@@ -81,6 +125,7 @@ export default {
     'Email khôi phục mật khẩu đã được gửi đến hộp thư của bạn. Vui lòng kiểm tra email và bấm vào liên kết để khôi phục mật khẩu của bạn.',
   password_format_error:
     'Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ cái viết hoa, chữ cái viết thường, số và ký tự đặc biệt.',
+  previous: 'Trước',
 
   Q: 'q',
 
@@ -90,6 +135,12 @@ export default {
   recovery_email: 'Email khôi phục',
   return_to_login: 'Quay lại trang đăng nhập',
   reset_password_complete: 'Mật khẩu đã được đặt lại thành công!',
+  room_info: 'Thông tin phòng',
+  room_list: 'Danh sách phòng',
+  recommended_resolution: 'Độ phân giải khuyến nghị: 640x640',
+  room_no: 'Số phòng',
+  rented: 'Đã thuê',
+  room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
 
   S: 's',
   staff: 'Nhân viên',
@@ -98,12 +149,21 @@ export default {
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',
   spam_warning: 'Bạn đang gửi quá nhiều yêu cầu. Vui lòng thử lại sau!',
+  service_list: 'Danh sách dịch vụ',
+  service_name: 'Tên dịch vụ',
+  service_price: 'Phí dịch vụ (VNĐ/tháng)',
+  status: 'Trạng thái',
+  select_floor: 'Chọn tầng',
+  select_status: 'Chọn trạng thái',
+  sold: 'Đã bán',
 
   T: 't',
+  total: 'Tổng',
 
   U: 'u',
   upload_file: 'Tải tệp tin',
   user_not_found: 'Người dùng không tồn tại!',
+  unavailable: 'Không khả dụng',
 
   V: 'v',
 
@@ -115,4 +175,5 @@ export default {
   Y: 'y',
 
   Z: 'z',
+  zero_room_area: 'Diện tích phòng {no} phải lớn hơn 0!',
 };

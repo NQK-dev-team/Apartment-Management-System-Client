@@ -4,7 +4,7 @@
     :theme="{
       algorithm: darkModeException.find((route) => currentRoute.path.includes(route))
         ? theme.defaultAlgorithm
-        : lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+        : lightMode
           ? theme.defaultAlgorithm
           : theme.darkAlgorithm,
     }"
@@ -33,6 +33,9 @@ const lightModeCookie = useCookie('lightMode', {
 });
 const currentRoute = useRoute();
 const darkModeException = Object.values(pageRoutes.authentication);
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 
 notification.config({
   placement: 'topRight',
@@ -112,5 +115,17 @@ body {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 </style>

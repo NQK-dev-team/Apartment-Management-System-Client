@@ -65,6 +65,8 @@ export default {
   enter_room_area: 'Enter room area',
   enter_room_description: 'Enter room description',
   empty_room_status: 'Room {no} status cannot be empty!',
+  empty_room_area: 'Room {no} area cannot be empty!',
+  empty_service_price: 'Service {no} price cannot be empty!',
 
   F: 'f',
   finish_import: 'Import',
@@ -170,7 +172,5 @@ export default {
   Y: 'y',
 
   Z: 'z',
-  zero_service_price: 'Service {no} price must be greater than 0!',
-  zero_floor_number: 'Floor number must be greater than 0!',
   zero_room_area: 'Room {no} area must be greater than 0!',
 };

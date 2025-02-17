@@ -1,6 +1,6 @@
 <template>
   <tr :class="[lightMode ? 'hover:bg-[#f1f1f1]' : 'hover:bg-[#32323280]']">
-    <td class="text-sm text-center align-middle py-[16px]">
+    <td v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-checkbox :checked="checked" @click="checked ? removeFromBucket() : addToBucket()"></a-checkbox>
       </div>
@@ -13,7 +13,27 @@
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
-          <a-select v-model:value="roomInfo.status" placeholder="{{ $t('select_status') }}" class="w-full text-left">
+          <a-select
+            v-if="!props.readOnly"
+            v-model:value="roomInfo.status"
+            placeholder="{{ $t('select_status') }}"
+            class="w-full text-left"
+          >
+            <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
+            <a-select-option :value="1" class="text-[#1B8800]">{{ $t('rented') }}</a-select-option>
+            <a-select-option :value="2" class="text-[#086C9E]">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" class="text-[#B57E17]">{{ $t('available') }}</a-select-option>
+            <a-select-option :value="4" class="text-[#787878]">{{ $t('maintenance') }}</a-select-option>
+            <a-select-option :value="5" class="text-[#FF0000]">{{ $t('unavailable') }}</a-select-option>
+          </a-select>
+          <a-select
+            v-else
+            :value="roomInfo.status"
+            placeholder="{{ $t('select_status') }}"
+            class="w-full text-left"
+            disabled
+            readonly
+          >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
             <a-select-option :value="1" class="text-[#1B8800]">{{ $t('rented') }}</a-select-option>
             <a-select-option :value="2" class="text-[#086C9E]">{{ $t('sold') }}</a-select-option>
@@ -27,14 +47,44 @@
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
-          <a-input v-model:value="roomInfo.area" :placeholder="$t('enter_room_area')" type="number" :min="0" />
+          <a-input
+            v-if="!props.readOnly"
+            :placeholder="$t('enter_room_area')"
+            type="number"
+            :min="0"
+            @change="
+              (e) => {
+                roomInfo.area = e.target.value ?? '';
+              }
+            "
+          />
+          <a-input
+            v-else
+            :value="roomInfo.area"
+            :placeholder="$t('enter_room_area')"
+            type="number"
+            :min="0"
+            disabled
+            readonly
+          />
         </div>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
-          <a-textarea v-model:value="roomInfo.description" :placeholder="$t('enter_room_description')" />
+          <a-textarea
+            v-if="!props.readOnly"
+            v-model:value="roomInfo.description"
+            :placeholder="$t('enter_room_description')"
+          />
+          <a-textarea
+            v-else
+            :value="roomInfo.description"
+            :placeholder="$t('enter_room_description')"
+            disabled
+            readonly
+          />
         </div>
       </div>
     </td>
@@ -47,9 +97,10 @@
             multiple
             list-type="picture-card"
             class="custom_room_image_upload"
+            :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button' : '']"
             @preview="handlePreview"
           >
-            <div>
+            <div v-if="!props.readOnly">
               <plus-outlined />
               <div style="margin-top: 8px">{{ $t('upload_file') }}</div>
             </div>
@@ -57,7 +108,7 @@
         </div>
       </div>
     </td>
-    <td class="text-sm font-normal text-center align-middle py-[16px]">
+    <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="">
         <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeRoom" />
       </div>
@@ -82,7 +133,7 @@ const props = defineProps({
   room: {
     type: Object as PropType<{
       status: number;
-      area: number;
+      area: number | string;
       description: string;
       images: UploadFile[];
     }>,
@@ -94,11 +145,15 @@ const props = defineProps({
   },
   deleteBucket: {
     type: Array as PropType<number[]>,
-    required: true,
+    default: () => [],
   },
   floor: {
     type: Number,
     required: true,
+  },
+  readOnly: {
+    type: Boolean,
+    default: false,
   },
 });
 const roomInfo = toRef(props, 'room');
@@ -146,5 +201,9 @@ async function handlePreview(file: UploadProps['fileList'][number]) {
 
 .custom_room_image_upload a{
   padding-top: 3px !important;
+}
+
+.custom_room_image_upload_hide_delete_button button{
+  display:none !important;
 }
 </style>

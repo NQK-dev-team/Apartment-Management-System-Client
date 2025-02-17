@@ -1,6 +1,6 @@
 <template>
   <tr :class="[lightMode ? 'hover:bg-[#f1f1f1]' : 'hover:bg-[#32323280]']">
-    <td class="text-sm text-center align-middle py-[16px]">
+    <td v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-checkbox :checked="checked" @click="checked ? removeFromBucket() : addToBucket()"></a-checkbox>
       </div>
@@ -13,7 +13,13 @@
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
-          <a-input v-model:value="service.name" :placeholder="$t('enter_service_name')" type="text" />
+          <a-input
+            v-if="!props.readOnly"
+            v-model:value="service.name"
+            :placeholder="$t('enter_service_name')"
+            type="text"
+          />
+          <a-input v-else :value="service.name" :placeholder="$t('enter_service_name')" type="text" disabled readonly />
         </div>
       </div>
     </td>
@@ -21,15 +27,29 @@
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
           <a-input
-            v-model:value="service.price"
+            v-if="!props.readOnly"
             :placeholder="$t('enter_service_price')"
             type="number"
             :min="0"
+            @change="
+              (e) => {
+                service.price = e.target.value ?? '';
+              }
+            "
+          />
+          <a-input
+            v-else
+            :value="service.price"
+            :placeholder="$t('enter_service_price')"
+            type="number"
+            :min="0"
+            disabled
+            readonly
           />
         </div>
       </div>
     </td>
-    <td class="text-sm font-normal text-center align-middle py-[16px]">
+    <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="h-[20px]">
         <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeService" />
       </div>
@@ -47,7 +67,7 @@ const props = defineProps({
   service: {
     type: Object as PropType<{
       name: string;
-      price: number;
+      price: number | string;
     }>,
     required: true,
   },
@@ -57,7 +77,11 @@ const props = defineProps({
   },
   serviceDeleteBucket: {
     type: Array as PropType<number[]>,
-    required: true,
+    default: () => [],
+  },
+  readOnly: {
+    type: Boolean,
+    default: false,
   },
 });
 const service = toRef(props, 'service');

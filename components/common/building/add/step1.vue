@@ -44,7 +44,7 @@
               @click="
                 buildingInfo.services.push({
                   name: '',
-                  price: 0,
+                  price: '',
                 })
               "
               ><PlusOutlined
@@ -185,7 +185,7 @@
             </thead>
             <tbody>
               <CommonBuildingAddFloorItem
-                v-for="(floor, index) in buildingInfo.floors"
+                v-for="(_, index) in buildingInfo.floors"
                 :key="index"
                 :index="index"
                 :floor-delete-bucket="floorDeleteBucket"
@@ -292,7 +292,7 @@ function deleteServices() {
 }
 
 function deleteFloors() {
-  $event.emit('resetSelectedFloor', [floorDeleteBucket.value]);
+  $event.emit('resetSelectedFloor');
   buildingInfo.value.floors = buildingInfo.value.floors.filter((_, index) => !floorDeleteBucket.value.includes(index));
   floorDeleteBucket.value = [];
 }
@@ -313,7 +313,7 @@ function deleteService(index: number) {
 }
 
 function deleteFloor(index: number) {
-  $event.emit('resetSelectedFloor', [index]);
+  $event.emit('resetSelectedFloor');
   buildingInfo.value.floors = buildingInfo.value.floors.filter((_, idx) => idx !== index);
   const tempBucket: number[] = [];
   floorDeleteBucket.value.forEach((idx) => {

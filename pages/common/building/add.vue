@@ -291,7 +291,7 @@
         <CommonBuildingAddStep2 :building-info="buildingInfo" />
       </div>
       <div v-show="step === 3" class="flex-1">
-        <CommonBuildingAddStep3 :building-info="buildingInfo" />
+        <CommonBuildingAddStep3 :building-info="buildingInfo" :step="step" />
       </div>
       <div v-show="step === 4" class="flex-1"></div>
       <div class="steps-action flex flex-col items-center mb-3 mt-10">
@@ -396,10 +396,10 @@ function checkStep1(): boolean {
     });
     return false;
   }
-  if (buildingInfo.value.services.find((service) => service.price === 0) !== undefined) {
+  if (buildingInfo.value.services.find((service) => service.price === '') !== undefined) {
     notification.error({
-      message: t('zero_service_price', {
-        no: buildingInfo.value.services.findIndex((service) => service.price === 0) + 1,
+      message: t('empty_service_price', {
+        no: buildingInfo.value.services.findIndex((service) => service.price === '') + 1,
       }),
     });
     return false;
@@ -422,7 +422,15 @@ function checkStep2(): boolean {
         });
         isOK = false;
       }
-      if (room.area === 0 && isOK) {
+      if (room.area === '' && isOK) {
+        notification.error({
+          message: t('empty_room_area', {
+            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
+          }),
+        });
+        isOK = false;
+      }
+      if (room.area === '0' && isOK) {
         notification.error({
           message: t('zero_room_area', {
             no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,

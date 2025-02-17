@@ -32,7 +32,7 @@
             @click="
               buildingInfo.floors[selectedFloor].rooms.push({
                 status: 0,
-                area: 0,
+                area: '',
                 description: '',
                 images: [],
               })
@@ -208,9 +208,7 @@ $event.on('removeRoomFromDeleteBucket', (e: any) => {
   deleteBucket.value.splice(deleteBucket.value.indexOf(e), 1);
 });
 
-$event.on('resetSelectedFloor', (e: any) => {
-  if (e.includes(selectedFloor.value)) {
-    selectedFloor.value = -1;
-  }
+$event.on('resetSelectedFloor', () => {
+  selectedFloor.value = -1;
 });
 </script>

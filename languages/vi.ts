@@ -65,6 +65,8 @@ export default {
   enter_room_area: 'Nhập diện tích phòng',
   enter_room_description: 'Nhập mô tả phòng',
   empty_room_status: 'Trạng thái phòng {no} không được để trống!',
+  empty_room_area: 'Diện tích phòng {no} không được để trống!',
+  empty_service_price: 'Phí dịch vụ {no} không được để trống!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -170,7 +172,5 @@ export default {
   Y: 'y',
 
   Z: 'z',
-  zero_service_price: 'Phí dịch vụ {no} phải lớn hơn 0!',
-  zero_floor_number: 'Số tầng phải lớn hơn 0!',
   zero_room_area: 'Diện tích phòng {no} phải lớn hơn 0!',
 };

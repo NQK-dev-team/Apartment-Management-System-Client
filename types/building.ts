@@ -24,7 +24,7 @@ type NewBuildingInfo = {
   images: UploadFile[];
   services: {
     name: string;
-    price: number;
+    price: number | string;
   }[];
   managers: {
     ID: number;
@@ -34,7 +34,7 @@ type NewBuildingInfo = {
   floors: {
     rooms: {
       status: number;
-      area: number;
+      area: number | string;
       description: string;
       images: UploadFile[];
     }[];

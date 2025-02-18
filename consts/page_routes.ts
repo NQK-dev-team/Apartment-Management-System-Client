@@ -9,9 +9,8 @@ const pageRoutes = {
     building: {
       list: '/building',
       add: '/building/add',
-      detail: (buildingId: number) => `/building/${buildingId}`,
-      room: (buildingId: number) => `/building/${buildingId}/room`,
-      roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
+      detail: (buildingId: number | string) => `/building/${buildingId}`,
+      roomDetail: (buildingId: number | string, roomId: number | string) => `/building/${buildingId}/room/${roomId}`,
     },
     room: {
       list: '/room',

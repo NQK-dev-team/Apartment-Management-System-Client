@@ -97,9 +97,6 @@ const common = {
       building.services.forEach((service) => {
         formData.append('services[]', JSON.stringify(service));
       });
-      building.managers.forEach((manager) => {
-        formData.append('managers[]', JSON.stringify(manager));
-      });
       building.images.forEach((image) => {
         formData.append('images[]', image);
       });

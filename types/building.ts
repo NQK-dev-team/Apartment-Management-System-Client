@@ -26,11 +26,6 @@ type NewBuildingInfo = {
     name: string;
     price: number | string;
   }[];
-  managers: {
-    ID: number;
-    startDate: Date;
-    endDate: Date | null;
-  }[];
   floors: {
     rooms: {
       status: number;

@@ -1,10 +1,14 @@
+import { build } from "nuxt";
+
 export default {
   A: 'a',
-  add_building: 'Add new building',
-  add_room: 'Add new room',
-  add_employee: 'Add new employee',
-  add_customer: 'Add new customer',
-  add_bill: 'Add new bill',
+  add_building: 'Add building',
+  add_room: 'Add room',
+  add_employee: 'Add employee',
+  add_customer: 'Add customer',
+  add_bill: 'Add bill',
+  address: 'Address',
+  actions: 'Actions',
   add_buildings: 'Add new buildings',
   add_rooms: 'Add new rooms',
   add_employees: 'Add new employees',
@@ -19,8 +23,10 @@ export default {
   B: 'b',
   bill: 'Bill',
   building: 'Building {name}',
-  building_info: 'Building information',
   back: 'Back',
+  buildingID: 'Building ID',
+  buildingName: 'Building Name',
+  building_info: 'Building information',
   building_list: 'Building list',
   building_name: 'Building name',
   building_address: 'Building address',
@@ -37,6 +43,7 @@ export default {
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
   confirm_new_password_not_match: 'Confirm new password does not match!',
+  contractedRooms: 'Number of contracted rooms',
   confirm_deletion: 'Confirm deletion',
 
   D: 'd',
@@ -55,6 +62,8 @@ export default {
   email_verify:
     'We have sent you an email to verify your account. Please check your email and click on the link to verify your account.',
   email_verify_success: 'Your email has been verified successfully!',
+  employeeID: 'Employee ID',
+  end: 'End date',
   enter_building_name: 'Enter building name',
   enter_building_address: 'Enter building address',
   enter_service_name: 'Enter service name',
@@ -73,6 +82,7 @@ export default {
   F: 'f',
   finish_import: 'Import',
   forgot_password: 'Forgot password?',
+  floors: 'Floors',
   finish: 'Finish',
   floor_list: 'Floor list',
   floor_number: 'Floor number',
@@ -101,6 +111,7 @@ export default {
   log_in: 'Log in',
 
   M: 'm',
+  managerName: 'Manager\'s Name',
   maintenance: 'Maintenance',
 
   N: 'n',
@@ -111,8 +122,10 @@ export default {
   notice_sent: 'Sent',
   new_password: 'New password',
   new_password_require: 'Please enter your new password!',
+  numberFloors: 'Number of Floors',
+  numberRooms: 'Number of Rooms',
+  no: 'No.',
   next: 'Next',
-  no: 'No',
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
 
   O: 'o',
@@ -125,6 +138,8 @@ export default {
     'An email has been sent to your email address. Please check your email and click on the link to reset your password.',
   password_format_error:
     'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.',
+  paidRooms: 'Number of paid rooms',
+  phone: 'Phone No.',
   previous: 'Previous',
 
   Q: 'q',
@@ -149,6 +164,8 @@ export default {
   system_error_title: 'System error',
   system_error_description: 'An error occurred while processing your request. Please try again later.',
   spam_warning: 'You are sending too many requests. Please try again later.',
+  ssn: 'SSN',
+  start: 'Start date',
   service_list: 'Service list',
   service_name: 'Service name',
   service_price: 'Service price (VND/month)',
@@ -163,6 +180,7 @@ export default {
   U: 'u',
   upload_file: 'Upload file',
   user_not_found: 'User not found!',
+  unpaidRooms: 'Number of unpaid rooms',
   unavailable: 'Unavailable',
 
   V: 'v',

@@ -7,11 +7,7 @@
             <span>{{ $t('building_name') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input
-            id="building_name_1"
-            v-model:value="buildingInfo.name"
-            :placeholder="$t('enter_building_name')"
-          />
+          <a-input id="building_name_1" v-model:value="buildingInfo.name" :placeholder="$t('enter_building_name')" />
         </div>
         <div class="flex-1 ms-5">
           <label for="building_address_1" class="flex mb-1">

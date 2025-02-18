@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
     // Set headers
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json, multipart/form-data, image/*',
+      // 'Content-Type': 'application/json, multipart/form-data, image/*',
       Accept: 'application/json, image/*',
     };
     if (jwt) {

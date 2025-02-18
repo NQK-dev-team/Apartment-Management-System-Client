@@ -89,14 +89,6 @@ const common = {
       });
     },
     addNewBuilding: async (building: NewBuildingInfo): Promise<APIResponse<null>> => {
-      // const $api = getApiInstance();
-      // return $api(apiRoutes.building.add, {
-      //   method: 'POST',
-      //   body: {
-      //     building,
-      //   },
-      // });
-
       const $api = getApiInstance();
       const formData = new FormData();
 
@@ -110,6 +102,22 @@ const common = {
       });
       building.images.forEach((image) => {
         formData.append('images[]', image);
+      });
+      building.floors.forEach((floor, floorIndex) => {
+        floor.rooms.forEach((room, roomIndex) => {
+          formData.append(
+            'rooms[]',
+            JSON.stringify({
+              status: room.status,
+              area: room.area,
+              description: room.description,
+              floor: floorIndex + 1,
+            })
+          );
+          room.images.forEach((image) => {
+            formData.append(`roomImages[${1000 * (floorIndex + 1) + roomIndex + 1}]`, image);
+          });
+        });
       });
 
       return $api(apiRoutes.building.add, {

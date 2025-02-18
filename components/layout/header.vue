@@ -2,7 +2,7 @@
   <div class="w-full h-full bg-[#1f1f1f] flex justify-between items-center px-3">
     <div class="flex items-center">
       <img :src="svgPaths.logo" alt="Logo" class="w-[32px] h-[32px] select-none" />
-      <h2 class="ms-2 text-white">NQK Management</h2>
+      <h2 class="ms-2 text-white select-none">NQK Management</h2>
     </div>
     <div class="flex items-center">
       <div class="me-3 h-[24px] flex items-center">

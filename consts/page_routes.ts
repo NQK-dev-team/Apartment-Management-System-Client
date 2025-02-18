@@ -1,3 +1,5 @@
+import NewPassword from "~/pages/authentication/newPassword.vue";
+
 const pageRoutes = {
   authentication: {
     login: '/login',

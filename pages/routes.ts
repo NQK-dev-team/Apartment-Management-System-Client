@@ -43,6 +43,11 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.building.list,
     file: buildingBaseRoute + 'list.vue',
   },
+  {
+    name: 'Building Detail',
+    path: pageRoutes.common.building.detail,
+    file: buildingBaseRoute + 'detail.vue',
+  },
   // Room
   // Profile
   // Staff

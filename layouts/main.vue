@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex flex-col">
+  <div class="w-full h-full flex flex-col bg-[#efefef]">
     <div class="header">
       <LayoutHeader :is-admin="userRole !== roles.customer" />
     </div>

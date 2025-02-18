@@ -1,14 +1,11 @@
 <template>
   <div>
     <div
-      v-show="!props.collapse"
-      style="display: flex"
       class="h-[40px] items-center flex-1 cursor-pointer select-none"
       :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? 'light_nav'
-          : 'dark_nav',
+        lightMode ? 'light_nav' : 'dark_nav',
         props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
+        !props.collapse ? 'flex' : 'hidden',
       ]"
       :title="$t('notice')"
       @click="toggleDropdown"
@@ -17,22 +14,17 @@
       <span v-show="!props.collapse" class="flex-1 text-sm truncate ms-3">
         {{ $t('notice') }}
       </span>
-      <span v-show="!props.collapse" style="display: flex" class="items-center w-12 h-full justify-center">
+      <span class="items-center w-12 h-full justify-center" :class="[!props.collapse ? 'flex' : 'hidden']">
         <DownArrow v-show="isDropdownOpen" />
         <UpArrow v-show="!isDropdownOpen" />
       </span>
       <span class="h-full w-[4px]"></span>
     </div>
     <div
-      v-show="isDropdownOpen || props.collapse"
       class="flex-col"
-      style="display: flex"
       :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? props.collapse
-            ? ''
-            : 'bg-[#FAFAFA]'
-          : '',
+        lightMode ? (props.collapse ? '' : 'bg-[#FAFAFA]') : '',
+        isDropdownOpen || props.collapse ? 'flex' : 'hidden',
       ]"
     >
       <div>
@@ -101,7 +93,9 @@ const props = defineProps({
   },
 });
 const isDropdownOpen = ref<boolean>(false);
-
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 // ---------------------- Functions ----------------------
 function toggleDropdown(e: Event) {
   e.preventDefault();

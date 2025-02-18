@@ -1,7 +1,7 @@
 import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
-import type { Building, Room } from '~/types/building';
+import type { Building, NewBuildingInfo, Room } from '~/types/building';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -86,6 +86,15 @@ const common = {
       const $api = getApiInstance();
       return $api(apiRoutes.building.room(buildingId), {
         method: 'GET',
+      });
+    },
+    addNewBuilding: async (building: NewBuildingInfo): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.add, {
+        method: 'POST',
+        body: {
+          building,
+        },
       });
     },
   },

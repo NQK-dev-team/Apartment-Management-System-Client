@@ -1,19 +1,17 @@
 <template>
   <div
-    class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-2xl menu_transition overflow-auto hideBrowserScrollbar"
+    class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-xl menu_transition overflow-auto hideBrowserScrollbar"
     :class="[
-      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-        ? ''
-        : 'bg-[#1f1f1f] text-white',
+      lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white',
       !collapse ? 'w-[250px]' : 'w-[75px]',
     ]"
   >
     <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
       <DoubleLeftOutlined
-        class="text-xl shadow-2xl border-[1px] border-solid rounded-full w-10 h-10 flex items-center justify-center"
+        class="text-xl border-[1px] border-solid rounded-full w-10 h-10 flex items-center justify-center"
         :class="[
-          lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-            ? 'bg-white border-[#0505050f] text-gray-500'
+          lightMode
+            ? 'bg-white border-[#0505050f] text-gray-500 shadow-2xl'
             : 'bg-[#1f1f1f] border-[#272727] text-white',
         ]"
         :rotate="collapse ? 180 : 0"
@@ -22,9 +20,7 @@
     </div>
     <div class="flex flex-col w-full flex-1">
       <template v-if="props.role !== roles.customer">
-        <ClientOnly>
-          <LayoutBuildingNav class="mb-1" :collapse="collapse" />
-        </ClientOnly>
+        <LayoutBuildingNav :collapse="collapse" />
         <LayoutNavItem
           v-if="props.role === roles.owner"
           :href="pageRoutes.common.staff.list"
@@ -107,6 +103,9 @@ const props = defineProps({
     required: true,
   },
 });
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 </script>
 
 <style lang="css" scoped>

@@ -1,25 +1,20 @@
 <template>
   <div>
     <NuxtLink
-      v-show="!props.collapse"
       class="h-[40px] items-center flex-1"
-      style="display: flex"
       :to="pageRoutes.common.building.detail(building.ID)"
       :class="[
-        lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-          ? 'light_nav'
-          : 'dark_nav',
+        lightMode ? 'light_nav' : 'dark_nav',
         currentRoute.path.includes(pageRoutes.common.building.detail(building.ID))
-          ? lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
+          ? lightMode
             ? 'light_selected'
             : 'dark_selected'
           : '',
-        currentRoute.path.includes(pageRoutes.common.building.detail(building.ID)) &&
-        (lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1) &&
-        !props.collapse
+        currentRoute.path.includes(pageRoutes.common.building.detail(building.ID)) && lightMode && !props.collapse
           ? 'light_selected_border'
           : '',
         props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
+        !props.collapse ? 'flex' : 'hidden',
       ]"
       :title="$t('building', { name: building.name })"
     >
@@ -27,9 +22,8 @@
         {{ building.name }}
       </span>
       <span
-        v-show="!props.collapse"
-        style="display: flex"
         class="items-center w-12 h-full justify-center"
+        :class="[!props.collapse ? 'flex' : 'hidden']"
         @click="toggleDropdown"
       >
         <DownArrow v-show="isDropdownOpen" />
@@ -39,15 +33,10 @@
     </NuxtLink>
   </div>
   <div
-    v-show="isDropdownOpen || props.collapse"
     class="flex-col"
-    style="display: flex"
     :class="[
-      lightModeCookie === null || lightModeCookie === undefined || parseInt(lightModeCookie) === 1
-        ? props.collapse
-          ? ''
-          : 'bg-[#FAFAFA]'
-        : '',
+      lightMode ? (props.collapse ? '' : 'bg-[#FAFAFA]') : '',
+      isDropdownOpen || props.collapse ? 'flex' : 'hidden',
     ]"
   >
     <div class="px-5">
@@ -108,7 +97,9 @@ const props = defineProps({
 const isDropdownOpen = ref<boolean>(false);
 const roomList = ref<Room[]>([]);
 const selectValue = ref<number[]>([]);
-
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 // ---------------------- Functions ----------------------
 async function getBuildingRoom() {
   try {

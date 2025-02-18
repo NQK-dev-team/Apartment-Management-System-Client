@@ -103,6 +103,8 @@ const common = {
       building.images.forEach((image) => {
         formData.append('images[]', image);
       });
+      formData.append('totalFloor', building.floors.length.toString());
+      formData.append('totalRoom', building.floors.reduce((acc, floor) => acc + floor.rooms.length, 0).toString());
       building.floors.forEach((floor, floorIndex) => {
         floor.rooms.forEach((room, roomIndex) => {
           formData.append(
@@ -112,6 +114,7 @@ const common = {
               area: room.area,
               description: room.description,
               floor: floorIndex + 1,
+              no: 1000 * (floorIndex + 1) + roomIndex + 1,
             })
           );
           room.images.forEach((image) => {

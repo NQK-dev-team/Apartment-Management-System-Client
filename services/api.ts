@@ -99,7 +99,7 @@ const common = {
       });
       formData.append('images', building.images[0]);
       building.images.forEach((image) => {
-        formData.append('images[]', new File([image], image.name, { type: image.type }));
+        formData.append('images[]', image.originFileObj);
       });
       formData.append('totalFloor', building.floors.length.toString());
       formData.append('totalRoom', building.floors.reduce((acc, floor) => acc + floor.rooms.length, 0).toString());
@@ -116,10 +116,7 @@ const common = {
             })
           );
           room.images.forEach((image) => {
-            formData.append(
-              `roomImages[${1000 * (floorIndex + 1) + roomIndex + 1}]`,
-              new File([image], image.name, { type: image.type })
-            );
+            formData.append(`roomImages[${1000 * (floorIndex + 1) + roomIndex + 1}]`, image.originFileObj);
           });
         });
       });

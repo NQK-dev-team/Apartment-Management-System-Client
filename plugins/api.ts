@@ -13,7 +13,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     onRequest({ request, options, error }) {
       // options.headers.set('Content-Type', 'application/json, multipart/form-data, image/*');
-      options.headers.set('Accept', 'application/json, image/*');
+      // options.headers.set('Accept', 'application/json, image/*');
+      options.headers.set('Accept', '*/*');
     },
     onResponse({ response }) {
       if (isDevMode && response.status < 400) {

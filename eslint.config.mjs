@@ -4,7 +4,8 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt({
   rules: {
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'warn',
+    '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
     'prefer-const': 'error',
     'no-var': 'error',

@@ -122,7 +122,12 @@
         <div v-if="buildingInfo.floors.length" class="flex items-center">
           <h2 class="text-xl font-bold">{{ $t('floor') }}</h2>
           <div class="ms-5">
-            <a-select id="select_floor_3" v-model:value="selectedFloor" style="width: 150px" placeholder="{{ $t('select_floor') }}">
+            <a-select
+              id="select_floor_3"
+              v-model:value="selectedFloor"
+              style="width: 150px"
+              placeholder="{{ $t('select_floor') }}"
+            >
               <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
               <a-select-option v-for="(_, index) in buildingInfo.floors" :key="index">{{ index + 1 }}</a-select-option>
             </a-select>
@@ -223,6 +228,7 @@
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
 import type { NewBuildingInfo } from '~/types/building';
+import { getBase64 } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');

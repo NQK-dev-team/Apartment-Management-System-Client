@@ -1,5 +1,3 @@
-import { build } from "nuxt";
-
 export default {
   A: 'a',
   add_building: 'Add building',

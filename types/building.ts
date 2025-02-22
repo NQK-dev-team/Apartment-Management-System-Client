@@ -6,6 +6,7 @@ type Building = BasicModel & {
   address: string;
   totalFloor: number;
   totalRoom: number;
+  image: string[];
 };
 
 type Room = BasicModel & {

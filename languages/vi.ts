@@ -154,6 +154,7 @@ export default {
   room_no: 'Số phòng',
   rented: 'Đã thuê',
   room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
+  rooms:'Phòng',
 
   S: 's',
   staff: 'Nhân viên',

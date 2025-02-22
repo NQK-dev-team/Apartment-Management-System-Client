@@ -1,39 +1,33 @@
 <template>
-  <div>
-    <div class="card">
-      <a href="./building/detail">
-        <h4>{{ $t('building') }}</h4>
-        <img src="/image/building.jpg">
-        <div class="container">
-          <p>144 Tran Duy Phuong, Binh Hung Hoa, Binh Tan</p>
-          <p class="sub-info">ZZ {{ $t('floors') }} - CC {{ $t('rooms') }}</p>
-        </div>
-      </a>
-      <div class="actions">
-        <div class="update"> <button><svg class="h-8 w-8 text-neutral-500" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-          </button>
-        </div>
-        <div class="delete">
-          <button><svg class="h-8 w-8 text-neutral-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-              stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" />
-              <line x1="4" y1="7" x2="20" y2="7" />
-              <line x1="10" y1="11" x2="10" y2="17" />
-              <line x1="14" y1="11" x2="14" y2="17" />
-              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-            </svg></button>
-        </div>
+  <div class="w-full h-full flex flex-col px-5">
+    <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+      <a-breadcrumb>
+        <a-breadcrumb-item>{{ $t('building_list') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+      <h1 class="mt-3 text-2xl">{{ $t('building_list') }}</h1>
+      <div class="flex justify-center">
+        <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
+      </div>
+    </div>
+    <div class="mt-5 overflow-auto">
+      <div class="grid-cols-1 gap-5 grid md:grid-cols-2 lg:grid-cols-4">
+        <CommonBuildingListCard v-for="(building, index) in buildingList"
+          v-show="current * 8 >= index + 1 && (current - 1) * 8 < index + 1" :key="index" :name="building.name"
+          :address="building.address" :totalRoom="building.totalRoom" :totalFloor="building.totalFloor"
+          :image="building.image" />
+      </div>
+      <div class="flex justify-center mt-5">
+        <a-pagination v-model:current="current" :total="buildingList.length" :defaultPageSize="8" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { getMessageCode } from '~/consts/api_response';
+import { api } from '~/services/api';
+import { ref } from 'vue';
+
 // ---------------------- Metadata ----------------------
 definePageMeta({
   name: 'Building List',
@@ -50,44 +44,55 @@ useHead({
     },
   ],
 });
+
+// ---------------------- Variables ----------------------
+const buildingList = ref<{
+  name: string;
+  address: string;
+  totalRoom: number;
+  totalFloor: number;
+  image: string;
+}[]>([]);
+const { $event } = useNuxtApp();
+const { t } = useI18n();
+const lightModeCookie = useCookie('lightMode');
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
+const current = ref(1);
+const searchValue = ref("");
+
+// ---------------------- Functions ----------------------
+async function getBuildingList() {
+  try {
+    $event.emit('loading');
+    const response = await api.common.building.getList();
+    const data = response.data;
+    buildingList.value = data.map(element => {
+      return {
+        name: element.name,
+        address: element.address,
+        totalRoom: element.totalRoom,
+        totalFloor: element.totalFloor,
+        image: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
+        // image: element.image[0]
+      }
+    });
+
+  } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+  getBuildingList()
+});
 </script>
-
-<style>
-.card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
-  margin: 20px auto;
-  padding: 16px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  display:block;
-}
-
-.container {
-  text-align: left;
-}
-
-.sub-info {
-  color: grey;
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.actions :hover {
-  color: black;
-}
-
-.delete {
-  margin-left: 20%;
-}
-
-.update {
-  margin-right: 20%;
-}
-</style>

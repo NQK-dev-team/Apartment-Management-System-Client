@@ -154,6 +154,7 @@ export default {
   room_no: 'Room number',
   rented: 'Rented',
   room_image_require: 'Please at least one image for room {no}!',
+  rooms: 'Rooms',
 
   S: 's',
   staff: 'Staff',

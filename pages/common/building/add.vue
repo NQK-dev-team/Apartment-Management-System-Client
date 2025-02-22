@@ -389,7 +389,6 @@ const buildingInfo = ref<NewBuildingInfo>({
   address: '',
   images: [],
   services: [],
-  managers: [],
   floors: [],
 });
 const addSuccess = ref<boolean>(false);

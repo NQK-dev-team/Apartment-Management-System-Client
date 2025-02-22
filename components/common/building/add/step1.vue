@@ -214,7 +214,7 @@
           accept=".png,.jpg,.jpeg"
           multiple
           list-type="text"
-          @change="(e) => handleFileUpload(e)"
+          @change="(e: any) => handleFileUpload(e)"
         >
           <a-button class="flex items-center">
             <upload-outlined></upload-outlined>

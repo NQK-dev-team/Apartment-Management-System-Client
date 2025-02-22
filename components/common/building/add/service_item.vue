@@ -46,7 +46,7 @@
             type="number"
             :min="0"
             @change="
-              (e) => {
+              (e: any) => {
                 service.price = e.target.value ?? '';
               }
             "

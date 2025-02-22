@@ -80,7 +80,7 @@ useHead({
 });
 </script>
 
-<style>
+<style scoped>
 .card {
     border: 1px solid #ddd;
     border-radius: 8px;

@@ -11,7 +11,8 @@
             </div>
         </div>
         <div>
-            <CommonBillListTable/>
+            <CommonBillListTable :contractID="''" :owner="''" :customerID="''" :billID="''" :paymentPeriod="''"
+                :amount="0" :status="''" :paidBy="''" :paymentDate="''" />
         </div>
     </div>
 </template>
@@ -39,13 +40,18 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
-// const buildingList = ref<{
-//     name: string;
-//     address: string;
-//     totalRoom: number;
-//     totalFloor: number;
-//     image: string;
-// }[]>([]);
+const billList = ref<{
+    No: number;
+    'Contract ID': string;
+    Owner: string;
+    'Customer ID': string;
+    'Bill ID': string;
+    'Payment Period': string;
+    Amount: number;
+    Status: string;
+    'Paid by': string;
+    'Payment Date': string;
+}[]>([]);
 const { $event } = useNuxtApp();
 const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');

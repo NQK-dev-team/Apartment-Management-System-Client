@@ -1,19 +1,9 @@
 <template>
   <a-table :columns="columns" :data-source="data">
     <template #headerCell="{ column }">
-      <!-- <template v-if="column.key === 'name'">
-        <span>
-          Name
-        </span>
-      </template> -->
     </template>
 
     <template #bodyCell="{ column, record }">
-      <!-- <template v-if="column.key === 'name'">
-        <a>
-          {{ record.name }}
-        </a>
-      </template> -->
       <template v-if="column.key === 'Status'">
         <span>
           <a-tag :color="record.Status.includes('Unpaid') ? 'volcano' : 'green'">
@@ -25,7 +15,7 @@
         <span>
           <a style="color: deepskyblue;">Detail</a>
           <a-divider type="vertical" />
-          <a style="color: red;">Delete</a>
+          <a style="color: red;">{{ $t('Delete') }}</a>
           <a-divider type="vertical" />
         </span>
       </template>
@@ -34,11 +24,12 @@
 </template>
 <script lang="ts" setup>
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
+import { ref } from 'vue';
 const columns = [
   {
-    name: 'No.',
-    dataIndex: 'No.',
-    key: 'No.',
+    name: 'No',
+    dataIndex: 'No',
+    key: 'No',
   },
   {
     title: 'Contract ID',
@@ -94,7 +85,7 @@ const columns = [
 const data = [
   {
     key: '1',
-    No: '1',
+    'No': '1',
     'Contract ID': 'C001',
     Owner: 'John Brown',
     'Customer ID': 'C001',
@@ -107,7 +98,7 @@ const data = [
   },
   {
     key: '2',
-    No: '2',
+    'No': '2',
     'Contract ID': 'C002',
     Owner: 'Jim Green',
     'Customer ID': 'C002',
@@ -120,7 +111,7 @@ const data = [
   },
   {
     key: '3',
-    No: '3',
+    'No': '3',
     'Contract ID': 'C003',
     Owner: 'Joe Black',
     'Customer ID': 'C003',
@@ -132,4 +123,47 @@ const data = [
     'Payment Date': '',
   },
 ];
+// ---------------------- Variables ----------------------
+const lightModeCookie = useCookie('lightMode');
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
+const props = defineProps({
+  contractID: {
+    type: String,
+    required: true,
+  },
+  owner: {
+    type: String,
+    required: true,
+  },
+  customerID: {
+    type: String,
+    required: true,
+  },
+  billID: {
+    type: String,
+    required: true,
+  },
+  paymentPeriod: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+  paidBy: {
+    type: String,
+    required: true,
+  },
+  paymentDate: {
+    type: String,
+    required: true,
+  },
+});
 </script>

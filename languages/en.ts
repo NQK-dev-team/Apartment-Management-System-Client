@@ -20,6 +20,7 @@ export default {
 
   B: 'b',
   bill: 'Bill',
+  bill_list: 'Bill list',
   building: 'Building {name}',
   back: 'Back',
   buildingID: 'Building ID',

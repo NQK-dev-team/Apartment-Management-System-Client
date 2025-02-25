@@ -1,20 +1,20 @@
 <template>
   <a-table :columns="columns" :data-source="data">
     <template #headerCell="{ column }">
-      <template v-if="column.key === 'name'">
+      <!-- <template v-if="column.key === 'name'">
         <span>
           Name
         </span>
-      </template>
+      </template> -->
     </template>
 
     <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'name'">
+      <!-- <template v-if="column.key === 'name'">
         <a>
           {{ record.name }}
         </a>
-      </template>
-      <template v-else-if="column.key === 'Status'">
+      </template> -->
+      <template v-if="column.key === 'Status'">
         <span>
           <a-tag :color="record.Status.includes('Unpaid') ? 'volcano' : 'green'">
             {{ record.Status[0].toUpperCase() }}

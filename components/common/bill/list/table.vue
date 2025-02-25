@@ -3,7 +3,6 @@
     <template #headerCell="{ column }">
       <template v-if="column.key === 'name'">
         <span>
-          <smile-outlined />
           Name
         </span>
       </template>
@@ -15,24 +14,19 @@
           {{ record.name }}
         </a>
       </template>
-      <template v-else-if="column.key === 'tags'">
+      <template v-else-if="column.key === 'Status'">
         <span>
-          <a-tag v-for="tag in record.tags" :key="tag"
-            :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'">
-            {{ tag.toUpperCase() }}
+          <a-tag :color="record.Status.includes('Unpaid') ? 'volcano' : 'green'">
+            {{ record.Status[0].toUpperCase() }}
           </a-tag>
         </span>
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Invite 一 {{ record.name }}</a>
+          <a style="color: deepskyblue;">Detail</a>
           <a-divider type="vertical" />
-          <a>Delete</a>
+          <a style="color: red;">Delete</a>
           <a-divider type="vertical" />
-          <a class="ant-dropdown-link">
-            More actions
-            <down-outlined />
-          </a>
         </span>
       </template>
     </template>
@@ -42,24 +36,54 @@
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 const columns = [
   {
-    name: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    name: 'No.',
+    dataIndex: 'No.',
+    key: 'No.',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Contract ID',
+    dataIndex: 'Contract ID',
+    key: 'Contract ID',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Owner',
+    dataIndex: 'Owner',
+    key: 'Owner',
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
+    title: 'Customer ID',
+    dataIndex: 'Customer ID',
+    key: 'Customer ID',
+  },
+  {
+    title: 'Bill ID',
+    dataIndex: 'Bill ID',
+    key: 'Bill ID',
+  },
+  {
+    title: 'Payment Period',
+    dataIndex: 'Payment Period',
+    key: 'Payment Period',
+  },
+  {
+    title: 'Amount',
+    dataIndex: 'Amount',
+    key: 'Amount',
+  },
+  {
+    title: 'Status',
+    key: 'Status',
+    dataIndex: 'Status',
+  },
+  {
+    title: 'Paid by',
+    key: 'Paid by',
+    dataIndex: 'Paid by',
+  },
+  {
+    title: 'Payment Date',
+    dataIndex: 'Payment Date',
+    key: 'Payment Date',
   },
   {
     title: 'Action',
@@ -70,24 +94,42 @@ const columns = [
 const data = [
   {
     key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    No: '1',
+    'Contract ID': 'C001',
+    Owner: 'John Brown',
+    'Customer ID': 'C001',
+    'Bill ID': 'B001',
+    'Payment Period': '2021-09',
+    Amount: '1000',
+    Status: ['Unpaid'],
+    'Paid by': '',
+    'Payment Date': '',
   },
   {
     key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    No: '2',
+    'Contract ID': 'C002',
+    Owner: 'Jim Green',
+    'Customer ID': 'C002',
+    'Bill ID': 'B002',
+    'Payment Period': '2021-09',
+    Amount: '2000',
+    Status: ['Paid'],
+    'Paid by': 'John Brown',
+    'Payment Date': '2021-09-01',
   },
   {
     key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    No: '3',
+    'Contract ID': 'C003',
+    Owner: 'Joe Black',
+    'Customer ID': 'C003',
+    'Bill ID': 'B003',
+    'Payment Period': '2021-09',
+    Amount: '3000',
+    Status: ['Unpaid'],
+    'Paid by': '',
+    'Payment Date': '',
   },
 ];
 </script>

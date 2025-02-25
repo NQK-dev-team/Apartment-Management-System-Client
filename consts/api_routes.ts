@@ -20,7 +20,11 @@ const apiRoutes = {
   profile: {},
   staff: {},
   customer: {},
-  bill: {},
+  bill: {
+    list: '/bill',
+    detail: (billId: number) => `/bill/${billId}`,
+    add: '/bill/add',
+  },
   support_ticket: {},
   notice: {},
   contract: {},

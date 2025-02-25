@@ -10,6 +10,9 @@
                     enter-button />
             </div>
         </div>
+        <div>
+            <CommonBillListTable/>
+        </div>
     </div>
 </template>
 

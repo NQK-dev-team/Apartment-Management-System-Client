@@ -128,4 +128,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.ant-input-search-button{
+  display:flex !important;
+  justify-content:center !important;
+  align-items: center !important;
+}
 </style>

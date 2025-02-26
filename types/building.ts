@@ -6,7 +6,17 @@ type Building = BasicModel & {
   address: string;
   totalFloor: number;
   totalRoom: number;
-  image: string[];
+  images: {
+    ID: number;
+    buildingID: number;
+    createdAt: string;
+    createdBy: number;
+    deletedAt: string | null;
+    deletedBy: number | null;
+    no: number | null;
+    path: string;
+    title: string | null;
+  }[];
 };
 
 type Room = BasicModel & {

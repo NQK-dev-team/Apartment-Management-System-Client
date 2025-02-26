@@ -10,6 +10,7 @@ const pageRoutes = {
       list: '/building',
       add: '/building/add',
       detail: (buildingId: number | string) => `/building/${buildingId}`,
+      edit: (buildingId: number | string) => `/building/${buildingId}/edit`,
       roomDetail: (buildingId: number | string, roomId: number | string) => `/building/${buildingId}/room/${roomId}`,
     },
     room: {

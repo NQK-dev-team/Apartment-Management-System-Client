@@ -26,6 +26,8 @@ const pageRoutes = {
     },
     bill: {
       list: '/bill',
+      detail: (billId: number | string) => `/bill/${billId}`,
+      add: '/bill/add',
     },
     support_ticket: {
       list: '/support-ticket',

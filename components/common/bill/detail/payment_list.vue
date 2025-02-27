@@ -9,6 +9,20 @@
   </a-table>
 </template>
 <script lang="ts" setup>
+const props = defineProps({
+  serviceName: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  note: {
+    type: String,
+    required: false,
+  },
+});
 const columns = [
   {
     title: 'Service Name',

@@ -11,7 +11,7 @@
             <h1 class="mt-3 text-2xl">{{ $t('bill_detail') }}</h1>
         </div>
         <div>
-            <CommonBillDetailPaymentList></CommonBillDetailPaymentList>
+            <CommonBillDetailPaymentList :serviceName="''" :amount="0" :note="''" />
         </div>
     </div>
 </template>
@@ -40,6 +40,9 @@ useHead({
 
 // ---------------------- Variables ----------------------
 const billDetail = ref<{
+    'Service Name': string;
+    Amount: number;
+    Note: string;
 }[]>([]);
 const { $event } = useNuxtApp();
 const { t } = useI18n();

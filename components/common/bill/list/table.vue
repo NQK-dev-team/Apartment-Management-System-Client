@@ -166,4 +166,6 @@ const props = defineProps({
     required: true,
   },
 });
+const { t } = useI18n();
+const { $event } = useNuxtApp();
 </script>

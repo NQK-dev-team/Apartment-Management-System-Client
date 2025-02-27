@@ -9,10 +9,6 @@
                 <a-breadcrumb-item>{{ $t('bill_detail') }}</a-breadcrumb-item>
             </a-breadcrumb>
             <h1 class="mt-3 text-2xl">{{ $t('bill_detail') }}</h1>
-            <!-- <div class="flex justify-center">
-                <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')"
-                    enter-button />
-            </div> -->
         </div>
         <div>
             <CommonBillDetailPaymentList></CommonBillDetailPaymentList>

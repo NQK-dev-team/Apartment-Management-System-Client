@@ -1,50 +1,48 @@
 <template>
   <a-table :columns="columns" :data-source="data" bordered>
     <template #bodyCell="{ column, text }">
-      <template v-if="column.dataIndex === 'name'">
+      <template v-if="column.dataIndex === 'Service Name'">
         <a>{{ text }}</a>
       </template>
     </template>
-    <template #title>Header</template>
-    <template #footer>Footer</template>
+    <template #footer>Total:</template>
   </a-table>
 </template>
 <script lang="ts" setup>
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
+    title: 'Service Name',
+    dataIndex: 'Service Name',
+    key: 'Service Name',
   },
   {
-    title: 'Cash Assets',
-    className: 'column-money',
-    dataIndex: 'money',
+    title: 'Amount',
+    dataIndex: 'Amount',
+    key: 'Amount',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Note',
+    dataIndex: 'Note',
+    key: 'Note',
   },
 ];
 
 const data = [
   {
-    key: '1',
-    name: 'John Brown',
-    money: '￥300,000.00',
-    address: 'New York No. 1 Lake Park',
+    'Service Name': 'Service 1',
+    Amount: 100,
+    Note: 'Note 1',
   },
   {
-    key: '2',
-    name: 'Jim Green',
-    money: '￥1,256,000.00',
-    address: 'London No. 1 Lake Park',
+    'Service Name': 'Service 2',
+    Amount: 200,
+    Note: 'Note 2',
   },
   {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
+    'Service Name': 'Service 3',
+    Amount: 300,
+    Note: 'Note 3',
+  }
 ];
 </script>
 <style scoped>

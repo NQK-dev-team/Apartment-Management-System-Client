@@ -25,10 +25,10 @@
           </a-button>
         </div>
       </div>
-      <!-- Table --> 
+      <!-- Table -->
       <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-        <template #bodyCell="{ column, text}">
-          <template v-if="column.dataIndex && column.dataIndex !== 'operation' ">
+        <template #bodyCell="{ column, text }">
+          <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
             <div>
               {{ text }}
             </div>
@@ -36,7 +36,7 @@
           <template v-else-if="column.dataIndex === 'operation'">
             <div>
               <span>
-                <a>Edit</a>
+                <a>Edit</a> | <a>Delete</a>
               </span>
             </div>
           </template>
@@ -90,41 +90,93 @@ const lightMode = computed(
 // const current = ref(1);
 const searchValue = ref("");
 
-
 const columns = [
   {
-    title: 'name',
+    title: 'No',
+    dataIndex: 'no',
+    width: '1%',
+  },
+  {
+    title: 'Name',
     dataIndex: 'name',
+    width: '12%',
+  },
+  {
+    title: 'Employee ID',
+    dataIndex: 'employeeId',
+    width: '12%',
+  },
+  {
+    title: 'Gender',
+    dataIndex: 'gender',
+    width: '5%',
+  },
+  {
+    title: 'Dob',
+    dataIndex: 'dob',
+    width: '8%',
+  },
+  {
+    title: 'National ID',
+    dataIndex: 'nationalId',
+    width: '10%',
+  },
+  {
+    title: 'Phone Number',
+    dataIndex: 'phoneNumber',
+    width: '10%',
+  },
+  {
+    title: 'Contact Mail',
+    dataIndex: 'contactMail',
     width: '15%',
   },
   {
-    title: 'age',
-    dataIndex: 'age',
-    width: '15%',
+    title: 'Building Managing',
+    dataIndex: 'buildingManaging',
+    width: '10%',
   },
   {
-    title: 'address',
-    dataIndex: 'address',
-    width: '20%',
-  },
-  {
-    title: 'operation',
+    title: 'Operation',
     dataIndex: 'operation',
   },
 ];
+
 interface DataItem {
   key: string;
+  no: number;
   name: string;
-  age: number;
-  address: string;
+  employeeId: string;
+  gender: string;
+  dob: string;
+  nationalId: string;
+  phoneNumber: string;
+  contactMail: string;
+  buildingManaging: string;
 }
+
 const data: DataItem[] = [];
+const genders = ['Male', 'Female'];
+const buildings = ['A1', 'B1', 'C1'];
+
+function getRandomBuildings() {
+  const shuffled = buildings.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, Math.floor(Math.random() * buildings.length) + 1);
+  return selected.join(', ');
+}
+
 for (let i = 0; i < 100; i++) {
   data.push({
     key: i.toString(),
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
+    no: i + 1,
+    name: `Edward Long Man ${i}`,
+    employeeId: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,
+    gender: genders[Math.floor(Math.random() * genders.length)],
+    dob: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/19${Math.floor(Math.random() * 30) + 70}`,
+    nationalId: Math.random().toString().substr(2, 10),
+    phoneNumber: Math.random().toString().substr(2, 10),
+    contactMail: 'placeholder_email@gmail.com',
+    buildingManaging: getRandomBuildings(),
   });
 }
 
@@ -142,6 +194,7 @@ const rowSelection = ref({
     console.log(selected, selectedRows, changeRows);
   },
 });
+
 // ---------------------- Functions ----------------------
 // async function getBuildingList() {
 //   try {

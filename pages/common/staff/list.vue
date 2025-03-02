@@ -25,8 +25,8 @@
           </a-button>
         </div>
       </div>
-      <!-- Table -->
-       <a-table :columns="columns" :data-source="dataSource" bordered>
+      <!-- Table --> 
+      <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
         <template #bodyCell="{ column, text}">
           <template v-if="column.dataIndex && column.dataIndex !== 'operation' ">
             <div>
@@ -95,7 +95,7 @@ const columns = [
   {
     title: 'name',
     dataIndex: 'name',
-    width: '25%',
+    width: '15%',
   },
   {
     title: 'age',
@@ -105,7 +105,7 @@ const columns = [
   {
     title: 'address',
     dataIndex: 'address',
-    width: '40%',
+    width: '20%',
   },
   {
     title: 'operation',
@@ -130,6 +130,18 @@ for (let i = 0; i < 100; i++) {
 
 const dataSource = ref(data);
 
+const rowSelection = ref({
+  checkStrictly: false,
+  onChange: (selectedRowKeys: (string | number)[], selectedRows: DataItem[]) => {
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  },
+  onSelect: (record: DataItem, selected: boolean, selectedRows: DataItem[]) => {
+    console.log(record, selected, selectedRows);
+  },
+  onSelectAll: (selected: boolean, selectedRows: DataItem[], changeRows: DataItem[]) => {
+    console.log(selected, selectedRows, changeRows);
+  },
+});
 // ---------------------- Functions ----------------------
 // async function getBuildingList() {
 //   try {

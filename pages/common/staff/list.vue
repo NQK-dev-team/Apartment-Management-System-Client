@@ -9,9 +9,10 @@
     </div>
     <!-- Page main content -->
     <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+      <!-- Heading of the  page -->
       <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1>
+      <!-- Search bar and buttons -->
       <div class="flex justify-between">
-
         <!-- p is a place holder, to space out the content -->
         <p class="mt-3 text-white">{{ $t('employee_list') }}</p> 
         <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
@@ -23,8 +24,24 @@
             <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]"/>
           </a-button>
         </div>
-        
       </div>
+      <!-- Table -->
+       <a-table :columns="columns" :data-source="dataSource" bordered>
+        <template #bodyCell="{ column, text}">
+          <template v-if="column.dataIndex && column.dataIndex !== 'operation' ">
+            <div>
+              {{ text }}
+            </div>
+          </template>
+          <template v-else-if="column.dataIndex === 'operation'">
+            <div>
+              <span>
+                <a>Edit</a>
+              </span>
+            </div>
+          </template>
+        </template>
+      </a-table>
     </div>
   </div>
 </template>
@@ -32,7 +49,8 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
 import { PlusOutlined } from '#build/components';
 
@@ -72,6 +90,46 @@ const lightMode = computed(
 // const current = ref(1);
 const searchValue = ref("");
 
+
+const columns = [
+  {
+    title: 'name',
+    dataIndex: 'name',
+    width: '25%',
+  },
+  {
+    title: 'age',
+    dataIndex: 'age',
+    width: '15%',
+  },
+  {
+    title: 'address',
+    dataIndex: 'address',
+    width: '40%',
+  },
+  {
+    title: 'operation',
+    dataIndex: 'operation',
+  },
+];
+interface DataItem {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+}
+const data: DataItem[] = [];
+for (let i = 0; i < 100; i++) {
+  data.push({
+    key: i.toString(),
+    name: `Edrward ${i}`,
+    age: 32,
+    address: `London Park no. ${i}`,
+  });
+}
+
+const dataSource = ref(data);
+
 // ---------------------- Functions ----------------------
 // async function getBuildingList() {
 //   try {
@@ -110,5 +168,8 @@ const searchValue = ref("");
 <style scoped>
   .btn-icon {
     @apply flex items-center justify-center p-0 w-[36px] rounded-none;
+  }
+  .editable-row-operations a {
+    margin-right: 8px;
   }
 </style>

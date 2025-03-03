@@ -1,6 +1,7 @@
 import type { BasicModel } from './basic_model';
 import type { User } from './user';
 import type { Contract } from './contract';
+import type { Building } from './building';
 
 type Bill = BasicModel & {
   period: string;
@@ -14,4 +15,11 @@ type Bill = BasicModel & {
   contract: Contract;
 };
 
-export type { Bill };
+type Service = BasicModel & {
+  buildingID: number;
+  building: Building;
+  name: string;
+  price: number;
+};
+
+export type { Bill, Service };

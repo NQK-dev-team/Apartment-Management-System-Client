@@ -55,4 +55,39 @@ const lightMode = computed(
 );
 const current = ref(1);
 const searchValue = ref("");
+// ---------------------- Functions ----------------------
+async function getBill() {
+    try {
+        $event.emit('loading');
+        const response = await api.common.bill.getList();
+        const data = response.data;
+        bill.value = data.map(element => {
+            return {
+                period: element.period,
+                amount: element.amount,
+                status: element.status,
+                paidBy: element.payer.firstName + ' ' + element.payer.lastName,
+                paymentDate: element.paymentTime,
+                note: element.note,
+                payerID: element.payerID,
+                contractID: element.contractID,
+            }
+        });
+
+    } catch (err: any) {
+        if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+            notification.error({
+                message: t('system_error_title'),
+                description: t('system_error_description'),
+            });
+        }
+    } finally {
+        $event.emit('loading');
+    }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+    getBill();
+});
 </script>

@@ -11,8 +11,10 @@
             </div>
         </div>
         <div>
-            <CommonBillListTable :contractID="''" :owner="''" :customerID="''" :billID="''" :paymentPeriod="''"
-                :amount="0" :status="''" :paidBy="''" :paymentDate="''" />
+            <CommonBillListTable v-for="(bill, index) in billList"
+                v-show="current * 8 >= index + 1 && (current - 1) * 8 < index + 1" :key="index" :period="bill.period"
+                :status="bill.status" :note="bill.note" :paymentTime="bill.paymentDate" :amount="bill.amount"
+                :payerID="bill.payerID" :payerName="bill.paidBy" :contractID="bill.contractID" />
         </div>
     </div>
 </template>
@@ -20,7 +22,7 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { ref } from 'vue';
+import { ref } from 'vue'; 
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -41,16 +43,14 @@ useHead({
 
 // ---------------------- Variables ----------------------
 const billList = ref<{
-    No: number;
-    'Contract ID': string;
-    Owner: string;
-    'Customer ID': string;
-    'Bill ID': string;
-    'Payment Period': string;
-    Amount: number;
-    Status: string;
-    'Paid by': string;
-    'Payment Date': string;
+    period: string;
+    amount: number;
+    status: number;
+    paidBy: string;
+    paymentDate: string;
+    note: string;
+    payerID: number;
+    contractID: number;
 }[]>([]);
 const { $event } = useNuxtApp();
 const { t } = useI18n();
@@ -60,4 +60,40 @@ const lightMode = computed(
 );
 const current = ref(1);
 const searchValue = ref("");
+
+// ---------------------- Functions ----------------------
+async function getBillList() {
+    try {
+        $event.emit('loading');
+        const response = await api.common.bill.getList();
+        const data = response.data;
+        billList.value = data.map(element => {
+            return {
+                period: element.period,
+                amount: element.amount,
+                status: element.status,
+                paidBy: element.payer.firstName + ' ' + element.payer.lastName,
+                paymentDate: element.paymentTime,
+                note: element.note,
+                payerID: element.payerID,
+                contractID: element.contractID,
+            }
+        });
+
+    } catch (err: any) {
+        if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+            notification.error({
+                message: t('system_error_title'),
+                description: t('system_error_description'),
+            });
+        }
+    } finally {
+        $event.emit('loading');
+    }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+    getBillList();
+});
 </script>

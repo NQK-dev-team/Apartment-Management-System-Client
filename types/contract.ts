@@ -1,5 +1,4 @@
 import type { BasicModel } from './basic_model';
-import type { UploadFile } from './upload_file';
 import type { User } from './user';
 import type { Room } from './building';
 

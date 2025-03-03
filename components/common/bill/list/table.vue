@@ -1,12 +1,12 @@
 <template>
-  <a-table :columns="columns" :data-source="data">
+  <a-table :columns="columns">
     <template #headerCell="{ column }">
     </template>
 
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'Status'">
         <span>
-          <a-tag :color="record.Status.includes('Unpaid') ? 'volcano' : 'green'">
+          <a-tag :color="record.Status === 0 ? 'volcano' : 'green'">
             {{ record.Status[0].toUpperCase() }}
           </a-tag>
         </span>
@@ -23,8 +23,6 @@
   </a-table>
 </template>
 <script lang="ts" setup>
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import { ref } from 'vue';
 const columns = [
   {
     name: 'No',
@@ -42,9 +40,9 @@ const columns = [
     key: 'Owner',
   },
   {
-    title: 'Customer ID',
-    dataIndex: 'Customer ID',
-    key: 'Customer ID',
+    title: 'Payer ID',
+    dataIndex: 'Payer ID',
+    key: 'Payer ID',
   },
   {
     title: 'Bill ID',
@@ -82,87 +80,42 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    'No': '1',
-    'Contract ID': 'C001',
-    Owner: 'John Brown',
-    'Customer ID': 'C001',
-    'Bill ID': 'B001',
-    'Payment Period': '2021-09',
-    Amount: '1000',
-    Status: ['Unpaid'],
-    'Paid by': '',
-    'Payment Date': '',
-  },
-  {
-    key: '2',
-    'No': '2',
-    'Contract ID': 'C002',
-    Owner: 'Jim Green',
-    'Customer ID': 'C002',
-    'Bill ID': 'B002',
-    'Payment Period': '2021-09',
-    Amount: '2000',
-    Status: ['Paid'],
-    'Paid by': 'John Brown',
-    'Payment Date': '2021-09-01',
-  },
-  {
-    key: '3',
-    'No': '3',
-    'Contract ID': 'C003',
-    Owner: 'Joe Black',
-    'Customer ID': 'C003',
-    'Bill ID': 'B003',
-    'Payment Period': '2021-09',
-    Amount: '3000',
-    Status: ['Unpaid'],
-    'Paid by': '',
-    'Payment Date': '',
-  },
-];
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const props = defineProps({
-  contractID: {
+  period: {
     type: String,
     required: true,
   },
-  owner: {
-    type: String,
+  status: {
+    type: Number,
     required: true,
   },
-  customerID: {
+  note: {
     type: String,
-    required: true,
+    required: false,
   },
-  billID: {
+  paymentTime: {
     type: String,
-    required: true,
-  },
-  paymentPeriod: {
-    type: String,
-    required: true,
+    required: false,
   },
   amount: {
     type: Number,
     required: true,
   },
-  status: {
+  payerID: {
+    type: Number,
+    required: true,
+  },
+  payerName: {
     type: String,
     required: true,
   },
-  paidBy: {
-    type: String,
-    required: true,
-  },
-  paymentDate: {
-    type: String,
+  contractID: {
+    type: Number,
     required: true,
   },
 });

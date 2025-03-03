@@ -47,6 +47,7 @@ export default {
   confirm_deletion: 'Confirm deletion',
   confirm_deletion_content: 'Are you sure you want to delete the selected item(s)?',
   confirm_deletion_with_password: 'Please enter your password to confirm deletion',
+  clear: 'Clear',
 
   D: 'd',
   delete: 'Delete',
@@ -54,6 +55,7 @@ export default {
   description: 'Description',
   delete_success: 'Delete success!',
   delete_success_content: 'The selected item(s) has been deleted from the system!',
+  detail: 'Detail',
 
   E: 'e',
   example_file: 'Example files',
@@ -180,6 +182,8 @@ export default {
   select_floor: 'Select floor',
   select_status: 'Select status',
   sold: 'Sold',
+  statistic: 'Statistic',
+  search: 'Search',
 
   T: 't',
   total: 'Total',

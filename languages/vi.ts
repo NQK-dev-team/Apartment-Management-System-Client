@@ -47,6 +47,7 @@ export default {
   confirm_deletion: 'Xác nhận xóa',
   confirm_deletion_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
   confirm_deletion_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận xóa',
+  clear: 'Xóa',
 
   D: 'd',
   delete: 'Xóa',
@@ -54,6 +55,7 @@ export default {
   description: 'Mô tả',
   delete_success: 'Xóa thành công!',
   delete_success_content: '(Các) Mục được chọn đã được xóa khỏi hệ thống!',
+  detail: 'Chi tiết',
 
   E: 'e',
   example_file: 'Tệp tin mẫu',
@@ -180,6 +182,8 @@ export default {
   select_floor: 'Chọn tầng',
   select_status: 'Chọn trạng thái',
   sold: 'Đã bán',
+  statistic: 'Thống kê',
+  search: 'Tìm kiếm',
 
   T: 't',
   total: 'Tổng',

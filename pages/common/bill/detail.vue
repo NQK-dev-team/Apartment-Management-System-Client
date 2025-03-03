@@ -59,18 +59,10 @@ const searchValue = ref("");
 async function getBill() {
     try {
         $event.emit('loading');
-        const response = await api.common.bill.getList();
+        // const response = await api.common.bill.getList();
         const data = response.data;
         bill.value = data.map(element => {
             return {
-                period: element.period,
-                amount: element.amount,
-                status: element.status,
-                paidBy: element.payer.firstName + ' ' + element.payer.lastName,
-                paymentDate: element.paymentTime,
-                note: element.note,
-                payerID: element.payerID,
-                contractID: element.contractID,
             }
         });
 

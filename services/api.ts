@@ -72,6 +72,15 @@ const authentication = {
       },
     });
   },
+  verifyPassword: async (password: string): Promise<APIResponse<boolean>> => {
+    const $api = getApiInstance();
+    return $api(apiRoutes.authentication.verifyPassword, {
+      method: 'POST',
+      body: {
+        password,
+      },
+    });
+  },
 };
 
 const common = {
@@ -124,6 +133,18 @@ const common = {
       return $api(apiRoutes.building.add, {
         method: 'POST',
         body: formData,
+      });
+    },
+    deleteBuilding: async (buildingId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.delete(buildingId), {
+        method: 'DELETE',
+      });
+    },
+    getDetail: async (buildingId: number): Promise<APIResponse<Building>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.detail(buildingId), {
+        method: 'GET',
       });
     },
   },

@@ -2,13 +2,21 @@
   <NuxtLink :to="pageRoutes.common.building.detail(props.id)">
     <a-card hoverable class="w-[250px] border-2 select-none" :title="props.name">
       <template #cover>
-        <img alt="Building image" :src="props.image" />
+        <img alt="Building image" :src="props.image" class="w-[250px] h-[300px]" />
       </template>
-      <template #actions>
+      <template v-if="userRole?.toString() === roles.owner" #actions>
         <NuxtLink :to="pageRoutes.common.building.edit(props.id)">
           <EditOutlined />
         </NuxtLink>
-        <DeleteOutlined class="text-red-500 hover:text-red-300 active:text-red-600" />
+        <DeleteOutlined
+          class="text-red-500 hover:text-red-300 active:text-red-600"
+          @click="
+            (e: any) => {
+              e.preventDefault();
+              openDeleteBuildingModal();
+            }
+          "
+        />
       </template>
       <a-card-meta
         :title="props.address"
@@ -19,13 +27,18 @@
   </NuxtLink>
 </template>
 <script lang="ts" setup>
+import { getMessageCode } from '~/consts/api_response';
 import { pageRoutes } from '~/consts/page_routes';
+import { roles } from '~/consts/roles';
+import { api } from '~/services/api';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const userRole = useCookie('userRole');
+const { t } = useI18n();
 const props = defineProps({
   name: {
     type: String,
@@ -52,4 +65,27 @@ const props = defineProps({
     required: true,
   },
 });
+const { $event } = useNuxtApp();
+
+// ---------------------- Functions ----------------------
+async function deleteBuilding() {
+  try {
+    $event.emit('loading');
+    await api.common.building.deleteBuilding(props.id);
+    $event.emit('deleteItemSuccess');
+  } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+function openDeleteBuildingModal() {
+  $event.emit('deleteItem', { callback: deleteBuilding });
+}
 </script>

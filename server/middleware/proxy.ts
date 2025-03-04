@@ -32,6 +32,10 @@ export default defineEventHandler(async (event) => {
     const response = await proxyRequest(event, apiUrl, {
       headers,
       onResponse: async (e, response) => {
+        if (apiUrl.includes('images') || apiUrl.includes('files')) {
+          return;
+        }
+
         const clonedResponse = response.clone();
         const body = await clonedResponse.json();
         if (body.jwtToken) {

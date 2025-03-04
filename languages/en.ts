@@ -31,6 +31,8 @@ export default {
   building_address: 'Building address',
   building_image: 'Building image',
   building_image_require: 'Please at least one image for the building!',
+  building_information: 'Building information',
+  bought: 'Bought',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -44,11 +46,15 @@ export default {
   confirm_new_password_not_match: 'Confirm new password does not match!',
   contractedRooms: 'Number of contracted rooms',
   confirm_deletion: 'Confirm deletion',
+  confirm_deletion_content: 'Are you sure you want to delete the selected item(s)?',
+  confirm_deletion_with_password: 'Please enter your password to confirm deletion',
 
   D: 'd',
   delete: 'Delete',
   delete_modal_content: 'Are you sure you want to delete the selected item(s)?',
   description: 'Description',
+  delete_success: 'Delete success!',
+  delete_success_content: 'The selected item(s) has been deleted from the system!',
 
   E: 'e',
   example_file: 'Example files',
@@ -77,6 +83,7 @@ export default {
   empty_room_status: 'Room {no} status cannot be empty!',
   empty_room_area: 'Room {no} area cannot be empty!',
   empty_service_price: 'Service {no} price cannot be empty!',
+  empty_password: 'Empty password!',
 
   F: 'f',
   finish_import: 'Import',
@@ -110,8 +117,9 @@ export default {
   log_in: 'Log in',
 
   M: 'm',
-  managerName: 'Manager\'s Name',
+  managerName: "Manager's Name",
   maintenance: 'Maintenance',
+  management_list: 'Management list',
 
   N: 'n',
   notice: 'Notice',
@@ -176,6 +184,8 @@ export default {
 
   T: 't',
   total: 'Total',
+  total_room: 'Total room',
+  total_floor: 'Total floor',
 
   U: 'u',
   upload_file: 'Upload file',
@@ -187,6 +197,8 @@ export default {
 
   W: 'w',
   warning: 'Warning',
+  wrong_password: 'Wrong password!',
+  wrong_password_description: 'The password you entered is incorrect. Please try again!',
 
   X: 'x',
 

@@ -12,7 +12,7 @@ export default {
   add_employees: 'Thêm nhân viên mới',
   add_customers: 'Thêm khách hàng mới',
   add_bills: 'Thêm hóa đơn mới',
-  action: 'Tác vụ',
+  action: 'Thao tác',
   area: 'Diện tích',
   available: 'Còn trống',
   add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
@@ -31,6 +31,8 @@ export default {
   building_address: 'Địa chỉ tòa nhà',
   building_image: 'Hình ảnh tòa nhà',
   building_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho tòa nhà!',
+  building_information: 'Thông tin tòa nhà',
+  bought: 'Đã mua',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -44,11 +46,15 @@ export default {
   confirm_new_password_not_match: 'Mật khẩu xác nhận không khớp!',
   contractedRooms: 'Số phòng đã ký hợp đồng',
   confirm_deletion: 'Xác nhận xóa',
+  confirm_deletion_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
+  confirm_deletion_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận xóa',
 
   D: 'd',
   delete: 'Xóa',
   delete_modal_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
   description: 'Mô tả',
+  delete_success: 'Xóa thành công!',
+  delete_success_content: '(Các) Mục được chọn đã được xóa khỏi hệ thống!',
 
   E: 'e',
   example_file: 'Tệp tin mẫu',
@@ -77,6 +83,7 @@ export default {
   empty_room_status: 'Trạng thái phòng {no} không được để trống!',
   empty_room_area: 'Diện tích phòng {no} không được để trống!',
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
+  empty_password: 'Mật khẩu đang để trống!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -112,6 +119,7 @@ export default {
   M: 'm',
   managerName: ' Tên quản lý',
   maintenance: 'Bảo trì',
+  management_list: 'Danh sách quản lý',
 
   N: 'n',
   notice: 'Thông báo',
@@ -155,7 +163,7 @@ export default {
   room_no: 'Số phòng',
   rented: 'Đã thuê',
   room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
-  rooms:'Phòng',
+  rooms: 'Phòng',
 
   S: 's',
   staff: 'Nhân viên',
@@ -176,6 +184,8 @@ export default {
 
   T: 't',
   total: 'Tổng',
+  total_room: 'Tổng số phòng',
+  total_floor: 'Tổng số tầng',
 
   U: 'u',
   upload_file: 'Tải tệp tin',
@@ -187,6 +197,8 @@ export default {
 
   W: 'w',
   warning: 'Cảnh báo',
+  wrong_password: 'Mật khẩu không đúng!',
+  wrong_password_description: 'Mật khẩu bạn nhập không đúng, vui lòng thử lại!',
 
   X: 'x',
 

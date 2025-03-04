@@ -8,6 +8,7 @@ const apiRoutes = {
     checkPasswordResetToken: '/authentication/check-reset-password-token',
     resetPassword: '/authentication/reset-password',
     verifyEmail: '/authentication/verify-email',
+    verifyPassword: '/authentication/verify-password',
   },
   building: {
     list: '/building',
@@ -15,6 +16,7 @@ const apiRoutes = {
     room: (buildingId: number) => `/building/${buildingId}/room`,
     roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
     add: '/building/add',
+    delete: (buildingID: number) => `/building/${buildingID}/delete`,
   },
   room: {},
   profile: {},

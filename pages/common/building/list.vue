@@ -5,7 +5,8 @@
         <a-breadcrumb-item>{{ $t('building_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <h1 class="mt-3 text-2xl">{{ $t('building_list') }}</h1>
-      <div class="flex justify-center">
+      <div class="flex justify-between items-center">
+        <div></div>
         <a-input-search
           id="searchBuilding"
           v-model:value="searchValue"
@@ -14,6 +15,9 @@
           enter-button
           @search="filterBuildingList"
         />
+        <NuxtLink :to="pageRoutes.common.building.add">
+          <a-button type="primary" class="flex items-center rounded-sm"><PlusOutlined /></a-button>
+        </NuxtLink>
       </div>
     </div>
     <div class="mt-5 overflow-auto p-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
@@ -43,6 +47,7 @@
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import { ref } from 'vue';
+import { pageRoutes } from '~/consts/page_routes';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

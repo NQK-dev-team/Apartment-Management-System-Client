@@ -345,7 +345,9 @@
         <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px]" @click="step--">{{
           $t('previous')
         }}</a-button>
-        <a-button v-if="step < 4" v-show="step === 1" class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
+        <NuxtLink v-if="step < 4" v-show="step === 1" :to="pageRoutes.common.building.list">
+          <a-button class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
+        </NuxtLink>
       </div>
     </div>
   </div>

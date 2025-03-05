@@ -11,6 +11,8 @@ const svgPaths = {
   notification: basePath + 'notification.svg',
   signOut: basePath + 'sign_out.svg',
   asterisk: basePath + 'asterisk.svg',
+  delete: basePath + 'DeleteOutlined.svg',
+  plus: basePath + 'Plus.svg',
 };
 
 export { svgPaths };

@@ -2,7 +2,7 @@
   <NuxtLink :to="pageRoutes.common.building.detail(props.id)">
     <a-card hoverable class="w-[250px] border-2 select-none" :title="props.name">
       <template #cover>
-        <img alt="Building image" :src="props.image" class="w-[250px] h-[300px]" />
+        <img alt="Building image" :src="props.image" class="w-[250px] h-[300px] rounded-none" />
       </template>
       <template v-if="userRole?.toString() === roles.owner" #actions>
         <NuxtLink :to="pageRoutes.common.building.edit(props.id)">
@@ -33,10 +33,6 @@ import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
 
 // ---------------------- Variables ----------------------
-const lightModeCookie = useCookie('lightMode');
-const lightMode = computed(
-  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
-);
 const userRole = useCookie('userRole');
 const { t } = useI18n();
 const props = defineProps({
@@ -73,6 +69,7 @@ async function deleteBuilding() {
     $event.emit('loading');
     await api.common.building.deleteBuilding(props.id);
     $event.emit('deleteItemSuccess');
+    $event.emit('reload-building-list');
   } catch (err: any) {
     if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
       notification.error({

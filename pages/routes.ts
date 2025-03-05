@@ -60,7 +60,7 @@ const commonRoutes: Route[] = [
     name: 'Staff List',
     path: pageRoutes.common.staff.list,
     file: staffBaseRoute + 'list.vue',
-  }
+  },
   // Customer
   // Bill
   {

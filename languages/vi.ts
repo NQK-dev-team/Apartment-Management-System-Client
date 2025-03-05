@@ -86,6 +86,7 @@ export default {
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
+  edit: 'Chỉnh sửa',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -103,7 +104,6 @@ export default {
   I: 'i',
   import_file: 'Thêm dữ liệu từ tệp tin',
   import_type_list: 'Danh mục thêm',
-  income_report: 'Báo cáo doanh thu',
   invalid_credentials: 'Email hoặc mật khẩu không đúng!',
   invalid_link: 'Liên kết này không hợp lệ hoặc đã hết hạn.',
   invalid_email: 'Email không hợp lệ!',
@@ -121,7 +121,7 @@ export default {
   M: 'm',
   managerName: ' Tên quản lý',
   maintenance: 'Bảo trì',
-  management_list: 'Danh sách quản lý',
+  management_schedule: 'Lịch quản lý',
 
   N: 'n',
   notice: 'Thông báo',

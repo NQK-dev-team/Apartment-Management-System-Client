@@ -7,7 +7,14 @@
         >
         <a-breadcrumb-item>{{ $t('building_information') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('building', { name: buildingData.name }) }}</h1>
+      <div class="flex items-center justify-between">
+        <h1 class="mt-3 text-2xl">{{ $t('building', { name: buildingData.name }) }}</h1>
+        <div>
+          <NuxtLink v-if="userRole?.toString() === roles.owner" :to="pageRoutes.common.building.edit(buildingID)">
+            <a-button type="primary" class="rounded-sm">{{ $t('edit') }}</a-button>
+          </NuxtLink>
+        </div>
+      </div>
     </div>
     <div
       class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
@@ -121,10 +128,10 @@
             ]"
             @click="option = 2"
           >
-            {{ $t('management_list') }}
+            {{ $t('service_list') }}
           </p>
           <p
-            class="ms-3 cursor-pointer select-none"
+            class="mx-3 cursor-pointer select-none"
             :class="[
               option === 3
                 ? 'text-[#1890FF] border-b-2 border-[#1890FF]'
@@ -132,89 +139,84 @@
             ]"
             @click="option = 3"
           >
+            {{ $t('management_schedule') }}
+          </p>
+          <p
+            class="ms-3 cursor-pointer select-none"
+            :class="[
+              option === 4
+                ? 'text-[#1890FF] border-b-2 border-[#1890FF]'
+                : 'hover:text-[#40a9ff] active:text-[#096dd9]',
+            ]"
+            @click="option = 4"
+          >
             {{ $t('statistic') }}
           </p>
         </div>
-        <h2 v-show="option === 1" class="mt-3 mx-auto text-xl font-bold">{{ $t('room_list') }}</h2>
-        <h2 v-show="option === 2" class="mt-3 mx-auto text-xl font-bold">{{ $t('management_list') }}</h2>
-        <h2 v-show="option === 3" class="mt-3 mx-auto text-xl font-bold">{{ $t('statistic') }}</h2>
-        <a-table v-show="option === 1" :data-source="roomList" :columns="roomListTableColumns" class="mt-5">
-          <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
-            <div class="p-[8px]">
-              <a-input
-                id="searchRoomNo"
-                ref="searchInput"
-                :placeholder="t('enter_search')"
-                :value="selectedKeys[0]"
-                class="block width-[200px] mb-[8px]"
-                @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                @press-enter="handleSearch(selectedKeys, confirm, column.dataIndex)"
-              />
+        <div class="flex items-center justify-between mt-3">
+          <div></div>
+          <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('room_list') }}</h2>
+          <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('service_list') }}</h2>
+          <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
+          <h2 v-show="option === 4" class="text-xl font-bold">{{ $t('statistic') }}</h2>
+          <div v-show="option === 1">
+            <div class="items-center" style="display: flex">
               <a-button
+                class="flex items-center rounded-sm"
                 type="primary"
-                size="small"
-                class="inline-flex items-center justify-center w-[100px] h-[25px] mr-[8px]"
-                @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
-              >
-                <template #icon>
-                  <SearchOutlined />
-                </template>
-                {{ t('search') }}
-              </a-button>
-              <a-button
-                size="small"
-                class="w-[90px] h-[25px] inline-flex items-center justify-center"
-                @click="handleReset(clearFilters)"
-                >{{ t('clear') }}</a-button
-              >
+                danger
+                :disabled="roomListSelection.selection.length === 0"
+                @click="
+                  () => {
+                    $event.emit('deleteItem', { callback: deleteRoom });
+                  }
+                "
+                ><DeleteOutlined
+              /></a-button>
+                <a-button class="flex items-center rounded-sm ms-2" type="primary"><PlusOutlined /></a-button>
             </div>
-          </template>
-          <template #customFilterIcon="{ filtered, column }">
-            <SearchOutlined v-if="column.dataIndex === 'roomNo'" :style="{ color: filtered ? '#108ee9' : undefined }" />
-            <FilterOutlined v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
-          </template>
-          <template #bodyCell="{ value, column }">
-            <template v-if="column.key === 'status'">
-              <span
-                :class="[
-                  value === 1
-                    ? 'text-[#1B8800]'
-                    : value === 2
-                      ? 'text-[#086C9E]'
-                      : value === 3
-                        ? 'text-[#787878]'
-                        : value === 4
-                          ? 'text-[#B57E17]'
-                          : value === 5
-                            ? 'text-[#FF0000]'
-                            : '',
-                ]"
-              >
-                {{
-                  value === 1
-                    ? $t('rented')
-                    : value === 2
-                      ? $t('bought')
-                      : value === 3
-                        ? $t('available')
-                        : value === 4
-                          ? $t('maintenance')
-                          : value === 5
-                            ? $t('unavailable')
-                            : ''
-                }}
-              </span>
-            </template>
-            <template v-if="column.key === 'action'">
-              <NuxtLink
-                :to="pageRoutes.common.building.roomDetail(buildingData.ID, value)"
-                class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
-              >
-                {{ $t('detail') }}
-              </NuxtLink>
-            </template>
-          </template>
-        </a-table>
+          </div>
+          <div v-show="option === 2">
+            <div class="items-center" style="display: flex">
+              <a-button
+                class="flex items-center rounded-sm"
+                type="primary"
+                danger
+                :disabled="serviceListSelection.selection.length === 0"
+                @click="
+                  () => {
+                    $event.emit('deleteItem', { callback: deleteService });
+                  }
+                "
+                ><DeleteOutlined
+              /></a-button>
+              <a-button class="flex items-center rounded-sm ms-2" type="primary"><PlusOutlined /></a-button>
+            </div>
+          </div>
+          <div v-show="option === 3">
+            <div v-if="userRole?.toString() === roles.owner" class="items-center" style="display: flex">
+              <a-button class="flex items-center rounded-sm" type="primary" danger><DeleteOutlined /></a-button>
+              <a-button class="items-center rounded-sm ms-2" style="display: flex" type="primary"
+                ><PlusOutlined
+              /></a-button>
+            </div>
+          </div>
+          <div v-show="option === 4"></div>
+        </div>
+        <ClientOnly>
+          <CommonBuildingDetailRoomListTable
+            v-show="option === 1"
+            :rooms="rooms"
+            :building-id="buildingID"
+            :total-floor="buildingData.totalFloor"
+            :room-list-selection="roomListSelection"
+          />
+          <CommonBuildingDetailServiceListTable
+            v-show="option === 2"
+            :services="services"
+            :service-list-selection="serviceListSelection"
+          />
+        </ClientOnly>
       </div>
     </div>
     <a-modal
@@ -233,8 +235,9 @@ z
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { pageRoutes } from '~/consts/page_routes';
+import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
-import type { Building, Room } from '~/types/building';
+import type { Service, Building, Room } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -254,10 +257,10 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const route = useRoute();
 const buildingID = Number(route.params.id as string);
 const { $event } = useNuxtApp();
-const { t, locale } = useI18n();
 const buildingData = ref<Building>({
   ID: 0,
   name: '',
@@ -271,107 +274,33 @@ const buildingData = ref<Building>({
   updatedBy: 0,
   deletedAt: '',
   deletedBy: 0,
+  rooms: [],
+  services: [],
 });
 const rooms = ref<Room[]>([]);
+const services = ref<Service[]>([]);
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const option = ref<number>(1);
 const previewVisible = ref(false);
 const previewImage = ref('');
-const option = ref<number>(1);
-const roomListTableColumns = ref<any>([]);
-const roomList = ref<any>([]);
-const state = reactive({
-  searchText: '',
-  searchedColumn: '',
-});
-
-const searchInput = ref();
+const roomListSelection = ref<{ selection: number[] }>({ selection: [] });
+const serviceListSelection = ref<{ selection: number[] }>({ selection: [] });
+const addServiceModal = ref<boolean>(false);
+const newService = ref<{ name: string; price: number | null }>({ name: '', price: null });
 
 // ---------------------- Functions ----------------------
-function setTable() {
-  const floorFilter = [];
-  for (let i = 0; i < buildingData.value.totalFloor; i++) {
-    floorFilter.push({ text: (i + 1).toString(), value: i + 1 });
-  }
-
-  roomListTableColumns.value = [
-    {
-      title: t('no'),
-      dataIndex: 'no',
-      key: 'no',
-    },
-    {
-      title: t('floor'),
-      dataIndex: 'floor',
-      key: 'floor',
-      filters: floorFilter,
-      customFilterDropdown: false,
-      filterMultiple: true,
-      onFilter: (value: number, record: any) => record.floor === value,
-    },
-    {
-      title: t('room_no'),
-      dataIndex: 'roomNo',
-      key: 'roomNo',
-      customFilterDropdown: true,
-      onFilter: (value: string, record: any) => {
-        const values = value.split(',');
-        return values.some((val) => record.roomNo.toString().toLowerCase().includes(val.trim().toLowerCase()));
-      },
-      onFilterDropdownOpenChange: (visible: boolean) => {
-        if (visible) {
-          setTimeout(() => {
-            searchInput.value.focus();
-          }, 100);
-        }
-      },
-    },
-    {
-      title: t('status'),
-      dataIndex: 'status',
-      key: 'status',
-      customFilterDropdown: false,
-      filterMultiple: true,
-      filters: [
-        { text: t('rented'), value: 1 },
-        { text: t('bought'), value: 2 },
-        { text: t('available'), value: 3 },
-        { text: t('maintenance'), value: 4 },
-        { text: t('unavailable'), value: 5 },
-      ],
-      onFilter: (value: number, record: any) => record.status === value,
-    },
-    {
-      title: t('action'),
-      dataIndex: 'action',
-      key: 'action',
-    },
-  ];
-  roomList.value = rooms.value.map((room, index) => {
-    return {
-      no: index,
-      floor: room.floor,
-      roomNo: room.no,
-      status: room.status,
-      action: room.ID,
-    };
-  });
-}
-
 async function getBuildingData() {
   try {
     $event.emit('loading');
-    const buildingDetailResponse = await api.common.building.getDetail(buildingID);
-    const buildingDetailResponseData = buildingDetailResponse.data;
-    const roomListReponse = await api.common.building.getRoomList(buildingID);
-    const roomListReponseData = roomListReponse.data;
+    const response = await api.common.building.getDetail(buildingID);
+    const data = response.data;
 
-    buildingData.value = buildingDetailResponseData;
-    rooms.value = roomListReponseData.sort((a, b) => a.no - b.no);
-
-    setTable();
+    buildingData.value = data;
+    rooms.value = data.rooms.sort((a, b) => a.no - b.no);
+    services.value = data.services;
   } catch (err: any) {
     if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
       throw createError({
@@ -389,15 +318,24 @@ function handleCancel() {
   previewVisible.value = false;
 }
 
-function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
-  confirm();
-  state.searchText = selectedKeys[0];
-  state.searchedColumn = dataIndex;
+async function deleteRoom() {
+  try {
+    $event.emit('loading');
+    const idList: number[] = roomListSelection.value.selection;
+  } catch (err: any) {
+  } finally {
+    $event.emit('loading');
+  }
 }
 
-function handleReset(clearFilters: any) {
-  clearFilters({ confirm: true });
-  state.searchText = '';
+async function deleteService() {
+  try {
+    $event.emit('loading');
+    const idList: number[] = serviceListSelection.value.selection;
+  } catch (err: any) {
+  } finally {
+    $event.emit('loading');
+  }
 }
 
 // ---------------------- Lifecycle Hooks ----------------------
@@ -411,11 +349,6 @@ onMounted(async () => {
       fatal: true,
     });
   }
-});
-
-// ---------------------- Watchers ----------------------
-watch(locale, () => {
-  setTable();
 });
 </script>
 

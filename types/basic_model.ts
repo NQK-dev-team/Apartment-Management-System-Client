@@ -8,4 +8,15 @@ type BasicModel = {
   deletedBy: number | null;
 };
 
-export type { BasicModel };
+type BasicFileModel = {
+  ID: number;
+  createdAt: string;
+  createdBy: number;
+  deletedAt: string | null;
+  deletedBy: number | null;
+  no: number | null;
+  path: string;
+  title: string | null;
+};
+
+export type { BasicModel, BasicFileModel };

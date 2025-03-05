@@ -86,6 +86,7 @@ export default {
   empty_service_price: 'Service {no} price cannot be empty!',
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
+  edit: 'Edit',
 
   F: 'f',
   finish_import: 'Import',
@@ -103,7 +104,6 @@ export default {
   I: 'i',
   import_file: 'Import data from file',
   import_type_list: 'Import type list',
-  income_report: 'Income report',
   invalid_credentials: 'Invalid email or password!',
   invalid_link: 'This link is invalid or has expired.',
   invalid_email: 'Invalid email!',
@@ -121,7 +121,7 @@ export default {
   M: 'm',
   managerName: "Manager's Name",
   maintenance: 'Maintenance',
-  management_list: 'Management list',
+  management_schedule: 'Management schedule',
 
   N: 'n',
   notice: 'Notice',
@@ -133,7 +133,7 @@ export default {
   new_password_require: 'Please enter your new password!',
   numberFloors: 'Number of Floors',
   numberRooms: 'Number of Rooms',
-  no: 'No.',
+  no: 'No',
   next: 'Next',
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
 

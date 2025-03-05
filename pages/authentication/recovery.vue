@@ -45,7 +45,7 @@
         </a-form-item>
 
         <a-form-item class="mb-0 mt-5">
-          <a-button class="w-full" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
+          <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
         </a-form-item>
 
         <a-form-item class="flex justify-center mb-0">

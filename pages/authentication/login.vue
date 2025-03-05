@@ -57,7 +57,7 @@
         </a-form-item>
 
         <a-form-item class="mb-0">
-          <a-button class="w-full" type="primary" html-type="submit">{{ $t('log_in') }}</a-button>
+          <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('log_in') }}</a-button>
         </a-form-item>
 
         <a-form-item class="flex justify-center mb-0">

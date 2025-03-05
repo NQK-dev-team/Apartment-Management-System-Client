@@ -2,7 +2,7 @@
   <NuxtLink :to="pageRoutes.common.building.detail(props.id)">
     <a-card hoverable class="w-[250px] border-2 select-none" :title="props.name">
       <template #cover>
-        <img alt="Building image" :src="props.image" class="w-[250px] h-[300px] rounded-none" />
+        <img alt="Building image" :src="props.image" class="w-[250px] h-[300px] rounded-none p-[2px]" />
       </template>
       <template v-if="userRole?.toString() === roles.owner" #actions>
         <NuxtLink :to="pageRoutes.common.building.edit(props.id)">

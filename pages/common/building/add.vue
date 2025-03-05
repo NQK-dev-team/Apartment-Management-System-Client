@@ -410,7 +410,6 @@ async function createNewBuilding() {
   try {
     $event.emit('loading');
     await api.common.building.addNewBuilding(buildingInfo.value);
-
     addSuccess.value = true;
   } catch (err: any) {
     step.value--;
@@ -456,6 +455,14 @@ function checkStep1(): boolean {
     notification.error({
       message: t('empty_service_price', {
         no: buildingInfo.value.services.findIndex((service) => service.price === '') + 1,
+      }),
+    });
+    return false;
+  }
+  if (buildingInfo.value.services.find((service) => service.price !== '' && Number(service.price) <= 0) !== undefined) {
+    notification.error({
+      message: t('zero_service_price', {
+        no: buildingInfo.value.services.findIndex((service) => service.price !== '' && Number(service.price) <= 0) + 1,
       }),
     });
     return false;

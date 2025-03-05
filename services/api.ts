@@ -1,7 +1,7 @@
 import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
-import type { Building, NewBuildingInfo, Room } from '~/types/building';
+import type { Building, NewBuildingInfo, Room, Service } from '~/types/building';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -97,6 +97,12 @@ const common = {
         method: 'GET',
       });
     },
+    getServiceList: async (buildingId: number): Promise<APIResponse<Service[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.service(buildingId), {
+        method: 'GET',
+      });
+    },
     addNewBuilding: async (building: NewBuildingInfo): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
       const formData = new FormData();
@@ -145,6 +151,34 @@ const common = {
       const $api = getApiInstance();
       return $api(apiRoutes.building.detail(buildingId), {
         method: 'GET',
+      });
+    },
+    deleteRooms: async (buildingId: number, IDs: number[]): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.deleteRooms(buildingId), {
+        method: 'POST',
+        body: {
+          IDs,
+        },
+      });
+    },
+    deleteServices: async (buildingId: number, IDs: number[]): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.deleteServices(buildingId), {
+        method: 'POST',
+        body: {
+          IDs,
+        },
+      });
+    },
+    addService: async (buildingId: number, service: { name: string; price: number }): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.addService(buildingId), {
+        method: 'POST',
+        body: {
+          name: service.name,
+          price: service.price,
+        },
       });
     },
   },

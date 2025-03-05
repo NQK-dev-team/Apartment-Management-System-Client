@@ -17,6 +17,7 @@ export default {
   available: 'Available',
   add_building_success_title: 'New building information has been added successfully',
   add_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
+  add_service_success: 'New service has been added successfully!',
 
   B: 'b',
   bill: 'Bill',
@@ -185,6 +186,7 @@ export default {
   sold: 'Sold',
   statistic: 'Statistic',
   search: 'Search',
+  success: 'Success',
 
   T: 't',
   total: 'Total',
@@ -210,4 +212,5 @@ export default {
 
   Z: 'z',
   zero_room_area: 'Room {no} area must be greater than 0!',
+  zero_service_price: 'Service {no} price must be greater than 0!',
 };

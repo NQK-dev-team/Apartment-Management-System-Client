@@ -173,7 +173,7 @@
                 "
                 ><DeleteOutlined
               /></a-button>
-                <a-button class="flex items-center rounded-sm ms-2" type="primary"><PlusOutlined /></a-button>
+              <a-button class="flex items-center rounded-sm ms-2" type="primary"><PlusOutlined /></a-button>
             </div>
           </div>
           <div v-show="option === 2">
@@ -190,7 +190,9 @@
                 "
                 ><DeleteOutlined
               /></a-button>
-              <a-button class="flex items-center rounded-sm ms-2" type="primary"><PlusOutlined /></a-button>
+              <a-button class="flex items-center rounded-sm ms-2" type="primary" @click="addServiceModal = true"
+                ><PlusOutlined
+              /></a-button>
             </div>
           </div>
           <div v-show="option === 3">
@@ -229,6 +231,41 @@
     >
       <img alt="View image" style="width: 100%" :src="previewImage" />
     </a-modal>
+    <a-modal
+      v-model:open="addServiceModal"
+      :title="$t('confirm_deletion_with_password')"
+      @ok="addService"
+      @cancel="
+        () => {
+          newService.name = '';
+          newService.price = '';
+          newServiceFormRef?.clearValidate();
+        }
+      "
+    >
+      <a-form ref="newServiceFormRef" :model="newService" layout="vertical">
+        <a-form-item :rules="[{ required: true, message: $t('empty_service_name'), trigger: 'blur' }]" name="name">
+          <label class="mb-1 flex items-center" for="service_name">
+            <span>{{ $t('service_name') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input id="service_name" v-model:value="newService.name" :placeholder="$t('enter_service_name')" />
+        </a-form-item>
+        <a-form-item :rules="[{ required: true, validator: validateServicePrice, trigger: 'blur' }]" name="price">
+          <label class="mb-1 flex items-center" for="service_price">
+            <span>{{ $t('service_price') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input
+            id="service_price"
+            v-model:value="newService.price"
+            :placeholder="$t('enter_service_price')"
+            type="number"
+            :min="0"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 z
@@ -238,6 +275,9 @@ import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
 import type { Service, Building, Room } from '~/types/building';
+import type { FormInstance } from 'ant-design-vue';
+import { svgPaths } from '~/consts/svg_paths';
+import type { Rule } from 'ant-design-vue/es/form';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -257,6 +297,7 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
+const { t } = useI18n();
 const userRole = useCookie('userRole');
 const route = useRoute();
 const buildingID = Number(route.params.id as string);
@@ -289,12 +330,23 @@ const previewImage = ref('');
 const roomListSelection = ref<{ selection: number[] }>({ selection: [] });
 const serviceListSelection = ref<{ selection: number[] }>({ selection: [] });
 const addServiceModal = ref<boolean>(false);
-const newService = ref<{ name: string; price: number | null }>({ name: '', price: null });
+const newService = ref<{ name: string; price: number | string }>({ name: '', price: '' });
+const addRoomModal = ref<boolean>(false);
+const newRoom = ref<{ no: number | string; status: number | string; area: number | string; description: string }>({
+  no: '',
+  status: '',
+  area: '',
+  description: '',
+});
+const newServiceFormRef = ref<FormInstance>();
+const newRoomFormRef = ref<FormInstance>();
 
 // ---------------------- Functions ----------------------
-async function getBuildingData() {
+async function getBuildingData(emitLoading = true) {
   try {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
     const response = await api.common.building.getDetail(buildingID);
     const data = response.data;
 
@@ -310,7 +362,9 @@ async function getBuildingData() {
       });
     }
   } finally {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
   }
 }
 
@@ -322,7 +376,16 @@ async function deleteRoom() {
   try {
     $event.emit('loading');
     const idList: number[] = roomListSelection.value.selection;
+    await api.common.building.deleteRooms(buildingID, idList);
+    getBuildingData(false);
+    $event.emit('deleteItemSuccess');
   } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
   } finally {
     $event.emit('loading');
   }
@@ -332,10 +395,61 @@ async function deleteService() {
   try {
     $event.emit('loading');
     const idList: number[] = serviceListSelection.value.selection;
+    await api.common.building.deleteServices(buildingID, idList);
+    getBuildingData(false);
+    $event.emit('deleteItemSuccess');
   } catch (err: any) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
   } finally {
     $event.emit('loading');
   }
+}
+
+async function addService() {
+  try {
+    if (!newServiceFormRef.value) return;
+    await newServiceFormRef.value.validateFields();
+
+    $event.emit('loading');
+    await api.common.building.addService(buildingID, {
+      name: newService.value.name,
+      price: Number(newService.value.price),
+    });
+    getBuildingData(false);
+    notification.info({
+      message: t('success'),
+      description: t('add_service_success'),
+    });
+    newService.value.name = '';
+    newService.value.price = '';
+  } catch (err: any) {
+    if (err.response?._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+    addServiceModal.value = false;
+  }
+}
+
+async function addRoom() {}
+
+function validateServicePrice(_rule: Rule, value: string) {
+  if (value === '') {
+    return Promise.reject(t('empty_service_price'));
+  }
+  if (Number(value) <= 0) {
+    return Promise.reject(t('zero_service_price'));
+  }
+  return Promise.resolve();
 }
 
 // ---------------------- Lifecycle Hooks ----------------------

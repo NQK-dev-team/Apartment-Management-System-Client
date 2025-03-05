@@ -17,6 +17,7 @@ export default {
   available: 'Còn trống',
   add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
   add_building_success_note: 'Bạn có thể quay lại trang danh sách tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
+  add_service_success: 'Dịch vụ mới đã được thêm thành công!',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -185,6 +186,7 @@ export default {
   sold: 'Đã bán',
   statistic: 'Thống kê',
   search: 'Tìm kiếm',
+  success: 'Thành công',
 
   T: 't',
   total: 'Tổng',
@@ -210,4 +212,5 @@ export default {
 
   Z: 'z',
   zero_room_area: 'Diện tích phòng {no} phải lớn hơn 0!',
+  zero_service_price: 'Phí dịch vụ {no} phải lớn hơn 0!',
 };

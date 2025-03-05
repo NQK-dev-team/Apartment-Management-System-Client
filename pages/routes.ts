@@ -56,6 +56,11 @@ const commonRoutes: Route[] = [
   // Room
   // Profile
   // Staff
+  {
+    name: 'Staff List',
+    path: pageRoutes.common.staff.list,
+    file: staffBaseRoute + 'list.vue',
+  }
   // Customer
   // Bill
   // Contract

@@ -84,6 +84,7 @@ export default {
   empty_room_status: 'Trạng thái phòng {no} không được để trống!',
   empty_room_area: 'Diện tích phòng {no} không được để trống!',
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
+  employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
 
   F: 'f',

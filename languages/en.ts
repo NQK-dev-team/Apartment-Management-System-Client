@@ -84,6 +84,7 @@ export default {
   empty_room_status: 'Room {no} status cannot be empty!',
   empty_room_area: 'Room {no} area cannot be empty!',
   empty_service_price: 'Service {no} price cannot be empty!',
+  employee_list: 'Employee list',
   empty_password: 'Empty password!',
 
   F: 'f',

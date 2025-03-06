@@ -28,21 +28,13 @@
           </div>
           <template #overlay>
             <a-menu>
-              <a-menu-item
-                key="vi"
-                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
-                @click="setLocale('vi')"
-              >
+              <a-menu-item key="vi" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']" @click="setLocale('vi')">
                 <div class="flex items-center">
                   <img :src="svgPaths.vi" alt="Vietnamese" class="w-[24px] h-[24px] select-none" />
                   <p class="ms-2" :class="[lightMode ? '' : 'text-white']">Tiếng Việt</p>
                 </div>
               </a-menu-item>
-              <a-menu-item
-                key="en"
-                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
-                @click="setLocale('en')"
-              >
+              <a-menu-item key="en" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']" @click="setLocale('en')">
                 <div class="flex items-center">
                   <img :src="svgPaths.en" alt="English" class="w-[24px] h-[24px] select-none" />
                   <p class="ms-2" :class="[lightMode ? '' : 'text-white']">English</p>
@@ -78,9 +70,7 @@
           <template #overlay>
             <a-menu class="shadow-2xl">
               <div class="px-[12px] py-[5px]">
-                <span class="font-bold" :class="[lightMode ? '' : 'text-white']">{{
-                  userName
-                }}</span>
+                <span class="font-bold" :class="[lightMode ? '' : 'text-white']">{{ userName }}</span>
               </div>
               <a-menu-divider />
               <a-menu-item key="profile" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
@@ -93,11 +83,7 @@
                   <p class="ms-2">{{ $t('profile') }}</p>
                 </NuxtLink>
               </a-menu-item>
-              <a-menu-item
-                key="logout"
-                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
-                @click="logout"
-              >
+              <a-menu-item key="logout" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']" @click="logout">
                 <div class="flex items-center">
                   <img :src="svgPaths.signOut" alt="Log out" class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2 text-red-500">{{ $t('log_out') }}</p>
@@ -113,7 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { UploadFile } from '~/types/upload_file';
+import type { UploadFile } from 'ant-design-vue';
 import Profile from '~/public/svg/profile.svg';
 import { api } from '~/services/api';
 import { pageRoutes } from '~/consts/page_routes';

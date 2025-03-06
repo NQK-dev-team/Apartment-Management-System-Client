@@ -60,7 +60,7 @@
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
-import type { UploadFile } from '~/types/upload_file';
+import type { UploadFile } from 'ant-design-vue';
 // ---------------------- Variables ----------------------
 const props = defineProps({
   data: {

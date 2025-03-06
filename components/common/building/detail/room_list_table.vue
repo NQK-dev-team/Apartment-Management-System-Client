@@ -5,6 +5,9 @@
     :columns="roomListTableColumns"
     class="mt-5"
   >
+    <template #headerCell="{ column }">
+      <template v-if="column.key === 'area'"> {{ column.title }} (m<sup>2</sup>) </template>
+    </template>
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
@@ -168,6 +171,16 @@ const roomListTableColumns = computed<any>(() => {
       onFilter: (value: number, record: any) => record.status === value,
     },
     {
+      title: t('area'),
+      dataIndex: 'area',
+      key: 'area',
+    },
+    {
+      title: t('description'),
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
       title: t('action'),
       dataIndex: 'action',
       key: 'action',
@@ -183,6 +196,8 @@ const roomList = computed<any[]>(() =>
       status: room.status,
       key: room.ID,
       action: room.ID,
+      area: room.area,
+      description: room.description,
     };
   })
 );

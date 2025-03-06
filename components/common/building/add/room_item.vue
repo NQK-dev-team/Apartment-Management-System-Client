@@ -124,16 +124,15 @@
         <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeRoom" />
       </div>
     </td>
-    <a-modal width="700px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
+    <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
       <img alt="Image Preview" style="width: 100%" :src="previewImage" />
     </a-modal>
   </tr>
 </template>
 
 <script lang="ts" setup>
-import type { UploadFile } from '~/types/upload_file';
 import { getBase64 } from '#build/imports';
-import type { UploadProps } from 'ant-design-vue';
+import type { UploadProps, UploadFile } from 'ant-design-vue';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');

@@ -86,7 +86,7 @@
                   class="border-r-[1px] h-[20px] flex items-center justify-center"
                   :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                 >
-                  {{ $t('area') }}
+                  {{ $t('area') }} (m<sup>2</sup>)
                   <div class="flex items-center">
                     <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                   </div>

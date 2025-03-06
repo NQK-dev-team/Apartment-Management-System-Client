@@ -173,7 +173,9 @@
                 "
                 ><DeleteOutlined
               /></a-button>
-              <a-button class="flex items-center rounded-sm ms-2" type="primary"><PlusOutlined /></a-button>
+              <a-button class="flex items-center rounded-sm ms-2" type="primary" @click="addRoomModal = true"
+                ><PlusOutlined
+              /></a-button>
             </div>
           </div>
           <div v-show="option === 2">
@@ -198,9 +200,7 @@
           <div v-show="option === 3">
             <div v-if="userRole?.toString() === roles.owner" class="items-center" style="display: flex">
               <a-button class="flex items-center rounded-sm" type="primary" danger><DeleteOutlined /></a-button>
-              <a-button class="items-center rounded-sm ms-2" style="display: flex" type="primary"
-                ><PlusOutlined
-              /></a-button>
+              <a-button class="flex items-center rounded-sm ms-2" type="primary"><PlusOutlined /></a-button>
             </div>
           </div>
           <div v-show="option === 4"></div>
@@ -227,13 +227,13 @@
       :footer="null"
       :closable="false"
       width="750px"
-      @cancel="handleCancel"
+      @cancel="previewVisible = false"
     >
       <img alt="View image" style="width: 100%" :src="previewImage" />
     </a-modal>
     <a-modal
       v-model:open="addServiceModal"
-      :title="$t('confirm_deletion_with_password')"
+      :title="$t('add_service')"
       @ok="addService"
       @cancel="
         () => {
@@ -266,6 +266,113 @@
         </a-form-item>
       </a-form>
     </a-modal>
+    <a-modal
+      v-model:open="addRoomModal"
+      :title="$t('add_room')"
+      @ok="addRoom"
+      @cancel="
+        () => {
+          newRoom.floor = 0;
+          newRoom.no = 0;
+          newRoom.status = 0;
+          newRoom.area = '';
+          newRoom.description = '';
+          newRoom.images = [];
+          newRoomFormRef?.clearValidate();
+        }
+      "
+    >
+      <a-form ref="newRoomFormRef" :model="newRoom" layout="vertical">
+        <a-form-item :rules="[{ required: true, validator: validateFloorSelect, trigger: 'blur' }]" name="floor">
+          <label class="mb-1 flex items-center" for="select_floor">
+            <span>{{ $t('floor') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-select
+            id="select_floor"
+            v-model:value="newRoom.floor"
+            placeholder="{{ $t('select_floor') }}"
+            @change="
+              () => {
+                const rooms = buildingData.rooms
+                  .filter((room) => room.floor === newRoom.floor)
+                  .sort((a, b) => b.no - a.no);
+                newRoom.no = rooms.length ? rooms[0].no + 1 : newRoom.floor * 1000 + 1;
+              }
+            "
+          >
+            <a-select-option :value="0" class="hidden">{{ $t('select_floor') }}</a-select-option>
+            <a-select-option v-for="(_, index) in buildingData.totalFloor" :key="index + 1" :value="index + 1">{{
+              index + 1
+            }}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <template v-if="newRoom.floor">
+          <label class="mb-1 flex items-center" for="room_no">
+            <span>{{ $t('room_no') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input id="room_no" :value="newRoom.no" :placeholder="$t('enter_room_no')" disabled readonly class="mb-5" />
+          <a-form-item :rules="[{ required: true, validator: validateStatusSelect, trigger: 'blur' }]" name="status">
+            <label class="mb-1 flex items-center" for="select_status">
+              <span>{{ $t('floor') }}</span>
+              <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            </label>
+            <a-select id="select_status" v-model:value="newRoom.status" placeholder="{{ $t('select_status') }}">
+              <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
+              <a-select-option :value="1" class="text-[#50c433]">{{ $t('rented') }}</a-select-option>
+              <a-select-option :value="2" class="text-[#43b7f1]">{{ $t('sold') }}</a-select-option>
+              <a-select-option :value="3" class="text-[#d8d535]">{{ $t('available') }}</a-select-option>
+              <a-select-option :value="4" class="text-[#888888]">{{ $t('maintenance') }}</a-select-option>
+              <a-select-option :value="5" class="text-[#FF0000]">{{ $t('unavailable') }}</a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item :rules="[{ required: true, validator: validateArea, trigger: 'blur' }]" name="area">
+            <label class="mb-1 flex items-center" for="room_area">
+              <span>{{ $t('area') }} (m<sup>2</sup>)</span>
+              <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            </label>
+            <a-input
+              id="room_area"
+              v-model:value="newRoom.area"
+              :placeholder="$t('enter_room_area')"
+              type="number"
+              :min="0"
+            />
+          </a-form-item>
+          <label class="mb-1 flex items-center" for="room_description">{{ $t('description') }} </label>
+          <a-textarea
+            id="room_description"
+            v-model:value="newRoom.description"
+            :placeholder="$t('enter_room_description')"
+            class="mb-5"
+          />
+          <a-form-item :rules="[{ required: true, message: $t('room_image_require'), trigger: 'blur' }]" name="images">
+            <label class="mb-1 flex items-center" for="room_images">
+              <span>{{ $t('images') }}</span>
+              <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            </label>
+            <a-upload
+              id="room_images"
+              v-model:file-list="newRoom.images"
+              accept=".png,.jpg,.jpeg"
+              multiple
+              list-type="picture-card"
+              class="custom_room_image_upload"
+              @preview="handlePreview"
+            >
+              <div>
+                <plus-outlined />
+                <div style="margin-top: 8px">{{ $t('upload_file') }}</div>
+              </div>
+            </a-upload>
+          </a-form-item>
+        </template>
+      </a-form>
+    </a-modal>
+    <a-modal width="500px" :open="previewRoomVisible" :title="previewRoomTitle" :footer="null" @cancel="handleCancel">
+      <img alt="Image Preview" style="width: 100%" :src="previewRoomImage" />
+    </a-modal>
   </div>
 </template>
 z
@@ -275,7 +382,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
 import type { Service, Building, Room } from '~/types/building';
-import type { FormInstance } from 'ant-design-vue';
+import type { FormInstance, UploadFile, UploadProps } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
 import type { Rule } from 'ant-design-vue/es/form';
 
@@ -332,14 +439,26 @@ const serviceListSelection = ref<{ selection: number[] }>({ selection: [] });
 const addServiceModal = ref<boolean>(false);
 const newService = ref<{ name: string; price: number | string }>({ name: '', price: '' });
 const addRoomModal = ref<boolean>(false);
-const newRoom = ref<{ no: number | string; status: number | string; area: number | string; description: string }>({
-  no: '',
-  status: '',
+const newRoom = ref<{
+  floor: number;
+  no: number;
+  status: number;
+  area: number | string;
+  description: string;
+  images: UploadFile[];
+}>({
+  floor: 0,
+  no: 0,
+  status: 0,
   area: '',
   description: '',
+  images: [],
 });
 const newServiceFormRef = ref<FormInstance>();
 const newRoomFormRef = ref<FormInstance>();
+const previewRoomVisible = ref(false);
+const previewRoomImage = ref('');
+const previewRoomTitle = ref('');
 
 // ---------------------- Functions ----------------------
 async function getBuildingData(emitLoading = true) {
@@ -366,10 +485,6 @@ async function getBuildingData(emitLoading = true) {
       $event.emit('loading');
     }
   }
-}
-
-function handleCancel() {
-  previewVisible.value = false;
 }
 
 async function deleteRoom() {
@@ -410,23 +525,28 @@ async function deleteService() {
   }
 }
 
-async function addService() {
+function addService() {
   try {
     if (!newServiceFormRef.value) return;
-    await newServiceFormRef.value.validateFields();
-
-    $event.emit('loading');
-    await api.common.building.addService(buildingID, {
-      name: newService.value.name,
-      price: Number(newService.value.price),
-    });
-    getBuildingData(false);
-    notification.info({
-      message: t('success'),
-      description: t('add_service_success'),
-    });
-    newService.value.name = '';
-    newService.value.price = '';
+    newServiceFormRef.value
+      .validateFields()
+      .then(async () => {
+        $event.emit('loading');
+        await api.common.building.addService(buildingID, {
+          name: newService.value.name,
+          price: Number(newService.value.price),
+        });
+        getBuildingData(false);
+        notification.info({
+          message: t('success'),
+          description: t('add_service_success'),
+        });
+        addServiceModal.value = false;
+        newService.value.name = '';
+        newService.value.price = '';
+        $event.emit('loading');
+      })
+      .catch(() => {});
   } catch (err: any) {
     if (err.response?._data.message === getMessageCode('SYSTEM_ERROR')) {
       notification.error({
@@ -434,13 +554,41 @@ async function addService() {
         description: t('system_error_description'),
       });
     }
-  } finally {
-    $event.emit('loading');
-    addServiceModal.value = false;
   }
 }
 
-async function addRoom() {}
+function addRoom() {
+  try {
+    if (!newRoomFormRef.value) return;
+    newRoomFormRef.value
+      .validateFields()
+      .then(async () => {
+        $event.emit('loading');
+        await api.common.building.addRoom(buildingID, newRoom.value);
+        getBuildingData(false);
+        notification.info({
+          message: t('success'),
+          description: t('add_room_success'),
+        });
+        addRoomModal.value = false;
+        newRoom.value.floor = 0;
+        newRoom.value.no = 0;
+        newRoom.value.status = 0;
+        newRoom.value.area = '';
+        newRoom.value.description = '';
+        newRoom.value.images = [];
+        $event.emit('loading');
+      })
+      .catch(() => {});
+  } catch (err: any) {
+    if (err.response?._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
 
 function validateServicePrice(_rule: Rule, value: string) {
   if (value === '') {
@@ -452,6 +600,44 @@ function validateServicePrice(_rule: Rule, value: string) {
   return Promise.resolve();
 }
 
+function validateArea(_rule: Rule, value: string) {
+  if (value === '') {
+    return Promise.reject(t('empty_room_area'));
+  }
+  if (Number(value) <= 0) {
+    return Promise.reject(t('zero_room_area'));
+  }
+  return Promise.resolve();
+}
+
+function validateFloorSelect(_rule: Rule, value: number) {
+  if (value === 0) {
+    return Promise.reject(t('select_a_floor'));
+  }
+  return Promise.resolve();
+}
+
+function validateStatusSelect(_rule: Rule, value: number) {
+  if (value === 0) {
+    return Promise.reject(t('empty_room_status'));
+  }
+  return Promise.resolve();
+}
+
+function handleCancel() {
+  previewRoomVisible.value = false;
+  previewRoomTitle.value = '';
+}
+
+// @ts-ignore
+async function handlePreview(file: UploadProps['fileList'][number]) {
+  if (!file.url && !file.preview) {
+    file.preview = (await getBase64(file.originFileObj)) as string;
+  }
+  previewRoomImage.value = file.url || file.preview;
+  previewRoomVisible.value = true;
+  previewRoomTitle.value = file.name || file.url.substring(file.url.lastIndexOf('/') + 1);
+}
 // ---------------------- Lifecycle Hooks ----------------------
 onMounted(async () => {
   await getBuildingData();

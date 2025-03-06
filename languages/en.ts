@@ -18,6 +18,8 @@ export default {
   add_building_success_title: 'New building information has been added successfully',
   add_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
   add_service_success: 'New service has been added successfully!',
+  add_room_success: 'New room has been added successfully!',
+  add_service: 'Add service',
 
   B: 'b',
   bill: 'Bill',
@@ -110,6 +112,7 @@ export default {
   invalid_email: 'Invalid email!',
   invalid_password: 'Invalid password!',
   image: 'Image',
+  images: 'Image(s)',
 
   J: 'j',
 
@@ -165,7 +168,7 @@ export default {
   recommended_resolution: 'Recommended resolution: 640x640',
   room_no: 'Room number',
   rented: 'Rented',
-  room_image_require: 'Please at least one image for room {no}!',
+  room_image_require: 'Please choose at least one image for room {no}!',
   rooms: 'Rooms',
 
   S: 's',
@@ -187,6 +190,7 @@ export default {
   statistic: 'Statistic',
   search: 'Search',
   success: 'Success',
+  select_a_floor: 'Please select a floor',
 
   T: 't',
   total: 'Total',

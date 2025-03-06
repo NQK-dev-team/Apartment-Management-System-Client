@@ -1,5 +1,5 @@
 import type { BasicFileModel, BasicModel } from './basic_model';
-import type { UploadFile } from './upload_file';
+import type { UploadFile } from 'ant-design-vue';
 
 type BuildingImage = BasicFileModel & {
   buildingID: number;

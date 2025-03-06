@@ -2,6 +2,7 @@ import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
 import type { Building, NewBuildingInfo, Room, Service } from '~/types/building';
+import type { UploadFile } from 'ant-design-vue';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -112,9 +113,8 @@ const common = {
       building.services.forEach((service) => {
         formData.append('services[]', JSON.stringify(service));
       });
-      formData.append('images', building.images[0]);
       building.images.forEach((image) => {
-        formData.append('images[]', image.originFileObj);
+        formData.append('images[]', image.originFileObj as File);
       });
       formData.append('totalFloor', building.floors.length.toString());
       formData.append('totalRoom', building.floors.reduce((acc, floor) => acc + floor.rooms.length, 0).toString());
@@ -131,7 +131,7 @@ const common = {
             })
           );
           room.images.forEach((image) => {
-            formData.append(`roomImages[${1000 * (floorIndex + 1) + roomIndex + 1}]`, image.originFileObj);
+            formData.append(`roomImages[${1000 * (floorIndex + 1) + roomIndex + 1}]`, image.originFileObj as File);
           });
         });
       });
@@ -179,6 +179,33 @@ const common = {
           name: service.name,
           price: service.price,
         },
+      });
+    },
+    addRoom: async (
+      buildingId: number,
+      room: {
+        floor: number;
+        no: number;
+        status: number;
+        area: number | string;
+        description: string;
+        images: UploadFile[];
+      }
+    ): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      const formData = new FormData();
+      formData.append('floor', room.floor.toString());
+      formData.append('no', room.no.toString());
+      formData.append('status', room.status.toString());
+      formData.append('area', room.area.toString());
+      formData.append('description', room.description);
+      room.images.forEach((image) => {
+        formData.append('images[]', image.originFileObj as File);
+      });
+
+      return $api(apiRoutes.building.addRoom(buildingId), {
+        method: 'POST',
+        body: formData,
       });
     },
   },

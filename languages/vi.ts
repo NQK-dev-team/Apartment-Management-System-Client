@@ -18,6 +18,8 @@ export default {
   add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
   add_building_success_note: 'Bạn có thể quay lại trang danh sách tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
   add_service_success: 'Dịch vụ mới đã được thêm thành công!',
+  add_room_success: 'Phòng mới đã được thêm thành công!',
+  add_service: 'Thêm dịch vụ',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -110,6 +112,7 @@ export default {
   invalid_email: 'Email không hợp lệ!',
   invalid_password: 'Mật khẩu không hợp lệ!',
   image: 'Hình ảnh',
+  images: 'Hình ảnh',
 
   J: 'j',
 
@@ -187,6 +190,7 @@ export default {
   statistic: 'Thống kê',
   search: 'Tìm kiếm',
   success: 'Thành công',
+  select_a_floor: 'Hãy chọn tầng',
 
   T: 't',
   total: 'Tổng',

@@ -21,6 +21,7 @@ const pageRoutes = {
     },
     staff: {
       list: '/staff',
+      add: '/staff/add',
     },
     customer: {
       list: '/customer',

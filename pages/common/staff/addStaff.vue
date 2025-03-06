@@ -4,32 +4,15 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>{{ $t('employee_list') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>Add employee</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('employee_list') }}</h1>
+      <h1 class="mt-3 text-2xl">Add employee</h1>
     </div>
     <!-- Page main content -->
     <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <!-- Heading of the  page -->
       <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
-      <!-- Search bar and buttons -->
-      <div class="flex justify-between">
-        <!-- p is a place holder, to space out the content -->
-        <p class="mt-3 text-white">{{ $t('employee_list') }}</p> 
-        <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
-        <div class="flex">
-          <NuxtLink :to="pageRoutes.common.staff.add">
-            <a-button type="primary" class="btn-icon">
-              <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]"/>
-            </a-button>
-          </NuxtLink>
-          
-          <a-button type="primary" danger class="btn-icon ml-2">
-            <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]"/>
-          </a-button>
-        </div>
-      </div>
       <!-- Table -->
-      <StaffTable :columns="columns" :data-source="dataSource" :row-selection="rowSelection" />
     </div>
   </div>
 </template>
@@ -42,18 +25,16 @@ import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
 import { PlusOutlined } from '#build/components';
 import StaffTable from '@/components/common/staff/StaffTable.vue';
-import { pageRoutes } from '~/consts/page_routes';
-import { NuxtLink } from '#components';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Staff List',
+  name: 'Staff add',
   layout: 'main',
   middleware: ['authorization-manager']
 });
 
 useHead({
-  title: 'Staff List',
+  title: 'Add staff member',
   meta: [
     {
       name: 'description',

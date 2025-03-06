@@ -10,7 +10,7 @@
     <!-- Page main content -->
     <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <!-- Heading of the  page -->
-      <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1>
+      <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
       <!-- Search bar and buttons -->
       <div class="flex justify-between">
         <!-- p is a place holder, to space out the content -->
@@ -76,57 +76,57 @@ const lightMode = computed(
 // const current = ref(1);
 const searchValue = ref("");
 
-const columns = [
+const columns = computed(() => [
   {
-    title: 'No',
+    title: t('no'),
     dataIndex: 'no',
     width: '1%',
   },
   {
-    title: 'Name',
+    title: t('name'),
     dataIndex: 'name',
     width: '12%',
   },
   {
-    title: 'Employee ID',
+    title: t('employee_id'),
     dataIndex: 'employeeId',
     width: '12%',
   },
   {
-    title: 'Gender',
+    title: t('gender'),
     dataIndex: 'gender',
     width: '5%',
   },
   {
-    title: 'Dob',
+    title: t('dob'),
     dataIndex: 'dob',
     width: '8%',
   },
   {
-    title: 'National ID',
+    title: t('national_id'),
     dataIndex: 'nationalId',
     width: '10%',
   },
   {
-    title: 'Phone Number',
+    title: t('phone'),
     dataIndex: 'phoneNumber',
     width: '10%',
   },
   {
-    title: 'Contact Mail',
+    title: t('email'),
     dataIndex: 'contactMail',
     width: '15%',
   },
   {
-    title: 'Building Managing',
+    title: t('building_managing'),
     dataIndex: 'buildingManaging',
     width: '10%',
   },
   {
-    title: 'Operation',
+    title: t('operation'),
     dataIndex: 'operation',
   },
-];
+]);
 
 interface DataItem {
   key: string;

@@ -32,6 +32,7 @@ export default {
   building_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho tòa nhà!',
   building_information: 'Thông tin tòa nhà',
   bought: 'Đã mua',
+  building_managing: 'Toà nhà quản lý',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -56,8 +57,10 @@ export default {
   delete_success: 'Xóa thành công!',
   delete_success_content: '(Các) Mục được chọn đã được xóa khỏi hệ thống!',
   detail: 'Chi tiết',
+  dob: 'Ngày sinh',
 
   E: 'e',
+  email: 'Email',
   example_file: 'Tệp tin mẫu',
   example_file_csv: 'Tệp tin CSV mẫu',
   example_file_xls: 'Tệp tin XLS/XLSX mẫu',
@@ -86,6 +89,7 @@ export default {
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
+  employee_id: 'Employee id',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -97,6 +101,7 @@ export default {
   floor: 'Tầng {name}',
 
   G: 'g',
+  gender: 'Giới tính',
 
   H: 'h',
 
@@ -136,8 +141,11 @@ export default {
   no: 'STT',
   next: 'Tiếp theo',
   no_floor: 'Tòa nhà này không có dữ liệu về các tầng, bạn có thể tiếp tục hoặc quay lại để thêm tầng mới',
+  name: 'Tên',
+  national_id: 'CCCD/CMND',
 
   O: 'o',
+  operation: 'Thao tác',
 
   P: 'p',
   profile: 'Thông tin cá nhân',

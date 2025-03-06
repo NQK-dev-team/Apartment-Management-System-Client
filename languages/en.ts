@@ -32,6 +32,7 @@ export default {
   building_image_require: 'Please at least one image for the building!',
   building_information: 'Building information',
   bought: 'Bought',
+  building_managing: 'Building managing',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -56,8 +57,10 @@ export default {
   delete_success: 'Delete success!',
   delete_success_content: 'The selected item(s) has been deleted from the system!',
   detail: 'Detail',
+  dob: 'DOB',
 
   E: 'e',
+  email: 'Email',
   example_file: 'Example files',
   example_file_csv: 'Example CSV file',
   example_file_xls: 'Example XLS/XLSX file',
@@ -86,6 +89,7 @@ export default {
   empty_service_price: 'Service {no} price cannot be empty!',
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
+  employee_id: 'Employee id',
 
   F: 'f',
   finish_import: 'Import',
@@ -97,6 +101,7 @@ export default {
   floor: 'Floor {name}',
 
   G: 'g',
+  gender: 'Gender',
 
   H: 'h',
 
@@ -136,8 +141,11 @@ export default {
   no: 'No.',
   next: 'Next',
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
+  name: 'Name',
+  national_id: 'National ID',
 
   O: 'o',
+  operation: 'Operation',
 
   P: 'p',
   profile: 'Profile',

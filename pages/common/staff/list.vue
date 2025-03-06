@@ -26,22 +26,7 @@
         </div>
       </div>
       <!-- Table -->
-      <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-        <template #bodyCell="{ column, text }">
-          <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
-            <div>
-              {{ text }}
-            </div>
-          </template>
-          <template v-else-if="column.dataIndex === 'operation'">
-            <div>
-              <span>
-                <NuxtLink class="text-blue-600 link-hover">Edit</NuxtLink> | <NuxtLink class="text-red-600 link-hover">Delete</NuxtLink>
-              </span>
-            </div>
-          </template>
-        </template>
-      </a-table>
+      <StaffTable :columns="columns" :data-source="dataSource" :row-selection="rowSelection" />
     </div>
   </div>
 </template>
@@ -53,7 +38,7 @@ import { reactive, ref } from 'vue';
 import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
 import { PlusOutlined } from '#build/components';
-import { NuxtLink } from '#components';
+import StaffTable from '@/components/common/staff/StaffTable.vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -238,7 +223,5 @@ const rowSelection = ref({
   .editable-row-operations a {
     margin-right: 8px;
   }
-  .link-hover:hover {
-    color: white;
-  }
+
 </style>

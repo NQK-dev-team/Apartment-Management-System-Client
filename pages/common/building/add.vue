@@ -493,7 +493,7 @@ function checkStep2(): boolean {
         });
         isOK = false;
       }
-      if (room.area === '0' && isOK) {
+      if (Number(room.area) <= 0 && isOK) {
         notification.error({
           message: t('zero_room_area', {
             no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,

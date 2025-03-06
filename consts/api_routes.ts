@@ -20,8 +20,16 @@ const apiRoutes = {
   },
   room: {},
   profile: {},
-  staff: {},
-  customer: {},
+  staff: {
+    list: '/staff',
+    detail: (staffId: number) => `/staff/${staffId}`,
+    add: '/staff',
+  },
+  customer: {
+    list: '/customer',
+    detail: (customerId: number) => `/customer/${customerId}`,
+    add: '/customer',
+  },
   bill: {
     list: '/bill',
     detail: (billId: number) => `/bill/${billId}`,

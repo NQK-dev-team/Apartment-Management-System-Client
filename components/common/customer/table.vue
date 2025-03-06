@@ -91,8 +91,8 @@ const rooms = ['A1-01', 'B1-01', 'C1-01'];
 
 function getRandomRooms() {
   const shuffled = rooms.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, Math.floor(Math.random() * rooms.length) + 1);
-  return selected.join(', ');
+  const selected = shuffled.slice(0, 1);
+  return selected.toString();
 }
 
 for (let i = 0; i < 100; i++) {

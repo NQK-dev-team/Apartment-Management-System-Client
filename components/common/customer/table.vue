@@ -32,8 +32,8 @@ const columns = [
     width: '12%',
   },
   {
-    title: 'Employee ID',
-    dataIndex: 'employeeId',
+    title: 'Customer ID',
+    dataIndex: 'customerId',
     width: '12%',
   },
   {
@@ -62,8 +62,8 @@ const columns = [
     width: '15%',
   },
   {
-    title: 'Building Managing',
-    dataIndex: 'buildingManaging',
+    title: 'Room',
+    dataIndex: 'room',
     width: '10%',
   },
   {
@@ -76,22 +76,22 @@ interface DataItem {
   key: string;
   no: number;
   name: string;
-  employeeId: string;
+  customerId: string;
   gender: string;
   dob: string;
   nationalId: string;
   phoneNumber: string;
   contactMail: string;
-  buildingManaging: string;
+  room: string;
 }
 
 const data: DataItem[] = [];
 const genders = ['Male', 'Female'];
-const buildings = ['A1', 'B1', 'C1'];
+const rooms = ['A1-01', 'B1-01', 'C1-01'];
 
-function getRandomBuildings() {
-  const shuffled = buildings.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, Math.floor(Math.random() * buildings.length) + 1);
+function getRandomRooms() {
+  const shuffled = rooms.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, Math.floor(Math.random() * rooms.length) + 1);
   return selected.join(', ');
 }
 
@@ -100,13 +100,13 @@ for (let i = 0; i < 100; i++) {
     key: i.toString(),
     no: i + 1,
     name: `Edward Long Man ${i}`,
-    employeeId: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,
+    customerId: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,
     gender: genders[Math.floor(Math.random() * genders.length)],
     dob: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/19${Math.floor(Math.random() * 30) + 70}`,
     nationalId: Math.random().toString().substr(2, 10),
     phoneNumber: Math.random().toString().substr(2, 10),
     contactMail: 'placeholder_email@gmail.com',
-    buildingManaging: getRandomBuildings(),
+    room: getRandomRooms(),
   });
 }
 

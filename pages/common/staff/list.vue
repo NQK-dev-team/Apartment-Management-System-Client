@@ -36,7 +36,7 @@
           <template v-else-if="column.dataIndex === 'operation'">
             <div>
               <span>
-                <a>Edit</a> | <a>Delete</a>
+                <NuxtLink class="text-blue-600 link-hover">Edit</NuxtLink> | <NuxtLink class="text-red-600 link-hover">Delete</NuxtLink>
               </span>
             </div>
           </template>
@@ -53,6 +53,7 @@ import { reactive, ref } from 'vue';
 import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
 import { PlusOutlined } from '#build/components';
+import { NuxtLink } from '#components';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -236,5 +237,8 @@ const rowSelection = ref({
   }
   .editable-row-operations a {
     margin-right: 8px;
+  }
+  .link-hover:hover {
+    color: white;
   }
 </style>

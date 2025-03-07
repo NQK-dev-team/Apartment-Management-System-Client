@@ -17,6 +17,9 @@ export default {
   available: 'Còn trống',
   add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
   add_building_success_note: 'Bạn có thể quay lại trang danh sách tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
+  add_service_success: 'Dịch vụ mới đã được thêm thành công!',
+  add_room_success: 'Phòng mới đã được thêm thành công!',
+  add_service: 'Thêm dịch vụ',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -90,6 +93,7 @@ export default {
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
   employee_id: 'Employee id',
+  edit: 'Chỉnh sửa',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -108,12 +112,12 @@ export default {
   I: 'i',
   import_file: 'Thêm dữ liệu từ tệp tin',
   import_type_list: 'Danh mục thêm',
-  income_report: 'Báo cáo doanh thu',
   invalid_credentials: 'Email hoặc mật khẩu không đúng!',
   invalid_link: 'Liên kết này không hợp lệ hoặc đã hết hạn.',
   invalid_email: 'Email không hợp lệ!',
   invalid_password: 'Mật khẩu không hợp lệ!',
   image: 'Hình ảnh',
+  images: 'Hình ảnh',
 
   J: 'j',
 
@@ -126,7 +130,7 @@ export default {
   M: 'm',
   managerName: ' Tên quản lý',
   maintenance: 'Bảo trì',
-  management_list: 'Danh sách quản lý',
+  management_schedule: 'Lịch quản lý',
 
   N: 'n',
   notice: 'Thông báo',
@@ -193,6 +197,8 @@ export default {
   sold: 'Đã bán',
   statistic: 'Thống kê',
   search: 'Tìm kiếm',
+  success: 'Thành công',
+  select_a_floor: 'Hãy chọn tầng',
 
   T: 't',
   total: 'Tổng',
@@ -218,4 +224,5 @@ export default {
 
   Z: 'z',
   zero_room_area: 'Diện tích phòng {no} phải lớn hơn 0!',
+  zero_service_price: 'Phí dịch vụ {no} phải lớn hơn 0!',
 };

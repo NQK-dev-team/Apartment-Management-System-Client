@@ -49,7 +49,7 @@
         </a-form-item>
 
         <a-form-item class="mb-0 mt-5">
-          <a-button class="w-full" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
+          <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
         </a-form-item>
 
         <a-form-item class="flex justify-center mb-0">
@@ -200,7 +200,11 @@ async function checkToken() {
     tokenInvalid.value = false;
     userNotFound.value = false;
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),
@@ -231,7 +235,11 @@ async function setNewPassword() {
       showResetPasswordModal.value.click();
     }
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),

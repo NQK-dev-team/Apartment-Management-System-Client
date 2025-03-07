@@ -17,6 +17,9 @@ export default {
   available: 'Available',
   add_building_success_title: 'New building information has been added successfully',
   add_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
+  add_service_success: 'New service has been added successfully!',
+  add_room_success: 'New room has been added successfully!',
+  add_service: 'Add service',
 
   B: 'b',
   bill: 'Bill',
@@ -90,6 +93,7 @@ export default {
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
   employee_id: 'Employee id',
+  edit: 'Edit',
 
   F: 'f',
   finish_import: 'Import',
@@ -108,12 +112,12 @@ export default {
   I: 'i',
   import_file: 'Import data from file',
   import_type_list: 'Import type list',
-  income_report: 'Income report',
   invalid_credentials: 'Invalid email or password!',
   invalid_link: 'This link is invalid or has expired.',
   invalid_email: 'Invalid email!',
   invalid_password: 'Invalid password!',
   image: 'Image',
+  images: 'Image(s)',
 
   J: 'j',
 
@@ -126,7 +130,7 @@ export default {
   M: 'm',
   managerName: "Manager's Name",
   maintenance: 'Maintenance',
-  management_list: 'Management list',
+  management_schedule: 'Management schedule',
 
   N: 'n',
   notice: 'Notice',
@@ -138,7 +142,7 @@ export default {
   new_password_require: 'Please enter your new password!',
   numberFloors: 'Number of Floors',
   numberRooms: 'Number of Rooms',
-  no: 'No.',
+  no: 'No',
   next: 'Next',
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
   name: 'Name',
@@ -172,7 +176,7 @@ export default {
   recommended_resolution: 'Recommended resolution: 640x640',
   room_no: 'Room number',
   rented: 'Rented',
-  room_image_require: 'Please at least one image for room {no}!',
+  room_image_require: 'Please choose at least one image for room {no}!',
   rooms: 'Rooms',
 
   S: 's',
@@ -193,6 +197,8 @@ export default {
   sold: 'Sold',
   statistic: 'Statistic',
   search: 'Search',
+  success: 'Success',
+  select_a_floor: 'Please select a floor',
 
   T: 't',
   total: 'Total',
@@ -218,4 +224,5 @@ export default {
 
   Z: 'z',
   zero_room_area: 'Room {no} area must be greater than 0!',
+  zero_service_price: 'Service {no} price must be greater than 0!',
 };

@@ -1,10 +1,7 @@
 <template>
   <div
     class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-xl menu_transition overflow-auto hideBrowserScrollbar"
-    :class="[
-      lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white',
-      !collapse ? 'w-[250px]' : 'w-[75px]',
-    ]"
+    :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white', !collapse ? 'w-[250px]' : 'w-[75px]']"
   >
     <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
       <DoubleLeftOutlined
@@ -51,7 +48,7 @@
           v-if="props.role === roles.owner"
           :href="pageRoutes.common.report.page"
           :icon="Report"
-          :label="$t('income_report')"
+          :label="$t('statistic')"
           :collapse="collapse"
         />
       </template>

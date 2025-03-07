@@ -25,10 +25,10 @@
             class="w-full text-left"
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" class="text-[#1B8800]">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" class="text-[#086C9E]">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" class="text-[#B57E17]">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" class="text-[#787878]">{{ $t('maintenance') }}</a-select-option>
+            <a-select-option :value="1" class="text-[#50c433]">{{ $t('rented') }}</a-select-option>
+            <a-select-option :value="2" class="text-[#43b7f1]">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" class="text-[#d8d535]">{{ $t('available') }}</a-select-option>
+            <a-select-option :value="4" class="text-[#888888]">{{ $t('maintenance') }}</a-select-option>
             <a-select-option :value="5" class="text-[#FF0000]">{{ $t('unavailable') }}</a-select-option>
           </a-select>
           <a-select
@@ -41,10 +41,10 @@
             readonly
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" class="text-[#1B8800]">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" class="text-[#086C9E]">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" class="text-[#B57E17]">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" class="text-[#787878]">{{ $t('maintenance') }}</a-select-option>
+            <a-select-option :value="1" class="text-[#50c433]">{{ $t('rented') }}</a-select-option>
+            <a-select-option :value="2" class="text-[#43b7f1]">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" class="text-[#d8d535]">{{ $t('available') }}</a-select-option>
+            <a-select-option :value="4" class="text-[#888888]">{{ $t('maintenance') }}</a-select-option>
             <a-select-option :value="5" class="text-[#FF0000]">{{ $t('unavailable') }}</a-select-option>
           </a-select>
         </div>
@@ -124,16 +124,15 @@
         <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeRoom" />
       </div>
     </td>
-    <a-modal width="700px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
+    <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
       <img alt="Image Preview" style="width: 100%" :src="previewImage" />
     </a-modal>
   </tr>
 </template>
 
 <script lang="ts" setup>
-import type { UploadFile } from '~/types/upload_file';
 import { getBase64 } from '#build/imports';
-import type { UploadProps } from 'ant-design-vue';
+import type { UploadProps, UploadFile } from 'ant-design-vue';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');

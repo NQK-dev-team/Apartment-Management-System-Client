@@ -410,11 +410,14 @@ async function createNewBuilding() {
   try {
     $event.emit('loading');
     await api.common.building.addNewBuilding(buildingInfo.value);
-
     addSuccess.value = true;
   } catch (err: any) {
     step.value--;
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),
@@ -460,6 +463,14 @@ function checkStep1(): boolean {
     });
     return false;
   }
+  if (buildingInfo.value.services.find((service) => service.price !== '' && Number(service.price) <= 0) !== undefined) {
+    notification.error({
+      message: t('zero_service_price', {
+        no: buildingInfo.value.services.findIndex((service) => service.price !== '' && Number(service.price) <= 0) + 1,
+      }),
+    });
+    return false;
+  }
   return true;
 }
 
@@ -486,7 +497,7 @@ function checkStep2(): boolean {
         });
         isOK = false;
       }
-      if (room.area === '0' && isOK) {
+      if (Number(room.area) <= 0 && isOK) {
         notification.error({
           message: t('zero_room_area', {
             no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,

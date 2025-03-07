@@ -14,7 +14,7 @@
       <!-- Search bar and buttons -->
       <div class="flex justify-between">
         <!-- p is a place holder, to space out the content -->
-        <p class="mt-3 text-white">{{ $t('employee_list') }}</p> 
+        <p class="mt-3 text-white">{{ $t('employee_list') }}</p>
         <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
         <div class="flex">
           <NuxtLink :to="pageRoutes.common.staff.add">
@@ -22,9 +22,9 @@
               <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]"/>
             </a-button>
           </NuxtLink>
-          
+
           <a-button type="primary" danger class="btn-icon ml-2">
-            <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]"/>
+            <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
           </a-button>
         </div>
       </div>
@@ -49,7 +49,7 @@ import { NuxtLink } from '#components';
 definePageMeta({
   name: 'Staff List',
   layout: 'main',
-  middleware: ['authorization-manager']
+  middleware: ['authorization-manager'],
 });
 
 useHead({
@@ -79,7 +79,7 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 // const current = ref(1);
-const searchValue = ref("");
+const searchValue = ref('');
 
 const columns = computed(() => [
   {
@@ -204,7 +204,7 @@ const rowSelection = ref({
 //     });
 
 //   } catch (err: any) {
-//     if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+//     if (err.status >= 500 || err.response._data.message === getMessageCode('INVALID_PARAMETER') || err.response._data.message === getMessageCode('PARAMETER_VALIDATION')) {
 //       notification.error({
 //         message: t('system_error_title'),
 //         description: t('system_error_description'),
@@ -222,11 +222,10 @@ const rowSelection = ref({
 </script>
 
 <style scoped>
-  .btn-icon {
+.btn-icon {
     @apply flex items-center justify-center p-0 w-[36px] rounded-none;
   }
   .editable-row-operations a {
     margin-right: 8px;
   }
-
 </style>

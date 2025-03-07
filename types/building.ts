@@ -1,22 +1,18 @@
-import type { BasicModel } from './basic_model';
-import type { UploadFile } from './upload_file';
+import type { BasicFileModel, BasicModel } from './basic_model';
+import type { UploadFile } from 'ant-design-vue';
+
+type BuildingImage = BasicFileModel & {
+  buildingID: number;
+};
 
 type Building = BasicModel & {
   name: string;
   address: string;
   totalFloor: number;
   totalRoom: number;
-  images: {
-    ID: number;
-    buildingID: number;
-    createdAt: string;
-    createdBy: number;
-    deletedAt: string | null;
-    deletedBy: number | null;
-    no: number | null;
-    path: string;
-    title: string | null;
-  }[];
+  images: BuildingImage[];
+  rooms: Room[];
+  services: Service[];
 };
 
 type Room = BasicModel & {
@@ -26,7 +22,12 @@ type Room = BasicModel & {
   area: number;
   status: number;
   buildingID: number;
-  building: Building;
+};
+
+type Service = BasicModel & {
+  buildingID: number;
+  name: string;
+  price: number;
 };
 
 type NewBuildingInfo = {
@@ -47,4 +48,4 @@ type NewBuildingInfo = {
   }[];
 };
 
-export type { Building, Room, NewBuildingInfo };
+export type { Building, Room, Service, BuildingImage, NewBuildingInfo };

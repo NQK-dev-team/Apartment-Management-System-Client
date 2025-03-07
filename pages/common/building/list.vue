@@ -15,7 +15,7 @@
           enter-button
           @search="filterBuildingList"
         />
-        <NuxtLink :to="pageRoutes.common.building.add">
+        <NuxtLink v-if="userRole?.toString() === roles.owner" :to="pageRoutes.common.building.add">
           <a-button type="primary" class="flex items-center rounded-sm"><PlusOutlined /></a-button>
         </NuxtLink>
       </div>
@@ -48,6 +48,7 @@ import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import { ref } from 'vue';
 import { pageRoutes } from '~/consts/page_routes';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -67,6 +68,7 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const buildingList = ref<
   {
     id: number;
@@ -114,7 +116,11 @@ async function getBuildingList() {
     });
     buildingListFiltered.value = buildingList.value;
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),

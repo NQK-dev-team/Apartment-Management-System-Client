@@ -473,7 +473,11 @@ async function getBuildingData(emitLoading = true) {
     rooms.value = data.rooms.sort((a, b) => a.no - b.no);
     services.value = data.services;
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       throw createError({
         status: 500,
         message: 'Internal server error',
@@ -495,7 +499,11 @@ async function deleteRoom() {
     getBuildingData(false);
     $event.emit('deleteItemSuccess');
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),
@@ -514,7 +522,11 @@ async function deleteService() {
     getBuildingData(false);
     $event.emit('deleteItemSuccess');
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),

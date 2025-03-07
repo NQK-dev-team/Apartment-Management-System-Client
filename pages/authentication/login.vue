@@ -186,7 +186,11 @@ async function login() {
     // roleCookie.value = null;
     await navigateTo(targetRoute);
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),

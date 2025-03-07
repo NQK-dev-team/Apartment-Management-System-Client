@@ -23,9 +23,7 @@
       </span>
       <span
         class="items-center w-12 h-full justify-center"
-        :class="[
-          !props.collapse ? 'flex' : 'hidden',
-        ]"
+        :class="[!props.collapse ? 'flex' : 'hidden']"
         @click="toggleDropdown"
       >
         <DownArrow v-show="isDropdownOpen" />
@@ -82,7 +80,11 @@ async function getBuildingList() {
     const data = response.data;
     buildingList.value = data;
   } catch (err: any) {
-    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),

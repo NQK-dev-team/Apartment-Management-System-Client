@@ -39,6 +39,7 @@ export default {
   cancel: 'Cancel',
   choose_file: 'Choose file',
   customer: 'Customer',
+  customer_list: 'Customer list',
   contract: 'Contract',
   confirm_new_password: 'Confirm new password',
   confirm_new_password_require: 'Please confirm your new password!',

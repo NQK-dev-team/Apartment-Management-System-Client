@@ -10,7 +10,7 @@
         <template v-else-if="column.dataIndex === 'operation'">
           <div>
             <span>
-              <a>Edit</a> | <a>Delete</a>
+              <a style="color: deepskyblue;">Edit</a> | <a style="color: red;">{{ $t('Delete') }}</a>
             </span>
           </div>
         </template>

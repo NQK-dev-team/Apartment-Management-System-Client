@@ -39,6 +39,7 @@ export default {
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
+  customer_list: 'Danh sách khách hàng',
   contract: 'Hợp đồng',
   confirm_new_password: 'Xác nhận mật khẩu mới',
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',

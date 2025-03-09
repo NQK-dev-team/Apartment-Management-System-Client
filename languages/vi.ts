@@ -17,6 +17,7 @@ export default {
   available: 'Còn trống',
   add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
   add_building_success_note: 'Bạn có thể quay lại trang danh sách tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
+  amount: 'Số tiền',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -145,8 +146,13 @@ export default {
   no_floor: 'Tòa nhà này không có dữ liệu về các tầng, bạn có thể tiếp tục hoặc quay lại để thêm tầng mới',
 
   O: 'o',
+  owner: 'Chủ tòa nhà',
 
   P: 'p',
+  payer_id: 'Mã người thanh toán',
+  paid_by: 'Người thanh toán',
+  payment_period: 'Kỳ thanh toán',
+  payment_date: 'Ngày thanh toán',
   profile: 'Thông tin cá nhân',
   password: 'Mật khẩu',
   password_require: 'Mật khẩu không được để trống!',

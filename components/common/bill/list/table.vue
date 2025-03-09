@@ -23,62 +23,72 @@
   </a-table>
 </template>
 <script lang="ts" setup>
-const columns = [
-  {
-    name: 'No',
-    dataIndex: 'No',
-    key: 'No',
-  },
-  {
-    title: 'Contract ID',
-    dataIndex: 'Contract ID',
-    key: 'Contract ID',
-  },
-  {
-    title: 'Owner',
-    dataIndex: 'Owner',
-    key: 'Owner',
-  },
-  {
-    title: 'Payer ID',
-    dataIndex: 'Payer ID',
-    key: 'Payer ID',
-  },
-  {
-    title: 'Bill ID',
-    dataIndex: 'Bill ID',
-    key: 'Bill ID',
-  },
-  {
-    title: 'Payment Period',
-    dataIndex: 'Payment Period',
-    key: 'Payment Period',
-  },
-  {
-    title: 'Amount',
-    dataIndex: 'Amount',
-    key: 'Amount',
-  },
-  {
-    title: 'Status',
-    key: 'Status',
-    dataIndex: 'Status',
-  },
-  {
-    title: 'Paid by',
-    key: 'Paid by',
-    dataIndex: 'Paid by',
-  },
-  {
-    title: 'Payment Date',
-    dataIndex: 'Payment Date',
-    key: 'Payment Date',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-  },
-];
+
+const { t } = useI18n();
+const columns = computed<any>(() => {
+  return [
+    {
+      name: t('no'),
+      align: 'center',
+      dataIndex: 'No',
+      key: 'No',
+    },
+    {
+      title: t('contract'),
+      align: 'center',
+      dataIndex: 'Contract ID',
+      key: 'Contract ID',
+    },
+    {
+      title: t('owner'),
+      align: 'center',
+      dataIndex: 'Owner',
+      key: 'Owner',
+    },
+    {
+      title: t('payer_id'),
+      align: 'center',
+      dataIndex: 'Payer ID',
+      key: 'Payer ID',
+    },
+    {
+      title: t('bill'),
+      align: 'center',
+      dataIndex: 'Bill ID',
+      key: 'Bill ID',
+    },
+    {
+      title: t('payment_period'),
+      align: 'center',
+      dataIndex: 'Payment Period',
+      key: 'Payment Period',
+    },
+    {
+      title: t('amount'),
+      dataIndex: 'Amount',
+      key: 'Amount',
+    },
+    {
+      title: t('status'),
+      key: 'Status',
+      dataIndex: 'Status',
+    },
+    {
+      title: t('paid_by'),
+      key: 'Paid by',
+      dataIndex: 'Paid by',
+    },
+    {
+      title: t('payment_date'),
+      dataIndex: 'Payment Date',
+      key: 'Payment Date',
+    },
+    {
+      title: t('action'),
+      key: 'action',
+    },
+  ]
+});
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -119,6 +129,5 @@ const props = defineProps({
     required: true,
   },
 });
-const { t } = useI18n();
 const { $event } = useNuxtApp();
 </script>

@@ -17,6 +17,7 @@ export default {
   available: 'Available',
   add_building_success_title: 'New building information has been added successfully',
   add_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
+  amount: 'Amount',
 
   B: 'b',
   bill: 'Bill',
@@ -145,8 +146,13 @@ export default {
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
 
   O: 'o',
+  owner: 'Owner',
 
   P: 'p',
+  payer_id: 'Payer ID',
+  paid_by: 'Paid by',
+  payment_period: 'Payment period',
+  payment_date: 'Payment date',
   profile: 'Profile',
   password: 'Password',
   password_require: 'Please enter your password!',

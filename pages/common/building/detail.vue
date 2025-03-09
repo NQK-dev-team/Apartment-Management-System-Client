@@ -218,6 +218,7 @@
             :services="services"
             :service-list-selection="serviceListSelection"
           />
+          <CommonBuildingDetailManagementSchedule v-show="option === 3" :schedules="schedules" />
         </ClientOnly>
       </div>
     </div>
@@ -320,11 +321,19 @@
             </label>
             <a-select id="select_status" v-model:value="newRoom.status" placeholder="{{ $t('select_status') }}">
               <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-              <a-select-option :value="1" class="text-[#50c433]">{{ $t('rented') }}</a-select-option>
-              <a-select-option :value="2" class="text-[#43b7f1]">{{ $t('sold') }}</a-select-option>
-              <a-select-option :value="3" class="text-[#d8d535]">{{ $t('available') }}</a-select-option>
-              <a-select-option :value="4" class="text-[#888888]">{{ $t('maintenance') }}</a-select-option>
-              <a-select-option :value="5" class="text-[#FF0000]">{{ $t('unavailable') }}</a-select-option>
+              <a-select-option :value="1" :class="`text-[#${roomStatusColor.rented}]`">{{
+                $t('rented')
+              }}</a-select-option>
+              <a-select-option :value="2" :class="`text-[#${roomStatusColor.sold}]`">{{ $t('sold') }}</a-select-option>
+              <a-select-option :value="3" :class="`text-[#${roomStatusColor.available}]`">{{
+                $t('available')
+              }}</a-select-option>
+              <a-select-option :value="4" :class="`text-[#${roomStatusColor.maintance}]`">{{
+                $t('maintenance')
+              }}</a-select-option>
+              <a-select-option :value="5" :class="`text-[#${roomStatusColor.unavailable}]`">{{
+                $t('unavailable')
+              }}</a-select-option>
             </a-select>
           </a-form-item>
           <a-form-item :rules="[{ required: true, validator: validateArea, trigger: 'blur' }]" name="area">
@@ -370,6 +379,41 @@
         </template>
       </a-form>
     </a-modal>
+    <a-modal
+      v-model:open="editServiceModal"
+      :title="$t('edit_service')"
+      @ok="updateService"
+      @cancel="
+        () => {
+          editService.name = '';
+          editService.price = '';
+          editServiceFormRef?.clearValidate();
+        }
+      "
+    >
+      <a-form ref="editServiceFormRef" :model="editService" layout="vertical">
+        <a-form-item :rules="[{ required: true, message: $t('empty_service_name'), trigger: 'blur' }]" name="name">
+          <label class="mb-1 flex items-center" for="service_name">
+            <span>{{ $t('service_name') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input id="service_name" v-model:value="editService.name" :placeholder="$t('enter_service_name')" />
+        </a-form-item>
+        <a-form-item :rules="[{ required: true, validator: validateServicePrice, trigger: 'blur' }]" name="price">
+          <label class="mb-1 flex items-center" for="service_price">
+            <span>{{ $t('service_price') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input
+            id="service_price"
+            v-model:value="editService.price"
+            :placeholder="$t('enter_service_price')"
+            type="number"
+            :min="0"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
     <a-modal width="500px" :open="previewRoomVisible" :title="previewRoomTitle" :footer="null" @cancel="handleCancel">
       <img alt="Image Preview" style="width: 100%" :src="previewRoomImage" />
     </a-modal>
@@ -385,6 +429,8 @@ import type { Service, Building, Room } from '~/types/building';
 import type { FormInstance, UploadFile, UploadProps } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
 import type { Rule } from 'ant-design-vue/es/form';
+import { roomStatusColor } from '~/consts/color';
+import type { ManagerSchedule } from '~/types/user';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -420,13 +466,12 @@ const buildingData = ref<Building>({
   createdBy: 0,
   updatedAt: '',
   updatedBy: 0,
-  deletedAt: '',
-  deletedBy: 0,
   rooms: [],
   services: [],
 });
 const rooms = ref<Room[]>([]);
 const services = ref<Service[]>([]);
+const schedules = ref<ManagerSchedule[]>([]);
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
@@ -438,7 +483,9 @@ const roomListSelection = ref<{ selection: number[] }>({ selection: [] });
 const serviceListSelection = ref<{ selection: number[] }>({ selection: [] });
 const addServiceModal = ref<boolean>(false);
 const newService = ref<{ name: string; price: number | string }>({ name: '', price: '' });
+const editService = ref<{ ID: number; name: string; price: number | string }>({ ID: 0, name: '', price: '' });
 const addRoomModal = ref<boolean>(false);
+const editServiceModal = ref<boolean>(false);
 const newRoom = ref<{
   floor: number;
   no: number;
@@ -455,6 +502,7 @@ const newRoom = ref<{
   images: [],
 });
 const newServiceFormRef = ref<FormInstance>();
+const editServiceFormRef = ref<FormInstance>();
 const newRoomFormRef = ref<FormInstance>();
 const previewRoomVisible = ref(false);
 const previewRoomImage = ref('');
@@ -467,11 +515,19 @@ async function getBuildingData(emitLoading = true) {
       $event.emit('loading');
     }
     const response = await api.common.building.getDetail(buildingID);
+    const scheduleResponse = await api.common.building.getSchedule(buildingID);
     const data = response.data;
+    const scheduleData = scheduleResponse.data;
 
     buildingData.value = data;
     rooms.value = data.rooms.sort((a, b) => a.no - b.no);
     services.value = data.services;
+    schedules.value = scheduleData.sort(
+      (a, b) =>
+        new Date(b.start_date).getTime() - new Date(a.start_date).getTime() ||
+        new Date(b.end_date.Valid ? b.end_date.Time! : '2100-01-01').getTime() -
+          new Date(a.end_date.Valid ? a.end_date.Time! : '2100-01-01').getTime()
+    );
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -556,6 +612,39 @@ function addService() {
         addServiceModal.value = false;
         newService.value.name = '';
         newService.value.price = '';
+        $event.emit('loading');
+      })
+      .catch(() => {});
+  } catch (err: any) {
+    if (err.response?._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+function updateService() {
+  try {
+    if (!editServiceFormRef.value) return;
+    editServiceFormRef.value
+      .validateFields()
+      .then(async () => {
+        $event.emit('loading');
+        await api.common.building.editService(buildingID, {
+          name: editService.value.name,
+          price: Number(editService.value.price),
+          ID: editService.value.ID,
+        });
+        getBuildingData(false);
+        notification.info({
+          message: t('success'),
+          description: t('edit_service_success'),
+        });
+        editServiceModal.value = false;
+        editService.value.name = '';
+        editService.value.price = '';
         $event.emit('loading');
       })
       .catch(() => {});
@@ -661,6 +750,16 @@ onMounted(async () => {
       fatal: true,
     });
   }
+});
+
+// ---------------------- Event Listeners ----------------------
+$event.on('openEditServiceModal', (data: any) => {
+  editServiceModal.value = true;
+  editService.value = {
+    ID: data.ID,
+    name: data.name,
+    price: data.price,
+  };
 });
 </script>
 

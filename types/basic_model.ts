@@ -4,19 +4,24 @@ type BasicModel = {
   createdBy: number;
   updatedAt: string;
   updatedBy: number;
-  deletedAt: string | null;
-  deletedBy: number | null;
+  // deletedAt: string | null;
+  // deletedBy: number | null;
 };
 
 type BasicFileModel = {
   ID: number;
   createdAt: string;
   createdBy: number;
-  deletedAt: string | null;
-  deletedBy: number | null;
+  // deletedAt: string | null;
+  // deletedBy: number | null;
   no: number | null;
   path: string;
   title: string | null;
 };
 
-export type { BasicModel, BasicFileModel };
+type NullTime = {
+  Time: string | null;
+  Valid: boolean;
+};
+
+export type { BasicModel, BasicFileModel, NullTime };

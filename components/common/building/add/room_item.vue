@@ -25,11 +25,19 @@
             class="w-full text-left"
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" class="text-[#50c433]">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" class="text-[#43b7f1]">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" class="text-[#d8d535]">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" class="text-[#888888]">{{ $t('maintenance') }}</a-select-option>
-            <a-select-option :value="5" class="text-[#FF0000]">{{ $t('unavailable') }}</a-select-option>
+            <a-select-option :value="1" :class="`text-[#${roomStatusColor.rented}]`">{{
+              $t('rented')
+            }}</a-select-option>
+            <a-select-option :value="2" :class="`text-[#${roomStatusColor.sold}]`">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" :class="`text-[#${roomStatusColor.available}]`">{{
+              $t('available')
+            }}</a-select-option>
+            <a-select-option :value="4" :class="`text-[#${roomStatusColor.maintance}]`">{{
+              $t('maintenance')
+            }}</a-select-option>
+            <a-select-option :value="5" :class="`text-[#${roomStatusColor.unavailable}]`">{{
+              $t('unavailable')
+            }}</a-select-option>
           </a-select>
           <a-select
             v-else
@@ -41,11 +49,19 @@
             readonly
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" class="text-[#50c433]">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" class="text-[#43b7f1]">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" class="text-[#d8d535]">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" class="text-[#888888]">{{ $t('maintenance') }}</a-select-option>
-            <a-select-option :value="5" class="text-[#FF0000]">{{ $t('unavailable') }}</a-select-option>
+            <a-select-option :value="1" :class="`text-[#${roomStatusColor.rented}]`">{{
+              $t('rented')
+            }}</a-select-option>
+            <a-select-option :value="2" :class="`text-[#${roomStatusColor.sold}]`">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" :class="`text-[#${roomStatusColor.available}]`">{{
+              $t('available')
+            }}</a-select-option>
+            <a-select-option :value="4" :class="`text-[#${roomStatusColor.maintance}]`">{{
+              $t('maintenance')
+            }}</a-select-option>
+            <a-select-option :value="5" :class="`text-[#${roomStatusColor.unavailable}]`">{{
+              $t('unavailable')
+            }}</a-select-option>
           </a-select>
         </div>
       </div>
@@ -119,11 +135,11 @@
         </div>
       </div>
     </td>
-    <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
+    <!-- <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="">
         <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeRoom" />
       </div>
-    </td>
+    </td> -->
     <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
       <img alt="Image Preview" style="width: 100%" :src="previewImage" />
     </a-modal>
@@ -133,6 +149,7 @@
 <script lang="ts" setup>
 import { getBase64 } from '#build/imports';
 import type { UploadProps, UploadFile } from 'ant-design-vue';
+import { roomStatusColor } from '~/consts/color';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -174,9 +191,9 @@ const previewImage = ref('');
 const previewTitle = ref('');
 
 // ---------------------- Functions ----------------------
-function removeRoom() {
-  $event.emit('deleteRoomFromList', props.index);
-}
+// function removeRoom() {
+//   $event.emit('deleteRoomFromList', props.index);
+// }
 
 function removeFromBucket() {
   $event.emit('removeRoomFromDeleteBucket', props.index);

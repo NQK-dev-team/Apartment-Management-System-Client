@@ -198,10 +198,10 @@ watch(selectedFloor, () => {
 });
 
 // ---------------------- Event Listeners ----------------------
-$event.on('deleteRoomFromList', (e: any) => {
-  openModal.value = true;
-  fallback.value = () => deleteRoom(e);
-});
+// $event.on('deleteRoomFromList', (e: any) => {
+//   openModal.value = true;
+//   fallback.value = () => deleteRoom(e);
+// });
 
 $event.on('closeDeleteModalAddBuilding', () => {
   openModal.value = false;

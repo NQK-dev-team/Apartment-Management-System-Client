@@ -101,11 +101,11 @@
                     </div>
                   </div>
                 </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
+                <!-- <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
                   <div class="h-[20px]">
                     {{ $t('action') }}
                   </div>
-                </th>
+                </th> -->
               </tr>
             </thead>
             <tbody>
@@ -178,11 +178,11 @@
                     {{ $t('floor_number') }}
                   </div>
                 </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
+                <!-- <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
                   <div class="h-[20px]">
                     {{ $t('action') }}
                   </div>
-                </th>
+                </th> -->
               </tr>
             </thead>
             <tbody>
@@ -347,17 +347,17 @@ function removeAllFloorsFromBucket() {
 }
 
 // ---------------------- Event Listeners ----------------------
-$event.on('deleteServiceFromList', (e: any) => {
-  // deleteService(e);
-  openModal.value = true;
-  fallback.value = () => deleteService(e);
-});
+// $event.on('deleteServiceFromList', (e: any) => {
+//   // deleteService(e);
+//   openModal.value = true;
+//   fallback.value = () => deleteService(e);
+// });
 
-$event.on('deleteFloorFromList', (e: any) => {
-  // deleteFloor(e);
-  openModal.value = true;
-  fallback.value = () => deleteFloor(e);
-});
+// $event.on('deleteFloorFromList', (e: any) => {
+//   // deleteFloor(e);
+//   openModal.value = true;
+//   fallback.value = () => deleteFloor(e);
+// });
 
 $event.on('addServiceToDeleteBucket', (e: any) => {
   if (!serviceDeleteBucket.value.includes(e)) {

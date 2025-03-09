@@ -14,11 +14,11 @@
         {{ props.index + 1 }}
       </div>
     </td>
-    <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
+    <!-- <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="h-[20px]">
         <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeFloor" />
       </div>
-    </td>
+    </td> -->
   </tr>
 </template>
 
@@ -46,9 +46,9 @@ const { $event } = useNuxtApp();
 const checked = computed(() => props.floorDeleteBucket.includes(props.index));
 
 // ---------------------- Functions ----------------------
-function removeFloor() {
-  $event.emit('deleteFloorFromList', props.index);
-}
+// function removeFloor() {
+//   $event.emit('deleteFloorFromList', props.index);
+// }
 
 function addToBucket() {
   $event.emit('addFloorToDeleteBucket', props.index);

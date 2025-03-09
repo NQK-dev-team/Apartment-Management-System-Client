@@ -67,7 +67,7 @@ const columns = [
     width: '10%',
   },
   {
-    title: 'Operation',
+    title: 'Action',
     dataIndex: 'operation',
   },
 ];

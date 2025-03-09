@@ -21,7 +21,7 @@
             <a-button type="primary" danger class="btn-icon ml-2">
               <img :src="svgPaths.delete" alt="Delete customer" class="w-[12px] h-[12px]"/>
             </a-button>
-        </div>
+          </div>
         </div>
         <CommonCustomerTable />
       </div>

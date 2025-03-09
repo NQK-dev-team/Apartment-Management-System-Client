@@ -13,9 +13,9 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a style="color: deepskyblue;">Detail</a>
+          <a style="color: deepskyblue;">{{ $t('detail') }}</a>
           <a-divider type="vertical" />
-          <a style="color: red;">{{ $t('Delete') }}</a>
+          <a style="color: red;">{{ $t('delete') }}</a>
           <a-divider type="vertical" />
         </span>
       </template>

@@ -60,6 +60,7 @@ export default {
   detail: 'Detail',
 
   E: 'e',
+  edit: 'Edit',
   example_file: 'Example files',
   example_file_csv: 'Example CSV file',
   example_file_xls: 'Example XLS/XLSX file',

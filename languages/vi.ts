@@ -60,6 +60,7 @@ export default {
   detail: 'Chi tiết',
 
   E: 'e',
+  edit: 'Chỉnh sửa',
   example_file: 'Tệp tin mẫu',
   example_file_csv: 'Tệp tin CSV mẫu',
   example_file_xls: 'Tệp tin XLS/XLSX mẫu',

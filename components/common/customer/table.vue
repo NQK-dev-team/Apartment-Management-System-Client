@@ -20,54 +20,56 @@
 </template>
 
 <script lang="ts" setup>
+
+const { t } = useI18n();
 const columns = [
   {
-    title: 'No',
+    title: t('no'),
     dataIndex: 'no',
     width: '1%',
   },
   {
-    title: 'Name',
+    title: t('customer'),
     dataIndex: 'name',
     width: '12%',
   },
   {
-    title: 'Customer ID',
+    title: t('customer_id'),
     dataIndex: 'customerId',
     width: '12%',
   },
   {
-    title: 'Gender',
+    title: t('gender'),
     dataIndex: 'gender',
     width: '5%',
   },
   {
-    title: 'Dob',
+    title: t('dob'),
     dataIndex: 'dob',
     width: '8%',
   },
   {
-    title: 'National ID',
+    title: t('ssn'),
     dataIndex: 'nationalId',
     width: '10%',
   },
   {
-    title: 'Phone Number',
+    title: t('phone'),
     dataIndex: 'phoneNumber',
     width: '10%',
   },
   {
-    title: 'Contact Mail',
+    title: t('email'),
     dataIndex: 'contactMail',
     width: '15%',
   },
   {
-    title: 'Room',
+    title: t('room'),
     dataIndex: 'room',
     width: '10%',
   },
   {
-    title: 'Actions',
+    title: t('action'),
     dataIndex: 'operation',
   },
 ];

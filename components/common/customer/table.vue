@@ -22,57 +22,69 @@
 <script lang="ts" setup>
 
 const { t } = useI18n();
-const columns = [
-  {
-    title: t('no'),
-    dataIndex: 'no',
-    width: '1%',
-  },
-  {
-    title: t('customer'),
-    dataIndex: 'name',
-    width: '12%',
-  },
-  {
-    title: t('customer_id'),
-    dataIndex: 'customerId',
-    width: '12%',
-  },
-  {
-    title: t('gender'),
-    dataIndex: 'gender',
-    width: '5%',
-  },
-  {
-    title: t('dob'),
-    dataIndex: 'dob',
-    width: '8%',
-  },
-  {
-    title: t('ssn'),
-    dataIndex: 'nationalId',
-    width: '10%',
-  },
-  {
-    title: t('phone'),
-    dataIndex: 'phoneNumber',
-    width: '10%',
-  },
-  {
-    title: t('email'),
-    dataIndex: 'contactMail',
-    width: '15%',
-  },
-  {
-    title: t('room'),
-    dataIndex: 'room',
-    width: '10%',
-  },
-  {
-    title: t('action'),
-    dataIndex: 'operation',
-  },
-];
+const columns = computed<any>(() => {
+  return [
+    {
+      title: t('no'),
+      align: 'center',
+      dataIndex: 'no',
+      width: '1%',
+    },
+    {
+      title: t('customer'),
+      align: 'center',
+      dataIndex: 'name',
+      width: '12%',
+    },
+    {
+      title: t('customer_id'),
+      align: 'center',
+      dataIndex: 'customerId',
+      width: '12%',
+    },
+    {
+      title: t('gender'),
+      align: 'center',
+      dataIndex: 'gender',
+      width: '5%',
+    },
+    {
+      title: t('dob'),
+      align: 'center',
+      dataIndex: 'dob',
+      width: '8%',
+    },
+    {
+      title: t('ssn'),
+      align: 'center',
+      dataIndex: 'nationalId',
+      width: '10%',
+    },
+    {
+      title: t('phone'),
+      align: 'center',
+      dataIndex: 'phoneNumber',
+      width: '10%',
+    },
+    {
+      title: t('email'),
+      align: 'center',
+      dataIndex: 'contactMail',
+      width: '15%',
+    },
+    {
+      title: t('room'),
+      align: 'center',
+      dataIndex: 'room',
+      width: '10%',
+    },
+    {
+      title: t('action'),
+      align: 'center',
+      dataIndex: 'operation',
+    },
+  ];
+});
 
 interface DataItem {
   key: string;

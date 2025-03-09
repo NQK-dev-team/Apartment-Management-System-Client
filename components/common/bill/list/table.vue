@@ -13,9 +13,9 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a style="color: deepskyblue;">{{ $t('detail') }}</a>
+          <a class="detail" style="color: deepskyblue;">{{ $t('detail') }}</a>
           <a-divider type="vertical" />
-          <a style="color: red;">{{ $t('delete') }}</a>
+          <a class="delete" style="color: red;">{{ $t('delete') }}</a>
           <a-divider type="vertical" />
         </span>
       </template>
@@ -131,3 +131,15 @@ const props = defineProps({
 });
 const { $event } = useNuxtApp();
 </script>
+
+<style scoped>
+.detail:hover {
+  cursor: pointer;
+  color: #B9EDFE;
+}
+
+.delete:hover {
+  cursor: pointer;
+  color: #E19495;
+}
+</style>

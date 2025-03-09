@@ -10,10 +10,7 @@
         <template v-else-if="column.dataIndex === 'operation'">
           <div>
             <span>
-              <a class="detail" style="color: deepskyblue;">{{ $t('edit') }}</a> | <a class="delete"
-                style="color: red;">{{
-                  $t('delete')
-                }}</a>
+              <a class="detail">{{ $t('edit') }}</a> | <a class="delete">{{$t('delete')}}</a>
             </span>
           </div>
         </template>
@@ -144,6 +141,12 @@ const rowSelection = ref({
 </script>
 
 <style scoped>
+.detail{
+  color: deepskyblue !important;
+}
+.delete{
+  color: red !important;
+}
 .detail:hover {
   cursor: pointer;
   color: #B9EDFE !important;

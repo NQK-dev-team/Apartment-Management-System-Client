@@ -20,9 +20,11 @@ export default {
   add_service_success: 'New service has been added successfully!',
   add_room_success: 'New room has been added successfully!',
   add_service: 'Add service',
+  amount: 'Amount',
 
   B: 'b',
   bill: 'Bill',
+  bill_list: 'Bill list',
   building: 'Building {name}',
   back: 'Back',
   buildingID: 'Building ID',
@@ -42,6 +44,8 @@ export default {
   cancel: 'Cancel',
   choose_file: 'Choose file',
   customer: 'Customer',
+  customer_list: 'Customer list',
+  customer_id: 'Customer ID',
   contract: 'Contract',
   confirm_new_password: 'Confirm new password',
   confirm_new_password_require: 'Please confirm your new password!',
@@ -60,9 +64,10 @@ export default {
   delete_success: 'Delete success!',
   delete_success_content: 'The selected item(s) has been deleted from the system!',
   detail: 'Detail',
-  dob: 'DOB',
+  dob: 'Date of birth',
 
   E: 'e',
+  edit: 'Edit',
   email: 'Email',
   example_file: 'Example files',
   example_file_csv: 'Example CSV file',
@@ -93,7 +98,6 @@ export default {
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
   employee_id: 'Employee id',
-  edit: 'Edit',
 
   F: 'f',
   finish_import: 'Import',
@@ -150,8 +154,13 @@ export default {
 
   O: 'o',
   operation: 'Operation',
+  owner: 'Owner',
 
   P: 'p',
+  payer_id: 'Payer ID',
+  paid_by: 'Paid by',
+  payment_period: 'Payment period',
+  payment_date: 'Payment date',
   profile: 'Profile',
   password: 'Password',
   password_require: 'Please enter your password!',
@@ -160,7 +169,7 @@ export default {
   password_format_error:
     'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.',
   paidRooms: 'Number of paid rooms',
-  phone: 'Phone No.',
+  phone: 'Phone Number',
   previous: 'Previous',
 
   Q: 'q',

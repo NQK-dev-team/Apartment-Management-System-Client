@@ -20,9 +20,11 @@ export default {
   add_service_success: 'Dịch vụ mới đã được thêm thành công!',
   add_room_success: 'Phòng mới đã được thêm thành công!',
   add_service: 'Thêm dịch vụ',
+  amount: 'Số tiền',
 
   B: 'b',
   bill: 'Hóa đơn',
+  bill_list: 'Danh sách hóa đơn',
   building: 'Tòa nhà {name}',
   back: 'Quay lại',
   buildingID: 'Mã tòa nhà',
@@ -42,6 +44,8 @@ export default {
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
+  customer_list: 'Danh sách khách hàng',
+  customer_id: 'Mã khách hàng',
   contract: 'Hợp đồng',
   confirm_new_password: 'Xác nhận mật khẩu mới',
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
@@ -63,6 +67,7 @@ export default {
   dob: 'Ngày sinh',
 
   E: 'e',
+  edit: 'Chỉnh sửa',
   email: 'Email',
   example_file: 'Tệp tin mẫu',
   example_file_csv: 'Tệp tin CSV mẫu',
@@ -93,7 +98,6 @@ export default {
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
   employee_id: 'Employee id',
-  edit: 'Chỉnh sửa',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -149,9 +153,13 @@ export default {
   national_id: 'CCCD/CMND',
 
   O: 'o',
-  operation: 'Thao tác',
+  owner: 'Chủ tòa nhà',
 
   P: 'p',
+  payer_id: 'Mã người thanh toán',
+  paid_by: 'Người thanh toán',
+  payment_period: 'Kỳ thanh toán',
+  payment_date: 'Ngày thanh toán',
   profile: 'Thông tin cá nhân',
   password: 'Mật khẩu',
   password_require: 'Mật khẩu không được để trống!',

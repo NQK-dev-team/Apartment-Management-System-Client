@@ -22,6 +22,7 @@ export default {
   B: 'b',
   bill: 'Hóa đơn',
   bill_list: 'Danh sách hóa đơn',
+  bill_info: 'Thông tin hóa đơn',
   building: 'Tòa nhà {name}',
   back: 'Quay lại',
   buildingID: 'Mã tòa nhà',

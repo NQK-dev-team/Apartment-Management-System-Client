@@ -101,11 +101,6 @@
                     </div>
                   </div>
                 </th>
-                <!-- <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
-                  <div class="h-[20px]">
-                    {{ $t('action') }}
-                  </div>
-                </th> -->
               </tr>
             </thead>
             <tbody>
@@ -178,11 +173,6 @@
                     {{ $t('floor_number') }}
                   </div>
                 </th>
-                <!-- <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
-                  <div class="h-[20px]">
-                    {{ $t('action') }}
-                  </div>
-                </th> -->
               </tr>
             </thead>
             <tbody>
@@ -299,37 +289,6 @@ function deleteFloors() {
   floorDeleteBucket.value = [];
 }
 
-function deleteService(index: number) {
-  buildingInfo.value.services = buildingInfo.value.services.filter((_, idx) => idx !== index);
-  const tempBucket: number[] = [];
-  serviceDeleteBucket.value.forEach((idx) => {
-    if (idx !== index) {
-      if (idx > index) {
-        tempBucket.push(idx - 1);
-      } else {
-        tempBucket.push(idx);
-      }
-    }
-  });
-  serviceDeleteBucket.value = tempBucket;
-}
-
-function deleteFloor(index: number) {
-  $event.emit('resetSelectedFloor');
-  buildingInfo.value.floors = buildingInfo.value.floors.filter((_, idx) => idx !== index);
-  const tempBucket: number[] = [];
-  floorDeleteBucket.value.forEach((idx) => {
-    if (idx !== index) {
-      if (idx > index) {
-        tempBucket.push(idx - 1);
-      } else {
-        tempBucket.push(idx);
-      }
-    }
-  });
-  floorDeleteBucket.value = tempBucket;
-}
-
 function addAllServicesToBucket() {
   serviceDeleteBucket.value = buildingInfo.value.services.map((_, index) => index);
 }
@@ -347,18 +306,6 @@ function removeAllFloorsFromBucket() {
 }
 
 // ---------------------- Event Listeners ----------------------
-// $event.on('deleteServiceFromList', (e: any) => {
-//   // deleteService(e);
-//   openModal.value = true;
-//   fallback.value = () => deleteService(e);
-// });
-
-// $event.on('deleteFloorFromList', (e: any) => {
-//   // deleteFloor(e);
-//   openModal.value = true;
-//   fallback.value = () => deleteFloor(e);
-// });
-
 $event.on('addServiceToDeleteBucket', (e: any) => {
   if (!serviceDeleteBucket.value.includes(e)) {
     serviceDeleteBucket.value.push(e);

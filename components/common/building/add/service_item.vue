@@ -64,11 +64,6 @@
         </div>
       </div>
     </td>
-    <!-- <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
-      <div class="h-[20px]">
-        <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeService" />
-      </div>
-    </td> -->
   </tr>
 </template>
 
@@ -104,10 +99,6 @@ const { $event } = useNuxtApp();
 const checked = computed(() => props.serviceDeleteBucket.includes(props.index));
 
 // ---------------------- Functions ----------------------
-// function removeService() {
-//   $event.emit('deleteServiceFromList', props.index);
-// }
-
 function addToBucket() {
   $event.emit('addServiceToDeleteBucket', props.index);
 }

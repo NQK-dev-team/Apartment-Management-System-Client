@@ -135,11 +135,6 @@
         </div>
       </div>
     </td>
-    <!-- <td v-if="!props.readOnly" class="text-sm font-normal text-center align-middle py-[16px]">
-      <div class="">
-        <CloseCircleOutlined class="text-red-500 cursor-pointer text-lg" @click="removeRoom" />
-      </div>
-    </td> -->
     <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
       <img alt="Image Preview" style="width: 100%" :src="previewImage" />
     </a-modal>
@@ -191,10 +186,6 @@ const previewImage = ref('');
 const previewTitle = ref('');
 
 // ---------------------- Functions ----------------------
-// function removeRoom() {
-//   $event.emit('deleteRoomFromList', props.index);
-// }
-
 function removeFromBucket() {
   $event.emit('removeRoomFromDeleteBucket', props.index);
 }

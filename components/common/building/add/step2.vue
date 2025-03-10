@@ -108,11 +108,6 @@
                   </div>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] rounded-tr-lg w-[100px]">
-                <div class="h-[20px]">
-                  {{ $t('action') }}
-                </div>
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -162,21 +157,6 @@ const checkAllRooms = computed(() => {
 });
 
 // ---------------------- Functions ----------------------
-function deleteRoom(index: number) {
-  buildingInfo.value.floors[selectedFloor.value].rooms.splice(index, 1);
-  const tempBucket: number[] = [];
-  deleteBucket.value.forEach((idx) => {
-    if (idx !== index) {
-      if (idx > index) {
-        tempBucket.push(idx - 1);
-      } else {
-        tempBucket.push(idx);
-      }
-    }
-  });
-  deleteBucket.value = tempBucket;
-}
-
 function deleteRooms() {
   buildingInfo.value.floors[selectedFloor.value].rooms = buildingInfo.value.floors[selectedFloor.value].rooms.filter(
     (_, idx) => !deleteBucket.value.includes(idx)
@@ -198,11 +178,6 @@ watch(selectedFloor, () => {
 });
 
 // ---------------------- Event Listeners ----------------------
-// $event.on('deleteRoomFromList', (e: any) => {
-//   openModal.value = true;
-//   fallback.value = () => deleteRoom(e);
-// });
-
 $event.on('closeDeleteModalAddBuilding', () => {
   openModal.value = false;
 });

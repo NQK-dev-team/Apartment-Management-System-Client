@@ -108,6 +108,9 @@ export default {
   empty_employee_no: 'Mã nhân viên không được để trống!',
   empty_employee: 'Nhân viên không được để trống!',
   employee: 'Nhân viên',
+  empty_employee_schedule: 'Lịch quản lý số {no}: Thông tin nhân viên của không được để trống!',
+  empty_start_date_schedule: 'Lịch quản lý số {no}: Ngày bắt đầu của không được để trống!',
+  empty_end_date_schedule: 'Lịch quản lý số {no}: Ngày kết thúc của không được để trống!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -218,6 +221,8 @@ export default {
   success: 'Thành công',
   select_a_floor: 'Hãy chọn tầng',
   start_date: 'Ngày bắt đầu',
+  search_by_employee_no: 'Tìm kiếm theo mã nhân viên',
+  start_date_large_end_date: 'Lịch quản lý số {no}: Ngày bắt đầu phải nhỏ hơn ngày kết thúc!',
 
   T: 't',
   total: 'Tổng',

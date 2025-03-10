@@ -87,6 +87,87 @@
       </div>
       <div class="mt-10">
         <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
+        </div>
+        <div class="mt-3 mb-8">
+          <table class="w-full">
+            <thead
+              class="border-b-[1px]"
+              :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
+            >
+              <tr>
+                <th class="text-sm font-normal text-center align-middle py-[16px]">
+                  <div
+                    class="border-r-[1px] h-[20px]"
+                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+                  >
+                    {{ $t('no') }}
+                  </div>
+                </th>
+                <th class="text-sm font-normal text-center align-middle py-[16px]">
+                  <div
+                    class="border-r-[1px] h-[20px] flex items-center justify-center"
+                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+                  >
+                    {{ $t('employee') }}
+                    <div class="flex items-center">
+                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                    </div>
+                  </div>
+                </th>
+                <th class="text-sm font-normal text-center align-middle py-[16px]">
+                  <div
+                    class="border-r-[1px] h-[20px]"
+                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+                  >
+                    {{ $t('email') }}
+                  </div>
+                </th>
+                <th class="text-sm font-normal text-center align-middle py-[16px]">
+                  <div
+                    class="border-r-[1px] h-[20px]"
+                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+                  >
+                    {{ $t('phone') }}
+                  </div>
+                </th>
+                <th class="text-sm font-normal text-center align-middle py-[16px]">
+                  <div
+                    class="border-r-[1px] h-[20px] flex items-center justify-center"
+                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+                  >
+                    {{ $t('start_date') }}
+                    <div class="flex items-center">
+                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                    </div>
+                  </div>
+                </th>
+                <th class="text-sm font-normal text-center align-middle py-[16px]">
+                  <div
+                    class="border-r-[1px] h-[20px] flex items-center justify-center"
+                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+                  >
+                    {{ $t('end_date') }}
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <CommonBuildingAddScheduleItem
+                v-for="(schedule, index) in buildingInfo.schedules"
+                :key="index"
+                :index="index"
+                :schedule="schedule"
+                :read-only="true"
+                :managers="props.managers"
+              />
+            </tbody>
+          </table>
+        </div>
+        <p>{{ $t('total') }}: {{ buildingInfo.schedules.length }}</p>
+      </div>
+      <div class="mt-10">
+        <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
         </div>
         <div class="mt-3 mb-8">
@@ -229,6 +310,7 @@
 import { svgPaths } from '~/consts/svg_paths';
 import type { NewBuildingInfo } from '~/types/building';
 import { getBase64 } from '#build/imports';
+import type { User } from '~/types/user';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -242,6 +324,10 @@ const props = defineProps({
   },
   step: {
     type: Number,
+    required: true,
+  },
+  managers: {
+    type: Array as PropType<User[]>,
     required: true,
   },
 });

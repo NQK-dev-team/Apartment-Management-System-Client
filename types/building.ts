@@ -46,6 +46,12 @@ type NewBuildingInfo = {
       images: UploadFile[];
     }[];
   }[];
+  schedules: {
+    managerID: number;
+    managerNo: string | undefined;
+    start: string | undefined;
+    end: string | undefined;
+  }[];
 };
 
 export type { Building, Room, Service, BuildingImage, NewBuildingInfo };

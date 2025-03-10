@@ -301,13 +301,13 @@
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
       <div v-show="step === 1" class="flex-1">
-        <CommonBuildingAddStep1 :building-info="buildingInfo" />
+        <CommonBuildingAddStep1 :building-info="buildingInfo" :managers="managers" />
       </div>
       <div v-show="step === 2" class="flex-1">
         <CommonBuildingAddStep2 :building-info="buildingInfo" />
       </div>
       <div v-show="step === 3" class="flex-1">
-        <CommonBuildingAddStep3 :building-info="buildingInfo" :step="step" />
+        <CommonBuildingAddStep3 :building-info="buildingInfo" :step="step" :managers="managers" />
       </div>
       <div v-show="step === 4" class="flex-1">
         <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
@@ -360,6 +360,7 @@ import type { UploadFile } from 'ant-design-vue/es/upload/interface';
 import Success from '~/public/svg/success.svg';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
+import type { User } from '~/types/user';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -392,9 +393,11 @@ const buildingInfo = ref<NewBuildingInfo>({
   images: [],
   services: [],
   floors: [],
+  schedules: [],
 });
 const addSuccess = ref<boolean>(false);
 const { $event } = useNuxtApp();
+const managers = ref<User[]>([]);
 
 // ---------------------- Functions ----------------------
 async function createNewBuilding() {
@@ -471,6 +474,35 @@ function checkStep1(): boolean {
     });
     return false;
   }
+  if (buildingInfo.value.schedules.find((schedule) => !schedule.managerNo) !== undefined) {
+    notification.error({
+      message: t('empty_employee_schedule', {
+        no: buildingInfo.value.schedules.findIndex((schedule) => !schedule.managerNo) + 1,
+      }),
+    });
+    return false;
+  }
+  if (buildingInfo.value.schedules.find((schedule) => !schedule.start) !== undefined) {
+    notification.error({
+      message: t('empty_start_date_schedule', {
+        no: buildingInfo.value.schedules.findIndex((schedule) => !schedule.start) + 1,
+      }),
+    });
+    return false;
+  }
+  if (
+    buildingInfo.value.schedules.find(
+      (schedule) => schedule.end && new Date(schedule.start!) > new Date(schedule.end)
+    ) !== undefined
+  ) {
+    notification.error({
+      message: t('start_date_large_end_date', {
+        no:
+          buildingInfo.value.schedules.findIndex((schedule) => new Date(schedule.start!) > new Date(schedule.end!)) + 1,
+      }),
+    });
+    return false;
+  }
   return true;
 }
 
@@ -531,6 +563,29 @@ watch(step, () => {
       step.value = 2;
     }
     buildingInfo.value.images = buildingInfo.value.images.filter((image: UploadFile) => image.status === 'done');
+  }
+});
+
+// ---------------------- Lifecycles ----------------------
+onMounted(async () => {
+  try {
+    $event.emit('loading');
+    const response = await api.common.staff.getList();
+    managers.value = response.data;
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      throw createError({
+        status: 500,
+        message: 'Internal server error',
+        fatal: true,
+      });
+    }
+  } finally {
+    $event.emit('loading');
   }
 });
 </script>

@@ -21,7 +21,7 @@ export default {
   add_room_success: 'New room has been added successfully!',
   add_service: 'Add service',
   amount: 'Amount',
-  add_schedule:'Add schedule',
+  add_schedule: 'Add schedule',
 
   B: 'b',
   bill: 'Bill',
@@ -108,6 +108,9 @@ export default {
   empty_employee_no: 'Employee number cannot be empty!',
   empty_employee: 'Employee cannot be empty!',
   employee: 'Employee',
+  empty_employee_schedule: 'Management schedule {no}: Employee information cannot be empty!',
+  empty_start_date_schedule: 'Management schedule {no}: Start date cannot be empty!',
+  empty_end_date_schedule: 'Management schedule {no}: End date cannot be empty!',
 
   F: 'f',
   finish_import: 'Import',
@@ -219,6 +222,8 @@ export default {
   success: 'Success',
   select_a_floor: 'Please select a floor',
   start_date: 'Start date',
+  search_by_employee_no: 'Search by employee number',
+  start_date_large_end_date: 'Management schedule {no}: Start date must be less than end date!',
 
   T: 't',
   total: 'Total',

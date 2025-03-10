@@ -118,6 +118,16 @@ const common = {
       building.images.forEach((image) => {
         formData.append('images[]', image.originFileObj as File);
       });
+      building.schedules.forEach((schedule) => {
+        formData.append(
+          'schedules[]',
+          JSON.stringify({
+            managerID: schedule.managerID,
+            startDate: convertToDate(schedule.start as string),
+            endDate: schedule.end ? convertToDate(schedule.end as string) : '',
+          })
+        );
+      });
       formData.append('totalFloor', building.floors.length.toString());
       formData.append('totalRoom', building.floors.reduce((acc, floor) => acc + floor.rooms.length, 0).toString());
       building.floors.forEach((floor, floorIndex) => {

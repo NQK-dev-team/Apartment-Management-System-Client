@@ -1,6 +1,5 @@
 <template>
   <a-table
-    :row-selection="{ selectedRowKeys: serviceListSelection.selection, onChange: onSelectionChange }"
     class="mt-5"
     :columns="tableHeaders"
     :data-source="serviceList"
@@ -8,7 +7,6 @@
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
-          id="searchRoomNo"
           ref="searchInput"
           :placeholder="t('enter_search')"
           :value="selectedKeys[0]"
@@ -43,9 +41,6 @@
       <template v-if="column.key === 'price'">
         {{ formatPrice(value) }}
       </template>
-      <template v-if="column.key === 'action'">
-        <a-button type="primary" size="small" class="flex items-center rounded-sm">{{ $t('edit') }}</a-button>
-      </template>
     </template>
   </a-table>
 </template>
@@ -60,18 +55,13 @@ const props = defineProps({
     type: Object as PropType<Service[]>,
     required: true,
   },
-  serviceListSelection: {
-    type: Object as PropType<{ selection: any[] }>,
-    required: true,
-  },
 });
-const serviceListSelection = toRef(props, 'serviceListSelection');
 const searchInput = ref();
 const state = reactive({
   searchText: '',
   searchedColumn: '',
 });
-const tableHeaders = computed<any[]>(() => {
+const tableHeaders = computed<any>(() => {
   return [
     {
       title: t('no'),
@@ -101,22 +91,15 @@ const tableHeaders = computed<any[]>(() => {
       key: 'price',
       sorter: (a: any, b: any) => a.price - b.price,
       sortDirections: ['descend', 'ascend'],
-    },
-    {
-      title: t('action'),
-      dataIndex: 'action',
-      key: 'action',
-    },
+    }
   ];
 });
-const serviceList = computed<any[]>(() =>
+const serviceList = computed(() =>
   props.services.map((service, index) => {
     return {
       no: index + 1,
       name: service.name,
       price: service.price,
-      key: service.ID,
-      action: service.ID,
     };
   })
 );
@@ -131,9 +114,5 @@ function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
 function handleReset(clearFilters: any) {
   clearFilters({ confirm: true });
   state.searchText = '';
-}
-
-function onSelectionChange(selectedRowKeys: any[]) {
-  serviceListSelection.value.selection = selectedRowKeys;
 }
 </script>

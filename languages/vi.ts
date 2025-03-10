@@ -21,6 +21,7 @@ export default {
   add_room_success: 'Phòng mới đã được thêm thành công!',
   add_service: 'Thêm dịch vụ',
   amount: 'Số tiền',
+  add_schedule: 'Thêm lịch quản lý',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -98,6 +99,15 @@ export default {
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
   employee_id: 'Employee id',
+  employee_name: 'Tên nhân viên',
+  employee_number: 'Mã nhân viên',
+  end_date: 'Ngày kết thúc',
+  edit_service: 'Chỉnh sửa dịch vụ',
+  edit_service_success: 'Thông tin dịch vụ đã được chỉnh sửa thành công!',
+  enter_employee_no: 'Nhập mã nhân viên',
+  empty_employee_no: 'Mã nhân viên không được để trống!',
+  empty_employee: 'Nhân viên không được để trống!',
+  employee: 'Nhân viên',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -207,6 +217,7 @@ export default {
   search: 'Tìm kiếm',
   success: 'Thành công',
   select_a_floor: 'Hãy chọn tầng',
+  start_date: 'Ngày bắt đầu',
 
   T: 't',
   total: 'Tổng',

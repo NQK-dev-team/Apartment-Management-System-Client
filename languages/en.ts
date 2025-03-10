@@ -21,6 +21,7 @@ export default {
   add_room_success: 'New room has been added successfully!',
   add_service: 'Add service',
   amount: 'Amount',
+  add_schedule:'Add schedule',
 
   B: 'b',
   bill: 'Bill',
@@ -98,6 +99,15 @@ export default {
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
   employee_id: 'Employee id',
+  employee_name: 'Employee name',
+  employee_number: 'Employee number',
+  end_date: 'End date',
+  edit_service: 'Edit service',
+  edit_service_success: 'Service information has been updated successfully!',
+  enter_employee_no: 'Enter employee number',
+  empty_employee_no: 'Employee number cannot be empty!',
+  empty_employee: 'Employee cannot be empty!',
+  employee: 'Employee',
 
   F: 'f',
   finish_import: 'Import',
@@ -208,6 +218,7 @@ export default {
   search: 'Search',
   success: 'Success',
   select_a_floor: 'Please select a floor',
+  start_date: 'Start date',
 
   T: 't',
   total: 'Total',

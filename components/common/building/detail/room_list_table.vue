@@ -1,6 +1,5 @@
 <template>
   <a-table
-    :row-selection="{ selectedRowKeys: roomListSelection.selection, onChange: onSelectionChange }"
     :data-source="roomList"
     :columns="roomListTableColumns"
     class="mt-5"
@@ -11,7 +10,6 @@
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
-          id="searchRoomNo"
           ref="searchInput"
           :placeholder="t('enter_search')"
           :value="selectedKeys[0]"
@@ -106,16 +104,11 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  roomListSelection: {
-    type: Object as PropType<{ selection: any[] }>,
-    required: true,
-  },
 });
 const state = reactive({
   searchText: '',
   searchedColumn: '',
 });
-const roomListSelection = toRef(props, 'roomListSelection');
 const searchInput = ref();
 const roomListTableColumns = computed<any>(() => {
   const floorFilter = [];
@@ -187,7 +180,7 @@ const roomListTableColumns = computed<any>(() => {
     },
   ];
 });
-const roomList = computed<any[]>(() =>
+const roomList = computedAsync(() =>
   props.rooms.map((room, index) => {
     return {
       no: index + 1,
@@ -212,9 +205,5 @@ function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
 function handleReset(clearFilters: any) {
   clearFilters({ confirm: true });
   state.searchText = '';
-}
-
-function onSelectionChange(selectedRowKeys: any[]) {
-  roomListSelection.value.selection = selectedRowKeys;
 }
 </script>

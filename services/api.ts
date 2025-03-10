@@ -4,6 +4,7 @@ import { apiRoutes } from '~/consts/api_routes';
 import type { Building, NewBuildingInfo, Room, Service } from '~/types/building';
 import type { UploadFile } from 'ant-design-vue';
 import type { Bill } from '~/types/bill';
+import type { ManagerSchedule, User } from '~/types/user';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -182,6 +183,19 @@ const common = {
         },
       });
     },
+    editService: async (
+      buildingId: number,
+      service: { ID: number; name: string; price: number }
+    ): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.editService(buildingId, service.ID), {
+        method: 'POST',
+        body: {
+          name: service.name,
+          price: service.price,
+        },
+      });
+    },
     addRoom: async (
       buildingId: number,
       room: {
@@ -209,10 +223,23 @@ const common = {
         body: formData,
       });
     },
+    getSchedule(buildingID: number): Promise<APIResponse<ManagerSchedule[]>> {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.getSchedule(buildingID), {
+        method: 'GET',
+      });
+    },
   },
   room: {},
   profile: {},
-  staff: {},
+  staff: {
+    getList: async (): Promise<APIResponse<User[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.list, {
+        method: 'GET',
+      });
+    },
+  },
   customer: {},
   bill: {
     getList: async (): Promise<APIResponse<Bill[]>> => {

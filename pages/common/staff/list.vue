@@ -82,56 +82,66 @@ const lightMode = computed(
 const searchValue = ref('');
 
 const columns = computed(() => [
-  {
-    title: t('no'),
-    dataIndex: 'no',
-    width: '1%',
-  },
-  {
-    title: t('name'),
-    dataIndex: 'name',
-    width: '12%',
-  },
-  {
-    title: t('employee_id'),
-    dataIndex: 'employeeId',
-    width: '12%',
-  },
-  {
-    title: t('gender'),
-    dataIndex: 'gender',
-    width: '5%',
-  },
-  {
-    title: t('dob'),
-    dataIndex: 'dob',
-    width: '8%',
-  },
-  {
-    title: t('national_id'),
-    dataIndex: 'nationalId',
-    width: '10%',
-  },
-  {
-    title: t('phone'),
-    dataIndex: 'phoneNumber',
-    width: '10%',
-  },
-  {
-    title: t('email'),
-    dataIndex: 'contactMail',
-    width: '15%',
-  },
-  {
-    title: t('building_managing'),
-    dataIndex: 'buildingManaging',
-    width: '10%',
-  },
-  {
-    title: t('operation'),
-    dataIndex: 'operation',
-  },
-]);
+    {
+      title: t('no'),
+      align: 'center',
+      dataIndex: 'no',
+      width: '1%',
+    },
+    {
+      title: t('name'),
+      align: 'center',
+      dataIndex: 'name',
+      width: '12%',
+    },
+    {
+      title: t('employee_id'),
+      align: 'center',
+      dataIndex: 'employeeId',
+      width: '12%',
+    },
+    {
+      title: t('gender'),
+      align: 'center',
+      dataIndex: 'gender',
+      width: '5%',
+    },
+    {
+      title: t('dob'),
+      align: 'center',
+      dataIndex: 'dob',
+      width: '8%',
+    },
+    {
+      title: t('ssn'),
+      align: 'center',
+      dataIndex: 'nationalId',
+      width: '10%',
+    },
+    {
+      title: t('phone'),
+      align: 'center',
+      dataIndex: 'phoneNumber',
+      width: '10%',
+    },
+    {
+      title: t('email'),
+      align: 'center',
+      dataIndex: 'contactMail',
+      width: '15%',
+    },
+    {
+      title: t('building_managing'),
+      align: 'center',
+      dataIndex: 'buildingManaging',
+      width: '10%',
+    },
+    {
+      title: t('action'),
+      align: 'center',
+      dataIndex: 'operation',
+    },
+  ]);
 
 interface DataItem {
   key: string;

@@ -3,6 +3,7 @@ import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
 import type { Building, NewBuildingInfo, Room, Service } from '~/types/building';
 import type { UploadFile } from 'ant-design-vue';
+import type { Bill } from '~/types/bill';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -213,7 +214,14 @@ const common = {
   profile: {},
   staff: {},
   customer: {},
-  bill: {},
+  bill: {
+    getList: async (): Promise<APIResponse<Bill[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.bill.list, {
+        method: 'GET',
+      });
+    },
+  },
   support_ticket: {},
   notice: {},
   contract: {},

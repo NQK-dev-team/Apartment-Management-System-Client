@@ -65,9 +65,24 @@ const commonRoutes: Route[] = [
     name: 'New new staff',
     path: pageRoutes.common.staff.add,
     file: staffBaseRoute + 'addStaff.vue',
-  }
+  },
   // Customer
+  {
+    name: 'Customer List',
+    path: pageRoutes.common.customer.list,
+    file: customerBaseRoute + 'list.vue',
+  },
   // Bill
+  {
+    name: 'Bill List',
+    path: pageRoutes.common.bill.list,
+    file: billBaseRoute + 'list.vue',
+  },
+  {
+    name: 'Bill Detail',
+    path: pageRoutes.common.bill.detail(':id'),
+    file: billBaseRoute + 'detail.vue',
+  },
   // Contract
   // Support ticket
   // Notice

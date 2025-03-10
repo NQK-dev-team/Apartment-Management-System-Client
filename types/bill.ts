@@ -1,0 +1,25 @@
+import type { BasicModel } from './basic_model';
+import type { User } from './user';
+import type { Contract } from './contract';
+import type { Building } from './building';
+
+type Bill = BasicModel & {
+  period: string;
+  status: number;
+  note: string;
+  paymentTime: string;
+  amount: number;
+  payerID: number;
+  payer: User;
+  contractID: number;
+  contract: Contract;
+};
+
+type Service = BasicModel & {
+  buildingID: number;
+  building: Building;
+  name: string;
+  price: number;
+};
+
+export type { Bill, Service };

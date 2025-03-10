@@ -9,7 +9,7 @@
       <template v-else-if="column.dataIndex === 'operation'">
         <div>
           <span>
-            <NuxtLink class="text-blue-600">Edit</NuxtLink> | <NuxtLink class="text-red-600">Delete</NuxtLink>
+            <NuxtLink class="detail">Edit</NuxtLink> | <NuxtLink class="delete">Delete</NuxtLink>
           </span>
         </div>
       </template>
@@ -42,5 +42,19 @@ const props = defineProps<{
 </script>
 
 <style scoped>
+.detail{
+  color: deepskyblue !important;
+}
+.delete{
+  color: red !important;
+}
+.detail:hover {
+  cursor: pointer;
+  color: #B9EDFE !important;
+}
 
+.delete:hover {
+  cursor: pointer;
+  color: #E19495 !important;
+}
 </style>

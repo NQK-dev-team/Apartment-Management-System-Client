@@ -20,7 +20,7 @@
       class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <div class="flex items-center h-[400px] py-3">
+      <div class="flex items-center h-[500px] py-3">
         <div class="h-full flex-1 flex flex-col me-24">
           <div class="flex items-center">
             <div class="flex-1 me-2">
@@ -93,7 +93,7 @@
             <div v-for="(image, index) in buildingData.images" :key="index">
               <img
                 :src="image.path"
-                class="w-[350px] h-[350px] cursor-pointer"
+                class="w-[350px] h-[450px] cursor-pointer"
                 @click="
                   () => {
                     previewVisible = true;
@@ -166,10 +166,7 @@
             :building-id="buildingID"
             :total-floor="buildingData.totalFloor"
           />
-          <CommonBuildingDetailServiceListTable
-            v-show="option === 2"
-            :services="services"
-          />
+          <CommonBuildingDetailServiceListTable v-show="option === 2" :services="services" />
           <CommonBuildingDetailManagementSchedule v-show="option === 3" :schedules="schedules" />
         </ClientOnly>
       </div>

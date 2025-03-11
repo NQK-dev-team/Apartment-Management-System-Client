@@ -111,6 +111,10 @@ export default {
   empty_employee_schedule: 'Lịch quản lý số {no}: Thông tin nhân viên của không được để trống!',
   empty_start_date_schedule: 'Lịch quản lý số {no}: Ngày bắt đầu của không được để trống!',
   empty_end_date_schedule: 'Lịch quản lý số {no}: Ngày kết thúc của không được để trống!',
+  edit_building: 'Chỉnh sửa tòa nhà',
+  edit_building_success_title: 'Thông tin tòa nhà đã được chỉnh sửa thành công',
+  edit_building_success_note:
+    'Bạn có thể quay lại trang thông tin chi tiết của tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
 
   F: 'f',
   finish_import: 'Hoàn tất',

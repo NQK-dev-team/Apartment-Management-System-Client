@@ -111,6 +111,9 @@ export default {
   empty_employee_schedule: 'Management schedule {no}: Employee information cannot be empty!',
   empty_start_date_schedule: 'Management schedule {no}: Start date cannot be empty!',
   empty_end_date_schedule: 'Management schedule {no}: End date cannot be empty!',
+  edit_building: 'Edit building',
+  edit_building_success_title: 'Building information has been updated successfully',
+  edit_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
 
   F: 'f',
   finish_import: 'Import',

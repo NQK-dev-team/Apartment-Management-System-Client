@@ -305,7 +305,15 @@
       class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <div v-show="step === 1" class="flex-1"></div>
+      <div v-show="step === 1" class="flex-1">
+        <CommonBuildingEditStep1
+          :building-info="buildingInfo"
+          :managers="managers"
+          :schedules="schedules"
+          :remove-items="removeItems"
+          :add-items="addItems"
+        />
+      </div>
       <div v-show="step === 2" class="flex-1"></div>
       <div v-show="step === 3" class="flex-1"></div>
       <div v-show="step === 4" class="flex-1">
@@ -318,7 +326,7 @@
           <p class="text-center my-2">{{ $t('edit_building_success_note') }}</p>
           <div class="my-2 w-[100px]">
             <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.detail(buildingID)">
-              <a-button type="primary" class="w-full h-full">{{ $t('back') }}</a-button>
+              <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
             </NuxtLink>
           </div>
         </div>
@@ -327,7 +335,7 @@
         <a-button
           v-if="step < 4"
           type="primary"
-          class="w-[100px]"
+          class="w-[100px] rounded-sm"
           @click="
             () => {
               step++;
@@ -341,11 +349,11 @@
           "
           >{{ $t('next') }}</a-button
         >
-        <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px]" @click="step--">{{
+        <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
           $t('previous')
         }}</a-button>
         <NuxtLink v-if="step < 4" v-show="step === 1" :to="pageRoutes.common.building.detail(buildingID)">
-          <a-button class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
+          <a-button class="my-2 w-[100px] rounded-sm">{{ $t('cancel') }}</a-button>
         </NuxtLink>
       </div>
     </div>
@@ -358,6 +366,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
 import type { Building } from '~/types/building';
 import type { ManagerSchedule, User } from '~/types/user';
+import type { UploadFile } from 'ant-design-vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -388,10 +397,47 @@ const highestStep = ref<number>(1);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const buildingInfo = ref<Building>();
+const buildingInfo = ref<Building>({
+  name: '',
+  address: '',
+  images: [],
+  rooms: [],
+  services: [],
+} as unknown as Building);
 const schedules = ref<ManagerSchedule[]>([]);
 const managers = ref<User[]>([]);
 const editSuccess = ref<boolean>(false);
+const removeItems = ref({
+  buildingImages: [] as number[],
+  roomImages: [] as number[],
+  rooms: [] as number[],
+  schedules: [] as number[],
+  services: [] as number[],
+});
+const addItems = ref({
+  buildingImages: [] as UploadFile[],
+  roomImages: [] as {
+    roomID: number;
+    images: UploadFile[];
+  }[],
+  rooms: [] as {
+    status: number;
+    area: number | string;
+    description: string;
+    images: UploadFile[];
+    floor: number;
+  }[],
+  schedules: [] as {
+    managerID: number;
+    managerNo: string | undefined;
+    start: string | undefined;
+    end: string | undefined;
+  }[],
+  services: [] as {
+    name: string;
+    price: number | string;
+  }[],
+});
 
 // ---------------------- Functions ----------------------
 function checkStep1(): boolean {

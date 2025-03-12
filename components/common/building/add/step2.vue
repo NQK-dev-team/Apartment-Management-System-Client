@@ -24,7 +24,7 @@
           <a-button
             type="primary"
             danger
-            class="flex items-center justify-center w-10 h-10"
+            class="flex items-center justify-center w-10 h-10 rounded-sm"
             :disabled="deleteBucket.length === 0"
             @click="
               () => {
@@ -36,7 +36,7 @@
           /></a-button>
           <a-button
             type="primary"
-            class="ms-2 flex items-center justify-center w-10 h-10"
+            class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
             @click="
               buildingInfo.floors[selectedFloor].rooms.push({
                 status: 0,

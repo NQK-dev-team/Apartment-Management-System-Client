@@ -319,7 +319,7 @@
           <p class="text-center my-2">{{ $t('add_building_success_note') }}</p>
           <div class="my-2 w-[100px]">
             <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.list">
-              <a-button type="primary" class="w-full h-full">{{ $t('back') }}</a-button>
+              <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
             </NuxtLink>
           </div>
         </div>
@@ -328,7 +328,7 @@
         <a-button
           v-if="step < 4"
           type="primary"
-          class="w-[100px]"
+          class="w-[100px] rounded-sm"
           @click="
             () => {
               step++;
@@ -342,11 +342,11 @@
           "
           >{{ $t('next') }}</a-button
         >
-        <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px]" @click="step--">{{
+        <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
           $t('previous')
         }}</a-button>
         <NuxtLink v-if="step < 4" v-show="step === 1" :to="pageRoutes.common.building.list">
-          <a-button class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
+          <a-button class="my-2 w-[100px] rounded-sm">{{ $t('cancel') }}</a-button>
         </NuxtLink>
       </div>
     </div>

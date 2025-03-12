@@ -415,12 +415,16 @@ const removeItems = ref({
   services: [] as number[],
 });
 const addItems = ref({
-  buildingImages: [] as UploadFile[],
+  buildingImages: [] as {
+    ID: number;
+    image: UploadFile;
+  }[],
   roomImages: [] as {
     roomID: number;
     images: UploadFile[];
   }[],
   rooms: [] as {
+    ID: number;
     status: number;
     area: number | string;
     description: string;
@@ -428,12 +432,14 @@ const addItems = ref({
     floor: number;
   }[],
   schedules: [] as {
+    ID: number;
     managerID: number;
     managerNo: string | undefined;
     start: string | undefined;
     end: string | undefined;
   }[],
   services: [] as {
+    ID: number;
     name: string;
     price: number | string;
   }[],

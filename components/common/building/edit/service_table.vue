@@ -3,10 +3,37 @@
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('service_list') }}</h2>
       <div class="flex items-center">
-        <a-button type="primary" danger class="flex items-center justify-center w-10 h-10 rounded-sm" @click="() => {}"
+        <a-button
+          class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+          @click="
+            () => {
+              removeItems.services = [];
+              addItems.services = [];
+            }
+          "
+        >
+          <UndoOutlined />
+        </a-button>
+        <a-button
+          type="primary"
+          danger
+          class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
+          @click="
+            () => {
+              $event.emit('openDeleteModalEditBuilding', deleteServices);
+            }
+          "
           ><DeleteOutlined
         /></a-button>
-        <a-button type="primary" class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
+        <a-button
+          type="primary"
+          class="flex items-center justify-center w-10 h-10 rounded-sm"
+          @click="
+            () => {
+              addCounter++;
+              addItems.services.push({ ID: -addCounter, name: '', price: '' });
+            }
+          "
           ><PlusOutlined
         /></a-button>
       </div>
@@ -20,7 +47,12 @@
           <tr>
             <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-                <a-checkbox id="check_all_services_1"></a-checkbox>
+                <a-checkbox
+                  id="check_all_services_1"
+                  :disabled="!displayServices.length"
+                  :checked="checkAllServices"
+                  @click="checkAllServices ? removeAllServicesFromBucket() : addAllServicesToBucket()"
+                ></a-checkbox>
               </div>
             </th>
             <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
@@ -50,16 +82,21 @@
                 </div>
               </div>
             </th>
+            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+              <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+                {{ $t('note') }}
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
-          <!-- <CommonBuildingAddServiceItem
-                v-for="(service, index) in buildingInfo.services"
-                :key="index"
-                :index="index"
-                :service="service"
-                :service-delete-bucket="serviceDeleteBucket"
-              /> -->
+          <CommonBuildingEditServiceItem
+            v-for="(service, index) in displayServices"
+            :key="index"
+            :index="index"
+            :service="service"
+            :service-delete-bucket="serviceDeleteBucket"
+          />
         </tbody>
       </table>
     </div>
@@ -70,7 +107,7 @@
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
 import type { Building } from '~/types/building';
-import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
+import type { UploadFile } from 'ant-design-vue/es/upload/interface';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -78,6 +115,7 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const { $event } = useNuxtApp();
+const addCounter = ref(0);
 const props = defineProps({
   buildingInfo: {
     type: Object as PropType<Building>,
@@ -96,12 +134,16 @@ const props = defineProps({
   addItems: {
     required: true,
     type: Object as PropType<{
-      buildingImages: UploadFile[];
+      buildingImages: {
+        ID: number;
+        image: UploadFile;
+      }[];
       roomImages: {
         roomID: number;
         images: UploadFile[];
       }[];
       rooms: {
+        ID: number;
         status: number;
         area: number | string;
         description: string;
@@ -109,24 +151,38 @@ const props = defineProps({
         floor: number;
       }[];
       schedules: {
+        ID: number;
         managerID: number;
         managerNo: string | undefined;
         start: string | undefined;
         end: string | undefined;
       }[];
       services: {
+        ID: number;
         name: string;
         price: number | string;
       }[];
     }>,
   },
 });
+const removeItems = toRef(props, 'removeItems');
+const addItems = toRef(props, 'addItems');
 const displayServices = computed(() => {
   const result: {
     ID: number;
     name: string;
     price: number | string;
   }[] = [];
+
+  result.push(
+    ...props.addItems.services.map((service) => {
+      return {
+        ID: service.ID,
+        name: service.name,
+        price: service.price,
+      };
+    })
+  );
 
   result.push(
     ...props.buildingInfo.services.map((service) => {
@@ -147,48 +203,42 @@ const displayServices = computed(() => {
     }
   });
 
-  result.push(
-    ...props.addItems.services.map((service) => {
-      return {
-        ID: 0,
-        name: service.name,
-        price: service.price,
-      };
-    })
-  );
-
   return result;
 });
+const serviceDeleteBucket = ref<number[]>([]);
 const checkAllServices = computed(
-  // () => !!(buildingInfo.value.services.length && buildingInfo.value.services.length === serviceDeleteBucket.value.length)
-  () => false
+  () => !!(displayServices.value.length && displayServices.value.length === serviceDeleteBucket.value.length)
 );
-// const serviceDeleteBucket = ref<number[]>([]);
 
 // ---------------------- Functions ----------------------
 function deleteServices() {
-  // buildingInfo.value.services = buildingInfo.value.services.filter(
-  //   (_, index) => !serviceDeleteBucket.value.includes(index)
-  // );
-  // serviceDeleteBucket.value = [];
+  serviceDeleteBucket.value.forEach((ID) => {
+    if (ID <= 0) {
+      addItems.value.services = addItems.value.services.filter((service) => service.ID !== ID);
+    } else {
+      removeItems.value.services.push(ID);
+    }
+  });
+
+  serviceDeleteBucket.value = [];
 }
 
 function addAllServicesToBucket() {
-  // serviceDeleteBucket.value = buildingInfo.value.services.map((_, index) => index);
+  serviceDeleteBucket.value = displayServices.value.map((service) => service.ID);
 }
 
 function removeAllServicesFromBucket() {
-  // serviceDeleteBucket.value = [];
+  serviceDeleteBucket.value = [];
 }
 
 // ---------------------- Event Listeners ----------------------
 $event.on('addServiceToDeleteBucket', (e: any) => {
-  // if (!serviceDeleteBucket.value.includes(e)) {
-  //   serviceDeleteBucket.value.push(e);
-  // }
+  if (!serviceDeleteBucket.value.includes(e)) {
+    serviceDeleteBucket.value.push(e);
+  }
 });
 
 $event.on('removeServiceFromDeleteBucket', (e: any) => {
-  // serviceDeleteBucket.value = serviceDeleteBucket.value.filter((idx) => idx !== e);
+  serviceDeleteBucket.value = serviceDeleteBucket.value.filter((id) => id !== e);
 });
 </script>

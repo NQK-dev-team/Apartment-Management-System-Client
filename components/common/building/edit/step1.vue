@@ -92,35 +92,21 @@
         <p>{{ $t('total') }}: {{}}</p>
       </div>
     </div>
-    <div class="w-[300px] h-full">
-      <div class="flex">
-        <h2 class="text-xl">{{ $t('building_image') }}</h2>
-        <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-      </div>
-      <div class="flex flex-col">
-        <div v-for="(image, index) in imageList" :key="index" class="mt-3">
-          <img :src="image" :alt="$t('building_image') + ` ${index}`" class="w-full" />
-        </div>
-      </div>
-      <div class="mt-3 text-center">
-        <!-- <a-upload
-          v-model:file-list="buildingInfo.images"
-          accept=".png,.jpg,.jpeg"
-          multiple
-          list-type="text"
-          @change="(e: any) => handleFileUpload(e)"
-        >
-          <a-button class="flex items-center">
-            <upload-outlined></upload-outlined>
-            {{ $t('upload_file') }}
-          </a-button>
-        </a-upload> -->
-        <div class="mt-5 text-sm" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
-          {{ $t('recommended_resolution') }}
-        </div>
-      </div>
-    </div>
-    <CommonBuildingAddConfirmDeleteModal :open="openModal" :fallback="fallback" />
+    <CommonBuildingEditBuildingImage :building-info="buildingInfo" :remove-items="removeItems" :add-items="addItems" />
+    <a-modal
+      v-model:open="openModal"
+      :title="$t('confirm_deletion')"
+      :ok-text="$t('delete')"
+      ok-type="danger"
+      @ok="
+        () => {
+          fallback();
+          openModal = false;
+        }
+      "
+    >
+      <p>{{ $t('delete_modal_content') }}</p>
+    </a-modal>
   </div>
 </template>
 
@@ -162,12 +148,16 @@ const props = defineProps({
   addItems: {
     required: true,
     type: Object as PropType<{
-      buildingImages: UploadFile[];
+      buildingImages: {
+        ID: number;
+        image: UploadFile;
+      }[];
       roomImages: {
         roomID: number;
         images: UploadFile[];
       }[];
       rooms: {
+        ID: number;
         status: number;
         area: number | string;
         description: string;
@@ -175,12 +165,14 @@ const props = defineProps({
         floor: number;
       }[];
       schedules: {
+        ID: number;
         managerID: number;
         managerNo: string | undefined;
         start: string | undefined;
         end: string | undefined;
       }[];
       services: {
+        ID: number;
         name: string;
         price: number | string;
       }[];
@@ -247,7 +239,8 @@ $event.on('removeFloorFromDeleteBucket', (e: any) => {
   // floorDeleteBucket.value = floorDeleteBucket.value.filter((idx) => idx !== e);
 });
 
-$event.on('closeDeleteModalAddBuilding', () => {
-  openModal.value = false;
+$event.on('openDeleteModalEditBuilding', (e: any) => {
+  openModal.value = true;
+  fallback.value = e;
 });
 </script>

@@ -57,14 +57,14 @@
           <a-input
             v-if="!props.readOnly"
             :id="`schedule_${props.index + 1}_manager_email_1`"
-            :value="managers.find((manager) => manager.no === schedule.managerNo)?.email ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
             :id="`schedule_${props.index + 1}_manager_email_3`"
-            :value="managers.find((manager) => manager.no === schedule.managerNo)?.email ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
             disabled
             readonly
           ></a-input>
@@ -77,14 +77,14 @@
           <a-input
             v-if="!props.readOnly"
             :id="`schedule_${props.index + 1}_manager_phone_1`"
-            :value="managers.find((manager) => manager.no === schedule.managerNo)?.phone ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
             :id="`schedule_${props.index + 1}_manager_phone_3`"
-            :value="managers.find((manager) => manager.no === schedule.managerNo)?.phone ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
             disabled
             readonly
           ></a-input>
@@ -112,7 +112,7 @@
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
           <a-date-picker
             v-if="!props.readOnly"

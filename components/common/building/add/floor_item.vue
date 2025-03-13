@@ -10,7 +10,7 @@
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         {{ props.index + 1 }}
       </div>
     </td>

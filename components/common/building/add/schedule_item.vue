@@ -3,7 +3,7 @@
     <td v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-checkbox
-          :id="`check_service_${props.index + 1}`"
+          :id="`check_schedule_${props.index + 1}`"
           :checked="checked"
           @click="checked ? removeFromBucket() : addToBucket()"
         ></a-checkbox>

@@ -92,6 +92,7 @@
         <tbody>
           <CommonBuildingEditServiceItem
             v-for="(service, index) in displayServices"
+            v-show="current * 10 >= index + 1 && (current - 1) * 10 < index + 1"
             :key="index"
             :index="index"
             :service="service"
@@ -99,6 +100,9 @@
           />
         </tbody>
       </table>
+      <div v-if="displayServices.length > 10" class="flex items-center justify-end mt-5">
+        <a-pagination v-model:current="current" :total="displayServices.length" :page-size="10" />
+      </div>
     </div>
     <p>{{ $t('total') }}: {{ displayServices.length }}</p>
   </div>
@@ -116,6 +120,7 @@ const lightMode = computed(
 );
 const { $event } = useNuxtApp();
 const addCounter = ref(0);
+const current = ref(1);
 const props = defineProps({
   buildingInfo: {
     type: Object as PropType<Building>,

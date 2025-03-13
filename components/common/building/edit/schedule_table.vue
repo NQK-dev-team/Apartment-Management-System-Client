@@ -2,11 +2,38 @@
   <div class="mt-10">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
-      <div class="flex items-center">
-        <a-button type="primary" danger class="flex items-center justify-center w-10 h-10 rounded-sm" @click="() => {}"
+      <div v-if="userRole?.toString() === roles.owner" class="flex items-center">
+        <a-button
+          class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+          @click="
+            () => {
+              removeItems.schedules = [];
+              addItems.schedules = [];
+            }
+          "
+        >
+          <UndoOutlined />
+        </a-button>
+        <a-button
+          type="primary"
+          danger
+          class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
+          @click="
+            () => {
+              $event.emit('openDeleteModalEditBuilding', deleteSchedules);
+            }
+          "
           ><DeleteOutlined
         /></a-button>
-        <a-button type="primary" class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
+        <a-button
+          type="primary"
+          class="flex items-center justify-center w-10 h-10 rounded-sm"
+          @click="
+            () => {
+              addCounter++;
+              addItems.schedules.push({ ID: -addCounter, managerID: 0, managerNo: '', start: '', end: '' });
+            }
+          "
           ><PlusOutlined
         /></a-button>
       </div>
@@ -75,33 +102,41 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <CommonBuildingAddScheduleItem
-                v-for="(schedule, index) in buildingInfo.schedules"
-                :key="index"
-                :index="index"
-                :schedule="schedule"
-                :schedule-delete-bucket="scheduleDeleteBucket"
-                :managers="props.managers"
-              /> -->
+          <CommonBuildingEditScheduleItem
+            v-for="(schedule, index) in displaySchedules"
+            v-show="current * 10 >= index + 1 && (current - 1) * 10 < index + 1"
+            :key="index"
+            :index="index"
+            :schedule="schedule"
+            :schedule-delete-bucket="scheduleDeleteBucket"
+            :managers="props.managers"
+          />
         </tbody>
       </table>
+      <div class="flex items-center justify-end mt-5">
+        <a-pagination v-model:current="current" :total="displaySchedules.length" :page-size="10" />
+      </div>
     </div>
-    <p>{{ $t('total') }}: {{}}</p>
+    <p>{{ $t('total') }}: {{ displaySchedules.length }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
 import type { Building } from '~/types/building';
-import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
+import type { UploadFile } from 'ant-design-vue/es/upload/interface';
 import type { ManagerSchedule, User } from '~/types/user';
+import { roles } from '~/consts/roles';
+import dayjs from 'dayjs';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const { $event } = useNuxtApp();
+const current = ref(1);
 const props = defineProps({
   buildingInfo: {
     type: Object as PropType<Building>,
@@ -141,49 +176,98 @@ const props = defineProps({
         floor: number;
       }[];
       schedules: {
+        ID: number;
         managerID: number;
         managerNo: string | undefined;
         start: string | undefined;
         end: string | undefined;
       }[];
       services: {
+        ID: number;
         name: string;
         price: number | string;
       }[];
     }>,
   },
 });
+const removeItems = toRef(props, 'removeItems');
+const displaySchedules = computed(() => {
+  const result: {
+    ID: number;
+    managerID: number;
+    managerNo: string | undefined;
+    start: string | unknown;
+    end: string | unknown;
+  }[] = [];
+
+  result.push(
+    ...props.addItems.schedules.map((schedule) => {
+      return {
+        ID: schedule.ID,
+        managerID: schedule.managerID,
+        managerNo: schedule.managerNo,
+        start: schedule.start,
+        end: schedule.end,
+      };
+    })
+  );
+
+  result.push(
+    ...props.schedules.map((schedule) => {
+      return {
+        ID: schedule.ID,
+        managerID: schedule.manager_id,
+        managerNo: schedule.manager.no,
+        start: dayjs(schedule.start_date),
+        end: schedule.end_date.Valid ? (dayjs(schedule.end_date.Time) ?? '') : '',
+      };
+    })
+  );
+
+  removeItems.value.schedules.forEach((ID) => {
+    result.splice(
+      result.findIndex((schedule) => schedule.ID === ID),
+      1
+    );
+  });
+
+  return result;
+});
+const addCounter = ref(0);
+const addItems = toRef(props, 'addItems');
+const scheduleDeleteBucket = ref<number[]>([]);
 const checkAllSchedules = computed(
-  // () =>
-  //   !!(buildingInfo.value.schedules.length && buildingInfo.value.schedules.length === scheduleDeleteBucket.value.length)
-  () => false
+  () => !!(displaySchedules.value.length && displaySchedules.value.length === scheduleDeleteBucket.value.length)
 );
-// const scheduleDeleteBucket = ref<number[]>([]);
 
 // ---------------------- Functions ----------------------
 function deleteSchedules() {
-  // buildingInfo.value.schedules = buildingInfo.value.schedules.filter(
-  //   (_, index) => !scheduleDeleteBucket.value.includes(index)
-  // );
-  // scheduleDeleteBucket.value = [];
+  scheduleDeleteBucket.value.forEach((ID) => {
+    if (ID <= 0) {
+      addItems.value.schedules = addItems.value.schedules.filter((schedule) => schedule.ID !== ID);
+    } else {
+      removeItems.value.schedules.push(ID);
+    }
+  });
+  scheduleDeleteBucket.value = [];
 }
 
 function addAllSchedulesToBucket() {
-  // scheduleDeleteBucket.value = buildingInfo.value.schedules.map((_, index) => index);
+  scheduleDeleteBucket.value = displaySchedules.value.map((schedule) => schedule.ID);
 }
 
 function removeAllSchedulesFromBucket() {
-  // scheduleDeleteBucket.value = [];
+  scheduleDeleteBucket.value = [];
 }
 
 // ---------------------- Event Listeners ----------------------
 $event.on('addScheduleToDeleteBucket', (e: any) => {
-  // if (!scheduleDeleteBucket.value.includes(e)) {
-  //   scheduleDeleteBucket.value.push(e);
-  // }
+  if (!scheduleDeleteBucket.value.includes(e)) {
+    scheduleDeleteBucket.value.push(e);
+  }
 });
 
 $event.on('removeScheduleFromDeleteBucket', (e: any) => {
-  // scheduleDeleteBucket.value = scheduleDeleteBucket.value.filter((idx) => idx !== e);
+  scheduleDeleteBucket.value = scheduleDeleteBucket.value.filter((id) => id !== e);
 });
 </script>

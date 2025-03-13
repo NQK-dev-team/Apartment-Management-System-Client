@@ -7,7 +7,20 @@
             <span>{{ $t('building_name') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input id="building_name_1" v-model:value="buildingInfo.name" :placeholder="$t('enter_building_name')" />
+          <a-input
+            v-if="userRole?.toString() === roles.owner"
+            id="building_name_1"
+            v-model:value="buildingInfo.name"
+            :placeholder="$t('enter_building_name')"
+          />
+          <a-input
+            v-else
+            id="building_name_1"
+            :value="buildingInfo.name"
+            :placeholder="$t('enter_building_name')"
+            disabled
+            readonly
+          />
         </div>
         <div class="flex-1 ms-5">
           <label for="building_address_1" class="flex mb-1">
@@ -15,9 +28,18 @@
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
+            v-if="userRole?.toString() === roles.owner"
             id="building_address_1"
             v-model:value="buildingInfo.address"
             :placeholder="$t('enter_building_address')"
+          />
+          <a-input
+            v-else
+            id="building_address_1"
+            :value="buildingInfo.address"
+            :placeholder="$t('enter_building_address')"
+            readonly
+            disabled
           />
         </div>
       </div>
@@ -29,68 +51,7 @@
         :managers="managers"
         :schedules="schedules"
       />
-      <div class="mt-10">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
-          <div class="flex items-center">
-            <a-button
-              type="primary"
-              danger
-              class="flex items-center justify-center w-10 h-10 rounded-sm"
-              @click="
-                () => {
-                  openModal = true;
-                  fallback = deleteFloors;
-                }
-              "
-              ><DeleteOutlined
-            /></a-button>
-            <a-button type="primary" class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
-              ><PlusOutlined
-            /></a-button>
-          </div>
-        </div>
-        <div class="mt-3 mb-8">
-          <table class="w-full">
-            <thead
-              class="border-b-[1px]"
-              :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
-            >
-              <tr>
-                <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    <a-checkbox
-                      id="check_all_floors_1"
-                      :checked="checkAllFloors"
-                      @click="() => (checkAllFloors ? removeAllFloorsFromBucket() : addAllFloorsToBucket())"
-                    ></a-checkbox>
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('floor_number') }}
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- <CommonBuildingAddFloorItem
-                v-for="(_, index) in buildingInfo.floors"
-                :key="index"
-                :index="index"
-                :floor-delete-bucket="floorDeleteBucket"
-              /> -->
-            </tbody>
-          </table>
-        </div>
-        <p>{{ $t('total') }}: {{}}</p>
-      </div>
+      <CommonBuildingEditFloorTable :floors="props.floors" />
     </div>
     <CommonBuildingEditBuildingImage :building-info="buildingInfo" :remove-items="removeItems" :add-items="addItems" />
     <a-modal
@@ -116,12 +77,10 @@ import { svgPaths } from '~/consts/svg_paths';
 import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
 import { getBase64 } from '#build/imports';
 import type { ManagerSchedule, User } from '~/types/user';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
-const lightModeCookie = useCookie('lightMode');
-const lightMode = computed(
-  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
-);
+const userRole = useCookie('userRole');
 const props = defineProps({
   buildingInfo: {
     type: Object as PropType<Building>,
@@ -175,67 +134,22 @@ const props = defineProps({
       }[];
     }>,
   },
+  floors: {
+    type: Array as PropType<
+      {
+        value: number;
+        disable: boolean;
+      }[]
+    >,
+    required: true,
+  },
 });
 const buildingInfo = toRef(props, 'buildingInfo');
-// const floorDeleteBucket = ref<number[]>([]);
 const { $event } = useNuxtApp();
-const checkAllFloors = computed(
-  // () => !!(buildingInfo.value.floors.length && buildingInfo.value.floors.length === floorDeleteBucket.value.length)
-  () => false
-);
 const openModal = ref<boolean>(false);
 const fallback = ref<() => void>(() => {});
-const imageList = ref<string[]>([]);
-
-// ---------------------- Functions ----------------------
-function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
-  let isDone = true;
-
-  event.fileList.forEach((file) => {
-    if (file.status !== 'done') {
-      isDone = false;
-    }
-  });
-
-  if (!isDone) {
-    return;
-  }
-
-  const files = event.fileList.map((file) => file.originFileObj);
-  imageList.value = [];
-  Array.from(files).forEach(async (file) => {
-    if (file) {
-      const base64 = await getBase64(file);
-      imageList.value.push(base64 as string);
-    }
-  });
-}
-
-function deleteFloors() {
-  // $event.emit('resetSelectedFloor');
-  // buildingInfo.value.floors = buildingInfo.value.floors.filter((_, index) => !floorDeleteBucket.value.includes(index));
-  // floorDeleteBucket.value = [];
-}
-
-function addAllFloorsToBucket() {
-  // floorDeleteBucket.value = buildingInfo.value.floors.map((_, index) => index);
-}
-
-function removeAllFloorsFromBucket() {
-  // floorDeleteBucket.value = [];
-}
 
 // ---------------------- Event Listeners ----------------------
-$event.on('addFloorToDeleteBucket', (e: any) => {
-  // if (!floorDeleteBucket.value.includes(e)) {
-  //   floorDeleteBucket.value.push(e);
-  // }
-});
-
-$event.on('removeFloorFromDeleteBucket', (e: any) => {
-  // floorDeleteBucket.value = floorDeleteBucket.value.filter((idx) => idx !== e);
-});
-
 $event.on('openDeleteModalEditBuilding', (e: any) => {
   openModal.value = true;
   fallback.value = e;

@@ -305,32 +305,35 @@
       class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <div v-show="step === 1" class="flex-1">
-        <CommonBuildingEditStep1
-          :building-info="buildingInfo"
-          :managers="managers"
-          :schedules="schedules"
-          :remove-items="removeItems"
-          :add-items="addItems"
-        />
-      </div>
-      <div v-show="step === 2" class="flex-1"></div>
-      <div v-show="step === 3" class="flex-1"></div>
-      <div v-show="step === 4" class="flex-1">
-        <div v-show="editSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
-          <div class="flex items-center justify-center mt-5">
-            <Success class="text-green-600 text-4xl" />
-          </div>
-          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
-          <p class="text-center my-2">{{ $t('edit_building_success_title') }}</p>
-          <p class="text-center my-2">{{ $t('edit_building_success_note') }}</p>
-          <div class="my-2 w-[100px]">
-            <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.detail(buildingID)">
-              <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
-            </NuxtLink>
+      <ClientOnly>
+        <div v-show="step === 1" class="flex-1">
+          <CommonBuildingEditStep1
+            :building-info="buildingInfo"
+            :managers="managers"
+            :schedules="schedules"
+            :remove-items="removeItems"
+            :add-items="addItems"
+            :floors="floors"
+          />
+        </div>
+        <div v-show="step === 2" class="flex-1"></div>
+        <div v-show="step === 3" class="flex-1"></div>
+        <div v-show="step === 4" class="flex-1">
+          <div v-show="editSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+            <div class="flex items-center justify-center mt-5">
+              <Success class="text-green-600 text-4xl" />
+            </div>
+            <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+            <p class="text-center my-2">{{ $t('edit_building_success_title') }}</p>
+            <p class="text-center my-2">{{ $t('edit_building_success_note') }}</p>
+            <div class="my-2 w-[100px]">
+              <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.detail(buildingID)">
+                <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
+              </NuxtLink>
+            </div>
           </div>
         </div>
-      </div>
+      </ClientOnly>
       <div class="steps-action flex flex-col items-center mb-3 mt-10">
         <a-button
           v-if="step < 4"
@@ -367,6 +370,7 @@ import { api } from '~/services/api';
 import type { Building } from '~/types/building';
 import type { ManagerSchedule, User } from '~/types/user';
 import type { UploadFile } from 'ant-design-vue';
+import Success from '~/public/svg/success.svg';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -386,11 +390,9 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
-const userRole = useCookie('userRole');
 const route = useRoute();
 const buildingID = Number(route.params.id as string);
 const { $event } = useNuxtApp();
-const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const step = ref<number>(1);
 const highestStep = ref<number>(1);
@@ -441,6 +443,12 @@ const addItems = ref({
     price: number | string;
   }[],
 });
+const floors = ref<
+  {
+    value: number;
+    disable: boolean;
+  }[]
+>([]);
 
 // ---------------------- Functions ----------------------
 function checkStep1(): boolean {
@@ -476,8 +484,24 @@ onMounted(async () => {
     const buildingInforResponse = await api.common.building.getDetail(buildingID);
 
     buildingInfo.value = buildingInforResponse.data;
-    schedules.value = scheduleResponse.data;
+    schedules.value = scheduleResponse.data.sort(
+      (a, b) =>
+        new Date(b.start_date).getTime() - new Date(a.start_date).getTime() ||
+        new Date(b.end_date.Valid ? b.end_date.Time! : '2100-01-01').getTime() -
+          new Date(a.end_date.Valid ? a.end_date.Time! : '2100-01-01').getTime()
+    );
     managers.value = managerListResponse.data;
+
+    if (buildingInfo.value.rooms.length) {
+      buildingInfo.value.rooms.forEach((room) => {
+        if (!floors.value.find((floor) => floor.value === room.floor)) {
+          floors.value.push({
+            value: room.floor,
+            disable: true,
+          });
+        }
+      });
+    }
   } catch (err: any) {
     if (
       err.status >= 500 ||

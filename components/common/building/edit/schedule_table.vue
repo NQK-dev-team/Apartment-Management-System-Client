@@ -21,7 +21,7 @@
             <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 <a-checkbox
-                  id="check_all_floors_1"
+                  id="check_all_schedules_1"
                   :checked="checkAllSchedules"
                   @click="() => (checkAllSchedules ? removeAllSchedulesFromBucket() : addAllSchedulesToBucket())"
                 ></a-checkbox>
@@ -128,10 +128,7 @@ const props = defineProps({
   addItems: {
     required: true,
     type: Object as PropType<{
-      buildingImages: {
-        ID: number;
-        image: UploadFile;
-      }[];
+      buildingImages: UploadFile[];
       roomImages: {
         roomID: number;
         images: UploadFile[];

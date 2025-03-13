@@ -134,10 +134,7 @@ const props = defineProps({
   addItems: {
     required: true,
     type: Object as PropType<{
-      buildingImages: {
-        ID: number;
-        image: UploadFile;
-      }[];
+      buildingImages: UploadFile[];
       roomImages: {
         roomID: number;
         images: UploadFile[];

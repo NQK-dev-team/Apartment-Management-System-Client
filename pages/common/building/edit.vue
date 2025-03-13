@@ -415,10 +415,7 @@ const removeItems = ref({
   services: [] as number[],
 });
 const addItems = ref({
-  buildingImages: [] as {
-    ID: number;
-    image: UploadFile;
-  }[],
+  buildingImages: [] as UploadFile[],
   roomImages: [] as {
     roomID: number;
     images: UploadFile[];

@@ -18,7 +18,14 @@
         @remove="
           (file) => {
             if (!isNaN(Number(file.uid))) {
-              removeItems.buildingImages.push(Number(file.uid));
+              if (Number(file.uid) > 0) {
+                removeItems.buildingImages.push(Number(file.uid));
+              } else {
+                const index = addItems.buildingImages.findIndex((image) => image.uid === file.uid);
+                if (index !== -1) {
+                  addItems.buildingImages.splice(index, 1);
+                }
+              }
             }
           }
         "
@@ -46,6 +53,7 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const imageCounter = ref(0);
 const props = defineProps({
   buildingInfo: {
     type: Object as PropType<Building>,
@@ -64,10 +72,7 @@ const props = defineProps({
   addItems: {
     required: true,
     type: Object as PropType<{
-      buildingImages: {
-        ID: number;
-        image: UploadFile;
-      }[];
+      buildingImages: UploadFile[];
       roomImages: {
         roomID: number;
         images: UploadFile[];
@@ -108,11 +113,11 @@ const imageList = asyncComputed<any>(async () => {
       url: image.path,
     }))
   );
-
   return result;
 });
 const removeItems = toRef(props, 'removeItems');
-const displayImages = computed(() => {
+const addItems = toRef(props, 'addItems');
+const displayImages = asyncComputed(async () => {
   const result: {
     ID: number;
     url: string;
@@ -134,15 +139,19 @@ const displayImages = computed(() => {
     }
   });
 
-  props.addItems.buildingImages.forEach(async (image) => {
-    if (image.image.originFileObj) {
-      const base64 = await getBase64(image.image.originFileObj);
-      result.push({
-        ID: image.ID,
-        url: base64 as string,
-      });
+  for (let i = 0; i < addItems.value.buildingImages.length; i++) {
+    if (addItems.value.buildingImages[i].originFileObj) {
+      const base64 = await getBase64(addItems.value.buildingImages[i].originFileObj!);
+      result.push(
+        ...[
+          {
+            ID: Number(addItems.value.buildingImages[i].uid),
+            url: base64 as string,
+          },
+        ]
+      );
     }
-  });
+  }
 
   return result.map((image) => image.url);
 });
@@ -150,9 +159,13 @@ const displayImages = computed(() => {
 // ---------------------- Functions ----------------------
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
   event.fileList.forEach((file) => {
-    if (file.status !== 'done')
-    {
-      
+    if (file.status === 'done' && isNaN(Number(file.uid))) {
+      file.uid = String(-1 - imageCounter.value);
+      if (addItems.value.buildingImages.find((image) => image.uid === file.uid)) {
+        return;
+      }
+      addItems.value.buildingImages.push(file);
+      imageCounter.value++;
     }
   });
 }

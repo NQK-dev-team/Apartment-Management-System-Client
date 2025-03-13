@@ -161,7 +161,7 @@
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
                     <a-checkbox
-                      id="check_all_floors_1"
+                      id="check_all_schedules_1"
                       :disabled="!buildingInfo.schedules.length"
                       :checked="checkAllSchedules"
                       @click="() => (checkAllSchedules ? removeAllSchedulesFromBucket() : addAllSchedulesToBucket())"

@@ -44,6 +44,8 @@ export default {
   customer_list: 'Danh sách khách hàng',
   customer_id: 'Mã khách hàng',
   contract: 'Hợp đồng',
+  contract_type: 'Loại hợp đồng',
+  contract_price: 'Giá theo hợp đồng',
   confirm_new_password: 'Xác nhận mật khẩu mới',
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
   confirm: 'Xác nhận',
@@ -148,7 +150,8 @@ export default {
 
   O: 'o',
   owner: 'Chủ tòa nhà',
-
+  owner_id: 'Max chur toaf',
+  
   P: 'p',
   payer_id: 'Mã người thanh toán',
   paid_by: 'Người thanh toán',

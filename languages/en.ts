@@ -44,6 +44,8 @@ export default {
   customer_list: 'Customer list',
   customer_id: 'Customer ID',
   contract: 'Contract',
+  contract_type: 'Contract type',
+  contract_price: 'Contract price',
   confirm_new_password: 'Confirm new password',
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
@@ -148,6 +150,7 @@ export default {
 
   O: 'o',
   owner: 'Owner',
+  owner_id: 'Owner ID',
 
   P: 'p',
   payer_id: 'Payer ID',

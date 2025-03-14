@@ -15,7 +15,166 @@
       <!-- 2 colums -->
       <div class="grid grid-cols-6 gap-x-2">
         <!-- left col -->
-        <div class="bg-red-500 rounded-lg shadow-xl min-h-[50px] col-span-4"></div>
+        <div class="min-h-[50px] col-span-4">
+          <!-- Input boxes -->
+          <div class="h-full flex-1 flex flex-col me-24">
+            <div class="flex items-center">
+              <div class="flex-1 me-2">
+                <label for="last_name" class="flex mb-1">
+                  <span>Last name</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-input
+                  id="last_name"
+                  value="Nguyễn"
+                  placeholder="Last name"
+                />
+              </div>
+              <div class="flex-1 me-2">
+                <label for="name" class="flex mb-1">
+                  <span>Middle Name</span>
+                </label>
+                <a-input
+                  id="middle_name"
+                  value="Văn"
+                  placeholder="Middle name"
+                />
+              </div>
+            </div>
+            <div class="flex items-center mt-5">
+              <div class="flex-1 me-2">
+                <label for="name" class="flex mb-1">
+                  <span>Name</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-input
+                  id="name"
+                  value="Tùng"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="flex-1 me-2">
+                <label for="data_of_birth" class="flex mb-1">
+                  <span>Ngày sinh</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-date-picker v-model:value="value1" class="w-full" placeholder="Select date"/>
+              </div>
+            </div>
+            <div class="flex items-center mt-5">
+              <div class="flex-1 me-2">
+                <label for="gender" class="flex mb-1">
+                  <span>Last name</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-select
+                  ref="select"
+                  v-model:value="value2"
+                  style="width: 120px"
+                  :options="options2"
+                  @focus="focus"
+                  @change="handleChange"
+                  class="w-full"
+                ></a-select>
+              </div>
+              <div class="flex-1 me-2">
+                <label for="CCCD" class="flex mb-1">
+                  <span>CCCD</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-input
+                  id="cccd"
+                  value="09220000XXXX"
+                  placeholder="CCCD"
+                />
+              </div>
+            </div>
+            <div class="flex items-center mt-5">
+              <div class="flex-1 me-2">
+                <label for="CMND" class="flex mb-1">
+                  <span>CMND</span>
+                </label>
+                <a-input
+                  id="cmnd"
+                  value="Empty"
+                  placeholder="CMND"
+                />
+              </div>
+              <div class="flex-1 me-2">
+                <label for="origin" class="flex mb-1">
+                  <span>Quê quán</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-input
+                  id="origin"
+                  value="Đồng Nai"
+                  placeholder="Origin"
+                />
+              </div>
+            </div>
+            <div class="flex items-center mt-5">
+              <div class="flex-1 me-2">
+                <label for="phone_number" class="flex mb-1">
+                  <span>Số điện thoại</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-input
+                  id="phone_number"
+                  value="093275XXXX"
+                  placeholder="Phone number"
+                />
+              </div>
+              <div class="flex-1 me-2">
+                <label for="login_email" class="flex mb-1">
+                  <span>Email đăng nhập</span>
+                  <span class="text-red-500">*</span>
+                </label>
+                <a-input
+                  id="login_email"
+                  value="testmail1@gmail.com"
+                  placeholder="testmail1@gmail.com"
+                />
+              </div>
+            </div>
+            <!-- Building managing section -->
+            <div>
+              <!-- Heading and buttons -->
+              <div class="flex justify-between items-center mt-5">
+                <!-- p is a place holder, to space out the content -->
+                <h2 class="mt-3 text-2xl">{{ $t('building_managing') }}</h2>
+                <div class="flex">
+                  <NuxtLink>
+                    <a-button type="primary" class="btn-icon">
+                      <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]"/>
+                    </a-button>
+                  </NuxtLink>
+
+                  <a-button type="primary" danger class="btn-icon ml-2">
+                    <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
+                  </a-button>
+                </div>
+              </div>
+              <!-- Building managing section table -->
+               <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
+                <template #bodyCell="{ column, text }">
+                  <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
+                    <div>
+                      {{ text }}
+                    </div>
+                  </template>
+                  <template v-else-if="column.dataIndex === 'operation'">
+                    <div>
+                      <span>
+                        <NuxtLink class="detail">Edit</NuxtLink> | <NuxtLink class="delete">Delete</NuxtLink>
+                      </span>
+                    </div>
+                  </template>
+                </template>
+              </a-table>
+            </div>
+          </div>
+          
+        </div>
         <!-- right col -->
         <div class="col-span-2 px-3">
           <imageUpload :label="$t('avatar')"/>
@@ -34,6 +193,8 @@ import { reactive, ref } from 'vue';
 import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
 import imageUpload from '@/components/common/customComponent/imageUpload.vue';
+import type { Dayjs } from 'dayjs';
+import type { SelectProps } from 'ant-design-vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -63,13 +224,18 @@ useHead({
 // const { $event } = useNuxtApp();
 
 //use this to get the translation
+const value1 = ref<Dayjs>();
+const value2 = ref('Female');
+const options2 = ref<SelectProps['options']>([
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
+  { value: 'Other', label: 'Other'},
+]);
 const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-// const current = ref(1);
-const searchValue = ref("");
 
 const columns = computed(() => [
   {
@@ -78,44 +244,19 @@ const columns = computed(() => [
     width: '1%',
   },
   {
-    title: t('name'),
-    dataIndex: 'name',
+    title: t('building_name'),
+    dataIndex: 'buildingName',
     width: '12%',
   },
   {
-    title: t('employee_id'),
-    dataIndex: 'employeeId',
+    title: "Begin date",
+    dataIndex: 'beginDate',
     width: '12%',
   },
   {
-    title: t('gender'),
-    dataIndex: 'gender',
-    width: '5%',
-  },
-  {
-    title: t('dob'),
-    dataIndex: 'dob',
-    width: '8%',
-  },
-  {
-    title: t('national_id'),
-    dataIndex: 'nationalId',
-    width: '10%',
-  },
-  {
-    title: t('phone'),
-    dataIndex: 'phoneNumber',
-    width: '10%',
-  },
-  {
-    title: t('email'),
-    dataIndex: 'contactMail',
-    width: '15%',
-  },
-  {
-    title: t('building_managing'),
-    dataIndex: 'buildingManaging',
-    width: '10%',
+    title: "End date",
+    dataIndex: 'endDate',
+    width: '12%',
   },
   {
     title: t('operation'),
@@ -204,6 +345,13 @@ const rowSelection = ref({
 //     $event.emit('loading');
 //   }
 // }
+const focus = () => {
+  console.log('focus');
+};
+
+const handleChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 
 // ---------------------- Lifecycles ----------------------
 // onMounted(() => {

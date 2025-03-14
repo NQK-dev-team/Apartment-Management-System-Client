@@ -9,6 +9,7 @@
             () => {
               removeItems.services = [];
               addItems.services = [];
+              current = 1;
             }
           "
         >

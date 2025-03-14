@@ -9,6 +9,7 @@
             () => {
               removeItems.schedules = [];
               addItems.schedules = [];
+              current = 1;
             }
           "
         >
@@ -54,7 +55,7 @@
                 ></a-checkbox>
               </div>
             </th>
-            <th class="text-sm font-normal text-center align-middle py-[16px]">
+            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 {{ $t('no') }}
               </div>
@@ -196,8 +197,8 @@ const displaySchedules = computed(() => {
     ID: number;
     managerID: number;
     managerNo: string | undefined;
-    start: string | unknown;
-    end: string | unknown;
+    start: any;
+    end: any;
   }[] = [];
 
   result.push(

@@ -16,7 +16,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <div class="px-3">
+        <div class="px-3 w-[350px]">
           <a-select
             v-if="!props.readOnly"
             :id="`schedule_${props.index + 1}_manager_no_1`"

@@ -146,11 +146,13 @@ export default {
   L: 'l',
   log_out: 'Đăng xuất',
   log_in: 'Đăng nhập',
+  last_name: 'Họ',
 
   M: 'm',
   managerName: ' Tên quản lý',
   maintenance: 'Bảo trì',
   management_schedule: 'Lịch quản lý',
+  middle_name: 'Tên đệm',
 
   N: 'n',
   notice: 'Thông báo',
@@ -169,7 +171,9 @@ export default {
   national_id: 'CCCD/CMND',
 
   O: 'o',
+  operation: 'Thao tác',
   owner: 'Chủ tòa nhà',
+  origin: 'Quê quán',
 
   P: 'p',
   payer_id: 'Mã người thanh toán',

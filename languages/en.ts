@@ -147,11 +147,13 @@ export default {
   L: 'l',
   log_out: 'Log out',
   log_in: 'Log in',
+  last_name: 'Last name',
 
   M: 'm',
   managerName: "Manager's Name",
   maintenance: 'Maintenance',
   management_schedule: 'Management schedule',
+  middle_name: 'Middle name',
 
   N: 'n',
   notice: 'Notice',
@@ -172,6 +174,7 @@ export default {
   O: 'o',
   operation: 'Operation',
   owner: 'Owner',
+  origin: 'Origin',
 
   P: 'p',
   payer_id: 'Payer ID',

@@ -4,9 +4,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>{{ $t('employee_list') }}</a-breadcrumb-item>
-        <a-breadcrumb-item>Add employee</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('add_employees') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">Add employee</h1>
+      <h1 class="mt-3 text-2xl">{{ $t('add_employees') }}</h1>
     </div>
     <!-- Page main content -->
     <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
@@ -21,7 +21,7 @@
             <div class="flex items-center">
               <div class="flex-1 me-2">
                 <label for="last_name" class="flex mb-1">
-                  <span>Last name</span>
+                  <span>{{ $t('last_name') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
                 <a-input
@@ -32,7 +32,7 @@
               </div>
               <div class="flex-1 me-2">
                 <label for="name" class="flex mb-1">
-                  <span>Middle Name</span>
+                  <span>{{ $t('middle_name') }}</span>
                 </label>
                 <a-input
                   id="middle_name"
@@ -44,7 +44,7 @@
             <div class="flex items-center mt-5">
               <div class="flex-1 me-2">
                 <label for="name" class="flex mb-1">
-                  <span>Name</span>
+                  <span>{{ $t('name') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
                 <a-input
@@ -55,7 +55,7 @@
               </div>
               <div class="flex-1 me-2">
                 <label for="data_of_birth" class="flex mb-1">
-                  <span>Ngày sinh</span>
+                  <span>{{ $t('dob') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
                 <a-date-picker v-model:value="value1" class="w-full" placeholder="Select date"/>
@@ -64,7 +64,7 @@
             <div class="flex items-center mt-5">
               <div class="flex-1 me-2">
                 <label for="gender" class="flex mb-1">
-                  <span>Last name</span>
+                  <span>{{ $t('gender') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
                 <a-select
@@ -102,7 +102,7 @@
               </div>
               <div class="flex-1 me-2">
                 <label for="origin" class="flex mb-1">
-                  <span>Quê quán</span>
+                  <span>{{ $t('origin') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
                 <a-input
@@ -115,7 +115,7 @@
             <div class="flex items-center mt-5">
               <div class="flex-1 me-2">
                 <label for="phone_number" class="flex mb-1">
-                  <span>Số điện thoại</span>
+                  <span>{{ $t('phone') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
                 <a-input
@@ -126,7 +126,7 @@
               </div>
               <div class="flex-1 me-2">
                 <label for="login_email" class="flex mb-1">
-                  <span>Email đăng nhập</span>
+                  <span>{{ $t('email') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
                 <a-input
@@ -155,25 +155,33 @@
                 </div>
               </div>
               <!-- Building managing section table -->
-               <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-                <template #bodyCell="{ column, text }">
-                  <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
-                    <div>
-                      {{ text }}
-                    </div>
+              <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
+                <template #bodyCell="{ column, text, record }">
+                  <template v-if="column.dataIndex === 'buildingName'">
+                    <a-select v-model:value="record.buildingName" :options="buildingOptions" class="w-full"></a-select>
+                  </template>
+                  <template v-else-if="column.dataIndex === 'beginDate'">
+                    <a-date-picker v-model:value="record.beginDate" class="w-full" placeholder="Select date"></a-date-picker>
+                  </template>
+                  <template v-else-if="column.dataIndex === 'endDate'">
+                    <a-date-picker v-model:value="record.endDate" class="w-full" placeholder="Select date"></a-date-picker>
                   </template>
                   <template v-else-if="column.dataIndex === 'operation'">
                     <div>
                       <span>
-                        <NuxtLink class="detail">Edit</NuxtLink> | <NuxtLink class="delete">Delete</NuxtLink>
+                        
                       </span>
+                      <a-button type="primary" shape="circle" :size="size" danger>
+                        <template #icon>
+                          X
+                        </template>
+                      </a-button>
                     </div>
                   </template>
                 </template>
               </a-table>
             </div>
           </div>
-          
         </div>
         <!-- right col -->
         <div class="col-span-2 px-3">
@@ -182,6 +190,10 @@
           <imageUpload :label="$t('national_id') + ' ' + $t('back_face')"/>
         </div>
       </div>
+      <div class="flex flex-col items-center mt-5">
+        <a-button class="my-2 w-[100px]" type="primary">{{ $t('confirm') }}</a-button>
+        <a-button class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
+      </div>
     </div>
   </div>
 </template>
@@ -189,12 +201,13 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
 import imageUpload from '@/components/common/customComponent/imageUpload.vue';
 import type { Dayjs } from 'dayjs';
 import type { SelectProps } from 'ant-design-vue';
+import type { SizeType } from 'ant-design-vue/es/config-provider';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -213,19 +226,10 @@ useHead({
   ],
 });
 
-// ---------------------- Variables ----------------------
-// const buildingList = ref<{
-//   name: string;
-//   address: string;
-//   totalRoom: number;
-//   totalFloor: number;
-//   image: string;
-// }[]>([]);
-// const { $event } = useNuxtApp();
-
 //use this to get the translation
 const value1 = ref<Dayjs>();
 const value2 = ref('Female');
+const size = ref<SizeType>('large');
 const options2 = ref<SelectProps['options']>([
   { value: 'Male', label: 'Male' },
   { value: 'Female', label: 'Female' },
@@ -237,29 +241,40 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 
+const buildingOptions = ref([
+  { value: 'A1', label: 'A1' },
+  { value: 'A2', label: 'A2' },
+  { value: 'A3', label: 'A3' },
+  { value: 'B1', label: 'B1' },
+  { value: 'B2', label: 'B2' },
+  { value: 'B3', label: 'B3' },
+]);
+
 const columns = computed(() => [
   {
     title: t('no'),
+    align: 'center',
     dataIndex: 'no',
     width: '1%',
   },
   {
     title: t('building_name'),
     dataIndex: 'buildingName',
-    width: '12%',
+    width: '40%',
   },
   {
     title: "Begin date",
     dataIndex: 'beginDate',
-    width: '12%',
+    width: '20%',
   },
   {
     title: "End date",
     dataIndex: 'endDate',
-    width: '12%',
+    width: '20%',
   },
   {
     title: t('operation'),
+    align: 'center',
     dataIndex: 'operation',
   },
 ]);
@@ -267,38 +282,21 @@ const columns = computed(() => [
 interface DataItem {
   key: string;
   no: number;
-  name: string;
-  employeeId: string;
-  gender: string;
-  dob: string;
-  nationalId: string;
-  phoneNumber: string;
-  contactMail: string;
-  buildingManaging: string;
+  buildingName: string;
+  beginDate: Dayjs | null;
+  endDate: Dayjs | null;
 }
 
 const data: DataItem[] = [];
-const genders = ['Male', 'Female'];
-const buildings = ['A1', 'B1', 'C1'];
+const buildings = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3'];
 
-function getRandomBuildings() {
-  const shuffled = buildings.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, Math.floor(Math.random() * buildings.length) + 1);
-  return selected.join(', ');
-}
-
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 20; i++) {
   data.push({
     key: i.toString(),
     no: i + 1,
-    name: `Edward Long Man ${i}`,
-    employeeId: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,
-    gender: genders[Math.floor(Math.random() * genders.length)],
-    dob: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/19${Math.floor(Math.random() * 30) + 70}`,
-    nationalId: Math.random().toString().substr(2, 10),
-    phoneNumber: Math.random().toString().substr(2, 10),
-    contactMail: 'placeholder_email@gmail.com',
-    buildingManaging: getRandomBuildings(),
+    buildingName: buildings[Math.floor(Math.random() * buildings.length)],
+    beginDate: null,
+    endDate: null,
   });
 }
 
@@ -317,34 +315,6 @@ const rowSelection = ref({
   },
 });
 
-// ---------------------- Functions ----------------------
-// async function getBuildingList() {
-//   try {
-//     $event.emit('loading');
-//     const response = await api.common.building.getList();
-//     const data = response.data;
-//     buildingList.value = data.map(element => {
-//       return {
-//         name: element.name,
-//         address: element.address,
-//         totalRoom: element.totalRoom,
-//         totalFloor: element.totalFloor,
-//         image: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
-//         // image: element.image[0]
-//       }
-//     });
-
-//   } catch (err: any) {
-//     if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
-//       notification.error({
-//         message: t('system_error_title'),
-//         description: t('system_error_description'),
-//       });
-//     }
-//   } finally {
-//     $event.emit('loading');
-//   }
-// }
 const focus = () => {
   console.log('focus');
 };
@@ -352,11 +322,6 @@ const focus = () => {
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
 };
-
-// ---------------------- Lifecycles ----------------------
-// onMounted(() => {
-//   getBuildingList()
-// });
 </script>
 
 <style scoped>
@@ -366,5 +331,7 @@ const handleChange = (value: string) => {
   .editable-row-operations a {
     margin-right: 8px;
   }
-
+  .delete {
+    color: red;
+  }
 </style>

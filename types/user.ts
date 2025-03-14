@@ -24,7 +24,7 @@ type User = BasicModel & {
 type ManagerSchedule = BasicModel & {
   start_date: string;
   end_date: NullTime;
-  manager_id: number;
+  managerID: number;
   manager: User;
   building_id: number;
   building: Building;

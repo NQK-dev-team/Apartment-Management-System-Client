@@ -399,6 +399,7 @@ const highestStep = ref<number>(1);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const { t } = useI18n();
 const buildingInfo = ref<Building>({
   name: '',
   address: '',
@@ -452,6 +453,93 @@ const floors = ref<
 
 // ---------------------- Functions ----------------------
 function checkStep1(): boolean {
+  console.log(buildingInfo.value);
+  console.log(addItems.value);
+  console.log(removeItems.value);
+  console.log(schedules.value);
+  if (buildingInfo.value.name === '') {
+    notification.error({
+      message: t('empty_building_name'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.address === '') {
+    notification.error({
+      message: t('empty_building_address'),
+    });
+    return false;
+  }
+  if (
+    buildingInfo.value.images.length -
+      removeItems.value.buildingImages.length +
+      addItems.value.buildingImages.length ===
+    0
+  ) {
+    notification.error({
+      message: t('building_image_require'),
+    });
+    return false;
+  }
+  const services: {
+    ID: number;
+    name: string;
+    price: number | string;
+  }[] = [];
+  services.push(
+    ...addItems.value.services.map((service) => {
+      return {
+        ID: service.ID,
+        name: service.name,
+        price: service.price,
+      };
+    }),
+    ...buildingInfo.value.services.map((service) => {
+      return {
+        ID: service.ID,
+        name: service.name,
+        price: service.price,
+      };
+    })
+  );
+  removeItems.value.services.forEach((serviceID) => {
+    services.splice(
+      services.findIndex((service) => service.ID === serviceID),
+      1
+    );
+  });
+  if (services.find((service) => service.name === '') !== undefined) {
+    notification.error({
+      message: t('empty_service_name', {
+        no: services.findIndex((service) => service.name === '') + 1,
+      }),
+    });
+    return false;
+  }
+  if (services.find((service) => service.price === '') !== undefined) {
+    notification.error({
+      message: t('empty_service_price', {
+        no: services.findIndex((service) => service.price === '') + 1,
+      }),
+    });
+    return false;
+  }
+  if (services.find((service) => service.price !== '' && Number(service.price) <= 0) !== undefined) {
+    notification.error({
+      message: t('zero_service_price', {
+        no: services.findIndex((service) => service.price !== '' && Number(service.price) <= 0) + 1,
+      }),
+    });
+    return false;
+  }
+  const shedules: {
+    ID: number;
+    managerID: number;
+    managerNo: string | undefined;
+    start: string | undefined;
+    end: string | undefined;
+  }[] = [];
+  schedules.push();
+
   return true;
 }
 

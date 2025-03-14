@@ -60,6 +60,11 @@
                 {{ $t('floor_number') }}
               </div>
             </th>
+            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+              <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+                {{ $t('note') }}
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>

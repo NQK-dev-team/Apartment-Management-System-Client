@@ -23,6 +23,15 @@
             v-model:value="service.name"
             :placeholder="$t('enter_service_name')"
             type="text"
+            @change="
+              () => {
+                let targetService: any = buildingInfo.services.find((element) => element.ID === service.ID);
+                if (!targetService) {
+                  targetService = addItems.services.find((element) => element.ID === service.ID);
+                }
+                targetService.name = service.name;
+              }
+            "
           />
           <a-input
             v-else
@@ -49,6 +58,12 @@
             @change="
               (e: any) => {
                 service.price = e.target.value ?? '';
+
+                let targetService: any = buildingInfo.services.find((element) => element.ID === service.ID);
+                if (!targetService) {
+                  targetService = addItems.services.find((element) => element.ID === service.ID);
+                }
+                targetService.price = service.price;
               }
             "
           />
@@ -76,6 +91,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { UploadFile } from 'ant-design-vue/es/upload/interface';
+import type { Building } from '~/types/building';
+
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
@@ -90,6 +108,10 @@ const props = defineProps({
     }>,
     required: true,
   },
+  buildingInfo: {
+    type: Object as PropType<Building>,
+    required: true,
+  },
   index: {
     type: Number,
     required: true,
@@ -97,6 +119,36 @@ const props = defineProps({
   serviceDeleteBucket: {
     type: Array as PropType<number[]>,
     default: () => [],
+  },
+  addItems: {
+    required: true,
+    type: Object as PropType<{
+      buildingImages: UploadFile[];
+      roomImages: {
+        roomID: number;
+        images: UploadFile[];
+      }[];
+      rooms: {
+        ID: number;
+        status: number;
+        area: number | string;
+        description: string;
+        images: UploadFile[];
+        floor: number;
+      }[];
+      schedules: {
+        ID: number;
+        managerID: number;
+        managerNo: string | undefined;
+        start: string | undefined;
+        end: string | undefined;
+      }[];
+      services: {
+        ID: number;
+        name: string;
+        price: number | string;
+      }[];
+    }>,
   },
   readOnly: {
     type: Boolean,
@@ -106,6 +158,8 @@ const props = defineProps({
 const service = toRef(props, 'service');
 const { $event } = useNuxtApp();
 const checked = computed(() => props.serviceDeleteBucket.includes(service.value.ID));
+const buildingInfo = toRef(props, 'buildingInfo');
+const addItems = toRef(props, 'addItems');
 
 // ---------------------- Functions ----------------------
 function addToBucket() {

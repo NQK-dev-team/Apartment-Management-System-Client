@@ -98,6 +98,8 @@
             :index="index"
             :service="service"
             :service-delete-bucket="serviceDeleteBucket"
+            :add-items="addItems"
+            :building-info="buildingInfo"
           />
         </tbody>
       </table>

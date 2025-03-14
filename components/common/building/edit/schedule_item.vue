@@ -30,7 +30,17 @@
               })),
             ]"
             :placeholder="$t('search_by_employee_no')"
-            @change="schedule.managerID = props.managers.find((manager) => manager.no === schedule.managerNo)?.ID ?? 0"
+            @change="
+              () => {
+                schedule.managerID = props.managers.find((manager) => manager.no === schedule.managerNo)?.ID ?? 0;
+
+                let targetSchedule: any = schedules.find((element) => element.ID === schedule.ID);
+                if (!targetSchedule) {
+                  targetSchedule = addItems.schedules.find((element) => element.ID === schedule.ID);
+                }
+                targetSchedule.managerID = schedule.managerID;
+              }
+            "
           ></a-select>
           <a-select
             v-else
@@ -99,6 +109,17 @@
             :id="`schedule_${props.index + 1}_start_1`"
             v-model:value="schedule.start"
             class="w-full"
+            @change="
+              () => {
+                let targetSchedule: any = schedules.find((element) => element.ID === schedule.ID);
+                if (!targetSchedule) {
+                  targetSchedule = addItems.schedules.find((element) => element.ID === schedule.ID);
+                  targetSchedule.start = schedule.start;
+                } else {
+                  targetSchedule.start_date = schedule.start;
+                }
+              }
+            "
           ></a-date-picker>
           <a-date-picker
             v-else
@@ -119,6 +140,22 @@
             :id="`schedule_${props.index + 1}_end_1`"
             v-model:value="schedule.end"
             class="w-full"
+            @change="
+              () => {
+                let targetSchedule: any = schedules.find((element) => element.ID === schedule.ID);
+                if (!targetSchedule) {
+                  targetSchedule = addItems.schedules.find((element) => element.ID === schedule.ID);
+                  targetSchedule.end = schedule.end;
+                } else {
+                  if (schedule.end) {
+                    targetSchedule.end_date.Time = schedule.end;
+                  } else {
+                    targetSchedule.end_date.Valid = false;
+                    targetSchedule.end_date.Time = null;
+                  }
+                }
+              }
+            "
           ></a-date-picker>
           <a-date-picker
             v-else
@@ -131,11 +168,19 @@
         </div>
       </div>
     </td>
+    <td class="text-sm font-normal text-center align-middle py-[16px]">
+      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+        <div class="px-3">
+          <p v-if="schedule.ID <= 0" class="text-red-500">{{ $t('new') }}</p>
+        </div>
+      </div>
+    </td>
   </tr>
 </template>
 
 <script lang="ts" setup>
-import type { User } from '~/types/user';
+import type { User, ManagerSchedule } from '~/types/user';
+import type { UploadFile } from 'ant-design-vue/es/upload/interface';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -169,10 +214,45 @@ const props = defineProps({
     type: Array as PropType<User[]>,
     required: true,
   },
+  schedules: {
+    type: Array as PropType<ManagerSchedule[]>,
+    required: true,
+  },
+  addItems: {
+    required: true,
+    type: Object as PropType<{
+      buildingImages: UploadFile[];
+      roomImages: {
+        roomID: number;
+        images: UploadFile[];
+      }[];
+      rooms: {
+        status: number;
+        area: number | string;
+        description: string;
+        images: UploadFile[];
+        floor: number;
+      }[];
+      schedules: {
+        ID: number;
+        managerID: number;
+        managerNo: string | undefined;
+        start: string | undefined;
+        end: string | undefined;
+      }[];
+      services: {
+        ID: number;
+        name: string;
+        price: number | string;
+      }[];
+    }>,
+  },
 });
 const schedule = toRef(props, 'schedule');
 const { $event } = useNuxtApp();
 const checked = computed(() => props.scheduleDeleteBucket.includes(schedule.value.ID));
+const schedules = toRef(props, 'schedules');
+const addItems = toRef(props, 'addItems');
 
 // ---------------------- Functions ----------------------
 function addToBucket() {

@@ -100,6 +100,11 @@
                 {{ $t('end_date') }}
               </div>
             </th>
+            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+              <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+                {{ $t('note') }}
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -111,6 +116,8 @@
             :schedule="schedule"
             :schedule-delete-bucket="scheduleDeleteBucket"
             :managers="props.managers"
+            :add-items="addItems"
+            :schedules="props.schedules"
           />
         </tbody>
       </table>
@@ -207,8 +214,8 @@ const displaySchedules = computed(() => {
         ID: schedule.ID,
         managerID: schedule.managerID,
         managerNo: schedule.managerNo,
-        start: schedule.start,
-        end: schedule.end,
+        start: schedule.start ?? '',
+        end: schedule.end ?? '',
       };
     })
   );
@@ -217,9 +224,9 @@ const displaySchedules = computed(() => {
     ...props.schedules.map((schedule) => {
       return {
         ID: schedule.ID,
-        managerID: schedule.manager_id,
+        managerID: schedule.managerID,
         managerNo: schedule.manager.no,
-        start: dayjs(schedule.start_date),
+        start: schedule.start_date ? dayjs(schedule.start_date) : '',
         end: schedule.end_date.Valid ? (dayjs(schedule.end_date.Time) ?? '') : '',
       };
     })

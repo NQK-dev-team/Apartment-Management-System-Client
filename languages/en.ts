@@ -22,6 +22,7 @@ export default {
   add_service: 'Add service',
   amount: 'Amount',
   add_schedule: 'Add schedule',
+  avatar: 'Avatar',
 
   B: 'b',
   bill: 'Bill',
@@ -39,6 +40,8 @@ export default {
   building_information: 'Building information',
   bought: 'Bought',
   building_managing: 'Building managing',
+  back_face: 'back face',
+
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -120,6 +123,7 @@ export default {
   floor_list: 'Floor list',
   floor_number: 'Floor number',
   floor: 'Floor {name}',
+  front_face: 'front face',
 
   G: 'g',
   gender: 'Gender',

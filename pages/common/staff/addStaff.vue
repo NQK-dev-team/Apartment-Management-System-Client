@@ -12,7 +12,17 @@
     <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <!-- Heading of the  page -->
       <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
-      <!-- Table -->
+      <!-- 2 colums -->
+      <div class="grid grid-cols-6 gap-x-2">
+        <!-- left col -->
+        <div class="bg-red-500 rounded-lg shadow-xl min-h-[50px] col-span-4"></div>
+        <!-- right col -->
+        <div class="col-span-2 px-3">
+          <imageUpload :label="$t('avatar')"/>
+          <imageUpload :label="$t('national_id') + ' ' + $t('front_face')"/>
+          <imageUpload :label="$t('national_id') + ' ' + $t('back_face')"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,8 +33,7 @@ import { api } from '~/services/api';
 import { reactive, ref } from 'vue';
 import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
-import { PlusOutlined } from '#build/components';
-import StaffTable from '@/components/common/staff/StaffTable.vue';
+import imageUpload from '@/components/common/customComponent/imageUpload.vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

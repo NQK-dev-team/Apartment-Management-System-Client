@@ -22,6 +22,7 @@ export default {
   add_service: 'Thêm dịch vụ',
   amount: 'Số tiền',
   add_schedule: 'Thêm lịch quản lý',
+  avatar: 'Chân dung',
 
   B: 'b',
   bill: 'Hóa đơn',
@@ -39,6 +40,7 @@ export default {
   building_information: 'Thông tin tòa nhà',
   bought: 'Đã mua',
   building_managing: 'Toà nhà quản lý',
+  back_face: 'mặt sau',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -120,6 +122,7 @@ export default {
   floor_list: 'Danh sách tầng',
   floor_number: 'Số tầng',
   floor: 'Tầng {name}',
+  front_face: 'mặt trước',
 
   G: 'g',
   gender: 'Giới tính',

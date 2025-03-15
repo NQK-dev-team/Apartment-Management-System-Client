@@ -1,5 +1,31 @@
 <template>
-    
+  <div class="w-full h-full flex flex-col px-5">
+    <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+    <a-breadcrumb>
+        <a-breadcrumb-item
+          ><NuxtLink :to="pageRoutes.common.bill.list">{{ $t('bill_list') }}</NuxtLink></a-breadcrumb-item
+        >
+        <a-breadcrumb-item>{{ $t('add_bill') }}</a-breadcrumb-item>
+      </a-breadcrumb>
+      <h1 class="mt-3 text-2xl">{{ $t('add_bill') }}</h1>
+    </div>
+    <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+      <h1 class="mt-3 text-2xl">{{$t('bill_info')}}</h1>
+      <CommonBillAddBillInformation />
+      <div class="flex justify-between mt-5">
+            <h1 class="mt-3 text-2xl">{{$t('payment_list')}}</h1>
+            <div class="flex">
+              <a-button type="primary" class="flex items-center justify-center p-0 w-[36px] rounded-none;">
+                <img :src="svgPaths.plus" alt="Add customer" class="w-[12px] h-[12px]"/>
+              </a-button>
+              <a-button type="primary" danger class="flex items-center justify-center p-0 w-[36px] rounded-none; ml-2">
+                <img :src="svgPaths.delete" alt="Delete customer" class="w-[12px] h-[12px]"/>
+              </a-button>
+            </div>
+        </div>
+      <CommonBillAddPaymentList />
+    </div>
+  </div>
 </template>
   
   <script lang="ts" setup>
@@ -8,6 +34,8 @@
   import Success from '~/public/svg/success.svg';
   import { getMessageCode } from '~/consts/api_response';
   import { api } from '~/services/api';
+  import { useI18n } from 'vue-i18n';
+  import { svgPaths } from '~/consts/svg_paths';
   
   // ---------------------- Metadata ----------------------
   definePageMeta({
@@ -34,13 +62,6 @@
   const lightMode = computed(
     () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
   );
-//   const billInfo = ref<NewBuildingInfo>({
-//     name: '',
-//     address: '',
-//     images: [],
-//     services: [],
-//     floors: [],
-//   });
   const addSuccess = ref<boolean>(false);
   const { $event } = useNuxtApp();
   

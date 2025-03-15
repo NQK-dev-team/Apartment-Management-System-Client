@@ -36,7 +36,7 @@
       <a-input v-model:value="formState.bill.status" />
     </a-form-item>
     <a-form-item :name="['bill', 'payment_date']" :label="$t('payment_date')" :rules="[{ type: 'date' }]">
-      <a-input v-model:value="formState.bill.payment_date" />
+      <a-date-picker v-model:value="formState.bill.payment_date" />
     </a-form-item>
     <a-form-item :name="['bill', 'payer']" :label="$t('payer')" :rules="[{ type: 'string' }]">
       <a-input v-model:value="formState.bill.payer" />
@@ -77,7 +77,7 @@ const formState = reactive({
     owner_id: '',
     payment_period: '',
     status: '',
-    payment_date: '',
+    payment_date:'',
     payer: '',
     payer_id: '',
   },

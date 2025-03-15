@@ -1,7 +1,12 @@
 <template>
   <div>
     <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-      <template #bodyCell="{ column, text }">
+      <template #summary>
+        <a-table-summary-row>
+          <a-table-summary-cell index="0" colSpan="3" align="center"><strong>{{ t('total') }}</strong></a-table-summary-cell>
+          <a-table-summary-cell index="2" align="center"><strong>{{ totalBalance }}</strong></a-table-summary-cell>
+          <a-table-summary-cell index="3" />
+        </a-table-summary-row>
       </template>
     </a-table>
   </div>
@@ -62,6 +67,7 @@ function getRandomNote() {
   return selected.toString();
 }
 
+
 for (let i = 0; i < 10; i++) {
   data.push({
     key: i.toString(),
@@ -73,6 +79,10 @@ for (let i = 0; i < 10; i++) {
 }
 
 const dataSource = ref(data);
+
+const totalBalance = computed(() => {
+  return dataSource.value.reduce((total, item) => total + item.balance, 0);
+});
 
 const rowSelection = ref({
   checkStrictly: false,
@@ -87,15 +97,3 @@ const rowSelection = ref({
   },
 });
 </script>
-
-<style scoped>
-.detail:hover {
-  cursor: pointer;
-  color: #B9EDFE !important;
-}
-
-.delete:hover {
-  cursor: pointer;
-  color: #E19495 !important;
-}
-</style>

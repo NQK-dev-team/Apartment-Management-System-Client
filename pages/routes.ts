@@ -66,6 +66,11 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.staff.add,
     file: staffBaseRoute + 'addStaff.vue',
   },
+  {
+    name: 'Staff detail',
+    path: pageRoutes.common.staff.detail(':id'),
+    file: staffBaseRoute + 'detailStaff.vue',
+  },
   // Customer
   {
     name: 'Customer List',

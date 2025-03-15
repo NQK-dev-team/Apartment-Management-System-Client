@@ -150,9 +150,10 @@ export default {
 
   O: 'o',
   owner: 'Chủ tòa nhà',
-  owner_id: 'Max chur toaf',
-  
+  owner_id: 'Mã chủ tòa nhà',
+
   P: 'p',
+  payer: 'Người thanh toán',
   payer_id: 'Mã người thanh toán',
   paid_by: 'Người thanh toán',
   payment_period: 'Kỳ thanh toán',

@@ -153,6 +153,7 @@ export default {
   owner_id: 'Owner ID',
 
   P: 'p',
+  payer: 'Payer',
   payer_id: 'Payer ID',
   paid_by: 'Paid by',
   payment_period: 'Payment period',

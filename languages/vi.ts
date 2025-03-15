@@ -20,6 +20,7 @@ export default {
   amount: 'Số tiền',
 
   B: 'b',
+  balance: 'Dư nợ',
   bill: 'Hóa đơn',
   bill_list: 'Danh sách hóa đơn',
   bill_info: 'Thông tin hóa đơn',
@@ -145,6 +146,7 @@ export default {
   numberFloors: 'Số tầng',
   numberRooms: 'Số phòng',
   no: 'STT',
+  note: 'Ghi chú',
   next: 'Tiếp theo',
   no_floor: 'Tòa nhà này không có dữ liệu về các tầng, bạn có thể tiếp tục hoặc quay lại để thêm tầng mới',
 
@@ -156,6 +158,7 @@ export default {
   payer: 'Người thanh toán',
   payer_id: 'Mã người thanh toán',
   paid_by: 'Người thanh toán',
+  payment_list: 'Danh sách khoản thanh toán',
   payment_period: 'Kỳ thanh toán',
   payment_date: 'Ngày thanh toán',
   profile: 'Thông tin cá nhân',

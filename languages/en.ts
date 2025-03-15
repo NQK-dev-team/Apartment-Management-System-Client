@@ -20,6 +20,7 @@ export default {
   amount: 'Amount',
 
   B: 'b',
+  balance: 'Balance',
   bill: 'Bill',
   bill_list: 'Bill list',
   bill_info: 'Bill information',
@@ -145,6 +146,7 @@ export default {
   numberFloors: 'Number of Floors',
   numberRooms: 'Number of Rooms',
   no: 'No.',
+  note: 'Note',
   next: 'Next',
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
 
@@ -156,6 +158,7 @@ export default {
   payer: 'Payer',
   payer_id: 'Payer ID',
   paid_by: 'Paid by',
+  payment_list: 'Payment list',
   payment_period: 'Payment period',
   payment_date: 'Payment date',
   profile: 'Profile',

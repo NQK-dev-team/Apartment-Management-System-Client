@@ -7,16 +7,21 @@
             <span>{{ $t('building_name') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input
+          <a-input-search
             v-if="userRole?.toString() === roles.owner"
             id="building_name_1"
-            v-model:value="buildingInfo.name"
+            v-model:value="buildingInfo.data.name"
             :placeholder="$t('enter_building_name')"
-          />
+            @search="buildingInfo.data.name = props.originalBuildingInfo.data.name"
+          >
+            <template #enterButton>
+              <a-button><UndoOutlined /></a-button>
+            </template>
+          </a-input-search>
           <a-input
             v-else
             id="building_name_1"
-            :value="buildingInfo.name"
+            :value="buildingInfo.data.name"
             :placeholder="$t('enter_building_name')"
             disabled
             readonly
@@ -27,33 +32,43 @@
             <span>{{ $t('building_address') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input
+          <a-input-search
             v-if="userRole?.toString() === roles.owner"
             id="building_address_1"
-            v-model:value="buildingInfo.address"
+            v-model:value="buildingInfo.data.address"
             :placeholder="$t('enter_building_address')"
-          />
+            @search="buildingInfo.data.address = props.originalBuildingInfo.data.address"
+          >
+            <template #enterButton>
+              <a-button><UndoOutlined /></a-button>
+            </template>
+          </a-input-search>
           <a-input
             v-else
             id="building_address_1"
-            :value="buildingInfo.address"
+            :value="buildingInfo.data.address"
             :placeholder="$t('enter_building_address')"
             readonly
             disabled
           />
         </div>
       </div>
-      <CommonBuildingEditServiceTable :building-info="buildingInfo" :remove-items="removeItems" :add-items="addItems" />
+      <CommonBuildingEditServiceTable
+        :building-info="buildingInfo"
+        :original-building-info="props.originalBuildingInfo"
+      />
       <CommonBuildingEditScheduleTable
         :building-info="buildingInfo"
-        :remove-items="removeItems"
-        :add-items="addItems"
+        :original-building-info="props.originalBuildingInfo"
         :managers="managers"
-        :schedules="schedules"
       />
       <CommonBuildingEditFloorTable :floors="props.floors" />
     </div>
-    <CommonBuildingEditBuildingImage :building-info="buildingInfo" :remove-items="removeItems" :add-items="addItems" />
+    <CommonBuildingEditBuildingImage
+      v-if="buildingInfo.data.images.length"
+      :building-info="buildingInfo"
+      :original-building-info="props.originalBuildingInfo"
+    />
     <a-modal
       v-model:open="openModal"
       :title="$t('confirm_deletion')"
@@ -72,67 +87,25 @@
 </template>
 
 <script lang="ts" setup>
-import type { Building } from '~/types/building';
+import type { EditBuilding } from '~/types/building';
 import { svgPaths } from '~/consts/svg_paths';
-import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
-import { getBase64 } from '#build/imports';
-import type { ManagerSchedule, User } from '~/types/user';
+import type { User } from '~/types/user';
 import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
 const userRole = useCookie('userRole');
 const props = defineProps({
   buildingInfo: {
-    type: Object as PropType<Building>,
+    type: Object as PropType<{ data: EditBuilding }>,
+    required: true,
+  },
+  originalBuildingInfo: {
+    type: Object as PropType<{ data: EditBuilding }>,
     required: true,
   },
   managers: {
     type: Array as PropType<User[]>,
     required: true,
-  },
-  schedules: {
-    type: Array as PropType<ManagerSchedule[]>,
-    required: true,
-  },
-  removeItems: {
-    type: Object as PropType<{
-      buildingImages: number[];
-      roomImages: number[];
-      rooms: number[];
-      schedules: number[];
-      services: number[];
-    }>,
-    required: true,
-  },
-  addItems: {
-    required: true,
-    type: Object as PropType<{
-      buildingImages: UploadFile[];
-      roomImages: {
-        roomID: number;
-        images: UploadFile[];
-      }[];
-      rooms: {
-        ID: number;
-        status: number;
-        area: number | string;
-        description: string;
-        images: UploadFile[];
-        floor: number;
-      }[];
-      schedules: {
-        ID: number;
-        managerID: number;
-        managerNo: string | undefined;
-        start: string | undefined;
-        end: string | undefined;
-      }[];
-      services: {
-        ID: number;
-        name: string;
-        price: number | string;
-      }[];
-    }>,
   },
   floors: {
     type: Array as PropType<

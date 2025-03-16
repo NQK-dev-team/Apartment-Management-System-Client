@@ -23,15 +23,6 @@
             v-model:value="service.name"
             :placeholder="$t('enter_service_name')"
             type="text"
-            @change="
-              () => {
-                let targetService: any = buildingInfo.services.find((element) => element.ID === service.ID);
-                if (!targetService) {
-                  targetService = addItems.services.find((element) => element.ID === service.ID);
-                }
-                targetService.name = service.name;
-              }
-            "
           />
           <a-input
             v-else
@@ -51,21 +42,10 @@
           <a-input
             v-if="!props.readOnly"
             :id="`service_${props.index + 1}_price_1`"
+            v-model:value="service.price"
             :placeholder="$t('enter_service_price')"
-            :value="service.price"
             type="number"
             :min="0"
-            @change="
-              (e: any) => {
-                service.price = e.target.value ?? '';
-
-                let targetService: any = buildingInfo.services.find((element) => element.ID === service.ID);
-                if (!targetService) {
-                  targetService = addItems.services.find((element) => element.ID === service.ID);
-                }
-                targetService.price = service.price;
-              }
-            "
           />
           <a-input
             v-else
@@ -91,8 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { UploadFile } from 'ant-design-vue/es/upload/interface';
-import type { Building } from '~/types/building';
+import type { Service } from '~/types/building';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -101,15 +80,12 @@ const lightMode = computed(
 );
 const props = defineProps({
   service: {
-    type: Object as PropType<{
-      ID: number;
-      name: string;
-      price: number | string;
-    }>,
-    required: true,
-  },
-  buildingInfo: {
-    type: Object as PropType<Building>,
+    type: Object as PropType<
+      Service & {
+        isDeleted: boolean;
+        isNew: boolean;
+      }
+    >,
     required: true,
   },
   index: {
@@ -120,36 +96,6 @@ const props = defineProps({
     type: Array as PropType<number[]>,
     default: () => [],
   },
-  addItems: {
-    required: true,
-    type: Object as PropType<{
-      buildingImages: UploadFile[];
-      roomImages: {
-        roomID: number;
-        images: UploadFile[];
-      }[];
-      rooms: {
-        ID: number;
-        status: number;
-        area: number | string;
-        description: string;
-        images: UploadFile[];
-        floor: number;
-      }[];
-      schedules: {
-        ID: number;
-        managerID: number;
-        managerNo: string | undefined;
-        start: string | undefined;
-        end: string | undefined;
-      }[];
-      services: {
-        ID: number;
-        name: string;
-        price: number | string;
-      }[];
-    }>,
-  },
   readOnly: {
     type: Boolean,
     default: false,
@@ -158,8 +104,6 @@ const props = defineProps({
 const service = toRef(props, 'service');
 const { $event } = useNuxtApp();
 const checked = computed(() => props.serviceDeleteBucket.includes(service.value.ID));
-const buildingInfo = toRef(props, 'buildingInfo');
-const addItems = toRef(props, 'addItems');
 
 // ---------------------- Functions ----------------------
 function addToBucket() {

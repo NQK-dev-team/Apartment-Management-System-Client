@@ -310,13 +310,17 @@
           <CommonBuildingEditStep1
             :building-info="buildingInfo"
             :managers="managers"
-            :schedules="schedules"
-            :remove-items="removeItems"
-            :add-items="addItems"
+            :original-building-info="originalBuildingInfo"
             :floors="floors"
           />
         </div>
-        <div v-show="step === 2" class="flex-1"></div>
+        <div v-show="step === 2" class="flex-1">
+          <CommonBuildingEditStep2
+            :building-info="buildingInfo"
+            :original-building-info="originalBuildingInfo"
+            :floors="floors"
+          />
+        </div>
         <div v-show="step === 3" class="flex-1"></div>
         <div v-show="step === 4" class="flex-1">
           <div v-show="editSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
@@ -367,10 +371,11 @@
 import { getMessageCode } from '~/consts/api_response';
 import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
-import type { Building } from '~/types/building';
-import type { ManagerSchedule, User } from '~/types/user';
-import type { UploadFile } from 'ant-design-vue';
+import type { EditBuilding } from '~/types/building';
+import type { User } from '~/types/user';
 import Success from '~/public/svg/success.svg';
+import type { NullTime } from '~/types/basic_model';
+import dayjs, { type Dayjs } from 'dayjs';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -400,50 +405,28 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const { t } = useI18n();
-const buildingInfo = ref<Building>({
-  name: '',
-  address: '',
-  images: [],
-  rooms: [],
-  services: [],
-} as unknown as Building);
-const schedules = ref<ManagerSchedule[]>([]);
+const buildingInfo = ref<{ data: EditBuilding }>({
+  data: {
+    name: '',
+    address: '',
+    images: [],
+    rooms: [],
+    services: [],
+    schedules: [],
+  } as unknown as EditBuilding,
+});
+const originalBuildingInfo = ref<{ data: EditBuilding }>({
+  data: {
+    name: '',
+    address: '',
+    images: [],
+    rooms: [],
+    services: [],
+    schedules: [],
+  } as unknown as EditBuilding,
+});
 const managers = ref<User[]>([]);
 const editSuccess = ref<boolean>(false);
-const removeItems = ref({
-  buildingImages: [] as number[],
-  roomImages: [] as number[],
-  rooms: [] as number[],
-  schedules: [] as number[],
-  services: [] as number[],
-});
-const addItems = ref({
-  buildingImages: [] as UploadFile[],
-  roomImages: [] as {
-    roomID: number;
-    images: UploadFile[];
-  }[],
-  rooms: [] as {
-    ID: number;
-    status: number;
-    area: number | string;
-    description: string;
-    images: UploadFile[];
-    floor: number;
-  }[],
-  schedules: [] as {
-    ID: number;
-    managerID: number;
-    managerNo: string | undefined;
-    start: string | undefined;
-    end: string | undefined;
-  }[],
-  services: [] as {
-    ID: number;
-    name: string;
-    price: number | string;
-  }[],
-});
 const floors = ref<
   {
     value: number;
@@ -453,97 +436,127 @@ const floors = ref<
 
 // ---------------------- Functions ----------------------
 function checkStep1(): boolean {
-  console.log(buildingInfo.value);
-  console.log(addItems.value);
-  console.log(removeItems.value);
-  console.log(schedules.value);
-  if (buildingInfo.value.name === '') {
+  if (buildingInfo.value.data.name === '') {
     notification.error({
       message: t('empty_building_name'),
     });
     return false;
   }
-  if (buildingInfo.value.address === '') {
+  if (buildingInfo.value.data.address === '') {
     notification.error({
       message: t('empty_building_address'),
     });
     return false;
   }
-  if (
-    buildingInfo.value.images.length -
-      removeItems.value.buildingImages.length +
-      addItems.value.buildingImages.length ===
-    0
-  ) {
+  if (buildingInfo.value.data.images.filter((image) => !image.isDeleted).length === 0) {
     notification.error({
       message: t('building_image_require'),
     });
     return false;
   }
-  const services: {
-    ID: number;
-    name: string;
-    price: number | string;
-  }[] = [];
-  services.push(
-    ...addItems.value.services.map((service) => {
-      return {
-        ID: service.ID,
-        name: service.name,
-        price: service.price,
-      };
-    }),
-    ...buildingInfo.value.services.map((service) => {
-      return {
-        ID: service.ID,
-        name: service.name,
-        price: service.price,
-      };
-    })
-  );
-  removeItems.value.services.forEach((serviceID) => {
-    services.splice(
-      services.findIndex((service) => service.ID === serviceID),
-      1
-    );
-  });
-  if (services.find((service) => service.name === '') !== undefined) {
+  const finalServices = buildingInfo.value.data.services.filter((service) => !service.isDeleted);
+  if (finalServices.find((service) => service.name === '') !== undefined) {
     notification.error({
       message: t('empty_service_name', {
-        no: services.findIndex((service) => service.name === '') + 1,
+        no: finalServices.findIndex((service) => service.name === '') + 1,
       }),
     });
     return false;
   }
-  if (services.find((service) => service.price === '') !== undefined) {
+  if (finalServices.find((service) => service.price === '') !== undefined) {
     notification.error({
       message: t('empty_service_price', {
-        no: services.findIndex((service) => service.price === '') + 1,
+        no: finalServices.findIndex((service) => service.price === '') + 1,
       }),
     });
     return false;
   }
-  if (services.find((service) => service.price !== '' && Number(service.price) <= 0) !== undefined) {
+  if (finalServices.find((service) => service.price !== '' && Number(service.price) <= 0) !== undefined) {
     notification.error({
       message: t('zero_service_price', {
-        no: services.findIndex((service) => service.price !== '' && Number(service.price) <= 0) + 1,
+        no: finalServices.findIndex((service) => service.price !== '' && Number(service.price) <= 0) + 1,
       }),
     });
     return false;
   }
-  const shedules: {
-    ID: number;
-    managerID: number;
-    managerNo: string | undefined;
-    start: string | undefined;
-    end: string | undefined;
-  }[] = [];
-  schedules.push();
-
+  const finalSchedules = buildingInfo.value.data.schedules.filter((schedule) => !schedule.isDeleted);
+  if (finalSchedules.find((schedule) => !schedule.managerNo) !== undefined) {
+    notification.error({
+      message: t('empty_employee_schedule', {
+        no: finalSchedules.findIndex((schedule) => !schedule.managerNo) + 1,
+      }),
+    });
+    return false;
+  }
+  if (finalSchedules.find((schedule) => !schedule.start_date) !== undefined) {
+    notification.error({
+      message: t('empty_start_date_schedule', {
+        no:
+          buildingInfo.value.data.schedules
+            .filter((schedule) => !schedule.isDeleted)
+            .findIndex((schedule) => !schedule.start_date) + 1,
+      }),
+    });
+    return false;
+  }
+  if (
+    finalSchedules.find(
+      (schedule) => schedule.end_date && schedule.start_date.toDate() > (schedule.end_date as Dayjs).toDate()
+    ) !== undefined
+  ) {
+    notification.error({
+      message: t('start_date_large_end_date', {
+        no:
+          finalSchedules.findIndex(
+            (schedule) => schedule.end_date && schedule.start_date.toDate() > (schedule.end_date as Dayjs).toDate()
+          ) + 1,
+      }),
+    });
+    return false;
+  }
   return true;
 }
 
 function checkStep2(): boolean {
+  console.log(buildingInfo.value.data.rooms);
+  let invalidRoom = buildingInfo.value.data.rooms.find((room) => !room.isDeleted && room.status === 0);
+  if (invalidRoom) {
+    notification.error({
+      message: t('empty_room_status', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  invalidRoom = buildingInfo.value.data.rooms.find((room) => !room.isDeleted && room.area === '');
+  if (invalidRoom) {
+    notification.error({
+      message: t('empty_room_area', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  invalidRoom = buildingInfo.value.data.rooms.find((room) => !room.isDeleted && Number(room.area) <= 0);
+  if (invalidRoom) {
+    notification.error({
+      message: t('zero_room_area', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  invalidRoom = buildingInfo.value.data.rooms.find(
+    (room) => !room.isDeleted && !room.images.filter((image) => !image.isDeleted).length
+  );
+  if (invalidRoom) {
+    notification.error({
+      message: t('room_image_require', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
   return true;
 }
 
@@ -571,17 +584,70 @@ onMounted(async () => {
     const scheduleResponse = await api.common.building.getSchedule(buildingID);
     const buildingInforResponse = await api.common.building.getDetail(buildingID);
 
-    buildingInfo.value = buildingInforResponse.data;
-    schedules.value = scheduleResponse.data.sort(
-      (a, b) =>
-        new Date(b.start_date).getTime() - new Date(a.start_date).getTime() ||
-        new Date(b.end_date.Valid ? b.end_date.Time! : '2100-01-01').getTime() -
-          new Date(a.end_date.Valid ? a.end_date.Time! : '2100-01-01').getTime()
-    );
+    buildingInfo.value.data.name = buildingInforResponse.data.name;
+    buildingInfo.value.data.address = buildingInforResponse.data.address;
+    buildingInfo.value.data.images = buildingInforResponse.data.images.map((image) => {
+      return {
+        ...image,
+        isDeleted: false,
+        isNew: false,
+      };
+    });
+    buildingInfo.value.data.rooms = buildingInforResponse.data.rooms.map((room) => {
+      return {
+        ...room,
+        images: room.images.map((image) => {
+          return {
+            ...image,
+            isDeleted: false,
+            isNew: false,
+          };
+        }),
+        isDeleted: false,
+        isNew: false,
+      };
+    });
+    buildingInfo.value.data.services = buildingInforResponse.data.services.map((service) => {
+      return {
+        ...service,
+        isDeleted: false,
+        isNew: false,
+      };
+    });
+    buildingInfo.value.data.schedules = scheduleResponse.data
+      .sort(
+        (a, b) =>
+          new Date(b.start_date as string).getTime() - new Date(a.start_date as string).getTime() ||
+          new Date((b.end_date as NullTime).Valid ? (b.end_date as NullTime).Time! : '2100-01-01').getTime() -
+            new Date((a.end_date as NullTime).Valid ? (a.end_date as NullTime).Time! : '2100-01-01').getTime()
+      )
+      .map((schedule) => {
+        return {
+          ID: schedule.ID,
+          createdAt: schedule.createdAt,
+          createdBy: schedule.createdBy,
+          updatedAt: schedule.updatedAt,
+          updatedBy: schedule.updatedBy,
+          buildingID: schedule.buildingID,
+          managerID: schedule.managerID,
+          managerNo: schedule.manager.no,
+          start_date: dayjs(schedule.start_date as string),
+          end_date: (schedule.end_date as NullTime).Valid ? dayjs((schedule.end_date as NullTime).Time as string) : '',
+          isDeleted: false,
+          isNew: false,
+        };
+      });
+    // buildingInfo.value.data.schedules.forEach((schedule) => {
+    //   schedule.start_date = dayjs(schedule.start_date as string);
+    //   schedule.end_date = (schedule.end_date as NullTime).Valid
+    //     ? dayjs((schedule.end_date as NullTime).Time as string)
+    //     : '';
+    // });
+    originalBuildingInfo.value = JSON.parse(JSON.stringify(buildingInfo.value));
     managers.value = managerListResponse.data;
 
-    if (buildingInfo.value.rooms.length) {
-      buildingInfo.value.rooms.forEach((room) => {
+    if (buildingInforResponse.data.rooms.length) {
+      buildingInforResponse.data.rooms.forEach((room) => {
         if (!floors.value.find((floor) => floor.value === room.floor)) {
           floors.value.push({
             value: room.floor,

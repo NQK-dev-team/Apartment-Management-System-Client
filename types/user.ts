@@ -1,5 +1,6 @@
 import type { BasicModel, NullTime } from './basic_model';
 import type { Building } from './building';
+import type { Dayjs } from 'dayjs';
 
 type User = BasicModel & {
   no: string;
@@ -22,11 +23,11 @@ type User = BasicModel & {
 };
 
 type ManagerSchedule = BasicModel & {
-  start_date: string;
-  end_date: NullTime;
+  start_date: string | Dayjs;
+  end_date: NullTime | Dayjs;
   managerID: number;
   manager: User;
-  building_id: number;
+  buildingID: number;
   building: Building;
 };
 

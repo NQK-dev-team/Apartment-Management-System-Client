@@ -1,8 +1,24 @@
 <template>
   <div class="w-[300px] h-full">
-    <div class="flex">
-      <h2 class="text-xl">{{ $t('building_image') }}</h2>
-      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+    <div class="flex items-center justify-between">
+      <div class="flex">
+        <h2 class="text-xl">{{ $t('building_image') }}</h2>
+        <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+      </div>
+      <a-button
+        v-if="userRole?.toString() === roles.owner"
+        class="flex items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+        size="small"
+        @click="
+          () => {
+            buildingInfo.data.images = props.originalBuildingInfo.data.images;
+            imageList = getImageList();
+          }
+        "
+      >
+        <UndoOutlined />
+      </a-button>
+      <div v-else></div>
     </div>
     <div class="flex flex-col">
       <div v-for="(image, index) in displayImages" :key="index" class="mt-3">
@@ -17,14 +33,14 @@
         list-type="text"
         @remove="
           (file) => {
-            if (!isNaN(Number(file.uid))) {
-              if (Number(file.uid) > 0) {
-                removeItems.buildingImages.push(Number(file.uid));
-              } else {
-                const index = addItems.buildingImages.findIndex((image) => image.uid === file.uid);
-                if (index !== -1) {
-                  addItems.buildingImages.splice(index, 1);
-                }
+            if (isNaN(Number(file.uid))) {
+              buildingInfo.data.images = buildingInfo.data.images.filter((image: any) => image.uid !== file.uid);
+            } else {
+              const foundImage = buildingInfo.data.images.find(
+                (image: any) => !image.isNew && image.ID === Number(file.uid)
+              );
+              if (foundImage) {
+                foundImage.isDeleted = true;
               }
             }
           }
@@ -46,127 +62,94 @@
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
 import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
-import type { Building } from '~/types/building';
+import type { EditBuilding } from '~/types/building';
+import { getBase64 } from '#build/imports';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const imageCounter = ref(0);
 const props = defineProps({
   buildingInfo: {
-    type: Object as PropType<Building>,
+    type: Object as PropType<{ data: EditBuilding }>,
     required: true,
   },
-  removeItems: {
-    type: Object as PropType<{
-      buildingImages: number[];
-      roomImages: number[];
-      rooms: number[];
-      schedules: number[];
-      services: number[];
-    }>,
+  originalBuildingInfo: {
+    type: Object as PropType<{ data: EditBuilding }>,
     required: true,
-  },
-  addItems: {
-    required: true,
-    type: Object as PropType<{
-      buildingImages: UploadFile[];
-      roomImages: {
-        roomID: number;
-        images: UploadFile[];
-      }[];
-      rooms: {
-        status: number;
-        area: number | string;
-        description: string;
-        images: UploadFile[];
-        floor: number;
-      }[];
-      schedules: {
-        managerID: number;
-        managerNo: string | undefined;
-        start: string | undefined;
-        end: string | undefined;
-      }[];
-      services: {
-        name: string;
-        price: number | string;
-      }[];
-    }>,
   },
 });
-const imageList = asyncComputed<any>(async () => {
-  const result: {
-    uid: string;
-    name: string;
-    status: string;
-    url: string;
-  }[] = [];
-
-  result.push(
-    ...props.buildingInfo.images.map((image) => ({
-      uid: String(image.ID),
-      name: image.title ?? '',
-      status: 'done',
-      url: image.path,
-    }))
-  );
-  return result;
-});
-const removeItems = toRef(props, 'removeItems');
-const addItems = toRef(props, 'addItems');
+const buildingInfo = toRef(props, 'buildingInfo');
+const imageList = ref<any[]>([]);
 const displayImages = asyncComputed(async () => {
-  const result: {
-    ID: number;
-    url: string;
-  }[] = [];
+  const result: string[] = [];
 
-  result.push(
-    ...props.buildingInfo.images.map((image) => {
-      return {
-        ID: image.ID,
-        url: image.path,
-      };
-    })
-  );
-
-  props.removeItems.buildingImages.forEach((imageID) => {
-    const index = result.findIndex((image) => image.ID === imageID);
-    if (index !== -1) {
-      result.splice(index, 1);
-    }
-  });
-
-  for (let i = 0; i < addItems.value.buildingImages.length; i++) {
-    if (addItems.value.buildingImages[i].originFileObj) {
-      const base64 = await getBase64(addItems.value.buildingImages[i].originFileObj!);
-      result.push(
-        ...[
-          {
-            ID: Number(addItems.value.buildingImages[i].uid),
-            url: base64 as string,
-          },
-        ]
-      );
+  for (const image of props.buildingInfo.data.images) {
+    if (image.isDeleted) {
+      continue;
+    } else if (image.isNew) {
+      const file = await getBase64((image as any).originFileObj);
+      result.push(file as string);
+    } else {
+      result.push((image as any).path);
     }
   }
 
-  return result.map((image) => image.url);
+  return result;
 });
 
 // ---------------------- Functions ----------------------
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
   event.fileList.forEach((file) => {
     if (file.status === 'done' && isNaN(Number(file.uid))) {
-      file.uid = String(-1 - imageCounter.value);
-      if (addItems.value.buildingImages.find((image) => image.uid === file.uid)) {
+      if (props.buildingInfo.data.images.find((image: any) => image.isNew && image.uid === file.uid)) {
         return;
       }
-      addItems.value.buildingImages.push(file);
-      imageCounter.value++;
+      buildingInfo.value.data.images.push({
+        ...file,
+        isNew: true,
+        isDeleted: false,
+      });
     }
   });
 }
+
+function getImageList() {
+  const result: {
+    uid: string | number;
+    name: string;
+    status: string;
+    url: string;
+  }[] = [];
+
+  props.buildingInfo.data.images.forEach((image: any) => {
+    if (image.isDeleted) return;
+
+    if (!image.isNew) {
+      result.push({
+        uid: image.ID,
+        name: image.title ?? '',
+        status: 'done',
+        url: image.path,
+      });
+    } else {
+      result.push({
+        uid: image.uid,
+        name: image.name,
+        status: 'done',
+        url: image.url,
+      });
+    }
+  });
+
+  return result;
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+  imageList.value = getImageList();
+});
 </script>

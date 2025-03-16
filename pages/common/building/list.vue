@@ -111,7 +111,7 @@ async function getBuildingList() {
         address: element.address,
         totalRoom: element.totalRoom,
         totalFloor: element.totalFloor,
-        image: element.images.length ? element.images[0].path : '',
+        image: element.images && element.images.length ? element.images[0].path : '',
       };
     });
     buildingListFiltered.value = buildingList.value;

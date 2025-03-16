@@ -7,9 +7,15 @@
           class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
             () => {
-              removeItems.schedules = [];
-              addItems.schedules = [];
               current = 1;
+              const originalSchedules = JSON.parse(JSON.stringify(originalBuildingInfo.data.schedules));
+              originalSchedules.forEach((schedule: any) => {
+                schedule.start_date = dayjs(schedule.start_date as string);
+                schedule.end_date = (schedule.end_date as NullTime).Valid
+                  ? dayjs((schedule.end_date as NullTime).Time as string)
+                  : '';
+              });
+              buildingInfo.data.schedules = originalSchedules;
             }
           "
         >
@@ -32,7 +38,22 @@
           @click="
             () => {
               addCounter++;
-              addItems.schedules.push({ ID: -addCounter, managerID: 0, managerNo: '', start: '', end: '' });
+              buildingInfo.data.schedules = [
+                {
+                  ID: -addCounter,
+                  createdAt: '',
+                  createdBy: 0,
+                  updatedAt: '',
+                  updatedBy: 0,
+                  buildingID: buildingID,
+                  managerID: 0,
+                  start_date: '',
+                  end_date: '',
+                  isDeleted: false,
+                  isNew: true,
+                } as unknown as EditManagerSchedule,
+                ...buildingInfo.data.schedules,
+              ];
             }
           "
           ><PlusOutlined
@@ -109,35 +130,42 @@
         </thead>
         <tbody>
           <CommonBuildingEditScheduleItem
-            v-for="(schedule, index) in displaySchedules"
+            v-for="(schedule, index) in buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted)"
             v-show="current * 10 >= index + 1 && (current - 1) * 10 < index + 1"
             :key="index"
             :index="index"
-            :schedule="schedule"
+            :schedule="schedule as any"
             :schedule-delete-bucket="scheduleDeleteBucket"
             :managers="props.managers"
-            :add-items="addItems"
-            :schedules="props.schedules"
           />
         </tbody>
       </table>
-      <div class="flex items-center justify-end mt-5">
-        <a-pagination v-model:current="current" :total="displaySchedules.length" :page-size="10" />
+      <div
+        v-if="buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length > 10"
+        class="flex items-center justify-end mt-5"
+      >
+        <a-pagination
+          v-model:current="current"
+          :total="buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length"
+          :page-size="10"
+        />
       </div>
     </div>
-    <p>{{ $t('total') }}: {{ displaySchedules.length }}</p>
+    <p>{{ $t('total') }}: {{ buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
-import type { Building } from '~/types/building';
-import type { UploadFile } from 'ant-design-vue/es/upload/interface';
-import type { ManagerSchedule, User } from '~/types/user';
+import type { EditBuilding, EditManagerSchedule } from '~/types/building';
+import type { User } from '~/types/user';
 import { roles } from '~/consts/roles';
 import dayjs from 'dayjs';
+import type { NullTime } from '~/types/basic_model';
 
 // ---------------------- Variables ----------------------
+const route = useRoute();
+const buildingID = Number(route.params.id as string);
 const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
@@ -147,121 +175,49 @@ const { $event } = useNuxtApp();
 const current = ref(1);
 const props = defineProps({
   buildingInfo: {
-    type: Object as PropType<Building>,
+    type: Object as PropType<{ data: EditBuilding }>,
+    required: true,
+  },
+  originalBuildingInfo: {
+    type: Object as PropType<{ data: EditBuilding }>,
     required: true,
   },
   managers: {
     type: Array as PropType<User[]>,
     required: true,
   },
-  schedules: {
-    type: Array as PropType<ManagerSchedule[]>,
-    required: true,
-  },
-  removeItems: {
-    type: Object as PropType<{
-      buildingImages: number[];
-      roomImages: number[];
-      rooms: number[];
-      schedules: number[];
-      services: number[];
-    }>,
-    required: true,
-  },
-  addItems: {
-    required: true,
-    type: Object as PropType<{
-      buildingImages: UploadFile[];
-      roomImages: {
-        roomID: number;
-        images: UploadFile[];
-      }[];
-      rooms: {
-        status: number;
-        area: number | string;
-        description: string;
-        images: UploadFile[];
-        floor: number;
-      }[];
-      schedules: {
-        ID: number;
-        managerID: number;
-        managerNo: string | undefined;
-        start: string | undefined;
-        end: string | undefined;
-      }[];
-      services: {
-        ID: number;
-        name: string;
-        price: number | string;
-      }[];
-    }>,
-  },
 });
-const removeItems = toRef(props, 'removeItems');
-const displaySchedules = computed(() => {
-  const result: {
-    ID: number;
-    managerID: number;
-    managerNo: string | undefined;
-    start: any;
-    end: any;
-  }[] = [];
-
-  result.push(
-    ...props.addItems.schedules.map((schedule) => {
-      return {
-        ID: schedule.ID,
-        managerID: schedule.managerID,
-        managerNo: schedule.managerNo,
-        start: schedule.start ?? '',
-        end: schedule.end ?? '',
-      };
-    })
-  );
-
-  result.push(
-    ...props.schedules.map((schedule) => {
-      return {
-        ID: schedule.ID,
-        managerID: schedule.managerID,
-        managerNo: schedule.manager.no,
-        start: schedule.start_date ? dayjs(schedule.start_date) : '',
-        end: schedule.end_date.Valid ? (dayjs(schedule.end_date.Time) ?? '') : '',
-      };
-    })
-  );
-
-  removeItems.value.schedules.forEach((ID) => {
-    result.splice(
-      result.findIndex((schedule) => schedule.ID === ID),
-      1
-    );
-  });
-
-  return result;
-});
+const buildingInfo = toRef(props, 'buildingInfo');
 const addCounter = ref(0);
-const addItems = toRef(props, 'addItems');
 const scheduleDeleteBucket = ref<number[]>([]);
 const checkAllSchedules = computed(
-  () => !!(displaySchedules.value.length && displaySchedules.value.length === scheduleDeleteBucket.value.length)
+  () =>
+    !!(
+      buildingInfo.value.data.schedules.filter((schedule) => !schedule.isDeleted).length &&
+      buildingInfo.value.data.schedules.filter((schedule) => !schedule.isDeleted).length ===
+        scheduleDeleteBucket.value.length
+    )
 );
 
 // ---------------------- Functions ----------------------
 function deleteSchedules() {
-  scheduleDeleteBucket.value.forEach((ID) => {
-    if (ID <= 0) {
-      addItems.value.schedules = addItems.value.schedules.filter((schedule) => schedule.ID !== ID);
-    } else {
-      removeItems.value.schedules.push(ID);
+  buildingInfo.value.data.schedules.forEach((schedule) => {
+    if (scheduleDeleteBucket.value.includes(schedule.ID)) {
+      if (schedule.isNew) {
+        buildingInfo.value.data.schedules = buildingInfo.value.data.schedules.filter((s) => s.ID !== schedule.ID);
+      } else {
+        schedule.isDeleted = true;
+      }
     }
   });
+
   scheduleDeleteBucket.value = [];
 }
 
 function addAllSchedulesToBucket() {
-  scheduleDeleteBucket.value = displaySchedules.value.map((schedule) => schedule.ID);
+  scheduleDeleteBucket.value = buildingInfo.value.data.schedules
+    .filter((schedule) => !schedule.isDeleted)
+    .map((schedule) => schedule.ID);
 }
 
 function removeAllSchedulesFromBucket() {

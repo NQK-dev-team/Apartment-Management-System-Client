@@ -1,8 +1,13 @@
 import type { BasicFileModel, BasicModel } from './basic_model';
 import type { UploadFile } from 'ant-design-vue';
+import type { Dayjs } from 'dayjs';
 
 type BuildingImage = BasicFileModel & {
   buildingID: number;
+};
+
+type RoomImage = BasicFileModel & {
+  roomID: number;
 };
 
 type Building = BasicModel & {
@@ -22,12 +27,13 @@ type Room = BasicModel & {
   area: number;
   status: number;
   buildingID: number;
+  images: RoomImage[];
 };
 
 type Service = BasicModel & {
   buildingID: number;
   name: string;
-  price: number;
+  price: number | string;
 };
 
 type NewBuildingInfo = {
@@ -54,4 +60,57 @@ type NewBuildingInfo = {
   }[];
 };
 
-export type { Building, Room, Service, BuildingImage, NewBuildingInfo };
+type EditRoom = BasicModel & {
+  no: number;
+  floor: number;
+  description: string;
+  area: number | string;
+  status: number;
+  buildingID: number;
+  images: ((RoomImage | UploadFile) & {
+    isDeleted: boolean;
+    isNew: boolean;
+  })[];
+  isDeleted: boolean;
+  isNew: boolean;
+};
+
+type EditBuildingImage = UploadFile | BuildingImage;
+type EditManagerSchedule = BasicModel & {
+  start_date: Dayjs;
+  end_date: Dayjs | string;
+  managerID: number;
+  managerNo: string;
+  buildingID: number;
+  isDeleted: boolean;
+  isNew: boolean;
+};
+
+type EditBuilding = BasicModel & {
+  name: string;
+  address: string;
+  totalFloor: number;
+  totalRoom: number;
+  images: (EditBuildingImage & {
+    isDeleted: boolean;
+    isNew: boolean;
+  })[];
+  rooms: EditRoom[];
+  services: (Service & {
+    isDeleted: boolean;
+    isNew: boolean;
+  })[];
+  schedules: EditManagerSchedule[];
+};
+
+export type {
+  Building,
+  Room,
+  Service,
+  BuildingImage,
+  NewBuildingInfo,
+  EditRoom,
+  EditBuilding,
+  EditManagerSchedule,
+  RoomImage,
+};

@@ -2,14 +2,14 @@
   <div class="mt-10">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('service_list') }}</h2>
-      <div class="flex items-center">
+      <div v-if="userRole?.toString() === roles.owner" class="flex items-center">
         <a-button
           class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
             () => {
-              removeItems.services = [];
-              addItems.services = [];
               current = 1;
+              buildingInfo.data.services = JSON.parse(JSON.stringify(originalBuildingInfo.data.services));
+              serviceDeleteBucket = [];
             }
           "
         >
@@ -19,6 +19,7 @@
           type="primary"
           danger
           class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
+          :disabled="!serviceDeleteBucket.length"
           @click="
             () => {
               $event.emit('openDeleteModalEditBuilding', deleteServices);
@@ -32,7 +33,21 @@
           @click="
             () => {
               addCounter++;
-              addItems.services.push({ ID: -addCounter, name: '', price: '' });
+              buildingInfo.data.services = [
+                {
+                  ID: -addCounter,
+                  createdAt: '',
+                  createdBy: 0,
+                  updatedAt: '',
+                  updatedBy: 0,
+                  buildingID: buildingID,
+                  name: '',
+                  price: '',
+                  isDeleted: false,
+                  isNew: true,
+                },
+                ...buildingInfo.data.services,
+              ];
             }
           "
           ><PlusOutlined
@@ -50,7 +65,7 @@
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 <a-checkbox
                   id="check_all_services_1"
-                  :disabled="!displayServices.length"
+                  :disabled="!buildingInfo.data.services.filter((service) => !service.isDeleted).length"
                   :checked="checkAllServices"
                   @click="checkAllServices ? removeAllServicesFromBucket() : addAllServicesToBucket()"
                 ></a-checkbox>
@@ -92,31 +107,39 @@
         </thead>
         <tbody>
           <CommonBuildingEditServiceItem
-            v-for="(service, index) in displayServices"
+            v-for="(service, index) in buildingInfo.data.services.filter((service) => !service.isDeleted)"
             v-show="current * 10 >= index + 1 && (current - 1) * 10 < index + 1"
             :key="index"
             :index="index"
             :service="service"
             :service-delete-bucket="serviceDeleteBucket"
-            :add-items="addItems"
-            :building-info="buildingInfo"
           />
         </tbody>
       </table>
-      <div v-if="displayServices.length > 10" class="flex items-center justify-end mt-5">
-        <a-pagination v-model:current="current" :total="displayServices.length" :page-size="10" />
+      <div
+        v-if="buildingInfo.data.services.filter((service) => !service.isDeleted).length > 10"
+        class="flex items-center justify-end mt-5"
+      >
+        <a-pagination
+          v-model:current="current"
+          :total="buildingInfo.data.services.filter((service) => !service.isDeleted).length"
+          :page-size="10"
+        />
       </div>
     </div>
-    <p>{{ $t('total') }}: {{ displayServices.length }}</p>
+    <p>{{ $t('total') }}: {{ buildingInfo.data.services.filter((service) => !service.isDeleted).length }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
-import type { Building } from '~/types/building';
-import type { UploadFile } from 'ant-design-vue/es/upload/interface';
+import type { EditBuilding } from '~/types/building';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
+const route = useRoute();
+const buildingID = Number(route.params.id as string);
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
@@ -126,102 +149,34 @@ const addCounter = ref(0);
 const current = ref(1);
 const props = defineProps({
   buildingInfo: {
-    type: Object as PropType<Building>,
+    type: Object as PropType<{ data: EditBuilding }>,
     required: true,
   },
-  removeItems: {
-    type: Object as PropType<{
-      buildingImages: number[];
-      roomImages: number[];
-      rooms: number[];
-      schedules: number[];
-      services: number[];
-    }>,
+  originalBuildingInfo: {
+    type: Object as PropType<{ data: EditBuilding }>,
     required: true,
-  },
-  addItems: {
-    required: true,
-    type: Object as PropType<{
-      buildingImages: UploadFile[];
-      roomImages: {
-        roomID: number;
-        images: UploadFile[];
-      }[];
-      rooms: {
-        ID: number;
-        status: number;
-        area: number | string;
-        description: string;
-        images: UploadFile[];
-        floor: number;
-      }[];
-      schedules: {
-        ID: number;
-        managerID: number;
-        managerNo: string | undefined;
-        start: string | undefined;
-        end: string | undefined;
-      }[];
-      services: {
-        ID: number;
-        name: string;
-        price: number | string;
-      }[];
-    }>,
   },
 });
-const removeItems = toRef(props, 'removeItems');
-const addItems = toRef(props, 'addItems');
-const displayServices = computed(() => {
-  const result: {
-    ID: number;
-    name: string;
-    price: number | string;
-  }[] = [];
-
-  result.push(
-    ...props.addItems.services.map((service) => {
-      return {
-        ID: service.ID,
-        name: service.name,
-        price: service.price,
-      };
-    })
-  );
-
-  result.push(
-    ...props.buildingInfo.services.map((service) => {
-      return {
-        ID: service.ID,
-        name: service.name,
-        price: service.price,
-      };
-    })
-  );
-
-  props.buildingInfo.services.forEach((service) => {
-    if (props.removeItems.services.includes(service.ID)) {
-      result.splice(
-        result.findIndex((elemet) => elemet.ID === service.ID),
-        1
-      );
-    }
-  });
-
-  return result;
-});
+const buildingInfo = toRef(props, 'buildingInfo');
 const serviceDeleteBucket = ref<number[]>([]);
 const checkAllServices = computed(
-  () => !!(displayServices.value.length && displayServices.value.length === serviceDeleteBucket.value.length)
+  () =>
+    !!(
+      buildingInfo.value.data.services.filter((service) => !service.isDeleted).length &&
+      buildingInfo.value.data.services.filter((service) => !service.isDeleted).length ===
+        serviceDeleteBucket.value.length
+    )
 );
 
 // ---------------------- Functions ----------------------
 function deleteServices() {
-  serviceDeleteBucket.value.forEach((ID) => {
-    if (ID <= 0) {
-      addItems.value.services = addItems.value.services.filter((service) => service.ID !== ID);
-    } else {
-      removeItems.value.services.push(ID);
+  buildingInfo.value.data.services.forEach((service) => {
+    if (serviceDeleteBucket.value.includes(service.ID)) {
+      if (service.isNew) {
+        buildingInfo.value.data.services = buildingInfo.value.data.services.filter((s) => s.ID !== service.ID);
+      } else {
+        service.isDeleted = true;
+      }
     }
   });
 
@@ -229,7 +184,9 @@ function deleteServices() {
 }
 
 function addAllServicesToBucket() {
-  serviceDeleteBucket.value = displayServices.value.map((service) => service.ID);
+  serviceDeleteBucket.value = buildingInfo.value.data.services
+    .filter((service) => !service.isDeleted)
+    .map((service) => service.ID);
 }
 
 function removeAllServicesFromBucket() {

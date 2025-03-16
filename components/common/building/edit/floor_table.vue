@@ -2,7 +2,7 @@
   <div class="mt-10">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
-      <div class="flex items-center">
+      <div v-if="userRole?.toString() === roles.owner" class="flex items-center">
         <a-button
           class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
@@ -14,6 +14,7 @@
                   1
                 );
               });
+              floorDeleteBucket = [];
             }
           "
         >
@@ -23,6 +24,7 @@
           type="primary"
           danger
           class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
+          :disabled="!floorDeleteBucket.length"
           @click="
             () => {
               $event.emit('openDeleteModalEditBuilding', deleteFloors);
@@ -82,7 +84,10 @@
 </template>
 
 <script lang="ts" setup>
+import { roles } from '~/consts/roles';
+
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1

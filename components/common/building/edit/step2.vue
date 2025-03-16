@@ -1,6 +1,6 @@
 <template>
   <div class="mt-5 h-full w-full">
-    <div v-if="buildingInfo.floors.length" class="flex items-center">
+    <div v-if="props.floors.length" class="flex items-center">
       <h2 class="text-xl font-bold">{{ $t('floor') }}</h2>
       <div class="ms-5">
         <a-select
@@ -10,7 +10,9 @@
           placeholder="{{ $t('select_floor') }}"
         >
           <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
-          <a-select-option v-for="(_, index) in buildingInfo.floors" :key="index">{{ index + 1 }}</a-select-option>
+          <a-select-option v-for="(floor, index) in props.floors" :key="index" :value="floor.value">{{
+            floor.value
+          }}</a-select-option>
         </a-select>
       </div>
     </div>
@@ -22,28 +24,49 @@
         <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
         <div class="flex items-center">
           <a-button
+            class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+            @click="handleUndo"
+          >
+            <UndoOutlined />
+          </a-button>
+          <a-button
             type="primary"
             danger
-            class="flex items-center justify-center w-10 h-10 rounded-sm"
+            class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
             :disabled="deleteBucket.length === 0"
             @click="
               () => {
-                openModal = true;
-                fallback = deleteRooms;
+                $event.emit('openDeleteModalEditBuilding', deleteRooms);
               }
             "
             ><DeleteOutlined
           /></a-button>
           <a-button
             type="primary"
-            class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
+            class="flex items-center justify-center w-10 h-10 rounded-sm"
             @click="
-              buildingInfo.floors[selectedFloor].rooms.push({
-                status: 0,
-                area: '',
-                description: '',
-                images: [],
-              })
+              () => {
+                const nextNo =
+                  buildingInfo.data.rooms.filter((room) => room.floor === selectedFloor).sort((a, b) => b.no - a.no)[0]
+                    .no + 1;
+                addCounter++;
+                buildingInfo.data.rooms.push({
+                  ID: -addCounter,
+                  createdAt: '',
+                  updatedAt: '',
+                  createdBy: 0,
+                  updatedBy: 0,
+                  no: nextNo,
+                  floor: selectedFloor,
+                  status: 0,
+                  area: '',
+                  description: '',
+                  buildingID: buildingID,
+                  images: [],
+                  isNew: true,
+                  isDeleted: false,
+                });
+              }
             "
             ><PlusOutlined
           /></a-button>
@@ -67,7 +90,7 @@
               </th>
               <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-                  {{ $t('no') }}
+                  {{ $t('room_no') }}
                 </div>
               </th>
               <th class="text-sm font-normal text-center align-middle py-[16px] w-[150px]">
@@ -92,7 +115,7 @@
                   </div>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[500px]">
+              <th class="text-sm font-normal text-center align-middle py-[16px] w-[350px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   {{ $t('description') }}
                 </div>
@@ -108,11 +131,18 @@
                   </div>
                 </div>
               </th>
+              <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+                <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+                  {{ $t('note') }}
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <CommonBuildingAddRoomItem
-              v-for="(room, index) in buildingInfo.floors[selectedFloor].rooms"
+            <CommonBuildingEditRoomItem
+              v-for="(room, index) in buildingInfo.data.rooms.filter(
+                (room) => room.floor === selectedFloor && !room.isDeleted
+              )"
               :key="index"
               :index="index"
               :room="room"
@@ -122,54 +152,99 @@
           </tbody>
         </table>
       </div>
-      <p>{{ $t('total') }}: {{ selectedFloor !== -1 ? buildingInfo.floors[selectedFloor].rooms.length : 0 }}</p>
+      <p>{{ $t('total') }}: {{ totalRooms }}</p>
     </div>
-    <CommonBuildingAddConfirmDeleteModal :open="openModal" :fallback="fallback" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
-import type { NewBuildingInfo } from '~/types/building';
+import type { EditBuilding } from '~/types/building';
 
 // ---------------------- Variables ----------------------
+const route = useRoute();
+const buildingID = Number(route.params.id as string);
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const props = defineProps({
   buildingInfo: {
-    type: Object as PropType<NewBuildingInfo>,
+    type: Object as PropType<{ data: EditBuilding }>,
+    required: true,
+  },
+  originalBuildingInfo: {
+    type: Object as PropType<{ data: EditBuilding }>,
+    required: true,
+  },
+  floors: {
+    type: Array as PropType<
+      {
+        value: number;
+        disable: boolean;
+      }[]
+    >,
     required: true,
   },
 });
+const addCounter = ref<number>(0);
 const buildingInfo = toRef(props, 'buildingInfo');
 const selectedFloor = ref<number>(-1);
 const deleteBucket = ref<number[]>([]);
-const openModal = ref<boolean>(false);
-const fallback = ref<() => void>(() => {});
 const { $event } = useNuxtApp();
 const checkAllRooms = computed(() => {
   return !!(
-    buildingInfo.value.floors[selectedFloor.value].rooms.length &&
-    buildingInfo.value.floors[selectedFloor.value].rooms.length === deleteBucket.value.length
+    buildingInfo.value.data.rooms.filter((room) => room.floor === selectedFloor.value && !room.isDeleted) &&
+    buildingInfo.value.data.rooms.filter((room) => room.floor === selectedFloor.value && !room.isDeleted).length ===
+      deleteBucket.value.length
   );
+});
+const totalRooms = computed(() => {
+  if (selectedFloor.value === -1) {
+    return 0;
+  }
+
+  return buildingInfo.value.data.rooms.filter((room) => room.floor === selectedFloor.value && !room.isDeleted).length;
 });
 
 // ---------------------- Functions ----------------------
 function deleteRooms() {
-  buildingInfo.value.floors[selectedFloor.value].rooms = buildingInfo.value.floors[selectedFloor.value].rooms.filter(
-    (_, idx) => !deleteBucket.value.includes(idx)
-  );
+  buildingInfo.value.data.rooms.forEach((room) => {
+    if (room.floor === selectedFloor.value && deleteBucket.value.includes(room.ID)) {
+      if (room.ID > 0) {
+        room.isDeleted = true;
+      } else {
+        buildingInfo.value.data.rooms = buildingInfo.value.data.rooms.filter(
+          (r) => r.floor === selectedFloor.value && r.ID !== room.ID
+        );
+      }
+    }
+  });
+
   deleteBucket.value = [];
 }
 
 function addAllRoomsToDeleteBucket() {
-  deleteBucket.value = buildingInfo.value.floors[selectedFloor.value].rooms.map((room, index) => index);
+  deleteBucket.value = buildingInfo.value.data.rooms
+    .filter((room) => room.floor === selectedFloor.value && !room.isDeleted)
+    .map((room) => room.ID);
 }
 
 function removeAllRoomsFromDeleteBucket() {
   deleteBucket.value = [];
+}
+
+function handleUndo() {
+  buildingInfo.value.data.rooms = buildingInfo.value.data.rooms.filter((room) => room.floor !== selectedFloor.value);
+  buildingInfo.value.data.rooms.push(
+    ...JSON.parse(
+      JSON.stringify(props.originalBuildingInfo.data.rooms.filter((room) => room.floor === selectedFloor.value))
+    )
+  );
+  deleteBucket.value = [];
+  setTimeout(() => {
+    $event.emit('resetRoomImageBuildingEdit', selectedFloor.value);
+  }, 100);
 }
 
 // ---------------------- Watchers ----------------------
@@ -178,10 +253,6 @@ watch(selectedFloor, () => {
 });
 
 // ---------------------- Event Listeners ----------------------
-$event.on('closeDeleteModalAddBuilding', () => {
-  openModal.value = false;
-});
-
 $event.on('addRoomToDeleteBucket', (e: any) => {
   if (!deleteBucket.value.includes(e)) {
     deleteBucket.value.push(e);

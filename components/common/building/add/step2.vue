@@ -67,7 +67,7 @@
               </th>
               <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-                  {{ $t('no') }}
+                  {{ $t('room_no') }}
                 </div>
               </th>
               <th class="text-sm font-normal text-center align-middle py-[16px] w-[150px]">
@@ -92,7 +92,7 @@
                   </div>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[500px]">
+              <th class="text-sm font-normal text-center align-middle py-[16px] w-[350px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   {{ $t('description') }}
                 </div>

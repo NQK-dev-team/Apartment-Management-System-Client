@@ -1,28 +1,28 @@
 <template>
-  <a-table :columns="columns" :data-source="data" :row-selection="rowSelection" @change="onChange" bordered class="mt-2">
+  <a-table :columns="columns" :data-source="data" :row-selection="rowSelection" bordered class="mt-2">
     <template #bodyCell="{ column, text }">
-        <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
-            <div>
-            {{ text }}
-            </div>
-        </template>
-        <template v-else-if="column.dataIndex === 'operation'">
-            <div>
-            <span>
-                <NuxtLink class="detail">Edit</NuxtLink>
-            </span>
-            </div>
-        </template>
-        <template v-else-if="column.dataIndex === 'state'">
-            <div :class="{
-            'text-green-500': text === 'In Effect',
-            'text-red-500': text === 'End Effect',
-            'text-gray-500': text === 'Cancel',
-            'text-orange-500': text === 'Not in Effect'
-            }">
-            {{ text }}
-            </div>
-        </template>
+      <template v-if="column.dataIndex && column.dataIndex !== 'operation' && column.dataIndex !== 'state'">
+        <div>
+          {{ text }}
+        </div>
+      </template>
+      <template v-else-if="column.dataIndex === 'operation'">
+        <div>
+          <span>
+            <NuxtLink class="detail">Edit</NuxtLink>
+          </span>
+        </div>
+      </template>
+      <template v-else-if="column.dataIndex === 'state'">
+        <div :class="{
+          'text-green-500': text === 'In Effect',
+          'text-red-500': text === 'End Effect',
+          'text-gray-500': text === 'Cancel',
+          'text-orange-500': text === 'Not in Effect'
+        }">
+          {{ text }}
+        </div>
+      </template>
     </template>
   </a-table>
 </template>
@@ -193,9 +193,6 @@ const rowSelection = ref({
   },
 });
 
-function onChange(pagination, filters, sorter, extra) {
-  console.log('params', pagination, filters, sorter, extra);
-}
 </script>
 
 <style scoped>

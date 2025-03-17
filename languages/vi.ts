@@ -178,7 +178,6 @@ export default {
   no_floor: 'Tòa nhà này không có dữ liệu về các tầng, bạn có thể tiếp tục hoặc quay lại để thêm tầng mới',
   name: 'Tên',
   national_id: 'CCCD/CMND',
-  note: 'Ghi chú',
   new: 'Mới',
 
   O: 'o',

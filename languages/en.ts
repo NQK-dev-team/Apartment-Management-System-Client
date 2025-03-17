@@ -177,7 +177,6 @@ export default {
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
   name: 'Name',
   national_id: 'National ID',
-  note: 'Note',
   new: 'New',
 
   O: 'o',

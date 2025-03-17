@@ -1,36 +1,58 @@
 <template>
-  <a-upload
-    :id="`room_${roomInfo.no}_images_${props.readOnly ? 3 : 1}`"
-    v-model:file-list="imageList"
-    accept=".png,.jpg,.jpeg"
-    multiple
-    list-type="picture-card"
-    class="custom_room_image_upload"
-    :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button readonly-image-list' : '']"
-    :disabled="props.readOnly"
-    @preview="handlePreview"
-    @change="(e: any) => handleFileUpload(e)"
-    @remove="
-      (file) => {
-        if (isNaN(Number(file.uid))) {
-          roomInfo.images = roomInfo.images.filter((image: any) => image.uid !== file.uid);
-        } else {
-          const foundImage = roomInfo.images.find((image: any) => !image.isNew && image.ID === Number(file.uid));
-          if (foundImage) {
-            foundImage.isDeleted = true;
+  <div class="px-3">
+    <a-upload
+      v-if="!props.readOnly"
+      :id="`room_${roomInfo.no}_images_${props.readOnly ? 3 : 1}`"
+      v-model:file-list="imageList"
+      accept=".png,.jpg,.jpeg"
+      multiple
+      list-type="picture-card"
+      class="custom_room_image_upload"
+      :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button' : '']"
+      @preview="handlePreview"
+      @change="(e: any) => handleFileUpload(e)"
+      @remove="
+        (file) => {
+          if (isNaN(Number(file.uid))) {
+            roomInfo.images = roomInfo.images.filter((image: any) => image.uid !== file.uid);
+          } else {
+            const foundImage = roomInfo.images.find((image: any) => !image.isNew && image.ID === Number(file.uid));
+            if (foundImage) {
+              foundImage.isDeleted = true;
+            }
           }
         }
-      }
-    "
-  >
-    <div>
-      <plus-outlined />
-      <div style="margin-top: 8px">{{ $t('upload_file') }}</div>
-    </div>
-    <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
-      <img alt="Image Preview" style="width: 100%" :src="previewImage" />
-    </a-modal>
-  </a-upload>
+      "
+    >
+      <div>
+        <plus-outlined />
+        <div style="margin-top: 8px">{{ $t('upload_file') }}</div>
+      </div>
+      <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
+        <img alt="Image Preview" style="width: 100%" :src="previewImage" />
+      </a-modal>
+    </a-upload>
+    <a-upload
+      v-else
+      :id="`room_${roomInfo.no}_images_${props.readOnly ? 3 : 1}`"
+      v-model:file-list="imageList"
+      accept=".png,.jpg,.jpeg"
+      multiple
+      list-type="picture-card"
+      class="custom_room_image_upload"
+      :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button readonly-image-list' : '']"
+      :disabled="props.readOnly"
+      @preview="handlePreview"
+    >
+      <div>
+        <plus-outlined />
+        <div style="margin-top: 8px">{{ $t('upload_file') }}</div>
+      </div>
+      <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
+        <img alt="Image Preview" style="width: 100%" :src="previewImage" />
+      </a-modal>
+    </a-upload>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -70,6 +92,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  floor: {
+    type: Number,
+    required: true,
+  },
 });
 const roomInfo = toRef(props, 'roomInfo');
 const imageList = ref<any[]>([]);
@@ -106,7 +132,7 @@ function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
   });
 }
 
-function getImageList() {
+async function getImageList() {
   const result: {
     uid: string | number;
     name: string;
@@ -114,40 +140,68 @@ function getImageList() {
     url: string;
   }[] = [];
 
-  props.roomInfo.images.forEach((image: any) => {
-    if (image.isDeleted) return;
+  // props.roomInfo.images.forEach((image: any) => {
+  //   if (image.isDeleted) return;
+
+  //   if (!image.isNew) {
+  //     result.push({
+  //       uid: image.ID,
+  //       name: image.title ?? '',
+  //       status: 'done',
+  //       url: image.path,
+  //     });
+  //   } else {
+  //     result.push({
+  //       uid: image.uid,
+  //       name: image.name,
+  //       status: 'done',
+  //       url: image.url,
+  //     });
+  //   }
+  // });
+
+  for (const image of props.roomInfo.images) {
+    if (image.isDeleted) continue;
 
     if (!image.isNew) {
       result.push({
-        uid: image.ID,
-        name: image.title ?? '',
+        uid: (image as any).ID,
+        name: (image as any).title ?? '',
         status: 'done',
-        url: image.path,
+        url: (image as any).path,
       });
     } else {
       result.push({
-        uid: image.uid,
-        name: image.name,
+        uid: (image as any).uid,
+        name: (image as any).name,
         status: 'done',
-        url: image.url,
+        url: (await getBase64((image as any).originFileObj)) as string,
       });
     }
-  });
+  }
 
   return result;
 }
 
 // ---------------------- Lifecycles ----------------------
-onMounted(() => {
-  imageList.value = getImageList();
+onMounted(async () => {
+  imageList.value = await getImageList();
 });
 
 // ---------------------- Event Listeners ----------------------
-$event.on('resetRoomImageBuildingEdit', (e) => {
+$event.on('resetRoomImageBuildingEdit', async (e) => {
   if (roomInfo.value.floor === e) {
-    imageList.value = getImageList();
+    imageList.value = await getImageList();
   }
 });
+
+// ---------------------- Watchers ----------------------
+watch(
+  () => props.floor,
+  async () => {
+    imageList.value = await getImageList();
+  }
+);
 </script>
 
 <style lang="css">

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex flex-col h-full px-5">
         <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
             <a-breadcrumb>
                 <a-breadcrumb-item>
@@ -20,11 +20,10 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div class="flex-1 flex flex-col mt-5 overflow-auto px-4"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
             <h1 class="mt-3 text-2xl">{{ $t('bill_info') }}</h1>
             <CommonBillDetailBillForm></CommonBillDetailBillForm>
-        </div>
-        <div>
             <h1 class="mt-3 text-2xl">{{ $t('payment_list') }}</h1>
             <CommonBillDetailPaymentList :serviceName="''" :amount="0" :note="''" />
         </div>

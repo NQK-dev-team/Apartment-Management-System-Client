@@ -13,7 +13,6 @@ const svgPaths = {
   asterisk: basePath + 'asterisk.svg',
   delete: basePath + 'DeleteOutlined.svg',
   plus: basePath + 'Plus.svg',
-  placeholderImage: basePath + 'placeholderImage.svg',
 };
 
 export { svgPaths };

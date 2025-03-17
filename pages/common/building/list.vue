@@ -20,15 +20,24 @@
         </NuxtLink>
       </div>
     </div>
-    <div class="mt-5 overflow-auto">
-      <div class="grid-cols-1 gap-5 grid md:grid-cols-2 lg:grid-cols-4">
-        <CommonBuildingListCard v-for="(building, index) in buildingList"
-          v-show="current * 8 >= index + 1 && (current - 1) * 8 < index + 1" :key="index" :name="building.name"
-          :address="building.address" :totalRoom="building.totalRoom" :totalFloor="building.totalFloor"
-          :image="building.image" />
+    <div class="mt-5 overflow-auto p-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+      <div class="flex justify-center items-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          <CommonBuildingListCard
+            v-for="(building, index) in buildingListFiltered"
+            v-show="current * 8 >= index + 1 && (current - 1) * 8 < index + 1"
+            :id="building.id"
+            :key="index"
+            :name="building.name"
+            :address="building.address"
+            :total-room="building.totalRoom"
+            :total-floor="building.totalFloor"
+            :image="building.image"
+          />
+        </div>
       </div>
-      <div class="flex justify-center mt-5">
-        <a-pagination v-model:current="current" :total="buildingList.length" :defaultPageSize="8" />
+      <div class="flex justify-center mt-10 mb-3">
+        <a-pagination v-model:current="current" :total="buildingListFiltered.length" :default-page-size="8" />
       </div>
     </div>
   </div>
@@ -45,7 +54,7 @@ import { roles } from '~/consts/roles';
 definePageMeta({
   name: 'Building List',
   layout: 'main',
-  middleware: ['authorization-manager']
+  middleware: ['authorization-manager'],
 });
 
 useHead({
@@ -77,7 +86,17 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const current = ref(1);
-const searchValue = ref("");
+const searchValue = ref('');
+const buildingListFiltered = ref<
+  {
+    id: number;
+    name: string;
+    address: string;
+    totalRoom: number;
+    totalFloor: number;
+    image: string;
+  }[]
+>([]);
 
 // ---------------------- Functions ----------------------
 async function getBuildingList() {
@@ -85,8 +104,9 @@ async function getBuildingList() {
     $event.emit('loading');
     const response = await api.common.building.getList();
     const data = response.data;
-    buildingList.value = data.map(element => {
+    buildingList.value = data.map((element) => {
       return {
+        id: element.ID,
         name: element.name,
         address: element.address,
         totalRoom: element.totalRoom,
@@ -94,7 +114,7 @@ async function getBuildingList() {
         image: element.images && element.images.length ? element.images[0].path : '',
       };
     });
-
+    buildingListFiltered.value = buildingList.value;
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -111,8 +131,18 @@ async function getBuildingList() {
   }
 }
 
+function filterBuildingList() {
+  buildingListFiltered.value = buildingList.value.filter((building) => {
+    return removeDiacritics(building.name).toLowerCase().includes(searchValue.value.toLowerCase().trim());
+  });
+  current.value = 1;
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(() => {
-  getBuildingList()
+  getBuildingList();
 });
+
+// ---------------------- Event Listeners ----------------------
+$event.on('reload-building-list', getBuildingList);
 </script>

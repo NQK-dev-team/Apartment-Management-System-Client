@@ -23,7 +23,6 @@ const pageRoutes = {
     staff: {
       list: '/staff',
       add: '/staff/add',
-      detail: (staffID: number | string) => `/staff/${staffID}`,
     },
     customer: {
       list: '/customer',

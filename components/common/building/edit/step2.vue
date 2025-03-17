@@ -46,9 +46,15 @@
             class="flex items-center justify-center w-10 h-10 rounded-sm"
             @click="
               () => {
-                const nextNo =
-                  buildingInfo.data.rooms.filter((room) => room.floor === selectedFloor).sort((a, b) => b.no - a.no)[0]
-                    .no + 1;
+                let nextNo = 0;
+                if (buildingInfo.data.rooms.filter((room) => room.floor === selectedFloor).length) {
+                  nextNo =
+                    buildingInfo.data.rooms
+                      .filter((room) => room.floor === selectedFloor)
+                      .sort((a, b) => b.no - a.no)[0].no + 1;
+                } else {
+                  nextNo = 1000 * selectedFloor + 1;
+                }
                 addCounter++;
                 buildingInfo.data.rooms.push({
                   ID: -addCounter,
@@ -194,7 +200,7 @@ const deleteBucket = ref<number[]>([]);
 const { $event } = useNuxtApp();
 const checkAllRooms = computed(() => {
   return !!(
-    buildingInfo.value.data.rooms.filter((room) => room.floor === selectedFloor.value && !room.isDeleted) &&
+    buildingInfo.value.data.rooms.filter((room) => room.floor === selectedFloor.value && !room.isDeleted).length &&
     buildingInfo.value.data.rooms.filter((room) => room.floor === selectedFloor.value && !room.isDeleted).length ===
       deleteBucket.value.length
   );

@@ -30,11 +30,12 @@
               })),
             ]"
             :placeholder="$t('search_by_employee_no')"
+            @change="schedule.managerID = props.managers.find((manager) => manager.no === schedule.managerNo)?.ID ?? 0"
           ></a-select>
           <a-select
             v-else
             :id="`schedule_${props.index + 1}_manager_no_3`"
-            v-model:value="schedule.managerNo"
+            :value="schedule.managerNo"
             class="w-full text-left"
             show-search
             :placeholder="$t('search_by_employee_no')"

@@ -252,6 +252,7 @@ const common = {
       const $api = getApiInstance();
       const formData = new FormData();
 
+      formData.append('ID', buildingID.toString());
       formData.append('name', data.name);
       formData.append('address', data.address);
       data.images.forEach((image) => {

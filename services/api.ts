@@ -252,7 +252,7 @@ const common = {
       const $api = getApiInstance();
       const formData = new FormData();
 
-      formData.append('ID', buildingID.toString());
+      formData.append('id', buildingID.toString());
       formData.append('name', data.name);
       formData.append('address', data.address);
       data.images.forEach((image) => {
@@ -270,16 +270,16 @@ const common = {
             'newServices[]',
             JSON.stringify({
               name: service.name,
-              price: service.price,
+              price: Number(service.price),
             })
           );
         } else {
           formData.append(
             'services[]',
             JSON.stringify({
-              ID: service.ID,
+              id: service.ID,
               name: service.name,
-              price: service.price,
+              price: Number(service.price),
             })
           );
         }
@@ -300,7 +300,7 @@ const common = {
           formData.append(
             'schedules[]',
             JSON.stringify({
-              ID: schedule.ID,
+              id: schedule.ID,
               managerID: schedule.managerID,
               startDate: convertToDate(schedule.start_date.toDate().toISOString()),
               endDate: schedule.end_date ? convertToDate((schedule.end_date as Dayjs).toDate().toISOString()) : null,
@@ -318,7 +318,7 @@ const common = {
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: room.area,
+              area: Number(room.area),
               description: room.description,
             })
           );
@@ -331,11 +331,11 @@ const common = {
           formData.append(
             'rooms[]',
             JSON.stringify({
-              ID: room.ID,
+              id: room.ID,
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: room.area,
+              area: Number(room.area),
               description: room.description,
             })
           );

@@ -9,8 +9,8 @@
       <div class="flex justify-between items-center">
         <h1 class="mt-3 text-2xl">Nguyễn Văn A</h1>
         <div>
-          <a-button type="primary" class="rounded-none">Chỉnh sửa</a-button>
-          <a-button type="primary" danger class="rounded-none ms-2">Xoá</a-button>
+          <a-button type="primary" class="rounded-none">{{ $t('edit') }}</a-button>
+          <a-button type="primary" danger class="rounded-none ms-2">{{ $t('delete') }}</a-button>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <!-- Heading of the  page -->
       <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
       <!-- 2 columns -->
-      <div class="flex overflow-x-auto">
+      <div class="flex">
         <!-- Input boxes -->
         <div class="flex-1 flex flex-col me-6">
           <div class="flex items-center">
@@ -162,17 +162,69 @@
         <!-- Images -->
         <div class="flex flex-col w-72 h-72 mx-1">
           <label for="">{{ $t('avatar') }}</label>
-          <img :src="svgPaths.placeholderImage" alt="Add employee" class="" />
+          <img :src="svgPaths.placeholderImage" alt="avatar" class="" />
         </div>
         <div class="flex flex-col w-72 h-72 mx-1">
           <label for="">{{ $t('national_id') + ' ' + $t('front_face') }}</label>
-          <img :src="svgPaths.placeholderImage" alt="Add employee" class="" />
+          <img :src="svgPaths.placeholderImage" alt="national_id_front" class="" />
         </div>
         <div class="flex flex-col w-72 h-72 mx-1">
           <label for="">{{ $t('national_id') + ' ' + $t('back_face') }}</label>
-          <img :src="svgPaths.placeholderImage" alt="Add employee" class="" />
+          <img :src="svgPaths.placeholderImage" alt="national_id_back" class="" />
         </div>
       </div>
+      <hr class="mt-6 border-gray-400">
+      <div class="w-full flex-1 flex flex-col">
+        <div class="flex items-center mt-2">
+          <p
+            class="me-3 cursor-pointer select-none"
+            :class="[
+              option === 1
+                ? 'text-[#1890FF] border-b-2 border-[#1890FF]'
+                : 'hover:text-[#40a9ff] active:text-[#096dd9]',
+            ]"
+            @click="option = 1"
+          >
+            {{ $t('contract') }}
+          </p>
+          <p
+            class="mx-3 cursor-pointer select-none"
+            :class="[
+              option === 2
+                ? 'text-[#1890FF] border-b-2 border-[#1890FF]'
+                : 'hover:text-[#40a9ff] active:text-[#096dd9]',
+            ]"
+            @click="option = 2"
+          >
+            {{ $t('support_ticket') }}
+          </p>
+          <p
+            class="mx-3 cursor-pointer select-none"
+            :class="[
+              option === 3
+                ? 'text-[#1890FF] border-b-2 border-[#1890FF]'
+                : 'hover:text-[#40a9ff] active:text-[#096dd9]',
+            ]"
+            @click="option = 3"
+          >
+            {{ $t('building') }}
+          </p>
+        </div>
+        <div class="flex items-center justify-center mt-3">
+          <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('contract') }}</h2>
+          <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
+          <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('building') }}</h2>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
+      </div>
+      <ClientOnly>
+        <CommonStaffContractTable v-show="option === 1"/>
+        <CommonStaffSupportTicketTable v-show="option === 2"/>
+        <CommonStaffBuildingTable v-show="option === 3"/>
+      </ClientOnly>
+      
       <div class="flex flex-col items-center mt-5">
         <a-button class="my-2 w-[100px]">{{ $t('back') }}</a-button>
       </div>
@@ -212,6 +264,7 @@ useHead({
 const value1 = ref<Dayjs>();
 const value2 = ref('Female');
 const size = ref<SizeType>('large');
+const option = ref<number>(1);
 const options2 = ref<SelectProps['options']>([
   { value: 'Male', label: 'Male' },
   { value: 'Female', label: 'Female' },
@@ -222,7 +275,7 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-
+const searchValue = ref('');
 const focus = () => {
   console.log('focus');
 };

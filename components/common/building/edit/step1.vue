@@ -8,7 +8,7 @@
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input-search
-            v-if="userRole?.toString() === roles.owner"
+            v-if="userRole?.toString() === roles.owner && !props.readOnly"
             id="building_name_1"
             v-model:value="buildingInfo.data.name"
             :placeholder="$t('enter_building_name')"
@@ -33,7 +33,7 @@
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input-search
-            v-if="userRole?.toString() === roles.owner"
+            v-if="userRole?.toString() === roles.owner && !props.readOnly"
             id="building_address_1"
             v-model:value="buildingInfo.data.address"
             :placeholder="$t('enter_building_address')"
@@ -56,6 +56,7 @@
       <CommonBuildingEditServiceTable
         :building-info="buildingInfo"
         :original-building-info="props.originalBuildingInfo"
+        :read-only="props.readOnly"
       />
       <CommonBuildingEditScheduleTable
         :building-info="buildingInfo"
@@ -115,6 +116,10 @@ const props = defineProps({
       }[]
     >,
     required: true,
+  },
+  readOnly: {
+    type: Boolean,
+    default: false,
   },
 });
 const buildingInfo = toRef(props, 'buildingInfo');

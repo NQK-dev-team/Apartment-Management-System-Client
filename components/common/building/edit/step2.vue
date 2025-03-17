@@ -72,7 +72,7 @@
           /></a-button>
         </div>
       </div>
-      <div class="mt-3 mb-8">
+      <div class="mt-3 mb-2">
         <table class="w-full">
           <thead
             class="border-b-[1px]"
@@ -263,7 +263,9 @@ $event.on('removeRoomFromDeleteBucket', (e: any) => {
   deleteBucket.value.splice(deleteBucket.value.indexOf(e), 1);
 });
 
-$event.on('resetSelectedFloor', () => {
-  selectedFloor.value = -1;
+$event.on('resetSelectedFloor', (e: any) => {
+  if (e.includes(selectedFloor.value)) {
+    selectedFloor.value = -1;
+  }
 });
 </script>

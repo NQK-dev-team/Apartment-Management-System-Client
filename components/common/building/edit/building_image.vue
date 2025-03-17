@@ -6,7 +6,7 @@
         <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
       </div>
       <a-button
-        v-if="userRole?.toString() === roles.owner"
+        v-if="userRole?.toString() === roles.owner && !props.readOnly"
         class="flex items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
         size="small"
         @click="
@@ -27,6 +27,7 @@
     </div>
     <div class="mt-3 text-center">
       <a-upload
+        v-if="!props.readOnly"
         v-model:file-list="imageList"
         accept=".png,.jpg,.jpeg"
         multiple
@@ -80,6 +81,10 @@ const props = defineProps({
   originalBuildingInfo: {
     type: Object as PropType<{ data: EditBuilding }>,
     required: true,
+  },
+  readOnly: {
+    type: Boolean,
+    default: false,
   },
 });
 const buildingInfo = toRef(props, 'buildingInfo');

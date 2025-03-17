@@ -6,7 +6,8 @@
     multiple
     list-type="picture-card"
     class="custom_room_image_upload"
-    :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button' : '']"
+    :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button readonly-image-list' : '']"
+    :disabled="props.readOnly"
     @preview="handlePreview"
     @change="(e: any) => handleFileUpload(e)"
     @remove="
@@ -22,7 +23,7 @@
       }
     "
   >
-    <div v-if="!props.readOnly">
+    <div>
       <plus-outlined />
       <div style="margin-top: 8px">{{ $t('upload_file') }}</div>
     </div>

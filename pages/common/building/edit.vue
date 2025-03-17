@@ -321,7 +321,14 @@
             :floors="floors"
           />
         </div>
-        <div v-show="step === 3" class="flex-1"></div>
+        <div v-show="step === 3" class="flex-1">
+          <CommonBuildingEditStep3
+            :building-info="buildingInfo"
+            :managers="managers"
+            :original-building-info="originalBuildingInfo"
+            :floors="floors"
+          />
+        </div>
         <div v-show="step === 4" class="flex-1">
           <div v-show="editSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
             <div class="flex items-center justify-center mt-5">
@@ -518,7 +525,6 @@ function checkStep1(): boolean {
 }
 
 function checkStep2(): boolean {
-  console.log(buildingInfo.value.data.rooms);
   let invalidRoom = buildingInfo.value.data.rooms.find((room) => !room.isDeleted && room.status === 0);
   if (invalidRoom) {
     notification.error({
@@ -560,7 +566,27 @@ function checkStep2(): boolean {
   return true;
 }
 
-async function updateBuilding() {}
+async function updateBuilding() {
+  try {
+    $event.emit('loading');
+    await api.common.building.updateBuilding(buildingID, buildingInfo.value.data);
+    editSuccess.value = true;
+  } catch (err: any) {
+    step.value--;
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
 
 // ---------------------- Watchers ----------------------
 watch(step, () => {

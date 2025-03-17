@@ -2,7 +2,7 @@
   <div class="mt-10">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
-      <div v-if="userRole?.toString() === roles.owner" class="flex items-center">
+      <div v-if="userRole?.toString() === roles.owner && !props.readOnly" class="flex items-center">
         <a-button
           class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
@@ -14,6 +14,7 @@
                   1
                 );
               });
+              $event.emit('resetSelectedFloor', deleteArray);
               floorDeleteBucket = [];
             }
           "
@@ -40,14 +41,14 @@
         /></a-button>
       </div>
     </div>
-    <div class="mt-3 mb-8">
+    <div class="mt-3 mb-2">
       <table class="w-full">
         <thead
           class="border-b-[1px]"
           :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
         >
           <tr>
-            <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
+            <th v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 <a-checkbox
                   id="check_all_floors_1"
@@ -75,6 +76,7 @@
             :key="index"
             :floor="floor"
             :floor-delete-bucket="floorDeleteBucket"
+            :read-only="props.readOnly"
           />
         </tbody>
       </table>
@@ -103,6 +105,10 @@ const props = defineProps({
       }[]
     >,
   },
+  readOnly: {
+    default: false,
+    type: Boolean,
+  },
 });
 const floors = toRef(props, 'floors');
 const floorDeleteBucket = ref<number[]>([]);
@@ -113,12 +119,20 @@ const checkAllFloors = computed(() => {
 
 // ---------------------- Functions ----------------------
 function deleteFloors() {
+  const newBucker: number[] = [];
   floorDeleteBucket.value.forEach((value) => {
     floors.value.splice(
-      floors.value.findIndex((floor) => floor.value === value),
+      floors.value.findIndex((floor) => {
+        if (!floor.disable) {
+          newBucker.push(floor.value);
+        }
+
+        return floor.value === value;
+      }),
       1
     );
   });
+  $event.emit('resetSelectedFloor', newBucker);
   floorDeleteBucket.value = [];
 }
 

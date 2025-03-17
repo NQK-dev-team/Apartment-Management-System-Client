@@ -33,7 +33,7 @@
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('service_list') }}</h2>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -89,7 +89,7 @@
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -170,7 +170,7 @@
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -218,7 +218,7 @@
           <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
           </div>
-          <div class="mt-3 mb-8">
+          <div class="mt-3 mb-2">
             <table class="w-full">
               <thead
                 class="border-b-[1px]"

@@ -1,10 +1,19 @@
 import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
-import type { Building, NewBuildingInfo, Room, Service } from '~/types/building';
+import type {
+  Building,
+  BuildingImage,
+  EditBuilding,
+  NewBuildingInfo,
+  Room,
+  RoomImage,
+  Service,
+} from '~/types/building';
 import type { UploadFile } from 'ant-design-vue';
 import type { Bill } from '~/types/bill';
 import type { ManagerSchedule, User } from '~/types/user';
+import type { Dayjs } from 'dayjs';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -237,6 +246,111 @@ const common = {
       const $api = getApiInstance();
       return $api(apiRoutes.building.getSchedule(buildingID), {
         method: 'GET',
+      });
+    },
+    updateBuilding(buildingID: number, data: EditBuilding): Promise<APIResponse<null>> {
+      const $api = getApiInstance();
+      const formData = new FormData();
+
+      formData.append('name', data.name);
+      formData.append('address', data.address);
+      data.images.forEach((image) => {
+        if (image.isDeleted) {
+          formData.append('deletedBuildingImages[]', (image as BuildingImage).ID.toString());
+        } else if (image.isNew) {
+          formData.append('newBuildingImages[]', (image as UploadFile).originFileObj as File);
+        }
+      });
+      data.services.forEach((service) => {
+        if (service.isDeleted) {
+          formData.append('deletedServices[]', service.ID.toString());
+        } else if (service.isNew) {
+          formData.append(
+            'newServices[]',
+            JSON.stringify({
+              name: service.name,
+              price: service.price,
+            })
+          );
+        } else {
+          formData.append(
+            'services[]',
+            JSON.stringify({
+              ID: service.ID,
+              name: service.name,
+              price: service.price,
+            })
+          );
+        }
+      });
+      data.schedules.forEach((schedule) => {
+        if (schedule.isDeleted) {
+          formData.append('deletedSchedules[]', schedule.ID.toString());
+        } else if (schedule.isNew) {
+          formData.append(
+            'newSchedules[]',
+            JSON.stringify({
+              managerID: schedule.managerID,
+              startDate: convertToDate(schedule.start_date.toDate().toISOString()),
+              endDate: schedule.end_date ? convertToDate((schedule.end_date as Dayjs).toDate().toISOString()) : null,
+            })
+          );
+        } else {
+          formData.append(
+            'schedules[]',
+            JSON.stringify({
+              ID: schedule.ID,
+              managerID: schedule.managerID,
+              startDate: convertToDate(schedule.start_date.toDate().toISOString()),
+              endDate: schedule.end_date ? convertToDate((schedule.end_date as Dayjs).toDate().toISOString()) : null,
+            })
+          );
+        }
+      });
+      data.rooms.forEach((room) => {
+        if (room.isDeleted) {
+          formData.append('deletedRooms[]', room.ID.toString());
+        } else if (room.isNew) {
+          formData.append(
+            'newRooms[]',
+            JSON.stringify({
+              floor: room.floor,
+              no: room.no,
+              status: room.status,
+              area: room.area,
+              description: room.description,
+            })
+          );
+          room.images.forEach((image) => {
+            if (image.isNew) {
+              formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
+            }
+          });
+        } else {
+          formData.append(
+            'rooms[]',
+            JSON.stringify({
+              ID: room.ID,
+              floor: room.floor,
+              no: room.no,
+              status: room.status,
+              area: room.area,
+              description: room.description,
+            })
+          );
+          room.images.forEach((image) => {
+            if (image.isDeleted) {
+              formData.append('deleteRoomImages[]', (image as RoomImage).ID.toString());
+            } else if (image.isNew) {
+              formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
+            }
+          });
+        }
+      });
+
+      return $api(apiRoutes.building.updateBuilding(buildingID), {
+        method: 'POST',
+        body: formData,
       });
     },
   },

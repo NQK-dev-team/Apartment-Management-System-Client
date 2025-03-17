@@ -49,7 +49,7 @@
           /></a-button>
         </div>
       </div>
-      <div class="mt-3 mb-8">
+      <div class="mt-3 mb-2">
         <table class="w-full">
           <thead
             class="border-b-[1px]"

@@ -10,7 +10,7 @@
           <a-input
             id="building_name_3"
             :placeholder="$t('enter_building_name')"
-            :value="buildingInfo.name"
+            :value="buildingInfo.data.name"
             disabled
             readonly
           />
@@ -22,185 +22,27 @@
           </label>
           <a-input
             id="building_address_3"
-            :value="buildingInfo.address"
+            :value="buildingInfo.data.address"
             :placeholder="$t('enter_building_address')"
             disabled
             readonly
           />
         </div>
       </div>
+      <CommonBuildingEditServiceTable
+        :building-info="buildingInfo"
+        :original-building-info="props.originalBuildingInfo"
+        :read-only="true"
+      />
+      <CommonBuildingEditScheduleTable
+        :building-info="buildingInfo"
+        :original-building-info="props.originalBuildingInfo"
+        :managers="managers"
+        :read-only="true"
+      />
+      <CommonBuildingEditFloorTable :floors="props.floors" :read-only="true" />
       <div class="mt-10">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">{{ $t('service_list') }}</h2>
-        </div>
-        <div class="mt-3 mb-8">
-          <table class="w-full">
-            <thead
-              class="border-b-[1px]"
-              :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
-            >
-              <tr>
-                <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('no') }}
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px] flex items-center justify-center"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('service_name') }}
-                    <div class="flex items-center">
-                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-                    </div>
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px] flex items-center justify-center"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('service_price') }}
-                    <div class="flex items-center">
-                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-                    </div>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <CommonBuildingAddServiceItem
-                v-for="(service, index) in buildingInfo.services"
-                :key="index"
-                :index="index"
-                :service="service"
-                :read-only="true"
-              />
-            </tbody>
-          </table>
-        </div>
-        <p>{{ $t('total') }}: {{ buildingInfo.services.length }}</p>
-      </div>
-      <div class="mt-10">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
-        </div>
-        <div class="mt-3 mb-8">
-          <table class="w-full">
-            <thead
-              class="border-b-[1px]"
-              :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
-            >
-              <tr>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('no') }}
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px] flex items-center justify-center"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('employee') }}
-                    <div class="flex items-center">
-                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-                    </div>
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('email') }}
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('phone') }}
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px] flex items-center justify-center"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('start_date') }}
-                    <div class="flex items-center">
-                      <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-                    </div>
-                  </div>
-                </th>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px] flex items-center justify-center"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('end_date') }}
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <CommonBuildingAddScheduleItem
-                v-for="(schedule, index) in buildingInfo.schedules"
-                :key="index"
-                :index="index"
-                :schedule="schedule"
-                :read-only="true"
-                :managers="props.managers"
-              />
-            </tbody>
-          </table>
-        </div>
-        <p>{{ $t('total') }}: {{ buildingInfo.schedules.length }}</p>
-      </div>
-      <div class="mt-10">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
-        </div>
-        <div class="mt-3 mb-8">
-          <table class="w-full">
-            <thead
-              class="border-b-[1px]"
-              :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
-            >
-              <tr>
-                <th class="text-sm font-normal text-center align-middle py-[16px]">
-                  <div
-                    class="border-r-[1px] h-[20px]"
-                    :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-                  >
-                    {{ $t('floor_number') }}
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <CommonBuildingAddFloorItem
-                v-for="(_, index) in buildingInfo.floors"
-                :key="index"
-                :index="index"
-                :read-only="true"
-              />
-            </tbody>
-          </table>
-        </div>
-        <p>{{ $t('total') }}: {{ buildingInfo.floors.length }}</p>
-      </div>
-      <div class="mt-10">
-        <div v-if="buildingInfo.floors.length" class="flex items-center">
+        <div v-if="props.floors.length" class="flex items-center">
           <h2 class="text-xl font-bold">{{ $t('floor') }}</h2>
           <div class="ms-5">
             <a-select
@@ -210,15 +52,18 @@
               placeholder="{{ $t('select_floor') }}"
             >
               <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
-              <a-select-option v-for="(_, index) in buildingInfo.floors" :key="index">{{ index + 1 }}</a-select-option>
+              <a-select-option v-for="(floor, index) in props.floors" :key="index" :value="floor.value">{{
+                floor.value
+              }}</a-select-option>
             </a-select>
           </div>
         </div>
+        <div v-else class="flex items-center justify-center w-full h-full">
+          <h2 class="text-center text-gray-400 text-2xl">{{ $t('no_floor') }}</h2>
+        </div>
         <div v-if="selectedFloor !== -1" class="mt-10">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
-          </div>
-          <div class="mt-3 mb-8">
+          <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
+          <div class="mt-3 mb-2">
             <table class="w-full">
               <thead
                 class="border-b-[1px]"
@@ -230,7 +75,7 @@
                       class="border-r-[1px] h-[20px]"
                       :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                     >
-                      {{ $t('no') }}
+                      {{ $t('room_no') }}
                     </div>
                   </th>
                   <th class="text-sm font-normal text-center align-middle py-[16px] w-[150px]">
@@ -249,13 +94,13 @@
                       class="border-r-[1px] h-[20px] flex items-center justify-center"
                       :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                     >
-                      {{ $t('area') }}
+                      {{ $t('area') }} (m<sup>2</sup>)
                       <div class="flex items-center">
                         <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                       </div>
                     </div>
                   </th>
-                  <th class="text-sm font-normal text-center align-middle py-[16px] w-[500px]">
+                  <th class="text-sm font-normal text-center align-middle py-[16px] w-[350px]">
                     <div
                       class="border-r-[1px] h-[20px]"
                       :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
@@ -274,11 +119,21 @@
                       </div>
                     </div>
                   </th>
+                  <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+                    <div
+                      class="border-r-[1px] h-[20px]"
+                      :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+                    >
+                      {{ $t('note') }}
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <CommonBuildingAddRoomItem
-                  v-for="(room, index) in buildingInfo.floors[selectedFloor].rooms"
+                <CommonBuildingEditRoomItem
+                  v-for="(room, index) in buildingInfo.data.rooms.filter(
+                    (room) => room.floor === selectedFloor && !room.isDeleted
+                  )"
                   :key="index"
                   :index="index"
                   :room="room"
@@ -288,28 +143,22 @@
               </tbody>
             </table>
           </div>
-          <p>{{ $t('total') }}: {{ selectedFloor !== -1 ? buildingInfo.floors[selectedFloor].rooms.length : 0 }}</p>
+          <p>{{ $t('total') }}: {{ totalRooms }}</p>
         </div>
       </div>
     </div>
-    <div class="w-[300px] h-full">
-      <div class="flex">
-        <h2 class="text-xl">{{ $t('building_image') }}</h2>
-        <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-      </div>
-      <div class="flex flex-col">
-        <div v-for="(image, index) in imageList" :key="index" class="mt-3">
-          <img :src="image" :alt="$t('building_image') + ` ${index}`" class="w-full" />
-        </div>
-      </div>
-    </div>
+    <CommonBuildingEditBuildingImage
+      v-if="buildingInfo.data.images.length"
+      :building-info="buildingInfo"
+      :original-building-info="props.originalBuildingInfo"
+      :read-only="true"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
-import type { NewBuildingInfo } from '~/types/building';
-import { getBase64 } from '#build/imports';
+import type { EditBuilding } from '~/types/building';
 import type { User } from '~/types/user';
 
 // ---------------------- Variables ----------------------
@@ -319,43 +168,48 @@ const lightMode = computed(
 );
 const props = defineProps({
   buildingInfo: {
-    type: Object as PropType<NewBuildingInfo>,
-    required: true,
-  },
-  step: {
-    type: Number,
+    type: Object as PropType<{ data: EditBuilding }>,
     required: true,
   },
   managers: {
     type: Array as PropType<User[]>,
     required: true,
   },
+  originalBuildingInfo: {
+    type: Object as PropType<{ data: EditBuilding }>,
+    required: true,
+  },
+  floors: {
+    type: Array as PropType<
+      {
+        value: number;
+        disable: boolean;
+      }[]
+    >,
+    required: true,
+  },
 });
 const buildingInfo = toRef(props, 'buildingInfo');
-const step = toRef(props, 'step');
-const imageList = ref<string[]>([]);
 const { $event } = useNuxtApp();
 const selectedFloor = ref<number>(-1);
+const totalRooms = computed(() => {
+  if (selectedFloor.value === -1) {
+    return 0;
+  }
 
-// ---------------------- Functions ----------------------
-function renderImageList() {
-  const files = buildingInfo.value.images.map((image) => image.originFileObj);
-  imageList.value = [];
-  Array.from(files).forEach(async (file) => {
-    if (file) {
-      const base64 = await getBase64(file);
-      imageList.value.push(base64 as string);
-    }
-  });
-}
-
-// ---------------------- Watchers ----------------------
-watch(step, () => {
-  renderImageList();
+  return buildingInfo.value.data.rooms.filter((room) => room.floor === selectedFloor.value && !room.isDeleted).length;
 });
 
 // ---------------------- Event Listeners ----------------------
-$event.on('resetSelectedFloor', () => {
-  selectedFloor.value = -1;
+$event.on('resetSelectedFloor', (e: any) => {
+  if (e.includes(selectedFloor.value)) {
+    selectedFloor.value = -1;
+  }
 });
 </script>
+
+<style lang="css">
+.readonly-image-list .ant-upload-select{
+  display: none !important;
+}
+</style>

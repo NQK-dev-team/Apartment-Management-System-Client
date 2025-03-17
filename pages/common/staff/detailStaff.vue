@@ -4,20 +4,25 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>{{ $t('employee_list') }}</a-breadcrumb-item>
-        <a-breadcrumb-item>{{ $t('add_employees') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>Thông tin nhân viên</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('add_employees') }}</h1>
+      <div class="flex justify-between items-center">
+        <h1 class="mt-3 text-2xl">Nguyễn Văn A</h1>
+        <div>
+          <a-button type="primary" class="rounded-none">Chỉnh sửa</a-button>
+          <a-button type="primary" danger class="rounded-none ms-2">Xoá</a-button>
+        </div>
+      </div>
     </div>
     <!-- Page main content -->
     <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <!-- Heading of the  page -->
       <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
       <!-- 2 colums -->
-      <div class="grid grid-cols-6 gap-x-2">
-        <!-- left col -->
-        <div class="min-h-[50px] col-span-4">
+
+        <div class="flex overflow-clip">
           <!-- Input boxes -->
-          <div class="h-full flex-1 flex flex-col me-24">
+          <div class="w-96 flex-1 flex flex-col me-6 border-r border-gray-300">
             <div class="flex items-center">
               <div class="flex-1 me-2">
                 <label for="last_name" class="flex mb-1">
@@ -28,6 +33,8 @@
                   id="last_name"
                   value="Nguyễn"
                   placeholder="Last name"
+                  disabled
+                  readonly
                 />
               </div>
               <div class="flex-1 me-2">
@@ -38,6 +45,8 @@
                   id="middle_name"
                   value="Văn"
                   placeholder="Middle name"
+                  disabled
+                  readonly
                 />
               </div>
             </div>
@@ -51,6 +60,8 @@
                   id="name"
                   value="Tùng"
                   placeholder="Name"
+                  disabled
+                  readonly
                 />
               </div>
               <div class="flex-1 me-2">
@@ -58,7 +69,7 @@
                   <span>{{ $t('dob') }}</span>
                   <span class="text-red-500">*</span>
                 </label>
-                <a-date-picker v-model:value="value1" class="w-full" placeholder="Select date"/>
+                <a-date-picker v-model:value="value1" class="w-full" placeholder="2000-05-08" disabled readonly/>
               </div>
             </div>
             <div class="flex items-center mt-5">
@@ -75,6 +86,8 @@
                   @focus="focus"
                   @change="handleChange"
                   class="w-full"
+                  disabled
+                  readonly
                 ></a-select>
               </div>
               <div class="flex-1 me-2">
@@ -86,6 +99,8 @@
                   id="cccd"
                   value="09220000XXXX"
                   placeholder="CCCD"
+                  disabled
+                  readonly
                 />
               </div>
             </div>
@@ -98,6 +113,8 @@
                   id="cmnd"
                   value="Empty"
                   placeholder="CMND"
+                  disabled
+                  readonly
                 />
               </div>
               <div class="flex-1 me-2">
@@ -109,6 +126,8 @@
                   id="origin"
                   value="Đồng Nai"
                   placeholder="Origin"
+                  disabled
+                  readonly
                 />
               </div>
             </div>
@@ -122,6 +141,8 @@
                   id="phone_number"
                   value="093275XXXX"
                   placeholder="Phone number"
+                  disabled
+                  readonly
                 />
               </div>
               <div class="flex-1 me-2">
@@ -133,54 +154,28 @@
                   id="login_email"
                   value="testmail1@gmail.com"
                   placeholder="testmail1@gmail.com"
+                  disabled
+                  readonly
                 />
               </div>
             </div>
-            <!-- Building managing section -->
-            <div>
-              <!-- Heading and buttons -->
-              <div class="flex justify-between items-center mt-5">
-                <!-- p is a place holder, to space out the content -->
-                <h2 class="mt-3 text-2xl">{{ $t('building_managing') }}</h2>
-                <div class="flex">
-                  <NuxtLink>
-                    <a-button type="primary" class="btn-icon">
-                      <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]"/>
-                    </a-button>
-                  </NuxtLink>
-
-                  <a-button type="primary" danger class="btn-icon ml-2">
-                    <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
-                  </a-button>
-                </div>
-              </div>
-              <!-- Building managing section table -->
-              <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-                <template #bodyCell="{ column, text, record }">
-                  <template v-if="column.dataIndex === 'buildingName'">
-                    <a-select v-model:value="record.buildingName" :options="buildingOptions" class="w-full"></a-select>
-                  </template>
-                  <template v-else-if="column.dataIndex === 'beginDate'">
-                    <a-date-picker v-model:value="record.beginDate" class="w-full" placeholder="Select date"></a-date-picker>
-                  </template>
-                  <template v-else-if="column.dataIndex === 'endDate'">
-                    <a-date-picker v-model:value="record.endDate" class="w-full" placeholder="Select date"></a-date-picker>
-                  </template>
-                </template>
-              </a-table>
-            </div>
+          </div>
+          <!-- Images -->
+          <div class="flex flex-col border-2 border-gray-300 w-72 h-72">
+            <label for="">Chân dung</label>
+            <img :src="svgPaths.placeholderImage" alt="Add employee" class="" />
+          </div>
+          <div class="flex flex-col border-2 border-gray-300 w-72 h-72">
+            <label for="">Chân dung</label>
+            <img :src="svgPaths.placeholderImage" alt="Add employee" class="" />
+          </div>
+          <div class="flex flex-col border-2 border-gray-300 w-72 h-72">
+            <label for="">Chân dung</label>
+            <img :src="svgPaths.placeholderImage" alt="Add employee" class="" />
           </div>
         </div>
-        <!-- right col -->
-        <div class="col-span-2 px-3">
-          <imageUpload :label="$t('avatar')"/>
-          <imageUpload :label="$t('national_id') + ' ' + $t('front_face')"/>
-          <imageUpload :label="$t('national_id') + ' ' + $t('back_face')"/>
-        </div>
-      </div>
       <div class="flex flex-col items-center mt-5">
-        <a-button class="my-2 w-[100px]" type="primary">{{ $t('confirm') }}</a-button>
-        <a-button class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
+        <a-button class="my-2 w-[100px]">{{ $t('back') }}</a-button>
       </div>
     </div>
   </div>
@@ -199,17 +194,17 @@ import type { SizeType } from 'ant-design-vue/es/config-provider';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Staff add',
+  name: 'Staff detail',
   layout: 'main',
   middleware: ['authorization-manager']
 });
 
 useHead({
-  title: 'Add staff member',
+  title: 'Staff detail',
   meta: [
     {
       name: 'description',
-      content: 'List of staff members in the system',
+      content: 'Detail of staff in the system',
     },
   ],
 });
@@ -228,75 +223,6 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-
-const buildingOptions = ref([
-  { value: 'A1', label: 'A1' },
-  { value: 'A2', label: 'A2' },
-  { value: 'A3', label: 'A3' },
-  { value: 'B1', label: 'B1' },
-  { value: 'B2', label: 'B2' },
-  { value: 'B3', label: 'B3' },
-]);
-
-const columns = computed(() => [
-  {
-    title: t('no'),
-    align: 'center',
-    dataIndex: 'no',
-    width: '10%',
-  },
-  {
-    title: t('building_name'),
-    dataIndex: 'buildingName',
-    width: '40%',
-  },
-  {
-    title: "Begin date",
-    dataIndex: 'beginDate',
-    width: '20%',
-  },
-  {
-    title: "End date",
-    dataIndex: 'endDate',
-    width: '20%',
-  },
-]);
-
-interface DataItem {
-  key: string;
-  no: number;
-  buildingName: string;
-  beginDate: Dayjs | null;
-  endDate: Dayjs | null;
-}
-
-const data: DataItem[] = [];
-const buildings = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3'];
-
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i.toString(),
-    no: i + 1,
-    buildingName: buildings[Math.floor(Math.random() * buildings.length)],
-    beginDate: null,
-    endDate: null,
-  });
-}
-
-const dataSource = ref(data);
-
-const rowSelection = ref({
-  checkStrictly: false,
-  onChange: (selectedRowKeys: (string | number)[], selectedRows: DataItem[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  onSelect: (record: DataItem, selected: boolean, selectedRows: DataItem[]) => {
-    console.log(record, selected, selectedRows);
-  },
-  onSelectAll: (selected: boolean, selectedRows: DataItem[], changeRows: DataItem[]) => {
-    console.log(selected, selectedRows, changeRows);
-  },
-});
 
 const focus = () => {
   console.log('focus');

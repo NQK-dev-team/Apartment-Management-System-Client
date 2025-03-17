@@ -27,6 +27,7 @@ export default {
   B: 'b',
   balance: 'Dư nợ',
   bill: 'Hóa đơn',
+  bill_detail: 'Chi tiết hóa đơn',
   bill_list: 'Danh sách hóa đơn',
   bill_info: 'Thông tin hóa đơn',
   building: 'Tòa nhà {name}',

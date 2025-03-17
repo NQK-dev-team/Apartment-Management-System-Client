@@ -27,6 +27,7 @@ export default {
   B: 'b',
   balance: 'Balance',
   bill: 'Bill',
+  bill_detail: 'Bill detail',
   bill_list: 'Bill list',
   bill_info: 'Bill information',
   building: 'Building {name}',

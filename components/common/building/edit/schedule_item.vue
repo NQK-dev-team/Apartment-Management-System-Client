@@ -16,10 +16,10 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <div class="px-3 w-[350px]">
+        <div class="px-3 w-full">
           <a-select
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_manager_no_1`"
+            :id="`schedule_${props.index + 1}_manager_no_${props.step}`"
             v-model:value="schedule.managerNo"
             class="w-full text-left"
             show-search
@@ -34,7 +34,7 @@
           ></a-select>
           <a-select
             v-else
-            :id="`schedule_${props.index + 1}_manager_no_3`"
+            :id="`schedule_${props.index + 1}_manager_no_${props.step}`"
             :value="schedule.managerNo"
             class="w-full text-left"
             show-search
@@ -56,14 +56,14 @@
         <div class="px-3">
           <a-input
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_manager_email_1`"
+            :id="`schedule_${props.index + 1}_manager_email_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
-            :id="`schedule_${props.index + 1}_manager_email_3`"
+            :id="`schedule_${props.index + 1}_manager_email_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
             disabled
             readonly
@@ -76,14 +76,14 @@
         <div class="px-3">
           <a-input
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_manager_phone_1`"
+            :id="`schedule_${props.index + 1}_manager_phone_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
-            :id="`schedule_${props.index + 1}_manager_phone_3`"
+            :id="`schedule_${props.index + 1}_manager_phone_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
             disabled
             readonly
@@ -96,13 +96,13 @@
         <div class="px-3">
           <a-date-picker
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_start_1`"
+            :id="`schedule_${props.index + 1}_start_${props.step}`"
             v-model:value="schedule.start_date"
             class="w-full"
           ></a-date-picker>
           <a-date-picker
             v-else
-            :id="`schedule_${props.index + 1}_start_3`"
+            :id="`schedule_${props.index + 1}_start_${props.step}`"
             :value="schedule.start_date"
             class="w-full"
             disabled
@@ -116,13 +116,13 @@
         <div class="px-3">
           <a-date-picker
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_end_1`"
+            :id="`schedule_${props.index + 1}_end_${props.step}`"
             v-model:value="schedule.end_date"
             class="w-full"
           ></a-date-picker>
           <a-date-picker
             v-else
-            :id="`schedule_${props.index + 1}_end_3`"
+            :id="`schedule_${props.index + 1}_end_${props.step}`"
             :value="schedule.end_date"
             class="w-full"
             disabled
@@ -131,7 +131,7 @@
         </div>
       </div>
     </td>
-    <td class="text-sm font-normal text-center align-middle py-[16px]">
+    <td v-if="userRole?.toString() === roles.owner" class="text-sm font-normal text-center align-middle py-[16px]">
       <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
           <p v-if="schedule.ID <= 0" class="text-red-500">{{ $t('new') }}</p>
@@ -145,8 +145,10 @@
 import type { User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { BasicModel } from '~/types/basic_model';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
@@ -180,6 +182,10 @@ const props = defineProps({
   },
   managers: {
     type: Array as PropType<User[]>,
+    required: true,
+  },
+  step: {
+    type: Number,
     required: true,
   },
 });

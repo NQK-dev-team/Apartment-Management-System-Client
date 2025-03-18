@@ -67,7 +67,10 @@
           :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
         >
           <tr>
-            <th v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
+            <th
+              v-if="!props.readOnly && userRole?.toString() === roles.owner"
+              class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]"
+            >
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 <a-checkbox
                   id="check_all_schedules_1"
@@ -121,7 +124,10 @@
                 {{ $t('end_date') }}
               </div>
             </th>
-            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+            <th
+              v-if="userRole?.toString() === roles.owner"
+              class="text-sm font-normal text-center align-middle py-[16px] w-[75px]"
+            >
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 {{ $t('note') }}
               </div>
@@ -136,8 +142,9 @@
             :index="index"
             :schedule-delete-bucket="scheduleDeleteBucket"
             :managers="props.managers"
-            :read-only="props.readOnly"
+            :read-only="props.readOnly || userRole?.toString() !== roles.owner"
             :schedule="schedule as any"
+            :step="props.step"
           />
         </tbody>
       </table>
@@ -190,6 +197,10 @@ const props = defineProps({
   readOnly: {
     type: Boolean,
     default: false,
+  },
+  step: {
+    type: Number,
+    required: true,
   },
 });
 const buildingInfo = toRef(props, 'buildingInfo');

@@ -62,6 +62,7 @@
         :building-info="buildingInfo"
         :original-building-info="props.originalBuildingInfo"
         :managers="managers"
+        :step="1"
       />
       <CommonBuildingEditFloorTable :floors="props.floors" />
     </div>

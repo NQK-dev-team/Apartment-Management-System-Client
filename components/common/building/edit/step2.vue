@@ -30,6 +30,7 @@
             <UndoOutlined />
           </a-button>
           <a-button
+            v-if="userRole?.toString() === roles.owner"
             type="primary"
             danger
             class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
@@ -42,6 +43,7 @@
             ><DeleteOutlined
           /></a-button>
           <a-button
+            v-if="userRole?.toString() === roles.owner"
             type="primary"
             class="flex items-center justify-center w-10 h-10 rounded-sm"
             @click="
@@ -94,7 +96,7 @@
                   ></a-checkbox>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+              <th class="text-sm font-normal text-center align-middle py-[16px] w-[150px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   {{ $t('room_no') }}
                 </div>
@@ -137,7 +139,10 @@
                   </div>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+              <th
+                v-if="userRole?.toString() === roles.owner"
+                class="text-sm font-normal text-center align-middle py-[16px] w-[75px]"
+              >
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   {{ $t('note') }}
                 </div>
@@ -164,6 +169,7 @@
 </template>
 
 <script lang="ts" setup>
+import { roles } from '~/consts/roles';
 import { svgPaths } from '~/consts/svg_paths';
 import type { EditBuilding } from '~/types/building';
 
@@ -193,6 +199,7 @@ const props = defineProps({
     required: true,
   },
 });
+const userRole = useCookie('userRole');
 const addCounter = ref<number>(0);
 const buildingInfo = toRef(props, 'buildingInfo');
 const selectedFloor = ref<number>(-1);

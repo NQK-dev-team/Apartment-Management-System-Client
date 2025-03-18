@@ -18,6 +18,7 @@
         <NuxtLink v-if="userRole?.toString() === roles.owner" :to="pageRoutes.common.building.add">
           <a-button type="primary" class="flex items-center rounded-sm"><PlusOutlined /></a-button>
         </NuxtLink>
+        <div v-else></div>
       </div>
     </div>
     <div class="mt-5 overflow-auto p-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">

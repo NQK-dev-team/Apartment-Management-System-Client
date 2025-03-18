@@ -248,13 +248,14 @@ const common = {
         method: 'GET',
       });
     },
-    updateBuilding(buildingID: number, data: EditBuilding): Promise<APIResponse<null>> {
+    updateBuilding(buildingID: number, data: EditBuilding, totalFloor: number): Promise<APIResponse<null>> {
       const $api = getApiInstance();
       const formData = new FormData();
 
       formData.append('id', buildingID.toString());
       formData.append('name', data.name);
       formData.append('address', data.address);
+      formData.append('totalFloor', totalFloor.toString());
       data.images.forEach((image) => {
         if (image.isDeleted) {
           formData.append('deletedBuildingImages[]', (image as BuildingImage).ID.toString());

@@ -569,7 +569,7 @@ function checkStep2(): boolean {
 async function updateBuilding() {
   try {
     $event.emit('loading');
-    await api.common.building.updateBuilding(buildingID, buildingInfo.value.data);
+    await api.common.building.updateBuilding(buildingID, buildingInfo.value.data, floors.value.length);
     editSuccess.value = true;
   } catch (err: any) {
     step.value--;

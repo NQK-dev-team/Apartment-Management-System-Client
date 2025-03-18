@@ -10,7 +10,7 @@
       <div class="flex items-center justify-between">
         <h1 class="mt-3 text-2xl">{{ $t('building', { name: buildingData.name }) }}</h1>
         <div>
-          <NuxtLink v-if="userRole?.toString() === roles.owner" :to="pageRoutes.common.building.edit(buildingID)">
+          <NuxtLink :to="pageRoutes.common.building.edit(buildingID)">
             <a-button type="primary" class="rounded-sm">{{ $t('edit') }}</a-button>
           </NuxtLink>
         </div>
@@ -187,8 +187,8 @@ z
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { pageRoutes } from '~/consts/page_routes';
-import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
+import type { NullTime } from '~/types/basic_model';
 import type { Service, Building, Room } from '~/types/building';
 import type { ManagerSchedule } from '~/types/user';
 
@@ -210,7 +210,6 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
-const userRole = useCookie('userRole');
 const route = useRoute();
 const buildingID = Number(route.params.id as string);
 const { $event } = useNuxtApp();
@@ -255,9 +254,9 @@ async function getBuildingData(emitLoading = true) {
     services.value = data.services;
     schedules.value = scheduleData.sort(
       (a, b) =>
-        new Date(b.start_date).getTime() - new Date(a.start_date).getTime() ||
-        new Date(b.end_date.Valid ? b.end_date.Time! : '2100-01-01').getTime() -
-          new Date(a.end_date.Valid ? a.end_date.Time! : '2100-01-01').getTime()
+        new Date(b.start_date as string).getTime() - new Date(a.start_date as string).getTime() ||
+        new Date((b.end_date as NullTime).Valid ? (b.end_date as NullTime).Time! : '2100-01-01').getTime() -
+          new Date((a.end_date as NullTime).Valid ? (a.end_date as NullTime).Time! : '2100-01-01').getTime()
     );
   } catch (err: any) {
     if (

@@ -2,7 +2,7 @@
   <div class="mt-10">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('service_list') }}</h2>
-      <div v-if="userRole?.toString() === roles.owner && !props.readOnly" class="flex items-center">
+      <div v-if="!props.readOnly" class="flex items-center">
         <a-button
           class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
@@ -135,10 +135,8 @@
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
 import type { EditBuilding } from '~/types/building';
-import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
-const userRole = useCookie('userRole');
 const route = useRoute();
 const buildingID = Number(route.params.id as string);
 const lightModeCookie = useCookie('lightMode');

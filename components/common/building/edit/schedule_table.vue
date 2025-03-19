@@ -10,9 +10,9 @@
               current = 1;
               const originalSchedules = JSON.parse(JSON.stringify(originalBuildingInfo.data.schedules));
               originalSchedules.forEach((schedule: any) => {
-                schedule.start_date = dayjs(schedule.start_date as string);
-                schedule.end_date = (schedule.end_date as NullTime).Valid
-                  ? dayjs((schedule.end_date as NullTime).Time as string)
+                schedule.startDate = dayjs(schedule.startDate as string);
+                schedule.endDate = (schedule.endDate as NullTime).Valid
+                  ? dayjs((schedule.endDate as NullTime).Time as string)
                   : '';
               });
               buildingInfo.data.schedules = originalSchedules;
@@ -47,8 +47,8 @@
                   updatedBy: 0,
                   buildingID: buildingID,
                   managerID: 0,
-                  start_date: '',
-                  end_date: '',
+                  startDate: '',
+                  endDate: '',
                   isDeleted: false,
                   isNew: true,
                 } as unknown as EditManagerSchedule,
@@ -110,7 +110,7 @@
                 class="border-r-[1px] h-[20px] flex items-center justify-center"
                 :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
               >
-                {{ $t('start_date') }}
+                {{ $t('startDate') }}
                 <div class="flex items-center">
                   <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                 </div>
@@ -121,7 +121,7 @@
                 class="border-r-[1px] h-[20px] flex items-center justify-center"
                 :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
               >
-                {{ $t('end_date') }}
+                {{ $t('endDate') }}
               </div>
             </th>
             <th

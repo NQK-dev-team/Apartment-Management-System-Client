@@ -97,13 +97,13 @@
           <a-date-picker
             v-if="!props.readOnly"
             :id="`schedule_${props.index + 1}_start_${props.step}`"
-            v-model:value="schedule.start_date"
+            v-model:value="schedule.startDate"
             class="w-full"
           ></a-date-picker>
           <a-date-picker
             v-else
             :id="`schedule_${props.index + 1}_start_${props.step}`"
-            :value="schedule.start_date"
+            :value="schedule.startDate"
             class="w-full"
             disabled
             readonly
@@ -117,13 +117,13 @@
           <a-date-picker
             v-if="!props.readOnly"
             :id="`schedule_${props.index + 1}_end_${props.step}`"
-            v-model:value="schedule.end_date"
+            v-model:value="schedule.endDate"
             class="w-full"
           ></a-date-picker>
           <a-date-picker
             v-else
             :id="`schedule_${props.index + 1}_end_${props.step}`"
-            :value="schedule.end_date"
+            :value="schedule.endDate"
             class="w-full"
             disabled
             readonly
@@ -161,8 +161,8 @@ const props = defineProps({
   schedule: {
     type: Object as PropType<
       BasicModel & {
-        start_date: string | Dayjs;
-        end_date: Dayjs | string;
+        startDate: string | Dayjs;
+        endDate: Dayjs | string;
         managerID: number;
         managerNo: string;
         buildingID: number;

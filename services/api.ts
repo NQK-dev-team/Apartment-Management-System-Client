@@ -213,8 +213,8 @@ const common = {
             'newSchedules[]',
             JSON.stringify({
               managerID: schedule.managerID,
-              startDate: convertToDate(schedule.start_date.toDate().toISOString()),
-              endDate: schedule.end_date ? convertToDate((schedule.end_date as Dayjs).toDate().toISOString()) : null,
+              startDate: convertToDate(schedule.startDate.toDate().toISOString()),
+              endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
             })
           );
         } else {
@@ -223,8 +223,8 @@ const common = {
             JSON.stringify({
               id: schedule.ID,
               managerID: schedule.managerID,
-              startDate: convertToDate(schedule.start_date.toDate().toISOString()),
-              endDate: schedule.end_date ? convertToDate((schedule.end_date as Dayjs).toDate().toISOString()) : null,
+              startDate: convertToDate(schedule.startDate.toDate().toISOString()),
+              endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
             })
           );
         }

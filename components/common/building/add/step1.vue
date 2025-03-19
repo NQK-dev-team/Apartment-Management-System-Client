@@ -208,7 +208,7 @@
                     class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
-                    {{ $t('start_date') }}
+                    {{ $t('startDate') }}
                     <div class="flex items-center">
                       <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                     </div>
@@ -219,7 +219,7 @@
                     class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
-                    {{ $t('end_date') }}
+                    {{ $t('endDate') }}
                   </div>
                 </th>
               </tr>

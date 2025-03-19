@@ -23,8 +23,8 @@ type User = BasicModel & {
 };
 
 type ManagerSchedule = BasicModel & {
-  start_date: string | Dayjs;
-  end_date: NullTime | Dayjs;
+  startDate: string | Dayjs;
+  endDate: NullTime | Dayjs;
   managerID: number;
   manager: User;
   buildingID: number;

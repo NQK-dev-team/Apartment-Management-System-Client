@@ -254,9 +254,9 @@ async function getBuildingData(emitLoading = true) {
     services.value = data.services;
     schedules.value = scheduleData.sort(
       (a, b) =>
-        new Date(b.start_date as string).getTime() - new Date(a.start_date as string).getTime() ||
-        new Date((b.end_date as NullTime).Valid ? (b.end_date as NullTime).Time! : '2100-01-01').getTime() -
-          new Date((a.end_date as NullTime).Valid ? (a.end_date as NullTime).Time! : '2100-01-01').getTime()
+        new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
+        new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
+          new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
     );
   } catch (err: any) {
     if (

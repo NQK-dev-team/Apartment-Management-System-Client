@@ -23,7 +23,7 @@
               </a-button>
             </div>
         </div>
-      <CommonBillAddPaymentList />
+      <CommonCustomerAddContractList />
     </div>
   </div>
 </template>

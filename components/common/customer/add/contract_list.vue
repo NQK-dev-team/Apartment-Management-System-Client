@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-      <template #bodyCell="{ column, text }">
+      <template #bodyCell="{ column, record, text }">
         <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
           <div>
             {{ text }}
@@ -10,8 +10,8 @@
 
         <template v-else-if="column.dataIndex === 'status'">
           <span>
-            <a-tag :color="text.Status === 0 ? 'volcano' : 'green'">
-              {{ text.status.toUpperCase() }}
+            <a-tag :color="record.status === 0 ? 'volcano' : 'green'">
+              {{ record.status === 0 ? 'INACTIVE' : 'ACTIVE' }}
             </a-tag>
           </span>
         </template>
@@ -151,7 +151,7 @@ for (let i = 0; i < 100; i++) {
   data.push({
     key: i.toString(),
     no: i + 1,
-    customer: `Edward King ${i}`,
+    customer: `Edward Queen ${i}`,
     customerId: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,
     gender: genders[Math.floor(Math.random() * genders.length)],
     ssn: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,

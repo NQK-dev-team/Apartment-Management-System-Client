@@ -35,7 +35,7 @@ const apiRoutes = {
   customer: {
     list: '/customer',
     detail: (customerId: number) => `/customer/${customerId}`,
-    add: '/customer',
+    add: '/customer/add',
   },
   bill: {
     list: '/bill',

@@ -77,6 +77,11 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.customer.list,
     file: customerBaseRoute + 'list.vue',
   },
+  {
+    name: 'Add New Customer',
+    path: pageRoutes.common.customer.add,
+    file: customerBaseRoute + 'add.vue',
+  },
   // Bill
   {
     name: 'Bill List',

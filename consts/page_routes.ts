@@ -27,6 +27,8 @@ const pageRoutes = {
     },
     customer: {
       list: '/customer',
+      add: '/customer/add',
+      detail: (customerId: number | string) => `/customer/${customerId}`,
     },
     bill: {
       list: '/bill',

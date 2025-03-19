@@ -103,18 +103,6 @@ const common = {
         method: 'GET',
       });
     },
-    getRoomList: async (buildingId: number): Promise<APIResponse<Room[]>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.room(buildingId), {
-        method: 'GET',
-      });
-    },
-    getServiceList: async (buildingId: number): Promise<APIResponse<Service[]>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.service(buildingId), {
-        method: 'GET',
-      });
-    },
     addNewBuilding: async (building: NewBuildingInfo): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
       const formData = new FormData();
@@ -172,74 +160,6 @@ const common = {
       const $api = getApiInstance();
       return $api(apiRoutes.building.detail(buildingId), {
         method: 'GET',
-      });
-    },
-    deleteRooms: async (buildingId: number, IDs: number[]): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.deleteRooms(buildingId), {
-        method: 'POST',
-        body: {
-          IDs,
-        },
-      });
-    },
-    deleteServices: async (buildingId: number, IDs: number[]): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.deleteServices(buildingId), {
-        method: 'POST',
-        body: {
-          IDs,
-        },
-      });
-    },
-    addService: async (buildingId: number, service: { name: string; price: number }): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.addService(buildingId), {
-        method: 'POST',
-        body: {
-          name: service.name,
-          price: service.price,
-        },
-      });
-    },
-    editService: async (
-      buildingId: number,
-      service: { ID: number; name: string; price: number }
-    ): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.editService(buildingId, service.ID), {
-        method: 'POST',
-        body: {
-          name: service.name,
-          price: service.price,
-        },
-      });
-    },
-    addRoom: async (
-      buildingId: number,
-      room: {
-        floor: number;
-        no: number;
-        status: number;
-        area: number | string;
-        description: string;
-        images: UploadFile[];
-      }
-    ): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      const formData = new FormData();
-      formData.append('floor', room.floor.toString());
-      formData.append('no', room.no.toString());
-      formData.append('status', room.status.toString());
-      formData.append('area', room.area.toString());
-      formData.append('description', room.description);
-      room.images.forEach((image) => {
-        formData.append('images[]', image.originFileObj as File);
-      });
-
-      return $api(apiRoutes.building.addRoom(buildingId), {
-        method: 'POST',
-        body: formData,
       });
     },
     getSchedule(buildingID: number): Promise<APIResponse<ManagerSchedule[]>> {

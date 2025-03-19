@@ -1,3 +1,5 @@
+import Customer_information from '~/components/common/customer/add/customer_information.vue';
+
 export default {
   A: 'a',
   add_building: 'Thêm tòa nhà',
@@ -50,6 +52,7 @@ export default {
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
+  customer_information: 'Thông tin khách hàng',
   customer_list: 'Danh sách khách hàng',
   customer_id: 'Mã khách hàng',
   contract: 'Hợp đồng',
@@ -181,6 +184,7 @@ export default {
   owner: 'Chủ tòa nhà',
   origin: 'Quê quán',
   owner_id: 'Mã chủ tòa nhà',
+  old_ssn: 'Số CMND cũ',
 
   P: 'p',
   payer: 'Người thanh toán',

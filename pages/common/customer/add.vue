@@ -10,8 +10,8 @@
       <h1 class="mt-3 text-2xl">{{ $t('add_customer') }}</h1>
     </div>
     <div class="flex-1 flex flex-col mt-5 overflow-auto px-4" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-      <h1 class="mt-3 text-2xl">{{$t('customer_info')}}</h1>
-      <CommonBillAddBillInformation />
+      <h1 class="mt-3 text-2xl">{{$t('customer_information')}}</h1>
+      <CommonCustomerAddCustomerInformation />
       <div class="flex justify-between" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
             <h1 class="mt-3 text-2xl">{{$t('contract_list')}}</h1>
             <div class="flex">

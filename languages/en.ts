@@ -50,6 +50,7 @@ export default {
   cancel: 'Cancel',
   choose_file: 'Choose file',
   customer: 'Customer',
+  customer_information: 'Customer information',
   customer_list: 'Customer list',
   customer_id: 'Customer ID',
   contract: 'Contract',
@@ -181,6 +182,7 @@ export default {
   owner: 'Owner',
   origin: 'Origin',
   owner_id: 'Owner ID',
+  old_ssn: 'Old SSN',
 
   P: 'p',
   payer: 'Payer',

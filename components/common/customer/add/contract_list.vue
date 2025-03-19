@@ -11,7 +11,7 @@
         <template v-else-if="column.dataIndex === 'status'">
           <span>
             <a-tag :color="text.Status === 0 ? 'volcano' : 'green'">
-              {{ text.Status[0].toUpperCase() }}
+              {{ text.status.toUpperCase() }}
             </a-tag>
           </span>
         </template>
@@ -29,8 +29,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Title } from 'chart.js';
-
 
 const { t } = useI18n();
 const columns = computed<any>(() => {

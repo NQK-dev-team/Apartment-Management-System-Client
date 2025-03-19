@@ -105,16 +105,18 @@ async function getBuildingList() {
     $event.emit('loading');
     const response = await api.common.building.getList();
     const data = response.data;
-    buildingList.value = data.map((element) => {
-      return {
-        id: element.ID,
-        name: element.name,
-        address: element.address,
-        totalRoom: element.totalRoom,
-        totalFloor: element.totalFloor,
-        image: element.images && element.images.length ? element.images[0].path : '',
-      };
-    });
+    buildingList.value = data
+      .map((element) => {
+        return {
+          id: element.ID,
+          name: element.name,
+          address: element.address,
+          totalRoom: element.totalRoom,
+          totalFloor: element.totalFloor,
+          image: element.images && element.images.length ? element.images[0].path : '',
+        };
+      })
+      .sort((a, b) => a.id - b.id);
     buildingListFiltered.value = buildingList.value;
   } catch (err: any) {
     if (

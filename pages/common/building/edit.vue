@@ -632,7 +632,7 @@ onMounted(async () => {
         isDeleted: false,
         isNew: false,
       };
-    });
+    }).sort((a, b) => a.no - b.no);
     buildingInfo.value.data.services = buildingInforResponse.data.services.map((service) => {
       return {
         ...service,
@@ -672,14 +672,20 @@ onMounted(async () => {
     originalBuildingInfo.value = JSON.parse(JSON.stringify(buildingInfo.value));
     managers.value = managerListResponse.data;
 
-    if (buildingInforResponse.data.rooms.length) {
-      buildingInforResponse.data.rooms.forEach((room) => {
-        if (!floors.value.find((floor) => floor.value === room.floor)) {
-          floors.value.push({
-            value: room.floor,
-            disable: true,
-          });
-        }
+    // if (buildingInforResponse.data.rooms.length) {
+    //   buildingInforResponse.data.rooms.forEach((room) => {
+    //     if (!floors.value.find((floor) => floor.value === room.floor)) {
+    //       floors.value.push({
+    //         value: room.floor,
+    //         disable: true,
+    //       });
+    //     }
+    //   });
+    // }
+    for (let i = 1; i <= buildingInforResponse.data.totalFloor; i++) {
+      floors.value.push({
+        value: i,
+        disable: true,
       });
     }
   } catch (err: any) {

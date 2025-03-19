@@ -262,7 +262,7 @@ const common = {
           );
           room.images.forEach((image) => {
             if (image.isDeleted) {
-              formData.append('deleteRoomImages[]', (image as RoomImage).ID.toString());
+              formData.append('deletedRoomImages[]', (image as RoomImage).ID.toString());
             } else if (image.isNew) {
               formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
             }

@@ -9,7 +9,7 @@
       <template v-else-if="column.dataIndex === 'operation'">
         <div>
           <span>
-            <AlignLeftOutlined id="support-ticket-detail-icon" class="detail" @click="showModal"/>
+            <AlignLeftOutlined id="support-ticket-detail-icon" class="detail" @click="openImportModal()"/>
             <CheckCircleOutlined class="approve ms-2"/>
             <CloseCircleOutlined class="deny ms-2"/>
           </span>
@@ -25,7 +25,7 @@
       </template>
     </template>
   </a-table>
-  <supportTicketDetail v-model:open="modalOpen" />
+  <supportTicketDetail :data="modalImportData" />
 </template>
 
 <script lang="ts" setup>
@@ -208,6 +208,16 @@ const rowSelection = ref({
     console.log(selected, selectedRows, changeRows);
   },
 });
+
+const modalImportData = ref<{ isOpen: boolean}>({
+  isOpen: false,
+});
+
+//functions
+function openImportModal() {
+  modalImportData.value.isOpen = true;
+}
+
 const modalOpen = ref(false);
 
 const showModal = () => {

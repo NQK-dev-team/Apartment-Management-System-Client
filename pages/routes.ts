@@ -100,6 +100,11 @@ const commonRoutes: Route[] = [
   },
   // Contract
   // Support ticket
+  {
+    name: 'Support ticket list',
+    path: pageRoutes.common.support_ticket.list,
+    file: supportTicketBaseRoute + 'list.vue',
+  },
   // Notice
 ];
 

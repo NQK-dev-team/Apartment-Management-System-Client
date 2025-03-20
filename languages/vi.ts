@@ -229,6 +229,7 @@ export default {
   S: 's',
   staff: 'Nhân viên',
   support_ticket: 'Phiếu hỗ trợ',
+  support_ticket_list: 'Danh sách phiếu hỗ trợ',
   submit: 'Gửi',
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',

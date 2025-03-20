@@ -228,6 +228,7 @@ export default {
   S: 's',
   staff: 'Staff',
   support_ticket: 'Support ticket',
+  support_ticket_list: 'Support ticket list',
   submit: 'Submit',
   system_error_title: 'System error',
   system_error_description: 'An error occurred while processing your request. Please try again later.',

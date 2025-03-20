@@ -6,12 +6,6 @@
         <a-breadcrumb-item>{{ $t('employee_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <h1 class="mt-3 text-2xl">{{ $t('employee_list') }}</h1>
-    </div>
-    <!-- Page main content -->
-    <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-      <!-- Heading of the  page -->
-      <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
-      <!-- Search bar and buttons -->
       <div class="flex justify-between">
         <!-- p is a place holder, to space out the content -->
         <p class="mt-3 text-white">{{ $t('employee_list') }}</p>
@@ -28,6 +22,13 @@
           </a-button>
         </div>
       </div>
+    </div>
+    <!-- Page main content -->
+    <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+      <!-- Heading of the  page -->
+      <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
+      <!-- Search bar and buttons -->
+      
       <!-- Table -->
       <StaffTable :columns="columns" :data-source="dataSource" :row-selection="rowSelection" />
     </div>

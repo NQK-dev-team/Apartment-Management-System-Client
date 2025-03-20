@@ -216,8 +216,21 @@
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('building') }}</h2>
         </div>
       </div>
-      <div class="flex justify-center">
+      <div class="flex justify-between">
+        <!-- p is a place holder, to space out the content -->
+        <p class="mt-3 text-white">{{ $t('employee_list') }}</p>
         <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
+        <div class="flex">
+          <NuxtLink v-show="option !== 2">
+            <a-button type="primary" class="btn-icon">
+              <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]"/>
+            </a-button>
+          </NuxtLink>
+
+          <a-button v-show="option !== 2" type="primary" danger class="btn-icon ml-2">
+            <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
+          </a-button>
+        </div>
       </div>
       <ClientOnly>
         <CommonStaffContractTable v-show="option === 1"/>

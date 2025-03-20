@@ -9,19 +9,19 @@
       <template v-else-if="column.dataIndex === 'operation'">
         <div>
           <span>
-            <NuxtLink class="detail">Edit</NuxtLink>
+            <NuxtLink class="detail">Edit</NuxtLink> | <NuxtLink class="delete">Delete</NuxtLink>
           </span>
         </div>
       </template>
       <template v-else-if="column.dataIndex === 'state'">
-        <div :class="{
+        <a-tag :class="{
           'text-green-500': text === 'In Effect',
           'text-red-500': text === 'End Effect',
           'text-gray-500': text === 'Cancel',
           'text-orange-500': text === 'Not in Effect'
         }">
           {{ text }}
-        </div>
+        </a-tag>
       </template>
     </template>
   </a-table>
@@ -196,11 +196,19 @@ const rowSelection = ref({
 </script>
 
 <style scoped>
-.detail {
+.detail{
   color: deepskyblue !important;
+}
+.delete{
+  color: red !important;
 }
 .detail:hover {
   cursor: pointer;
   color: #B9EDFE !important;
+}
+
+.delete:hover {
+  cursor: pointer;
+  color: #E19495 !important;
 }
 </style>

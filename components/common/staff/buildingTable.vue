@@ -21,6 +21,8 @@
 import { ref } from 'vue';
 import { NuxtLink } from '#components';
 import type { TableProps } from 'ant-design-vue';
+import { computed } from 'vue';
+const { t } = useI18n();
 
 interface DataItem {
   key: string;
@@ -30,23 +32,23 @@ interface DataItem {
   endDate: string;
 }
 
-const columns: TableProps['columns'] = [
+const columns = computed(() => [
   {
-    title: 'No.',
-    dataIndex: 'no',
+    title: t('no'),
     align: 'center',
+    dataIndex: 'no',
     width: '5%',
   },
   {
-    title: 'Building Managing',
-    dataIndex: 'buildingManaging',
+    title: t('building_managing'),
     align: 'center',
+    dataIndex: 'buildingManaging',
     width: '30%',
   },
   {
-    title: 'Begin date',
-    dataIndex: 'beginDate',
+    title: t('startDate'),
     align: 'center',
+    dataIndex: 'beginDate',
     filters: [
       { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
       { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
@@ -61,9 +63,9 @@ const columns: TableProps['columns'] = [
     width: '25%',
   },
   {
-    title: 'End date',
-    dataIndex: 'endDate',
+    title: t('endDate'),
     align: 'center',
+    dataIndex: 'endDate',
     filters: [
       { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
       { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
@@ -78,12 +80,12 @@ const columns: TableProps['columns'] = [
     width: '25%',
   },
   {
-    title: 'Operation',
-    dataIndex: 'operation',
+    title: t('operation'),
     align: 'center',
+    dataIndex: 'operation',
     width: '10%',
   },
-];
+]);
 
 const data: DataItem[] = [];
 const buildings = ['A1', 'A2', 'A3'];

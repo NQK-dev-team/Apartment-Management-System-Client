@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :data-source="data" :row-selection="rowSelection" bordered class="mt-2">
+  <a-table :columns="columns" :data-source="data" bordered class="mt-2">
     <template #bodyCell="{ column, text }">
       <template v-if="column.dataIndex && column.dataIndex !== 'operation' && column.dataIndex !== 'state'">
         <div>
@@ -31,6 +31,8 @@
 import { ref } from 'vue';
 import { NuxtLink } from '#components';
 import type { TableProps } from 'ant-design-vue';
+import { computed } from 'vue';
+const { t } = useI18n();
 
 interface DataItem {
   key: string;
@@ -44,35 +46,35 @@ interface DataItem {
   ownerApproving: string;
 }
 
-const columns: TableProps['columns'] = [
+const columns = computed(() => [
   {
-    title: 'No.',
-    dataIndex: 'no',
+    title: t('no'),
     align: 'center',
+    dataIndex: 'no',
     width: '5%',
   },
   {
-    title: 'Ticket ID',
+    title: t('ticket_id'),
+    align: 'center',
     dataIndex: 'ticketId',
-    align: 'center',
     width: '15%',
   },
   {
-    title: 'Contract ID',
+    title: t('contract_id'),
+    align: 'center',
     dataIndex: 'contractId',
-    align: 'center',
     width: '15%',
   },
   {
-    title: 'Customer',
+    title: t('customer'),
+    align: 'center',
     dataIndex: 'customer',
-    align: 'center',
-    width: '15%',
+    width: '10%',
   },
   {
-    title: 'Creation date',
-    dataIndex: 'creationDate',
+    title: t('creation_date'),
     align: 'center',
+    dataIndex: 'creationDate',
     filters: [
       { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
       { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
@@ -87,9 +89,9 @@ const columns: TableProps['columns'] = [
     width: '15%',
   },
   {
-    title: 'State',
-    dataIndex: 'state',
+    title: t('status'),
     align: 'center',
+    dataIndex: 'state',
     filters: [
       { text: 'Owner Approved', value: 'Owner Approved' },
       { text: 'Owner Denied', value: 'Owner Denied' },
@@ -97,27 +99,27 @@ const columns: TableProps['columns'] = [
       { text: 'Manager Denied', value: 'Manager Denied' },
     ],
     onFilter: (value, record) => record.state === value,
-    width: '15%',
+    width: '10%',
   },
   {
-    title: 'Manager Approving',
+    title: t('manager_approving'),
+    align: 'center',
     dataIndex: 'managerApproving',
-    align: 'center',
-    width: '15%',
+    width: '10%',
   },
   {
-    title: 'Owner Approving',
+    title: t('owner_approving'),
+    align: 'center',
     dataIndex: 'ownerApproving',
-    align: 'center',
-    width: '15%',
+    width: '10%',
   },
   {
-    title: 'Operation',
-    dataIndex: 'operation',
+    title: t('operation'),
     align: 'center',
-    width: '15%',
+    dataIndex: 'operation',
+    width: '20%',
   },
-];
+]);
 
 const data: DataItem[] = [];
 const customers = ['Customer A', 'Customer B', 'Customer C'];

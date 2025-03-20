@@ -4,7 +4,7 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>{{ $t('employee_list') }}</a-breadcrumb-item>
-        <a-breadcrumb-item>Thông tin nhân viên</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('employee_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div class="flex justify-between items-center">
         <h1 class="mt-3 text-2xl">Nguyễn Văn A</h1>

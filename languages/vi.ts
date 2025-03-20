@@ -54,6 +54,7 @@ export default {
   contract: 'Hợp đồng',
   contract_type: 'Loại hợp đồng',
   contract_price: 'Giá theo hợp đồng',
+  contract_id: 'Mã hợp đồng',
   confirm_new_password: 'Xác nhận mật khẩu mới',
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
   confirm: 'Xác nhận',
@@ -63,6 +64,7 @@ export default {
   confirm_deletion_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
   confirm_deletion_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận xóa',
   clear: 'Xóa',
+  creation_date: 'Ngày tạo',
 
   D: 'd',
   delete: 'Xóa',
@@ -121,6 +123,7 @@ export default {
   edit_building_success_title: 'Thông tin tòa nhà đã được chỉnh sửa thành công',
   edit_building_success_note:
     'Bạn có thể quay lại trang thông tin chi tiết của tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
+  employee_info: 'Thông tin nhân viên',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -146,6 +149,7 @@ export default {
   invalid_password: 'Mật khẩu không hợp lệ!',
   image: 'Hình ảnh',
   images: 'Hình ảnh',
+  info: 'Thông tin',
 
   J: 'j',
 
@@ -161,6 +165,7 @@ export default {
   maintenance: 'Bảo trì',
   management_schedule: 'Lịch quản lý',
   middle_name: 'Tên đệm',
+  manager_approving: 'Quản lý duyệt',
 
   N: 'n',
   notice: 'Thông báo',
@@ -185,6 +190,7 @@ export default {
   owner: 'Chủ tòa nhà',
   origin: 'Quê quán',
   owner_id: 'Mã chủ tòa nhà',
+  owner_approving: 'Chủ duyệt',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -241,6 +247,7 @@ export default {
   success: 'Thành công',
   select_a_floor: 'Hãy chọn tầng',
   startDate: 'Ngày bắt đầu',
+  signDate: 'Ngày ký',
   search_by_employee_no: 'Tìm kiếm theo mã nhân viên',
   start_date_large_end_date: 'Lịch quản lý số {no}: Ngày bắt đầu phải nhỏ hơn ngày kết thúc!',
 
@@ -248,6 +255,7 @@ export default {
   total: 'Tổng',
   total_room: 'Tổng số phòng',
   total_floor: 'Tổng số tầng',
+  ticket_id: 'Mã phiếu hỗ trợ',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

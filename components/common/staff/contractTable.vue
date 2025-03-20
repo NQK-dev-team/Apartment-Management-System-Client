@@ -31,6 +31,8 @@
 import { ref } from 'vue';
 import { NuxtLink } from '#components';
 import type { TableProps } from 'ant-design-vue';
+import { computed } from 'vue';
+const { t } = useI18n();
 
 interface DataItem {
   key: string;
@@ -47,53 +49,53 @@ interface DataItem {
   state: string;
 }
 
-const columns: TableProps['columns'] = [
+const columns = computed(() => [
   {
-    title: 'No.',
-    dataIndex: 'no',
+    title: t('no'),
     align: 'center',
+    dataIndex: 'no',
     width: '5%',
   },
   {
-    title: 'Nameholder',
+    title: t('name'),
+    align: 'center',
     dataIndex: 'nameholder',
-    align: 'center',
     width: '15%',
   },
   {
-    title: 'Customer Id',
+    title: t('customer_id'),
+    align: 'center',
     dataIndex: 'customerId',
-    align: 'center',
     width: '15%',
   },
   {
-    title: 'Gender',
+    title: t('gender'),
+    align: 'center',
     dataIndex: 'gender',
-    align: 'center',
     width: '10%',
   },
   {
-    title: 'Phone',
+    title: t('phone'),
+    align: 'center',
     dataIndex: 'phone',
-    align: 'center',
     width: '10%',
   },
   {
-    title: 'National ID',
+    title: t('national_id'),
+    align: 'center',
     dataIndex: 'nationalId',
-    align: 'center',
     width: '10%',
   },
   {
-    title: 'Contract number',
-    dataIndex: 'contractNumber',
+    title: t('contract_id'),
     align: 'center',
+    dataIndex: 'contractNumber',
     width: '15%',
   },
   {
-    title: 'Start date',
-    dataIndex: 'startDate',
+    title: t('startDate'),
     align: 'center',
+    dataIndex: 'startDate',
     filters: [
       { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
       { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
@@ -108,9 +110,9 @@ const columns: TableProps['columns'] = [
     width: '15%',
   },
   {
-    title: 'End date',
-    dataIndex: 'endDate',
+    title: t('endDate'),
     align: 'center',
+    dataIndex: 'endDate',
     filters: [
       { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
       { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
@@ -125,15 +127,15 @@ const columns: TableProps['columns'] = [
     width: '15%',
   },
   {
-    title: 'Sign date',
-    dataIndex: 'signDate',
+    title: t('signDate'),
     align: 'center',
+    dataIndex: 'signDate',
     width: '15%',
   },
   {
-    title: 'State',
-    dataIndex: 'state',
+    title: t('status'),
     align: 'center',
+    dataIndex: 'state',
     filters: [
       { text: 'In Effect', value: 'In Effect' },
       { text: 'End Effect', value: 'End Effect' },
@@ -145,12 +147,12 @@ const columns: TableProps['columns'] = [
     width: '15%',
   },
   {
-    title: 'Operation',
-    dataIndex: 'operation',
+    title: t('operation'),
     align: 'center',
+    dataIndex: 'operation',
     width: '10%',
   },
-];
+]);
 
 const data: DataItem[] = [];
 const genders = ['Male', 'Female'];

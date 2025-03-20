@@ -54,6 +54,7 @@ export default {
   contract: 'Contract',
   contract_type: 'Contract type',
   contract_price: 'Contract price',
+  contract_id: 'Contract ID',
   confirm_new_password: 'Confirm new password',
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
@@ -63,6 +64,7 @@ export default {
   confirm_deletion_content: 'Are you sure you want to delete the selected item(s)?',
   confirm_deletion_with_password: 'Please enter your password to confirm deletion',
   clear: 'Clear',
+  creation_date: 'Creation date',
 
   D: 'd',
   delete: 'Delete',
@@ -120,6 +122,7 @@ export default {
   edit_building: 'Edit building',
   edit_building_success_title: 'Building information has been updated successfully',
   edit_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
+  employee_info: 'Employee information',
 
   F: 'f',
   finish_import: 'Import',
@@ -145,6 +148,7 @@ export default {
   invalid_password: 'Invalid password!',
   image: 'Image',
   images: 'Image(s)',
+  info: 'Information',
 
   J: 'j',
 
@@ -160,6 +164,7 @@ export default {
   maintenance: 'Maintenance',
   management_schedule: 'Management schedule',
   middle_name: 'Middle name',
+  manager_approving: 'Manager approving',
 
   N: 'n',
   notice: 'Notice',
@@ -184,6 +189,7 @@ export default {
   owner: 'Owner',
   origin: 'Origin',
   owner_id: 'Owner ID',
+  owner_approving: 'Owner approving',
 
   P: 'p',
   payer: 'Payer',
@@ -240,6 +246,7 @@ export default {
   success: 'Success',
   select_a_floor: 'Please select a floor',
   startDate: 'Start date',
+  signDate: 'Sign date',
   search_by_employee_no: 'Search by employee number',
   start_date_large_end_date: 'Management schedule {no}: Start date must be less than end date!',
 
@@ -247,6 +254,7 @@ export default {
   total: 'Total',
   total_room: 'Total room',
   total_floor: 'Total floor',
+  ticket_id: 'Ticket ID',
 
   U: 'u',
   upload_file: 'Upload file',

@@ -65,6 +65,8 @@ export default {
   confirm_deletion_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận xóa',
   clear: 'Xóa',
   creation_date: 'Ngày tạo',
+  confirm_update: 'Xác nhận chỉnh sửa',
+  confirm_update_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận chỉnh sửa',
 
   D: 'd',
   delete: 'Xóa',
@@ -106,7 +108,6 @@ export default {
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
-  employee_id: 'Employee id',
   employee_name: 'Tên nhân viên',
   employee_number: 'Mã nhân viên',
   endDate: 'Ngày kết thúc',
@@ -263,6 +264,7 @@ export default {
   user_not_found: 'Người dùng không tồn tại!',
   unpaidRooms: 'Số phòng chưa thanh toán',
   unavailable: 'Không khả dụng',
+  update_building_confirm:'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
 
   V: 'v',
 

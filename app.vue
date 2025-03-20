@@ -33,10 +33,25 @@
         <p>{{ $t('delete_modal_content') }}</p>
       </a-modal>
       <a-modal
-        v-model:open="confirmPasswordModal"
-        ok-type="danger"
+        v-model:open="updateConfirmModal"
         :ok-text="$t('confirm')"
-        :title="$t('confirm_deletion_with_password')"
+        :title="$t('confirm_update')"
+        @ok="
+          () => {
+            updateConfirmModal = false;
+            confirmPasswordModal = true;
+            passwordDeleteConfirmFormRef?.clearValidate();
+            passwordDeletionfForm.confirmPasswordForDeletion = '';
+          }
+        "
+      >
+        <p>{{ updateModalContent }}</p>
+      </a-modal>
+      <a-modal
+        v-model:open="confirmPasswordModal"
+        :ok-type="isDeleteModalOpen ? 'danger' : 'primary'"
+        :ok-text="$t('confirm')"
+        :title="$t(isDeleteModalOpen ? 'confirm_deletion_with_password' : 'confirm_update_with_password')"
         @ok="verifyPassword"
       >
         <a-form ref="passwordDeleteConfirmFormRef" :model="passwordDeletionfForm" layout="vertical">
@@ -82,6 +97,8 @@ const darkModeException = Object.values(pageRoutes.authentication);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const updateModalContent = ref<string>('');
+const updateConfirmModal = ref<boolean>(false);
 const deleteConfirmModal = ref<boolean>(false);
 const confirmPasswordModal = ref<boolean>(false);
 const callbackDeleteFunction = ref<() => void>(() => {});
@@ -89,6 +106,7 @@ const passwordDeletionfForm = ref({
   confirmPasswordForDeletion: '',
 });
 const passwordDeleteConfirmFormRef = ref<FormInstance>();
+const isDeleteModalOpen = ref<boolean>(false);
 
 notification.config({
   placement: 'topRight',
@@ -150,6 +168,15 @@ $event.on('toggleTheme', (e: any) => {
 $event.on('deleteItem', (e: any) => {
   deleteConfirmModal.value = true;
   callbackDeleteFunction.value = e.callback;
+  isDeleteModalOpen.value = true;
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+$event.on('updateItem', (e: any) => {
+  updateConfirmModal.value = true;
+  callbackDeleteFunction.value = e.callback;
+  updateModalContent.value = t(e.updateModalContent);
+  isDeleteModalOpen.value = false;
 });
 
 $event.on('deleteItemSuccess', () => {

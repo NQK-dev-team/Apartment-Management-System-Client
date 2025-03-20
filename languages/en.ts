@@ -65,6 +65,8 @@ export default {
   confirm_deletion_with_password: 'Please enter your password to confirm deletion',
   clear: 'Clear',
   creation_date: 'Creation date',
+  confirm_update: 'Confirm update',
+  confirm_update_with_password: 'Please enter your password to confirm update',
 
   D: 'd',
   delete: 'Delete',
@@ -106,7 +108,6 @@ export default {
   empty_service_price: 'Service {no} price cannot be empty!',
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
-  employee_id: 'Employee id',
   employee_name: 'Employee name',
   employee_number: 'Employee number',
   endDate: 'End date',
@@ -262,6 +263,7 @@ export default {
   user_not_found: 'User not found!',
   unpaidRooms: 'Number of unpaid rooms',
   unavailable: 'Unavailable',
+  update_building_confirm: 'Are you sure you want to update this building information?',
 
   V: 'v',
 

@@ -357,7 +357,8 @@
                 highestStep = step;
               }
               if (step === 4) {
-                updateBuilding();
+                step--;
+                $event.emit('updateItem', { callback: updateBuilding, updateModalContent: 'update_building_confirm' });
               }
             }
           "
@@ -571,6 +572,7 @@ async function updateBuilding() {
     $event.emit('loading');
     await api.common.building.updateBuilding(buildingID, buildingInfo.value.data, floors.value.length);
     editSuccess.value = true;
+    step.value++;
   } catch (err: any) {
     step.value--;
     if (
@@ -619,20 +621,22 @@ onMounted(async () => {
         isNew: false,
       };
     });
-    buildingInfo.value.data.rooms = buildingInforResponse.data.rooms.map((room) => {
-      return {
-        ...room,
-        images: room.images.map((image) => {
-          return {
-            ...image,
-            isDeleted: false,
-            isNew: false,
-          };
-        }),
-        isDeleted: false,
-        isNew: false,
-      };
-    }).sort((a, b) => a.no - b.no);
+    buildingInfo.value.data.rooms = buildingInforResponse.data.rooms
+      .map((room) => {
+        return {
+          ...room,
+          images: room.images.map((image) => {
+            return {
+              ...image,
+              isDeleted: false,
+              isNew: false,
+            };
+          }),
+          isDeleted: false,
+          isNew: false,
+        };
+      })
+      .sort((a, b) => a.no - b.no);
     buildingInfo.value.data.services = buildingInforResponse.data.services.map((service) => {
       return {
         ...service,

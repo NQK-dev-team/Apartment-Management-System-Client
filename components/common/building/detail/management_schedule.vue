@@ -36,11 +36,6 @@
       />
       <SearchOutlined v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
     </template>
-    <template #bodyCell="{ value, column }">
-      <template v-if="column.key === 'price'">
-        {{ formatPrice(value) }}
-      </template>
-    </template>
   </a-table>
 </template>
 

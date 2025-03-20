@@ -9,7 +9,7 @@
       <template v-else-if="column.dataIndex === 'operation'">
         <div>
           <span>
-            <AlignLeftOutlined class="detail"/>
+            <AlignLeftOutlined id="support-ticket-detail-icon" class="detail" @click="showModal"/>
             <CheckCircleOutlined class="approve ms-2"/>
             <CloseCircleOutlined class="deny ms-2"/>
           </span>
@@ -25,6 +25,7 @@
       </template>
     </template>
   </a-table>
+  <supportTicketDetail v-model:open="modalOpen" />
 </template>
 
 <script lang="ts" setup>
@@ -32,6 +33,8 @@ import { ref } from 'vue';
 import { NuxtLink } from '#components';
 import type { TableProps } from 'ant-design-vue';
 import { computed } from 'vue';
+import { AlignLeftOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons-vue';
+import supportTicketDetail from '@/components/modal/supportTicketDetail.vue';
 const { t } = useI18n();
 
 interface DataItem {
@@ -205,6 +208,11 @@ const rowSelection = ref({
     console.log(selected, selectedRows, changeRows);
   },
 });
+const modalOpen = ref(false);
+
+const showModal = () => {
+  modalOpen.value = true;
+};
 
 </script>
 

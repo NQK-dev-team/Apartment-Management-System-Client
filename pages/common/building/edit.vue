@@ -495,27 +495,27 @@ function checkStep1(): boolean {
     });
     return false;
   }
-  if (finalSchedules.find((schedule) => !schedule.start_date) !== undefined) {
+  if (finalSchedules.find((schedule) => !schedule.startDate) !== undefined) {
     notification.error({
       message: t('empty_start_date_schedule', {
         no:
           buildingInfo.value.data.schedules
             .filter((schedule) => !schedule.isDeleted)
-            .findIndex((schedule) => !schedule.start_date) + 1,
+            .findIndex((schedule) => !schedule.startDate) + 1,
       }),
     });
     return false;
   }
   if (
     finalSchedules.find(
-      (schedule) => schedule.end_date && schedule.start_date.toDate() > (schedule.end_date as Dayjs).toDate()
+      (schedule) => schedule.endDate && schedule.startDate.toDate() > (schedule.endDate as Dayjs).toDate()
     ) !== undefined
   ) {
     notification.error({
       message: t('start_date_large_end_date', {
         no:
           finalSchedules.findIndex(
-            (schedule) => schedule.end_date && schedule.start_date.toDate() > (schedule.end_date as Dayjs).toDate()
+            (schedule) => schedule.endDate && schedule.startDate.toDate() > (schedule.endDate as Dayjs).toDate()
           ) + 1,
       }),
     });
@@ -569,7 +569,7 @@ function checkStep2(): boolean {
 async function updateBuilding() {
   try {
     $event.emit('loading');
-    await api.common.building.updateBuilding(buildingID, buildingInfo.value.data);
+    await api.common.building.updateBuilding(buildingID, buildingInfo.value.data, floors.value.length);
     editSuccess.value = true;
   } catch (err: any) {
     step.value--;
@@ -632,7 +632,7 @@ onMounted(async () => {
         isDeleted: false,
         isNew: false,
       };
-    });
+    }).sort((a, b) => a.no - b.no);
     buildingInfo.value.data.services = buildingInforResponse.data.services.map((service) => {
       return {
         ...service,
@@ -643,9 +643,9 @@ onMounted(async () => {
     buildingInfo.value.data.schedules = scheduleResponse.data
       .sort(
         (a, b) =>
-          new Date(b.start_date as string).getTime() - new Date(a.start_date as string).getTime() ||
-          new Date((b.end_date as NullTime).Valid ? (b.end_date as NullTime).Time! : '2100-01-01').getTime() -
-            new Date((a.end_date as NullTime).Valid ? (a.end_date as NullTime).Time! : '2100-01-01').getTime()
+          new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
+          new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
+            new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
       )
       .map((schedule) => {
         return {
@@ -657,29 +657,35 @@ onMounted(async () => {
           buildingID: schedule.buildingID,
           managerID: schedule.managerID,
           managerNo: schedule.manager.no,
-          start_date: dayjs(schedule.start_date as string),
-          end_date: (schedule.end_date as NullTime).Valid ? dayjs((schedule.end_date as NullTime).Time as string) : '',
+          startDate: dayjs(schedule.startDate as string),
+          endDate: (schedule.endDate as NullTime).Valid ? dayjs((schedule.endDate as NullTime).Time as string) : '',
           isDeleted: false,
           isNew: false,
         };
       });
     // buildingInfo.value.data.schedules.forEach((schedule) => {
-    //   schedule.start_date = dayjs(schedule.start_date as string);
-    //   schedule.end_date = (schedule.end_date as NullTime).Valid
-    //     ? dayjs((schedule.end_date as NullTime).Time as string)
+    //   schedule.startDate = dayjs(schedule.startDate as string);
+    //   schedule.endDate = (schedule.endDate as NullTime).Valid
+    //     ? dayjs((schedule.endDate as NullTime).Time as string)
     //     : '';
     // });
     originalBuildingInfo.value = JSON.parse(JSON.stringify(buildingInfo.value));
     managers.value = managerListResponse.data;
 
-    if (buildingInforResponse.data.rooms.length) {
-      buildingInforResponse.data.rooms.forEach((room) => {
-        if (!floors.value.find((floor) => floor.value === room.floor)) {
-          floors.value.push({
-            value: room.floor,
-            disable: true,
-          });
-        }
+    // if (buildingInforResponse.data.rooms.length) {
+    //   buildingInforResponse.data.rooms.forEach((room) => {
+    //     if (!floors.value.find((floor) => floor.value === room.floor)) {
+    //       floors.value.push({
+    //         value: room.floor,
+    //         disable: true,
+    //       });
+    //     }
+    //   });
+    // }
+    for (let i = 1; i <= buildingInforResponse.data.totalFloor; i++) {
+      floors.value.push({
+        value: i,
+        disable: true,
       });
     }
   } catch (err: any) {

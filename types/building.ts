@@ -77,8 +77,8 @@ type EditRoom = BasicModel & {
 
 type EditBuildingImage = UploadFile | BuildingImage;
 type EditManagerSchedule = BasicModel & {
-  start_date: Dayjs;
-  end_date: Dayjs | string;
+  startDate: Dayjs;
+  endDate: Dayjs | string;
   managerID: number;
   managerNo: string;
   buildingID: number;

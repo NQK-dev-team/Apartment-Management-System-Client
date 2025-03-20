@@ -107,7 +107,7 @@ export default {
   employee_id: 'Employee id',
   employee_name: 'Tên nhân viên',
   employee_number: 'Mã nhân viên',
-  end_date: 'Ngày kết thúc',
+  endDate: 'Ngày kết thúc',
   edit_service: 'Chỉnh sửa dịch vụ',
   edit_service_success: 'Thông tin dịch vụ đã được chỉnh sửa thành công!',
   enter_employee_no: 'Nhập mã nhân viên',
@@ -240,7 +240,7 @@ export default {
   search: 'Tìm kiếm',
   success: 'Thành công',
   select_a_floor: 'Hãy chọn tầng',
-  start_date: 'Ngày bắt đầu',
+  startDate: 'Ngày bắt đầu',
   search_by_employee_no: 'Tìm kiếm theo mã nhân viên',
   start_date_large_end_date: 'Lịch quản lý số {no}: Ngày bắt đầu phải nhỏ hơn ngày kết thúc!',
 

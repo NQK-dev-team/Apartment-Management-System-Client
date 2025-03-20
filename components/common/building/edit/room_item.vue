@@ -112,10 +112,10 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <CommonBuildingEditRoomImage :room-info="roomInfo" :read-only="props.readOnly" :floor="floor"/>
+        <CommonBuildingEditRoomImage :room-info="roomInfo" :read-only="props.readOnly" :floor="floor" />
       </div>
     </td>
-    <td class="text-sm font-normal text-center align-middle py-[16px]">
+    <td v-if="userRole?.toString() === roles.owner" class="text-sm font-normal text-center align-middle py-[16px]">
       <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
           <p v-if="room.ID <= 0" class="text-red-500">{{ $t('new') }}</p>
@@ -129,8 +129,10 @@
 import type { UploadFile } from 'ant-design-vue';
 import { roomStatusColor } from '~/consts/color';
 import type { RoomImage } from '~/types/building';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1

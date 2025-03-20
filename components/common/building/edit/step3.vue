@@ -39,6 +39,7 @@
         :original-building-info="props.originalBuildingInfo"
         :managers="managers"
         :read-only="true"
+        :step="3"
       />
       <CommonBuildingEditFloorTable :floors="props.floors" :read-only="true" />
       <div class="mt-10">
@@ -70,7 +71,7 @@
                 :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
               >
                 <tr>
-                  <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+                  <th class="text-sm font-normal text-center align-middle py-[16px] w-[150px]">
                     <div
                       class="border-r-[1px] h-[20px]"
                       :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
@@ -119,7 +120,10 @@
                       </div>
                     </div>
                   </th>
-                  <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+                  <th
+                    v-if="userRole?.toString() === roles.owner"
+                    class="text-sm font-normal text-center align-middle py-[16px] w-[75px]"
+                  >
                     <div
                       class="border-r-[1px] h-[20px]"
                       :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
@@ -160,8 +164,10 @@
 import { svgPaths } from '~/consts/svg_paths';
 import type { EditBuilding } from '~/types/building';
 import type { User } from '~/types/user';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1

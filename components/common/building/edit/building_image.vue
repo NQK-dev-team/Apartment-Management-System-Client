@@ -27,7 +27,7 @@
     </div>
     <div class="mt-3 text-center">
       <a-upload
-        v-if="!props.readOnly"
+        v-if="!props.readOnly && userRole?.toString() === roles.owner"
         v-model:file-list="imageList"
         accept=".png,.jpg,.jpeg"
         multiple
@@ -53,7 +53,11 @@
           {{ $t('upload_file') }}
         </a-button>
       </a-upload>
-      <div class="mt-5 text-sm" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
+      <div
+        v-if="!props.readOnly && userRole?.toString() === roles.owner"
+        class="mt-5 text-sm"
+        :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']"
+      >
         {{ $t('recommended_resolution') }}
       </div>
     </div>

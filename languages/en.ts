@@ -107,7 +107,7 @@ export default {
   employee_id: 'Employee id',
   employee_name: 'Employee name',
   employee_number: 'Employee number',
-  end_date: 'End date',
+  endDate: 'End date',
   edit_service: 'Edit service',
   edit_service_success: 'Service information has been updated successfully!',
   enter_employee_no: 'Enter employee number',
@@ -239,7 +239,7 @@ export default {
   search: 'Search',
   success: 'Success',
   select_a_floor: 'Please select a floor',
-  start_date: 'Start date',
+  startDate: 'Start date',
   search_by_employee_no: 'Search by employee number',
   start_date_large_end_date: 'Management schedule {no}: Start date must be less than end date!',
 

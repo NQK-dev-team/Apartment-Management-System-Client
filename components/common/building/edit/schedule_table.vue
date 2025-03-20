@@ -10,9 +10,9 @@
               current = 1;
               const originalSchedules = JSON.parse(JSON.stringify(originalBuildingInfo.data.schedules));
               originalSchedules.forEach((schedule: any) => {
-                schedule.start_date = dayjs(schedule.start_date as string);
-                schedule.end_date = (schedule.end_date as NullTime).Valid
-                  ? dayjs((schedule.end_date as NullTime).Time as string)
+                schedule.startDate = dayjs(schedule.startDate as string);
+                schedule.endDate = (schedule.endDate as NullTime).Valid
+                  ? dayjs((schedule.endDate as NullTime).Time as string)
                   : '';
               });
               buildingInfo.data.schedules = originalSchedules;
@@ -47,8 +47,8 @@
                   updatedBy: 0,
                   buildingID: buildingID,
                   managerID: 0,
-                  start_date: '',
-                  end_date: '',
+                  startDate: '',
+                  endDate: '',
                   isDeleted: false,
                   isNew: true,
                 } as unknown as EditManagerSchedule,
@@ -67,7 +67,10 @@
           :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
         >
           <tr>
-            <th v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
+            <th
+              v-if="!props.readOnly && userRole?.toString() === roles.owner"
+              class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]"
+            >
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 <a-checkbox
                   id="check_all_schedules_1"
@@ -107,7 +110,7 @@
                 class="border-r-[1px] h-[20px] flex items-center justify-center"
                 :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
               >
-                {{ $t('start_date') }}
+                {{ $t('startDate') }}
                 <div class="flex items-center">
                   <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                 </div>
@@ -118,10 +121,13 @@
                 class="border-r-[1px] h-[20px] flex items-center justify-center"
                 :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
               >
-                {{ $t('end_date') }}
+                {{ $t('endDate') }}
               </div>
             </th>
-            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+            <th
+              v-if="userRole?.toString() === roles.owner"
+              class="text-sm font-normal text-center align-middle py-[16px] w-[75px]"
+            >
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 {{ $t('note') }}
               </div>
@@ -136,8 +142,9 @@
             :index="index"
             :schedule-delete-bucket="scheduleDeleteBucket"
             :managers="props.managers"
-            :read-only="props.readOnly"
+            :read-only="props.readOnly || userRole?.toString() !== roles.owner"
             :schedule="schedule as any"
+            :step="props.step"
           />
         </tbody>
       </table>
@@ -190,6 +197,10 @@ const props = defineProps({
   readOnly: {
     type: Boolean,
     default: false,
+  },
+  step: {
+    type: Number,
+    required: true,
   },
 });
 const buildingInfo = toRef(props, 'buildingInfo');

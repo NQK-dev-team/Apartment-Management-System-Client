@@ -103,18 +103,6 @@ const common = {
         method: 'GET',
       });
     },
-    getRoomList: async (buildingId: number): Promise<APIResponse<Room[]>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.room(buildingId), {
-        method: 'GET',
-      });
-    },
-    getServiceList: async (buildingId: number): Promise<APIResponse<Service[]>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.service(buildingId), {
-        method: 'GET',
-      });
-    },
     addNewBuilding: async (building: NewBuildingInfo): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
       const formData = new FormData();
@@ -174,87 +162,20 @@ const common = {
         method: 'GET',
       });
     },
-    deleteRooms: async (buildingId: number, IDs: number[]): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.deleteRooms(buildingId), {
-        method: 'POST',
-        body: {
-          IDs,
-        },
-      });
-    },
-    deleteServices: async (buildingId: number, IDs: number[]): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.deleteServices(buildingId), {
-        method: 'POST',
-        body: {
-          IDs,
-        },
-      });
-    },
-    addService: async (buildingId: number, service: { name: string; price: number }): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.addService(buildingId), {
-        method: 'POST',
-        body: {
-          name: service.name,
-          price: service.price,
-        },
-      });
-    },
-    editService: async (
-      buildingId: number,
-      service: { ID: number; name: string; price: number }
-    ): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.building.editService(buildingId, service.ID), {
-        method: 'POST',
-        body: {
-          name: service.name,
-          price: service.price,
-        },
-      });
-    },
-    addRoom: async (
-      buildingId: number,
-      room: {
-        floor: number;
-        no: number;
-        status: number;
-        area: number | string;
-        description: string;
-        images: UploadFile[];
-      }
-    ): Promise<APIResponse<null>> => {
-      const $api = getApiInstance();
-      const formData = new FormData();
-      formData.append('floor', room.floor.toString());
-      formData.append('no', room.no.toString());
-      formData.append('status', room.status.toString());
-      formData.append('area', room.area.toString());
-      formData.append('description', room.description);
-      room.images.forEach((image) => {
-        formData.append('images[]', image.originFileObj as File);
-      });
-
-      return $api(apiRoutes.building.addRoom(buildingId), {
-        method: 'POST',
-        body: formData,
-      });
-    },
     getSchedule(buildingID: number): Promise<APIResponse<ManagerSchedule[]>> {
       const $api = getApiInstance();
       return $api(apiRoutes.building.getSchedule(buildingID), {
         method: 'GET',
       });
     },
-    updateBuilding(buildingID: number, data: EditBuilding): Promise<APIResponse<null>> {
+    updateBuilding(buildingID: number, data: EditBuilding, totalFloor: number): Promise<APIResponse<null>> {
       const $api = getApiInstance();
       const formData = new FormData();
 
-      formData.append('ID', buildingID.toString());
+      formData.append('id', buildingID.toString());
       formData.append('name', data.name);
       formData.append('address', data.address);
+      formData.append('totalFloor', totalFloor.toString());
       data.images.forEach((image) => {
         if (image.isDeleted) {
           formData.append('deletedBuildingImages[]', (image as BuildingImage).ID.toString());
@@ -270,16 +191,16 @@ const common = {
             'newServices[]',
             JSON.stringify({
               name: service.name,
-              price: service.price,
+              price: Number(service.price),
             })
           );
         } else {
           formData.append(
             'services[]',
             JSON.stringify({
-              ID: service.ID,
+              id: service.ID,
               name: service.name,
-              price: service.price,
+              price: Number(service.price),
             })
           );
         }
@@ -292,18 +213,18 @@ const common = {
             'newSchedules[]',
             JSON.stringify({
               managerID: schedule.managerID,
-              startDate: convertToDate(schedule.start_date.toDate().toISOString()),
-              endDate: schedule.end_date ? convertToDate((schedule.end_date as Dayjs).toDate().toISOString()) : null,
+              startDate: convertToDate(schedule.startDate.toDate().toISOString()),
+              endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
             })
           );
         } else {
           formData.append(
             'schedules[]',
             JSON.stringify({
-              ID: schedule.ID,
+              id: schedule.ID,
               managerID: schedule.managerID,
-              startDate: convertToDate(schedule.start_date.toDate().toISOString()),
-              endDate: schedule.end_date ? convertToDate((schedule.end_date as Dayjs).toDate().toISOString()) : null,
+              startDate: convertToDate(schedule.startDate.toDate().toISOString()),
+              endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
             })
           );
         }
@@ -318,7 +239,7 @@ const common = {
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: room.area,
+              area: Number(room.area),
               description: room.description,
             })
           );
@@ -331,17 +252,17 @@ const common = {
           formData.append(
             'rooms[]',
             JSON.stringify({
-              ID: room.ID,
+              id: room.ID,
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: room.area,
+              area: Number(room.area),
               description: room.description,
             })
           );
           room.images.forEach((image) => {
             if (image.isDeleted) {
-              formData.append('deleteRoomImages[]', (image as RoomImage).ID.toString());
+              formData.append('deletedRoomImages[]', (image as RoomImage).ID.toString());
             } else if (image.isNew) {
               formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
             }

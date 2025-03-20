@@ -65,6 +65,8 @@ export default {
   confirm_deletion_with_password: 'Please enter your password to confirm deletion',
   clear: 'Clear',
   creation_date: 'Creation date',
+  customer_responsible: 'Customer responsible',
+  content: 'Content',
 
   D: 'd',
   delete: 'Delete',
@@ -74,6 +76,7 @@ export default {
   delete_success_content: 'The selected item(s) has been deleted from the system!',
   detail: 'Detail',
   dob: 'Date of birth',
+  decision_date: 'Decision date',
 
   E: 'e',
   edit: 'Edit',
@@ -165,6 +168,7 @@ export default {
   management_schedule: 'Management schedule',
   middle_name: 'Middle name',
   manager_approving: 'Manager approving',
+  manager_decision: 'Manager decision',
 
   N: 'n',
   notice: 'Notice',
@@ -190,6 +194,7 @@ export default {
   origin: 'Origin',
   owner_id: 'Owner ID',
   owner_approving: 'Owner approving',
+  owner_decision: 'Owner decision',
 
   P: 'p',
   payer: 'Payer',
@@ -229,6 +234,7 @@ export default {
   staff: 'Staff',
   support_ticket: 'Support ticket',
   support_ticket_list: 'Support ticket list',
+  support_ticket_detail: 'Support ticket detail',
   submit: 'Submit',
   system_error_title: 'System error',
   system_error_description: 'An error occurred while processing your request. Please try again later.',
@@ -256,6 +262,8 @@ export default {
   total_room: 'Total room',
   total_floor: 'Total floor',
   ticket_id: 'Ticket ID',
+  ticket_creation_date: 'Ticket creation date',
+  title: 'Title',
 
   U: 'u',
   upload_file: 'Upload file',

@@ -65,6 +65,8 @@ export default {
   confirm_deletion_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận xóa',
   clear: 'Xóa',
   creation_date: 'Ngày tạo',
+  customer_responsible: 'Khách hàng chịu trách nhiệm',
+  content: 'Nội dung',
 
   D: 'd',
   delete: 'Xóa',
@@ -74,6 +76,7 @@ export default {
   delete_success_content: '(Các) Mục được chọn đã được xóa khỏi hệ thống!',
   detail: 'Chi tiết',
   dob: 'Ngày sinh',
+  decision_date: 'Ngày quyết định',
 
   E: 'e',
   edit: 'Chỉnh sửa',
@@ -166,6 +169,7 @@ export default {
   management_schedule: 'Lịch quản lý',
   middle_name: 'Tên đệm',
   manager_approving: 'Quản lý duyệt',
+  manager_decision: 'Quyết định của quản lý',
 
   N: 'n',
   notice: 'Thông báo',
@@ -191,6 +195,7 @@ export default {
   origin: 'Quê quán',
   owner_id: 'Mã chủ tòa nhà',
   owner_approving: 'Chủ duyệt',
+  owner_decision: 'Quyết định của chủ sở hữu',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -230,6 +235,7 @@ export default {
   staff: 'Nhân viên',
   support_ticket: 'Phiếu hỗ trợ',
   support_ticket_list: 'Danh sách phiếu hỗ trợ',
+  support_ticket_detail: 'Chi tiết phiếu hỗ trợ',
   submit: 'Gửi',
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',
@@ -257,6 +263,8 @@ export default {
   total_room: 'Tổng số phòng',
   total_floor: 'Tổng số tầng',
   ticket_id: 'Mã phiếu hỗ trợ',
+  ticket_creation_date: 'Ngày tạo phiếu hỗ trợ',
+  title: 'Tiêu đề',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

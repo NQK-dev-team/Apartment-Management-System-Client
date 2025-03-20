@@ -134,6 +134,7 @@ export default {
   floor_number: 'Floor number',
   floor: 'Floor {name}',
   front_face: 'front face',
+  female: 'Female',
 
   G: 'g',
   gender: 'Gender',
@@ -166,6 +167,7 @@ export default {
   management_schedule: 'Management schedule',
   middle_name: 'Middle name',
   manager_approving: 'Manager approving',
+  male: 'Male',
 
   N: 'n',
   notice: 'Notice',
@@ -191,6 +193,7 @@ export default {
   origin: 'Origin',
   owner_id: 'Owner ID',
   owner_approving: 'Owner approving',
+  other: 'Other',
 
   P: 'p',
   payer: 'Payer',

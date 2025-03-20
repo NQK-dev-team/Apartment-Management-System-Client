@@ -135,6 +135,7 @@ export default {
   floor_number: 'Số tầng',
   floor: 'Tầng {name}',
   front_face: 'mặt trước',
+  female: 'Nữ',
 
   G: 'g',
   gender: 'Giới tính',
@@ -167,6 +168,7 @@ export default {
   management_schedule: 'Lịch quản lý',
   middle_name: 'Tên đệm',
   manager_approving: 'Quản lý duyệt',
+  male: 'Nam',
 
   N: 'n',
   notice: 'Thông báo',
@@ -192,6 +194,7 @@ export default {
   origin: 'Quê quán',
   owner_id: 'Mã chủ tòa nhà',
   owner_approving: 'Chủ duyệt',
+  other: 'Khác',
 
   P: 'p',
   payer: 'Người thanh toán',

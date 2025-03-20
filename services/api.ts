@@ -285,6 +285,15 @@ const common = {
         method: 'GET',
       });
     },
+    deleteMany: async (staffIds: number[]): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.deleteMany, {
+        method: 'POST',
+        body: {
+          IDs: staffIds,
+        },
+      });
+    },
   },
   customer: {},
   bill: {

@@ -67,6 +67,8 @@ export default {
   creation_date: 'Ngày tạo',
   customer_responsible: 'Khách hàng chịu trách nhiệm',
   content: 'Nội dung',
+  confirm_update: 'Xác nhận chỉnh sửa',
+  confirm_update_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận chỉnh sửa',
 
   D: 'd',
   delete: 'Xóa',
@@ -109,7 +111,6 @@ export default {
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
-  employee_id: 'Employee id',
   employee_name: 'Tên nhân viên',
   employee_number: 'Mã nhân viên',
   endDate: 'Ngày kết thúc',
@@ -137,6 +138,7 @@ export default {
   floor_number: 'Số tầng',
   floor: 'Tầng {name}',
   front_face: 'mặt trước',
+  female: 'Nữ',
 
   G: 'g',
   gender: 'Giới tính',
@@ -170,6 +172,7 @@ export default {
   middle_name: 'Tên đệm',
   manager_approving: 'Quản lý duyệt',
   manager_decision: 'Quyết định của quản lý',
+  male: 'Nam',
 
   N: 'n',
   notice: 'Thông báo',
@@ -196,6 +199,7 @@ export default {
   owner_id: 'Mã chủ tòa nhà',
   owner_approving: 'Chủ duyệt',
   owner_decision: 'Quyết định của chủ sở hữu',
+  other: 'Khác',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -271,6 +275,7 @@ export default {
   user_not_found: 'Người dùng không tồn tại!',
   unpaidRooms: 'Số phòng chưa thanh toán',
   unavailable: 'Không khả dụng',
+  update_building_confirm:'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
 
   V: 'v',
 

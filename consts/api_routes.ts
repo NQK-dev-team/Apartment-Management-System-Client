@@ -25,6 +25,7 @@ const apiRoutes = {
     list: '/staff',
     detail: (staffId: number) => `/staff/${staffId}`,
     add: '/staff',
+    deleteMany: '/staff/delete-many',
   },
   customer: {
     list: '/customer',

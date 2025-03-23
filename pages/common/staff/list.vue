@@ -7,30 +7,65 @@
       </a-breadcrumb>
       <h1 class="mt-3 text-2xl">{{ $t('employee_list') }}</h1>
       <div class="flex justify-between">
-        <!-- p is a place holder, to space out the content -->
-        <p class="mt-3 text-white">{{ $t('employee_list') }}</p>
-        <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
+        <div></div>
+        <a-input-search
+          v-model:value="searchValue"
+          class="w-[500px]"
+          :placeholder="$t('enter_search')"
+          enter-button
+          @search="searchEmployee"
+        />
         <div class="flex">
-          <NuxtLink :to="pageRoutes.common.staff.add">
-            <a-button type="primary" class="btn-icon">
-              <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]"/>
-            </a-button>
-          </NuxtLink>
-
-          <a-button type="primary" danger class="btn-icon ml-2">
+          <a-button
+            type="primary"
+            danger
+            :disabled="!deleteBucket.length"
+            class="rounded-sm me-2"
+            @click="
+              () => {
+                $event.emit('deleteItem', { callback: deleteEmployee });
+              }
+            "
+          >
             <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
           </a-button>
+          <NuxtLink :to="pageRoutes.common.staff.add">
+            <a-button type="primary" class="rounded-sm">
+              <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]" />
+            </a-button>
+          </NuxtLink>
         </div>
       </div>
     </div>
     <!-- Page main content -->
-    <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-      <!-- Heading of the  page -->
-      <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
-      <!-- Search bar and buttons -->
-      
+    <div
+      class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
+      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+    >
       <!-- Table -->
-      <StaffTable :columns="columns" :data-source="dataSource" :row-selection="rowSelection" />
+      <a-table
+        :columns="columns"
+        :data-source="dataSource"
+        :row-selection="{
+          selectedRowKeys: deleteBucket,
+          onChange: (selectedRowKeys: number[]) => {
+            deleteBucket = selectedRowKeys;
+          },
+        }"
+        bordered
+        class="mt-2"
+      >
+        <template #bodyCell="{ value, column }">
+          <template v-if="column.key === 'action'">
+            <NuxtLink
+              :to="pageRoutes.common.staff.detail(value)"
+              class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+            >
+              {{ $t('detail') }}
+            </NuxtLink>
+          </template>
+        </template>
+      </a-table>
     </div>
   </div>
 </template>
@@ -38,23 +73,22 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { reactive, ref } from 'vue';
-import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
-import { PlusOutlined } from '#build/components';
-import StaffTable from '@/components/common/staff/StaffTable.vue';
 import { pageRoutes } from '~/consts/page_routes';
-import { NuxtLink } from '#components';
+import type { User } from '~/types/user';
+import { getUserGender, getUserName } from '~/utils/user';
+import { convertToDate } from '~/utils/formatter';
+import { removeDiacritics } from '~/utils/diacritics';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Staff List',
+  name: 'Staff list',
   layout: 'main',
-  middleware: ['authorization-manager'],
+  middleware: ['authorization-owner'],
 });
 
 useHead({
-  title: 'Staff List',
+  title: 'Staff list',
   meta: [
     {
       name: 'description',
@@ -64,179 +98,168 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
-// const buildingList = ref<{
-//   name: string;
-//   address: string;
-//   totalRoom: number;
-//   totalFloor: number;
-//   image: string;
-// }[]>([]);
-// const { $event } = useNuxtApp();
-
-//use this to get the translation
+// Use this to get the translation
 const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-// const current = ref(1);
+const { $event } = useNuxtApp();
 const searchValue = ref('');
-
+const userList = ref<User[]>([]);
 const columns = computed(() => [
-    {
-      title: t('no'),
-      align: 'center',
-      dataIndex: 'no',
-      width: '1%',
-    },
-    {
-      title: t('name'),
-      align: 'center',
-      dataIndex: 'name',
-      width: '12%',
-    },
-    {
-      title: t('employee_id'),
-      align: 'center',
-      dataIndex: 'employeeId',
-      width: '12%',
-    },
-    {
-      title: t('gender'),
-      align: 'center',
-      dataIndex: 'gender',
-      width: '5%',
-    },
-    {
-      title: t('dob'),
-      align: 'center',
-      dataIndex: 'dob',
-      width: '8%',
-    },
-    {
-      title: t('ssn'),
-      align: 'center',
-      dataIndex: 'nationalId',
-      width: '10%',
-    },
-    {
-      title: t('phone'),
-      align: 'center',
-      dataIndex: 'phoneNumber',
-      width: '10%',
-    },
-    {
-      title: t('email'),
-      align: 'center',
-      dataIndex: 'contactMail',
-      width: '15%',
-    },
-    {
-      title: t('building_managing'),
-      align: 'center',
-      dataIndex: 'buildingManaging',
-      width: '10%',
-    },
-    {
-      title: t('action'),
-      align: 'center',
-      dataIndex: 'operation',
-    },
-  ]);
-
-interface DataItem {
-  key: string;
-  no: number;
-  name: string;
-  employeeId: string;
-  gender: string;
-  dob: string;
-  nationalId: string;
-  phoneNumber: string;
-  contactMail: string;
-  buildingManaging: string;
-}
-
-const data: DataItem[] = [];
-const genders = ['Male', 'Female'];
-const buildings = ['A1', 'B1', 'C1'];
-
-function getRandomBuildings() {
-  const shuffled = buildings.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, Math.floor(Math.random() * buildings.length) + 1);
-  return selected.join(', ');
-}
-
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i.toString(),
-    no: i + 1,
-    name: `Edward Long Man ${i}`,
-    employeeId: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,
-    gender: genders[Math.floor(Math.random() * genders.length)],
-    dob: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/19${Math.floor(Math.random() * 30) + 70}`,
-    nationalId: Math.random().toString().substr(2, 10),
-    phoneNumber: Math.random().toString().substr(2, 10),
-    contactMail: 'placeholder_email@gmail.com',
-    buildingManaging: getRandomBuildings(),
-  });
-}
-
-const dataSource = ref(data);
-
-const rowSelection = ref({
-  checkStrictly: false,
-  onChange: (selectedRowKeys: (string | number)[], selectedRows: DataItem[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  {
+    title: t('no'),
+    dataIndex: 'no',
+    key: 'no',
   },
-  onSelect: (record: DataItem, selected: boolean, selectedRows: DataItem[]) => {
-    console.log(record, selected, selectedRows);
+  {
+    title: t('name'),
+    dataIndex: 'name',
+    key: 'name',
   },
-  onSelectAll: (selected: boolean, selectedRows: DataItem[], changeRows: DataItem[]) => {
-    console.log(selected, selectedRows, changeRows);
+  {
+    title: t('employee_number'),
+    dataIndex: 'employeeNumber',
+    key: 'employeeNumber',
   },
-});
+  {
+    title: t('gender'),
+    dataIndex: 'gender',
+    key: 'gender',
+  },
+  {
+    title: t('dob'),
+    dataIndex: 'dob',
+    key: 'dob',
+  },
+  {
+    title: t('ssn'),
+    dataIndex: 'ssn',
+    key: 'ssn',
+  },
+  {
+    title: t('phone'),
+    dataIndex: 'phone',
+    key: 'phone',
+  },
+  {
+    title: t('email'),
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
+    title: t('action'),
+    dataIndex: 'action',
+    key: 'action',
+  },
+]);
+const dataSource = ref<
+  {
+    no: number;
+    name: string;
+    employeeNumber: string;
+    gender: string;
+    dob: string;
+    ssn: string;
+    phone: string;
+    email: string;
+    action: number;
+    key: number;
+  }[]
+>([]);
+const deleteBucket = ref<number[]>([]);
 
 // ---------------------- Functions ----------------------
-// async function getBuildingList() {
-//   try {
-//     $event.emit('loading');
-//     const response = await api.common.building.getList();
-//     const data = response.data;
-//     buildingList.value = data.map(element => {
-//       return {
-//         name: element.name,
-//         address: element.address,
-//         totalRoom: element.totalRoom,
-//         totalFloor: element.totalFloor,
-//         image: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
-//         // image: element.image[0]
-//       }
-//     });
+function searchEmployee() {
+  dataSource.value = userList.value
+    .map((user, index) => {
+      return {
+        no: index + 1,
+        name: getUserName(user),
+        employeeNumber: user.no,
+        gender: t(getUserGender(user)),
+        dob: convertToDate(user.dob),
+        ssn: user.ssn,
+        phone: user.phone,
+        email: user.email,
+        action: user.ID,
+        key: user.ID,
+      };
+    })
+    .filter((user) => {
+      const search = removeDiacritics(searchValue.value.trim()).toLowerCase();
+      return (
+        user.name.toLowerCase().includes(search) ||
+        user.employeeNumber.includes(search) ||
+        user.ssn.includes(search) ||
+        user.phone.includes(search) ||
+        user.email.includes(search)
+      );
+    });
+}
 
-//   } catch (err: any) {
-//     if (err.status >= 500 || err.response._data.message === getMessageCode('INVALID_PARAMETER') || err.response._data.message === getMessageCode('PARAMETER_VALIDATION')) {
-//       notification.error({
-//         message: t('system_error_title'),
-//         description: t('system_error_description'),
-//       });
-//     }
-//   } finally {
-//     $event.emit('loading');
-//   }
-// }
+async function getEmployeeList() {
+  try {
+    $event.emit('loading');
+    deleteBucket.value = [];
+    const response = await api.common.staff.getList();
+    const data = response.data;
+    userList.value = data;
+    dataSource.value = data.map((user, index) => {
+      return {
+        no: index + 1,
+        name: getUserName(user),
+        employeeNumber: user.no,
+        gender: t(getUserGender(user)),
+        dob: convertToDate(user.dob),
+        ssn: user.ssn,
+        phone: user.phone,
+        email: user.email,
+        action: user.ID,
+        key: user.ID,
+      };
+    });
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+async function deleteEmployee() {
+  try {
+    $event.emit('loading');
+    await api.common.staff.deleteMany(deleteBucket.value);
+    $event.emit('deleteItemSuccess');
+    getEmployeeList();
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
 
 // ---------------------- Lifecycles ----------------------
-// onMounted(() => {
-//   getBuildingList()
-// });
+onMounted(() => {
+  getEmployeeList();
+});
 </script>
-
-<style scoped>
-.btn-icon {
-    @apply flex items-center justify-center p-0 w-[36px] rounded-none;
-  }
-  .editable-row-operations a {
-    margin-right: 8px;
-  }
-</style>

@@ -16,4 +16,12 @@ function getUserName(user: User | undefined): string {
   return name;
 }
 
-export { getUserName };
+function getUserGender(user: User | undefined): string {
+  if (!user) {
+    return 'other';
+  }
+
+  return user.gender === 1 ? 'male' : user.gender === 2 ? 'female' : 'other';
+}
+
+export { getUserName, getUserGender };

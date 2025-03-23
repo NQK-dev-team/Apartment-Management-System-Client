@@ -20,6 +20,7 @@ type User = BasicModel & {
   isOwner: boolean;
   isManager: boolean;
   isCustomer: boolean;
+  gender: number;
 };
 
 type ManagerSchedule = BasicModel & {

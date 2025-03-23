@@ -67,6 +67,8 @@ export default {
   creation_date: 'Creation date',
   customer_responsible: 'Customer responsible',
   content: 'Content',
+  confirm_update: 'Confirm update',
+  confirm_update_with_password: 'Please enter your password to confirm update',
 
   D: 'd',
   delete: 'Delete',
@@ -109,7 +111,6 @@ export default {
   empty_service_price: 'Service {no} price cannot be empty!',
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
-  employee_id: 'Employee id',
   employee_name: 'Employee name',
   employee_number: 'Employee number',
   endDate: 'End date',
@@ -136,6 +137,7 @@ export default {
   floor_number: 'Floor number',
   floor: 'Floor {name}',
   front_face: 'front face',
+  female: 'Female',
 
   G: 'g',
   gender: 'Gender',
@@ -169,6 +171,7 @@ export default {
   middle_name: 'Middle name',
   manager_approving: 'Manager approving',
   manager_decision: 'Manager decision',
+  male: 'Male',
 
   N: 'n',
   notice: 'Notice',
@@ -197,7 +200,6 @@ export default {
   owner_decision: 'Owner decision',
 
   P: 'p',
-  payer: 'Payer',
   payer_id: 'Payer ID',
   paid_by: 'Paid by',
   payment_list: 'Payment list',
@@ -270,6 +272,7 @@ export default {
   user_not_found: 'User not found!',
   unpaidRooms: 'Number of unpaid rooms',
   unavailable: 'Unavailable',
+  update_building_confirm: 'Are you sure you want to update this building information?',
 
   V: 'v',
 

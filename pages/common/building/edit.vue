@@ -415,6 +415,7 @@ const lightMode = computed(
 const { t } = useI18n();
 const buildingInfo = ref<{ data: EditBuilding }>({
   data: {
+    ID: 0,
     name: '',
     address: '',
     images: [],
@@ -425,6 +426,7 @@ const buildingInfo = ref<{ data: EditBuilding }>({
 });
 const originalBuildingInfo = ref<{ data: EditBuilding }>({
   data: {
+    ID: 0,
     name: '',
     address: '',
     images: [],
@@ -590,28 +592,14 @@ async function updateBuilding() {
   }
 }
 
-// ---------------------- Watchers ----------------------
-watch(step, () => {
-  if (step.value === 2) {
-    if (!checkStep1()) {
-      step.value = 1;
-    }
-  }
-  if (step.value === 3) {
-    if (!checkStep2()) {
-      step.value = 2;
-    }
-  }
-});
-
-// ---------------------- Lifecycles ----------------------
-onMounted(async () => {
+async function getBuildingData() {
   try {
     $event.emit('loading');
     const managerListResponse = await api.common.staff.getList();
     const scheduleResponse = await api.common.building.getSchedule(buildingID);
     const buildingInforResponse = await api.common.building.getDetail(buildingID);
 
+    buildingInfo.value.data.ID = buildingInforResponse.data.ID;
     buildingInfo.value.data.name = buildingInforResponse.data.name;
     buildingInfo.value.data.address = buildingInforResponse.data.address;
     buildingInfo.value.data.images = buildingInforResponse.data.images.map((image) => {
@@ -706,6 +694,33 @@ onMounted(async () => {
     }
   } finally {
     $event.emit('loading');
+  }
+}
+
+// ---------------------- Watchers ----------------------
+watch(step, () => {
+  if (step.value === 2) {
+    if (!checkStep1()) {
+      step.value = 1;
+    }
+  }
+  if (step.value === 3) {
+    if (!checkStep2()) {
+      step.value = 2;
+    }
+  }
+});
+
+// ---------------------- Lifecycles ----------------------
+onMounted(async () => {
+  await getBuildingData();
+
+  if (buildingInfo.value.data.ID === 0) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Page not found',
+      fatal: true,
+    });
   }
 });
 </script>

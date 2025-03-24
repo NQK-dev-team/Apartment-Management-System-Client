@@ -167,7 +167,11 @@
             :total-floor="buildingData.totalFloor"
           />
           <CommonBuildingDetailServiceListTable v-show="option === 2" :services="services" />
-          <CommonBuildingDetailManagementSchedule v-show="option === 3" :schedules="schedules" />
+          <CommonBuildingDetailManagementSchedule
+            v-if="schedules.length"
+            v-show="option === 3"
+            :schedules="schedules"
+          />
         </ClientOnly>
       </div>
     </div>

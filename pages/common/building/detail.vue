@@ -167,12 +167,15 @@
             :total-floor="buildingData.totalFloor"
           />
           <CommonBuildingDetailServiceListTable v-show="option === 2" :services="services" />
-          <CommonBuildingDetailManagementSchedule
-            v-if="schedules.length"
-            v-show="option === 3"
-            :schedules="schedules"
-          />
+          <template v-if="schedules.length > 0">
+            <CommonBuildingDetailManagementSchedule v-show="option === 3" :schedules="schedules" />
+          </template>
         </ClientOnly>
+        <div class="flex flex-col items-center my-5">
+          <a-button class="my-2 w-[100px] rounded-sm">
+            <NuxtLink :to="pageRoutes.common.building.list">{{ $t('back') }}</NuxtLink>
+          </a-button>
+        </div>
       </div>
     </div>
     <a-modal

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full">
+  <div class="flex-col w-full" style="display: flex;">
     <a-input-search
       v-model:value="searchValue"
       class="w-[500px] mx-auto my-3"

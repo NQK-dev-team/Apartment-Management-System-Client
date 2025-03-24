@@ -48,7 +48,7 @@
         :data-source="dataSource"
         :row-selection="{
           selectedRowKeys: deleteBucket,
-          onChange: (selectedRowKeys: number[]) => {
+          onChange: (selectedRowKeys: any[] | number[]) => {
             deleteBucket = selectedRowKeys;
           },
         }"
@@ -190,7 +190,7 @@ function searchEmployee() {
     .filter((user) => {
       const search = removeDiacritics(searchValue.value.trim()).toLowerCase();
       return (
-        user.name.toLowerCase().includes(search) ||
+        removeDiacritics(user.name.toLowerCase()).includes(search) ||
         user.employeeNumber.includes(search) ||
         user.ssn.includes(search) ||
         user.phone.includes(search) ||

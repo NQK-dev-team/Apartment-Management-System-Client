@@ -198,6 +198,7 @@ export default {
   owner_id: 'Owner ID',
   owner_approving: 'Owner approving',
   owner_decision: 'Owner decision',
+  old_ssn: 'Old SSN',
 
   P: 'p',
   payer_id: 'Payer ID',
@@ -215,6 +216,7 @@ export default {
   paidRooms: 'Number of paid rooms',
   phone: 'Phone Number',
   previous: 'Previous',
+  pob: 'Place of birth',
 
   Q: 'q',
 

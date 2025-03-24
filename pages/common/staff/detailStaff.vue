@@ -24,112 +24,111 @@
       <div class="flex py-3">
         <div class="flex-1 flex flex-col me-6">
           <div class="flex items-center">
-            <div class="flex-1 me-2">
+            <div class="flex-1 me-5">
               <label for="last_name" class="flex mb-1">
                 <span>{{ $t('last_name') }}</span>
-                <span class="text-red-500">*</span>
               </label>
-              <a-input id="last_name" value="Nguyễn" placeholder="Last name" disabled readonly />
+              <a-input id="last_name" :value="staffInfo.lastName" :placeholder="$t('last_name')" disabled readonly />
             </div>
-            <div class="flex-1 me-2">
-              <label for="name" class="flex mb-1">
+            <div class="flex-1">
+              <label for="middle_name" class="flex mb-1">
                 <span>{{ $t('middle_name') }}</span>
               </label>
-              <a-input id="middle_name" value="Văn" placeholder="Middle name" disabled readonly />
-            </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-2">
-              <label for="name" class="flex mb-1">
-                <span>{{ $t('name') }}</span>
-                <span class="text-red-500">*</span>
-              </label>
-              <a-input id="name" value="Tùng" placeholder="Name" disabled readonly />
-            </div>
-            <div class="flex-1 me-2">
-              <label for="data_of_birth" class="flex mb-1">
-                <span>{{ $t('dob') }}</span>
-                <span class="text-red-500">*</span>
-              </label>
-              <a-date-picker v-model:value="value1" class="w-full" placeholder="2000-05-08" disabled readonly />
-            </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-2">
-              <label for="gender" class="flex mb-1">
-                <span>{{ $t('gender') }}</span>
-                <span class="text-red-500">*</span>
-              </label>
-              <a-select
-                ref="select"
-                v-model:value="value2"
-                style="width: 120px"
-                :options="options2"
-                @focus="focus"
-                @change="handleChange"
-                class="w-full"
-                disabled
-                readonly
-              ></a-select>
-            </div>
-            <div class="flex-1 me-2">
-              <label for="CCCD" class="flex mb-1">
-                <span>CCCD</span>
-                <span class="text-red-500">*</span>
-              </label>
-              <a-input id="cccd" value="09220000XXXX" placeholder="CCCD" disabled readonly />
-            </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-2">
-              <label for="CMND" class="flex mb-1">
-                <span>CMND</span>
-              </label>
-              <a-input id="cmnd" value="Empty" placeholder="CMND" disabled readonly />
-            </div>
-            <div class="flex-1 me-2">
-              <label for="origin" class="flex mb-1">
-                <span>{{ $t('origin') }}</span>
-                <span class="text-red-500">*</span>
-              </label>
-              <a-input id="origin" value="Đồng Nai" placeholder="Origin" disabled readonly />
-            </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-2">
-              <label for="phone_number" class="flex mb-1">
-                <span>{{ $t('phone') }}</span>
-                <span class="text-red-500">*</span>
-              </label>
-              <a-input id="phone_number" value="093275XXXX" placeholder="Phone number" disabled readonly />
-            </div>
-            <div class="flex-1 me-2">
-              <label for="login_email" class="flex mb-1">
-                <span>{{ $t('email') }}</span>
-                <span class="text-red-500">*</span>
-              </label>
               <a-input
-                id="login_email"
-                value="testmail1@gmail.com"
-                placeholder="testmail1@gmail.com"
+                id="middle_name"
+                :value="staffInfo.middleName"
+                :placeholder="$t('middle_name')"
                 disabled
                 readonly
               />
             </div>
           </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
+              <label for="first_name" class="flex mb-1">
+                <span>{{ $t('name') }}</span>
+              </label>
+              <a-input
+                id="first_name"
+                :value="staffInfo.firstName"
+                :placeholder="$t('name')"
+                disabled
+                readonly
+                autocomplete="off"
+              />
+            </div>
+            <div class="flex-1">
+              <label for="gender" class="flex mb-1">
+                <span>{{ $t('gender') }}</span>
+              </label>
+              <a-select id="gender" :value="staffInfo.gender" class="w-full" disabled readonly>
+                <a-select-option :value="1">{{ $t('male') }}</a-select-option>
+                <a-select-option :value="2">{{ $t('female') }}</a-select-option>
+                <a-select-option :value="3">{{ $t('other') }}</a-select-option>
+              </a-select>
+            </div>
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
+              <label for="date_of_birth" class="flex mb-1">
+                <span>{{ $t('dob') }}</span>
+              </label>
+              <a-date-picker id="date_of_birth" :value="dob" class="w-full" disabled readonly />
+            </div>
+            <div class="flex-1">
+              <label for="ssn" class="flex mb-1">
+                <span>{{ $t('ssn') }}</span>
+              </label>
+              <a-input id="ssn" :value="staffInfo.ssn" :placeholder="$t('ssn')" disabled readonly />
+            </div>
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
+              <label for="old_ssn" class="flex mb-1">
+                <span>{{ $t('old_ssn') }}</span>
+              </label>
+              <a-input id="old_ssn" :value="staffInfo.oldSSN" :placeholder="$t('old_ssn')" disabled readonly />
+            </div>
+            <div class="flex-1">
+              <label for="pob" class="flex mb-1">
+                <span>{{ $t('pob') }}</span>
+              </label>
+              <a-input id="pob" :value="staffInfo.pob" :placeholder="$t('pob')" disabled readonly />
+            </div>
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
+              <label for="phone_number" class="flex mb-1">
+                <span>{{ $t('phone') }}</span>
+              </label>
+              <a-input id="phone_number" :value="staffInfo.phone" :placeholder="$t('phone')" disabled readonly />
+            </div>
+            <div class="flex-1">
+              <label for="email" class="flex mb-1">
+                <span>{{ $t('email') }}</span>
+              </label>
+              <a-input
+                id="email"
+                :value="staffInfo.email"
+                :placeholder="$t('email')"
+                disabled
+                readonly
+                autocomplete="off"
+              />
+            </div>
+          </div>
         </div>
-        <!-- Images -->
-        <div class="flex flex-col w-72 h-72 mx-1">
-          <label for="">{{ $t('avatar') }}</label>
-          <img :src="svgPaths.placeholderImage" alt="avatar" class="" />
+        <div class="flex flex-col w-[250px] h-[300px]">
+          <div>{{ $t('avatar') }}</div>
+          <img :src="staffInfo.profileFilePath" alt="avatar" />
         </div>
-        <div class="flex flex-col w-72 h-72 mx-1">
-          <label for="">{{ $t('national_id') + ' ' + $t('front_face') }}</label>
-          <img :src="svgPaths.placeholderImage" alt="national_id_front" class="" />
+        <div class="flex flex-col w-[250px] h-[300px] mx-5">
+          <div>{{ $t('national_id') + ' ' + $t('front_face') }}</div>
+          <img :src="staffInfo.ssnFrontFilePath" alt="national_id_front" />
         </div>
-        <div class="flex flex-col w-72 h-72 mx-1">
-          <label for="">{{ $t('national_id') + ' ' + $t('back_face') }}</label>
-          <img :src="svgPaths.placeholderImage" alt="national_id_back" class="" />
+        <div class="flex flex-col w-[250px] h-[300px]">
+          <div>{{ $t('national_id') + ' ' + $t('back_face') }}</div>
+          <img :src="staffInfo.ssnBackFilePath" alt="national_id_back" />
         </div>
       </div>
       <hr class="border-gray-400" />
@@ -175,30 +174,18 @@
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('building') }}</h2>
         </div>
       </div>
-      <div class="flex justify-between">
-        <!-- p is a place holder, to space out the content -->
-        <p class="mt-3 text-white">{{ $t('employee_list') }}</p>
-        <a-input-search class="w-[500px]" v-model:value="searchValue" :placeholder="$t('enter_search')" enter-button />
-        <div class="flex">
-          <NuxtLink v-show="option !== 2">
-            <a-button type="primary" class="btn-icon">
-              <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]" />
-            </a-button>
-          </NuxtLink>
-
-          <a-button v-show="option !== 2" type="primary" danger class="btn-icon ml-2">
-            <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
-          </a-button>
-        </div>
+      <div class="flex justify-center mt-5 mb-3">
+        <a-input-search v-model:value="searchValue" class="w-[500px]" :placeholder="$t('enter_search')" enter-button />
       </div>
       <ClientOnly>
         <CommonStaffContractTable v-show="option === 1" />
         <CommonStaffSupportTicketTable v-show="option === 2" />
         <CommonStaffBuildingTable v-show="option === 3" />
       </ClientOnly>
-
-      <div class="flex flex-col items-center mt-5">
-        <a-button class="my-2 w-[100px]">{{ $t('back') }}</a-button>
+      <div class="flex flex-col items-center my-5">
+        <a-button class="my-2 w-[100px] rounded-sm">
+          <NuxtLink :to="pageRoutes.common.staff.list">{{ $t('back') }}</NuxtLink>
+        </a-button>
       </div>
     </div>
   </div>
@@ -208,11 +195,8 @@
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { svgPaths } from '~/consts/svg_paths';
-import imageUpload from '@/components/common/customComponent/imageUpload.vue';
-import type { Dayjs } from 'dayjs';
-import type { SelectProps } from 'ant-design-vue';
-import type { SizeType } from 'ant-design-vue/es/config-provider';
+import dayjs, { type Dayjs } from 'dayjs';
+import type { User } from '~/types/user';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -238,24 +222,69 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const { $event } = useNuxtApp();
+const staffInfo = ref<User>({
+  ID: 0,
+  no: '',
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  ssn: '',
+  oldSSN: '',
+  dob: '',
+  pob: '',
+  email: '',
+  phone: '',
+  ssnFrontFilePath: '',
+  ssnBackFilePath: '',
+  profileFilePath: '',
+  emailVerifiedAt: {
+    Time: null,
+    Valid: false,
+  },
+  isOwner: false,
+  isManager: false,
+  isCustomer: false,
+  gender: 0,
+});
 
-const value1 = ref<Dayjs>();
-const value2 = ref('Female');
-const size = ref<SizeType>('large');
+const dob = computed<Dayjs>(() => dayjs(staffInfo.value.dob));
 const option = ref<number>(1);
-const options2 = ref<SelectProps['options']>([
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
-  { value: 'Other', label: 'Other' },
-]);
-const { t } = useI18n();
-
 const searchValue = ref('');
-const focus = () => {
-  console.log('focus');
-};
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
+// ---------------------- Functions ----------------------
+async function getStaffDetailInfo() {
+  try {
+    $event.emit('loading');
+    const response = await api.common.staff.getDetail(staffID);
+    staffInfo.value = response.data;
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      throw createError({
+        status: 500,
+        message: 'Internal server error',
+        fatal: true,
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(async () => {
+  await getStaffDetailInfo();
+
+  if (staffInfo.value.ID === 0) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Page not found',
+      fatal: true,
+    });
+  }
+});
 </script>

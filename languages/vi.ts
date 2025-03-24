@@ -200,6 +200,7 @@ export default {
   owner_approving: 'Chủ duyệt',
   owner_decision: 'Quyết định của chủ sở hữu',
   other: 'Khác',
+  old_ssn: 'Số CMND (cũ)',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -218,6 +219,7 @@ export default {
   paidRooms: 'Số phòng đã thanh toán',
   phone: 'Số điện thoại',
   previous: 'Trước',
+  pob: 'Nơi sinh',
 
   Q: 'q',
 
@@ -244,7 +246,7 @@ export default {
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',
   spam_warning: 'Bạn đang gửi quá nhiều yêu cầu. Vui lòng thử lại sau!',
-  ssn: 'Số CMND',
+  ssn: 'Số CCCD',
   start: 'Ngày bắt đầu',
   service_list: 'Danh sách dịch vụ',
   service_name: 'Tên dịch vụ',

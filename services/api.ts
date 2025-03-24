@@ -294,6 +294,12 @@ const common = {
         },
       });
     },
+    getDetail: async (staffId: number): Promise<APIResponse<User>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.detail(staffId), {
+        method: 'GET',
+      });
+    },
   },
   customer: {},
   bill: {

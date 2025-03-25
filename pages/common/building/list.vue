@@ -37,7 +37,7 @@
           />
         </div>
       </div>
-      <div class="flex justify-center mt-10 mb-3">
+      <div v-if="buildingListFiltered.length > 8" class="flex justify-center mt-10 mb-3">
         <a-pagination v-model:current="current" :total="buildingListFiltered.length" :default-page-size="8" />
       </div>
     </div>

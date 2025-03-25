@@ -196,7 +196,8 @@ import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import dayjs, { type Dayjs } from 'dayjs';
-import type { User } from '~/types/user';
+import type { ManagerSchedule, User } from '~/types/user';
+import type { Contract } from '~/types/contract';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -225,6 +226,10 @@ const lightMode = computed(
 const { $event } = useNuxtApp();
 const staffInfo = ref<User>({
   ID: 0,
+  createdAt: '',
+  createdBy: 0,
+  updatedAt: '',
+  updatedBy: 0,
   no: '',
   firstName: '',
   middleName: '',
@@ -251,13 +256,20 @@ const staffInfo = ref<User>({
 const dob = computed<Dayjs>(() => dayjs(staffInfo.value.dob));
 const option = ref<number>(1);
 const searchValue = ref('');
+const schedules = ref<ManagerSchedule[]>([]);
+const contracts = ref<Contract[]>([]);
 
 // ---------------------- Functions ----------------------
 async function getStaffDetailInfo() {
   try {
     $event.emit('loading');
     const response = await api.common.staff.getDetail(staffID);
+    const scheduleResponse = await api.common.staff.getSchedule(staffID);
+    const contractResponse = await api.common.staff.getContract(staffID);
+
     staffInfo.value = response.data;
+    schedules.value = scheduleResponse.data;
+    contracts.value = contractResponse.data;
   } catch (err: any) {
     if (
       err.status >= 500 ||

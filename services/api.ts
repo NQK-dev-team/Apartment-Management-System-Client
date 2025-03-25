@@ -14,6 +14,7 @@ import type { UploadFile } from 'ant-design-vue';
 import type { Bill } from '~/types/bill';
 import type { ManagerSchedule, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
+import type { Contract } from '~/types/contract';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -297,6 +298,24 @@ const common = {
     getDetail: async (staffId: number): Promise<APIResponse<User>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.staff.detail(staffId), {
+        method: 'GET',
+      });
+    },
+    getSchedule: async (staffId: number): Promise<APIResponse<ManagerSchedule[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.getSchedule(staffId), {
+        method: 'GET',
+      });
+    },
+    getContract: async (staffId: number): Promise<APIResponse<Contract[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.getContract(staffId), {
+        method: 'GET',
+      });
+    },
+    getTicket: async (staffId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.getTicket(staffId), {
         method: 'GET',
       });
     },

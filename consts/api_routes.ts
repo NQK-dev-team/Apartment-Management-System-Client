@@ -28,7 +28,8 @@ const apiRoutes = {
     deleteMany: '/staff/delete-many',
     getSchedule: (staffId: number) => `/staff/${staffId}/schedule`,
     getContract: (staffId: number) => `/staff/${staffId}/contract`,
-    getTicket: (staffId: number) => `/staff/${staffId}/ticket`,
+    getTicket: (staffId: number, limit: number = 500, offset: number = 0) =>
+      `/staff/${staffId}/ticket?limit=${limit}&offset=${offset}`,
   },
   customer: {
     list: '/customer',

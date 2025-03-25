@@ -198,6 +198,7 @@ import { api } from '~/services/api';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { ManagerSchedule, User } from '~/types/user';
 import type { Contract } from '~/types/contract';
+import type { ManagerResolveTicket } from '~/types/support_ticket';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -258,6 +259,9 @@ const option = ref<number>(1);
 const searchValue = ref('');
 const schedules = ref<ManagerSchedule[]>([]);
 const contracts = ref<Contract[]>([]);
+const tickets = ref<ManagerResolveTicket[]>([]);
+const scheduleApiOffset = ref<number>(0);
+const scheduleApiLimit = ref<number>(500);
 
 // ---------------------- Functions ----------------------
 async function getStaffDetailInfo() {
@@ -266,10 +270,16 @@ async function getStaffDetailInfo() {
     const response = await api.common.staff.getDetail(staffID);
     const scheduleResponse = await api.common.staff.getSchedule(staffID);
     const contractResponse = await api.common.staff.getContract(staffID);
+    const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
 
     staffInfo.value = response.data;
     schedules.value = scheduleResponse.data;
     contracts.value = contractResponse.data;
+    tickets.value = ticketResponse.data;
+
+    if (ticketResponse.data.length === scheduleApiLimit.value) {
+      scheduleApiOffset.value += scheduleApiLimit.value;
+    }
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -297,6 +307,16 @@ onMounted(async () => {
       statusMessage: 'Page not found',
       fatal: true,
     });
+  }
+});
+
+// ---------------------- Watchers ----------------------
+watch(scheduleApiOffset, async () => {
+  const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
+  tickets.value.push(...ticketResponse.data);
+
+  if (ticketResponse.data.length === scheduleApiLimit.value) {
+    scheduleApiOffset.value += scheduleApiLimit.value;
   }
 });
 </script>

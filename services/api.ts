@@ -15,6 +15,7 @@ import type { Bill } from '~/types/bill';
 import type { ManagerSchedule, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
+import type { ManagerResolveTicket } from '~/types/support_ticket';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -313,9 +314,13 @@ const common = {
         method: 'GET',
       });
     },
-    getTicket: async (staffId: number): Promise<APIResponse<null>> => {
+    getTicket: async (
+      staffId: number,
+      limit: number = 500,
+      offset: number = 0
+    ): Promise<APIResponse<ManagerResolveTicket[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.staff.getTicket(staffId), {
+      return $api(apiRoutes.staff.getTicket(staffId, limit, offset), {
         method: 'GET',
       });
     },

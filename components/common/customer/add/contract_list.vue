@@ -43,7 +43,6 @@ const columns = computed<any>(() => {
       title: t('customer'),
       align: 'center',
       dataIndex: 'name',
-      width: '15%',
     },
     {
       title: t('customer_id'),
@@ -61,13 +60,11 @@ const columns = computed<any>(() => {
       title: t('ssn'),
       align: 'center',
       dataIndex: 'nationalId',
-      width: '12%',
     },
     {
       title: t('phone'),
       align: 'center',
       dataIndex: 'phoneNumber',
-      width: '12%',
     },
     {
       title: t('contract_id'),

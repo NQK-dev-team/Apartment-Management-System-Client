@@ -58,6 +58,7 @@ export default {
   contract: 'Hợp đồng',
   contract_type: 'Loại hợp đồng',
   contract_price: 'Giá theo hợp đồng',
+  contract_id: 'Mã hợp đồng',
   confirm_new_password: 'Xác nhận mật khẩu mới',
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
   confirm: 'Xác nhận',
@@ -67,6 +68,11 @@ export default {
   confirm_deletion_content: 'Bạn có chắc chắn muốn xóa (các) mục đã chọn không?',
   confirm_deletion_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận xóa',
   clear: 'Xóa',
+  creation_date: 'Ngày tạo',
+  customer_responsible: 'Khách hàng chịu trách nhiệm',
+  content: 'Nội dung',
+  confirm_update: 'Xác nhận chỉnh sửa',
+  confirm_update_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận chỉnh sửa',
 
   D: 'd',
   delete: 'Xóa',
@@ -76,6 +82,7 @@ export default {
   delete_success_content: '(Các) Mục được chọn đã được xóa khỏi hệ thống!',
   detail: 'Chi tiết',
   dob: 'Ngày sinh',
+  decision_date: 'Ngày quyết định',
 
   E: 'e',
   edit: 'Chỉnh sửa',
@@ -108,10 +115,9 @@ export default {
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
   employee_list: 'Danh sách nhân viên',
   empty_password: 'Mật khẩu đang để trống!',
-  employee_id: 'Employee id',
   employee_name: 'Tên nhân viên',
   employee_number: 'Mã nhân viên',
-  end_date: 'Ngày kết thúc',
+  endDate: 'Ngày kết thúc',
   edit_service: 'Chỉnh sửa dịch vụ',
   edit_service_success: 'Thông tin dịch vụ đã được chỉnh sửa thành công!',
   enter_employee_no: 'Nhập mã nhân viên',
@@ -121,6 +127,11 @@ export default {
   empty_employee_schedule: 'Lịch quản lý số {no}: Thông tin nhân viên của không được để trống!',
   empty_start_date_schedule: 'Lịch quản lý số {no}: Ngày bắt đầu của không được để trống!',
   empty_end_date_schedule: 'Lịch quản lý số {no}: Ngày kết thúc của không được để trống!',
+  edit_building: 'Chỉnh sửa tòa nhà',
+  edit_building_success_title: 'Thông tin tòa nhà đã được chỉnh sửa thành công',
+  edit_building_success_note:
+    'Bạn có thể quay lại trang thông tin chi tiết của tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
+  employee_info: 'Thông tin nhân viên',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -131,6 +142,7 @@ export default {
   floor_number: 'Số tầng',
   floor: 'Tầng {name}',
   front_face: 'mặt trước',
+  female: 'Nữ',
 
   G: 'g',
   gender: 'Giới tính',
@@ -146,6 +158,7 @@ export default {
   invalid_password: 'Mật khẩu không hợp lệ!',
   image: 'Hình ảnh',
   images: 'Hình ảnh',
+  info: 'Thông tin',
 
   J: 'j',
 
@@ -161,6 +174,9 @@ export default {
   maintenance: 'Bảo trì',
   management_schedule: 'Lịch quản lý',
   middle_name: 'Tên đệm',
+  manager_approving: 'Quản lý duyệt',
+  manager_decision: 'Quyết định của quản lý',
+  male: 'Nam',
 
   N: 'n',
   notice: 'Thông báo',
@@ -178,6 +194,7 @@ export default {
   no_floor: 'Tòa nhà này không có dữ liệu về các tầng, bạn có thể tiếp tục hoặc quay lại để thêm tầng mới',
   name: 'Tên',
   national_id: 'CCCD/CMND',
+  new: 'Mới',
 
   O: 'o',
   operation: 'Thao tác',
@@ -185,6 +202,9 @@ export default {
   origin: 'Quê quán',
   owner_id: 'Mã chủ tòa nhà',
   old_ssn: 'Số CMND cũ',
+  owner_approving: 'Chủ duyệt',
+  owner_decision: 'Quyết định của chủ sở hữu',
+  other: 'Khác',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -223,6 +243,8 @@ export default {
   S: 's',
   staff: 'Nhân viên',
   support_ticket: 'Phiếu hỗ trợ',
+  support_ticket_list: 'Danh sách phiếu hỗ trợ',
+  support_ticket_detail: 'Chi tiết phiếu hỗ trợ',
   submit: 'Gửi',
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',
@@ -240,7 +262,8 @@ export default {
   search: 'Tìm kiếm',
   success: 'Thành công',
   select_a_floor: 'Hãy chọn tầng',
-  start_date: 'Ngày bắt đầu',
+  startDate: 'Ngày bắt đầu',
+  signDate: 'Ngày ký',
   search_by_employee_no: 'Tìm kiếm theo mã nhân viên',
   start_date_large_end_date: 'Lịch quản lý số {no}: Ngày bắt đầu phải nhỏ hơn ngày kết thúc!',
 
@@ -248,12 +271,16 @@ export default {
   total: 'Tổng',
   total_room: 'Tổng số phòng',
   total_floor: 'Tổng số tầng',
+  ticket_id: 'Mã phiếu hỗ trợ',
+  ticket_creation_date: 'Ngày tạo phiếu hỗ trợ',
+  title: 'Tiêu đề',
 
   U: 'u',
   upload_file: 'Tải tệp tin',
   user_not_found: 'Người dùng không tồn tại!',
   unpaidRooms: 'Số phòng chưa thanh toán',
   unavailable: 'Không khả dụng',
+  update_building_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
 
   V: 'v',
 

@@ -53,6 +53,11 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.building.add,
     file: buildingBaseRoute + 'add.vue',
   },
+  {
+    name: 'Edit Building',
+    path: pageRoutes.common.building.edit(':id'),
+    file: buildingBaseRoute + 'edit.vue',
+  },
   // Room
   // Profile
   // Staff
@@ -100,6 +105,11 @@ const commonRoutes: Route[] = [
   },
   // Contract
   // Support ticket
+  {
+    name: 'Support ticket list',
+    path: pageRoutes.common.support_ticket.list,
+    file: supportTicketBaseRoute + 'list.vue',
+  },
   // Notice
 ];
 

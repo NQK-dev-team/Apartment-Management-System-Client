@@ -28,7 +28,7 @@
             <a-button
               type="primary"
               danger
-              class="flex items-center justify-center w-10 h-10"
+              class="flex items-center justify-center w-10 h-10 rounded-sm"
               :disabled="!serviceDeleteBucket.length"
               @click="
                 () => {
@@ -40,7 +40,7 @@
             /></a-button>
             <a-button
               type="primary"
-              class="ms-2 flex items-center justify-center w-10 h-10"
+              class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
               @click="
                 buildingInfo.services.push({
                   name: '',
@@ -51,7 +51,7 @@
             /></a-button>
           </div>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -123,7 +123,7 @@
             <a-button
               type="primary"
               danger
-              class="flex items-center justify-center w-10 h-10"
+              class="flex items-center justify-center w-10 h-10 rounded-sm"
               :disabled="!scheduleDeleteBucket.length"
               @click="
                 () => {
@@ -135,7 +135,7 @@
             /></a-button>
             <a-button
               type="primary"
-              class="ms-2 flex items-center justify-center w-10 h-10"
+              class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
               @click="
                 buildingInfo.schedules.push({
                   managerID: 0,
@@ -148,7 +148,7 @@
             /></a-button>
           </div>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -161,7 +161,7 @@
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
                     <a-checkbox
-                      id="check_all_floors_1"
+                      id="check_all_schedules_1"
                       :disabled="!buildingInfo.schedules.length"
                       :checked="checkAllSchedules"
                       @click="() => (checkAllSchedules ? removeAllSchedulesFromBucket() : addAllSchedulesToBucket())"
@@ -208,7 +208,7 @@
                     class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
-                    {{ $t('start_date') }}
+                    {{ $t('startDate') }}
                     <div class="flex items-center">
                       <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                     </div>
@@ -219,7 +219,7 @@
                     class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
-                    {{ $t('end_date') }}
+                    {{ $t('endDate') }}
                   </div>
                 </th>
               </tr>
@@ -245,7 +245,7 @@
             <a-button
               type="primary"
               danger
-              class="flex items-center justify-center w-10 h-10"
+              class="flex items-center justify-center w-10 h-10 rounded-sm"
               :disabled="!floorDeleteBucket.length"
               @click="
                 () => {
@@ -257,7 +257,7 @@
             /></a-button>
             <a-button
               type="primary"
-              class="ms-2 flex items-center justify-center w-10 h-10"
+              class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
               @click="
                 buildingInfo.floors.push({
                   rooms: [],
@@ -267,7 +267,7 @@
             /></a-button>
           </div>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -328,7 +328,7 @@
           list-type="text"
           @change="(e: any) => handleFileUpload(e)"
         >
-          <a-button class="flex items-center">
+          <a-button class="flex items-center rounded-sm">
             <upload-outlined></upload-outlined>
             {{ $t('upload_file') }}
           </a-button>

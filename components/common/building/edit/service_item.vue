@@ -37,19 +37,15 @@
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
           <a-input
             v-if="!props.readOnly"
             :id="`service_${props.index + 1}_price_1`"
+            v-model:value="service.price"
             :placeholder="$t('enter_service_price')"
             type="number"
             :min="0"
-            @change="
-              (e: any) => {
-                service.price = e.target.value ?? '';
-              }
-            "
           />
           <a-input
             v-else
@@ -64,10 +60,19 @@
         </div>
       </div>
     </td>
+    <td class="text-sm font-normal text-center align-middle py-[16px]">
+      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+        <div class="px-3">
+          <p v-if="service.ID <= 0" class="text-red-500">{{ $t('new') }}</p>
+        </div>
+      </div>
+    </td>
   </tr>
 </template>
 
 <script lang="ts" setup>
+import type { Service } from '~/types/building';
+
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
@@ -75,10 +80,12 @@ const lightMode = computed(
 );
 const props = defineProps({
   service: {
-    type: Object as PropType<{
-      name: string;
-      price: number | string;
-    }>,
+    type: Object as PropType<
+      Service & {
+        isDeleted: boolean;
+        isNew: boolean;
+      }
+    >,
     required: true,
   },
   index: {
@@ -96,14 +103,14 @@ const props = defineProps({
 });
 const service = toRef(props, 'service');
 const { $event } = useNuxtApp();
-const checked = computed(() => props.serviceDeleteBucket.includes(props.index));
+const checked = computed(() => props.serviceDeleteBucket.includes(service.value.ID));
 
 // ---------------------- Functions ----------------------
 function addToBucket() {
-  $event.emit('addServiceToDeleteBucket', props.index);
+  $event.emit('addServiceToDeleteBucket', service.value.ID);
 }
 
 function removeFromBucket() {
-  $event.emit('removeServiceFromDeleteBucket', props.index);
+  $event.emit('removeServiceFromDeleteBucket', service.value.ID);
 }
 </script>

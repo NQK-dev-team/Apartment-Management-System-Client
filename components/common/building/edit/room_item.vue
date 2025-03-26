@@ -3,7 +3,7 @@
     <td v-if="!props.readOnly" class="text-sm text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-checkbox
-          :id="`check_room_${1000 * (props.floor + 1) + props.index + 1}`"
+          :id="`check_room_${roomInfo.no}`"
           :checked="checked"
           @click="checked ? removeFromBucket() : addToBucket()"
         ></a-checkbox>
@@ -11,7 +11,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        {{ 1000 * (props.floor + 1) + props.index + 1 }}
+        {{ roomInfo.no }}
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
@@ -19,7 +19,7 @@
         <div class="px-3">
           <a-select
             v-if="!props.readOnly"
-            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1`"
+            :id="`room_${roomInfo.no}_status_1`"
             v-model:value="roomInfo.status"
             placeholder="{{ $t('select_status') }}"
             class="w-full text-left"
@@ -41,7 +41,7 @@
           </a-select>
           <a-select
             v-else
-            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_3`"
+            :id="`room_${roomInfo.no}_status_3`"
             :value="roomInfo.status"
             placeholder="{{ $t('select_status') }}"
             class="w-full text-left"
@@ -71,19 +71,15 @@
         <div class="px-3">
           <a-input
             v-if="!props.readOnly"
-            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_area_1`"
+            :id="`room_${roomInfo.no}_area_1`"
+            v-model:value="roomInfo.area"
             :placeholder="$t('enter_room_area')"
             type="number"
             :min="0"
-            @change="
-              (e: any) => {
-                roomInfo.area = e.target.value ?? '';
-              }
-            "
           />
           <a-input
             v-else
-            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_area_3`"
+            :id="`room_${roomInfo.no}_area_3`"
             :value="roomInfo.area"
             :placeholder="$t('enter_room_area')"
             type="number"
@@ -99,13 +95,13 @@
         <div class="px-3">
           <a-textarea
             v-if="!props.readOnly"
-            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_description_1`"
+            :id="`room_${roomInfo.no}_description_1`"
             v-model:value="roomInfo.description"
             :placeholder="$t('enter_room_description')"
           />
           <a-textarea
             v-else
-            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_description_3`"
+            :id="`room_${roomInfo.no}_description_3`"
             :value="roomInfo.description"
             :placeholder="$t('enter_room_description')"
             disabled
@@ -116,37 +112,27 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+        <CommonBuildingEditRoomImage :room-info="roomInfo" :read-only="props.readOnly" :floor="floor" />
+      </div>
+    </td>
+    <td v-if="userRole?.toString() === roles.owner" class="text-sm font-normal text-center align-middle py-[16px]">
+      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <div class="px-3">
-          <a-upload
-            :id="`room_${1000 * (props.floor + 1) + props.index + 1}_images_${props.readOnly ? 3 : 1}`"
-            v-model:file-list="roomInfo.images"
-            accept=".png,.jpg,.jpeg"
-            multiple
-            list-type="picture-card"
-            class="custom_room_image_upload"
-            :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button' : '']"
-            @preview="handlePreview"
-          >
-            <div v-if="!props.readOnly">
-              <plus-outlined />
-              <div style="margin-top: 8px">{{ $t('upload_file') }}</div>
-            </div>
-          </a-upload>
+          <p v-if="room.ID <= 0" class="text-red-500">{{ $t('new') }}</p>
         </div>
       </div>
     </td>
-    <a-modal width="500px" :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
-      <img alt="Image Preview" style="width: 100%" :src="previewImage" />
-    </a-modal>
   </tr>
 </template>
 
 <script lang="ts" setup>
-import { getBase64 } from '#build/imports';
-import type { UploadProps, UploadFile } from 'ant-design-vue';
+import type { UploadFile } from 'ant-design-vue';
 import { roomStatusColor } from '~/consts/color';
+import type { RoomImage } from '~/types/building';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
@@ -154,10 +140,23 @@ const lightMode = computed(
 const props = defineProps({
   room: {
     type: Object as PropType<{
-      status: number;
-      area: number | string;
+      ID: number;
+      createdAt: string;
+      createdBy: number;
+      updatedAt: string;
+      updatedBy: number;
+      no: number;
+      floor: number;
       description: string;
-      images: UploadFile[];
+      area: number | string;
+      status: number;
+      buildingID: number;
+      images: ((RoomImage | UploadFile) & {
+        isDeleted: boolean;
+        isNew: boolean;
+      })[];
+      isDeleted: boolean;
+      isNew: boolean;
     }>,
     required: true,
   },
@@ -180,48 +179,14 @@ const props = defineProps({
 });
 const roomInfo = toRef(props, 'room');
 const { $event } = useNuxtApp();
-const checked = computed(() => props.deleteBucket.includes(props.index));
-const previewVisible = ref(false);
-const previewImage = ref('');
-const previewTitle = ref('');
+const checked = computed(() => props.deleteBucket.includes(roomInfo.value.ID));
 
 // ---------------------- Functions ----------------------
 function removeFromBucket() {
-  $event.emit('removeRoomFromDeleteBucket', props.index);
+  $event.emit('removeRoomFromDeleteBucket', roomInfo.value.ID);
 }
 
 function addToBucket() {
-  $event.emit('addRoomToDeleteBucket', props.index);
-}
-
-function handleCancel() {
-  previewVisible.value = false;
-  previewTitle.value = '';
-}
-
-// @ts-ignore
-async function handlePreview(file: UploadProps['fileList'][number]) {
-  if (!file.url && !file.preview) {
-    file.preview = (await getBase64(file.originFileObj)) as string;
-  }
-  previewImage.value = file.url || file.preview;
-  previewVisible.value = true;
-  previewTitle.value = file.name || file.url.substring(file.url.lastIndexOf('/') + 1);
+  $event.emit('addRoomToDeleteBucket', roomInfo.value.ID);
 }
 </script>
-
-<style lang="css">
-.custom_room_image_upload .ant-upload-list-item-actions{
-  display:flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.custom_room_image_upload a{
-  padding-top: 3px !important;
-}
-
-.custom_room_image_upload_hide_delete_button button{
-  display:none !important;
-}
-</style>

@@ -31,15 +31,10 @@
     </template>
     <template #customFilterIcon="{ filtered, column }">
       <FilterFilled
-        v-if="column.dataIndex === 'start_date' || column.dataIndex === 'end_date'"
+        v-if="column.dataIndex === 'startDate' || column.dataIndex === 'endDate'"
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
       <SearchOutlined v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
-    </template>
-    <template #bodyCell="{ value, column }">
-      <template v-if="column.key === 'price'">
-        {{ formatPrice(value) }}
-      </template>
     </template>
   </a-table>
 </template>
@@ -47,6 +42,7 @@
 <script lang="ts" setup>
 import type { ManagerSchedule } from '~/types/user';
 import { getUserName, convertToDate } from '#build/imports';
+import type { NullTime } from '~/types/basic_model';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -139,19 +135,19 @@ const columns = computed<any>(() => {
       },
     },
     {
-      title: t('start_date'),
-      dataIndex: 'start_date',
-      key: 'start_date',
-      sorter: (a: any, b: any) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime(),
+      title: t('startDate'),
+      dataIndex: 'startDate',
+      key: 'startDate',
+      sorter: (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
       sortDirections: ['ascend', 'descend'],
     },
     {
-      title: t('end_date'),
-      dataIndex: 'end_date',
-      key: 'end_date',
+      title: t('endDate'),
+      dataIndex: 'endDate',
+      key: 'endDate',
       sorter: (a: any, b: any) =>
-        new Date(a.end_date !== '-' ? a.end_date : '2100-01-01').getTime() -
-        new Date(b.end_date !== '-' ? b.end_date : '2100-01-01').getTime(),
+        new Date(a.endDate !== '-' ? a.endDate : '2100-01-01').getTime() -
+        new Date(b.endDate !== '-' ? b.endDate : '2100-01-01').getTime(),
       sortDirections: ['ascend', 'descend'],
     },
   ];
@@ -167,8 +163,8 @@ const data = computed<any>(() => {
       employee_name: getUserName(schedule.manager),
       email: schedule.manager.email,
       phone: schedule.manager.phone,
-      start_date: convertToDate(schedule.start_date),
-      end_date: schedule.end_date.Valid ? convertToDate(schedule.end_date.Time!) : '-',
+      startDate: convertToDate(schedule.startDate as string),
+      endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time!) : '-',
     });
   });
   return result;

@@ -16,10 +16,10 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <div class="px-3 w-[350px]">
+        <div class="px-3 w-full">
           <a-select
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_manager_no_1`"
+            :id="`schedule_${props.index + 1}_manager_no_${props.step}`"
             v-model:value="schedule.managerNo"
             class="w-full text-left"
             show-search
@@ -34,8 +34,8 @@
           ></a-select>
           <a-select
             v-else
-            :id="`schedule_${props.index + 1}_manager_no_3`"
-            v-model:value="schedule.managerNo"
+            :id="`schedule_${props.index + 1}_manager_no_${props.step}`"
+            :value="schedule.managerNo"
             class="w-full text-left"
             show-search
             :placeholder="$t('search_by_employee_no')"
@@ -56,14 +56,14 @@
         <div class="px-3">
           <a-input
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_manager_email_1`"
+            :id="`schedule_${props.index + 1}_manager_email_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
-            :id="`schedule_${props.index + 1}_manager_email_3`"
+            :id="`schedule_${props.index + 1}_manager_email_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
             disabled
             readonly
@@ -76,14 +76,14 @@
         <div class="px-3">
           <a-input
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_manager_phone_1`"
+            :id="`schedule_${props.index + 1}_manager_phone_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
-            :id="`schedule_${props.index + 1}_manager_phone_3`"
+            :id="`schedule_${props.index + 1}_manager_phone_${props.step}`"
             :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
             disabled
             readonly
@@ -96,14 +96,14 @@
         <div class="px-3">
           <a-date-picker
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_start_1`"
-            v-model:value="schedule.start"
+            :id="`schedule_${props.index + 1}_start_${props.step}`"
+            v-model:value="schedule.startDate"
             class="w-full"
           ></a-date-picker>
           <a-date-picker
             v-else
-            :id="`schedule_${props.index + 1}_start_3`"
-            :value="schedule.start"
+            :id="`schedule_${props.index + 1}_start_${props.step}`"
+            :value="schedule.startDate"
             class="w-full"
             disabled
             readonly
@@ -116,18 +116,25 @@
         <div class="px-3">
           <a-date-picker
             v-if="!props.readOnly"
-            :id="`schedule_${props.index + 1}_end_1`"
-            v-model:value="schedule.end"
+            :id="`schedule_${props.index + 1}_end_${props.step}`"
+            v-model:value="schedule.endDate"
             class="w-full"
           ></a-date-picker>
           <a-date-picker
             v-else
-            :id="`schedule_${props.index + 1}_end_3`"
-            :value="schedule.end"
+            :id="`schedule_${props.index + 1}_end_${props.step}`"
+            :value="schedule.endDate"
             class="w-full"
             disabled
             readonly
           ></a-date-picker>
+        </div>
+      </div>
+    </td>
+    <td v-if="userRole?.toString() === roles.owner" class="text-sm font-normal text-center align-middle py-[16px]">
+      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+        <div class="px-3">
+          <p v-if="schedule.ID <= 0" class="text-red-500">{{ $t('new') }}</p>
         </div>
       </div>
     </td>
@@ -136,8 +143,12 @@
 
 <script lang="ts" setup>
 import type { User } from '~/types/user';
+import type { Dayjs } from 'dayjs';
+import type { BasicModel } from '~/types/basic_model';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
@@ -148,12 +159,17 @@ const props = defineProps({
     required: true,
   },
   schedule: {
-    type: Object as PropType<{
-      managerID: number;
-      managerNo: string | undefined;
-      start: string | undefined;
-      end: string | undefined;
-    }>,
+    type: Object as PropType<
+      BasicModel & {
+        startDate: string | Dayjs;
+        endDate: Dayjs | string;
+        managerID: number;
+        managerNo: string;
+        buildingID: number;
+        isDeleted: boolean;
+        isNew: boolean;
+      }
+    >,
     required: true,
   },
   scheduleDeleteBucket: {
@@ -168,17 +184,21 @@ const props = defineProps({
     type: Array as PropType<User[]>,
     required: true,
   },
+  step: {
+    type: Number,
+    required: true,
+  },
 });
-const schedule = toRef(props, 'schedule');
 const { $event } = useNuxtApp();
-const checked = computed(() => props.scheduleDeleteBucket.includes(props.index));
+const schedule = toRef(props, 'schedule');
+const checked = computed(() => props.scheduleDeleteBucket.includes(schedule.value.ID));
 
 // ---------------------- Functions ----------------------
 function addToBucket() {
-  $event.emit('addScheduleToDeleteBucket', props.index);
+  $event.emit('addScheduleToDeleteBucket', schedule.value.ID);
 }
 
 function removeFromBucket() {
-  $event.emit('removeScheduleFromDeleteBucket', props.index);
+  $event.emit('removeScheduleFromDeleteBucket', schedule.value.ID);
 }
 </script>

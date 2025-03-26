@@ -56,6 +56,7 @@ export default {
   contract: 'Contract',
   contract_type: 'Contract type',
   contract_price: 'Contract price',
+  contract_id: 'Contract ID',
   confirm_new_password: 'Confirm new password',
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
@@ -65,6 +66,11 @@ export default {
   confirm_deletion_content: 'Are you sure you want to delete the selected item(s)?',
   confirm_deletion_with_password: 'Please enter your password to confirm deletion',
   clear: 'Clear',
+  creation_date: 'Creation date',
+  customer_responsible: 'Customer responsible',
+  content: 'Content',
+  confirm_update: 'Confirm update',
+  confirm_update_with_password: 'Please enter your password to confirm update',
 
   D: 'd',
   delete: 'Delete',
@@ -74,6 +80,7 @@ export default {
   delete_success_content: 'The selected item(s) has been deleted from the system!',
   detail: 'Detail',
   dob: 'Date of birth',
+  decision_date: 'Decision date',
 
   E: 'e',
   edit: 'Edit',
@@ -106,10 +113,9 @@ export default {
   empty_service_price: 'Service {no} price cannot be empty!',
   employee_list: 'Employee list',
   empty_password: 'Empty password!',
-  employee_id: 'Employee id',
   employee_name: 'Employee name',
   employee_number: 'Employee number',
-  end_date: 'End date',
+  endDate: 'End date',
   edit_service: 'Edit service',
   edit_service_success: 'Service information has been updated successfully!',
   enter_employee_no: 'Enter employee number',
@@ -119,6 +125,10 @@ export default {
   empty_employee_schedule: 'Management schedule {no}: Employee information cannot be empty!',
   empty_start_date_schedule: 'Management schedule {no}: Start date cannot be empty!',
   empty_end_date_schedule: 'Management schedule {no}: End date cannot be empty!',
+  edit_building: 'Edit building',
+  edit_building_success_title: 'Building information has been updated successfully',
+  edit_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
+  employee_info: 'Employee information',
 
   F: 'f',
   finish_import: 'Import',
@@ -129,6 +139,7 @@ export default {
   floor_number: 'Floor number',
   floor: 'Floor {name}',
   front_face: 'front face',
+  female: 'Female',
 
   G: 'g',
   gender: 'Gender',
@@ -144,6 +155,7 @@ export default {
   invalid_password: 'Invalid password!',
   image: 'Image',
   images: 'Image(s)',
+  info: 'Information',
 
   J: 'j',
 
@@ -159,6 +171,9 @@ export default {
   maintenance: 'Maintenance',
   management_schedule: 'Management schedule',
   middle_name: 'Middle name',
+  manager_approving: 'Manager approving',
+  manager_decision: 'Manager decision',
+  male: 'Male',
 
   N: 'n',
   notice: 'Notice',
@@ -176,6 +191,7 @@ export default {
   no_floor: 'This building has no floor, you can continue or go back to add new floor',
   name: 'Name',
   national_id: 'National ID',
+  new: 'New',
 
   O: 'o',
   operation: 'Operation',
@@ -183,9 +199,10 @@ export default {
   origin: 'Origin',
   owner_id: 'Owner ID',
   old_ssn: 'Old SSN',
+  owner_approving: 'Owner approving',
+  owner_decision: 'Owner decision',
 
   P: 'p',
-  payer: 'Payer',
   payer_id: 'Payer ID',
   paid_by: 'Paid by',
   payment_list: 'Payment list',
@@ -221,6 +238,8 @@ export default {
   S: 's',
   staff: 'Staff',
   support_ticket: 'Support ticket',
+  support_ticket_list: 'Support ticket list',
+  support_ticket_detail: 'Support ticket detail',
   submit: 'Submit',
   system_error_title: 'System error',
   system_error_description: 'An error occurred while processing your request. Please try again later.',
@@ -238,7 +257,8 @@ export default {
   search: 'Search',
   success: 'Success',
   select_a_floor: 'Please select a floor',
-  start_date: 'Start date',
+  startDate: 'Start date',
+  signDate: 'Sign date',
   search_by_employee_no: 'Search by employee number',
   start_date_large_end_date: 'Management schedule {no}: Start date must be less than end date!',
 
@@ -246,12 +266,16 @@ export default {
   total: 'Total',
   total_room: 'Total room',
   total_floor: 'Total floor',
+  ticket_id: 'Ticket ID',
+  ticket_creation_date: 'Ticket creation date',
+  title: 'Title',
 
   U: 'u',
   upload_file: 'Upload file',
   user_not_found: 'User not found!',
   unpaidRooms: 'Number of unpaid rooms',
   unavailable: 'Unavailable',
+  update_building_confirm: 'Are you sure you want to update this building information?',
 
   V: 'v',
 

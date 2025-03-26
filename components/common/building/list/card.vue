@@ -4,11 +4,12 @@
       <template #cover>
         <img alt="Building image" :src="props.image" class="w-[250px] h-[300px] rounded-none p-[2px]" />
       </template>
-      <template v-if="userRole?.toString() === roles.owner" #actions>
+      <template #actions>
         <NuxtLink :to="pageRoutes.common.building.edit(props.id)">
           <EditOutlined />
         </NuxtLink>
         <DeleteOutlined
+          v-if="userRole?.toString() === roles.owner"
           class="text-red-500 hover:text-red-300 active:text-red-600"
           @click="
             (e: any) => {

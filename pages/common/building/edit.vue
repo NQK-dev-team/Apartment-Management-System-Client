@@ -5,9 +5,14 @@
         <a-breadcrumb-item
           ><NuxtLink :to="pageRoutes.common.building.list">{{ $t('building_list') }}</NuxtLink></a-breadcrumb-item
         >
-        <a-breadcrumb-item>{{ $t('add_building') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>
+          <NuxtLink :to="pageRoutes.common.building.detail(buildingID)">
+            {{ $t('building_information') }}
+          </NuxtLink>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('edit_building') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('add_building') }}</h1>
+      <h1 class="mt-3 text-2xl">{{ $t('edit_building') }}</h1>
       <div class="flex items-center justify-center mt-5">
         <div>
           <div
@@ -300,30 +305,46 @@
       class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <div v-show="step === 1" class="flex-1">
-        <CommonBuildingAddStep1 :building-info="buildingInfo" :managers="managers" />
-      </div>
-      <div v-show="step === 2" class="flex-1">
-        <CommonBuildingAddStep2 :building-info="buildingInfo" />
-      </div>
-      <div v-show="step === 3" class="flex-1">
-        <CommonBuildingAddStep3 :building-info="buildingInfo" :step="step" :managers="managers" />
-      </div>
-      <div v-show="step === 4" class="flex-1">
-        <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
-          <div class="flex items-center justify-center mt-5">
-            <Success class="text-green-600 text-4xl" />
-          </div>
-          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
-          <p class="text-center my-2">{{ $t('add_building_success_title') }}</p>
-          <p class="text-center my-2">{{ $t('add_building_success_note') }}</p>
-          <div class="my-2 w-[100px]">
-            <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.list">
-              <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
-            </NuxtLink>
+      <ClientOnly>
+        <div v-show="step === 1" class="flex-1">
+          <CommonBuildingEditStep1
+            :building-info="buildingInfo"
+            :managers="managers"
+            :original-building-info="originalBuildingInfo"
+            :floors="floors"
+          />
+        </div>
+        <div v-show="step === 2" class="flex-1">
+          <CommonBuildingEditStep2
+            :building-info="buildingInfo"
+            :original-building-info="originalBuildingInfo"
+            :floors="floors"
+          />
+        </div>
+        <div v-show="step === 3" class="flex-1">
+          <CommonBuildingEditStep3
+            :building-info="buildingInfo"
+            :managers="managers"
+            :original-building-info="originalBuildingInfo"
+            :floors="floors"
+          />
+        </div>
+        <div v-show="step === 4" class="flex-1">
+          <div v-show="editSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+            <div class="flex items-center justify-center mt-5">
+              <Success class="text-green-600 text-4xl" />
+            </div>
+            <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+            <p class="text-center my-2">{{ $t('edit_building_success_title') }}</p>
+            <p class="text-center my-2">{{ $t('edit_building_success_note') }}</p>
+            <div class="my-2 w-[100px]">
+              <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.detail(buildingID)">
+                <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
+              </NuxtLink>
+            </div>
           </div>
         </div>
-      </div>
+      </ClientOnly>
       <div class="steps-action flex flex-col items-center mb-3 mt-10">
         <a-button
           v-if="step < 4"
@@ -336,7 +357,8 @@
                 highestStep = step;
               }
               if (step === 4) {
-                createNewBuilding();
+                step--;
+                $event.emit('updateItem', { callback: updateBuilding, updateModalContent: 'update_building_confirm' });
               }
             }
           "
@@ -345,7 +367,7 @@
         <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
           $t('previous')
         }}</a-button>
-        <NuxtLink v-if="step < 4" v-show="step === 1" :to="pageRoutes.common.building.list">
+        <NuxtLink v-if="step < 4" v-show="step === 1" :to="pageRoutes.common.building.detail(buildingID)">
           <a-button class="my-2 w-[100px] rounded-sm">{{ $t('cancel') }}</a-button>
         </NuxtLink>
       </div>
@@ -354,66 +376,205 @@
 </template>
 
 <script lang="ts" setup>
-import { pageRoutes } from '~/consts/page_routes';
-import type { NewBuildingInfo } from '~/types/building';
-import type { UploadFile } from 'ant-design-vue/es/upload/interface';
-import Success from '~/public/svg/success.svg';
 import { getMessageCode } from '~/consts/api_response';
+import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
+import type { EditBuilding } from '~/types/building';
 import type { User } from '~/types/user';
+import Success from '~/public/svg/success.svg';
+import type { NullTime } from '~/types/basic_model';
+import dayjs, { type Dayjs } from 'dayjs';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Add New Building',
+  name: 'Edit Building',
   layout: 'main',
-  middleware: ['authorization-owner'],
+  middleware: ['authorization-manager'],
 });
 
 useHead({
-  title: 'Add New Building',
+  title: 'Edit Building',
   meta: [
     {
       name: 'description',
-      content: 'Add a new building to the system',
+      content: 'Update a building information',
     },
   ],
 });
 
 // ---------------------- Variables ----------------------
-const { t } = useI18n();
+const route = useRoute();
+const buildingID = Number(route.params.id as string);
+const { $event } = useNuxtApp();
 const lightModeCookie = useCookie('lightMode');
 const step = ref<number>(1);
 const highestStep = ref<number>(1);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const buildingInfo = ref<NewBuildingInfo>({
-  name: '',
-  address: '',
-  images: [],
-  services: [],
-  floors: [],
-  schedules: [],
+const { t } = useI18n();
+const buildingInfo = ref<{ data: EditBuilding }>({
+  data: {
+    ID: 0,
+    name: '',
+    address: '',
+    images: [],
+    rooms: [],
+    services: [],
+    schedules: [],
+  } as unknown as EditBuilding,
 });
-const addSuccess = ref<boolean>(false);
-const { $event } = useNuxtApp();
+const originalBuildingInfo = ref<{ data: EditBuilding }>({
+  data: {
+    ID: 0,
+    name: '',
+    address: '',
+    images: [],
+    rooms: [],
+    services: [],
+    schedules: [],
+  } as unknown as EditBuilding,
+});
 const managers = ref<User[]>([]);
+const editSuccess = ref<boolean>(false);
+const floors = ref<
+  {
+    value: number;
+    disable: boolean;
+  }[]
+>([]);
 
 // ---------------------- Functions ----------------------
-async function createNewBuilding() {
-  buildingInfo.value.services.forEach((service) => {
-    service.price = parseFloat(service.price.toString());
-  });
-  buildingInfo.value.floors.forEach((floor) => {
-    floor.rooms.forEach((room) => {
-      room.area = parseFloat(room.area.toString());
+function checkStep1(): boolean {
+  if (buildingInfo.value.data.name === '') {
+    notification.error({
+      message: t('empty_building_name'),
     });
-  });
+    return false;
+  }
+  if (buildingInfo.value.data.address === '') {
+    notification.error({
+      message: t('empty_building_address'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.data.images.filter((image) => !image.isDeleted).length === 0) {
+    notification.error({
+      message: t('building_image_require'),
+    });
+    return false;
+  }
+  const finalServices = buildingInfo.value.data.services.filter((service) => !service.isDeleted);
+  if (finalServices.find((service) => service.name === '') !== undefined) {
+    notification.error({
+      message: t('empty_service_name', {
+        no: finalServices.findIndex((service) => service.name === '') + 1,
+      }),
+    });
+    return false;
+  }
+  if (finalServices.find((service) => service.price === '') !== undefined) {
+    notification.error({
+      message: t('empty_service_price', {
+        no: finalServices.findIndex((service) => service.price === '') + 1,
+      }),
+    });
+    return false;
+  }
+  if (finalServices.find((service) => service.price !== '' && Number(service.price) <= 0) !== undefined) {
+    notification.error({
+      message: t('zero_service_price', {
+        no: finalServices.findIndex((service) => service.price !== '' && Number(service.price) <= 0) + 1,
+      }),
+    });
+    return false;
+  }
+  const finalSchedules = buildingInfo.value.data.schedules.filter((schedule) => !schedule.isDeleted);
+  if (finalSchedules.find((schedule) => !schedule.managerNo) !== undefined) {
+    notification.error({
+      message: t('empty_employee_schedule', {
+        no: finalSchedules.findIndex((schedule) => !schedule.managerNo) + 1,
+      }),
+    });
+    return false;
+  }
+  if (finalSchedules.find((schedule) => !schedule.startDate) !== undefined) {
+    notification.error({
+      message: t('empty_start_date_schedule', {
+        no:
+          buildingInfo.value.data.schedules
+            .filter((schedule) => !schedule.isDeleted)
+            .findIndex((schedule) => !schedule.startDate) + 1,
+      }),
+    });
+    return false;
+  }
+  if (
+    finalSchedules.find(
+      (schedule) => schedule.endDate && schedule.startDate.toDate() > (schedule.endDate as Dayjs).toDate()
+    ) !== undefined
+  ) {
+    notification.error({
+      message: t('start_date_large_end_date', {
+        no:
+          finalSchedules.findIndex(
+            (schedule) => schedule.endDate && schedule.startDate.toDate() > (schedule.endDate as Dayjs).toDate()
+          ) + 1,
+      }),
+    });
+    return false;
+  }
+  return true;
+}
 
+function checkStep2(): boolean {
+  let invalidRoom = buildingInfo.value.data.rooms.find((room) => !room.isDeleted && room.status === 0);
+  if (invalidRoom) {
+    notification.error({
+      message: t('empty_room_status', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  invalidRoom = buildingInfo.value.data.rooms.find((room) => !room.isDeleted && room.area === '');
+  if (invalidRoom) {
+    notification.error({
+      message: t('empty_room_area', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  invalidRoom = buildingInfo.value.data.rooms.find((room) => !room.isDeleted && Number(room.area) <= 0);
+  if (invalidRoom) {
+    notification.error({
+      message: t('zero_room_area', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  invalidRoom = buildingInfo.value.data.rooms.find(
+    (room) => !room.isDeleted && !room.images.filter((image) => !image.isDeleted).length
+  );
+  if (invalidRoom) {
+    notification.error({
+      message: t('room_image_require', {
+        no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  return true;
+}
+
+async function updateBuilding() {
   try {
     $event.emit('loading');
-    await api.common.building.addNewBuilding(buildingInfo.value);
-    addSuccess.value = true;
+    await api.common.building.updateBuilding(buildingID, buildingInfo.value.data, floors.value.length);
+    editSuccess.value = true;
+    step.value++;
   } catch (err: any) {
     step.value--;
     if (
@@ -431,147 +592,94 @@ async function createNewBuilding() {
   }
 }
 
-function checkStep1(): boolean {
-  if (buildingInfo.value.name === '') {
-    notification.error({
-      message: t('empty_building_name'),
-    });
-    return false;
-  }
-  if (buildingInfo.value.address === '') {
-    notification.error({
-      message: t('empty_building_address'),
-    });
-    return false;
-  }
-  if (buildingInfo.value.images.length === 0) {
-    notification.error({
-      message: t('building_image_require'),
-    });
-    return false;
-  }
-  if (buildingInfo.value.services.find((service) => service.name === '') !== undefined) {
-    notification.error({
-      message: t('empty_service_name', {
-        no: buildingInfo.value.services.findIndex((service) => service.name === '') + 1,
-      }),
-    });
-    return false;
-  }
-  if (buildingInfo.value.services.find((service) => service.price === '') !== undefined) {
-    notification.error({
-      message: t('empty_service_price', {
-        no: buildingInfo.value.services.findIndex((service) => service.price === '') + 1,
-      }),
-    });
-    return false;
-  }
-  if (buildingInfo.value.services.find((service) => service.price !== '' && Number(service.price) <= 0) !== undefined) {
-    notification.error({
-      message: t('zero_service_price', {
-        no: buildingInfo.value.services.findIndex((service) => service.price !== '' && Number(service.price) <= 0) + 1,
-      }),
-    });
-    return false;
-  }
-  if (buildingInfo.value.schedules.find((schedule) => !schedule.managerNo) !== undefined) {
-    notification.error({
-      message: t('empty_employee_schedule', {
-        no: buildingInfo.value.schedules.findIndex((schedule) => !schedule.managerNo) + 1,
-      }),
-    });
-    return false;
-  }
-  if (buildingInfo.value.schedules.find((schedule) => !schedule.start) !== undefined) {
-    notification.error({
-      message: t('empty_start_date_schedule', {
-        no: buildingInfo.value.schedules.findIndex((schedule) => !schedule.start) + 1,
-      }),
-    });
-    return false;
-  }
-  if (
-    buildingInfo.value.schedules.find(
-      (schedule) => schedule.end && new Date(schedule.start!) > new Date(schedule.end)
-    ) !== undefined
-  ) {
-    notification.error({
-      message: t('start_date_large_end_date', {
-        no:
-          buildingInfo.value.schedules.findIndex((schedule) => new Date(schedule.start!) > new Date(schedule.end!)) + 1,
-      }),
-    });
-    return false;
-  }
-  return true;
-}
-
-function checkStep2(): boolean {
-  let isOK = true;
-
-  buildingInfo.value.floors.forEach((floor, floorIdx) => {
-    if (!isOK) return;
-    floor.rooms.forEach((room) => {
-      if (!isOK) return;
-      if (room.status === 0 && isOK) {
-        notification.error({
-          message: t('empty_room_status', {
-            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
-          }),
-        });
-        isOK = false;
-      }
-      if (room.area === '' && isOK) {
-        notification.error({
-          message: t('empty_room_area', {
-            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
-          }),
-        });
-        isOK = false;
-      }
-      if (Number(room.area) <= 0 && isOK) {
-        notification.error({
-          message: t('zero_room_area', {
-            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
-          }),
-        });
-        isOK = false;
-      }
-      if (room.images.length === 0 && isOK) {
-        notification.error({
-          message: t('room_image_require', {
-            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
-          }),
-        });
-        isOK = false;
-      }
-    });
-  });
-
-  return isOK;
-}
-
-// ---------------------- Watchers ----------------------
-watch(step, () => {
-  if (step.value === 2) {
-    if (!checkStep1()) {
-      step.value = 1;
-    }
-  }
-  if (step.value === 3) {
-    if (!checkStep2()) {
-      step.value = 2;
-    }
-    buildingInfo.value.images = buildingInfo.value.images.filter((image: UploadFile) => image.status === 'done');
-  }
-});
-
-// ---------------------- Lifecycles ----------------------
-onMounted(async () => {
+async function getBuildingData() {
   try {
     $event.emit('loading');
-    const response = await api.common.staff.getList();
-    managers.value = response.data;
+    const managerListResponse = await api.common.staff.getList();
+    const scheduleResponse = await api.common.building.getSchedule(buildingID);
+    const buildingInforResponse = await api.common.building.getDetail(buildingID);
+
+    buildingInfo.value.data.ID = buildingInforResponse.data.ID;
+    buildingInfo.value.data.name = buildingInforResponse.data.name;
+    buildingInfo.value.data.address = buildingInforResponse.data.address;
+    buildingInfo.value.data.images = buildingInforResponse.data.images.map((image) => {
+      return {
+        ...image,
+        isDeleted: false,
+        isNew: false,
+      };
+    });
+    buildingInfo.value.data.rooms = buildingInforResponse.data.rooms
+      .map((room) => {
+        return {
+          ...room,
+          images: room.images.map((image) => {
+            return {
+              ...image,
+              isDeleted: false,
+              isNew: false,
+            };
+          }),
+          isDeleted: false,
+          isNew: false,
+        };
+      })
+      .sort((a, b) => a.no - b.no);
+    buildingInfo.value.data.services = buildingInforResponse.data.services.map((service) => {
+      return {
+        ...service,
+        isDeleted: false,
+        isNew: false,
+      };
+    });
+    buildingInfo.value.data.schedules = scheduleResponse.data
+      .sort(
+        (a, b) =>
+          new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
+          new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
+            new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
+      )
+      .map((schedule) => {
+        return {
+          ID: schedule.ID,
+          createdAt: schedule.createdAt,
+          createdBy: schedule.createdBy,
+          updatedAt: schedule.updatedAt,
+          updatedBy: schedule.updatedBy,
+          buildingID: schedule.buildingID,
+          managerID: schedule.managerID,
+          managerNo: schedule.manager.no,
+          startDate: dayjs(schedule.startDate as string),
+          endDate: (schedule.endDate as NullTime).Valid ? dayjs((schedule.endDate as NullTime).Time as string) : '',
+          isDeleted: false,
+          isNew: false,
+        };
+      });
+    // buildingInfo.value.data.schedules.forEach((schedule) => {
+    //   schedule.startDate = dayjs(schedule.startDate as string);
+    //   schedule.endDate = (schedule.endDate as NullTime).Valid
+    //     ? dayjs((schedule.endDate as NullTime).Time as string)
+    //     : '';
+    // });
+    originalBuildingInfo.value = JSON.parse(JSON.stringify(buildingInfo.value));
+    managers.value = managerListResponse.data;
+
+    // if (buildingInforResponse.data.rooms.length) {
+    //   buildingInforResponse.data.rooms.forEach((room) => {
+    //     if (!floors.value.find((floor) => floor.value === room.floor)) {
+    //       floors.value.push({
+    //         value: room.floor,
+    //         disable: true,
+    //       });
+    //     }
+    //   });
+    // }
+    for (let i = 1; i <= buildingInforResponse.data.totalFloor; i++) {
+      floors.value.push({
+        value: i,
+        disable: true,
+      });
+    }
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -586,6 +694,33 @@ onMounted(async () => {
     }
   } finally {
     $event.emit('loading');
+  }
+}
+
+// ---------------------- Watchers ----------------------
+watch(step, () => {
+  if (step.value === 2) {
+    if (!checkStep1()) {
+      step.value = 1;
+    }
+  }
+  if (step.value === 3) {
+    if (!checkStep2()) {
+      step.value = 2;
+    }
+  }
+});
+
+// ---------------------- Lifecycles ----------------------
+onMounted(async () => {
+  await getBuildingData();
+
+  if (buildingInfo.value.data.ID === 0) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Page not found',
+      fatal: true,
+    });
   }
 });
 </script>

@@ -33,7 +33,7 @@
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('service_list') }}</h2>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -89,7 +89,7 @@
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -136,7 +136,7 @@
                     class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
-                    {{ $t('start_date') }}
+                    {{ $t('startDate') }}
                     <div class="flex items-center">
                       <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                     </div>
@@ -147,7 +147,7 @@
                     class="border-r-[1px] h-[20px] flex items-center justify-center"
                     :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
                   >
-                    {{ $t('end_date') }}
+                    {{ $t('endDate') }}
                   </div>
                 </th>
               </tr>
@@ -170,7 +170,7 @@
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
         </div>
-        <div class="mt-3 mb-8">
+        <div class="mt-3 mb-2">
           <table class="w-full">
             <thead
               class="border-b-[1px]"
@@ -218,7 +218,7 @@
           <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
           </div>
-          <div class="mt-3 mb-8">
+          <div class="mt-3 mb-2">
             <table class="w-full">
               <thead
                 class="border-b-[1px]"

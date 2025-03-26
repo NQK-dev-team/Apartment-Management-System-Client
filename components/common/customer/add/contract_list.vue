@@ -2,7 +2,7 @@
   <div>
     <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
       <template #bodyCell="{ column, record, text }">
-        <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
+        <template v-if="column.dataIndex && column.dataIndex !== 'operation' || column.dataIndex === 'status'">
           <div>
             {{ text }}
           </div>
@@ -15,11 +15,11 @@
             </a-tag>
           </span>
         </template>
-        
+
         <template v-else-if="column.dataIndex === 'operation'">
           <div>
             <span>
-              <a class="detail">{{ $t('edit') }}</a> | <a class="delete">{{$t('delete')}}</a>
+              <a class="detail">{{ $t('edit') }}</a> | <a class="delete">{{ $t('delete') }}</a>
             </span>
           </div>
         </template>
@@ -180,12 +180,14 @@ const rowSelection = ref({
 </script>
 
 <style scoped>
-.detail{
+.detail {
   color: deepskyblue !important;
 }
-.delete{
+
+.delete {
   color: red !important;
 }
+
 .detail:hover {
   cursor: pointer;
   color: #B9EDFE !important;

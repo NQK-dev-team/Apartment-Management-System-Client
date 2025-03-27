@@ -2,7 +2,7 @@
   <div>
     <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
       <template #bodyCell="{ column, record, text }">
-        <template v-if="column.dataIndex && column.dataIndex !== 'operation' || column.dataIndex === 'status'">
+        <template v-if="column.dataIndex && column.dataIndex !== 'operation' && column.dataIndex !== 'status'">
           <div>
             {{ text }}
           </div>

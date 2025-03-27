@@ -3,7 +3,7 @@
     @finish="onFinish">
     <a-row :gutter="16">
       <a-col :span="6">
-        <a-form-item :name="['bill', 'building']" :label="$t('building')" :rules="[{ required: true }]">
+        <a-form-item :name="['bill', 'building']" :label="$t('building')" :rules="[{ type:'string' }]">
           <a-input v-model:value="formState.bill.building" :disabled="true" />
         </a-form-item>
       </a-col>

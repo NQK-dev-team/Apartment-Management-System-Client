@@ -129,6 +129,7 @@ export default {
   edit_building_success_title: 'Building information has been updated successfully',
   edit_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
   employee_info: 'Employee information',
+  edit_bill: 'Edit bill',
 
   F: 'f',
   finish_import: 'Import',

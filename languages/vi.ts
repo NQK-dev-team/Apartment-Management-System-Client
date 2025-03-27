@@ -132,6 +132,7 @@ export default {
   edit_building_success_note:
     'Bạn có thể quay lại trang thông tin chi tiết của tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
   employee_info: 'Thông tin nhân viên',
+  edit_bill: 'Chỉnh sửa hóa đơn',
 
   F: 'f',
   finish_import: 'Hoàn tất',

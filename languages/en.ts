@@ -54,6 +54,7 @@ export default {
   customer_list: 'Customer list',
   customer_id: 'Customer ID',
   contract: 'Contract',
+  contract_list: 'Contract list',
   contract_type: 'Contract type',
   contract_price: 'Contract price',
   contract_id: 'Contract ID',
@@ -259,7 +260,7 @@ export default {
   success: 'Success',
   select_a_floor: 'Please select a floor',
   startDate: 'Start date',
-  signDate: 'Sign date',
+  signDate: 'Signed date',
   search_by_employee_no: 'Search by employee number',
   start_date_large_end_date: 'Management schedule {no}: Start date must be less than end date!',
 

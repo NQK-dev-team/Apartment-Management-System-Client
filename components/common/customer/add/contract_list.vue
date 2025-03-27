@@ -79,25 +79,25 @@ const columns = computed<any>(() => {
       width: '12%',
     },
     {
-      title: t('employee_id'),
+      title: t('employeeID'),
       align: 'center',
       dataIndex: 'employeeId',
       width: '12%',
     },
     {
-      title: t('start_date'),
+      title: t('start'),
       align: 'center',
       dataIndex: 'startDate',
       width: '12%',
     },
     {
-      title: t('end_date'),
+      title: t('end'),
       align: 'center',
       dataIndex: 'endDate',
       width: '12%',
     },
     {
-      title: t('signed_date'),
+      title: t('signDate'),
       align: 'center',
       dataIndex: 'signedDate',
       width: '12%',
@@ -154,7 +154,7 @@ for (let i = 0; i < 100; i++) {
     startDate: '2021-09-01',
     endDate: '2022-09-01',
     signedDate: '2021-09-01',
-    status: status[Math.floor(Math.random() * status.length)],
+    status: 0,
   });
 }
 

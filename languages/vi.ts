@@ -56,6 +56,7 @@ export default {
   customer_list: 'Danh sách khách hàng',
   customer_id: 'Mã khách hàng',
   contract: 'Hợp đồng',
+  contract_list: 'Danh sách hợp đồng',
   contract_type: 'Loại hợp đồng',
   contract_price: 'Giá theo hợp đồng',
   contract_id: 'Mã hợp đồng',

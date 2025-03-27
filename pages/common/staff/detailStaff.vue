@@ -165,19 +165,19 @@
             ]"
             @click="option = 3"
           >
-            {{ $t('building') }}
+            {{ $t('management_schedule') }}
           </p>
         </div>
         <div class="flex items-center justify-center mt-3">
           <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('contract') }}</h2>
           <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
-          <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('building') }}</h2>
+          <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
       </div>
       <ClientOnly>
         <CommonStaffContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
         <CommonStaffSupportTicketTable v-show="option === 2" />
-        <CommonStaffBuildingTable v-show="option === 3" />
+        <CommonStaffBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
       </ClientOnly>
       <div class="flex flex-col items-center my-5">
         <a-button class="my-2 w-[100px] rounded-sm">
@@ -196,6 +196,7 @@ import dayjs, { type Dayjs } from 'dayjs';
 import type { ManagerSchedule, User } from '~/types/user';
 import type { Contract } from '~/types/contract';
 import type { ManagerResolveTicket } from '~/types/support_ticket';
+import type { NullTime } from '~/types/basic_model';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -269,7 +270,12 @@ async function getStaffDetailInfo() {
     const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
 
     staffInfo.value = response.data;
-    schedules.value = scheduleResponse.data;
+    schedules.value = scheduleResponse.data.sort(
+      (a, b) =>
+        new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
+        new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
+          new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
+    );
     contracts.value = contractResponse.data;
     tickets.value = ticketResponse.data;
 

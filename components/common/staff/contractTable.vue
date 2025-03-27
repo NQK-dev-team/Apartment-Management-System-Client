@@ -9,7 +9,7 @@
         @search="filter"
       />
     </div>
-    <a-table :columns="columns" :data-source="data" class="mt-2">
+    <a-table :columns="columns" :data-source="data" class="mt-3">
       <template #bodyCell="{ column, value }">
         <template v-if="column.dataIndex === 'action'">
           <NuxtLink
@@ -79,33 +79,19 @@ const columns = computed(() => [
     title: t('startDate'),
     dataIndex: 'startDate',
     key: 'startDate',
-    // filters: [
-    //   { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
-    //   { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
-    //   { text: 'Third Quarter 2024', value: '07/01/2024-09/30/2024' },
-    //   { text: 'Fourth Quarter 2024', value: '10/01/2024-12/31/2024' },
-    // ],
-    // onFilter: (value, record) => {
-    //   const [start, end] = value.split('-');
-    //   const recordDate = new Date(record.startDate);
-    //   return recordDate >= new Date(start) && recordDate <= new Date(end);
-    // },
+    sorter: (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+    sortDirections: ['ascend', 'descend'],
+    class: 'select-none',
   },
   {
     title: t('endDate'),
     dataIndex: 'endDate',
     key: 'endDate',
-    // filters: [
-    //   { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
-    //   { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
-    //   { text: 'Third Quarter 2024', value: '07/01/2024-09/30/2024' },
-    //   { text: 'Fourth Quarter 2024', value: '10/01/2024-12/31/2024' },
-    // ],
-    // onFilter: (value, record) => {
-    //   const [start, end] = value.split('-');
-    //   const recordDate = new Date(record.endDate);
-    //   return recordDate >= new Date(start) && recordDate <= new Date(end);
-    // },
+    sorter: (a: any, b: any) =>
+      new Date(a.endDate !== '-' ? a.endDate : '2100-01-01').getTime() -
+      new Date(b.endDate !== '-' ? b.endDate : '2100-01-01').getTime(),
+    sortDirections: ['ascend', 'descend'],
+    class: 'select-none',
   },
   {
     title: t('signDate'),
@@ -150,7 +136,11 @@ function filter() {
     }))
     .filter((elem) => {
       const search = removeDiacritics(searchValue.value.trim().toLowerCase());
-      return removeDiacritics(elem.customer_name.toLowerCase()).includes(search) || elem.customer_no.includes(search);
+      return (
+        removeDiacritics(elem.customer_name.toLowerCase()).includes(search) ||
+        elem.customer_no.includes(search) ||
+        elem.contract_id.toString().includes(search)
+      );
     });
 }
 

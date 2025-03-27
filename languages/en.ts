@@ -85,6 +85,7 @@ export default {
 
   E: 'e',
   edit: 'Edit',
+  edit_customer: 'Edit customer',
   email: 'Email',
   example_file: 'Example files',
   example_file_csv: 'Example CSV file',

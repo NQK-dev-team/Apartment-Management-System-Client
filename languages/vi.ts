@@ -87,6 +87,7 @@ export default {
 
   E: 'e',
   edit: 'Chỉnh sửa',
+  edit_customer: 'Chỉnh sửa khách hàng',
   email: 'Email',
   example_file: 'Tệp tin mẫu',
   example_file_csv: 'Tệp tin CSV mẫu',

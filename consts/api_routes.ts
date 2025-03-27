@@ -16,8 +16,8 @@ const apiRoutes = {
     roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
     add: '/building/add',
     delete: (buildingID: number) => `/building/${buildingID}`,
-    getSchedule: (buildingID: number) => `/building/${ buildingID }/schedule`,
-    updateBuilding: (buildingID: number) => `/building/${ buildingID }/update`,
+    getSchedule: (buildingID: number) => `/building/${buildingID}/schedule`,
+    updateBuilding: (buildingID: number) => `/building/${buildingID}/update`,
   },
   room: {},
   profile: {},
@@ -31,6 +31,7 @@ const apiRoutes = {
     list: '/customer',
     detail: (customerId: number) => `/customer/${customerId}`,
     add: '/customer/add',
+    edit: (customerId: number) => `/customer/${customerId}/edit`,
   },
   bill: {
     list: '/bill',

@@ -5,9 +5,9 @@
         <a-breadcrumb-item
           ><NuxtLink :to="pageRoutes.common.customer.list">{{ $t('customer_list') }}</NuxtLink></a-breadcrumb-item
         >
-        <a-breadcrumb-item>{{ $t('add_customer') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('edit_customer') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('add_customer') }}</h1>
+      <h1 class="mt-3 text-2xl">{{ $t('edit_customer') }}</h1>
     </div>
     <div class="flex-1 flex flex-col mt-5 overflow-auto px-4" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <h1 class="mt-3 text-2xl">{{$t('customer_information')}}</h1>
@@ -39,17 +39,17 @@
   
   // ---------------------- Metadata ----------------------
   definePageMeta({
-    name: 'Add New Customer',
+    name: 'Edit a Customer',
     layout: 'main',
     middleware: ['authorization-owner'],
   });
   
   useHead({
-    title: 'Add New Customer',
+    title: 'Edit a Customer',
     meta: [
       {
         name: 'description',
-        content: 'Add a new Customer to the system',
+        content: 'Edit a Customer in the system',
       },
     ],
   });

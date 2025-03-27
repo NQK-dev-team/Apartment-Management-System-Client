@@ -34,6 +34,7 @@ const pageRoutes = {
       list: '/bill',
       detail: (billId: number | string) => `/bill/${billId}`,
       add: '/bill/add',
+      edit: (billId: number | string) => `/bill/${billId}/edit`,
     },
     support_ticket: {
       list: '/support-ticket',

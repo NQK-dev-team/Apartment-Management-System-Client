@@ -23,6 +23,7 @@ export default {
   amount: 'Amount',
   add_schedule: 'Add schedule',
   avatar: 'Avatar',
+  active: 'Active',
 
   B: 'b',
   balance: 'Balance',
@@ -69,6 +70,9 @@ export default {
   content: 'Content',
   confirm_update: 'Confirm update',
   confirm_update_with_password: 'Please enter your password to confirm update',
+  customer_name: 'Customer name',
+  customer_no: 'Customer number',
+  cancelled: 'Cancelled',
 
   D: 'd',
   delete: 'Delete',
@@ -127,6 +131,7 @@ export default {
   edit_building_success_title: 'Building information has been updated successfully',
   edit_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
   employee_info: 'Employee information',
+  expired: 'Expired',
 
   F: 'f',
   finish_import: 'Import',
@@ -190,6 +195,7 @@ export default {
   name: 'Name',
   national_id: 'National ID',
   new: 'New',
+  not_in_effect: 'Not in effect',
 
   O: 'o',
   operation: 'Operation',
@@ -282,6 +288,7 @@ export default {
   warning: 'Warning',
   wrong_password: 'Wrong password!',
   wrong_password_description: 'The password you entered is incorrect. Please try again!',
+  wait_for_signature: 'Waiting for signature',
 
   X: 'x',
 

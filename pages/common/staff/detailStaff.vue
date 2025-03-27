@@ -174,11 +174,8 @@
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('building') }}</h2>
         </div>
       </div>
-      <div class="flex justify-center mt-5 mb-3">
-        <a-input-search v-model:value="searchValue" class="w-[500px]" :placeholder="$t('enter_search')" enter-button />
-      </div>
       <ClientOnly>
-        <CommonStaffContractTable v-show="option === 1" />
+        <CommonStaffContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
         <CommonStaffSupportTicketTable v-show="option === 2" />
         <CommonStaffBuildingTable v-show="option === 3" />
       </ClientOnly>
@@ -256,7 +253,6 @@ const staffInfo = ref<User>({
 
 const dob = computed<Dayjs>(() => dayjs(staffInfo.value.dob));
 const option = ref<number>(1);
-const searchValue = ref('');
 const schedules = ref<ManagerSchedule[]>([]);
 const contracts = ref<Contract[]>([]);
 const tickets = ref<ManagerResolveTicket[]>([]);

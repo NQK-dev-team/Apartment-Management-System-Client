@@ -23,6 +23,7 @@ export default {
   amount: 'Số tiền',
   add_schedule: 'Thêm lịch quản lý',
   avatar: 'Chân dung',
+  active: 'Đang hiệu lực',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -69,6 +70,9 @@ export default {
   content: 'Nội dung',
   confirm_update: 'Xác nhận chỉnh sửa',
   confirm_update_with_password: 'Vui lòng nhập mật khẩu của bạn để xác nhận chỉnh sửa',
+  customer_name: 'Tên khách hàng',
+  customer_no: 'Mã khách hàng',
+  cancelled: 'Đã hủy',
 
   D: 'd',
   delete: 'Xóa',
@@ -128,6 +132,7 @@ export default {
   edit_building_success_note:
     'Bạn có thể quay lại trang thông tin chi tiết của tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
   employee_info: 'Thông tin nhân viên',
+  expired: 'Hết hiệu lực',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -191,6 +196,7 @@ export default {
   name: 'Tên',
   national_id: 'CCCD/CMND',
   new: 'Mới',
+  not_in_effect: 'Chưa có hiệu lực',
 
   O: 'o',
   operation: 'Thao tác',
@@ -277,7 +283,7 @@ export default {
   user_not_found: 'Người dùng không tồn tại!',
   unpaidRooms: 'Số phòng chưa thanh toán',
   unavailable: 'Không khả dụng',
-  update_building_confirm:'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
+  update_building_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
 
   V: 'v',
 
@@ -285,6 +291,7 @@ export default {
   warning: 'Cảnh báo',
   wrong_password: 'Mật khẩu không đúng!',
   wrong_password_description: 'Mật khẩu bạn nhập không đúng, vui lòng thử lại!',
+  wait_for_signature: 'Đang chờ chữ ký',
 
   X: 'x',
 

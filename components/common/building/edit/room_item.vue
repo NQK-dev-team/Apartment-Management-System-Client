@@ -25,19 +25,11 @@
             class="w-full text-left"
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" :class="`text-[#${roomStatusColor.rented}]`">{{
-              $t('rented')
-            }}</a-select-option>
-            <a-select-option :value="2" :class="`text-[#${roomStatusColor.sold}]`">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" :class="`text-[#${roomStatusColor.available}]`">{{
-              $t('available')
-            }}</a-select-option>
-            <a-select-option :value="4" :class="`text-[#${roomStatusColor.maintance}]`">{{
-              $t('maintenance')
-            }}</a-select-option>
-            <a-select-option :value="5" :class="`text-[#${roomStatusColor.unavailable}]`">{{
-              $t('unavailable')
-            }}</a-select-option>
+            <a-select-option :value="1" :class="`text-[#888888]`">{{ $t('rented') }}</a-select-option>
+            <a-select-option :value="2" :class="`text-[#888888]`">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" :class="`text-[#50c433]`">{{ $t('available') }}</a-select-option>
+            <a-select-option :value="4" :class="`text-[#888888]`">{{ $t('maintenance') }}</a-select-option>
+            <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
           </a-select>
           <a-select
             v-else
@@ -49,19 +41,11 @@
             readonly
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" :class="`text-[#${roomStatusColor.rented}]`">{{
-              $t('rented')
-            }}</a-select-option>
-            <a-select-option :value="2" :class="`text-[#${roomStatusColor.sold}]`">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" :class="`text-[#${roomStatusColor.available}]`">{{
-              $t('available')
-            }}</a-select-option>
-            <a-select-option :value="4" :class="`text-[#${roomStatusColor.maintance}]`">{{
-              $t('maintenance')
-            }}</a-select-option>
-            <a-select-option :value="5" :class="`text-[#${roomStatusColor.unavailable}]`">{{
-              $t('unavailable')
-            }}</a-select-option>
+            <a-select-option :value="1" :class="`text-[#888888]`">{{ $t('rented') }}</a-select-option>
+            <a-select-option :value="2" :class="`text-[#888888]`">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" :class="`text-[#50c433]`">{{ $t('available') }}</a-select-option>
+            <a-select-option :value="4" :class="`text-[#888888]`">{{ $t('maintenance') }}</a-select-option>
+            <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
           </a-select>
         </div>
       </div>
@@ -127,7 +111,6 @@
 
 <script lang="ts" setup>
 import type { UploadFile } from 'ant-design-vue';
-import { roomStatusColor } from '~/consts/color';
 import type { RoomImage } from '~/types/building';
 import { roles } from '~/consts/roles';
 

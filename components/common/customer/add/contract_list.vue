@@ -138,11 +138,6 @@ const data: DataItem[] = [];
 const genders = ['Male', 'Female'];
 const status = [0, 1];
 
-function getRandomStatus() {
-  const shuffled = status.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, 1);
-  return selected[0];
-}
 
 for (let i = 0; i < 100; i++) {
   data.push({
@@ -159,7 +154,7 @@ for (let i = 0; i < 100; i++) {
     startDate: '2021-09-01',
     endDate: '2022-09-01',
     signedDate: '2021-09-01',
-    status: getRandomStatus(),
+    status: status[Math.floor(Math.random() * status.length)],
   });
 }
 

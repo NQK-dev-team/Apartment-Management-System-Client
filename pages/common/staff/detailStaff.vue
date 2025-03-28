@@ -176,7 +176,7 @@
       </div>
       <ClientOnly>
         <CommonStaffContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
-        <CommonStaffSupportTicketTable v-show="option === 2" />
+        <CommonStaffSupportTicketTable v-if="tickets.length" v-show="option === 2" :tickets="tickets" />
         <CommonStaffBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
       </ClientOnly>
       <div class="flex flex-col items-center my-5">
@@ -294,6 +294,7 @@ async function getStaffDetailInfo() {
         fatal: true,
       });
     }
+    staffInfo.value.ID = 0;
   } finally {
     $event.emit('loading');
   }

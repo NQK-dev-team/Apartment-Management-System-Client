@@ -1,4 +1,5 @@
 import type { BasicFileModel, BasicModel } from './basic_model';
+import type { Contract } from './contract';
 import type { User } from './user';
 
 type SupportTicketFile = BasicFileModel & {
@@ -10,9 +11,12 @@ type SupportTicket = BasicModel & {
   title: string;
   content: string;
   contractID: number;
+  contract: Contract;
   customerID: number;
   customer: User;
   files: SupportTicketFile[];
+  roomNo: number;
+  buildingName: string;
 };
 
 type ManagerResolveTicket = {
@@ -22,6 +26,8 @@ type ManagerResolveTicket = {
   manager: User;
   result: number; // 0: Rejected, 1: Approved
   resolveTime: string;
+  ownerID: number;
+  owner: User;
 };
 
 export type { SupportTicket, ManagerResolveTicket };

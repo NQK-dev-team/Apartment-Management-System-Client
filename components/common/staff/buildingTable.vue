@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { NullTime } from '~/types/basic_model';
 import type { ManagerSchedule } from '~/types/user';
 
 // ---------------------- Variables ----------------------
@@ -13,7 +14,7 @@ const props = defineProps({
   },
 });
 const { t } = useI18n();
-const columns = computed(() => [
+const columns = computed<any[]>(() => [
   {
     title: t('no'),
     dataIndex: 'no',
@@ -48,8 +49,8 @@ const data = computed(() =>
   props.schedules.map((schedule, index) => ({
     no: index + 1,
     building_managing: schedule.building.name,
-    startDate: convertToDate(schedule.startDate),
-    endDate: schedule.endDate.Valid ? convertToDate(schedule.endDate.Time!) : '-',
+    startDate: convertToDate(schedule.startDate as string),
+    endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time!) : '-',
   }))
 );
 </script>

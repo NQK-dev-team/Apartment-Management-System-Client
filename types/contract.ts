@@ -1,5 +1,9 @@
-import type { BasicModel, NullTime } from './basic_model';
+import type { BasicFileModel, BasicModel, NullTime } from './basic_model';
 import type { User } from './user';
+
+type ContractFile = BasicFileModel & {
+  contractID: number;
+};
 
 type Contract = BasicModel & {
   status: number; // 1: Active, 2: Expired, 3: Cancelled, 4: Waiting for signatures, 5: Not in effect yet
@@ -13,6 +17,7 @@ type Contract = BasicModel & {
   householderID: number;
   householder: User;
   roomID: number;
+  files: ContractFile[];
   // buildingID: number;
   // room: Room;
 };

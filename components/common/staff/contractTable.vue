@@ -54,7 +54,7 @@ const props = defineProps({
 const { t } = useI18n();
 const searchValue = ref('');
 
-const columns = computed(() => [
+const columns = computed<any[]>(() => [
   {
     title: t('no'),
     dataIndex: 'no',

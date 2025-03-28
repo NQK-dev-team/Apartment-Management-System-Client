@@ -8,7 +8,7 @@
         <a-breadcrumb-item>{{ $t('customer_detail') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div class="flex justify-between mt-5">
-        <h1 class="mt-3 text-2xl">{{ $t('bill_detail') }}</h1>
+        <h1 class="mt-3 text-2xl">{{ $t('customer_detail') }}</h1>
         <div class="flex">
           <a-button type="primary" class="flex items-center justify-center p-2 rounded-none;">
             {{ $t('edit') }}
@@ -18,7 +18,6 @@
           </a-button>
         </div>
       </div>
-      <h1 class="mt-3 text-2xl">{{ $t('customer_detail') }}</h1>
     </div>
     <div class="flex-1 flex flex-col mt-5 overflow-auto px-4"
       :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">

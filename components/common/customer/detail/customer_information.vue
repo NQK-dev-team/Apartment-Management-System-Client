@@ -3,56 +3,56 @@
     <a-row :gutter="16">
       <a-col :span="6">
         <a-form-item :name="['customer', 'last_name']" :label="$t('last_name')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.last_name" :disable="true"/>
+          <a-input v-model:value="formState.customer.last_name" :disabled="true"/>
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item :name="['customer', 'middle_name']" :label="$t('middle_name')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.middle_name" :disable="true"/>
+          <a-input v-model:value="formState.customer.middle_name" :disabled="true"/>
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item :name="['customer', 'first_name']" :label="$t('name')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.first_name" :disable="true"/>
+          <a-input v-model:value="formState.customer.first_name" :disabled="true"/>
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item :name="['customer', 'dob']" :label="$t('dob')" :rules="[{ type: 'date', required: true }]">
-          <a-date-picker v-model:value="formState.customer.dob" :disable="true"/>
+          <a-date-picker v-model:value="formState.customer.dob" :disabled="true"/>
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="16">
       <a-col :span="6">
         <a-form-item :name="['customer', 'gender']" :label="$t('gender')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.gender" :disable="true"/>
+          <a-input v-model:value="formState.customer.gender" :disabled="true"/>
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item :name="['customer', 'ssn']" :label="$t('ssn')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.ssn" :disable="true"/>
+          <a-input v-model:value="formState.customer.ssn" :disabled="true"/>
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item :name="['customer', 'old_ssn']" :label="$t('old_ssn')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.old_ssn" :disable="true"/>
+          <a-input v-model:value="formState.customer.old_ssn" :disabled="true"/>
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item :name="['customer', 'origin']" :label="$t('origin')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.origin" :disable="true"/>
+          <a-input v-model:value="formState.customer.origin" :disabled="true"/>
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="16">
       <a-col :span="6">
         <a-form-item :name="['customer', 'phone']" :label="$t('phone')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.phone" :disable="true"/>
+          <a-input v-model:value="formState.customer.phone" :disabled="true"/>
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item :name="['customer', 'email']" :label="$t('email')" :rules="[{ type: 'string', required: true }]">
-          <a-input v-model:value="formState.customer.email" :disable="true"/>
+          <a-input v-model:value="formState.customer.email" :disabled="true"/>
         </a-form-item>
       </a-col>
     </a-row>

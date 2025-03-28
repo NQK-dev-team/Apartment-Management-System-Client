@@ -52,6 +52,7 @@ export default {
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
+  custoemr_detail: 'Chi tiết khách hàng',
   customer_information: 'Thông tin khách hàng',
   customer_list: 'Danh sách khách hàng',
   customer_id: 'Mã khách hàng',

@@ -50,6 +50,7 @@ export default {
   cancel: 'Cancel',
   choose_file: 'Choose file',
   customer: 'Customer',
+  customer_detail: 'Customer detail',
   customer_information: 'Customer information',
   customer_list: 'Customer list',
   customer_id: 'Customer ID',

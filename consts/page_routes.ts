@@ -28,11 +28,15 @@ const pageRoutes = {
     },
     customer: {
       list: '/customer',
+      add: '/customer/add',
+      detail: (customerId: number | string) => `/customer/${customerId}`,
+      edit: (customerId: number | string) => `/customer/${customerId}/edit`,
     },
     bill: {
       list: '/bill',
       detail: (billId: number | string) => `/bill/${billId}`,
       add: '/bill/add',
+      edit: (billId: number | string) => `/bill/${billId}/edit`,
     },
     support_ticket: {
       list: '/support-ticket',

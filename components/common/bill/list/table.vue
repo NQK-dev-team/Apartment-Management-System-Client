@@ -110,7 +110,7 @@ const props = defineProps({
   },
   paymentTime: {
     type: String,
-    required: false,
+    required: false,  
   },
   amount: {
     type: Number,

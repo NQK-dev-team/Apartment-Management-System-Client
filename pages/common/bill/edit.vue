@@ -5,9 +5,9 @@
         <a-breadcrumb-item
           ><NuxtLink :to="pageRoutes.common.bill.list">{{ $t('bill_list') }}</NuxtLink></a-breadcrumb-item
         >
-        <a-breadcrumb-item>{{ $t('add_bill') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('edit_bill') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('add_bill') }}</h1>
+      <h1 class="mt-3 text-2xl">{{ $t('edit_bill') }}</h1>
     </div>
     <div class="flex-1 flex flex-col mt-5 overflow-auto px-4" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <h1 class="mt-3 text-2xl">{{$t('bill_info')}}</h1>
@@ -39,17 +39,17 @@
   
   // ---------------------- Metadata ----------------------
   definePageMeta({
-    name: 'Add New Bill',
+    name: 'Edit a Bill',
     layout: 'main',
     middleware: ['authorization-owner'],
   });
   
   useHead({
-    title: 'Add New Bill',
+    title: 'Edit a Bill',
     meta: [
       {
         name: 'description',
-        content: 'Add a new bill to the system',
+        content: 'Edit a bill in the system',
       },
     ],
   });

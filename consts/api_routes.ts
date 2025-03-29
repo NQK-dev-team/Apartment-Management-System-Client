@@ -34,12 +34,14 @@ const apiRoutes = {
   customer: {
     list: '/customer',
     detail: (customerId: number) => `/customer/${customerId}`,
-    add: '/customer',
+    add: '/customer/add',
+    edit: (customerId: number) => `/customer/${customerId}/edit`,
   },
   bill: {
     list: '/bill',
     detail: (billId: number) => `/bill/${billId}`,
     add: '/bill/add',
+    edit: (billId: number) => `/bill/${billId}/edit`,
   },
   support_ticket: {
     approve: (ticketId: number) => `/support-ticket/${ticketId}/approve`,

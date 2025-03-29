@@ -1,64 +1,121 @@
 <template>
-  <div>
-    <a-form
-    :disabled="componentDisabled"
-      ref="formRef"
-      name="advanced_search"
-      class="ant-advanced-search-form"
-      :model="formState"
-      @finish="onFinish"
-    >
-      <a-row :gutter="24">
-        <template v-for="i in 10" :key="i">
-          <a-col v-show="expand || i <= 6" :span="8">
-            <a-form-item
-              :name="`field-${i}`"
-              :label="`field-${i}`"
-              :rules="[{ required: true, message: 'input something' }]"
-            >
-              <a-input v-model:value="formState[`field-${i}`]" placeholder="placeholder"></a-input>
-            </a-form-item>
-          </a-col>
-        </template>
-      </a-row>
-    </a-form>
-    <div class="search-result-list">Search Result List</div>
-  </div>
+  <a-form :model="formState" layout="vertical" name="nest-messages" :validate-messages="validateMessages"
+    @finish="onFinish">
+    <a-row :gutter="16">
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'building']" :label="$t('building')" :rules="[{ type:'string', required: true }]">
+          <a-input v-model:value="formState.bill.building" :disabled="true" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'address']" :label="$t('address')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.address" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'floor']" :label="$t('floor')" :rules="[{ type: 'number', min: 1, max: 99, required: true }]">
+          <a-input-number v-model:value="formState.bill.floor" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'room']" :label="$t('room')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.room" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'contract_id']" :label="$t('contract')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.contract_id" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'contract_type']" :label="$t('contract_type')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.contract_type" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'contract_price']" :label="$t('contract_price')" :rules="[{ type: 'number', required: true }]">
+          <a-input v-model:value="formState.bill.contract_price" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'owner']" :label="$t('owner')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.owner" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'owner_id']" :label="$t('owner_id')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.owner_id" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'payment_period']" :label="$t('payment_period')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.payment_period" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'status']" :label="$t('status')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.status" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'payment_date']" :label="$t('payment_date')" :rules="[{ type: 'date', required: true }]">
+          <a-date-picker v-model:value="formState.bill.payment_date" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'payer']" :label="$t('payer')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.payer" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['bill', 'payer_id']" :label="$t('payer_id')" :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.bill.payer_id" :disabled="true"/>
+        </a-form-item>
+      </a-col>
+    </a-row>
+  </a-form>
 </template>
+
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
-import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
-import type { FormInstance } from 'ant-design-vue';
-const componentDisabled = ref(true);
-const expand = ref(false);
-const formRef = ref<FormInstance>();
-const formState = reactive({});
+import { reactive } from 'vue';
+
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    email: '${label} is not a valid email!',
+    number: '${label} is not a valid number!',
+  },
+  number: {
+    range: '${label} must be between ${min} and ${max}',
+  },
+};
+
+const formState = reactive({
+  bill: {
+    building: '',
+    address: '',
+    floor: 1,
+    room: '',
+    contract_id: '',
+    contract_type: '',
+    contract_price: 0,
+    owner: '',
+    owner_id: '',
+    payment_period: '',
+    status: '',
+    payment_date: '',
+    payer: '',
+    payer_id: '',
+  },
+});
+
 const onFinish = (values: any) => {
-  console.log('Received values of form: ', values);
-  console.log('formState: ', formState);
+  console.log('Success:', values);
 };
 </script>
-<style scoped>
-#components-form-demo-advanced-search .ant-form {
-  max-width: none;
-}
-#components-form-demo-advanced-search .search-result-list {
-  margin-top: 16px;
-  border: 1px dashed #e9e9e9;
-  border-radius: 2px;
-  background-color: #fafafa;
-  min-height: 200px;
-  text-align: center;
-  padding-top: 80px;
-}
-[data-theme='dark'] .ant-advanced-search-form {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid #434343;
-  padding: 24px;
-  border-radius: 2px;
-}
-[data-theme='dark'] #components-form-demo-advanced-search .search-result-list {
-  border: 1px dashed #434343;
-  background: rgba(255, 255, 255, 0.04);
-}
-</style>

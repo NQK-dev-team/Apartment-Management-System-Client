@@ -1,3 +1,5 @@
+import Customer_information from '~/components/common/customer/add/customer_information.vue';
+
 export default {
   A: 'a',
   add_building: 'Thêm tòa nhà',
@@ -30,6 +32,7 @@ export default {
   B: 'b',
   balance: 'Dư nợ',
   bill: 'Hóa đơn',
+  bill_detail: 'Chi tiết hóa đơn',
   bill_list: 'Danh sách hóa đơn',
   bill_info: 'Thông tin hóa đơn',
   building: 'Tòa nhà {name}',
@@ -52,9 +55,12 @@ export default {
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
+  custoemr_detail: 'Chi tiết khách hàng',
+  customer_information: 'Thông tin khách hàng',
   customer_list: 'Danh sách khách hàng',
   customer_id: 'Mã khách hàng',
   contract: 'Hợp đồng',
+  contract_list: 'Danh sách hợp đồng',
   contract_type: 'Loại hợp đồng',
   contract_price: 'Giá theo hợp đồng',
   contract_id: 'Mã hợp đồng',
@@ -91,6 +97,7 @@ export default {
 
   E: 'e',
   edit: 'Chỉnh sửa',
+  edit_customer: 'Chỉnh sửa khách hàng',
   email: 'Email',
   example_file: 'Tệp tin mẫu',
   example_file_csv: 'Tệp tin CSV mẫu',
@@ -138,6 +145,7 @@ export default {
     'Bạn có thể quay lại trang thông tin chi tiết của tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
   employee_info: 'Thông tin nhân viên',
   expired: 'Hết hiệu lực',
+  edit_bill: 'Chỉnh sửa hóa đơn',
 
   F: 'f',
   finish_import: 'Hoàn tất',

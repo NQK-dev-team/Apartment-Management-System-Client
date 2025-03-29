@@ -82,6 +82,21 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.customer.list,
     file: customerBaseRoute + 'list.vue',
   },
+  {
+    name: 'Add New Customer',
+    path: pageRoutes.common.customer.add,
+    file: customerBaseRoute + 'add.vue',
+  },
+  {
+    name: 'Edit Customer',
+    path: pageRoutes.common.customer.edit(':id'),
+    file: customerBaseRoute + 'edit.vue',
+  },
+  {
+    name: 'Customer Detail',
+    path: pageRoutes.common.customer.detail(':id'),
+    file: customerBaseRoute + 'detail.vue',
+  },
   // Bill
   {
     name: 'Bill List',
@@ -97,6 +112,11 @@ const commonRoutes: Route[] = [
     name: 'Add New Bill',
     path: pageRoutes.common.bill.add,
     file: billBaseRoute + 'add.vue',
+  },
+  {
+    name: 'Edit Bill',
+    path: pageRoutes.common.bill.edit(':id'),
+    file: billBaseRoute + 'edit.vue',
   },
   // Contract
   // Support ticket

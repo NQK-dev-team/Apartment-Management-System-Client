@@ -11,7 +11,7 @@ const apiRoutes = {
     verifyPassword: '/authentication/verify-password',
   },
   building: {
-    list: '/building',
+    list: (getAll: boolean = false) => `/building?getAll=${getAll}`,
     detail: (buildingId: number) => `/building/${buildingId}`,
     roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
     add: '/building/add',

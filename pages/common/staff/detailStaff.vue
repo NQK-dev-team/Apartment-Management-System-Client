@@ -180,6 +180,7 @@
             v-show="option === 2"
             :tickets="tickets"
             :staff-info="staffInfo"
+            :building-list="buildingList"
           />
           <CommonStaffBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
         </ClientOnly>
@@ -202,6 +203,7 @@ import type { ManagerSchedule, User } from '~/types/user';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { NullTime } from '~/types/basic_model';
+import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -262,6 +264,7 @@ const option = ref<number>(1);
 const schedules = ref<ManagerSchedule[]>([]);
 const contracts = ref<Contract[]>([]);
 const tickets = ref<SupportTicket[]>([]);
+const buildingList = ref<Building[]>([]);
 const scheduleApiOffset = ref<number>(0);
 const scheduleApiLimit = ref<number>(500);
 const { t } = useI18n();
@@ -274,6 +277,7 @@ async function getStaffDetailInfo() {
     const scheduleResponse = await api.common.staff.getSchedule(staffID);
     const contractResponse = await api.common.staff.getContract(staffID);
     const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
+    const buildingResponse = await api.common.building.getList();
 
     staffInfo.value = response.data;
     schedules.value = scheduleResponse.data.sort(
@@ -284,6 +288,7 @@ async function getStaffDetailInfo() {
     );
     contracts.value = contractResponse.data;
     tickets.value = ticketResponse.data;
+    buildingList.value = buildingResponse.data;
 
     if (ticketResponse.data.length === scheduleApiLimit.value) {
       scheduleApiOffset.value += scheduleApiLimit.value;

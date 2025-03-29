@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :data-source="data" class="mt-3"> </a-table>
+  <a-table :columns="columns" :data-source="data" class="mt-3" :scroll="{ x: 'max-content' }"> </a-table>
 </template>
 
 <script lang="ts" setup>
@@ -19,11 +19,13 @@ const columns = computed<any[]>(() => [
     title: t('no'),
     dataIndex: 'no',
     key: 'no',
+    class: 'text-nowrap',
   },
   {
     title: t('building_managing'),
     dataIndex: 'building_managing',
     key: 'building_managing',
+    class: 'text-nowrap',
   },
   {
     title: t('startDate'),
@@ -31,7 +33,7 @@ const columns = computed<any[]>(() => [
     key: 'startDate',
     sorter: (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
     sortDirections: ['ascend', 'descend'],
-    class: 'select-none',
+    class: 'select-none text-nowrap',
   },
   {
     title: t('endDate'),
@@ -41,7 +43,7 @@ const columns = computed<any[]>(() => [
       new Date(a.endDate !== '-' ? a.endDate : '2100-01-01').getTime() -
       new Date(b.endDate !== '-' ? b.endDate : '2100-01-01').getTime(),
     sortDirections: ['ascend', 'descend'],
-    class: 'select-none',
+    class: 'select-none text-nowrap',
   },
 ]);
 

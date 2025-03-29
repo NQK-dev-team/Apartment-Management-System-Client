@@ -99,9 +99,9 @@ const authentication = {
 
 const common = {
   building: {
-    getList: async (): Promise<APIResponse<Building[]>> => {
+    getList: async (getAll: boolean = false): Promise<APIResponse<Building[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.building.list, {
+      return $api(apiRoutes.building.list(getAll), {
         method: 'GET',
       });
     },

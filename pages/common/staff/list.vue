@@ -53,7 +53,8 @@
           },
         }"
         bordered
-        class="mt-2"
+        class="mt-3"
+        :scroll="{ x: 'max-content' }"
       >
         <template #bodyCell="{ value, column }">
           <template v-if="column.key === 'action'">
@@ -112,46 +113,55 @@ const columns = computed(() => [
     title: t('no'),
     dataIndex: 'no',
     key: 'no',
+    class: 'text-nowrap',
   },
   {
     title: t('name'),
     dataIndex: 'name',
     key: 'name',
+    class: 'text-nowrap',
   },
   {
     title: t('employee_number'),
     dataIndex: 'employeeNumber',
     key: 'employeeNumber',
+    class: 'text-nowrap',
   },
   {
     title: t('gender'),
     dataIndex: 'gender',
     key: 'gender',
+    class: 'text-nowrap',
   },
   {
     title: t('dob'),
     dataIndex: 'dob',
     key: 'dob',
+    class: 'text-nowrap',
   },
   {
     title: t('ssn'),
     dataIndex: 'ssn',
     key: 'ssn',
+    class: 'text-nowrap',
   },
   {
     title: t('phone'),
     dataIndex: 'phone',
     key: 'phone',
+    class: 'text-nowrap',
   },
   {
     title: t('email'),
     dataIndex: 'email',
     key: 'email',
+    class: 'text-nowrap',
   },
   {
     title: t('action'),
     dataIndex: 'action',
     key: 'action',
+    class: 'text-nowrap',
   },
 ]);
 const dataSource = ref<

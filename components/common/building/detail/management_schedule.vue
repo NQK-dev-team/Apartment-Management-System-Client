@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-col w-full" style="display: flex;">
+  <div class="flex-col w-full" style="display: flex">
     <a-input-search
       v-model:value="searchValue"
       class="w-[500px] mx-auto my-3"
@@ -7,7 +7,7 @@
       enter-button
       @search="searchEmployee"
     />
-    <a-table :columns="columns" class="mt-5" :data-source="data"> </a-table>
+    <a-table :columns="columns" class="mt-5" :data-source="data" :scroll="{ x: 'max-content' }"> </a-table>
   </div>
 </template>
 
@@ -32,26 +32,31 @@ const columns = computed<any>(() => {
       title: t('no'),
       dataIndex: 'no',
       key: 'no',
+      class: 'text-nowrap',
     },
     {
       title: t('employee_number'),
       dataIndex: 'employee_number',
       key: 'employee_number',
+      class: 'text-nowrap',
     },
     {
       title: t('employee_name'),
       dataIndex: 'employee_name',
       key: 'employee_name',
+      class: 'text-nowrap',
     },
     {
       title: t('email'),
       dataIndex: 'email',
       key: 'email',
+      class: 'text-nowrap',
     },
     {
       title: t('phone'),
       dataIndex: 'phone',
       key: 'phone',
+      class: 'text-nowrap',
     },
     {
       title: t('startDate'),
@@ -59,7 +64,7 @@ const columns = computed<any>(() => {
       key: 'startDate',
       sorter: (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
       sortDirections: ['ascend', 'descend'],
-      class: 'select-none',
+      class: 'select-none text-nowrap',
     },
     {
       title: t('endDate'),
@@ -69,7 +74,7 @@ const columns = computed<any>(() => {
         new Date(a.endDate !== '-' ? a.endDate : '2100-01-01').getTime() -
         new Date(b.endDate !== '-' ? b.endDate : '2100-01-01').getTime(),
       sortDirections: ['ascend', 'descend'],
-      class: 'select-none',
+      class: 'select-none text-nowrap',
     },
   ];
   return cols;

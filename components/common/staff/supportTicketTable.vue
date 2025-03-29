@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-table :columns="columns" :data-source="data" class="mt-3">
+    <a-table :columns="columns" :data-source="data" class="mt-3" :scroll="{ x: 'max-content' }">
       <template #bodyCell="{ column, value }">
         <template v-if="column.dataIndex === 'action'">
           <AlignLeftOutlined
@@ -65,7 +65,10 @@
         </div>
       </template>
       <template #customFilterIcon="{ filtered, column }">
-        <SearchOutlined v-if="column.dataIndex === 'ticket_id'" :style="{ color: filtered ? '#108ee9' : undefined }" />
+        <SearchOutlined
+          v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no'"
+          :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
         <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
       </template>
     </a-table>
@@ -213,6 +216,7 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
+import type { Building } from '~/types/building';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { User } from '~/types/user';
 
@@ -226,73 +230,127 @@ const props = defineProps({
     type: Object as PropType<User>,
     required: true,
   },
+  buildingList: {
+    type: Array as PropType<Building[]>,
+    required: true,
+  },
 });
 const { t } = useI18n();
 const searchInput = ref();
-const columns = computed<any[]>(() => [
-  {
-    title: t('no'),
-    dataIndex: 'no',
-    key: 'no',
-  },
-  {
-    title: t('ticket_id'),
-    dataIndex: 'ticket_id',
-    key: 'ticket_id',
-    customFilterDropdown: true,
-    onFilter: (value: string, record: any) => {
-      const values = value.split(',');
-      return values.some((val) => record.ticket_id.toString().toLowerCase().includes(val.trim().toLowerCase()));
+const columns = computed<any[]>(() => {
+  const buildingList: Building[] = JSON.parse(JSON.stringify(props.buildingList));
+  const maxTotalFloor = buildingList.sort((a: Building, b: Building) => b.totalFloor - a.totalFloor)[0].totalFloor;
+  const floorFilterList = Array.from({ length: maxTotalFloor }, (_, i) => i + 1).map((floor) => ({
+    text: floor.toString(),
+    value: floor,
+  }));
+
+  return [
+    {
+      title: t('no'),
+      dataIndex: 'no',
+      key: 'no',
+      class: 'text-nowrap',
     },
-    onFilterDropdownOpenChange: (visible: boolean) => {
-      if (visible) {
-        setTimeout(() => {
-          searchInput.value.focus();
-        }, 100);
-      }
+    {
+      title: t('ticket_id'),
+      dataIndex: 'ticket_id',
+      key: 'ticket_id',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.ticket_id.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
+      class: 'text-nowrap',
     },
-  },
-  {
-    title: t('customer'),
-    dataIndex: 'customer',
-    key: 'customer',
-  },
-  {
-    title: t('creation_date'),
-    dataIndex: 'creation_date',
-    key: 'creation_date',
-    sorter: (a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime(),
-    sortDirections: ['ascend', 'descend'],
-    class: 'select-none',
-  },
-  {
-    title: t('status'),
-    dataIndex: 'status',
-    key: 'status',
-    customFilterDropdown: false,
-    filters: [
-      { text: t('pending'), value: 1 },
-      { text: t('approved'), value: 2 },
-      { text: t('denied'), value: 3 },
-    ],
-    onFilter: (value: any, record: any) => record.status === value,
-  },
-  {
-    title: t('manager_approving'),
-    dataIndex: 'manager_approving',
-    key: 'manager_approving',
-  },
-  {
-    title: t('owner_approving'),
-    dataIndex: 'owner_approving',
-    key: 'owner_approving',
-  },
-  {
-    title: t('action'),
-    dataIndex: 'action',
-    key: 'action',
-  },
-]);
+    {
+      title: t('customer'),
+      dataIndex: 'customer',
+      key: 'customer',
+      class: 'text-nowrap',
+    },
+    {
+      title: t('creation_date'),
+      dataIndex: 'creation_date',
+      key: 'creation_date',
+      sorter: (a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime(),
+      sortDirections: ['ascend', 'descend'],
+      class: 'select-none text-nowrap',
+    },
+    {
+      title: t('building'),
+      dataIndex: 'building',
+      key: 'building',
+      class: 'text-nowrap',
+      filters: props.buildingList.map((building) => ({ text: building.name, value: building.name })),
+      onFilter: (value: any, record: any) => record.building === value,
+    },
+    {
+      title: t('floor'),
+      dataIndex: 'floor',
+      key: 'floor',
+      class: 'text-nowrap',
+      filters: floorFilterList,
+      onFilter: (value: any, record: any) => record.floor === value,
+    },
+    {
+      title: t('room_no'),
+      dataIndex: 'room_no',
+      key: 'room_no',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.room_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
+      class: 'text-nowrap',
+    },
+    {
+      title: t('status'),
+      dataIndex: 'status',
+      key: 'status',
+      customFilterDropdown: false,
+      filters: [
+        { text: t('pending'), value: 1 },
+        { text: t('approved'), value: 2 },
+        { text: t('denied'), value: 3 },
+      ],
+      onFilter: (value: any, record: any) => record.status === value,
+      class: 'text-nowrap',
+    },
+    {
+      title: t('manager_approving'),
+      dataIndex: 'manager_approving',
+      key: 'manager_approving',
+      class: 'text-nowrap',
+    },
+    {
+      title: t('owner_approving'),
+      dataIndex: 'owner_approving',
+      key: 'owner_approving',
+      class: 'text-nowrap',
+    },
+    {
+      title: t('action'),
+      dataIndex: 'action',
+      key: 'action',
+      class: 'text-nowrap',
+    },
+  ];
+});
 const data = computed(() =>
   props.tickets.map((ticket, index) => ({
     no: index + 1,
@@ -306,6 +364,9 @@ const data = computed(() =>
       ticketID: ticket.ID,
       allowAction: ticket.status === 1 && !ticket.ownerID,
     },
+    building: ticket.buildingName,
+    floor: ticket.roomFloor,
+    room_no: ticket.roomNo,
   }))
 );
 const ticketDetail = ref<SupportTicket | null>(null);

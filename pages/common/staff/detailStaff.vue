@@ -173,16 +173,21 @@
           <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
-      </div>
-      <ClientOnly>
-        <CommonStaffContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
-        <CommonStaffSupportTicketTable v-if="tickets.length" v-show="option === 2" :tickets="tickets" />
-        <CommonStaffBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
-      </ClientOnly>
-      <div class="flex flex-col items-center my-5">
-        <a-button class="my-2 w-[100px] rounded-sm">
-          <NuxtLink :to="pageRoutes.common.staff.list">{{ $t('back') }}</NuxtLink>
-        </a-button>
+        <ClientOnly>
+          <CommonStaffContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
+          <CommonStaffSupportTicketTable
+            v-if="tickets.length"
+            v-show="option === 2"
+            :tickets="tickets"
+            :staff-info="staffInfo"
+          />
+          <CommonStaffBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
+        </ClientOnly>
+        <div class="flex flex-col items-center my-5">
+          <a-button class="my-2 w-[100px] rounded-sm">
+            <NuxtLink :to="pageRoutes.common.staff.list">{{ $t('back') }}</NuxtLink>
+          </a-button>
+        </div>
       </div>
     </div>
   </div>
@@ -195,7 +200,7 @@ import { api } from '~/services/api';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { ManagerSchedule, User } from '~/types/user';
 import type { Contract } from '~/types/contract';
-import type { ManagerResolveTicket } from '~/types/support_ticket';
+import type { SupportTicket } from '~/types/support_ticket';
 import type { NullTime } from '~/types/basic_model';
 
 // ---------------------- Metadata ----------------------
@@ -256,9 +261,10 @@ const dob = computed<Dayjs>(() => dayjs(staffInfo.value.dob));
 const option = ref<number>(1);
 const schedules = ref<ManagerSchedule[]>([]);
 const contracts = ref<Contract[]>([]);
-const tickets = ref<ManagerResolveTicket[]>([]);
+const tickets = ref<SupportTicket[]>([]);
 const scheduleApiOffset = ref<number>(0);
 const scheduleApiLimit = ref<number>(500);
+const { t } = useI18n();
 
 // ---------------------- Functions ----------------------
 async function getStaffDetailInfo() {
@@ -320,6 +326,34 @@ watch(scheduleApiOffset, async () => {
 
   if (ticketResponse.data.length === scheduleApiLimit.value) {
     scheduleApiOffset.value += scheduleApiLimit.value;
+  }
+});
+
+// ---------------------- Events ----------------------
+$event.on('refreshTicketTableDetailStaff', async () => {
+  tickets.value = [];
+  if (scheduleApiOffset.value > 0) {
+    scheduleApiOffset.value = 0;
+  } else {
+    try {
+      const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
+      tickets.value = ticketResponse.data;
+
+      if (ticketResponse.data.length === scheduleApiLimit.value) {
+        scheduleApiOffset.value += scheduleApiLimit.value;
+      }
+    } catch (err: any) {
+      if (
+        err.status >= 500 ||
+        err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+        err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+      ) {
+        notification.error({
+          message: t('system_error_title'),
+          description: t('system_error_description'),
+        });
+      }
+    }
   }
 });
 </script>

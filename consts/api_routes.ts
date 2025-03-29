@@ -41,7 +41,10 @@ const apiRoutes = {
     detail: (billId: number) => `/bill/${billId}`,
     add: '/bill/add',
   },
-  support_ticket: {},
+  support_ticket: {
+    approve: (ticketId: number) => `/support-ticket/${ticketId}/approve`,
+    deny: (ticketId: number) => `/support-ticket/${ticketId}/deny`,
+  },
   notice: {},
   contract: {},
   import: {},

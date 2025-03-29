@@ -15,7 +15,7 @@ import type { Bill } from '~/types/bill';
 import type { ManagerSchedule, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
-import type { ManagerResolveTicket } from '~/types/support_ticket';
+import type { SupportTicket } from '~/types/support_ticket';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -318,7 +318,7 @@ const common = {
       staffId: number,
       limit: number = 500,
       offset: number = 0
-    ): Promise<APIResponse<ManagerResolveTicket[]>> => {
+    ): Promise<APIResponse<SupportTicket[]>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.staff.getTicket(staffId, limit, offset), {
         method: 'GET',
@@ -334,7 +334,20 @@ const common = {
       });
     },
   },
-  support_ticket: {},
+  support_ticket: {
+    approve: async (ticketId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.support_ticket.approve(ticketId), {
+        method: 'POST',
+      });
+    },
+    deny: async (ticketId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.support_ticket.deny(ticketId), {
+        method: 'POST',
+      });
+    },
+  },
   notice: {},
   contract: {},
   import: {},

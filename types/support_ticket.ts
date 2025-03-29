@@ -1,4 +1,4 @@
-import type { BasicFileModel, BasicModel } from './basic_model';
+import type { BasicFileModel, BasicModel, NullTime } from './basic_model';
 import type { Contract } from './contract';
 import type { User } from './user';
 
@@ -15,19 +15,17 @@ type SupportTicket = BasicModel & {
   customerID: number;
   customer: User;
   files: SupportTicketFile[];
-  roomNo: number;
-  buildingName: string;
-};
-
-type ManagerResolveTicket = {
-  supportTicketID: number;
-  supportTicket: SupportTicket;
   managerID: number;
   manager: User;
-  result: number; // 0: Rejected, 1: Approved
-  resolveTime: string;
+  managerResult: number;
+  managerResolveTime: NullTime;
   ownerID: number;
   owner: User;
+  ownerResult: number;
+  ownerResolveTime: NullTime;
+  roomNo: number;
+  buildingName: string;
+  roomFloor: number;
 };
 
-export type { SupportTicket, ManagerResolveTicket };
+export type { SupportTicket };

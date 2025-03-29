@@ -1,110 +1,385 @@
 <template>
-  <a-table :columns="columns" :data-source="data" class="mt-2">
-    <template #bodyCell="{ column, text }">
-      <template v-if="column.dataIndex && column.dataIndex !== 'operation' && column.dataIndex !== 'state'">
-        <div>
-          {{ text }}
+  <div>
+    <a-table :columns="columns" :data-source="data" class="mt-3">
+      <template #bodyCell="{ column, value }">
+        <template v-if="column.dataIndex === 'action'">
+          <AlignLeftOutlined
+            class="text-lg hover:cursor-pointer hover:text-gray-400 active:text-gray-600"
+            :title="$t('detail')"
+            @click="openDetailModal(value.ticketID)"
+          />
+          <template v-if="value.allowAction">
+            <CheckCircleOutlined
+              class="mx-3 text-green-500 text-lg hover:cursor-pointer hover:text-green-400 active:text-green-600"
+              :title="$t('approve')"
+              @click="approve(value.ticketID)"
+            />
+            <CloseCircleOutlined
+              class="text-red-500 text-lg hover:cursor-pointer hover:text-red-400 active:text-red-600"
+              :title="$t('deny')"
+              @click="deny(value.ticketID)"
+            />
+          </template>
+        </template>
+        <template v-if="column.dataIndex === 'status'">
+          <a-tag
+            :class="{
+              'text-gray-500': value === 1,
+              'text-green-500': value === 2,
+              'text-red-500': value === 3,
+            }"
+          >
+            {{ value === 1 ? t('pending') : value === 2 ? t('approved') : t('denied') }}
+          </a-tag>
+        </template>
+      </template>
+      <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
+        <div class="p-[8px]">
+          <a-input
+            ref="searchInput"
+            :placeholder="t('enter_search')"
+            :value="selectedKeys[0]"
+            class="block width-[200px] mb-[8px]"
+            @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+            @press-enter="handleSearch(selectedKeys, confirm, column.dataIndex)"
+          />
+          <div class="flex items-center">
+            <a-button
+              size="small"
+              class="w-[90px] h-[25px] inline-flex items-center justify-center"
+              @click="handleReset(clearFilters)"
+              >{{ t('clear') }}</a-button
+            >
+            <a-button
+              type="primary"
+              size="small"
+              class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
+              @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+            >
+              <template #icon>
+                <SearchOutlined />
+              </template>
+              {{ t('search') }}
+            </a-button>
+          </div>
         </div>
       </template>
-      <template v-else-if="column.dataIndex === 'operation'">
-        <div>
-          <span>
-            <AlignLeftOutlined class="detail"/>
-            <CheckCircleOutlined class="approve ms-2"/>
-            <CloseCircleOutlined class="deny ms-2"/>
-          </span>
+      <template #customFilterIcon="{ filtered, column }">
+        <SearchOutlined v-if="column.dataIndex === 'ticket_id'" :style="{ color: filtered ? '#108ee9' : undefined }" />
+        <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+      </template>
+    </a-table>
+    <a-modal v-model:open="detailModalVisible" class="w-[800px]">
+      <template #title>{{ $t('support_ticket_detail') }}</template>
+      <template #footer>
+        <a-button @click="detailModalVisible = false">{{ $t('close') }}</a-button>
+      </template>
+      <div v-if="ticketDetail">
+        <div class="flex w-full">
+          <div class="flex-1 flex flex-col">
+            <label for="building_name" class="mb-1">{{ $t('building') }}</label>
+            <a-input id="building_name" :value="ticketDetail.buildingName" disabled readonly />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <label for="room_floor" class="mb-1">{{ $t('floor') }}</label>
+            <a-input id="room_floor" :value="ticketDetail.roomFloor" disabled readonly />
+          </div>
         </div>
-      </template>
-      <template v-else-if="column.dataIndex === 'state'">
-        <a-tag
-        :class="{
-          'text-green-500': text.includes('Approved'),
-          'text-red-500': text.includes('Denied')
-        }">
-          {{ text }}
-        </a-tag>
-      </template>
-    </template>
-  </a-table>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
+            <label for="room_no" class="mb-1">{{ $t('room_no') }}</label>
+            <a-input id="room_no" :value="ticketDetail.roomNo" disabled readonly />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <label for="ticket_id" class="mb-1">{{ $t('ticket_id') }}</label>
+            <a-input id="ticket_id" :value="ticketDetail.ID" disabled readonly />
+          </div>
+        </div>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
+            <label for="customer" class="mb-1">{{ $t('customer') }}</label>
+            <a-input id="customer" :value="getUserName(ticketDetail.customer)" disabled readonly />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <label for="creation_date" class="mb-1">{{ $t('creation_date') }}</label>
+            <a-input id="creation_date" :value="convertToDateTime(ticketDetail.createdAt)" disabled readonly />
+          </div>
+        </div>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
+            <label for="status" class="mb-1">{{ $t('status') }}</label>
+            <a-input
+              id="status"
+              :value="
+                ticketDetail.status === 1 ? t('pending') : ticketDetail.status === 2 ? t('approved') : t('denied')
+              "
+              :class="{
+                'text-green-500': ticketDetail.status === 2,
+                'text-red-500': ticketDetail.status === 3,
+              }"
+              disabled
+              readonly
+            />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <label for="manager" class="mb-1">{{ $t('manager_approving') }}</label>
+            <a-input id="manager" :value="getUserName(props.staffInfo)" disabled readonly />
+          </div>
+        </div>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
+            <label for="manager_decision" class="mb-1">{{ $t('manager_decision') }}</label>
+            <a-input
+              id="manager_decision"
+              :value="ticketDetail.managerResult ? t('approved') : t('denied')"
+              disabled
+              readonly
+            />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <label for="decision_date_1" class="mb-1">{{ $t('decision_date') }}</label>
+            <a-input
+              id="decision_date_1"
+              :value="
+                ticketDetail?.managerResolveTime.Valid ? convertToDateTime(ticketDetail.managerResolveTime.Time!) : ''
+              "
+              disabled
+              readonly
+            />
+          </div>
+        </div>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
+            <label for="owner" class="mb-1">{{ $t('owner_approving') }}</label>
+            <a-input
+              id="owner"
+              :value="ticketDetail.ownerID ? getUserName(ticketDetail.owner) : ''"
+              disabled
+              readonly
+            />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <label for="owner_decision" class="mb-1">{{ $t('owner_decision') }}</label>
+            <a-input
+              id="owner_decision"
+              :value="ticketDetail.ownerID ? (ticketDetail.ownerResult ? t('approved') : t('denied')) : ''"
+              disabled
+              readonly
+            />
+          </div>
+        </div>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
+            <label for="decision_date_2" class="mb-1">{{ $t('decision_date') }}</label>
+            <a-input
+              id="decision_date_2"
+              :value="
+                ticketDetail?.ownerResolveTime.Valid ? convertToDateTime(ticketDetail.ownerResolveTime.Time!) : ''
+              "
+              disabled
+              readonly
+            />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <label for="title" class="mb-1">{{ $t('title') }}</label>
+            <a-input id="title" :value="ticketDetail.title" disabled readonly />
+          </div>
+        </div>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
+            <label for="content" class="mb-1">{{ $t('content') }}</label>
+            <a-textarea id="content" :value="ticketDetail.content" disabled readonly />
+          </div>
+          <div class="ms-2 flex-1 flex flex-col">
+            <a-upload
+              :file-list="
+                ticketDetail.files.map((file, index) => ({
+                  uid: index.toString(),
+                  name: file.title || `File ${index + 1}`,
+                  url: file.path,
+                  status: 'done',
+                }))
+              "
+              class="hide_delete_button"
+            >
+            </a-upload>
+          </div>
+        </div>
+      </div>
+    </a-modal>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import type { ManagerResolveTicket } from '~/types/support_ticket';
+import { getMessageCode } from '~/consts/api_response';
+import { api } from '~/services/api';
+import type { SupportTicket } from '~/types/support_ticket';
+import type { User } from '~/types/user';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
   tickets: {
-    type: Object as PropType<ManagerResolveTicket[]>,
+    type: Object as PropType<SupportTicket[]>,
+    required: true,
+  },
+  staffInfo: {
+    type: Object as PropType<User>,
     required: true,
   },
 });
 const { t } = useI18n();
-const columns = computed(() => [
+const searchInput = ref();
+const columns = computed<any[]>(() => [
   {
     title: t('no'),
     dataIndex: 'no',
-},
-  {
-    title: t('ticket_id'),
-    dataIndex: 'ticketId',
+    key: 'no',
   },
   {
-    title: t('contract_id'),
-    dataIndex: 'contractId',
+    title: t('ticket_id'),
+    dataIndex: 'ticket_id',
+    key: 'ticket_id',
+    customFilterDropdown: true,
+    onFilter: (value: string, record: any) => {
+      const values = value.split(',');
+      return values.some((val) => record.ticket_id.toString().toLowerCase().includes(val.trim().toLowerCase()));
+    },
+    onFilterDropdownOpenChange: (visible: boolean) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
   },
   {
     title: t('customer'),
     dataIndex: 'customer',
+    key: 'customer',
   },
   {
     title: t('creation_date'),
-    align: 'center',
-    dataIndex: 'creationDate',
-    filters: [
-      { text: 'First Quarter 2024', value: '01/01/2024-03/31/2024' },
-      { text: 'Second Quarter 2024', value: '04/01/2024-06/30/2024' },
-      { text: 'Third Quarter 2024', value: '07/01/2024-09/30/2024' },
-      { text: 'Fourth Quarter 2024', value: '10/01/2024-12/31/2024' },
-    ],
-    onFilter: (value, record) => {
-      const [start, end] = value.split('-');
-      const recordDate = new Date(record.creationDate);
-      return recordDate >= new Date(start) && recordDate <= new Date(end);
-    },
-    width: '15%',
+    dataIndex: 'creation_date',
+    key: 'creation_date',
+    sorter: (a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime(),
+    sortDirections: ['ascend', 'descend'],
+    class: 'select-none',
   },
   {
     title: t('status'),
-    align: 'center',
-    dataIndex: 'state',
+    dataIndex: 'status',
+    key: 'status',
+    customFilterDropdown: false,
     filters: [
-      { text: 'Owner Approved', value: 'Owner Approved' },
-      { text: 'Owner Denied', value: 'Owner Denied' },
-      { text: 'Manager Approved', value: 'Manager Approved' },
-      { text: 'Manager Denied', value: 'Manager Denied' },
+      { text: t('pending'), value: 1 },
+      { text: t('approved'), value: 2 },
+      { text: t('denied'), value: 3 },
     ],
-    onFilter: (value, record) => record.state === value,
-    width: '10%',
+    onFilter: (value: any, record: any) => record.status === value,
   },
   {
     title: t('manager_approving'),
-    align: 'center',
-    dataIndex: 'managerApproving',
-    width: '10%',
+    dataIndex: 'manager_approving',
+    key: 'manager_approving',
   },
   {
     title: t('owner_approving'),
-    align: 'center',
-    dataIndex: 'ownerApproving',
-    width: '10%',
+    dataIndex: 'owner_approving',
+    key: 'owner_approving',
   },
   {
-    title: t('operation'),
-    align: 'center',
-    dataIndex: 'operation',
-    width: '20%',
+    title: t('action'),
+    dataIndex: 'action',
+    key: 'action',
   },
 ]);
+const data = computed(() =>
+  props.tickets.map((ticket, index) => ({
+    no: index + 1,
+    ticket_id: ticket.ID,
+    customer: getUserName(ticket.customer),
+    creation_date: convertToDateTime(ticket.createdAt),
+    status: ticket.status,
+    manager_approving: getUserName(props.staffInfo),
+    owner_approving: ticket.ownerID ? getUserName(ticket.owner) : '-',
+    action: {
+      ticketID: ticket.ID,
+      allowAction: ticket.status === 1 && !ticket.ownerID,
+    },
+  }))
+);
+const ticketDetail = ref<SupportTicket | null>(null);
+const detailModalVisible = ref(false);
+const state = reactive({
+  searchText: '',
+  searchedColumn: '',
+});
+const { $event } = useNuxtApp();
 
-const data = [];
+// ---------------------- Functions ----------------------
+function openDetailModal(id: number) {
+  ticketDetail.value = props.tickets.find((ticket) => ticket.ID === id) || null;
+  detailModalVisible.value = true;
+}
+
+async function approve(id: number) {
+  try {
+    await api.common.support_ticket.approve(id);
+    notification.info({
+      message: t('support_ticket_updated_title'),
+      description: t('support_ticket_status_updated_content'),
+    });
+    $event.emit('refreshTicketTableDetailStaff');
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+async function deny(id: number) {
+  try {
+    await api.common.support_ticket.deny(id);
+    notification.info({
+      message: t('support_ticket_updated_title'),
+      description: t('support_ticket_status_updated_content'),
+    });
+    $event.emit('refreshTicketTableDetailStaff');
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
+  confirm();
+  state.searchText = selectedKeys[0];
+  state.searchedColumn = dataIndex;
+}
+
+function handleReset(clearFilters: any) {
+  clearFilters({ confirm: true });
+  state.searchText = '';
+}
 </script>
+
+<style lang="css">
+.hide_delete_button .ant-upload-list-item-actions{
+  display:none !important;
+}
+</style>

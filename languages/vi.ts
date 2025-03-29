@@ -24,6 +24,8 @@ export default {
   add_schedule: 'Thêm lịch quản lý',
   avatar: 'Chân dung',
   active: 'Đang hiệu lực',
+  approved: 'Đã duyệt',
+  approve: 'Phê duyệt',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -73,6 +75,7 @@ export default {
   customer_name: 'Tên khách hàng',
   customer_no: 'Mã khách hàng',
   cancelled: 'Đã hủy',
+  close: 'Đóng',
 
   D: 'd',
   delete: 'Xóa',
@@ -83,6 +86,8 @@ export default {
   detail: 'Chi tiết',
   dob: 'Ngày sinh',
   decision_date: 'Ngày quyết định',
+  denied: 'Từ chối',
+  deny: 'Từ chối',
 
   E: 'e',
   edit: 'Chỉnh sửa',
@@ -175,7 +180,7 @@ export default {
   maintenance: 'Bảo trì',
   management_schedule: 'Lịch quản lý',
   middle_name: 'Tên đệm',
-  manager_approving: 'Quản lý duyệt',
+  manager_approving: 'Quản lý',
   manager_decision: 'Quyết định của quản lý',
   male: 'Nam',
 
@@ -203,7 +208,7 @@ export default {
   owner: 'Chủ tòa nhà',
   origin: 'Quê quán',
   owner_id: 'Mã chủ tòa nhà',
-  owner_approving: 'Chủ duyệt',
+  owner_approving: 'Chủ sở hữu',
   owner_decision: 'Quyết định của chủ sở hữu',
   other: 'Khác',
   old_ssn: 'Số CMND (cũ)',
@@ -226,6 +231,7 @@ export default {
   phone: 'Số điện thoại',
   previous: 'Trước',
   pob: 'Nơi sinh',
+  pending: 'Chờ duyệt',
 
   Q: 'q',
 
@@ -247,7 +253,7 @@ export default {
   staff: 'Nhân viên',
   support_ticket: 'Phiếu hỗ trợ',
   support_ticket_list: 'Danh sách phiếu hỗ trợ',
-  support_ticket_detail: 'Chi tiết phiếu hỗ trợ',
+  support_ticket_detail: 'Thông tin phiếu hỗ trợ',
   submit: 'Gửi',
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',
@@ -269,6 +275,8 @@ export default {
   signDate: 'Ngày ký',
   search_by_employee_no: 'Tìm kiếm theo mã nhân viên',
   start_date_large_end_date: 'Lịch quản lý số {no}: Ngày bắt đầu phải nhỏ hơn ngày kết thúc!',
+  support_ticket_updated_title: 'Cập nhật phiếu hỗ trợ',
+  support_ticket_status_updated_content: 'Trạng thái của phiếu hỗ trợ đã được cập nhật thành công!',
 
   T: 't',
   total: 'Tổng',

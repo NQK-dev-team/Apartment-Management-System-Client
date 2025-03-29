@@ -24,6 +24,8 @@ export default {
   add_schedule: 'Add schedule',
   avatar: 'Avatar',
   active: 'Active',
+  approved: 'Approved',
+  approve: 'Approve',
 
   B: 'b',
   balance: 'Balance',
@@ -73,6 +75,7 @@ export default {
   customer_name: 'Customer name',
   customer_no: 'Customer number',
   cancelled: 'Cancelled',
+  close: 'Close',
 
   D: 'd',
   delete: 'Delete',
@@ -83,6 +86,8 @@ export default {
   detail: 'Detail',
   dob: 'Date of birth',
   decision_date: 'Decision date',
+  denied: 'Denied',
+  deny: 'Deny',
 
   E: 'e',
   edit: 'Edit',
@@ -174,7 +179,7 @@ export default {
   maintenance: 'Maintenance',
   management_schedule: 'Management schedule',
   middle_name: 'Middle name',
-  manager_approving: 'Manager approving',
+  manager_approving: 'Manager',
   manager_decision: 'Manager decision',
   male: 'Male',
 
@@ -202,7 +207,7 @@ export default {
   owner: 'Owner',
   origin: 'Origin',
   owner_id: 'Owner ID',
-  owner_approving: 'Owner approving',
+  owner_approving: 'Owner',
   owner_decision: 'Owner decision',
   old_ssn: 'Old SSN',
 
@@ -223,6 +228,7 @@ export default {
   phone: 'Phone Number',
   previous: 'Previous',
   pob: 'Place of birth',
+  pending: 'Pending',
 
   Q: 'q',
 
@@ -266,6 +272,8 @@ export default {
   signDate: 'Sign date',
   search_by_employee_no: 'Search by employee number',
   start_date_large_end_date: 'Management schedule {no}: Start date must be less than end date!',
+  support_ticket_updated_title: 'Update support ticket',
+  support_ticket_status_updated_content: 'Support ticket status has been updated successfully!',
 
   T: 't',
   total: 'Total',

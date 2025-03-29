@@ -1,9 +1,5 @@
 <template>
-  <a-table
-    :data-source="roomList"
-    :columns="roomListTableColumns"
-    class="mt-5"
-  >
+  <a-table :data-source="roomList" :columns="roomListTableColumns" class="mt-5">
     <template #headerCell="{ column }">
       <template v-if="column.key === 'area'"> {{ column.title }} (m<sup>2</sup>) </template>
     </template>
@@ -17,23 +13,25 @@
           @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
           @press-enter="handleSearch(selectedKeys, confirm, column.dataIndex)"
         />
-        <a-button
-          type="primary"
-          size="small"
-          class="inline-flex items-center justify-center w-[100px] h-[25px] mr-[8px]"
-          @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
-        >
-          <template #icon>
-            <SearchOutlined />
-          </template>
-          {{ t('search') }}
-        </a-button>
-        <a-button
-          size="small"
-          class="w-[90px] h-[25px] inline-flex items-center justify-center"
-          @click="handleReset(clearFilters)"
-          >{{ t('clear') }}</a-button
-        >
+        <div class="flex items-center">
+          <a-button
+            size="small"
+            class="w-[90px] h-[25px] inline-flex items-center justify-center"
+            @click="handleReset(clearFilters)"
+            >{{ t('clear') }}</a-button
+          >
+          <a-button
+            type="primary"
+            size="small"
+            class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
+            @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+          >
+            <template #icon>
+              <SearchOutlined />
+            </template>
+            {{ t('search') }}
+          </a-button>
+        </div>
       </div>
     </template>
     <template #customFilterIcon="{ filtered, column }">

@@ -2,6 +2,7 @@
   <div>
     <div class="flex justify-center mt-5 mb-3">
       <a-input-search
+        id="search_for_contract"
         v-model:value="searchValue"
         class="w-[500px]"
         :placeholder="$t('enter_search')"

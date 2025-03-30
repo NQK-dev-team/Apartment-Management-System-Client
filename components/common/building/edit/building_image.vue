@@ -20,6 +20,12 @@
       </a-button>
       <div v-else></div>
     </div>
+    <img
+      v-if="!displayImages || !displayImages.length"
+      :src="svgPaths.placeholderImage"
+      :alt="$t('avatar')"
+      class="w-full mt-1"
+    />
     <div class="flex flex-col">
       <div v-for="(image, index) in displayImages" :key="index" class="mt-3">
         <img :src="image" :alt="$t('building_image') + ` ${index}`" class="w-full" />

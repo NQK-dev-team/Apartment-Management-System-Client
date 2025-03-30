@@ -315,6 +315,7 @@
         <h2 class="text-xl">{{ $t('building_image') }}</h2>
         <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
       </div>
+      <img v-if="!imageList.length" :src="svgPaths.placeholderImage" :alt="$t('avatar')" class="w-full mt-1" />
       <div class="flex flex-col">
         <div v-for="(image, index) in imageList" :key="index" class="mt-3">
           <img :src="image" :alt="$t('building_image') + ` ${index}`" class="w-full" />

@@ -1,8 +1,8 @@
 <template>
   <NuxtLink :to="pageRoutes.common.building.detail(props.id)">
-    <a-card hoverable class="w-[250px] border-2 select-none" :title="props.name">
+    <a-card hoverable class="w-[275px] border-2 select-none" :title="props.name">
       <template #cover>
-        <img alt="Building image" :src="props.image" class="w-[250px] h-[300px] rounded-none p-[2px]" />
+        <img alt="Building image" :src="props.image" class="w-[275px] h-[325px] rounded-none p-[2px]" />
       </template>
       <template #actions>
         <NuxtLink :to="pageRoutes.common.building.edit(props.id)">

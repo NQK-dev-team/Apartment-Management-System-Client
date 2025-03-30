@@ -16,6 +16,7 @@
                   : '';
               });
               buildingInfo.data.schedules = originalSchedules;
+              scheduleDeleteBucket = [];
             }
           "
         >
@@ -206,14 +207,13 @@ const props = defineProps({
 const buildingInfo = toRef(props, 'buildingInfo');
 const addCounter = ref(0);
 const scheduleDeleteBucket = ref<number[]>([]);
-const checkAllSchedules = computed(
-  () =>
-    !!(
-      buildingInfo.value.data.schedules.filter((schedule) => !schedule.isDeleted).length &&
-      buildingInfo.value.data.schedules.filter((schedule) => !schedule.isDeleted).length ===
-        scheduleDeleteBucket.value.length
-    )
-);
+const checkAllSchedules = computed(() => {
+  const currentPage = buildingInfo.value.data.schedules
+    .filter((schedule) => !schedule.isDeleted)
+    .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1);
+
+  return currentPage.every((schedule) => scheduleDeleteBucket.value.includes(schedule.ID));
+});
 
 // ---------------------- Functions ----------------------
 function deleteSchedules() {
@@ -231,13 +231,21 @@ function deleteSchedules() {
 }
 
 function addAllSchedulesToBucket() {
-  scheduleDeleteBucket.value = buildingInfo.value.data.schedules
-    .filter((schedule) => !schedule.isDeleted)
-    .map((schedule) => schedule.ID);
+  scheduleDeleteBucket.value.push(
+    ...buildingInfo.value.data.schedules
+      .filter((schedule) => !schedule.isDeleted)
+      .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1)
+      .map((schedule) => schedule.ID)
+  );
 }
 
 function removeAllSchedulesFromBucket() {
-  scheduleDeleteBucket.value = [];
+  const IDs = buildingInfo.value.data.schedules
+    .filter((schedule) => !schedule.isDeleted)
+    .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1)
+    .map((schedule) => schedule.ID);
+
+  scheduleDeleteBucket.value = scheduleDeleteBucket.value.filter((id) => !IDs.includes(id));
 }
 
 // ---------------------- Event Listeners ----------------------

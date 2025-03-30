@@ -162,14 +162,13 @@ const props = defineProps({
 });
 const buildingInfo = toRef(props, 'buildingInfo');
 const serviceDeleteBucket = ref<number[]>([]);
-const checkAllServices = computed(
-  () =>
-    !!(
-      buildingInfo.value.data.services.filter((service) => !service.isDeleted).length &&
-      buildingInfo.value.data.services.filter((service) => !service.isDeleted).length ===
-        serviceDeleteBucket.value.length
-    )
-);
+const checkAllServices = computed(() => {
+  const currentPage = buildingInfo.value.data.services
+    .filter((service) => !service.isDeleted)
+    .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1);
+
+  return currentPage.every((service) => serviceDeleteBucket.value.includes(service.ID));
+});
 
 // ---------------------- Functions ----------------------
 function deleteServices() {
@@ -187,13 +186,21 @@ function deleteServices() {
 }
 
 function addAllServicesToBucket() {
-  serviceDeleteBucket.value = buildingInfo.value.data.services
-    .filter((service) => !service.isDeleted)
-    .map((service) => service.ID);
+  serviceDeleteBucket.value.push(
+    ...buildingInfo.value.data.services
+      .filter((service) => !service.isDeleted)
+      .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1)
+      .map((service) => service.ID)
+  );
 }
 
 function removeAllServicesFromBucket() {
-  serviceDeleteBucket.value = [];
+  const IDs = buildingInfo.value.data.services
+    .filter((service) => !service.isDeleted)
+    .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1)
+    .map((service) => service.ID);
+
+  serviceDeleteBucket.value = serviceDeleteBucket.value.filter((id) => !IDs.includes(id));
 }
 
 // ---------------------- Event Listeners ----------------------

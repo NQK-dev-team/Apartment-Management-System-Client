@@ -70,12 +70,12 @@
           ></a-select>
         </div>
         <div class="flex flex-col justify-start mt-3">
-          <p v-show="option === 1">Number of manager selected: </p>
+          <p v-show="option === 1" id="number-of-customer-selected">Number of manager selected: </p>
           <p v-show="option === 2">Number of customer selected: </p>
           <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('employee_list') }}</h2>
           <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('customer_list') }}</h2>
         </div>
-
+        <CustomerTable/>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm" type="primary">
             <NuxtLink :to="pageRoutes.common.staff.list">{{ $t('sent') }}</NuxtLink>
@@ -91,11 +91,7 @@
 
 <script lang="ts" setup>
 import { pageRoutes } from '~/consts/page_routes';
-
-import dayjs, { type Dayjs } from 'dayjs';
-import type { ManagerSchedule, User } from '~/types/user';
-import type { Contract } from '~/types/contract';
-import type { SupportTicket } from '~/types/support_ticket';
+import CustomerTable from '@/components/common/notice/CustomerTable.vue';
 
 
 // ---------------------- Metadata ----------------------

@@ -21,7 +21,26 @@
       class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <div class="w-full flex-1 flex flex-col">
+      <div class="w-full flex-1 flex flex-col mt-3">
+        <div class="flex-1 me-5">
+          <label for="title" class="flex mb-1 text-xl font-bold">
+            <span>{{ $t('title') }}</span>
+          </label>
+          <a-input id="title" :value="$t('title')" :placeholder="$t('title')" class="mt-2"/>
+        </div>
+        <div class="flex items-center justify-center mt-3">
+          <imageUpload :label="$t('image')"/>
+        </div>
+
+        <div class="flex-1 me-5">
+          <label for="content" class="flex mb-1 text-xl font-bold">
+            <span>{{ $t('content') }}</span>
+          </label>
+          <div id="text-tools">
+
+          </div>
+          <a-textarea id="content_box" :value="$t('content')" :placeholder="$t('content')" :rows="12" class="mt-2"/>
+        </div>
         <div class="flex items-center mt-3">
           <h2 class="me-3 text-xl font-bold">Người nhận : </h2>
           <p
@@ -70,7 +89,9 @@
           ></a-select>
         </div>
         <div class="flex flex-col justify-start mt-3">
-          <p v-show="option === 1" id="number-of-manager-selected">Number of manager selected: </p>
+          <p v-show="option === 1" id="number-of-manager-selected">
+            Number of customer selected: {{ selectedEmployeeCount }}
+          </p>
           <p v-show="option === 2" id="number-of-customer-selected">
             Number of customer selected: {{ selectedCustomerCount }}
           </p>
@@ -82,6 +103,10 @@
           <CustomerTable 
             v-show="option === 2" 
             @update-selected-count="updateSelectedCustomerCount" 
+          />
+          <EmployeeTable 
+            v-show="option === 1" 
+            @update-selected-count="updateSelectedEmployeeCount" 
           />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
@@ -100,6 +125,8 @@
 <script lang="ts" setup>
 import { pageRoutes } from '~/consts/page_routes';
 import CustomerTable from '@/components/common/notice/CustomerTable.vue';
+import EmployeeTable from '@/components/common/notice/EmployeeTable.vue';
+import imageUpload from '@/components/common/customComponent/imageUpload.vue';
 
 
 // ---------------------- Metadata ----------------------
@@ -135,12 +162,17 @@ const { t } = useI18n();
 
 // Reactive property to store the count of selected customers
 const selectedCustomerCount = ref(0);
+const selectedEmployeeCount = ref(0);
 
 // ---------------------- Functions ----------------------
 
 // Function to handle the emitted event
 function updateSelectedCustomerCount(count: number) {
   selectedCustomerCount.value = count;
+}
+// Function to handle the emitted event
+function updateSelectedEmployeeCount(count: number) {
+  selectedEmployeeCount.value = count;
 }
 // ---------------------- Lifecycles ----------------------
 

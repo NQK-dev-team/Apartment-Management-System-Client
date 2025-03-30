@@ -70,6 +70,9 @@ import { reactive } from 'vue';
 import type { SelectProps } from 'ant-design-vue';
 import type { SelectValue } from 'ant-design-vue/es/select';
 
+
+const { t } = useI18n();
+
 const validateMessages = {
   required: '${label} is required!',
   types: {
@@ -82,8 +85,8 @@ const validateMessages = {
 };
 
 const optionsGender = ref<SelectProps['options']>([
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
+  { value: 'Male', label: t('male') },
+  { value: 'Female', label: t('female') },
 ]);
 
 const formState = reactive({

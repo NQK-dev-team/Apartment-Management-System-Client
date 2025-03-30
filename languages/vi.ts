@@ -46,6 +46,7 @@ export default {
   bought: 'Đã mua',
   building_managing: 'Toà nhà quản lý',
   back_face: 'mặt sau',
+  buy: 'Mua',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -227,6 +228,7 @@ export default {
   paidRooms: 'Số phòng đã thanh toán',
   phone: 'Số điện thoại',
   previous: 'Trước',
+  paid: 'Đã thanh toán',
 
   Q: 'q',
 
@@ -241,6 +243,7 @@ export default {
   recommended_resolution: 'Độ phân giải khuyến nghị: 640x640',
   room_no: 'Số phòng',
   rented: 'Đã thuê',
+  rent: 'Thuê',
   room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
   rooms: 'Phòng',
 
@@ -283,6 +286,7 @@ export default {
   upload_file: 'Tải tệp tin',
   user_not_found: 'Người dùng không tồn tại!',
   unpaidRooms: 'Số phòng chưa thanh toán',
+  unpaid: 'Chưa thanh toán',
   unavailable: 'Không khả dụng',
   update_building_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
 

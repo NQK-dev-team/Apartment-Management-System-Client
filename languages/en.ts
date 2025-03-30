@@ -193,7 +193,7 @@ export default {
 
   N: 'n',
   notice: 'Notice',
-  new_notice: 'New notice',
+  new_notice: 'New notification',
   notice_inbox: 'Received',
   notice_starred: 'Starred',
   notice_sent: 'Sent',

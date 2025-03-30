@@ -52,7 +52,6 @@
             deleteBucket = selectedRowKeys;
           },
         }"
-        bordered
         class="mt-3"
         :scroll="{ x: 'max-content' }"
       >
@@ -158,6 +157,12 @@ const columns = computed(() => [
     class: 'text-nowrap',
   },
   {
+    title: t('address'),
+    dataIndex: 'address',
+    key: 'address',
+    class: 'text-nowrap',
+  },
+  {
     title: t('action'),
     dataIndex: 'action',
     key: 'action',
@@ -174,6 +179,7 @@ const dataSource = ref<
     ssn: string;
     phone: string;
     email: string;
+    address: string;
     action: number;
     key: number;
   }[]
@@ -193,6 +199,7 @@ function searchEmployee() {
         ssn: user.ssn,
         phone: user.phone,
         email: user.email,
+        address: user.address,
         action: user.ID,
         key: user.ID,
       };
@@ -204,7 +211,8 @@ function searchEmployee() {
         user.employeeNumber.includes(search) ||
         user.ssn.includes(search) ||
         user.phone.includes(search) ||
-        user.email.includes(search)
+        user.email.includes(search) ||
+        removeDiacritics(user.address.toLowerCase()).includes(search)
       );
     });
 }
@@ -226,6 +234,8 @@ async function getEmployeeList() {
         ssn: user.ssn,
         phone: user.phone,
         email: user.email,
+        address: user.address,
+
         action: user.ID,
         key: user.ID,
       };

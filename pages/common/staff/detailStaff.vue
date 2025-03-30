@@ -117,6 +117,15 @@
               />
             </div>
           </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
+              <label for="address" class="flex mb-1">
+                <span>{{ $t('address') }}</span>
+              </label>
+              <a-input id="address" :value="staffInfo.address" :placeholder="$t('address')" disabled readonly />
+            </div>
+            <div class="flex-1"></div>
+          </div>
         </div>
         <div class="flex flex-col w-[250px] h-[300px]">
           <div>{{ $t('avatar') }}</div>
@@ -131,7 +140,7 @@
           <img :src="staffInfo.ssnBackFilePath" alt="national_id_back" />
         </div>
       </div>
-      <hr class="border-gray-400" />
+      <hr class="border-gray-400 mt-2" />
       <div class="w-full flex-1 flex flex-col">
         <div class="flex items-center mt-3">
           <p
@@ -174,15 +183,15 @@
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
         <ClientOnly>
-          <CommonStaffContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
-          <CommonStaffSupportTicketTable
+          <CommonStaffDetailContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
+          <CommonStaffDetailSupportTicketTable
             v-if="tickets.length"
             v-show="option === 2"
             :tickets="tickets"
             :staff-info="staffInfo"
             :building-list="buildingList"
           />
-          <CommonStaffBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
+          <CommonStaffDetailBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm">
@@ -246,6 +255,7 @@ const staffInfo = ref<User>({
   pob: '',
   email: '',
   phone: '',
+  address: '',
   ssnFrontFilePath: '',
   ssnBackFilePath: '',
   profileFilePath: '',

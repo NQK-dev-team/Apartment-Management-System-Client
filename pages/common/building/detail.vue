@@ -105,7 +105,7 @@
           </a-carousel>
         </div>
       </div>
-      <hr />
+      <hr class="mt-2"/>
       <div class="w-full flex-1 flex flex-col">
         <div class="flex items-center mt-3">
           <p

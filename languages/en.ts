@@ -284,6 +284,7 @@ export default {
   start_date_large_end_date: 'Management schedule {no}: Start date must be less than end date!',
   support_ticket_updated_title: 'Update support ticket',
   support_ticket_status_updated_content: 'Support ticket status has been updated successfully!',
+  sent: 'Sent',
 
   T: 't',
   total: 'Total',

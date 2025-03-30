@@ -126,6 +126,11 @@ const commonRoutes: Route[] = [
     file: supportTicketBaseRoute + 'list.vue',
   },
   // Notice
+  {
+    name: 'New notice',
+    path: pageRoutes.common.notice.new,
+    file: noticeBaseRoute + 'newNotice.vue',
+  },
 ];
 
 const appRoutes = [...authenticationRoutes, ...commonRoutes];

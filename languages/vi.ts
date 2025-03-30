@@ -289,6 +289,7 @@ export default {
   start_date_large_end_date: 'Lịch quản lý số {no}: Ngày bắt đầu phải nhỏ hơn ngày kết thúc!',
   support_ticket_updated_title: 'Cập nhật phiếu hỗ trợ',
   support_ticket_status_updated_content: 'Trạng thái của phiếu hỗ trợ đã được cập nhật thành công!',
+  sent: 'Gửi',
 
   T: 't',
   total: 'Tổng',

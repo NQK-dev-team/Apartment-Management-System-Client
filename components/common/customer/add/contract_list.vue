@@ -11,7 +11,7 @@
         <template v-else-if="column.dataIndex === 'status'">
           <span>
             <a-tag :color="record.status === 0 ? 'volcano' : 'green'">
-              {{ record.status === 0 ? $t('inactive') : $t('active') }}
+              {{ record.status === 0 ? $t('inactive').toUpperCase() : $t('active').toUpperCase() }}
             </a-tag>
           </span>
         </template>
@@ -136,7 +136,6 @@ interface DataItem {
 
 const data: DataItem[] = [];
 const genders = ['Male', 'Female'];
-const status = [0, 1];
 
 
 for (let i = 0; i < 100; i++) {
@@ -154,7 +153,7 @@ for (let i = 0; i < 100; i++) {
     startDate: '2021-09-01',
     endDate: '2022-09-01',
     signedDate: '2021-09-01',
-    status: 0,
+    status: 1,
   });
 }
 

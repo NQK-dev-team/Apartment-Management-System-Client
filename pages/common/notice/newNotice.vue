@@ -70,12 +70,20 @@
           ></a-select>
         </div>
         <div class="flex flex-col justify-start mt-3">
-          <p v-show="option === 1" id="number-of-customer-selected">Number of manager selected: </p>
-          <p v-show="option === 2">Number of customer selected: </p>
+          <p v-show="option === 1" id="number-of-manager-selected">Number of manager selected: </p>
+          <p v-show="option === 2" id="number-of-customer-selected">
+            Number of customer selected: {{ selectedCustomerCount }}
+          </p>
           <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('employee_list') }}</h2>
           <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('customer_list') }}</h2>
         </div>
-        <CustomerTable/>
+        
+        <ClientOnly>
+          <CustomerTable 
+            v-show="option === 2" 
+            @update-selected-count="updateSelectedCustomerCount" 
+          />
+        </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm" type="primary">
             <NuxtLink :to="pageRoutes.common.staff.list">{{ $t('sent') }}</NuxtLink>
@@ -125,9 +133,15 @@ const options = [...Array(25)].map((_, i) => ({ value: (i + 10).toString(36) + (
 
 const { t } = useI18n();
 
+// Reactive property to store the count of selected customers
+const selectedCustomerCount = ref(0);
+
 // ---------------------- Functions ----------------------
 
-
+// Function to handle the emitted event
+function updateSelectedCustomerCount(count: number) {
+  selectedCustomerCount.value = count;
+}
 // ---------------------- Lifecycles ----------------------
 
 

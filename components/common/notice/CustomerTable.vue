@@ -14,6 +14,8 @@
 
 <script lang="ts" setup>
 const { t } = useI18n();
+const emit = defineEmits(['update-selected-count']); // Define the emitted event
+
 const columns = computed<any>(() => {
   return [
     {
@@ -100,12 +102,15 @@ const rowSelection = ref({
   checkStrictly: false,
   onChange: (selectedRowKeys: (string | number)[], selectedRows: DataItem[]) => {
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    emit('update-selected-count', selectedRows.length); // Emit the count of selected rows
   },
   onSelect: (record: DataItem, selected: boolean, selectedRows: DataItem[]) => {
     console.log(record, selected, selectedRows);
+    emit('update-selected-count', selectedRows.length);
   },
   onSelectAll: (selected: boolean, selectedRows: DataItem[], changeRows: DataItem[]) => {
     console.log(selected, selectedRows, changeRows);
+    emit('update-selected-count', selectedRows.length);
   },
 });
 </script>

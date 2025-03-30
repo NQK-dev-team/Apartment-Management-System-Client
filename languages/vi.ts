@@ -260,6 +260,7 @@ export default {
   rent: 'Thuê',
   room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
   rooms: 'Phòng',
+  reciever: 'Người nhận',
 
   S: 's',
   staff: 'Nhân viên',

@@ -193,7 +193,7 @@ export default {
 
   N: 'n',
   notice: 'Notice',
-  new_notice: 'New',
+  new_notice: 'New notice',
   notice_inbox: 'Received',
   notice_starred: 'Starred',
   notice_sent: 'Sent',
@@ -255,6 +255,7 @@ export default {
   rent: 'Rental',
   room_image_require: 'Please choose at least one image for room {no}!',
   rooms: 'Rooms',
+  reciever: 'Receiver',
 
   S: 's',
   staff: 'Staff',

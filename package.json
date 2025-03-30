@@ -30,6 +30,7 @@
     "nuxt-svgo": "^4.0.11",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",
+    "quill": "^2.0.3",
     "vue": "latest",
     "vue-router": "latest"
   },

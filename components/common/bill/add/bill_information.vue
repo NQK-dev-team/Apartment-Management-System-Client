@@ -95,6 +95,8 @@ import { reactive } from 'vue';
 import type { SelectProps } from 'ant-design-vue';
 import type { SelectValue } from 'ant-design-vue/es/select';
 
+const { t } = useI18n();
+
 const validateMessages = {
   required: '${label} is required!',
   types: {
@@ -108,13 +110,13 @@ const validateMessages = {
 
 
 const optionsContractType = ref<SelectProps['options']>([
-  { value: 'Buy', label: 'Buy' },
-  { value: 'Rent', label: 'Rent' },
+  { value: 'Buy', label: t('buy') },
+  { value: 'Rent', label: t('rent') },
 ]);
 
 const optionsStatus = ref<SelectProps['options']>([
-  { value: 0, label: 'Unpaid' },
-  { value: 1, label: 'Paid' },
+  { value: 0, label: t('unpaid') },
+  { value: 1, label: t('paid') },
 ]);
 
 const formState = reactive({

@@ -25,6 +25,7 @@ export default {
   amount: 'Số tiền',
   add_schedule: 'Thêm lịch quản lý',
   avatar: 'Chân dung',
+  active: 'Có hiệu lực',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -53,7 +54,7 @@ export default {
   cancel: 'Hủy',
   choose_file: 'Chọn tệp tin',
   customer: 'Khách hàng',
-  custoemr_detail: 'Chi tiết khách hàng',
+  customer_detail: 'Chi tiết khách hàng',
   customer_information: 'Thông tin khách hàng',
   customer_list: 'Danh sách khách hàng',
   customer_id: 'Mã khách hàng',
@@ -164,6 +165,7 @@ export default {
   image: 'Hình ảnh',
   images: 'Hình ảnh',
   info: 'Thông tin',
+  inactive: 'Không hiệu lực',
 
   J: 'j',
 

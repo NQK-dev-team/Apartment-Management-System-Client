@@ -23,6 +23,7 @@ export default {
   amount: 'Amount',
   add_schedule: 'Add schedule',
   avatar: 'Avatar',
+  active: 'Active',
 
   B: 'b',
   balance: 'Balance',
@@ -161,6 +162,7 @@ export default {
   image: 'Image',
   images: 'Image(s)',
   info: 'Information',
+  inactive: 'Inactive',
 
   J: 'j',
 

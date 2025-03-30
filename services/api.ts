@@ -12,7 +12,7 @@ import type {
 } from '~/types/building';
 import type { UploadFile } from 'ant-design-vue';
 import type { Bill } from '~/types/bill';
-import type { ManagerSchedule, User } from '~/types/user';
+import type { ManagerSchedule, NewStaff, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
@@ -324,6 +324,40 @@ const common = {
       const $api = getApiInstance();
       return $api(apiRoutes.staff.getTicket(staffId, limit, offset), {
         method: 'GET',
+      });
+    },
+    add: async (staff: NewStaff): Promise<APIResponse<null>> => {
+      const data = new FormData();
+      data.append('firstName', staff.firstName.trim());
+      data.append('lastName', staff.lastName.trim());
+      data.append('middleName', staff.middleName ? staff.middleName.trim() : '');
+      data.append('ssn', staff.ssn.trim());
+      data.append('oldSSN', staff.oldSSN ? staff.oldSSN.trim() : '');
+      data.append('dob', convertToDate(staff.dob));
+      data.append('pob', staff.pob.trim());
+      data.append('phone', staff.phone.trim());
+      data.append('address', staff.address.trim());
+      data.append('email', staff.email.trim());
+      data.append('gender', staff.gender ? staff.gender.toString() : '3');
+      staff.schedules.forEach((schedule) => {
+        data.append(
+          'schedules[]',
+          JSON.stringify({
+            buildingID: schedule.buildingID,
+            startDate: convertToDate(schedule.start as string),
+            endDate: schedule.end ? convertToDate(schedule.end as string) : '',
+          })
+        );
+      });
+      console.log(staff);
+      data.append('profileImage', staff.profileFilePath[0].originFileObj as File);
+      data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
+      data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
+
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.add, {
+        method: 'POST',
+        body: data,
       });
     },
   },

@@ -109,9 +109,11 @@ const common = {
       const $api = getApiInstance();
       const formData = new FormData();
 
-      formData.append('name', building.name);
-      formData.append('address', building.address);
+      formData.append('name', building.name.trim());
+      formData.append('address', building.address.trim());
       building.services.forEach((service) => {
+        service.name = service.name.trim();
+        service.price = Number(service.price.toString().trim());
         formData.append('services[]', JSON.stringify(service));
       });
       building.images.forEach((image) => {
@@ -135,8 +137,8 @@ const common = {
             'rooms[]',
             JSON.stringify({
               status: room.status,
-              area: room.area,
-              description: room.description,
+              area: Number(room.area.toString().trim()),
+              description: room.description.trim(),
               floor: floorIndex + 1,
               no: 1000 * (floorIndex + 1) + roomIndex + 1,
             })
@@ -175,8 +177,8 @@ const common = {
       const formData = new FormData();
 
       formData.append('id', buildingID.toString());
-      formData.append('name', data.name);
-      formData.append('address', data.address);
+      formData.append('name', data.name.trim());
+      formData.append('address', data.address.trim());
       formData.append('totalFloor', totalFloor.toString());
       data.images.forEach((image) => {
         if (image.isDeleted) {
@@ -192,8 +194,8 @@ const common = {
           formData.append(
             'newServices[]',
             JSON.stringify({
-              name: service.name,
-              price: Number(service.price),
+              name: service.name.trim(),
+              price: Number(service.price.toString().trim()),
             })
           );
         } else {
@@ -201,8 +203,8 @@ const common = {
             'services[]',
             JSON.stringify({
               id: service.ID,
-              name: service.name,
-              price: Number(service.price),
+              name: service.name.trim(),
+              price: Number(service.price.toString().trim()),
             })
           );
         }
@@ -241,8 +243,8 @@ const common = {
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: Number(room.area),
-              description: room.description,
+              area: Number(room.area.toString().trim()),
+              description: room.description.trim(),
             })
           );
           room.images.forEach((image) => {
@@ -258,8 +260,8 @@ const common = {
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: Number(room.area),
-              description: room.description,
+              area: Number(room.area.toString().trim()),
+              description: room.description.trim(),
             })
           );
           room.images.forEach((image) => {

@@ -74,9 +74,9 @@
               />
             </div>
           </div>
+          <!-- <div class="flex items-center"></div>
           <div class="flex items-center"></div>
-          <div class="flex items-center"></div>
-          <div class="flex items-center"></div>
+          <div class="flex items-center"></div> -->
         </div>
         <div class="w-[350px] h-full me-12 select-none">
           <a-carousel :autoplay="true" arrows>
@@ -105,7 +105,7 @@
           </a-carousel>
         </div>
       </div>
-      <hr class="mt-2"/>
+      <hr class="mt-2" />
       <div class="w-full flex-1 flex flex-col">
         <div class="flex items-center mt-3">
           <p

@@ -157,6 +157,7 @@ export default {
   enter_employee_email: 'Nhập email của nhân viên',
   enter_employee_phone: 'Nhập số điện thoại của nhân viên',
   enter_employee_address: 'Nhập địa chỉ của nhân viên',
+  edit_employee: 'Chỉnh sửa nhân viên',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -186,6 +187,9 @@ export default {
   info: 'Thông tin',
   inactive: 'Không hiệu lực',
   image_require: 'Vui lòng chọn hình ảnh!',
+  invalid_ssn: 'Số CCCD không hợp lệ!',
+  invalid_oldSSN: 'Số CMND (cũ) không hợp lệ!',
+  invalid_phone: 'Số điện thoại không hợp lệ!',
 
   J: 'j',
 

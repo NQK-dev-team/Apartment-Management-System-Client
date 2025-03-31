@@ -12,7 +12,7 @@ import type {
 } from '~/types/building';
 import type { UploadFile } from 'ant-design-vue';
 import type { Bill } from '~/types/bill';
-import type { ManagerSchedule, NewStaff, User } from '~/types/user';
+import type { EditStaff, ManagerSchedule, NewStaff, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
@@ -349,13 +349,45 @@ const common = {
           })
         );
       });
-      console.log(staff);
       data.append('profileImage', staff.profileFilePath[0].originFileObj as File);
       data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
       data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
 
       const $api = getApiInstance();
       return $api(apiRoutes.staff.add, {
+        method: 'POST',
+        body: data,
+      });
+    },
+    update: async (staff: EditStaff): Promise<APIResponse<null>> => {
+      const data = new FormData();
+      staff.data.schedules.data.forEach((schedule) => {
+        if (schedule.isDeleted) {
+          data.append('deletedSchedules[]', schedule.ID.toString());
+        } else if (schedule.isNew) {
+          data.append(
+            'newSchedules[]',
+            JSON.stringify({
+              managebuildingIDrID: schedule.buildingID,
+              startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+              endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+            })
+          );
+        } else {
+          data.append(
+            'schedules[]',
+            JSON.stringify({
+              id: schedule.ID,
+              buildingID: schedule.buildingID,
+              startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+              endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+            })
+          );
+        }
+      });
+
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.update(staff.data.ID), {
         method: 'POST',
         body: data,
       });

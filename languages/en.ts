@@ -154,6 +154,7 @@ export default {
   enter_employee_email: 'Enter employee email',
   enter_employee_phone: 'Enter employee phone number',
   enter_employee_address: 'Enter employee address',
+  edit_employee:'Edit employee',
 
   F: 'f',
   finish_import: 'Import',
@@ -183,6 +184,9 @@ export default {
   info: 'Information',
   inactive: 'Inactive',
   image_require: 'Please choose an image!',
+  invalid_ssn: 'SSN is not valid!',
+  invalid_oldSSN: 'Old SSN is not valid!',
+  invalid_phone: 'Phone number is not valid!',
 
   J: 'j',
 

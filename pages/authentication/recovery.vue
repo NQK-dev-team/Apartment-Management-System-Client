@@ -3,7 +3,7 @@
     <img src="/image/auth_background.png" class="w-full h-full fixed" />
     <div class="w-full h-full flex items-center justify-center relative">
       <a-form
-        class="w-96 bg-white p-8 rounded-lg shadow-lg"
+        class="w-[400px] bg-white p-8 rounded-lg shadow-lg"
         :model="formData"
         :rules="rules"
         name="basic"

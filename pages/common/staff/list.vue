@@ -82,13 +82,13 @@ import { removeDiacritics } from '~/utils/diacritics';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Staff list',
+  name: 'Staff List',
   layout: 'main',
   middleware: ['authorization-owner'],
 });
 
 useHead({
-  title: 'Staff list',
+  title: 'Staff List',
   meta: [
     {
       name: 'description',

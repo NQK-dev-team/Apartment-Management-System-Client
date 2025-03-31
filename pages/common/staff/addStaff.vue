@@ -102,7 +102,10 @@
                 <a-form-item
                   class="flex-1"
                   name="ssn"
-                  :rules="[{ required: true, message: $t('please_enter_employee_ssn'), trigger: 'blur' }]"
+                  :rules="[
+                    { required: true, message: $t('please_enter_employee_ssn'), trigger: 'blur' },
+                    { max: 12, min: 12, pattern: /^[0-9]+$/, message: $t('invalid_ssn'), trigger: 'blur' },
+                  ]"
                 >
                   <label for="ssn" class="flex mb-1">
                     <span>{{ $t('ssn') }}</span>
@@ -112,7 +115,11 @@
                 </a-form-item>
               </div>
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2" name="oldSSN">
+                <a-form-item
+                  class="flex-1 me-2"
+                  name="oldSSN"
+                  :rules="[{ max: 9, min: 9, pattern: /^[0-9]+$/, message: $t('invalid_oldSSN'), trigger: 'blur' }]"
+                >
                   <label for="oldSSN" class="flex mb-1">
                     <span>{{ $t('old_ssn') }}</span>
                   </label>
@@ -134,7 +141,10 @@
                 <a-form-item
                   class="flex-1 me-2"
                   name="phone"
-                  :rules="[{ required: true, message: $t('please_enter_employee_phone'), trigger: 'blur' }]"
+                  :rules="[
+                    { required: true, message: $t('please_enter_employee_phone'), trigger: 'blur' },
+                    { max: 10, min: 10, pattern: /^[0-9]+$/, message: $t('invalid_phone'), trigger: 'blur' },
+                  ]"
                 >
                   <label for="phone" class="flex mb-1">
                     <span>{{ $t('phone') }}</span>

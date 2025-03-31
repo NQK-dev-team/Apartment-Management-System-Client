@@ -308,13 +308,13 @@ import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Add new staff',
+  name: 'Add New Staff',
   layout: 'main',
   middleware: ['authorization-owner'],
 });
 
 useHead({
-  title: 'Add new staff',
+  title: 'Add New Staff',
   meta: [
     {
       name: 'description',

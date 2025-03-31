@@ -117,6 +117,15 @@
               />
             </div>
           </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
+              <label for="address" class="flex mb-1">
+                <span>{{ $t('address') }}</span>
+              </label>
+              <a-input id="address" :value="staffInfo.address" :placeholder="$t('address')" disabled readonly />
+            </div>
+            <div class="flex-1"></div>
+          </div>
         </div>
         <div class="flex flex-col w-[250px] h-[300px]">
           <div>{{ $t('avatar') }}</div>
@@ -131,7 +140,7 @@
           <img :src="staffInfo.ssnBackFilePath" alt="national_id_back" />
         </div>
       </div>
-      <hr class="border-gray-400" />
+      <hr class="border-gray-400 mt-2" />
       <div class="w-full flex-1 flex flex-col">
         <div class="flex items-center mt-3">
           <p
@@ -174,14 +183,15 @@
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
         <ClientOnly>
-          <CommonStaffContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
-          <CommonStaffSupportTicketTable
+          <CommonStaffDetailContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
+          <CommonStaffDetailSupportTicketTable
             v-if="tickets.length"
             v-show="option === 2"
             :tickets="tickets"
             :staff-info="staffInfo"
+            :building-list="buildingList"
           />
-          <CommonStaffBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
+          <CommonStaffDetailBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm">
@@ -202,6 +212,7 @@ import type { ManagerSchedule, User } from '~/types/user';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { NullTime } from '~/types/basic_model';
+import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -244,6 +255,7 @@ const staffInfo = ref<User>({
   pob: '',
   email: '',
   phone: '',
+  address: '',
   ssnFrontFilePath: '',
   ssnBackFilePath: '',
   profileFilePath: '',
@@ -262,6 +274,7 @@ const option = ref<number>(1);
 const schedules = ref<ManagerSchedule[]>([]);
 const contracts = ref<Contract[]>([]);
 const tickets = ref<SupportTicket[]>([]);
+const buildingList = ref<Building[]>([]);
 const scheduleApiOffset = ref<number>(0);
 const scheduleApiLimit = ref<number>(500);
 const { t } = useI18n();
@@ -274,6 +287,7 @@ async function getStaffDetailInfo() {
     const scheduleResponse = await api.common.staff.getSchedule(staffID);
     const contractResponse = await api.common.staff.getContract(staffID);
     const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
+    const buildingResponse = await api.common.building.getList();
 
     staffInfo.value = response.data;
     schedules.value = scheduleResponse.data.sort(
@@ -284,6 +298,7 @@ async function getStaffDetailInfo() {
     );
     contracts.value = contractResponse.data;
     tickets.value = ticketResponse.data;
+    buildingList.value = buildingResponse.data;
 
     if (ticketResponse.data.length === scheduleApiLimit.value) {
       scheduleApiOffset.value += scheduleApiLimit.value;

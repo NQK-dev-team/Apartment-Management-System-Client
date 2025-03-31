@@ -10,7 +10,7 @@
         @search="filter"
       />
     </div>
-    <a-table :columns="columns" :data-source="data" class="mt-3">
+    <a-table :columns="columns" :data-source="data" class="mt-3" :scroll="{ x: 'max-content' }">
       <template #bodyCell="{ column, value }">
         <template v-if="column.dataIndex === 'action'">
           <NuxtLink
@@ -60,21 +60,25 @@ const columns = computed<any[]>(() => [
     title: t('no'),
     dataIndex: 'no',
     key: 'no',
+    class: 'text-nowrap',
   },
   {
     title: t('customer_name'),
     dataIndex: 'customer_name',
     key: 'customer_name',
+    class: 'text-nowrap',
   },
   {
     title: t('customer_no'),
     dataIndex: 'customer_no',
     key: 'customer_no',
+    class: 'text-nowrap',
   },
   {
     title: t('contract_id'),
     dataIndex: 'contract_id',
     key: 'contract_id',
+    class: 'text-nowrap',
   },
   {
     title: t('startDate'),
@@ -82,7 +86,7 @@ const columns = computed<any[]>(() => [
     key: 'startDate',
     sorter: (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
     sortDirections: ['ascend', 'descend'],
-    class: 'select-none',
+    class: 'select-none text-nowrap',
   },
   {
     title: t('endDate'),
@@ -92,12 +96,13 @@ const columns = computed<any[]>(() => [
       new Date(a.endDate !== '-' ? a.endDate : '2100-01-01').getTime() -
       new Date(b.endDate !== '-' ? b.endDate : '2100-01-01').getTime(),
     sortDirections: ['ascend', 'descend'],
-    class: 'select-none',
+    class: 'select-none text-nowrap',
   },
   {
     title: t('signDate'),
     dataIndex: 'signDate',
     key: 'signDate',
+    class: 'text-nowrap',
   },
   {
     title: t('status'),
@@ -111,11 +116,13 @@ const columns = computed<any[]>(() => [
       { text: t('not_in_effect'), value: 5 },
     ],
     onFilter: (value: any, record: any) => record.status === value,
+    class: 'text-nowrap',
   },
   {
     title: t('action'),
     dataIndex: 'action',
     key: 'action',
+    class: 'text-nowrap',
   },
 ]);
 

@@ -12,7 +12,7 @@ import type {
 } from '~/types/building';
 import type { UploadFile } from 'ant-design-vue';
 import type { Bill } from '~/types/bill';
-import type { ManagerSchedule, User } from '~/types/user';
+import type { EditStaff, ManagerSchedule, NewStaff, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
@@ -99,9 +99,9 @@ const authentication = {
 
 const common = {
   building: {
-    getList: async (): Promise<APIResponse<Building[]>> => {
+    getList: async (getAll: boolean = false): Promise<APIResponse<Building[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.building.list, {
+      return $api(apiRoutes.building.list(getAll), {
         method: 'GET',
       });
     },
@@ -109,9 +109,11 @@ const common = {
       const $api = getApiInstance();
       const formData = new FormData();
 
-      formData.append('name', building.name);
-      formData.append('address', building.address);
+      formData.append('name', building.name.trim());
+      formData.append('address', building.address.trim());
       building.services.forEach((service) => {
+        service.name = service.name.trim();
+        service.price = Number(service.price.toString().trim());
         formData.append('services[]', JSON.stringify(service));
       });
       building.images.forEach((image) => {
@@ -135,8 +137,8 @@ const common = {
             'rooms[]',
             JSON.stringify({
               status: room.status,
-              area: room.area,
-              description: room.description,
+              area: Number(room.area.toString().trim()),
+              description: room.description.trim(),
               floor: floorIndex + 1,
               no: 1000 * (floorIndex + 1) + roomIndex + 1,
             })
@@ -175,8 +177,8 @@ const common = {
       const formData = new FormData();
 
       formData.append('id', buildingID.toString());
-      formData.append('name', data.name);
-      formData.append('address', data.address);
+      formData.append('name', data.name.trim());
+      formData.append('address', data.address.trim());
       formData.append('totalFloor', totalFloor.toString());
       data.images.forEach((image) => {
         if (image.isDeleted) {
@@ -192,8 +194,8 @@ const common = {
           formData.append(
             'newServices[]',
             JSON.stringify({
-              name: service.name,
-              price: Number(service.price),
+              name: service.name.trim(),
+              price: Number(service.price.toString().trim()),
             })
           );
         } else {
@@ -201,8 +203,8 @@ const common = {
             'services[]',
             JSON.stringify({
               id: service.ID,
-              name: service.name,
-              price: Number(service.price),
+              name: service.name.trim(),
+              price: Number(service.price.toString().trim()),
             })
           );
         }
@@ -241,8 +243,8 @@ const common = {
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: Number(room.area),
-              description: room.description,
+              area: Number(room.area.toString().trim()),
+              description: room.description.trim(),
             })
           );
           room.images.forEach((image) => {
@@ -258,8 +260,8 @@ const common = {
               floor: room.floor,
               no: room.no,
               status: room.status,
-              area: Number(room.area),
-              description: room.description,
+              area: Number(room.area.toString().trim()),
+              description: room.description.trim(),
             })
           );
           room.images.forEach((image) => {
@@ -322,6 +324,72 @@ const common = {
       const $api = getApiInstance();
       return $api(apiRoutes.staff.getTicket(staffId, limit, offset), {
         method: 'GET',
+      });
+    },
+    add: async (staff: NewStaff): Promise<APIResponse<null>> => {
+      const data = new FormData();
+      data.append('firstName', staff.firstName.trim());
+      data.append('lastName', staff.lastName.trim());
+      data.append('middleName', staff.middleName ? staff.middleName.trim() : '');
+      data.append('ssn', staff.ssn.trim());
+      data.append('oldSSN', staff.oldSSN ? staff.oldSSN.trim() : '');
+      data.append('dob', convertToDate(staff.dob));
+      data.append('pob', staff.pob.trim());
+      data.append('phone', staff.phone.trim());
+      data.append('address', staff.address.trim());
+      data.append('email', staff.email.trim());
+      data.append('gender', staff.gender ? staff.gender.toString() : '3');
+      staff.schedules.forEach((schedule) => {
+        data.append(
+          'schedules[]',
+          JSON.stringify({
+            buildingID: schedule.buildingID,
+            startDate: convertToDate(schedule.start as string),
+            endDate: schedule.end ? convertToDate(schedule.end as string) : '',
+          })
+        );
+      });
+      data.append('profileImage', staff.profileFilePath[0].originFileObj as File);
+      data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
+      data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
+
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.add, {
+        method: 'POST',
+        body: data,
+      });
+    },
+    update: async (staff: EditStaff): Promise<APIResponse<null>> => {
+      const data = new FormData();
+      staff.data.schedules.data.forEach((schedule) => {
+        if (schedule.isDeleted) {
+          data.append('deletedSchedules[]', schedule.ID.toString());
+        } else if (schedule.isNew) {
+          data.append(
+            'newSchedules[]',
+            JSON.stringify({
+              managebuildingIDrID: schedule.buildingID,
+              startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+              endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+            })
+          );
+        } else {
+          data.append(
+            'schedules[]',
+            JSON.stringify({
+              id: schedule.ID,
+              buildingID: schedule.buildingID,
+              startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+              endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+            })
+          );
+        }
+      });
+
+      const $api = getApiInstance();
+      return $api(apiRoutes.staff.update(staff.data.ID), {
+        method: 'POST',
+        body: data,
       });
     },
   },

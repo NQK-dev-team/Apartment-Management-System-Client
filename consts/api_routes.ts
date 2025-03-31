@@ -11,7 +11,7 @@ const apiRoutes = {
     verifyPassword: '/authentication/verify-password',
   },
   building: {
-    list: '/building',
+    list: (getAll: boolean = false) => `/building?getAll=${getAll}`,
     detail: (buildingId: number) => `/building/${buildingId}`,
     roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
     add: '/building/add',
@@ -25,6 +25,7 @@ const apiRoutes = {
     list: '/staff',
     detail: (staffId: number) => `/staff/${staffId}`,
     add: '/staff',
+    update: (staffId: number) => `/staff/${staffId}/update`,
     deleteMany: '/staff/delete-many',
     getSchedule: (staffId: number) => `/staff/${staffId}/schedule`,
     getContract: (staffId: number) => `/staff/${staffId}/contract`,

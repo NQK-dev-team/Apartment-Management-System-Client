@@ -52,8 +52,8 @@
             deleteBucket = selectedRowKeys;
           },
         }"
-        bordered
-        class="mt-2"
+        class="mt-3"
+        :scroll="{ x: 'max-content' }"
       >
         <template #bodyCell="{ value, column }">
           <template v-if="column.key === 'action'">
@@ -82,13 +82,13 @@ import { removeDiacritics } from '~/utils/diacritics';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Staff list',
+  name: 'Staff List',
   layout: 'main',
   middleware: ['authorization-owner'],
 });
 
 useHead({
-  title: 'Staff list',
+  title: 'Staff List',
   meta: [
     {
       name: 'description',
@@ -112,46 +112,61 @@ const columns = computed(() => [
     title: t('no'),
     dataIndex: 'no',
     key: 'no',
+    class: 'text-nowrap',
   },
   {
     title: t('name'),
     dataIndex: 'name',
     key: 'name',
+    class: 'text-nowrap',
   },
   {
     title: t('employee_number'),
     dataIndex: 'employeeNumber',
     key: 'employeeNumber',
+    class: 'text-nowrap',
   },
   {
     title: t('gender'),
     dataIndex: 'gender',
     key: 'gender',
+    class: 'text-nowrap',
   },
   {
     title: t('dob'),
     dataIndex: 'dob',
     key: 'dob',
+    class: 'text-nowrap',
   },
   {
     title: t('ssn'),
     dataIndex: 'ssn',
     key: 'ssn',
+    class: 'text-nowrap',
   },
   {
     title: t('phone'),
     dataIndex: 'phone',
     key: 'phone',
+    class: 'text-nowrap',
   },
   {
     title: t('email'),
     dataIndex: 'email',
     key: 'email',
+    class: 'text-nowrap',
+  },
+  {
+    title: t('address'),
+    dataIndex: 'address',
+    key: 'address',
+    class: 'text-nowrap',
   },
   {
     title: t('action'),
     dataIndex: 'action',
     key: 'action',
+    class: 'text-nowrap',
   },
 ]);
 const dataSource = ref<
@@ -164,6 +179,7 @@ const dataSource = ref<
     ssn: string;
     phone: string;
     email: string;
+    address: string;
     action: number;
     key: number;
   }[]
@@ -183,6 +199,7 @@ function searchEmployee() {
         ssn: user.ssn,
         phone: user.phone,
         email: user.email,
+        address: user.address,
         action: user.ID,
         key: user.ID,
       };
@@ -194,7 +211,8 @@ function searchEmployee() {
         user.employeeNumber.includes(search) ||
         user.ssn.includes(search) ||
         user.phone.includes(search) ||
-        user.email.includes(search)
+        user.email.includes(search) ||
+        removeDiacritics(user.address.toLowerCase()).includes(search)
       );
     });
 }
@@ -216,6 +234,8 @@ async function getEmployeeList() {
         ssn: user.ssn,
         phone: user.phone,
         email: user.email,
+        address: user.address,
+
         action: user.ID,
         key: user.ID,
       };

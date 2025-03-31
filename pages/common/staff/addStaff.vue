@@ -1,187 +1,308 @@
 <template>
   <div class="w-full h-full flex flex-col px-5">
-    <!-- Page header -->
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
-        <a-breadcrumb-item>{{ $t('employee_list') }}</a-breadcrumb-item>
-        <a-breadcrumb-item>{{ $t('add_employees') }}</a-breadcrumb-item>
+        <a-breadcrumb-item
+          ><NuxtLink :to="pageRoutes.common.staff.list">{{ $t('employee_list') }}</NuxtLink></a-breadcrumb-item
+        >
+        <a-breadcrumb-item>{{ $t('add_employee') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('add_employees') }}</h1>
+      <h1 class="mt-3 text-2xl">{{ $t('add_employee') }}</h1>
     </div>
-    <!-- Page main content -->
-    <div class="px-4 py-3 mt-5 overflow-auto" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-      <!-- Heading of the  page -->
-      <!-- <h1 class="flex justify-center mt-3 text-2xl ">{{ $t('employee_list') }}</h1> -->
-      <!-- 2 colums -->
-      <div class="grid grid-cols-6 gap-x-2">
-        <!-- left col -->
-        <div class="min-h-[50px] col-span-4">
-          <!-- Input boxes -->
-          <div class="h-full flex-1 flex flex-col me-24">
-            <div class="flex items-center">
-              <div class="flex-1 me-2">
-                <label for="last_name" class="flex mb-1">
-                  <span>{{ $t('last_name') }}</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  id="last_name"
-                  value="Nguyễn"
-                  placeholder="Last name"
-                />
+    <div
+      class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
+      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+    >
+      <a-form class="py-3" :model="staffInfo" layout="vertical" @finish="addStaff">
+        <div class="grid grid-cols-6 gap-x-2">
+          <div class="col-span-5">
+            <div class="h-full flex-1 flex flex-col">
+              <div class="flex items-center">
+                <a-form-item
+                  class="flex-1 me-2"
+                  name="lastName"
+                  :rules="[{ required: true, message: $t('employee_last_name_require'), trigger: 'blur' }]"
+                >
+                  <label for="lastName" class="flex mb-1">
+                    <span>{{ $t('last_name') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input
+                    id="lastName"
+                    v-model:value="staffInfo.lastName"
+                    :placeholder="$t('enter_employee_last_name')"
+                  />
+                </a-form-item>
+                <a-form-item class="flex-1" name="middleName">
+                  <label for="middleName" class="flex mb-1">
+                    <span>{{ $t('middle_name') }}</span>
+                  </label>
+                  <a-input
+                    id="middleName"
+                    v-model:value="staffInfo.middleName"
+                    :placeholder="$t('enter_employee_middle_name')"
+                  />
+                </a-form-item>
               </div>
-              <div class="flex-1 me-2">
-                <label for="name" class="flex mb-1">
-                  <span>{{ $t('middle_name') }}</span>
-                </label>
-                <a-input
-                  id="middle_name"
-                  value="Văn"
-                  placeholder="Middle name"
-                />
+              <div class="flex items-center">
+                <a-form-item
+                  class="flex-1 me-2"
+                  name="firstName"
+                  :rules="[{ required: true, message: $t('employee_first_name_require'), trigger: 'blur' }]"
+                >
+                  <label for="firstName" class="flex mb-1">
+                    <span>{{ $t('name') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input
+                    id="firstName"
+                    v-model:value="staffInfo.firstName"
+                    :placeholder="$t('enter_employee_first_name')"
+                  />
+                </a-form-item>
+                <a-form-item
+                  class="flex-1"
+                  name="dob"
+                  :rules="[{ required: true, message: $t('please_select_employee_birthdate'), trigger: 'blur' }]"
+                >
+                  <label for="dob" class="flex mb-1">
+                    <span>{{ $t('dob') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-date-picker
+                    id="dob"
+                    v-model:value="staffInfo.dob"
+                    class="w-full"
+                    :placeholder="$t('select_employee_dob')"
+                  />
+                </a-form-item>
               </div>
+              <div class="flex items-center">
+                <a-form-item
+                  class="flex-1 me-2"
+                  name="gender"
+                  :rules="[{ required: true, message: $t('please_select_employee_gender'), trigger: 'blur' }]"
+                >
+                  <label for="gender" class="flex mb-1">
+                    <span>{{ $t('gender') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-select
+                    id="gender"
+                    v-model:value="staffInfo.gender"
+                    class="w-full"
+                    :class="[staffInfo.gender === 0 ? 'text-gray-500' : '']"
+                    :placeholder="$t('select_employee_gender')"
+                  >
+                    <a-select-option :value="1">{{ $t('male') }}</a-select-option>
+                    <a-select-option :value="2">{{ $t('female') }}</a-select-option>
+                    <a-select-option :value="3">{{ $t('other') }}</a-select-option>
+                  </a-select>
+                </a-form-item>
+                <a-form-item
+                  class="flex-1"
+                  name="ssn"
+                  :rules="[
+                    { required: true, message: $t('please_enter_employee_ssn'), trigger: 'blur' },
+                    { max: 12, min: 12, pattern: /^[0-9]+$/, message: $t('invalid_ssn'), trigger: 'blur' },
+                  ]"
+                >
+                  <label for="ssn" class="flex mb-1">
+                    <span>{{ $t('ssn') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input id="ssn" v-model:value="staffInfo.ssn" :placeholder="$t('enter_employee_ssn')" />
+                </a-form-item>
+              </div>
+              <div class="flex items-center">
+                <a-form-item
+                  class="flex-1 me-2"
+                  name="oldSSN"
+                  :rules="[{ max: 9, min: 9, pattern: /^[0-9]+$/, message: $t('invalid_oldSSN'), trigger: 'blur' }]"
+                >
+                  <label for="oldSSN" class="flex mb-1">
+                    <span>{{ $t('old_ssn') }}</span>
+                  </label>
+                  <a-input id="oldSSN" v-model:value="staffInfo.oldSSN" :placeholder="$t('enter_employee_old_ssn')" />
+                </a-form-item>
+                <a-form-item
+                  class="flex-1"
+                  name="pob"
+                  :rules="[{ required: true, message: $t('please_enter_employee_pob'), trigger: 'blur' }]"
+                >
+                  <label for="pob" class="flex mb-1">
+                    <span>{{ $t('pob') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input id="pob" v-model:value="staffInfo.pob" :placeholder="$t('enter_employee_pob')" />
+                </a-form-item>
+              </div>
+              <div class="flex items-center">
+                <a-form-item
+                  class="flex-1 me-2"
+                  name="phone"
+                  :rules="[
+                    { required: true, message: $t('please_enter_employee_phone'), trigger: 'blur' },
+                    { max: 10, min: 10, pattern: /^[0-9]+$/, message: $t('invalid_phone'), trigger: 'blur' },
+                  ]"
+                >
+                  <label for="phone" class="flex mb-1">
+                    <span>{{ $t('phone') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input
+                    id="phone"
+                    v-model:value="staffInfo.phone"
+                    :placeholder="$t('enter_employee_phone')"
+                    autocomplete="phone"
+                  />
+                </a-form-item>
+                <a-form-item
+                  class="flex-1"
+                  name="email"
+                  :rules="[
+                    { required: true, message: $t('please_enter_employee_email'), trigger: 'blur' },
+                    { type: 'email', message: t('email_invalid'), trigger: 'blur' },
+                  ]"
+                >
+                  <label for="email" class="flex mb-1">
+                    <span>{{ $t('email') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input
+                    id="email"
+                    v-model:value="staffInfo.email"
+                    :placeholder="$t('enter_employee_email')"
+                    autocomplete="email"
+                  />
+                </a-form-item>
+              </div>
+              <div class="flex items-center">
+                <a-form-item
+                  class="flex-1 me-2"
+                  name="address"
+                  :rules="[{ required: true, message: $t('please_enter_employee_address'), trigger: 'blur' }]"
+                >
+                  <label for="address" class="flex mb-1">
+                    <span>{{ $t('address') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input
+                    id="address"
+                    v-model:value="staffInfo.address"
+                    :placeholder="$t('enter_employee_address')"
+                    autocomplete="off"
+                  />
+                </a-form-item>
+                <div class="flex-1"></div>
+              </div>
+              <CommonStaffAddScheduleTable :schedules="staffInfo.schedules" :building-list="buildingList" />
             </div>
-            <div class="flex items-center mt-5">
-              <div class="flex-1 me-2">
-                <label for="name" class="flex mb-1">
-                  <span>{{ $t('name') }}</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  id="name"
-                  value="Tùng"
-                  placeholder="Name"
-                />
-              </div>
-              <div class="flex-1 me-2">
-                <label for="data_of_birth" class="flex mb-1">
-                  <span>{{ $t('dob') }}</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-date-picker v-model:value="value1" class="w-full" placeholder="Select date"/>
-              </div>
-            </div>
-            <div class="flex items-center mt-5">
-              <div class="flex-1 me-2">
-                <label for="gender" class="flex mb-1">
-                  <span>{{ $t('gender') }}</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-select
-                  ref="select"
-                  v-model:value="value2"
-                  style="width: 120px"
-                  :options="options2"
-                  @focus="focus"
-                  @change="handleChange"
-                  class="w-full"
-                ></a-select>
-              </div>
-              <div class="flex-1 me-2">
-                <label for="CCCD" class="flex mb-1">
-                  <span>CCCD</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  id="cccd"
-                  value="09220000XXXX"
-                  placeholder="CCCD"
-                />
-              </div>
-            </div>
-            <div class="flex items-center mt-5">
-              <div class="flex-1 me-2">
-                <label for="CMND" class="flex mb-1">
-                  <span>CMND</span>
-                </label>
-                <a-input
-                  id="cmnd"
-                  value="Empty"
-                  placeholder="CMND"
-                />
-              </div>
-              <div class="flex-1 me-2">
-                <label for="origin" class="flex mb-1">
-                  <span>{{ $t('origin') }}</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  id="origin"
-                  value="Đồng Nai"
-                  placeholder="Origin"
-                />
-              </div>
-            </div>
-            <div class="flex items-center mt-5">
-              <div class="flex-1 me-2">
-                <label for="phone_number" class="flex mb-1">
-                  <span>{{ $t('phone') }}</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  id="phone_number"
-                  value="093275XXXX"
-                  placeholder="Phone number"
-                />
-              </div>
-              <div class="flex-1 me-2">
-                <label for="login_email" class="flex mb-1">
-                  <span>{{ $t('email') }}</span>
-                  <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  id="login_email"
-                  value="testmail1@gmail.com"
-                  placeholder="testmail1@gmail.com"
-                />
-              </div>
-            </div>
-            <!-- Building managing section -->
-            <div>
-              <!-- Heading and buttons -->
-              <div class="flex justify-between items-center mt-5">
-                <!-- p is a place holder, to space out the content -->
-                <h2 class="mt-3 text-2xl">{{ $t('building_managing') }}</h2>
-                <div class="flex">
-                  <NuxtLink>
-                    <a-button type="primary" class="btn-icon">
-                      <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]"/>
-                    </a-button>
-                  </NuxtLink>
-
-                  <a-button type="primary" danger class="btn-icon ml-2">
-                    <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
+          </div>
+          <div class="col-span-1 px-3">
+            <a-form-item
+              class="align_validation_message_middle"
+              name="profileFilePath"
+              :rules="[{ required: true, message: $t('image_require'), trigger: 'blur' }]"
+            >
+              <label for="profileFilePath">{{ $t('avatar') }}<span class="text-red-500 ms-1">*</span></label>
+              <img
+                v-if="!staffInfo.profileFilePath || !staffInfo.profileFilePath.length"
+                :src="svgPaths.placeholderImage"
+                :alt="$t('avatar')"
+                class="w-full h-full mt-1"
+              />
+              <img v-else :src="previewAvatar" :alt="$t('avatar')" class="w-full h-full mt-1" />
+              <div class="text-center mt-3">
+                <a-upload
+                  id="profileFilePath"
+                  v-model:file-list="staffInfo.profileFilePath"
+                  :max-count="1"
+                  @change="handleAvatarChange"
+                >
+                  <a-button class="flex items-center rounded-sm">
+                    <upload-outlined></upload-outlined>
+                    {{ $t('upload_file') }}
                   </a-button>
-                </div>
+                </a-upload>
               </div>
-              <!-- Building managing section table -->
-              <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-                <template #bodyCell="{ column, text, record }">
-                  <template v-if="column.dataIndex === 'buildingName'">
-                    <a-select v-model:value="record.buildingName" :options="buildingOptions" class="w-full"></a-select>
-                  </template>
-                  <template v-else-if="column.dataIndex === 'beginDate'">
-                    <a-date-picker v-model:value="record.beginDate" class="w-full" placeholder="Select date"></a-date-picker>
-                  </template>
-                  <template v-else-if="column.dataIndex === 'endDate'">
-                    <a-date-picker v-model:value="record.endDate" class="w-full" placeholder="Select date"></a-date-picker>
-                  </template>
-                </template>
-              </a-table>
+            </a-form-item>
+            <div class="text-sm text-center" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
+              {{ $t('recommended_resolution') }}
+            </div>
+            <a-form-item
+              class="mt-5 align_validation_message_middle"
+              name="ssnFrontFilePath"
+              :rules="[{ required: true, message: $t('image_require'), trigger: 'blur' }]"
+            >
+              <label for="ssnFrontFilePath"
+                >{{ $t('national_id') + ' ' + $t('front_face') }}<span class="text-red-500 ms-1">*</span></label
+              >
+              <img
+                v-if="!staffInfo.ssnFrontFilePath || !staffInfo.ssnFrontFilePath.length"
+                :src="svgPaths.placeholderImage"
+                :alt="$t('national_id') + ' ' + $t('front_face')"
+                class="w-full h-full mt-1"
+              />
+              <img v-else :src="previewSSNFront" :alt="$t('avatar')" class="w-full h-full mt-1" />
+              <div class="text-center mt-3">
+                <a-upload
+                  id="ssnFrontFilePath"
+                  v-model:file-list="staffInfo.ssnFrontFilePath"
+                  :max-count="1"
+                  @change="handleSSNFrontChange"
+                >
+                  <a-button class="flex items-center rounded-sm">
+                    <upload-outlined></upload-outlined>
+                    {{ $t('upload_file') }}
+                  </a-button>
+                </a-upload>
+              </div>
+            </a-form-item>
+            <div class="text-sm text-center" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
+              {{ $t('recommended_resolution') }}
+            </div>
+            <a-form-item
+              class="mt-5 align_validation_message_middle"
+              name="ssnBackFilePath"
+              :rules="[{ required: true, message: $t('image_require'), trigger: 'blur' }]"
+            >
+              <label for="ssnBackFilePath"
+                >{{ $t('national_id') + ' ' + $t('back_face') }}<span class="text-red-500 ms-1">*</span></label
+              >
+              <img
+                v-if="!staffInfo.ssnBackFilePath || !staffInfo.ssnBackFilePath.length"
+                :src="svgPaths.placeholderImage"
+                :alt="$t('national_id') + ' ' + $t('back_face')"
+                class="w-full h-full mt-1"
+              />
+              <img v-else :src="previewSSNBack" :alt="$t('avatar')" class="w-full h-full mt-1" />
+              <div class="text-center mt-3">
+                <a-upload
+                  id="ssnBackFilePath"
+                  v-model:file-list="staffInfo.ssnBackFilePath"
+                  :max-count="1"
+                  @change="handleSSNBackChange"
+                >
+                  <a-button class="flex items-center rounded-sm">
+                    <upload-outlined></upload-outlined>
+                    {{ $t('upload_file') }}
+                  </a-button>
+                </a-upload>
+              </div>
+            </a-form-item>
+            <div class="text-sm text-center" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
+              {{ $t('recommended_resolution') }}
             </div>
           </div>
         </div>
-        <!-- right col -->
-        <div class="col-span-2 px-3">
-          <imageUpload :label="$t('avatar')"/>
-          <imageUpload :label="$t('national_id') + ' ' + $t('front_face')"/>
-          <imageUpload :label="$t('national_id') + ' ' + $t('back_face')"/>
+        <div class="flex flex-col items-center mt-5">
+          <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
+          <a-button class="w-[100px] rounded-sm mt-3" @click.prevent="navigateTo(pageRoutes.common.staff.list)">
+            {{ $t('cancel') }}
+          </a-button>
         </div>
-      </div>
-      <div class="flex flex-col items-center mt-5">
-        <a-button class="my-2 w-[100px]" type="primary">{{ $t('confirm') }}</a-button>
-        <a-button class="my-2 w-[100px]">{{ $t('cancel') }}</a-button>
-      </div>
+      </a-form>
     </div>
   </div>
 </template>
@@ -189,132 +310,210 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { reactive, ref, computed } from 'vue';
-import type { UnwrapRef } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
-import imageUpload from '@/components/common/customComponent/imageUpload.vue';
-import type { Dayjs } from 'dayjs';
-import type { SelectProps } from 'ant-design-vue';
-import type { SizeType } from 'ant-design-vue/es/config-provider';
+import { pageRoutes } from '~/consts/page_routes';
+import type { NewStaff } from '~/types/user';
+import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
+import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Staff add',
+  name: 'Add New Staff',
   layout: 'main',
-  middleware: ['authorization-manager']
+  middleware: ['authorization-owner'],
 });
 
 useHead({
-  title: 'Add staff member',
+  title: 'Add New Staff',
   meta: [
     {
       name: 'description',
-      content: 'List of staff members in the system',
+      content: 'Add new staff information to the system',
     },
   ],
 });
 
-//use this to get the translation
-const value1 = ref<Dayjs>();
-const value2 = ref('Female');
-const size = ref<SizeType>('large');
-const options2 = ref<SelectProps['options']>([
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
-  { value: 'Other', label: 'Other'},
-]);
+// ---------------------- Variables ----------------------
 const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-
-const buildingOptions = ref([
-  { value: 'A1', label: 'A1' },
-  { value: 'A2', label: 'A2' },
-  { value: 'A3', label: 'A3' },
-  { value: 'B1', label: 'B1' },
-  { value: 'B2', label: 'B2' },
-  { value: 'B3', label: 'B3' },
-]);
-
-const columns = computed(() => [
-  {
-    title: t('no'),
-    align: 'center',
-    dataIndex: 'no',
-    width: '10%',
-  },
-  {
-    title: t('building_name'),
-    dataIndex: 'buildingName',
-    width: '40%',
-  },
-  {
-    title: "Begin date",
-    dataIndex: 'beginDate',
-    width: '20%',
-  },
-  {
-    title: "End date",
-    dataIndex: 'endDate',
-    width: '20%',
-  },
-]);
-
-interface DataItem {
-  key: string;
-  no: number;
-  buildingName: string;
-  beginDate: Dayjs | null;
-  endDate: Dayjs | null;
-}
-
-const data: DataItem[] = [];
-const buildings = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3'];
-
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i.toString(),
-    no: i + 1,
-    buildingName: buildings[Math.floor(Math.random() * buildings.length)],
-    beginDate: null,
-    endDate: null,
-  });
-}
-
-const dataSource = ref(data);
-
-const rowSelection = ref({
-  checkStrictly: false,
-  onChange: (selectedRowKeys: (string | number)[], selectedRows: DataItem[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  onSelect: (record: DataItem, selected: boolean, selectedRows: DataItem[]) => {
-    console.log(record, selected, selectedRows);
-  },
-  onSelectAll: (selected: boolean, selectedRows: DataItem[], changeRows: DataItem[]) => {
-    console.log(selected, selectedRows, changeRows);
-  },
+const staffInfo = ref<NewStaff>({
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  ssn: '',
+  oldSSN: '',
+  dob: '',
+  pob: '',
+  email: '',
+  phone: '',
+  ssnFrontFilePath: undefined,
+  ssnBackFilePath: undefined,
+  profileFilePath: undefined,
+  gender: undefined,
+  address: '',
+  schedules: [],
 });
+const { $event } = useNuxtApp();
+const previewAvatar = ref<string>('');
+const previewSSNFront = ref<string>('');
+const previewSSNBack = ref<string>('');
+const buildingList = ref<Building[]>([]);
 
-const focus = () => {
-  console.log('focus');
-};
+// ---------------------- Functions ----------------------
+async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
+  let isDone = true;
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
+  event.fileList.forEach((file) => {
+    if (file.status !== 'done') {
+      isDone = false;
+    }
+  });
+
+  if (!isDone) {
+    return;
+  }
+
+  const files = event.fileList.map((file) => file.originFileObj);
+  const imageList: string[] = [];
+  // Array.from(files).forEach(async (file) => {
+  //   if (file) {
+  //     const base64 = await getBase64(file);
+  //     imageList.push(base64 as string);
+  //   }
+  // });
+
+  for (const file of files) {
+    if (file) {
+      const base64 = await getBase64(file);
+      imageList.push(base64 as string);
+    }
+  }
+
+  previewAvatar.value = imageList.length ? imageList[0] : '';
+}
+
+async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
+  let isDone = true;
+
+  event.fileList.forEach((file) => {
+    if (file.status !== 'done') {
+      isDone = false;
+    }
+  });
+
+  if (!isDone) {
+    return;
+  }
+
+  const files = event.fileList.map((file) => file.originFileObj);
+  const imageList: string[] = [];
+  // Array.from(files).forEach(async (file) => {
+  //   if (file) {
+  //     const base64 = await getBase64(file);
+  //     imageList.push(base64 as string);
+  //   }
+  // });
+
+  for (const file of files) {
+    if (file) {
+      const base64 = await getBase64(file);
+      imageList.push(base64 as string);
+    }
+  }
+
+  previewSSNFront.value = imageList.length ? imageList[0] : '';
+}
+
+async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
+  let isDone = true;
+
+  event.fileList.forEach((file) => {
+    if (file.status !== 'done') {
+      isDone = false;
+    }
+  });
+
+  if (!isDone) {
+    return;
+  }
+
+  const files = event.fileList.map((file) => file.originFileObj);
+  const imageList: string[] = [];
+  // Array.from(files).forEach(async (file) => {
+  //   if (file) {
+  //     const base64 = await getBase64(file);
+  //     imageList.push(base64 as string);
+  //   }
+  // });
+
+  for (const file of files) {
+    if (file) {
+      const base64 = await getBase64(file);
+      imageList.push(base64 as string);
+    }
+  }
+
+  previewSSNBack.value = imageList.length ? imageList[0] : '';
+}
+
+async function getBuildingList() {
+  try {
+    $event.emit('loading');
+    const buildingResponse = await api.common.building.getList();
+    buildingList.value = buildingResponse.data;
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      throw createError({
+        status: 500,
+        message: 'Internal server error',
+        fatal: true,
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+async function addStaff() {
+  try {
+    $event.emit('loading');
+    await api.common.staff.add(staffInfo.value);
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+  getBuildingList();
+});
 </script>
 
-<style scoped>
-  .btn-icon {
-    @apply flex items-center justify-center p-0 w-[36px] rounded-none;
-  }
-  .editable-row-operations a {
-    margin-right: 8px;
-  }
-  .delete {
-    color: red;
-  }
+<style lang="css">
+.align_validation_message_middle .ant-form-item-explain-error{
+  text-align: center;
+}
+
+.align_validation_message_start .ant-form-item-explain-error{
+  text-align: start;
+  margin-left:13px;
+}
 </style>

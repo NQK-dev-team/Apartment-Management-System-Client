@@ -1,5 +1,5 @@
 <template>
-  <a-table :data-source="roomList" :columns="roomListTableColumns" class="mt-5">
+  <a-table :data-source="roomList" :columns="roomListTableColumns" class="mt-5" :scroll="{ x: 'max-content' }">
     <template #headerCell="{ column }">
       <template v-if="column.key === 'area'"> {{ column.title }} (m<sup>2</sup>) </template>
     </template>
@@ -119,6 +119,7 @@ const roomListTableColumns = computed<any>(() => {
       title: t('no'),
       dataIndex: 'no',
       key: 'no',
+      class: 'text-nowrap',
     },
     {
       title: t('floor'),
@@ -128,6 +129,7 @@ const roomListTableColumns = computed<any>(() => {
       customFilterDropdown: false,
       filterMultiple: true,
       onFilter: (value: number, record: any) => record.floor === value,
+      class: 'text-nowrap',
     },
     {
       title: t('room_no'),
@@ -145,6 +147,7 @@ const roomListTableColumns = computed<any>(() => {
           }, 100);
         }
       },
+      class: 'text-nowrap',
     },
     {
       title: t('status'),
@@ -160,21 +163,25 @@ const roomListTableColumns = computed<any>(() => {
         { text: t('unavailable'), value: 5 },
       ],
       onFilter: (value: number, record: any) => record.status === value,
+      class: 'text-nowrap',
     },
     {
       title: t('area'),
       dataIndex: 'area',
       key: 'area',
+      class: 'text-nowrap',
     },
     {
       title: t('description'),
       dataIndex: 'description',
       key: 'description',
+      class: 'text-nowrap',
     },
     {
       title: t('action'),
       dataIndex: 'action',
       key: 'action',
+      class: 'text-nowrap',
     },
   ];
 });

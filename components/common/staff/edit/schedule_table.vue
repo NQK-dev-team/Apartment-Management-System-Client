@@ -1,22 +1,22 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-5">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
-      <div v-if="userRole?.toString() === roles.owner && !props.readOnly" class="flex items-center">
+      <div class="flex items-center">
         <a-button
           class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
             () => {
+              addCounter = 0;
               current = 1;
-              const originalSchedules = JSON.parse(JSON.stringify(originalBuildingInfo.data.schedules));
-              originalSchedules.forEach((schedule: any) => {
-                schedule.startDate = dayjs(schedule.startDate as string);
-                schedule.endDate = (schedule.endDate as NullTime).Valid
-                  ? dayjs((schedule.endDate as NullTime).Time as string)
-                  : '';
-              });
-              buildingInfo.data.schedules = originalSchedules;
               scheduleDeleteBucket = [];
+              const originalSchedules = JSON.parse(JSON.stringify(props.originalSchedules));
+              originalSchedules.forEach((schedule: any) => {
+                schedule.start = dayjs(schedule.start as string);
+                schedule.end = (schedule.end as NullTime).Valid ? dayjs((schedule.end as NullTime).Time as string) : '';
+              });
+              schedules.data = originalSchedules;
+              props.formRef.clearValidate();
             }
           "
         >
@@ -26,11 +26,8 @@
           type="primary"
           danger
           class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
-          @click="
-            () => {
-              $event.emit('openDeleteModalEditBuilding', deleteSchedules);
-            }
-          "
+          :disabled="scheduleDeleteBucket.length === 0"
+          @click="deleteSchedules"
           ><DeleteOutlined
         /></a-button>
         <a-button
@@ -38,22 +35,17 @@
           class="flex items-center justify-center w-10 h-10 rounded-sm"
           @click="
             () => {
-              addCounter++;
-              buildingInfo.data.schedules = [
+              addCounter--;
+              schedules.data = [
                 {
-                  ID: -addCounter,
-                  createdAt: '',
-                  createdBy: 0,
-                  updatedAt: '',
-                  updatedBy: 0,
-                  buildingID: buildingID,
-                  managerID: 0,
-                  startDate: '',
-                  endDate: '',
-                  isDeleted: false,
+                  ID: addCounter,
+                  start: '',
+                  end: '',
+                  buildingID: undefined,
                   isNew: true,
-                } as unknown as EditManagerSchedule,
-                ...buildingInfo.data.schedules,
+                  isDeleted: false,
+                },
+                ...schedules.data,
               ];
             }
           "
@@ -68,10 +60,7 @@
           :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
         >
           <tr>
-            <th
-              v-if="!props.readOnly && userRole?.toString() === roles.owner"
-              class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]"
-            >
+            <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 <a-checkbox
                   id="check_all_schedules_1"
@@ -90,20 +79,10 @@
                 class="border-r-[1px] h-[20px] flex items-center justify-center"
                 :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
               >
-                {{ $t('employee') }}
+                {{ $t('building') }}
                 <div class="flex items-center">
                   <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                 </div>
-              </div>
-            </th>
-            <th class="text-sm font-normal text-center align-middle py-[16px]">
-              <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-                {{ $t('email') }}
-              </div>
-            </th>
-            <th class="text-sm font-normal text-center align-middle py-[16px]">
-              <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-                {{ $t('phone') }}
               </div>
             </th>
             <th class="text-sm font-normal text-center align-middle py-[16px]">
@@ -125,10 +104,7 @@
                 {{ $t('endDate') }}
               </div>
             </th>
-            <th
-              v-if="userRole?.toString() === roles.owner"
-              class="text-sm font-normal text-center align-middle py-[16px] w-[75px]"
-            >
+            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 {{ $t('note') }}
               </div>
@@ -136,79 +112,88 @@
           </tr>
         </thead>
         <tbody>
-          <CommonBuildingEditScheduleItem
-            v-for="(schedule, index) in buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted)"
+          <CommonStaffEditScheduleItem
+            v-for="(schedule, index) in schedules.data.filter((schedule) => !schedule.isDeleted)"
             v-show="current * 10 >= index + 1 && (current - 1) * 10 < index + 1"
             :key="index"
             :index="index"
+            :schedule="schedule"
+            :light-mode="lightMode"
             :schedule-delete-bucket="scheduleDeleteBucket"
-            :managers="props.managers"
-            :read-only="props.readOnly || userRole?.toString() !== roles.owner"
-            :schedule="schedule as any"
-            :step="props.step"
+            :building-list="buildingList"
           />
         </tbody>
       </table>
       <div
-        v-if="buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length > 10"
+        v-if="schedules.data.filter((schedule) => !schedule.isDeleted).length > 10"
         class="flex items-center justify-end mt-5"
       >
         <a-pagination
           v-model:current="current"
-          :total="buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length"
+          :total="schedules.data.filter((schedule) => !schedule.isDeleted).length"
           :page-size="10"
         />
       </div>
     </div>
-    <p>{{ $t('total') }}: {{ buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length }}</p>
+    <p>{{ $t('total') }}: {{ schedules.data.filter((schedule) => !schedule.isDeleted).length }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
-import type { EditBuilding, EditManagerSchedule } from '~/types/building';
-import type { User } from '~/types/user';
-import { roles } from '~/consts/roles';
+import type { Building } from '~/types/building';
+import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import type { NullTime } from '~/types/basic_model';
 
 // ---------------------- Variables ----------------------
-const route = useRoute();
-const buildingID = Number(route.params.id as string);
-const userRole = useCookie('userRole');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const { $event } = useNuxtApp();
 const current = ref(1);
+const { $event } = useNuxtApp();
 const props = defineProps({
-  buildingInfo: {
-    type: Object as PropType<{ data: EditBuilding }>,
+  buildingList: {
+    type: Array as PropType<Building[]>,
     required: true,
   },
-  originalBuildingInfo: {
-    type: Object as PropType<{ data: EditBuilding }>,
+  schedules: {
+    type: Object as PropType<{
+      data: {
+        ID: number;
+        start: string | Dayjs;
+        end: string | Dayjs;
+        buildingID: number | undefined;
+        isNew: boolean;
+        isDeleted: boolean;
+      }[];
+    }>,
     required: true,
   },
-  managers: {
-    type: Array as PropType<User[]>,
+  originalSchedules: {
+    type: Array as PropType<
+      {
+        ID: number;
+        start: string | Dayjs;
+        end: string | Dayjs;
+        buildingID: number | undefined;
+        isNew: boolean;
+        isDeleted: boolean;
+      }[]
+    >,
     required: true,
   },
-  readOnly: {
-    type: Boolean,
-    default: false,
-  },
-  step: {
-    type: Number,
+  formRef: {
+    type: Object as PropType<any>,
     required: true,
   },
 });
-const buildingInfo = toRef(props, 'buildingInfo');
 const addCounter = ref(0);
+const schedules = toRef(props, 'schedules');
 const scheduleDeleteBucket = ref<number[]>([]);
 const checkAllSchedules = computed(() => {
-  const currentPage = buildingInfo.value.data.schedules
+  const currentPage = schedules.value.data
     .filter((schedule) => !schedule.isDeleted)
     .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1);
 
@@ -217,10 +202,10 @@ const checkAllSchedules = computed(() => {
 
 // ---------------------- Functions ----------------------
 function deleteSchedules() {
-  buildingInfo.value.data.schedules.forEach((schedule) => {
+  schedules.value.data.forEach((schedule) => {
     if (scheduleDeleteBucket.value.includes(schedule.ID)) {
       if (schedule.isNew) {
-        buildingInfo.value.data.schedules = buildingInfo.value.data.schedules.filter((s) => s.ID !== schedule.ID);
+        schedules.value.data = schedules.value.data.filter((s) => s.ID !== schedule.ID);
       } else {
         schedule.isDeleted = true;
       }
@@ -232,7 +217,7 @@ function deleteSchedules() {
 
 function addAllSchedulesToBucket() {
   scheduleDeleteBucket.value.push(
-    ...buildingInfo.value.data.schedules
+    ...schedules.value.data
       .filter((schedule) => !schedule.isDeleted)
       .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1)
       .map((schedule) => schedule.ID)
@@ -240,7 +225,7 @@ function addAllSchedulesToBucket() {
 }
 
 function removeAllSchedulesFromBucket() {
-  const IDs = buildingInfo.value.data.schedules
+  const IDs = schedules.value.data
     .filter((schedule) => !schedule.isDeleted)
     .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1)
     .map((schedule) => schedule.ID);
@@ -249,13 +234,13 @@ function removeAllSchedulesFromBucket() {
 }
 
 // ---------------------- Event Listeners ----------------------
-$event.on('addScheduleToDeleteBucket', (e: any) => {
+$event.on('addScheduleToDeleteBucketAddStaff', (e: any) => {
   if (!scheduleDeleteBucket.value.includes(e)) {
     scheduleDeleteBucket.value.push(e);
   }
 });
 
-$event.on('removeScheduleFromDeleteBucket', (e: any) => {
+$event.on('removeScheduleFromDeleteBucketAddStaff', (e: any) => {
   scheduleDeleteBucket.value = scheduleDeleteBucket.value.filter((id) => id !== e);
 });
 </script>

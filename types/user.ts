@@ -10,13 +10,14 @@ type User = BasicModel & {
   ssn: string;
   oldSSN?: string;
   dob: string;
-  pob?: string;
+  pob: string;
   email: string;
   phone: string;
   ssnFrontFilePath: string;
   ssnBackFilePath: string;
   profileFilePath: string;
   emailVerifiedAt: NullTime;
+  address: string;
   isOwner: boolean;
   isManager: boolean;
   isCustomer: boolean;
@@ -32,4 +33,63 @@ type ManagerSchedule = BasicModel & {
   building: Building;
 };
 
-export type { User, ManagerSchedule };
+type NewStaff = {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  ssn: string;
+  oldSSN?: string;
+  dob: string;
+  pob: string;
+  email: string;
+  phone: string;
+  address: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ssnFrontFilePath: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ssnBackFilePath: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  profileFilePath: any;
+  gender: number | undefined;
+  schedules: {
+    ID: number;
+    start: string | undefined;
+    end: string | undefined;
+    buildingID: number | undefined;
+  }[];
+};
+
+type EditStaff = {
+  data: {
+    ID: number;
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    ssn: string;
+    oldSSN?: string;
+    dob: Dayjs | string;
+    pob: string;
+    email: string;
+    phone: string;
+    address: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ssnFrontFilePath: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ssnBackFilePath: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    profileFilePath: any;
+    gender: number | undefined;
+    schedules: {
+      data: {
+        ID: number;
+        start: string | Dayjs;
+        end: string | Dayjs;
+        buildingID: number | undefined;
+        isNew: boolean;
+        isDeleted: boolean;
+      }[];
+    };
+  };
+};
+
+export type { User, ManagerSchedule, NewStaff, EditStaff };

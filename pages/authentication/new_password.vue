@@ -4,7 +4,7 @@
     <div class="w-full h-full flex items-center justify-center relative">
       <a-form
         v-if="showChangePassword"
-        class="w-96 bg-white p-8 rounded-lg shadow-lg"
+        class="w-[400px] bg-white p-8 rounded-lg shadow-lg"
         :model="formData"
         :rules="rules"
         name="basic"
@@ -104,6 +104,7 @@ import { getMessageCode } from '~/consts/api_response';
 import { Modal } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
 import Fail from '~/public/svg/fail.svg';
+import { validationRules } from '~/consts/validation_rules';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -140,18 +141,7 @@ const rules = computed(() => ({
       trigger: 'blur',
     },
     {
-      validator: async (_: RuleObject, value: string) => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d#@$!%*?&]{8,}$/;
-        if (value) {
-          if (passwordRegex.test(value)) {
-            return Promise.resolve();
-          } else {
-            return Promise.reject(t('password_format_error'));
-          }
-        } else {
-          return Promise.resolve();
-        }
-      },
+      validator: async (_: RuleObject, value: string) => validationRules.password(_, value, t),
       trigger: 'blur',
     },
   ] as RuleObject[],
@@ -162,12 +152,8 @@ const rules = computed(() => ({
       trigger: 'blur',
     },
     {
-      validator: async (_: RuleObject, value: string) => {
-        if (value && value !== formData.value.newPassword) {
-          return Promise.reject(t('confirm_new_password_not_match'));
-        }
-        return Promise.resolve();
-      },
+      validator: async (_: RuleObject, value: string) =>
+        validationRules.confirmPasswordMatch(_, value, formData.value.newPassword, t),
       trigger: 'blur',
     },
   ] as RuleObject[],

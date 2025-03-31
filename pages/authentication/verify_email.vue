@@ -2,7 +2,7 @@
   <div class="w-full h-full">
     <img src="/image/auth_background.png" class="w-full h-full fixed" />
     <div class="w-full h-full flex items-center justify-center relative">
-      <div v-if="tokenInvalid || userNotFound" class="w-96 bg-white p-8 rounded-lg shadow-lg">
+      <div v-if="tokenInvalid || userNotFound" class="w-[400px] bg-white p-8 rounded-lg shadow-lg">
         <div class="flex items-center justify-center mb-5">
           <img :src="svgPaths.logo" alt="Logo" class="w-[50px] h-[50px] select-none" />
           <h1 class="ms-2 font-bold text-2xl">NQK Management</h1>
@@ -37,7 +37,7 @@
           <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
         </div>
       </div>
-      <div v-if="verifySuccess" class="w-96 bg-white p-8 rounded-lg shadow-lg">
+      <div v-if="verifySuccess" class="w-[400px] bg-white p-8 rounded-lg shadow-lg">
         <div class="flex items-center justify-center mb-5">
           <img :src="svgPaths.logo" alt="Logo" class="w-[50px] h-[50px] select-none" />
           <h1 class="ms-2 font-bold text-2xl">NQK Management</h1>

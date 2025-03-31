@@ -1,5 +1,5 @@
 <template>
-  <a-table class="mt-5" :columns="tableHeaders" :data-source="serviceList">
+  <a-table class="mt-5" :columns="tableHeaders" :data-source="serviceList" :scroll="{ x: 'max-content' }">
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
@@ -65,6 +65,7 @@ const tableHeaders = computed<any>(() => {
       title: t('no'),
       dataIndex: 'no',
       key: 'no',
+      class: 'text-nowrap',
     },
     {
       title: t('service_name'),
@@ -82,6 +83,7 @@ const tableHeaders = computed<any>(() => {
           }, 100);
         }
       },
+      class: 'text-nowrap',
     },
     {
       title: t('service_price'),
@@ -89,6 +91,7 @@ const tableHeaders = computed<any>(() => {
       key: 'price',
       sorter: (a: any, b: any) => a.price - b.price,
       sortDirections: ['descend', 'ascend'],
+      class: 'text-nowrap',
     },
   ];
 });

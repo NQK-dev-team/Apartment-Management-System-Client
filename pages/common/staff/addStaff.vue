@@ -15,7 +15,7 @@
     >
       <a-form class="py-3" :model="staffInfo" layout="vertical" @finish="addStaff">
         <div class="grid grid-cols-6 gap-x-2">
-          <div class="col-span-4">
+          <div class="col-span-5">
             <div class="h-full flex-1 flex flex-col">
               <div class="flex items-center">
                 <a-form-item
@@ -199,7 +199,7 @@
               <CommonStaffAddScheduleTable :schedules="staffInfo.schedules" :building-list="buildingList" />
             </div>
           </div>
-          <div class="col-span-2 px-3">
+          <div class="col-span-1 px-3">
             <a-form-item
               class="align_validation_message_middle"
               name="profileFilePath"

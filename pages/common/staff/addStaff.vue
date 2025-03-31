@@ -501,7 +501,7 @@ async function addStaff() {
   }
 }
 
-// ---------------------- Event Listeners ----------------------
+// ---------------------- Lifecycles ----------------------
 onMounted(() => {
   getBuildingList();
 });

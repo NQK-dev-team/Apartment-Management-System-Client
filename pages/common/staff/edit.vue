@@ -317,31 +317,6 @@ const buildingList = ref<Building[]>([]);
 const formRef = ref();
 
 // ---------------------- Functions ----------------------
-async function editStaff() {
-  try {
-    $event.emit('loading');
-    await api.common.staff.update(staffInfo.value);
-
-    notification.info({
-      message: t('update_success'),
-      description: t('staff_new_information_updated'),
-    });
-  } catch (err: any) {
-    if (
-      err.status >= 500 ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
-      notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
-      });
-    }
-  } finally {
-    $event.emit('loading');
-  }
-}
-
 async function getStaffDetailInfo() {
   try {
     $event.emit('loading');
@@ -406,6 +381,33 @@ async function getStaffDetailInfo() {
       });
     }
     staffInfo.value.data.ID = 0;
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+async function editStaff() {
+  try {
+    $event.emit('loading');
+    await api.common.staff.update(staffInfo.value);
+
+    notification.info({
+      message: t('update_success'),
+      description: t('staff_new_information_updated'),
+    });
+
+    await getStaffDetailInfo();
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
   } finally {
     $event.emit('loading');
   }

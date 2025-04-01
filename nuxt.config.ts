@@ -40,6 +40,7 @@ export default defineNuxtConfig({
       isHttps: process.env.IS_HTTPS === 'true',
       port: process.env.APP_PORT ?? '3000',
       host: process.env.APP_HOST ?? 'localhost',
+      timezone: process.env.TIMEZONE ?? 'Asia/Ho_Chi_Minh',
     },
   },
   app: {

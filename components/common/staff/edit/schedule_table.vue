@@ -197,7 +197,7 @@ const checkAllSchedules = computed(() => {
     .filter((schedule) => !schedule.isDeleted)
     .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1);
 
-  return currentPage.every((schedule) => scheduleDeleteBucket.value.includes(schedule.ID));
+  return !!(currentPage.length && currentPage.every((schedule) => scheduleDeleteBucket.value.includes(schedule.ID)));
 });
 
 // ---------------------- Functions ----------------------

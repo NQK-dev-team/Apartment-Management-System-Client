@@ -1,12 +1,11 @@
-import Customer_information from '~/components/common/customer/add/customer_information.vue';
-
 export default {
   A: 'a',
   add_building: 'Thêm tòa nhà',
   add_room: 'Thêm phòng',
   add_customer: 'Thêm khách hàng',
   add_bill: 'Thêm hóa đơn',
-  address: 'Địa chỉ',
+  permanent_address: 'Địa chỉ thường trú',
+  temporary_address: 'Địa chỉ tạm trú',
   actions: 'Hành động',
   add_buildings: 'Thêm tòa nhà mới',
   add_rooms: 'Thêm phòng mới',
@@ -27,6 +26,8 @@ export default {
   active: 'Đang hiệu lực',
   approved: 'Đã duyệt',
   approve: 'Phê duyệt',
+  add_staff_fail: 'Thêm nhân viên không thành công!',
+  add_staff_success: 'Thêm nhân viên thành công!',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -156,8 +157,10 @@ export default {
   enter_employee_pob: 'Nhập nơi sinh của nhân viên',
   enter_employee_email: 'Nhập email của nhân viên',
   enter_employee_phone: 'Nhập số điện thoại của nhân viên',
-  enter_employee_address: 'Nhập địa chỉ của nhân viên',
+  enter_employee_permanent_address: 'Nhập địa chỉ thường trú của nhân viên',
+  enter_employee_temporary_address: 'Nhập địa chỉ tạm trú của nhân viên',
   edit_employee: 'Chỉnh sửa nhân viên',
+  email_exists: 'Email đã tồn tại!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -227,6 +230,7 @@ export default {
   national_id: 'CCCD/CMND',
   new: 'Mới',
   not_in_effect: 'Chưa có hiệu lực',
+  new_staff_added_to_system: 'Nhân viên mới đã được thêm vào hệ thống!',
 
   O: 'o',
   operation: 'Thao tác',
@@ -237,6 +241,7 @@ export default {
   owner_decision: 'Quyết định của chủ sở hữu',
   other: 'Khác',
   old_ssn: 'Số CMND (cũ)',
+  old_ssn_exists: 'Số CMND (cũ) đã tồn tại!',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -264,9 +269,11 @@ export default {
   please_enter_employee_pob: 'Nơi sinh không được để trống!',
   please_enter_employee_email: 'Email không được để trống!',
   please_enter_employee_phone: 'Số điện thoại không được để trống!',
-  please_enter_employee_address: 'Địa chỉ không được để trống!',
+  please_enter_employee_permanent_address: 'Địa chỉ thường trú không được để trống!',
+  please_enter_employee_temporary_address: 'Địa chỉ tạm trú không được để trống!',
   please_select_a_building: 'Vui lòng chọn tòa nhà!',
   please_pick_start_date: 'Vui lòng chọn ngày bắt đầu!',
+  phone_exists: 'Số điện thoại đã tồn tại!',
 
   Q: 'q',
 
@@ -318,6 +325,8 @@ export default {
   select_employee_dob: 'Chọn ngày sinh nhân viên',
   select_employee_gender: 'Chọn giới tính nhân viên',
   select_building: 'Chọn tòa nhà',
+  ssn_exists: 'Số CCCD đã tồn tại!',
+  staff_new_information_updated: 'Thông tin nhân viên đã được cập nhật thành công!',
 
   T: 't',
   total: 'Tổng',
@@ -334,6 +343,7 @@ export default {
   unpaid: 'Chưa thanh toán',
   unavailable: 'Không khả dụng',
   update_building_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
+  update_success: 'Cập nhật thành công!',
 
   V: 'v',
 

@@ -321,6 +321,11 @@ async function editStaff() {
   try {
     $event.emit('loading');
     await api.common.staff.update(staffInfo.value);
+
+    notification.info({
+      message: t('update_success'),
+      description: t('staff_new_information_updated'),
+    });
   } catch (err: any) {
     if (
       err.status >= 500 ||

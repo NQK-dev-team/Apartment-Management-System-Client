@@ -104,7 +104,7 @@
                   name="ssn"
                   :rules="[
                     { required: true, message: $t('please_enter_employee_ssn'), trigger: 'blur' },
-                    { max: 12, min: 12, pattern: /^[0-9]+$/, message: $t('invalid_ssn'), trigger: 'blur' },
+                    { pattern: /^[0-9]{12}$/, message: $t('invalid_ssn'), trigger: 'blur' },
                   ]"
                 >
                   <label for="ssn" class="flex mb-1">
@@ -118,7 +118,7 @@
                 <a-form-item
                   class="flex-1 me-2"
                   name="oldSSN"
-                  :rules="[{ max: 9, min: 9, pattern: /^[0-9]+$/, message: $t('invalid_oldSSN'), trigger: 'blur' }]"
+                  :rules="[{ pattern: /^[0-9]{9}$/, message: $t('invalid_oldSSN'), trigger: 'blur' }]"
                 >
                   <label for="oldSSN" class="flex mb-1">
                     <span>{{ $t('old_ssn') }}</span>
@@ -143,7 +143,7 @@
                   name="phone"
                   :rules="[
                     { required: true, message: $t('please_enter_employee_phone'), trigger: 'blur' },
-                    { max: 10, min: 10, pattern: /^[0-9]+$/, message: $t('invalid_phone'), trigger: 'blur' },
+                    { pattern: /^[0-9]{10}$/, message: $t('invalid_phone'), trigger: 'blur' },
                   ]"
                 >
                   <label for="phone" class="flex mb-1">
@@ -180,21 +180,40 @@
               <div class="flex items-center">
                 <a-form-item
                   class="flex-1 me-2"
-                  name="address"
-                  :rules="[{ required: true, message: $t('please_enter_employee_address'), trigger: 'blur' }]"
+                  name="permanentAddress"
+                  :rules="[{ required: true, message: $t('please_enter_employee_permanent_address'), trigger: 'blur' }]"
                 >
-                  <label for="address" class="flex mb-1">
-                    <span>{{ $t('address') }}</span>
+                  <label for="permanent_address" class="flex mb-1">
+                    <span>{{ $t('permanent_address') }}</span>
                     <span class="text-red-500 ms-1">*</span>
                   </label>
                   <a-input
-                    id="address"
-                    v-model:value="staffInfo.address"
-                    :placeholder="$t('enter_employee_address')"
+                    id="permanent_address"
+                    v-model:value="staffInfo.permanentAddress"
+                    :placeholder="$t('enter_employee_permanent_address')"
                     autocomplete="off"
                   />
                 </a-form-item>
-                <div class="flex-1"></div>
+                <div class="flex-1">
+                  <a-form-item
+                    class="flex-1 me-2"
+                    name="temporaryAddress"
+                    :rules="[
+                      { required: true, message: $t('please_enter_employee_temporary_address'), trigger: 'blur' },
+                    ]"
+                  >
+                    <label for="temporary_address" class="flex mb-1">
+                      <span>{{ $t('temporary_address') }}</span>
+                      <span class="text-red-500 ms-1">*</span>
+                    </label>
+                    <a-input
+                      id="temporary_address"
+                      v-model:value="staffInfo.temporaryAddress"
+                      :placeholder="$t('enter_employee_temporary_address')"
+                      autocomplete="off"
+                    />
+                  </a-form-item>
+                </div>
               </div>
               <CommonStaffAddScheduleTable :schedules="staffInfo.schedules" :building-list="buildingList" />
             </div>
@@ -353,7 +372,8 @@ const staffInfo = ref<NewStaff>({
   ssnBackFilePath: undefined,
   profileFilePath: undefined,
   gender: undefined,
-  address: '',
+  temporaryAddress: '',
+  permanentAddress: '',
   schedules: [],
 });
 const { $event } = useNuxtApp();
@@ -485,6 +505,12 @@ async function addStaff() {
   try {
     $event.emit('loading');
     await api.common.staff.add(staffInfo.value);
+
+    notification.info({
+      message: t('add_staff_success'),
+      description: t('new_staff_added_to_system'),
+    });
+    navigateTo(pageRoutes.common.staff.list);
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -494,6 +520,30 @@ async function addStaff() {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),
+      });
+    }
+    if (err.response._data.message === getMessageCode('EMAIL_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('add_staff_fail'),
+        description: t('email_exists'),
+      });
+    }
+    if (err.response._data.message === getMessageCode('SSN_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('add_staff_fail'),
+        description: t('ssn_exists'),
+      });
+    }
+    if (err.response._data.message === getMessageCode('PHONE_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('add_staff_fail'),
+        description: t('phone_exists'),
+      });
+    }
+    if (err.response._data.message === getMessageCode('OLD_SSN_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('add_staff_fail'),
+        description: t('old_ssn_exists'),
       });
     }
   } finally {

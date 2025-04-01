@@ -336,7 +336,8 @@ const common = {
       data.append('dob', convertToDate(staff.dob));
       data.append('pob', staff.pob.trim());
       data.append('phone', staff.phone.trim());
-      data.append('address', staff.address.trim());
+      data.append('permanentAddress', staff.permanentAddress.trim());
+      data.append('temporaryAddress', staff.temporaryAddress.trim());
       data.append('email', staff.email.trim());
       data.append('gender', staff.gender ? staff.gender.toString() : '3');
       staff.schedules.forEach((schedule) => {
@@ -368,7 +369,7 @@ const common = {
           data.append(
             'newSchedules[]',
             JSON.stringify({
-              managebuildingIDrID: schedule.buildingID,
+              buildingID: schedule.buildingID,
               startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
               endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
             })

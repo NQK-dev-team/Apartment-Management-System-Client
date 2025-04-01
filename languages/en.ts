@@ -4,7 +4,8 @@ export default {
   add_room: 'Add room',
   add_customer: 'Add customer',
   add_bill: 'Add bill',
-  address: 'Address',
+  permanent_address: 'Permanent address',
+  temporary_address: 'Temporary residence address',
   actions: 'Actions',
   add_buildings: 'Add new buildings',
   add_rooms: 'Add new rooms',
@@ -25,6 +26,8 @@ export default {
   active: 'Active',
   approved: 'Approved',
   approve: 'Approve',
+  add_staff_fail: 'Add staff failed!',
+  add_staff_success: 'Add staff successfully!',
 
   B: 'b',
   balance: 'Balance',
@@ -153,8 +156,10 @@ export default {
   enter_employee_pob: 'Enter employee place of birth',
   enter_employee_email: 'Enter employee email',
   enter_employee_phone: 'Enter employee phone number',
-  enter_employee_address: 'Enter employee address',
-  edit_employee:'Edit employee',
+  enter_employee_permanent_address: 'Enter employee permanent address',
+  enter_employee_temporary_address: 'Enter employee temporary address',
+  edit_employee: 'Edit employee',
+  email_exists: 'Email already exists!',
 
   F: 'f',
   finish_import: 'Import',
@@ -224,6 +229,7 @@ export default {
   national_id: 'National ID',
   new: 'New',
   not_in_effect: 'Not in effect',
+  new_staff_added_to_system: 'New staff has been added to the system!',
 
   O: 'o',
   operation: 'Operation',
@@ -232,9 +238,12 @@ export default {
   owner_id: 'Owner ID',
   owner_approving: 'Owner',
   owner_decision: 'Owner decision',
+  other: 'Other',
   old_ssn: 'Old SSN',
+  old_ssn_exists: 'Old SSN already exists!',
 
   P: 'p',
+  payer: 'Payer',
   payer_id: 'Payer ID',
   paid_by: 'Paid by',
   payment_list: 'Payment list',
@@ -259,9 +268,11 @@ export default {
   please_enter_employee_pob: 'Please enter employee place of birth',
   please_enter_employee_email: 'Please enter employee email',
   please_enter_employee_phone: 'Please enter employee phone number',
-  please_enter_employee_address: 'Please enter employee address',
+  please_enter_employee_permanent_address: 'Please enter employee permanent address',
+  please_enter_employee_temporary_address: 'Please enter employee temporary address',
   please_select_a_building: 'Please select a building',
   please_pick_start_date: 'Please pick a start date',
+  phone_exists: 'Phone number already exists!',
 
   Q: 'q',
 
@@ -313,6 +324,8 @@ export default {
   select_employee_dob: 'Select employee date of birth',
   select_employee_gender: 'Select employee gender',
   select_building: 'Select building',
+  ssn_exists: 'SSN already exists!',
+  staff_new_information_updated: 'Staff information has been updated successfully!',
 
   T: 't',
   total: 'Total',
@@ -329,6 +342,7 @@ export default {
   unpaid: 'Unpaid',
   unavailable: 'Unavailable',
   update_building_confirm: 'Are you sure you want to update this building information?',
+  update_success: 'Update success!',
 
   V: 'v',
 

@@ -145,6 +145,12 @@ const columns = computed(() => [
     class: 'text-nowrap',
   },
   {
+    title: t('old_ssn'),
+    dataIndex: 'old_ssn',
+    key: 'old_ssn',
+    class: 'text-nowrap',
+  },
+  {
     title: t('phone'),
     dataIndex: 'phone',
     key: 'phone',
@@ -157,9 +163,9 @@ const columns = computed(() => [
     class: 'text-nowrap',
   },
   {
-    title: t('address'),
-    dataIndex: 'address',
-    key: 'address',
+    title: t('temporary_address'),
+    dataIndex: 'temporary_address',
+    key: 'temporary_address',
     class: 'text-nowrap',
   },
   {
@@ -177,9 +183,10 @@ const dataSource = ref<
     gender: string;
     dob: string;
     ssn: string;
+    old_ssn: string;
     phone: string;
     email: string;
-    address: string;
+    temporary_address: string;
     action: number;
     key: number;
   }[]
@@ -197,9 +204,10 @@ function searchEmployee() {
         gender: t(getUserGender(user)),
         dob: convertToDate(user.dob),
         ssn: user.ssn,
+        old_ssn: user.oldSSN || '-',
         phone: user.phone,
         email: user.email,
-        address: user.address,
+        temporary_address: user.temporaryAddress,
         action: user.ID,
         key: user.ID,
       };
@@ -210,9 +218,10 @@ function searchEmployee() {
         removeDiacritics(user.name.toLowerCase()).includes(search) ||
         user.employeeNumber.includes(search) ||
         user.ssn.includes(search) ||
+        (user.old_ssn !== '-' && user.old_ssn.includes(search)) ||
         user.phone.includes(search) ||
         user.email.includes(search) ||
-        removeDiacritics(user.address.toLowerCase()).includes(search)
+        removeDiacritics(user.temporary_address.toLowerCase()).includes(search)
       );
     });
 }
@@ -232,10 +241,10 @@ async function getEmployeeList() {
         gender: t(getUserGender(user)),
         dob: convertToDate(user.dob),
         ssn: user.ssn,
+        old_ssn: user.oldSSN || '-',
         phone: user.phone,
         email: user.email,
-        address: user.address,
-
+        temporary_address: user.temporaryAddress,
         action: user.ID,
         key: user.ID,
       };

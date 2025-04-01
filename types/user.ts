@@ -17,7 +17,8 @@ type User = BasicModel & {
   ssnBackFilePath: string;
   profileFilePath: string;
   emailVerifiedAt: NullTime;
-  address: string;
+  permanentAddress: string;
+  temporaryAddress: string;
   isOwner: boolean;
   isManager: boolean;
   isCustomer: boolean;
@@ -43,7 +44,8 @@ type NewStaff = {
   pob: string;
   email: string;
   phone: string;
-  address: string;
+  permanentAddress: string;
+  temporaryAddress: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ssnFrontFilePath: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,7 +73,8 @@ type EditStaff = {
     pob: string;
     email: string;
     phone: string;
-    address: string;
+    permanentAddress: string;
+    temporaryAddress: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ssnFrontFilePath: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

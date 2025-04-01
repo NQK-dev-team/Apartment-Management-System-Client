@@ -119,12 +119,29 @@
           </div>
           <div class="flex items-center mt-5">
             <div class="flex-1 me-5">
-              <label for="address" class="flex mb-1">
-                <span>{{ $t('address') }}</span>
+              <label for="permanent_address" class="flex mb-1">
+                <span>{{ $t('permanent_address') }}</span>
               </label>
-              <a-input id="address" :value="staffInfo.address" :placeholder="$t('address')" disabled readonly />
+              <a-input
+                id="permanent_address"
+                :value="staffInfo.permanentAddress"
+                :placeholder="$t('permanent_address')"
+                disabled
+                readonly
+              />
             </div>
-            <div class="flex-1"></div>
+            <div class="flex-1">
+              <label for="temporary_address" class="flex mb-1">
+                <span>{{ $t('temporary_address') }}</span>
+              </label>
+              <a-input
+                id="temporary_address"
+                :value="staffInfo.temporaryAddress"
+                :placeholder="$t('temporary_address')"
+                disabled
+                readonly
+              />
+            </div>
           </div>
         </div>
         <div class="flex flex-col w-[250px] h-[300px]">
@@ -255,7 +272,8 @@ const staffInfo = ref<User>({
   pob: '',
   email: '',
   phone: '',
-  address: '',
+  permanentAddress: '',
+  temporaryAddress: '',
   ssnFrontFilePath: '',
   ssnBackFilePath: '',
   profileFilePath: '',

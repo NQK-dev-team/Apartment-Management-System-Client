@@ -171,20 +171,35 @@
               </div>
               <div class="flex items-center">
                 <a-form-item class="flex-1 me-2">
-                  <label for="address" class="flex mb-1">
-                    <span>{{ $t('address') }}</span>
+                  <label for="permanent_address" class="flex mb-1">
+                    <span>{{ $t('permanent_address') }}</span>
                     <span class="text-red-500 ms-1">*</span>
                   </label>
                   <a-input
-                    id="address"
-                    :value="staffInfo.data.address"
+                    id="permanent_address"
+                    :value="staffInfo.data.permanentAddress"
                     :placeholder="$t('enter_employee_address')"
                     autocomplete="off"
                     disabled
                     readonly
                   />
                 </a-form-item>
-                <div class="flex-1"></div>
+                <div class="flex-1">
+                  <a-form-item class="flex-1 me-2">
+                    <label for="temporary_address" class="flex mb-1">
+                      <span>{{ $t('temporary_address') }}</span>
+                      <span class="text-red-500 ms-1">*</span>
+                    </label>
+                    <a-input
+                      id="temporary_address"
+                      :value="staffInfo.data.temporaryAddress"
+                      :placeholder="$t('enter_employee_address')"
+                      autocomplete="off"
+                      disabled
+                      readonly
+                    />
+                  </a-form-item>
+                </div>
               </div>
               <CommonStaffEditScheduleTable
                 :schedules="staffInfo.data.schedules"
@@ -280,7 +295,8 @@ const staffInfo = ref<EditStaff>({
     ssnBackFilePath: undefined,
     profileFilePath: undefined,
     gender: undefined,
-    address: '',
+    temporaryAddress: '',
+    permanentAddress: '',
     schedules: {
       data: [],
     },
@@ -342,7 +358,8 @@ async function getStaffDetailInfo() {
     staffInfo.value.data.ssnBackFilePath = response.data.ssnBackFilePath;
     staffInfo.value.data.profileFilePath = response.data.profileFilePath;
     staffInfo.value.data.gender = response.data.gender;
-    staffInfo.value.data.address = response.data.address;
+    staffInfo.value.data.temporaryAddress = response.data.temporaryAddress;
+    staffInfo.value.data.permanentAddress = response.data.permanentAddress;
     staffInfo.value.data.schedules.data = scheduleResponse.data
       .sort(
         (a, b) =>

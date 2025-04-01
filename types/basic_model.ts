@@ -24,4 +24,9 @@ type NullTime = {
   Valid: boolean;
 };
 
-export type { BasicModel, BasicFileModel, NullTime };
+type NullString = {
+  String: string | null;
+  Valid: boolean;
+};
+
+export type { BasicModel, BasicFileModel, NullTime, NullString };

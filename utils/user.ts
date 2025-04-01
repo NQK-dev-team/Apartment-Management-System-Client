@@ -7,8 +7,8 @@ function getUserName(user: User | undefined): string {
 
   let name = user.lastName;
 
-  if (user.middleName) {
-    name += ` ${user.middleName}`;
+  if (user.middleName.Valid) {
+    name += ` ${user.middleName.String}`;
   }
 
   name += ` ${user.firstName}`;

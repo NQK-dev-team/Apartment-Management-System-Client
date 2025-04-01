@@ -1,14 +1,14 @@
-import type { BasicModel, NullTime } from './basic_model';
+import type { BasicModel, NullTime, NullString } from './basic_model';
 import type { Building } from './building';
 import type { Dayjs } from 'dayjs';
 
 type User = BasicModel & {
   no: string;
   firstName: string;
-  middleName?: string;
+  middleName: NullString;
   lastName: string;
   ssn: string;
-  oldSSN?: string;
+  oldSSN: NullString;
   dob: string;
   pob: string;
   email: string;
@@ -36,10 +36,10 @@ type ManagerSchedule = BasicModel & {
 
 type NewStaff = {
   firstName: string;
-  middleName?: string;
+  middleName: string;
   lastName: string;
   ssn: string;
-  oldSSN?: string;
+  oldSSN: string;
   dob: string;
   pob: string;
   email: string;
@@ -65,10 +65,10 @@ type EditStaff = {
   data: {
     ID: number;
     firstName: string;
-    middleName?: string;
+    middleName: string;
     lastName: string;
     ssn: string;
-    oldSSN?: string;
+    oldSSN: string;
     dob: Dayjs | string;
     pob: string;
     email: string;

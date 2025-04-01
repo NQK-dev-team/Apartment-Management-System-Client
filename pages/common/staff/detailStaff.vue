@@ -36,7 +36,7 @@
               </label>
               <a-input
                 id="middle_name"
-                :value="staffInfo.middleName"
+                :value="staffInfo.middleName.Valid ? (staffInfo.middleName.String as string) : ''"
                 :placeholder="$t('middle_name')"
                 disabled
                 readonly
@@ -87,7 +87,13 @@
               <label for="old_ssn" class="flex mb-1">
                 <span>{{ $t('old_ssn') }}</span>
               </label>
-              <a-input id="old_ssn" :value="staffInfo.oldSSN" :placeholder="$t('old_ssn')" disabled readonly />
+              <a-input
+                id="old_ssn"
+                :value="staffInfo.oldSSN.Valid ? (staffInfo.oldSSN.String as string) : ''"
+                :placeholder="$t('old_ssn')"
+                disabled
+                readonly
+              />
             </div>
             <div class="flex-1">
               <label for="pob" class="flex mb-1">
@@ -273,10 +279,16 @@ const staffInfo = ref<User>({
   updatedBy: 0,
   no: '',
   firstName: '',
-  middleName: '',
+  middleName: {
+    String: '',
+    Valid: false,
+  },
   lastName: '',
   ssn: '',
-  oldSSN: '',
+  oldSSN: {
+    String: '',
+    Valid: false,
+  },
   dob: '',
   pob: '',
   email: '',

@@ -351,10 +351,10 @@ async function getStaffDetailInfo() {
 
     staffInfo.value.data.ID = response.data.ID;
     staffInfo.value.data.firstName = response.data.firstName;
-    staffInfo.value.data.middleName = response.data.middleName;
+    staffInfo.value.data.middleName = response.data.middleName.Valid ? (response.data.middleName.String as string) : '';
     staffInfo.value.data.lastName = response.data.lastName;
     staffInfo.value.data.ssn = response.data.ssn;
-    staffInfo.value.data.oldSSN = response.data.oldSSN;
+    staffInfo.value.data.oldSSN = response.data.oldSSN.Valid ? (response.data.oldSSN.String as string) : '';
     staffInfo.value.data.dob = dayjs(response.data.dob);
     staffInfo.value.data.pob = response.data.pob;
     staffInfo.value.data.email = response.data.email;

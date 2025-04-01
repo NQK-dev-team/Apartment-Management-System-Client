@@ -239,7 +239,9 @@ const { t } = useI18n();
 const searchInput = ref();
 const columns = computed<any[]>(() => {
   const buildingList: Building[] = JSON.parse(JSON.stringify(props.buildingList));
-  const maxTotalFloor = buildingList.sort((a: Building, b: Building) => b.totalFloor - a.totalFloor)[0].totalFloor;
+  const maxTotalFloor = buildingList.length
+    ? buildingList.sort((a: Building, b: Building) => b.totalFloor - a.totalFloor)[0].totalFloor
+    : 0;
   const floorFilterList = Array.from({ length: maxTotalFloor }, (_, i) => i + 1).map((floor) => ({
     text: floor.toString(),
     value: floor,

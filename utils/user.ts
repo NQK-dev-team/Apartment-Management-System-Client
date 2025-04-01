@@ -5,13 +5,13 @@ function getUserName(user: User | undefined): string {
     return '';
   }
 
-  let name = user.firstName;
+  let name = user.lastName;
 
   if (user.middleName) {
     name += ` ${user.middleName}`;
   }
 
-  name += ` ${user.lastName}`;
+  name += ` ${user.firstName}`;
 
   return name;
 }

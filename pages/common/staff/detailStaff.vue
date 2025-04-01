@@ -144,15 +144,15 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col w-[250px] h-[300px]">
+        <div class="flex flex-col w-[200px] h-[300px]">
           <div>{{ $t('avatar') }}</div>
           <img :src="staffInfo.profileFilePath" alt="avatar" />
         </div>
-        <div class="flex flex-col w-[250px] h-[300px] mx-5">
+        <div class="flex flex-col w-[200px] h-[300px] mx-5">
           <div>{{ $t('national_id') + ' ' + $t('front_face') }}</div>
           <img :src="staffInfo.ssnFrontFilePath" alt="national_id_front" />
         </div>
-        <div class="flex flex-col w-[250px] h-[300px]">
+        <div class="flex flex-col w-[200px] h-[300px]">
           <div>{{ $t('national_id') + ' ' + $t('back_face') }}</div>
           <img :src="staffInfo.ssnBackFilePath" alt="national_id_back" />
         </div>
@@ -201,6 +201,7 @@
         </div>
         <ClientOnly>
           <CommonStaffDetailContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
+          <CommonStaffDetailContractTable v-else v-show="option === 1" :contracts="[]" />
           <CommonStaffDetailSupportTicketTable
             v-if="tickets.length"
             v-show="option === 2"
@@ -208,7 +209,15 @@
             :staff-info="staffInfo"
             :building-list="buildingList"
           />
+          <CommonStaffDetailSupportTicketTable
+            v-else
+            v-show="option === 2"
+            :tickets="[]"
+            :staff-info="staffInfo"
+            :building-list="buildingList"
+          />
           <CommonStaffDetailBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
+          <CommonStaffDetailBuildingTable v-else v-show="option === 3" :schedules="[]" />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm">

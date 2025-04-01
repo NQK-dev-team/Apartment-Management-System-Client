@@ -167,7 +167,7 @@ const checkAllServices = computed(() => {
     .filter((service) => !service.isDeleted)
     .filter((_, index) => current.value * 10 >= index + 1 && (current.value - 1) * 10 < index + 1);
 
-  return currentPage.every((service) => serviceDeleteBucket.value.includes(service.ID));
+  return !!(currentPage.length && currentPage.every((service) => serviceDeleteBucket.value.includes(service.ID)));
 });
 
 // ---------------------- Functions ----------------------

@@ -239,7 +239,6 @@ import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { NullTime } from '~/types/basic_model';
 import type { Building } from '~/types/building';
-import { useDayjs } from '@/composables/dayjs'; // Adjust path
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -296,9 +295,8 @@ const staffInfo = ref<User>({
   isCustomer: false,
   gender: 0,
 });
-const { getDayJsObject } = useDayjs();
 
-const dob = computed<Dayjs>(() => getDayJsObject(staffInfo.value.dob));
+const dob = computed<Dayjs>(() => dayjs(staffInfo.value.dob));
 const option = ref<number>(1);
 const schedules = ref<ManagerSchedule[]>([]);
 const contracts = ref<Contract[]>([]);

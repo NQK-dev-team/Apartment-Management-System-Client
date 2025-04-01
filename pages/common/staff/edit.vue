@@ -18,7 +18,20 @@
       class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <a-form ref="formRef" class="py-3" :model="staffInfo.data" layout="vertical" @finish="editStaff">
+      <a-form
+        ref="formRef"
+        class="py-3"
+        :model="staffInfo.data"
+        layout="vertical"
+        @finish="
+          () => {
+            $event.emit('updateItem', {
+              callback: editStaff,
+              updateModalContent: 'update_staff_confirm',
+            });
+          }
+        "
+      >
         <div class="grid grid-cols-6 gap-x-2">
           <div class="col-span-5">
             <div class="h-full flex-1 flex flex-col">

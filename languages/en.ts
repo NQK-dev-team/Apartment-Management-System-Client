@@ -343,6 +343,7 @@ export default {
   unavailable: 'Unavailable',
   update_building_confirm: 'Are you sure you want to update this building information?',
   update_success: 'Update success!',
+  update_staff_confirm: 'Are you sure you want to update this staff information?',
 
   V: 'v',
 

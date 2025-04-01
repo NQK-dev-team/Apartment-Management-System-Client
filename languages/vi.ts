@@ -344,6 +344,7 @@ export default {
   unavailable: 'Không khả dụng',
   update_building_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
   update_success: 'Cập nhật thành công!',
+  update_staff_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin nhân viên này không?',
 
   V: 'v',
 

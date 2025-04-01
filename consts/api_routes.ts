@@ -24,7 +24,7 @@ const apiRoutes = {
   staff: {
     list: '/staff',
     detail: (staffId: number) => `/staff/${staffId}`,
-    add: '/staff',
+    add: '/staff/add',
     update: (staffId: number) => `/staff/${staffId}/update`,
     deleteMany: '/staff/delete-many',
     getSchedule: (staffId: number) => `/staff/${staffId}/schedule`,

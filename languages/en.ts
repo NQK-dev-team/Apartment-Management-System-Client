@@ -326,6 +326,7 @@ export default {
   select_building: 'Select building',
   ssn_exists: 'SSN already exists!',
   staff_new_information_updated: 'Staff information has been updated successfully!',
+  staff_must_be_18_years_old: 'Staff must be at least 18 years old!',
 
   T: 't',
   total: 'Total',

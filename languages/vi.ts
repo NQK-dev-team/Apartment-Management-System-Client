@@ -327,6 +327,7 @@ export default {
   select_building: 'Chọn tòa nhà',
   ssn_exists: 'Số CCCD đã tồn tại!',
   staff_new_information_updated: 'Thông tin nhân viên đã được cập nhật thành công!',
+  staff_must_be_18_years_old: 'Nhân viên phải từ 18 tuổi trở lên!',
 
   T: 't',
   total: 'Tổng',

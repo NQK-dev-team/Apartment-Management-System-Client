@@ -63,7 +63,13 @@
                 <a-form-item
                   class="flex-1"
                   name="dob"
-                  :rules="[{ required: true, message: $t('please_select_employee_birthdate'), trigger: 'blur' }]"
+                  :rules="[
+                    { required: true, message: $t('please_select_employee_birthdate'), trigger: 'blur' },
+                    {
+                      validator: async (_: RuleObject, value: string) => validationRules.dateOfBirth(_, value, $t),
+                      trigger: 'blur',
+                    },
+                  ]"
                 >
                   <label for="dob" class="flex mb-1">
                     <span>{{ $t('dob') }}</span>
@@ -334,6 +340,8 @@ import { pageRoutes } from '~/consts/page_routes';
 import type { NewStaff } from '~/types/user';
 import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
 import type { Building } from '~/types/building';
+import type { RuleObject } from 'ant-design-vue/es/form';
+import { validationRules } from '~/consts/validation_rules';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

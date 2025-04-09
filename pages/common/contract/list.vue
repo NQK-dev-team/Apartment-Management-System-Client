@@ -2,9 +2,6 @@
   <div class="w-full h-full flex flex-col px-5">
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
-        <a-breadcrumb-item>
-          <NuxtLink :to="pageRoutes.common.contract.list">{{ $t('contract_list') }}</NuxtLink>
-        </a-breadcrumb-item>
         <a-breadcrumb-item>{{ $t('contract_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div class="flex justify-between mt-5">

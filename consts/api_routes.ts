@@ -41,7 +41,12 @@ const apiRoutes = {
   },
   support_ticket: {},
   notice: {},
-  contract: {},
+  contract: {
+    list: '/contract',
+    detail: (contractId: number) => `/contract/${contractId}`,
+    add: '/contract/add',
+    edit: (contractId: number) => `/contract/${contractId}/edit`,
+  },
   import: {},
 };
 

@@ -21,7 +21,7 @@
     </div>
     <div class="flex-1 flex flex-col mt-5 overflow-auto px-4"
       :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-      <CommoncontractDetailContractList />
+      <CommonCustomerDetailContractList />
     </div>
   </div>
 </template>

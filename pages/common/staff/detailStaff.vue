@@ -205,7 +205,8 @@
           <div v-show="option === 2" class="flex-col items-center w-full" style="display: flex">
             <h2 class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
             <div class="flex justify-end w-full">
-              <a-tree-select
+              <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
+              <!-- <a-tree-select
                 v-model:value="quaterSelections"
                 class="w-[250px]"
                 tree-checkable
@@ -236,7 +237,7 @@
                   }
                 "
                 ><SearchOutlined
-              /></a-button>
+              /></a-button> -->
             </div>
           </div>
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
@@ -353,9 +354,11 @@ const buildingList = ref<Building[]>([]);
 const scheduleApiOffset = ref<number>(0);
 const scheduleApiLimit = ref<number>(500);
 const { t } = useI18n();
-const currentYearQuarter = getCurrentYearQuarter();
-const quarterOptions = generateQuarters();
-const quaterSelections = ref<string[]>([`${currentYearQuarter.year}-${currentYearQuarter.quarter}`]);
+// const currentYearQuarter = getCurrentYearQuarter();
+// const quarterOptions = generateQuarters();
+// const quaterSelections = ref<string[]>([`${ currentYearQuarter.year }-${ currentYearQuarter.quarter }`]);
+const now = dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('month'), now]);
 
 // ---------------------- Functions ----------------------
 async function getStaffDetailInfo() {
@@ -368,7 +371,8 @@ async function getStaffDetailInfo() {
       staffID,
       scheduleApiLimit.value,
       scheduleApiOffset.value,
-      quaterSelections.value.toString()
+      convertToDate(timeRange.value[0].toDate().toISOString()),
+      convertToDate(timeRange.value[1].toDate().toISOString())
     );
     const buildingResponse = await api.common.building.getList();
 
@@ -404,6 +408,11 @@ async function getStaffDetailInfo() {
   }
 }
 
+function disabledDate(current: Dayjs) {
+  // Can not select days after today
+  return current && current >= dayjs().endOf('day');
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
   await getStaffDetailInfo();
@@ -423,13 +432,18 @@ watch(scheduleApiOffset, async () => {
     staffID,
     scheduleApiLimit.value,
     scheduleApiOffset.value,
-    quaterSelections.value.toString()
+    convertToDate(timeRange.value[0].toDate().toISOString()),
+    convertToDate(timeRange.value[1].toDate().toISOString())
   );
   tickets.value.push(...ticketResponse.data);
 
   if (ticketResponse.data.length === scheduleApiLimit.value) {
     scheduleApiOffset.value += scheduleApiLimit.value;
   }
+});
+
+watch(timeRange, () => {
+  $event.emit('refreshTicketTableDetailStaff');
 });
 
 // ---------------------- Events ----------------------
@@ -443,7 +457,8 @@ $event.on('refreshTicketTableDetailStaff', async () => {
         staffID,
         scheduleApiLimit.value,
         scheduleApiOffset.value,
-        quaterSelections.value.toString()
+        convertToDate(timeRange.value[0].toDate().toISOString()),
+        convertToDate(timeRange.value[1].toDate().toISOString())
       );
       tickets.value = ticketResponse.data;
 

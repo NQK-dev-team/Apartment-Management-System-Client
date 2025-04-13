@@ -320,10 +320,11 @@ const common = {
       staffId: number,
       limit: number = 500,
       offset: number = 0,
-      quarters: string = ''
+      startDate: string = '',
+      endDate: string = ''
     ): Promise<APIResponse<SupportTicket[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.staff.getTicket(staffId, limit, offset, quarters), {
+      return $api(apiRoutes.staff.getTicket(staffId, limit, offset, startDate, endDate), {
         method: 'GET',
       });
     },

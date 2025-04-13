@@ -275,6 +275,7 @@ export default {
   phone_exists: 'Phone number already exists!',
 
   Q: 'q',
+  quarter: 'Q{quarter}',
 
   R: 'r',
   remember_me: 'Remember me',

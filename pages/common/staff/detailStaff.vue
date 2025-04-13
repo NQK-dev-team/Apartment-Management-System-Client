@@ -202,7 +202,43 @@
         </div>
         <div class="flex items-center justify-center mt-3">
           <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('contract') }}</h2>
-          <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
+          <div v-show="option === 2" class="flex-col items-center w-full" style="display: flex">
+            <h2 class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
+            <div class="flex justify-end w-full">
+              <a-tree-select
+                v-model:value="quaterSelections"
+                class="w-[250px]"
+                tree-checkable
+                :max-tag-count="4"
+                tree-node-filter-prop="title"
+                :tree-data="
+                  quarterOptions.map((item) => ({
+                    title: item.year.toString(),
+                    value: `${item.year}`,
+                    key: `${item.year}`,
+                    children: item.quarters.map((quarter) => ({
+                      title: `${t('quarter', { quarter: quarter })} - ${item.year}`,
+                      value: `${item.year}-${quarter}`,
+                      key: `${item.year}-${quarter}`,
+                    })),
+                  }))
+                "
+              ></a-tree-select>
+              <a-button
+                class="ms-[2px] flex items-center w-[32px] justify-center"
+                @click="
+                  () => {
+                    if (quaterSelections.length) {
+                      $event.emit('refreshTicketTableDetailStaff');
+                    } else {
+                      tickets = [];
+                    }
+                  }
+                "
+                ><SearchOutlined
+              /></a-button>
+            </div>
+          </div>
           <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
         <ClientOnly>
@@ -317,6 +353,9 @@ const buildingList = ref<Building[]>([]);
 const scheduleApiOffset = ref<number>(0);
 const scheduleApiLimit = ref<number>(500);
 const { t } = useI18n();
+const currentYearQuarter = getCurrentYearQuarter();
+const quarterOptions = generateQuarters();
+const quaterSelections = ref<string[]>([`${currentYearQuarter.year}-${currentYearQuarter.quarter}`]);
 
 // ---------------------- Functions ----------------------
 async function getStaffDetailInfo() {
@@ -325,7 +364,12 @@ async function getStaffDetailInfo() {
     const response = await api.common.staff.getDetail(staffID);
     const scheduleResponse = await api.common.staff.getSchedule(staffID);
     const contractResponse = await api.common.staff.getContract(staffID);
-    const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
+    const ticketResponse = await api.common.staff.getTicket(
+      staffID,
+      scheduleApiLimit.value,
+      scheduleApiOffset.value,
+      quaterSelections.value.toString()
+    );
     const buildingResponse = await api.common.building.getList();
 
     staffInfo.value = response.data;
@@ -375,7 +419,12 @@ onMounted(async () => {
 
 // ---------------------- Watchers ----------------------
 watch(scheduleApiOffset, async () => {
-  const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
+  const ticketResponse = await api.common.staff.getTicket(
+    staffID,
+    scheduleApiLimit.value,
+    scheduleApiOffset.value,
+    quaterSelections.value.toString()
+  );
   tickets.value.push(...ticketResponse.data);
 
   if (ticketResponse.data.length === scheduleApiLimit.value) {
@@ -390,7 +439,12 @@ $event.on('refreshTicketTableDetailStaff', async () => {
     scheduleApiOffset.value = 0;
   } else {
     try {
-      const ticketResponse = await api.common.staff.getTicket(staffID, scheduleApiLimit.value, scheduleApiOffset.value);
+      const ticketResponse = await api.common.staff.getTicket(
+        staffID,
+        scheduleApiLimit.value,
+        scheduleApiOffset.value,
+        quaterSelections.value.toString()
+      );
       tickets.value = ticketResponse.data;
 
       if (ticketResponse.data.length === scheduleApiLimit.value) {

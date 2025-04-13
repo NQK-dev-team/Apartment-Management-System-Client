@@ -319,10 +319,11 @@ const common = {
     getTicket: async (
       staffId: number,
       limit: number = 500,
-      offset: number = 0
+      offset: number = 0,
+      quarters: string = ''
     ): Promise<APIResponse<SupportTicket[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.staff.getTicket(staffId, limit, offset), {
+      return $api(apiRoutes.staff.getTicket(staffId, limit, offset, quarters), {
         method: 'GET',
       });
     },

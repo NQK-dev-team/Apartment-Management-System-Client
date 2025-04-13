@@ -276,6 +276,7 @@ export default {
   phone_exists: 'Số điện thoại đã tồn tại!',
 
   Q: 'q',
+  quarter: 'Quý {quarter}',
 
   R: 'r',
   remember_me: 'Lưu mật khẩu',

@@ -1,0 +1,3 @@
+const SYSTEM_START_YEAR = 2020;
+
+export { SYSTEM_START_YEAR };

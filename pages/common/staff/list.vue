@@ -49,7 +49,15 @@
         :row-selection="{
           selectedRowKeys: deleteBucket,
           onChange: (selectedRowKeys: any[] | number[]) => {
-            deleteBucket = selectedRowKeys;
+            if (!isFilter) {
+              deleteBucket = selectedRowKeys;
+            } else {
+              selectedRowKeys.forEach((key) => {
+                if (!deleteBucket.find((item) => item === key)) {
+                  deleteBucket.push(key);
+                }
+              });
+            }
           },
         }"
         class="mt-3"
@@ -107,6 +115,7 @@ const lightMode = computed(
 const { $event } = useNuxtApp();
 const searchValue = ref('');
 const userList = ref<User[]>([]);
+const isFilter = ref<boolean>(false);
 const columns = computed(() => [
   {
     title: t('no'),
@@ -224,8 +233,7 @@ function searchEmployee() {
         removeDiacritics(user.temporary_address.toLowerCase()).includes(search)
       );
     });
-
-  deleteBucket.value = deleteBucket.value.filter((item) => dataSource.value.find((user) => user.action === item));
+  isFilter.value = !!searchValue.value.trim();
 }
 
 async function getEmployeeList() {

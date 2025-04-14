@@ -224,6 +224,8 @@ function searchEmployee() {
         removeDiacritics(user.temporary_address.toLowerCase()).includes(search)
       );
     });
+
+  deleteBucket.value = deleteBucket.value.filter((item) => dataSource.value.find((user) => user.action === item));
 }
 
 async function getEmployeeList() {

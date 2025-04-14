@@ -354,9 +354,6 @@ const buildingList = ref<Building[]>([]);
 const scheduleApiOffset = ref<number>(0);
 const scheduleApiLimit = ref<number>(500);
 const { t } = useI18n();
-// const currentYearQuarter = getCurrentYearQuarter();
-// const quarterOptions = generateQuarters();
-// const quaterSelections = ref<string[]>([`${ currentYearQuarter.year }-${ currentYearQuarter.quarter }`]);
 const now = dayjs();
 const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('month'), now]);
 

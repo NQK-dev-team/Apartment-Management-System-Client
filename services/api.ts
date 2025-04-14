@@ -396,7 +396,23 @@ const common = {
       });
     },
   },
-  customer: {},
+  customer: {
+    getList: async (limit: number = 500, offset: number = 0): Promise<APIResponse<User[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.customer.list(limit, offset), {
+        method: 'GET',
+      });
+    },
+    deleteMany: async (customerIds: number[]): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.customer.deleteMany, {
+        method: 'POST',
+        body: {
+          IDs: customerIds,
+        },
+      });
+    },
+  },
   bill: {
     getList: async (): Promise<APIResponse<Bill[]>> => {
       const $api = getApiInstance();

@@ -38,10 +38,11 @@ const apiRoutes = {
     ) => `/staff/${staffId}/ticket?limit=${limit}&offset=${offset}&startDate=${startDate}&endDate=${endDate}`,
   },
   customer: {
-    list: '/customer',
+    list: (limit: number = 500, offset: number = 0) => `/customer?limit=${limit}&offset=${offset}`,
     detail: (customerId: number) => `/customer/${customerId}`,
     add: '/customer/add',
     edit: (customerId: number) => `/customer/${customerId}/edit`,
+    deleteMany: '/customer/delete-many',
   },
   bill: {
     list: '/bill',

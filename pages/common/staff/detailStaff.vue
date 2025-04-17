@@ -165,7 +165,7 @@
       </div>
       <hr class="border-gray-400 mt-2" />
       <div class="w-full flex-1 flex flex-col">
-        <div class="flex items-center mt-3">
+        <!-- <div class="flex items-center mt-3">
           <p
             class="me-3 cursor-pointer select-none"
             :class="[
@@ -199,51 +199,20 @@
           >
             {{ $t('management_schedule') }}
           </p>
-        </div>
+        </div> -->
         <div class="flex items-center justify-center mt-3">
-          <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('contract') }}</h2>
+          <!-- <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('contract') }}</h2>
           <div v-show="option === 2" class="flex-col items-center w-full" style="display: flex">
             <h2 class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
             <div class="flex justify-end w-full">
               <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
-              <!-- <a-tree-select
-                v-model:value="quaterSelections"
-                class="w-[250px]"
-                tree-checkable
-                :max-tag-count="4"
-                tree-node-filter-prop="title"
-                :tree-data="
-                  quarterOptions.map((item) => ({
-                    title: item.year.toString(),
-                    value: `${item.year}`,
-                    key: `${item.year}`,
-                    children: item.quarters.map((quarter) => ({
-                      title: `${t('quarter', { quarter: quarter })} - ${item.year}`,
-                      value: `${item.year}-${quarter}`,
-                      key: `${item.year}-${quarter}`,
-                    })),
-                  }))
-                "
-              ></a-tree-select>
-              <a-button
-                class="ms-[2px] flex items-center w-[32px] justify-center"
-                @click="
-                  () => {
-                    if (quaterSelections.length) {
-                      $event.emit('refreshTicketTableDetailStaff');
-                    } else {
-                      tickets = [];
-                    }
-                  }
-                "
-                ><SearchOutlined
-              /></a-button> -->
             </div>
-          </div>
-          <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
+          </div> -->
+          <!-- <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2> -->
+          <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
         </div>
         <ClientOnly>
-          <CommonStaffDetailContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
+          <!-- <CommonStaffDetailContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
           <CommonStaffDetailContractTable v-else v-show="option === 1" :contracts="[]" />
           <CommonStaffDetailSupportTicketTable
             v-if="tickets.length"
@@ -260,7 +229,9 @@
             :building-list="buildingList"
           />
           <CommonStaffDetailBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
-          <CommonStaffDetailBuildingTable v-else v-show="option === 3" :schedules="[]" />
+          <CommonStaffDetailBuildingTable v-else v-show="option === 3" :schedules="[]" /> -->
+          <CommonStaffDetailBuildingTable v-if="schedules.length" :schedules="schedules" />
+          <CommonStaffDetailBuildingTable v-else :schedules="[]" />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm">
@@ -278,8 +249,8 @@ import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { ManagerSchedule, User } from '~/types/user';
-import type { Contract } from '~/types/contract';
-import type { SupportTicket } from '~/types/support_ticket';
+// import type { Contract } from '~/types/contract';
+// import type { SupportTicket } from '~/types/support_ticket';
 import type { NullTime } from '~/types/basic_model';
 import type { Building } from '~/types/building';
 
@@ -346,16 +317,16 @@ const staffInfo = ref<User>({
 });
 
 const dob = computed<Dayjs>(() => dayjs(staffInfo.value.dob));
-const option = ref<number>(1);
+// const option = ref<number>(1);
 const schedules = ref<ManagerSchedule[]>([]);
-const contracts = ref<Contract[]>([]);
-const tickets = ref<SupportTicket[]>([]);
+// const contracts = ref<Contract[]>([]);
+// const tickets = ref<SupportTicket[]>([]);
 const buildingList = ref<Building[]>([]);
-const scheduleApiOffset = ref<number>(0);
-const scheduleApiLimit = ref<number>(500);
-const { t } = useI18n();
-const now = dayjs();
-const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('month'), now]);
+// const ticketApiOffset = ref<number>(0);
+// const ticketApiLimit = ref<number>(500);
+// const { t } = useI18n();
+// const now = dayjs();
+// const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('month'), now]);
 
 // ---------------------- Functions ----------------------
 async function getStaffDetailInfo() {
@@ -363,14 +334,14 @@ async function getStaffDetailInfo() {
     $event.emit('loading');
     const response = await api.common.staff.getDetail(staffID);
     const scheduleResponse = await api.common.staff.getSchedule(staffID);
-    const contractResponse = await api.common.staff.getContract(staffID);
-    const ticketResponse = await api.common.staff.getTicket(
-      staffID,
-      scheduleApiLimit.value,
-      scheduleApiOffset.value,
-      convertToDate(timeRange.value[0].toDate().toISOString()),
-      convertToDate(timeRange.value[1].toDate().toISOString())
-    );
+    // const contractResponse = await api.common.staff.getContract(staffID);
+    // const ticketResponse = await api.common.staff.getTicket(
+    //   staffID,
+    //   ticketApiLimit.value,
+    //   ticketApiOffset.value,
+    //   convertToDate(timeRange.value[0].toDate().toISOString()),
+    //   convertToDate(timeRange.value[1].toDate().toISOString())
+    // );
     const buildingResponse = await api.common.building.getList();
 
     staffInfo.value = response.data;
@@ -380,13 +351,13 @@ async function getStaffDetailInfo() {
         new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
           new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
     );
-    contracts.value = contractResponse.data;
-    tickets.value = ticketResponse.data;
+    // contracts.value = contractResponse.data;
+    // tickets.value = ticketResponse.data;
     buildingList.value = buildingResponse.data;
 
-    if (ticketResponse.data.length === scheduleApiLimit.value) {
-      scheduleApiOffset.value += scheduleApiLimit.value;
-    }
+    // if (ticketResponse.data.length === ticketApiLimit.value) {
+    //   ticketApiOffset.value += ticketApiLimit.value;
+    // }
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -405,10 +376,10 @@ async function getStaffDetailInfo() {
   }
 }
 
-function disabledDate(current: Dayjs) {
-  // Can not select days after today
-  return current && current >= dayjs().endOf('day');
-}
+// function disabledDate(current: Dayjs) {
+//   // Can not select days after today
+//   return current && current >= dayjs().endOf('day');
+// }
 
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
@@ -424,56 +395,56 @@ onMounted(async () => {
 });
 
 // ---------------------- Watchers ----------------------
-watch(scheduleApiOffset, async () => {
-  const ticketResponse = await api.common.staff.getTicket(
-    staffID,
-    scheduleApiLimit.value,
-    scheduleApiOffset.value,
-    convertToDate(timeRange.value[0].toDate().toISOString()),
-    convertToDate(timeRange.value[1].toDate().toISOString())
-  );
-  tickets.value.push(...ticketResponse.data);
+// watch(ticketApiOffset, async () => {
+//   const ticketResponse = await api.common.staff.getTicket(
+//     staffID,
+//     ticketApiLimit.value,
+//     ticketApiOffset.value,
+//     convertToDate(timeRange.value[0].toDate().toISOString()),
+//     convertToDate(timeRange.value[1].toDate().toISOString())
+//   );
+//   tickets.value.push(...ticketResponse.data);
 
-  if (ticketResponse.data.length === scheduleApiLimit.value) {
-    scheduleApiOffset.value += scheduleApiLimit.value;
-  }
-});
+//   if (ticketResponse.data.length === ticketApiLimit.value) {
+//     ticketApiOffset.value += ticketApiLimit.value;
+//   }
+// });
 
-watch(timeRange, () => {
-  $event.emit('refreshTicketTableDetailStaff');
-});
+// watch(timeRange, () => {
+//   $event.emit('refreshTicketTableDetailStaff');
+// });
 
 // ---------------------- Events ----------------------
-$event.on('refreshTicketTableDetailStaff', async () => {
-  tickets.value = [];
-  if (scheduleApiOffset.value > 0) {
-    scheduleApiOffset.value = 0;
-  } else {
-    try {
-      const ticketResponse = await api.common.staff.getTicket(
-        staffID,
-        scheduleApiLimit.value,
-        scheduleApiOffset.value,
-        convertToDate(timeRange.value[0].toDate().toISOString()),
-        convertToDate(timeRange.value[1].toDate().toISOString())
-      );
-      tickets.value = ticketResponse.data;
+// $event.on('refreshTicketTableDetailStaff', async () => {
+//   tickets.value = [];
+//   if (ticketApiOffset.value > 0) {
+//     ticketApiOffset.value = 0;
+//   } else {
+//     try {
+//       const ticketResponse = await api.common.staff.getTicket(
+//         staffID,
+//         ticketApiLimit.value,
+//         ticketApiOffset.value,
+//         convertToDate(timeRange.value[0].toDate().toISOString()),
+//         convertToDate(timeRange.value[1].toDate().toISOString())
+//       );
+//       tickets.value = ticketResponse.data;
 
-      if (ticketResponse.data.length === scheduleApiLimit.value) {
-        scheduleApiOffset.value += scheduleApiLimit.value;
-      }
-    } catch (err: any) {
-      if (
-        err.status >= 500 ||
-        err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-        err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-      ) {
-        notification.error({
-          message: t('system_error_title'),
-          description: t('system_error_description'),
-        });
-      }
-    }
-  }
-});
+//       if (ticketResponse.data.length === ticketApiLimit.value) {
+//         ticketApiOffset.value += ticketApiLimit.value;
+//       }
+//     } catch (err: any) {
+//       if (
+//         err.status >= 500 ||
+//         err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+//         err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+//       ) {
+//         notification.error({
+//           message: t('system_error_title'),
+//           description: t('system_error_description'),
+//         });
+//       }
+//     }
+//   }
+// });
 </script>

@@ -412,6 +412,24 @@ const common = {
         },
       });
     },
+    getDetail: async (customerId: number): Promise<APIResponse<User>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.customer.detail(customerId), {
+        method: 'GET',
+      });
+    },
+    getContract: async (customerId: number): Promise<APIResponse<Contract[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.customer.getContract(customerId), {
+        method: 'GET',
+      });
+    },
+    getTicket: async (customerId: number): Promise<APIResponse<SupportTicket[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.customer.getTicket(customerId), {
+        method: 'GET',
+      });
+    },
   },
   bill: {
     getList: async (): Promise<APIResponse<Bill[]>> => {

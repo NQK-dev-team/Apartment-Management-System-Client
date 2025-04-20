@@ -18,8 +18,9 @@ type Contract = BasicModel & {
   householder: User;
   roomID: number;
   files: ContractFile[];
-  // buildingID: number;
-  // room: Room;
+  roomNo: undefined | number;
+  buildingName: undefined | string;
+  roomFloor: undefined | number;
 };
 
 export type { Contract };

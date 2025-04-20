@@ -43,6 +43,8 @@ const apiRoutes = {
     add: '/customer/add',
     edit: (customerId: number) => `/customer/${customerId}/edit`,
     deleteMany: '/customer/delete-many',
+    getContract: (customerId: number) => `/customer/${customerId}/contract`,
+    getTicket: (customerId: number) => `/customer/${customerId}/ticket`,
   },
   bill: {
     list: '/bill',

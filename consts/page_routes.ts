@@ -30,7 +30,6 @@ const pageRoutes = {
       list: '/customer',
       add: '/customer/add',
       detail: (customerId: number | string) => `/customer/${customerId}`,
-      edit: (customerId: number | string) => `/customer/${customerId}/edit`,
     },
     bill: {
       list: '/bill',

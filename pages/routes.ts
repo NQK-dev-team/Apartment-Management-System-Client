@@ -93,11 +93,6 @@ const commonRoutes: Route[] = [
     file: customerBaseRoute + 'add.vue',
   },
   {
-    name: 'Edit Customer',
-    path: pageRoutes.common.customer.edit(':id'),
-    file: customerBaseRoute + 'edit.vue',
-  },
-  {
     name: 'Customer Detail',
     path: pageRoutes.common.customer.detail(':id'),
     file: customerBaseRoute + 'detail.vue',

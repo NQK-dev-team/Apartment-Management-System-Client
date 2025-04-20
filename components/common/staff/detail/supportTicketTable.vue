@@ -3,7 +3,7 @@
     <a-table :columns="columns" :data-source="data" class="mt-3" :scroll="{ x: 'max-content' }">
       <template #bodyCell="{ column, value }">
         <template v-if="column.dataIndex === 'action'">
-          <AlignLeftOutlined
+          <InfoCircleOutlined
             class="text-lg hover:cursor-pointer hover:text-gray-400 active:text-gray-600"
             :title="$t('detail')"
             @click="openDetailModal(value.ticketID)"

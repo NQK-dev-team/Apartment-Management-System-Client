@@ -9,7 +9,7 @@
         <a-breadcrumb-item>{{ $t('employee_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div class="flex justify-between items-center">
-        <h1 class="mt-3 text-2xl">Nguyễn Văn A</h1>
+        <h1 class="mt-3 text-2xl">{{ getUserName(staffInfo) }}</h1>
         <div>
           <a-button type="primary" class="rounded-none">
             <NuxtLink :to="pageRoutes.common.staff.edit(staffID)">{{ $t('edit') }}</NuxtLink>

@@ -194,7 +194,9 @@
             <a-textarea id="content" :value="ticketDetail.content" disabled readonly />
           </div>
           <div class="ms-2 flex-1 flex flex-col">
+            <label for="image">{{ $t('image') }}</label>
             <a-upload
+              id="image"
               :file-list="
                 ticketDetail.files.map((file, index) => ({
                   uid: index.toString(),

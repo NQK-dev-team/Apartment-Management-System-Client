@@ -190,18 +190,8 @@
         <ClientOnly>
           <CommonCustomerDetailContractTable v-if="contracts.length" v-show="option === 1" :contracts="contracts" />
           <CommonCustomerDetailContractTable v-else v-show="option === 1" :contracts="[]" />
-          <CommonCustomerDetailSupportTicketTable
-            v-if="tickets.length"
-            v-show="option === 2"
-            :tickets="tickets"
-            :building-list="buildingList"
-          />
-          <CommonCustomerDetailSupportTicketTable
-            v-else
-            v-show="option === 2"
-            :tickets="[]"
-            :building-list="buildingList"
-          />
+          <CommonCustomerDetailSupportTicketTable v-if="tickets.length" v-show="option === 2" :tickets="tickets" />
+          <CommonCustomerDetailSupportTicketTable v-else v-show="option === 2" :tickets="[]" />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm">
@@ -222,7 +212,6 @@ import type { User } from '~/types/user';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
-import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -288,11 +277,8 @@ const customerInfo = ref<User>({
 });
 const dob = computed<Dayjs>(() => dayjs(customerInfo.value.dob));
 const option = ref<number>(1);
-const now = dayjs();
-const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('month'), now]);
 const contracts = ref<Contract[]>([]);
 const tickets = ref<SupportTicket[]>([]);
-const buildingList = ref<Building[]>([]);
 
 // ---------------------- Functions ----------------------
 async function getCustomerDetail() {
@@ -301,12 +287,10 @@ async function getCustomerDetail() {
     const customerInfoResponse = await api.common.customer.getDetail(customerID);
     const contractResponse = await api.common.customer.getContract(customerID);
     const ticketResponse = await api.common.customer.getTicket(customerID);
-    const buildingResponse = await api.common.building.getList(true);
 
     customerInfo.value = customerInfoResponse.data;
     contracts.value = contractResponse.data;
     tickets.value = ticketResponse.data;
-    buildingList.value = buildingResponse.data;
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -323,11 +307,6 @@ async function getCustomerDetail() {
   } finally {
     $event.emit('loading');
   }
-}
-
-function disabledDate(current: Dayjs) {
-  // Can not select days after today
-  return current && current >= dayjs().endOf('day');
 }
 
 // ---------------------- Lifecycles ----------------------

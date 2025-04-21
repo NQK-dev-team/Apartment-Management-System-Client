@@ -218,7 +218,6 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import type { Building } from '~/types/building';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { User } from '~/types/user';
 
@@ -232,22 +231,14 @@ const props = defineProps({
     type: Object as PropType<User>,
     required: true,
   },
-  buildingList: {
-    type: Array as PropType<Building[]>,
-    required: true,
-  },
 });
 const { t } = useI18n();
 const searchInput = ref();
 const columns = computed<any[]>(() => {
-  const buildingList: Building[] = JSON.parse(JSON.stringify(props.buildingList));
-  const maxTotalFloor = buildingList.length
-    ? buildingList.sort((a: Building, b: Building) => b.totalFloor - a.totalFloor)[0].totalFloor
-    : 0;
-  const floorFilterList = Array.from({ length: maxTotalFloor }, (_, i) => i + 1).map((floor) => ({
-    text: floor.toString(),
-    value: floor,
-  }));
+  const buildings = [...new Set(props.tickets.map((ticket) => ticket.buildingName))];
+  const floors = [...new Set(props.tickets.map((ticket) => ticket.roomFloor))];
+  buildings.sort((a, b) => removeDiacritics(a).toLowerCase().localeCompare(removeDiacritics(b).toLowerCase()));
+  floors.sort((a, b) => a - b);
 
   return [
     {
@@ -293,7 +284,10 @@ const columns = computed<any[]>(() => {
       dataIndex: 'building',
       key: 'building',
       class: 'text-nowrap',
-      filters: props.buildingList.map((building) => ({ text: building.name, value: building.name })),
+      filters: buildings.map((building: string) => ({
+        text: building,
+        value: building,
+      })),
       onFilter: (value: any, record: any) => record.building === value,
     },
     {
@@ -301,7 +295,10 @@ const columns = computed<any[]>(() => {
       dataIndex: 'floor',
       key: 'floor',
       class: 'text-nowrap',
-      filters: floorFilterList,
+      filters: floors.map((floor: number) => ({
+        text: floor.toString(),
+        value: floor,
+      })),
       onFilter: (value: any, record: any) => record.floor === value,
     },
     {

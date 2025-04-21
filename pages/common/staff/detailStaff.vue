@@ -219,14 +219,12 @@
             v-show="option === 2"
             :tickets="tickets"
             :staff-info="staffInfo"
-            :building-list="buildingList"
           />
           <CommonStaffDetailSupportTicketTable
             v-else
             v-show="option === 2"
             :tickets="[]"
             :staff-info="staffInfo"
-            :building-list="buildingList"
           />
           <CommonStaffDetailBuildingTable v-if="schedules.length" v-show="option === 3" :schedules="schedules" />
           <CommonStaffDetailBuildingTable v-else v-show="option === 3" :schedules="[]" /> -->
@@ -252,7 +250,6 @@ import type { ManagerSchedule, User } from '~/types/user';
 // import type { Contract } from '~/types/contract';
 // import type { SupportTicket } from '~/types/support_ticket';
 import type { NullTime } from '~/types/basic_model';
-import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -321,7 +318,6 @@ const dob = computed<Dayjs>(() => dayjs(staffInfo.value.dob));
 const schedules = ref<ManagerSchedule[]>([]);
 // const contracts = ref<Contract[]>([]);
 // const tickets = ref<SupportTicket[]>([]);
-const buildingList = ref<Building[]>([]);
 // const ticketApiOffset = ref<number>(0);
 // const ticketApiLimit = ref<number>(500);
 // const { t } = useI18n();
@@ -342,7 +338,6 @@ async function getStaffDetailInfo() {
     //   convertToDate(timeRange.value[0].toDate().toISOString()),
     //   convertToDate(timeRange.value[1].toDate().toISOString())
     // );
-    const buildingResponse = await api.common.building.getList();
 
     staffInfo.value = response.data;
     schedules.value = scheduleResponse.data.sort(
@@ -353,7 +348,6 @@ async function getStaffDetailInfo() {
     );
     // contracts.value = contractResponse.data;
     // tickets.value = ticketResponse.data;
-    buildingList.value = buildingResponse.data;
 
     // if (ticketResponse.data.length === ticketApiLimit.value) {
     //   ticketApiOffset.value += ticketApiLimit.value;

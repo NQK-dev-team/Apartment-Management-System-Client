@@ -10,6 +10,7 @@ export default {
   add_buildings: 'Add new buildings',
   add_rooms: 'Add new rooms',
   add_employee: 'Add new employee',
+  add_employees: 'Add new employees',
   add_customers: 'Add new customers',
   add_bills: 'Add new bills',
   action: 'Action',

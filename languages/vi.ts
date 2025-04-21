@@ -10,6 +10,7 @@ export default {
   add_buildings: 'Thêm tòa nhà mới',
   add_rooms: 'Thêm phòng mới',
   add_employee: 'Thêm nhân viên mới',
+  add_employees: 'Thêm nhân viên mới',
   add_customers: 'Thêm khách hàng mới',
   add_bills: 'Thêm hóa đơn mới',
   action: 'Thao tác',

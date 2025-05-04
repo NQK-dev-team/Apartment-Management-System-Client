@@ -21,7 +21,7 @@ const validationRules = {
     }
     return Promise.resolve();
   },
-  dateOfBirth: async (_: RuleObject, value: Dayjs | string, t: any) => {
+  dateOfBirth: async (_: RuleObject, value: Dayjs | string, t: any, isCustomer: boolean = false) => {
     if (!value) {
       return Promise.resolve();
     }
@@ -29,7 +29,12 @@ const validationRules = {
     const eighteenYearsAgo = dayjs().subtract(18, 'year');
 
     if (birthDate.isAfter(eighteenYearsAgo)) {
-      return Promise.reject(t('staff_must_be_18_years_old'));
+      if (!isCustomer) {
+        return Promise.reject(t('staff_must_be_18_years_old'));
+      } else
+      {
+        return Promise.reject(t('customer_must_be_18_years_old'));
+      }
     }
 
     return Promise.resolve();

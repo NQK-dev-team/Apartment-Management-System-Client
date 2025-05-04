@@ -61,6 +61,27 @@ type NewStaff = {
   }[];
 };
 
+type NewCustomer = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  ssn: string;
+  oldSSN: string;
+  dob: string;
+  pob: string;
+  email: string;
+  phone: string;
+  permanentAddress: string;
+  temporaryAddress: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ssnFrontFilePath: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ssnBackFilePath: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  profileFilePath: any;
+  gender: number | undefined;
+};
+
 type EditStaff = {
   data: {
     ID: number;
@@ -95,4 +116,4 @@ type EditStaff = {
   };
 };
 
-export type { User, ManagerSchedule, NewStaff, EditStaff };
+export type { User, ManagerSchedule, NewStaff, EditStaff, NewCustomer };

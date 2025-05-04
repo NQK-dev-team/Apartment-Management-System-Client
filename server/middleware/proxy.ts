@@ -42,22 +42,22 @@ export default defineEventHandler(async (event) => {
           setCookie(event, 'jwt', body.jwtToken, {
             httpOnly: true,
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
           });
 
           // if (event._path?.includes(apiRoutes.authentication.login)) {
           // Set the user role in the cookie
           setCookie(event, 'userRole', getRoleFromJWT(body.jwtToken), {
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
           });
           setCookie(event, 'userName', getUserNameFromJWT(body.jwtToken), {
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
           });
           setCookie(event, 'userImage', getUserImageFromJWT(body.jwtToken), {
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
           });
           // }
         }
@@ -77,28 +77,28 @@ export default defineEventHandler(async (event) => {
           setCookie(event, 'jwt', '', {
             httpOnly: true,
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: 0,
           });
           setCookie(event, 'refreshToken', '', {
             httpOnly: true,
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: 0,
           });
           setCookie(event, 'userRole', '', {
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: 0,
           });
           setCookie(event, 'userName', '', {
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: 0,
           });
           setCookie(event, 'userImage', '', {
             secure: config.public.isHttps,
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: 0,
           });
         }

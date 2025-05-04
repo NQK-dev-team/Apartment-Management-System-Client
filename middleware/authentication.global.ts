@@ -57,7 +57,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const jwt = useCookie('jwt', {
     httpOnly: true,
     secure: config.public.isHttps,
-    sameSite: 'strict',
+    sameSite: 'lax',
   });
   const refreshToken = useCookie('refreshToken', {
     httpOnly: true,
@@ -68,17 +68,17 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const userRole = useCookie('userRole', {
     httpOnly: false,
     secure: config.public.isHttps,
-    sameSite: 'strict',
+    sameSite: 'lax',
   });
   const userName = useCookie('userName', {
     httpOnly: false,
     secure: config.public.isHttps,
-    sameSite: 'strict',
+    sameSite: 'lax',
   });
   const userImage = useCookie('userImage', {
     httpOnly: false,
     secure: config.public.isHttps,
-    sameSite: 'strict',
+    sameSite: 'lax',
   });
   const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {

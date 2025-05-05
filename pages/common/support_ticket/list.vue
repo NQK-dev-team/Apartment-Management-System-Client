@@ -406,11 +406,11 @@ const state = reactive({
   searchText: '',
   searchedColumn: '',
 });
-const now = dayjs();
-const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('month'), now]);
+const { $event, $dayjs } = useNuxtApp();
+const now = $dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
 const ticketApiOffset = ref<number>(0);
 const ticketApiLimit = ref<number>(500);
-const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
 function openDetailModal(id: number) {

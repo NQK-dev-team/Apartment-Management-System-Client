@@ -17,7 +17,14 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     'nuxt-svgo',
     '@vueuse/nuxt',
+    'dayjs-nuxt',
   ],
+  dayjs: {
+    locales: ['vi', 'en'],
+    plugins: ['quarterOfYear', 'utc', 'timezone'],
+    defaultLocale: 'vi',
+    defaultTimezone: 'Asia/Ho_Chi_Minh',
+  },
   svgo: {
     autoImportPath: './public/svg/',
   },

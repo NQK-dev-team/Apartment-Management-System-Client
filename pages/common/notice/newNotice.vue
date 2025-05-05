@@ -12,19 +12,16 @@
         <h1 class="mt-3 text-2xl">{{ $t('new_notice') }}</h1>
       </div>
     </div>
-    <div
-      class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
-      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
-    >
+    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <div class="w-full flex-1 flex flex-col mt-3">
         <div class="flex-1 me-5">
           <label for="title" class="flex mb-1 text-xl font-bold">
             <span>{{ $t('title') }}</span>
           </label>
-          <a-input id="title" :value="$t('title')" :placeholder="$t('title')" class="mt-2"/>
+          <a-input id="title" :value="$t('title')" :placeholder="$t('title')" class="mt-2" />
         </div>
         <div class="flex items-center justify-center mt-3">
-          <imageUpload :label="$t('image')"/>
+          <imageUpload :label="$t('image')" />
         </div>
 
         <!-- <div class="flex-1 me-5">
@@ -43,9 +40,9 @@
           <div id="text-tools">
             <!-- Quill Editor -->
             <!-- QUILL editor is used here to have a powerful rich text editing function -->
-            <div ref="quillEditor" style="height: 300px;"></div>
+            <div ref="quillEditor" style="height: 300px"></div>
           </div>
-          <!--  
+          <!--
           To save the content entered in the Quill editor, you can retrieve the HTML content using quillInstance.root.innerHTML. For example:
           function saveContent() {
             const content = quillInstance?.root.innerHTML || '';
@@ -54,7 +51,7 @@
           } -->
         </div>
         <div class="flex items-center mt-3">
-          <h2 class="me-3 text-xl font-bold">{{$t('reciever')}}: </h2>
+          <h2 class="me-3 text-xl font-bold">{{ $t('reciever') }}:</h2>
           <p
             class="me-3 cursor-pointer select-none"
             :class="[
@@ -79,7 +76,7 @@
           </p>
         </div>
         <div class="flex items-center mt-3">
-          <h2 class="me-3 text-xl font-bold">{{ $t('building') }}: </h2>
+          <h2 class="me-3 text-xl font-bold">{{ $t('building') }}:</h2>
           <a-select
             :options="options"
             mode="multiple"
@@ -89,9 +86,9 @@
             id="building-select"
           ></a-select>
 
-          <h2 v-show="option === 2" class="ms-5 me-3 text-xl font-bold">{{ $t('floor') }}: </h2>
+          <h2 v-show="option === 2" class="ms-5 me-3 text-xl font-bold">{{ $t('floor') }}:</h2>
           <a-select
-            v-show="option === 2"  
+            v-show="option === 2"
             :options="options"
             mode="multiple"
             size="large"
@@ -110,16 +107,10 @@
           <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('employee_list') }}</h2>
           <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('customer_list') }}</h2>
         </div>
-        
+
         <ClientOnly>
-          <CustomerTable 
-            v-show="option === 2" 
-            @update-selected-count="updateSelectedCustomerCount" 
-          />
-          <EmployeeTable 
-            v-show="option === 1" 
-            @update-selected-count="updateSelectedEmployeeCount" 
-          />
+          <CustomerTable v-show="option === 2" @update-selected-count="updateSelectedCustomerCount" />
+          <EmployeeTable v-show="option === 1" @update-selected-count="updateSelectedEmployeeCount" />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm" type="primary">
@@ -142,7 +133,6 @@ import imageUpload from '@/components/common/customComponent/imageUpload.vue';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { ref, onMounted } from 'vue';
-
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -168,7 +158,6 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-
 
 const option = ref<number>(1);
 const options = [...Array(25)].map((_, i) => ({ value: (i + 10).toString(36) + (i + 1) }));
@@ -218,9 +207,7 @@ onMounted(() => {
 
 // ---------------------- Watchers ----------------------
 
-
 // ---------------------- Events ----------------------
-
 </script>
 
 <style scoped>

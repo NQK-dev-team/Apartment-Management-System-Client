@@ -11,10 +11,7 @@
       </div>
     </div>
     <!-- Page main content -->
-    <div
-      class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
-      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
-    >
+    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <a-table :columns="columns" :data-source="data" class="mt-3" :scroll="{ x: 'max-content' }">
         <template #bodyCell="{ column, value }">
           <template v-if="column.dataIndex === 'action'">

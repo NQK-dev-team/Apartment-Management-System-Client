@@ -17,10 +17,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="flex-1 flex flex-col px-4 mt-5 overflow-auto"
-      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
-    >
+    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <div class="flex py-3">
         <div class="flex-1 flex flex-col me-6">
           <div class="flex items-center">

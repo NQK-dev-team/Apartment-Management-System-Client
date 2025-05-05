@@ -6,7 +6,7 @@
     <div class="flex w-full content">
       <LayoutNavMenu :role="userRole" />
       <div
-        class="flex-1 w-full"
+        class="flex-1 w-full overflow-auto"
         :class="{
           dark_theme: !(lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie)),
         }"

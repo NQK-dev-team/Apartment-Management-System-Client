@@ -48,6 +48,9 @@ const pageRoutes = {
     },
     contract: {
       list: '/contract',
+      detail: (contractId: number | string) => `/contract/${contractId}`,
+      add: '/contract/add',
+      edit: (contractId: number | string) => `/contract/${contractId}/edit`,
     },
     report: {
       page: '/report',

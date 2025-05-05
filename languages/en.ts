@@ -1,3 +1,5 @@
+import Contract_information from '~/components/common/contract/contract_information.vue';
+
 export default {
   A: 'a',
   add_building: 'Add building',
@@ -24,6 +26,8 @@ export default {
   add_schedule: 'Add schedule',
   avatar: 'Avatar',
   active: 'Active',
+  active_date: 'Active date',
+  add_contract: 'Add contract',
 
   B: 'b',
   balance: 'Balance',
@@ -61,6 +65,9 @@ export default {
   contract_type: 'Contract type',
   contract_price: 'Contract price',
   contract_id: 'Contract ID',
+  contract_information: 'Contract information',
+  contract_value: "Contract's value",
+  created_date: 'Created date',
   confirm_new_password: 'Confirm new password',
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
@@ -135,6 +142,7 @@ export default {
   edit_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
   employee_info: 'Employee information',
   edit_bill: 'Edit bill',
+  expire_date: 'Expire date',
 
   F: 'f',
   finish_import: 'Import',
@@ -254,6 +262,7 @@ export default {
   system_error_description: 'An error occurred while processing your request. Please try again later.',
   spam_warning: 'You are sending too many requests. Please try again later.',
   ssn: 'SSN',
+  signed_date: 'Signed date',
   start: 'Start date',
   service_list: 'Service list',
   service_name: 'Service name',

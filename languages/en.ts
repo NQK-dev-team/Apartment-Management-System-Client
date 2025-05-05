@@ -327,6 +327,7 @@ export default {
   submit: 'Submit',
   system_error_title: 'System error',
   system_error_description: 'An error occurred while processing your request. Please try again later.',
+  system_error_description_fetch_error: 'An error occurred while fetching addtional data from the server.',
   spam_warning: 'You are sending too many requests. Please try again later.',
   ssn: 'SSN',
   start: 'Start date',

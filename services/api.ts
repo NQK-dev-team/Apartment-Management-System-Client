@@ -476,6 +476,17 @@ const common = {
         method: 'POST',
       });
     },
+    getList: async (
+      limit: number = 500,
+      offset: number = 0,
+      startDate: string = '',
+      endDate: string = ''
+    ): Promise<APIResponse<SupportTicket[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.support_ticket.getList(limit, offset, startDate, endDate), {
+        method: 'GET',
+      });
+    },
   },
   notice: {},
   contract: {},

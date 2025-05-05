@@ -389,18 +389,38 @@ onMounted(async () => {
 });
 
 // ---------------------- Watchers ----------------------
-// watch(ticketApiOffset, async () => {
-//   const ticketResponse = await api.common.staff.getTicket(
-//     staffID,
-//     ticketApiLimit.value,
-//     ticketApiOffset.value,
-//     convertToDate(timeRange.value[0].toDate().toISOString()),
-//     convertToDate(timeRange.value[1].toDate().toISOString())
-//   );
-//   tickets.value.push(...ticketResponse.data);
+// watch(ticketApiOffset, async (newTicketApiOffset, oldTicketApiOffset) => {
+//   try {
+//     const ticketResponse = await api.common.staff.getTicket(
+//       staffID,
+//       ticketApiLimit.value,
+//       ticketApiOffset.value,
+//       convertToDate(timeRange.value[0].toDate().toISOString()),
+//       convertToDate(timeRange.value[1].toDate().toISOString())
+//     );
+//     tickets.value.push(...ticketResponse.data);
 
-//   if (ticketResponse.data.length === ticketApiLimit.value) {
-//     ticketApiOffset.value += ticketApiLimit.value;
+//     if (ticketResponse.data.length === ticketApiLimit.value) {
+//       ticketApiOffset.value += ticketApiLimit.value;
+//     }
+//   } catch (err: any) {
+//     if (
+//       err.status >= 500 ||
+//       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+//       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+//     ) {
+//       if (oldTicketApiOffset > 0 && newTicketApiOffset === 0) {
+//         notification.error({
+//           message: t('system_error_title'),
+//           description: t('system_error_description'),
+//         });
+//       } else {
+//         notification.error({
+//           message: t('system_error_title'),
+//           description: t('system_error_description_fetch_error'),
+//         });
+//       }
+//     }
 //   }
 // });
 

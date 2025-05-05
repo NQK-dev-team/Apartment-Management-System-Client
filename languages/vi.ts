@@ -326,6 +326,7 @@ export default {
   submit: 'Gửi',
   system_error_title: 'Lỗi hệ thống',
   system_error_description: 'Đã xảy ra lỗi hệ thống, vui lòng thử lại sau!',
+  system_error_description_fetch_error: 'Đã xảy ra lỗi khi tải thêm dữ liệu từ hệ thống.',
   spam_warning: 'Bạn đang gửi quá nhiều yêu cầu. Vui lòng thử lại sau!',
   ssn: 'Số CCCD',
   start: 'Ngày bắt đầu',

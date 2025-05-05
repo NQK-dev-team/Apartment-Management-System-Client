@@ -55,6 +55,8 @@ const apiRoutes = {
   support_ticket: {
     approve: (ticketId: number) => `/support-ticket/${ticketId}/approve`,
     deny: (ticketId: number) => `/support-ticket/${ticketId}/deny`,
+    getList: (limit: number = 500, offset: number = 0, startDate: string = '', endDate: string = '') =>
+      `/support-ticket?limit=${limit}&offset=${offset}&startDate=${startDate}&endDate=${endDate}`,
   },
   notice: {},
   contract: {},

@@ -238,6 +238,7 @@ import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import type { SupportTicket } from '~/types/support_ticket';
 import dayjs, { type Dayjs } from 'dayjs';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -257,6 +258,7 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 const tickets = ref<SupportTicket[]>([]);
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
@@ -293,6 +295,8 @@ const columns = computed<any[]>(() => {
           }, 100);
         }
       },
+      sorter: (a: any, b: any) => a.ticket_id - b.ticket_id,
+      sortDirections: ['ascend', 'descend'],
       class: 'text-nowrap',
     },
     {
@@ -393,7 +397,10 @@ const data = computed(() =>
     owner_approving: ticket.ownerID ? getUserName(ticket.owner) : '-',
     action: {
       ticketID: ticket.ID,
-      allowAction: ticket.status === 1 && !ticket.ownerID,
+      allowAction:
+        ticket.status === 1 &&
+        ((!ticket.ownerID && userRole.value?.toString() === roles.owner && ticket.managerID) ||
+          (!ticket.managerID && userRole.value?.toString() === roles.manager)),
     },
     building: ticket.buildingName,
     floor: ticket.roomFloor,

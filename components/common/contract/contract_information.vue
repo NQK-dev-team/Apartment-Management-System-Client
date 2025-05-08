@@ -77,6 +77,18 @@
             @change="handleChange" class="w-full"></a-select>
         </a-form-item>
       </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['contract', 'customer_id']" :label="$t('customer_id')"
+          :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.contract.id" />
+        </a-form-item>
+      </a-col>
+      <a-col :span="6">
+        <a-form-item :name="['contract', 'employee_id']" :label="$t('employeeID')"
+          :rules="[{ type: 'string', required: true }]">
+          <a-input v-model:value="formState.contract.id" :disabled="true" />
+        </a-form-item>
+      </a-col>
     </a-row>
   </a-form>
 </template>
@@ -125,6 +137,8 @@ const formState = reactive({
     active: '',
     expire: '',
     status: '',
+    customer_id: '',
+    employee_id: '',
   },
 });
 

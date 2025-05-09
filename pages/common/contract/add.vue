@@ -46,6 +46,7 @@
           </a-button>
         </div> -->
       </div>
+      <CommonContractBillList />
     </div>
   </div>
 </template>

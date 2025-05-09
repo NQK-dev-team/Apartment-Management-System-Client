@@ -9,14 +9,14 @@
       </a-breadcrumb>
       <div class="flex justify-between mt-5">
         <h1 class="mt-3 text-2xl">{{ $t('add_contract') }}</h1>
-        <div class="flex">
+        <!-- <div class="flex">
           <a-button type="primary" class="flex items-center justify-center p-2 rounded-none;">
             {{ $t('edit') }}
           </a-button>
           <a-button type="primary" danger class="flex items-center justify-center p-2 rounded-none; ml-2">
             {{ $t('delete') }}
           </a-button>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="flex-1 flex flex-col mt-5 overflow-auto px-4"

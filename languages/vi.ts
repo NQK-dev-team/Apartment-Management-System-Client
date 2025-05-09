@@ -155,6 +155,7 @@ export default {
   floor: 'Tầng {name}',
   front_face: 'mặt trước',
   female: 'Nữ',
+  full_name: 'Họ và tên',
 
   G: 'g',
   gender: 'Giới tính',
@@ -254,6 +255,8 @@ export default {
   rent: 'Thuê',
   room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
   rooms: 'Phòng',
+  resident_list: 'Danh sách cư dân',
+  relationship_with_owner: 'Mối quan hệ với chủ căn hộ',
 
   S: 's',
   staff: 'Nhân viên',

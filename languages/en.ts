@@ -154,6 +154,7 @@ export default {
   floor: 'Floor {name}',
   front_face: 'front face',
   female: 'Female',
+  full_name: 'Full name',
 
   G: 'g',
   gender: 'Gender',
@@ -251,6 +252,8 @@ export default {
   rent: 'Rental',
   room_image_require: 'Please choose at least one image for room {no}!',
   rooms: 'Rooms',
+  resident_list: 'Resident list',
+  relationship_with_owner: 'Relationship with owner',
 
   S: 's',
   staff: 'Staff',

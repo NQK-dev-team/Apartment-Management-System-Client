@@ -24,7 +24,19 @@
       <h1 class="mt-3 text-2xl">{{ $t('contract_information') }}</h1>
       <CommonContractInformation />
       <div class="flex justify-between" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-        <h1 class="mt-3 text-2xl">{{ $t('contract_list') }}</h1>
+        <h1 class="mt-3 text-2xl">{{ $t('resident_list') }}</h1>
+        <div class="flex">
+          <a-button type="primary" class="flex items-center justify-center p-0 w-[36px] rounded-none;">
+            <img :src="svgPaths.plus" alt="Add resident" class="w-[12px] h-[12px]" />
+          </a-button>
+          <a-button type="primary" danger class="flex items-center justify-center p-0 w-[36px] rounded-none; ml-2">
+            <img :src="svgPaths.delete" alt="Delete resident" class="w-[12px] h-[12px]" />
+          </a-button>
+        </div>
+      </div>
+      <CommonContractResidentList />
+      <div class="flex justify-between" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+        <h1 class="mt-3 text-2xl">{{ $t('bill_list') }}</h1>
         <!-- <div class="flex">
           <a-button type="primary" class="flex items-center justify-center p-0 w-[36px] rounded-none;">
             <img :src="svgPaths.plus" alt="Add contract" class="w-[12px] h-[12px]" />
@@ -34,7 +46,6 @@
           </a-button>
         </div> -->
       </div>
-      <!-- <CommonContractDetailContractList /> -->
     </div>
   </div>
 </template>

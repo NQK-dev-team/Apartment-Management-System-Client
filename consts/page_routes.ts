@@ -11,11 +11,11 @@ const pageRoutes = {
       add: '/building/add',
       detail: (buildingId: number | string) => `/building/${buildingId}`,
       edit: (buildingId: number | string) => `/building/${buildingId}/edit`,
-      roomDetail: (buildingId: number | string, roomId: number | string) => `/building/${buildingId}/room/${roomId}`,
-      editRoom: (buildingId: number | string, roomId: number | string) => `/building/${buildingId}/room/${roomId}/edit`,
+      roomDetail: (buildingId: number | string, roomID: number | string) => `/building/${buildingId}/room/${roomID}`,
     },
     room: {
       list: '/room',
+      detail: (roomId: number | string) => `/room/${roomId}`,
     },
     profile: {
       page: '/profile',

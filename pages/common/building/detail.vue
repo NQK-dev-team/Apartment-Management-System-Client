@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
-      <div class="flex items-center h-[500px] py-3">
+      <div class="flex items-center py-3">
         <div class="h-full flex-1 flex flex-col me-24">
           <div class="flex items-center">
             <div class="flex-1 me-2">
@@ -75,7 +75,7 @@
           <div class="flex items-center"></div>
           <div class="flex items-center"></div> -->
         </div>
-        <div class="w-[350px] h-full me-12 select-none">
+        <div class="w-[250px] h-full me-12 select-none">
           <a-carousel :autoplay="true" arrows>
             <!-- <template #prevArrow>
               <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
@@ -90,7 +90,7 @@
             <div v-for="(image, index) in buildingData.images" :key="index">
               <img
                 :src="image.path"
-                class="w-[350px] h-[450px] cursor-pointer"
+                class="w-[250px] h-[300px] cursor-pointer"
                 @click="
                   () => {
                     previewVisible = true;
@@ -180,7 +180,7 @@
       :open="previewVisible"
       :footer="null"
       :closable="false"
-      width="750px"
+      width="500px"
       @cancel="previewVisible = false"
     >
       <img alt="View image" style="width: 100%" :src="previewImage" />
@@ -299,36 +299,3 @@ onMounted(async () => {
   padding: 0 !important;
 }
 </style>
-
-<!-- <style lang="css" scoped>
-/* For demo */
-:deep(.slick-slide) {
-  text-align: center;
-  /* height: 160px; */
-  line-height: 160px;
-  background: #364d79;
-  overflow: hidden;
-}
-
-:deep(.slick-arrow.custom-slick-arrow) {
-  width: 25px;
-  height: 25px;
-  font-size: 25px;
-  color: #fff;
-  background-color: rgba(31, 45, 61, 0.11);
-  transition: ease all 0.3s;
-  opacity: 0.3;
-  z-index: 1;
-}
-:deep(.slick-arrow.custom-slick-arrow:before) {
-  display: none;
-}
-:deep(.slick-arrow.custom-slick-arrow:hover) {
-  color: #fff;
-  opacity: 0.5;
-}
-
-:deep(.slick-slide h3) {
-  color: #fff;
-}
-</style> -->

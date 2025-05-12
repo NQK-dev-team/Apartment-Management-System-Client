@@ -13,7 +13,7 @@ const apiRoutes = {
   building: {
     list: (getAll: boolean = false) => `/building?getAll=${getAll}`,
     detail: (buildingId: number) => `/building/${buildingId}`,
-    roomDetail: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
+    room: (buildingId: number) => `/building/${buildingId}/room`,
     add: '/building/add',
     delete: (buildingID: number) => `/building/${buildingID}`,
     getSchedule: (buildingID: number) => `/building/${buildingID}/schedule`,

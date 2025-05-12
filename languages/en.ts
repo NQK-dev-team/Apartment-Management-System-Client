@@ -1,5 +1,3 @@
-import plugin from 'chartjs-plugin-datalabels';
-
 export default {
   A: 'a',
   add_building: 'Add building',

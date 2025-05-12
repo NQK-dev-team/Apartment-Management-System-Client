@@ -57,15 +57,16 @@
     </div>
     <div class="overflow-auto max-h-[200px]">
       <template v-for="(room, index) in roomList" :key="index">
-        <LayoutNavItem
-          v-show="selectValue.length === 0 || selectValue.includes(room.no)"
-          :label="$t('room', { name: room.no.toString() })"
-          :collapse="props.collapse"
-          :href="pageRoutes.common.building.roomDetail(building.ID, room.ID)"
-          :is-child="true"
-          :item-level="2"
-          :hide-when-collapse="true"
-        />
+        <div v-show="selectValue.length === 0 || selectValue.includes(room.no)">
+          <LayoutNavItem
+            :label="$t('room', { name: room.no.toString() })"
+            :collapse="props.collapse"
+            :href="pageRoutes.common.building.roomDetail(building.ID, room.ID)"
+            :is-child="true"
+            :item-level="2"
+            :hide-when-collapse="true"
+          />
+        </div>
       </template>
     </div>
   </div>

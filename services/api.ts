@@ -285,6 +285,12 @@ const common = {
         body: formData,
       });
     },
+    getRoomDetail: async (buildingId: number, roomId: number): Promise<APIResponse<Room>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.getRoom(buildingId, roomId), {
+        method: 'GET',
+      });
+    },
   },
   room: {},
   profile: {},

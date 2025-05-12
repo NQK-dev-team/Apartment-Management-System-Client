@@ -1,6 +1,7 @@
 import type { BasicFileModel, BasicModel } from './basic_model';
 import type { UploadFile } from 'ant-design-vue';
 import type { Dayjs } from 'dayjs';
+import type { Contract } from './contract';
 
 type BuildingImage = BasicFileModel & {
   buildingID: number;
@@ -28,6 +29,8 @@ type Room = BasicModel & {
   status: number;
   buildingID: number;
   images: RoomImage[];
+  contracts: Contract[];
+  buildingName: undefined | string;
 };
 
 type Service = BasicModel & {

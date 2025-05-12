@@ -60,7 +60,7 @@ const commonRoutes: Route[] = [
   },
   {
     name: 'Building Room Detail',
-    path: pageRoutes.common.building.roomDetail(':buildingID', ':roomId'),
+    path: pageRoutes.common.building.roomDetail(':buildingID', ':roomID'),
     file: roomBaseRoute + 'detail_staff.vue',
   },
   // Room

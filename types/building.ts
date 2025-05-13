@@ -31,6 +31,7 @@ type Room = BasicModel & {
   images: RoomImage[];
   contracts: Contract[];
   buildingName: undefined | string;
+  buildingAddress: undefined | string;
 };
 
 type Service = BasicModel & {

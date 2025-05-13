@@ -13,7 +13,7 @@
         <a-breadcrumb-item>{{ $t('room_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div class="flex items-center justify-between">
-        <h1 class="mt-3 text-2xl">{{ $t('room', { name: 'test' }) }}</h1>
+        <h1 class="mt-3 text-2xl">{{ $t('room', { name: roomData.no }) }}</h1>
         <div>
           <a-button type="primary" class="rounded-sm">{{ $t('edit') }}</a-button>
         </div>
@@ -22,12 +22,18 @@
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <div class="flex items-center py-3">
         <div class="h-full flex-1 flex flex-col me-24">
-          <!-- <div class="flex items-center">
+          <div class="flex items-start">
             <div class="flex-1 me-2">
               <label for="building_name" class="flex mb-1">
-                <span>{{ $t('building_name') }}</span>
+                <span>{{ $t('building') }}</span>
               </label>
-              <a-input id="building_name" :value="roomData.name" disabled readonly :placeholder="$t('building_name')" />
+              <a-input
+                id="building_name"
+                :value="roomData.buildingName"
+                disabled
+                readonly
+                :placeholder="$t('building_name')"
+              />
             </div>
             <div class="flex-1 ms-2">
               <label for="building_address" class="flex mb-1">
@@ -35,33 +41,87 @@
               </label>
               <a-input
                 id="building_address"
-                :value="roomData.address"
+                :value="roomData.buildingAddress"
                 disabled
                 readonly
                 :placeholder="$t('building_address')"
               />
             </div>
           </div>
-          <div class="flex items-center mt-5">
+          <div class="flex items-start mt-5">
             <div class="flex-1 me-2">
-              <label for="total_floor" class="flex mb-1">
-                <span>{{ $t('total_floor') }}</span>
+              <label for="room_floor" class="flex mb-1">
+                <span>{{ $t('floor') }}</span>
+              </label>
+              <a-input id="room_floor" :value="roomData.floor" disabled readonly :placeholder="$t('floor')" />
+            </div>
+            <div class="flex-1 ms-2">
+              <label for="room_no" class="flex mb-1">
+                <span>{{ $t('room_no') }}</span>
+              </label>
+              <a-input id="room_no" :value="roomData.no" disabled readonly :placeholder="$t('room_no')" />
+            </div>
+          </div>
+          <div class="flex items-start mt-5">
+            <div class="flex-1 me-2">
+              <label for="room_status" class="flex mb-1">
+                <span>{{ $t('status') }}</span>
               </label>
               <a-input
-                id="total_floor"
-                :value="roomData.totalFloor"
+                v-if="roomData.status === 1"
+                id="room_status"
+                :value="$t('rented')"
                 disabled
                 readonly
-                :placeholder="$t('total_floor')"
+                :placeholder="$t('status')"
+              />
+              <a-input
+                v-if="roomData.status === 2"
+                id="room_status"
+                :value="$t('sold')"
+                disabled
+                readonly
+                :placeholder="$t('status')"
+              />
+              <a-input
+                v-if="roomData.status === 3"
+                id="room_status"
+                :value="$t('available')"
+                disabled
+                readonly
+                :placeholder="$t('status')"
+              />
+              <a-input
+                v-if="roomData.status === 4"
+                id="room_status"
+                :value="$t('maintenance')"
+                disabled
+                readonly
+                :placeholder="$t('status')"
+              />
+              <a-input
+                v-if="roomData.status === 5"
+                id="room_status"
+                :value="$t('unavailable')"
+                disabled
+                readonly
+                :placeholder="$t('status')"
               />
             </div>
             <div class="flex-1 ms-2">
-              <label for="total_room" class="flex mb-1">
-                <span>{{ $t('total_room') }}</span>
+              <label for="room_description" class="flex mb-1">
+                <span>{{ $t('description') }}</span>
               </label>
-              <a-input id="total_room" :value="roomData.totalRoom" disabled readonly :placeholder="$t('total_room')" />
+              <a-textarea
+                id="room_description"
+                :value="roomData.description"
+                disabled
+                readonly
+                :placeholder="$t('description')"
+                :rows="3"
+              />
             </div>
-          </div> -->
+          </div>
         </div>
         <div class="w-[250px] h-full me-12 select-none">
           <a-carousel :autoplay="true" arrows>
@@ -175,6 +235,7 @@ const roomData = ref<Room>({
   images: [],
   contracts: [],
   buildingName: '',
+  buildingAddress: '',
 });
 const supportTickets = ref<SupportTicket[]>([]);
 const lightModeCookie = useCookie('lightMode');

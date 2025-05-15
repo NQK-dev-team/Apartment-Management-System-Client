@@ -143,6 +143,7 @@ export default {
   employee_info: 'Employee information',
   edit_bill: 'Edit bill',
   expire_date: 'Expire date',
+  edit_contract: 'Edit contract',
 
   F: 'f',
   finish_import: 'Import',

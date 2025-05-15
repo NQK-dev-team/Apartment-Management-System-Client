@@ -144,6 +144,7 @@ export default {
   employee_info: 'Thông tin nhân viên',
   edit_bill: 'Chỉnh sửa hóa đơn',
   expire_date: 'Ngày hết hạn',
+  edit_contract: 'Chỉnh sửa hợp đồng',
 
   F: 'f',
   finish_import: 'Hoàn tất',

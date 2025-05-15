@@ -46,7 +46,7 @@
           </a-button>
         </div> -->
       </div>
-      <!-- <CommonContractBillList /> -->
+      <CommonContractBillList />
     </div>
   </div>
 </template>
@@ -62,7 +62,7 @@ import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Edit a contract',
+  name: 'Edit Contract',
   layout: 'main',
   middleware: ['authorization-owner'],
 });

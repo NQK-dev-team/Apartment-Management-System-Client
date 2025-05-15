@@ -34,17 +34,17 @@ import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Edit a contract',
+  name: 'Contract List',
   layout: 'main',
   middleware: ['authorization-owner'],
 });
 
 useHead({
-  title: 'Edit a contract',
+  title: 'List of contracts',
   meta: [
     {
       name: 'description',
-      content: 'Edit a contract in the system',
+      content: 'List of contracts in the system',
     },
   ],
 });

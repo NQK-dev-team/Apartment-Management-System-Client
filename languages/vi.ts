@@ -31,6 +31,9 @@ export default {
   add_staff_success: 'Thêm nhân viên thành công!',
   add_customer_success: 'Khách hàng mới đã được thêm thành công!',
   add_customer_fail: 'Thêm khách hàng không thành công!',
+  active: 'Có hiệu lực',
+  active_date: 'Ngày có hiệu lực',
+  add_contract: 'Thêm hợp đồng',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -68,6 +71,9 @@ export default {
   contract_type: 'Loại hợp đồng',
   contract_price: 'Giá theo hợp đồng',
   contract_id: 'Mã hợp đồng',
+  contract_information: 'Thông tin hợp đồng',
+  contract_value: 'Giá trị hợp đồng',
+  created_date: 'Ngày tạo',
   confirm_new_password: 'Xác nhận mật khẩu mới',
   confirm_new_password_require: 'Vui lòng xác nhận mật khẩu mới!',
   confirm: 'Xác nhận',
@@ -176,6 +182,8 @@ export default {
   enter_customer_temporary_address: 'Nhập địa chỉ tạm trú của khách hàng',
   edit_employee: 'Chỉnh sửa nhân viên',
   email_exists: 'Email đã tồn tại!',
+  expire_date: 'Ngày hết hạn',
+  edit_contract: 'Chỉnh sửa hợp đồng',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -187,6 +195,7 @@ export default {
   floor: 'Tầng {name}',
   front_face: 'mặt trước',
   female: 'Nữ',
+  full_name: 'Họ và tên',
 
   G: 'g',
   gender: 'Giới tính',
@@ -317,6 +326,8 @@ export default {
   room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
   rooms: 'Phòng',
   reciever: 'Người nhận',
+  resident_list: 'Danh sách cư dân',
+  relationship_with_owner: 'Mối quan hệ với chủ căn hộ',
 
   S: 's',
   staff: 'Nhân viên',
@@ -330,6 +341,7 @@ export default {
   spam_warning: 'Bạn đang gửi quá nhiều yêu cầu. Vui lòng thử lại sau!',
   ssn: 'Số CCCD',
   start: 'Ngày bắt đầu',
+  signed_date: 'Ngày ký',
   service_list: 'Danh sách dịch vụ',
   service_name: 'Tên dịch vụ',
   service_price: 'Phí dịch vụ (VNĐ/tháng)',

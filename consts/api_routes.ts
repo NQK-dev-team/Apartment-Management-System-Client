@@ -60,7 +60,12 @@ const apiRoutes = {
       `/support-ticket?limit=${limit}&offset=${offset}&startDate=${startDate}&endDate=${endDate}`,
   },
   notice: {},
-  contract: {},
+  contract: {
+    list: '/contract',
+    detail: (contractId: number) => `/contract/${contractId}`,
+    add: '/contract/add',
+    edit: (contractId: number) => `/contract/${contractId}/edit`,
+  },
   import: {},
 };
 

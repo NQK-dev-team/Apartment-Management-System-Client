@@ -31,6 +31,8 @@ export default {
   add_staff_success: 'Add staff successfully!',
   add_customer_success: 'Add customer successfully!',
   add_customer_fail: 'Add customer failed!',
+  active_date: 'Active date',
+  add_contract: 'Add contract',
 
   B: 'b',
   balance: 'Balance',
@@ -68,6 +70,9 @@ export default {
   contract_type: 'Contract type',
   contract_price: 'Contract price',
   contract_id: 'Contract ID',
+  contract_information: 'Contract information',
+  contract_value: "Contract's value",
+  created_date: 'Created date',
   confirm_new_password: 'Confirm new password',
   confirm_new_password_require: 'Please confirm your new password!',
   confirm: 'Confirm',
@@ -175,6 +180,8 @@ export default {
   enter_customer_temporary_address: 'Enter customer temporary address',
   edit_employee: 'Edit employee',
   email_exists: 'Email already exists!',
+  expire_date: 'Expire date',
+  edit_contract: 'Edit contract',
 
   F: 'f',
   finish_import: 'Import',
@@ -186,6 +193,7 @@ export default {
   floor: 'Floor {name}',
   front_face: 'front face',
   female: 'Female',
+  full_name: 'Full name',
 
   G: 'g',
   gender: 'Gender',
@@ -316,6 +324,8 @@ export default {
   room_image_require: 'Please choose at least one image for room {no}!',
   rooms: 'Rooms',
   reciever: 'Receiver',
+  resident_list: 'Resident list',
+  relationship_with_owner: 'Relationship with owner',
 
   S: 's',
   staff: 'Staff',
@@ -328,6 +338,7 @@ export default {
   system_error_description_fetch_error: 'An error occurred while fetching addtional data from the server.',
   spam_warning: 'You are sending too many requests. Please try again later.',
   ssn: 'SSN',
+  signed_date: 'Signed date',
   start: 'Start date',
   service_list: 'Service list',
   service_name: 'Service name',

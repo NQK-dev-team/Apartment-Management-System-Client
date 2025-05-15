@@ -57,7 +57,12 @@ const apiRoutes = {
     deny: (ticketId: number) => `/support-ticket/${ticketId}/deny`,
   },
   notice: {},
-  contract: {},
+  contract: {
+    list: '/contract',
+    detail: (contractId: number) => `/contract/${contractId}`,
+    add: '/contract/add',
+    edit: (contractId: number) => `/contract/${contractId}/edit`,
+  },
   import: {},
 };
 

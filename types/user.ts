@@ -90,6 +90,7 @@ type EditStaff = {
     lastName: string;
     ssn: string;
     oldSSN: string;
+    no: string;
     dob: Dayjs | string;
     pob: string;
     email: string;

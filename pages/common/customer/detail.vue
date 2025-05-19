@@ -19,12 +19,20 @@
         <div class="flex-1 flex flex-col me-6">
           <div class="flex items-center">
             <div class="flex-1 me-5">
+              <label for="customer_no" class="flex mb-1">
+                <span>{{ $t('customer_no') }}</span>
+              </label>
+              <a-input id="customer_no" :value="customerInfo.no" :placeholder="$t('customer_no')" disabled readonly />
+            </div>
+            <div class="flex-1">
               <label for="last_name" class="flex mb-1">
                 <span>{{ $t('last_name') }}</span>
               </label>
               <a-input id="last_name" :value="customerInfo.lastName" :placeholder="$t('last_name')" disabled readonly />
             </div>
-            <div class="flex-1">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
               <label for="middle_name" class="flex mb-1">
                 <span>{{ $t('middle_name') }}</span>
               </label>
@@ -36,9 +44,7 @@
                 readonly
               />
             </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-5">
+            <div class="flex-1">
               <label for="first_name" class="flex mb-1">
                 <span>{{ $t('name') }}</span>
               </label>
@@ -51,7 +57,9 @@
                 autocomplete="off"
               />
             </div>
-            <div class="flex-1">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
               <label for="gender" class="flex mb-1">
                 <span>{{ $t('gender') }}</span>
               </label>
@@ -61,23 +69,21 @@
                 <a-select-option :value="3">{{ $t('other') }}</a-select-option>
               </a-select>
             </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-5">
+            <div class="flex-1">
               <label for="date_of_birth" class="flex mb-1">
                 <span>{{ $t('dob') }}</span>
               </label>
               <a-date-picker id="date_of_birth" :value="dob" class="w-full" disabled readonly />
             </div>
-            <div class="flex-1">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
               <label for="ssn" class="flex mb-1">
                 <span>{{ $t('ssn') }}</span>
               </label>
               <a-input id="ssn" :value="customerInfo.ssn" :placeholder="$t('ssn')" disabled readonly />
             </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-5">
+            <div class="flex-1">
               <label for="old_ssn" class="flex mb-1">
                 <span>{{ $t('old_ssn') }}</span>
               </label>
@@ -89,21 +95,23 @@
                 readonly
               />
             </div>
-            <div class="flex-1">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
               <label for="pob" class="flex mb-1">
                 <span>{{ $t('pob') }}</span>
               </label>
               <a-input id="pob" :value="customerInfo.pob" :placeholder="$t('pob')" disabled readonly />
             </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-5">
+            <div class="flex-1">
               <label for="phone_number" class="flex mb-1">
                 <span>{{ $t('phone') }}</span>
               </label>
               <a-input id="phone_number" :value="customerInfo.phone" :placeholder="$t('phone')" disabled readonly />
             </div>
-            <div class="flex-1">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
               <label for="email" class="flex mb-1">
                 <span>{{ $t('email') }}</span>
               </label>
@@ -116,9 +124,7 @@
                 autocomplete="off"
               />
             </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-5">
+            <div class="flex-1">
               <label for="permanent_address" class="flex mb-1">
                 <span>{{ $t('permanent_address') }}</span>
               </label>
@@ -130,7 +136,9 @@
                 readonly
               />
             </div>
-            <div class="flex-1">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-5">
               <label for="temporary_address" class="flex mb-1">
                 <span>{{ $t('temporary_address') }}</span>
               </label>
@@ -142,6 +150,7 @@
                 readonly
               />
             </div>
+            <div class="flex-1"></div>
           </div>
         </div>
         <div class="flex flex-col w-[200px] h-[300px]">
@@ -231,7 +240,6 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
-const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1

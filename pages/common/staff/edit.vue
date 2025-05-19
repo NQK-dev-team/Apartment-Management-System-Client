@@ -34,6 +34,19 @@
             <div class="h-full flex-1 flex flex-col">
               <div class="flex items-center">
                 <a-form-item class="flex-1 me-2">
+                  <label for="employee_number" class="flex mb-1">
+                    <span>{{ $t('employee_number') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input
+                    id="employee_number"
+                    :value="staffInfo.data.no"
+                    :placeholder="$t('enter_employee_no')"
+                    disabled
+                    readonly
+                  />
+                </a-form-item>
+                <a-form-item class="flex-1" name="middleName">
                   <label for="lastName" class="flex mb-1">
                     <span>{{ $t('last_name') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -46,7 +59,9 @@
                     readonly
                   />
                 </a-form-item>
-                <a-form-item class="flex-1" name="middleName">
+              </div>
+              <div class="flex items-center">
+                <a-form-item class="flex-1 me-2">
                   <label for="middleName" class="flex mb-1">
                     <span>{{ $t('middle_name') }}</span>
                   </label>
@@ -58,9 +73,7 @@
                     readonly
                   />
                 </a-form-item>
-              </div>
-              <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1">
                   <label for="firstName" class="flex mb-1">
                     <span>{{ $t('name') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -69,20 +82,6 @@
                     id="firstName"
                     :value="staffInfo.data.firstName"
                     :placeholder="$t('enter_employee_first_name')"
-                    disabled
-                    readonly
-                  />
-                </a-form-item>
-                <a-form-item class="flex-1">
-                  <label for="dob" class="flex mb-1">
-                    <span>{{ $t('dob') }}</span>
-                    <span class="text-red-500 ms-1">*</span>
-                  </label>
-                  <a-date-picker
-                    id="dob"
-                    :value="staffInfo.data.dob"
-                    class="w-full"
-                    :placeholder="$t('select_employee_dob')"
                     disabled
                     readonly
                   />
@@ -109,6 +108,22 @@
                   </a-select>
                 </a-form-item>
                 <a-form-item class="flex-1">
+                  <label for="dob" class="flex mb-1">
+                    <span>{{ $t('dob') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-date-picker
+                    id="dob"
+                    :value="staffInfo.data.dob"
+                    class="w-full"
+                    :placeholder="$t('select_employee_dob')"
+                    disabled
+                    readonly
+                  />
+                </a-form-item>
+              </div>
+              <div class="flex items-center">
+                <a-form-item class="flex-1 me-2" name="oldSSN">
                   <label for="ssn" class="flex mb-1">
                     <span>{{ $t('ssn') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -121,9 +136,7 @@
                     readonly
                   />
                 </a-form-item>
-              </div>
-              <div class="flex items-center">
-                <a-form-item class="flex-1 me-2" name="oldSSN">
+                <a-form-item class="flex-1">
                   <label for="oldSSN" class="flex mb-1">
                     <span>{{ $t('old_ssn') }}</span>
                   </label>
@@ -135,7 +148,9 @@
                     readonly
                   />
                 </a-form-item>
-                <a-form-item class="flex-1">
+              </div>
+              <div class="flex items-center">
+                <a-form-item class="flex-1 me-2">
                   <label for="pob" class="flex mb-1">
                     <span>{{ $t('pob') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -148,9 +163,7 @@
                     readonly
                   />
                 </a-form-item>
-              </div>
-              <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1">
                   <label for="phone" class="flex mb-1">
                     <span>{{ $t('phone') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -164,7 +177,9 @@
                     readonly
                   />
                 </a-form-item>
-                <a-form-item class="flex-1">
+              </div>
+              <div class="flex items-center">
+                <a-form-item class="flex-1 me-2">
                   <label for="email" class="flex mb-1">
                     <span>{{ $t('email') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -178,38 +193,39 @@
                     readonly
                   />
                 </a-form-item>
-              </div>
-              <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
-                  <label for="permanent_address" class="flex mb-1">
-                    <span>{{ $t('permanent_address') }}</span>
-                    <span class="text-red-500 ms-1">*</span>
-                  </label>
-                  <a-input
-                    id="permanent_address"
-                    :value="staffInfo.data.permanentAddress"
-                    :placeholder="$t('enter_employee_address')"
-                    autocomplete="off"
-                    disabled
-                    readonly
-                  />
-                </a-form-item>
                 <div class="flex-1">
-                  <a-form-item class="flex-1 me-2">
-                    <label for="temporary_address" class="flex mb-1">
-                      <span>{{ $t('temporary_address') }}</span>
+                  <a-form-item class="flex-1">
+                    <label for="permanent_address" class="flex mb-1">
+                      <span>{{ $t('permanent_address') }}</span>
                       <span class="text-red-500 ms-1">*</span>
                     </label>
                     <a-input
-                      id="temporary_address"
-                      :value="staffInfo.data.temporaryAddress"
-                      :placeholder="$t('enter_employee_address')"
+                      id="permanent_address"
+                      :value="staffInfo.data.permanentAddress"
+                      :placeholder="$t('enter_employee_permanent_address')"
                       autocomplete="off"
                       disabled
                       readonly
                     />
                   </a-form-item>
                 </div>
+              </div>
+              <div class="flex items-center">
+                <a-form-item class="flex-1 me-2">
+                  <label for="temporary_address" class="flex mb-1">
+                    <span>{{ $t('temporary_address') }}</span>
+                    <span class="text-red-500 ms-1">*</span>
+                  </label>
+                  <a-input
+                    id="temporary_address"
+                    :value="staffInfo.data.temporaryAddress"
+                    :placeholder="$t('enter_employee_temporary_address')"
+                    autocomplete="off"
+                    disabled
+                    readonly
+                  />
+                </a-form-item>
+                <div class="flex-1"></div>
               </div>
               <CommonStaffEditScheduleTable
                 :schedules="staffInfo.data.schedules"
@@ -299,6 +315,7 @@ const staffInfo = ref<EditStaff>({
     oldSSN: '',
     dob: '',
     pob: '',
+    no: '',
     email: '',
     phone: '',
     ssnFrontFilePath: undefined,
@@ -335,6 +352,7 @@ async function getStaffDetailInfo() {
     const buildingResponse = await api.common.building.getList();
 
     staffInfo.value.data.ID = response.data.ID;
+    staffInfo.value.data.no = response.data.no;
     staffInfo.value.data.firstName = response.data.firstName;
     staffInfo.value.data.middleName = response.data.middleName.Valid ? (response.data.middleName.String as string) : '';
     staffInfo.value.data.lastName = response.data.lastName;

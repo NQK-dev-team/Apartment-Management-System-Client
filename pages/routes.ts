@@ -61,7 +61,7 @@ const commonRoutes: Route[] = [
   {
     name: 'Building Room Detail',
     path: pageRoutes.common.building.roomDetail(':buildingID', ':roomID'),
-    file: roomBaseRoute + 'detail_staff.vue',
+    file: roomBaseRoute + 'detail.staff.vue',
   },
   // Room
   // Profile
@@ -136,7 +136,7 @@ const commonRoutes: Route[] = [
   },
   {
     name: 'Add New Contract',
-  path: pageRoutes.common.contract.add,
+    path: pageRoutes.common.contract.add,
     file: contractBaseRoute + 'add.vue',
   },
   {

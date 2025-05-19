@@ -3,7 +3,7 @@ import type { APITokenResponse } from '~/types/api_response';
 import { pageRoutes } from '~/consts/page_routes';
 import { apiRoutes } from '~/consts/api_routes';
 import { roles } from '~/consts/roles';
-import { getRoleFromJWT } from '~/utils/jwt';
+import { getRoleFromJWT, getUserIDFromJWT } from '~/utils/jwt';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
@@ -80,6 +80,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     secure: config.public.isHttps,
     sameSite: 'lax',
   });
+  const userID = useCookie('userID', {
+    httpOnly: false,
+    secure: config.public.isHttps,
+    sameSite: 'lax',
+  });
   const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
@@ -90,6 +95,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           userRole.value = getRoleFromJWT(newToken);
           userName.value = getUserNameFromJWT(newToken);
           userImage.value = getUserImageFromJWT(newToken);
+          userID.value = getUserIDFromJWT(newToken);
           isJWTValid = true;
         } else if (!nonAuthRoutes.includes(to.path)) {
           return navigateTo(pageRoutes.authentication.login);
@@ -101,6 +107,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       userRole.value = getRoleFromJWT(jwt.value);
       userName.value = getUserNameFromJWT(jwt.value);
       userImage.value = getUserImageFromJWT(jwt.value);
+      userID.value = getUserIDFromJWT(jwt.value);
       isJWTValid = true;
     }
   } else {
@@ -111,6 +118,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         userRole.value = getRoleFromJWT(newToken);
         userName.value = getUserNameFromJWT(newToken);
         userImage.value = getUserImageFromJWT(newToken);
+        userID.value = getUserIDFromJWT(newToken);
         isJWTValid = true;
       } else if (!nonAuthRoutes.includes(to.path)) {
         return navigateTo(pageRoutes.authentication.login);

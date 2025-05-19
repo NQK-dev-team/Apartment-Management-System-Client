@@ -291,6 +291,19 @@ const common = {
         method: 'GET',
       });
     },
+    deleteRoomContracts: async (
+      buildingId: number,
+      roomId: number,
+      contractIDs: number[]
+    ): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.deleteRoomContracts(buildingId, roomId), {
+        method: 'POST',
+        body: {
+          IDs: contractIDs,
+        },
+      });
+    },
   },
   room: {},
   profile: {},

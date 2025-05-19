@@ -1,7 +1,7 @@
 import type { RuntimeConfig } from 'nuxt/schema';
 import { defineEventHandler, proxyRequest } from 'h3';
 import { apiRoutes } from '~/consts/api_routes';
-import { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT } from '~/utils/jwt';
+import { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT, getUserIDFromJWT } from '~/utils/jwt';
 
 export default defineEventHandler(async (event) => {
   if (event._path?.includes('api')) {
@@ -59,6 +59,10 @@ export default defineEventHandler(async (event) => {
             secure: config.public.isHttps,
             sameSite: 'lax',
           });
+          setCookie(event, 'userID', getUserIDFromJWT(body.jwtToken), {
+            secure: config.public.isHttps,
+            sameSite: 'lax',
+          });
           // }
         }
         if (body.refreshToken) {
@@ -97,6 +101,11 @@ export default defineEventHandler(async (event) => {
             maxAge: 0,
           });
           setCookie(event, 'userImage', '', {
+            secure: config.public.isHttps,
+            sameSite: 'lax',
+            maxAge: 0,
+          });
+          setCookie(event, 'userID', '', {
             secure: config.public.isHttps,
             sameSite: 'lax',
             maxAge: 0,

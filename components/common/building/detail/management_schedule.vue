@@ -1,6 +1,7 @@
 <template>
   <div class="flex-col w-full" style="display: flex">
     <a-input-search
+      id="search_manager_schedule"
       v-model:value="searchValue"
       class="w-[500px] mx-auto my-3"
       :placeholder="$t('enter_search')"

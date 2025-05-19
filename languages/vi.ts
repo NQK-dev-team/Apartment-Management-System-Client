@@ -31,7 +31,6 @@ export default {
   add_staff_success: 'Thêm nhân viên thành công!',
   add_customer_success: 'Khách hàng mới đã được thêm thành công!',
   add_customer_fail: 'Thêm khách hàng không thành công!',
-  active: 'Có hiệu lực',
   active_date: 'Ngày có hiệu lực',
   add_contract: 'Thêm hợp đồng',
 

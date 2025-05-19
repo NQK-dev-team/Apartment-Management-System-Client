@@ -20,4 +20,10 @@ function getUserImageFromJWT(token: string): string {
   return json.imagePath;
 }
 
-export { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT };
+function getUserIDFromJWT(token: string): string {
+  const jwtPayload = token.split('.')[1];
+  const json = JSON.parse(Buffer.from(jwtPayload, 'base64url').toString('utf8'));
+  return json.userID;
+}
+
+export { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT, getUserIDFromJWT };

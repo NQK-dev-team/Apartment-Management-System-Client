@@ -64,49 +64,51 @@
           </div>
           <div class="flex items-start mt-5">
             <div class="flex-1 me-2">
-              <label for="room_status" class="flex mb-1">
-                <span>{{ $t('status') }}</span>
-              </label>
-              <a-input
-                v-if="roomData.status === 1"
-                id="room_status"
-                :value="$t('rented')"
-                disabled
-                readonly
-                :placeholder="$t('status')"
-              />
-              <a-input
-                v-if="roomData.status === 2"
-                id="room_status"
-                :value="$t('sold')"
-                disabled
-                readonly
-                :placeholder="$t('status')"
-              />
-              <a-input
-                v-if="roomData.status === 3"
-                id="room_status"
-                :value="$t('available')"
-                disabled
-                readonly
-                :placeholder="$t('status')"
-              />
-              <a-input
-                v-if="roomData.status === 4"
-                id="room_status"
-                :value="$t('maintenance')"
-                disabled
-                readonly
-                :placeholder="$t('status')"
-              />
-              <a-input
-                v-if="roomData.status === 5"
-                id="room_status"
-                :value="$t('unavailable')"
-                disabled
-                readonly
-                :placeholder="$t('status')"
-              />
+              <ClientOnly>
+                <label for="room_status" class="flex mb-1">
+                  <span>{{ $t('status') }}</span>
+                </label>
+                <a-input
+                  v-if="roomData.status === 1"
+                  id="room_status"
+                  :value="$t('rented')"
+                  disabled
+                  readonly
+                  :placeholder="$t('status')"
+                />
+                <a-input
+                  v-else-if="roomData.status === 2"
+                  id="room_status"
+                  :value="$t('sold')"
+                  disabled
+                  readonly
+                  :placeholder="$t('status')"
+                />
+                <a-input
+                  v-else-if="roomData.status === 3"
+                  id="room_status"
+                  :value="$t('available')"
+                  disabled
+                  readonly
+                  :placeholder="$t('status')"
+                />
+                <a-input
+                  v-else-if="roomData.status === 4"
+                  id="room_status"
+                  :value="$t('maintenance')"
+                  disabled
+                  readonly
+                  :placeholder="$t('status')"
+                />
+                <a-input
+                  v-else-if="roomData.status === 5"
+                  id="room_status"
+                  :value="$t('unavailable')"
+                  disabled
+                  readonly
+                  :placeholder="$t('status')"
+                />
+              </ClientOnly>
             </div>
             <div class="flex-1 ms-2">
               <label for="room_description" class="flex mb-1">
@@ -167,13 +169,35 @@
           </p>
         </div>
         <div class="flex items-center justify-center mt-3">
-          <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('contract_list') }}</h2>
+          <div v-show="option === 1" class="justify-between items-center w-full" style="display: flex">
+            <div></div>
+            <h2 class="text-xl font-bold">{{ $t('contract_list') }}</h2>
+            <div class="flex items-center justify-end">
+              <a-button
+                type="primary"
+                danger
+                class="flex items-center justify-center w-10 h-10 rounded-sm me-2"
+                :disabled="!deleteBucket.value.length"
+                @click="deleteContracts"
+                ><DeleteOutlined
+              /></a-button>
+              <a-button type="primary" class="flex items-center justify-center w-10 h-10 rounded-sm"
+                ><NuxtLink :to="pageRoutes.common.contract.add" target="_blank"><PlusOutlined /></NuxtLink
+              ></a-button>
+            </div>
+          </div>
           <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('support_ticket_list') }}</h2>
         </div>
-        <ClientOnly> </ClientOnly>
+        <ClientOnly>
+          <CommonBuildingRoomDetailContractList
+            v-show="option === 1"
+            :contracts="roomData.contracts"
+            :delete-bucket="deleteBucket"
+          />
+        </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm">
-            <NuxtLink to="#">{{ $t('back') }}</NuxtLink>
+            <NuxtLink :to="pageRoutes.common.building.detail(buildingID)">{{ $t('back') }}</NuxtLink>
           </a-button>
         </div>
       </div>
@@ -245,6 +269,8 @@ const lightMode = computed(
 const option = ref<number>(1);
 const previewVisible = ref(false);
 const previewImage = ref('');
+const deleteBucket = ref<{ value: number[] }>({ value: [] });
+const { t } = useI18n();
 
 // ---------------------- Functions ----------------------
 async function getRoomData(emitLoading = true) {
@@ -257,6 +283,8 @@ async function getRoomData(emitLoading = true) {
 
     roomData.value = data;
   } catch (err: any) {
+    roomData.value.ID = 0;
+
     if (
       err.status >= 500 ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
@@ -272,6 +300,26 @@ async function getRoomData(emitLoading = true) {
     if (emitLoading) {
       $event.emit('loading');
     }
+  }
+}
+
+async function deleteContracts() {
+  try {
+    $event.emit('loading');
+    await api.common.building.deleteRoomContracts(buildingID, roomID, deleteBucket.value.value);
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
   }
 }
 // ---------------------- Lifecycle Hooks ----------------------

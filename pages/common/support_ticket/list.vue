@@ -84,7 +84,7 @@
           <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
         </template>
       </a-table>
-      <a-modal v-model:open="detailModalVisible" class="w-[800px]">
+      <a-modal v-model:open="detailModalVisible" class="w-[700px]">
         <template #title>{{ $t('support_ticket_detail') }}</template>
         <template #footer>
           <a-button @click="detailModalVisible = false">{{ $t('close') }}</a-button>
@@ -116,12 +116,22 @@
               <a-input id="customer" :value="getUserName(ticketDetail.customer)" disabled readonly />
             </div>
             <div class="ms-2 flex-1 flex flex-col">
-              <label for="creation_date" class="mb-1">{{ $t('creation_date') }}</label>
-              <a-input id="creation_date" :value="convertToDateTime(ticketDetail.createdAt)" disabled readonly />
+              <label for="customer_no" class="mb-1">{{ $t('customer_no') }}</label>
+              <a-input id="customer_no" :value="ticketDetail.customer.no" disabled readonly>
+                <template #suffix>
+                  <NuxtLink :to="pageRoutes.common.customer.detail(ticketDetail.customer.ID)" target="_blank"
+                    ><LinkOutlined
+                  /></NuxtLink>
+                </template>
+              </a-input>
             </div>
           </div>
           <div class="flex w-full mt-5">
             <div class="flex-1 flex flex-col">
+              <label for="creation_date" class="mb-1">{{ $t('creation_date') }}</label>
+              <a-input id="creation_date" :value="convertToDateTime(ticketDetail.createdAt)" disabled readonly />
+            </div>
+            <div class="ms-2 flex-1 flex flex-col">
               <label for="status" class="mb-1">{{ $t('status') }}</label>
               <a-input
                 id="status"
@@ -136,7 +146,9 @@
                 readonly
               />
             </div>
-            <div class="ms-2 flex-1 flex flex-col">
+          </div>
+          <div class="flex w-full mt-5">
+            <div class="flex-1 flex flex-col">
               <label for="manager" class="mb-1">{{ $t('manager_approving') }}</label>
               <a-input
                 id="manager"
@@ -144,6 +156,24 @@
                 disabled
                 readonly
               />
+            </div>
+            <div class="ms-2 flex-1 flex flex-col">
+              <label for="employee_number" class="mb-1">{{ $t('employee_number') }}</label>
+              <a-input
+                id="employee_number"
+                :value="ticketDetail.managerID ? ticketDetail.manager.no : ''"
+                disabled
+                readonly
+              >
+                <template #suffix>
+                  <NuxtLink
+                    v-if="ticketDetail.managerID && userRole?.toString() === roles.owner"
+                    :to="pageRoutes.common.staff.detail(ticketDetail.manager.ID)"
+                    target="_blank"
+                    ><LinkOutlined
+                  /></NuxtLink>
+                </template>
+              </a-input>
             </div>
           </div>
           <div class="flex w-full mt-5">
@@ -239,6 +269,7 @@ import { api } from '~/services/api';
 import type { SupportTicket } from '~/types/support_ticket';
 import dayjs, { type Dayjs } from 'dayjs';
 import { roles } from '~/consts/roles';
+import { pageRoutes } from '~/consts/page_routes';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

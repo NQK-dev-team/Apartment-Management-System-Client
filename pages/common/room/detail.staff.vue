@@ -194,6 +194,12 @@
             :contracts="roomData.contracts"
             :delete-bucket="deleteBucket"
           />
+          <div v-show="option === 2">
+            <div class="flex items-center justify-end me-2">
+              <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
+            </div>
+            <CommonBuildingRoomDetailSupportTicketList :tickets="tickets" :approve="approve" :deny="deny" />
+          </div>
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <a-button class="my-2 w-[100px] rounded-sm">
@@ -221,6 +227,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
 import type { Room } from '~/types/building';
 import type { SupportTicket } from '~/types/support_ticket';
+import type { Dayjs } from 'dayjs';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -243,7 +250,7 @@ useHead({
 const route = useRoute();
 const buildingID = Number(route.params.buildingID as string);
 const roomID = Number(route.params.roomID as string);
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const roomData = ref<Room>({
   ID: 0,
   no: 0,
@@ -261,7 +268,7 @@ const roomData = ref<Room>({
   buildingName: '',
   buildingAddress: '',
 });
-const supportTickets = ref<SupportTicket[]>([]);
+const tickets = ref<SupportTicket[]>([]);
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
@@ -271,6 +278,8 @@ const previewVisible = ref(false);
 const previewImage = ref('');
 const deleteBucket = ref<{ value: number[] }>({ value: [] });
 const { t } = useI18n();
+const now = $dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
 
 // ---------------------- Functions ----------------------
 async function getRoomData(emitLoading = true) {
@@ -322,9 +331,83 @@ async function deleteContracts() {
     $event.emit('loading');
   }
 }
+
+async function getSupporTickets() {
+  try {
+    $event.emit('loading');
+    const ticketResponse = await api.common.support_ticket.getList(
+      1000,
+      0,
+      convertToDate(timeRange.value[0].toDate().toISOString()),
+      convertToDate(timeRange.value[1].toDate().toISOString())
+    );
+    tickets.value = ticketResponse.data;
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+async function approve(id: number) {
+  try {
+    await api.common.support_ticket.approve(id);
+    notification.info({
+      message: t('support_ticket_updated_title'),
+      description: t('support_ticket_status_updated_content'),
+    });
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+async function deny(id: number) {
+  try {
+    await api.common.support_ticket.deny(id);
+    notification.info({
+      message: t('support_ticket_updated_title'),
+      description: t('support_ticket_status_updated_content'),
+    });
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+function disabledDate(current: Dayjs) {
+  // Can not select days after today
+  return current && current >= $dayjs().endOf('day');
+}
 // ---------------------- Lifecycle Hooks ----------------------
 onMounted(async () => {
   await getRoomData();
+  await getSupporTickets();
 
   if (
     roomData.value.ID === 0 ||

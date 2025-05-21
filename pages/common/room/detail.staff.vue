@@ -178,7 +178,11 @@
                 danger
                 class="flex items-center justify-center w-10 h-10 rounded-sm me-2"
                 :disabled="!deleteBucket.value.length"
-                @click="deleteContracts"
+                @click="
+                  () => {
+                    $event.emit('deleteItem', { callback: deleteContracts });
+                  }
+                "
                 ><DeleteOutlined
               /></a-button>
               <a-button type="primary" class="flex items-center justify-center w-10 h-10 rounded-sm"
@@ -312,6 +316,29 @@ async function getRoomData(emitLoading = true) {
   }
 }
 
+async function getContracts() {
+  try {
+    $event.emit('loading');
+    const response = await api.common.building.getRoomContracts(buildingID, roomID);
+    roomData.value.contracts = response.data;
+  } catch (err: any) {
+    roomData.value.ID = 0;
+
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
 async function deleteContracts() {
   try {
     $event.emit('loading');
@@ -326,9 +353,15 @@ async function deleteContracts() {
         message: t('system_error_title'),
         description: t('system_error_description'),
       });
+    } else if (err.response._data.message === getMessageCode('PERMISSION_DENIED')) {
+      notification.warn({
+        message: t('delete_fail'),
+        description: t('can_not_delete_a_contract_in_the_list'),
+      });
     }
   } finally {
     $event.emit('loading');
+    getContracts();
   }
 }
 

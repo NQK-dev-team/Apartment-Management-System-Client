@@ -236,8 +236,8 @@ const props = defineProps({
 const { t } = useI18n();
 const searchInput = ref();
 const columns = computed<any[]>(() => {
-  const buildings = [...new Set(props.tickets.map((ticket) => ticket.buildingName))];
-  const floors = [...new Set(props.tickets.map((ticket) => ticket.roomFloor))];
+  const buildings = [...new Set(props.tickets.map((ticket) => ticket.buildingName ?? ''))];
+  const floors = [...new Set(props.tickets.map((ticket) => ticket.roomFloor ?? 0))];
   buildings.sort((a, b) => removeDiacritics(a).toLowerCase().localeCompare(removeDiacritics(b).toLowerCase()));
   floors.sort((a, b) => a - b);
 

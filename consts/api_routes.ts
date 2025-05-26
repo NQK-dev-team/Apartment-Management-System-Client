@@ -14,9 +14,12 @@ const apiRoutes = {
     list: (getAll: boolean = false) => `/building?getAll=${getAll}`,
     detail: (buildingId: number) => `/building/${buildingId}`,
     room: (buildingId: number) => `/building/${buildingId}/room`,
-    getRoom: (buildingId: number, roomId: number) => `/building/${ buildingId }/room/${ roomId }`,
-    getRoomContracts: (buildingId: number, roomId: number) => `/building/${ buildingId }/room/${ roomId }/contracts`,
-    deleteRoomContracts: (buildingId: number, roomId: number) => `/building/${ buildingId }/room/${ roomId }/delete-contracts`,
+    getRoom: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}`,
+    getRoomContracts: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}/contracts`,
+    getRoomTickets: (buildingId: number, roomId: number, startDate: string = '', endDate: string = '') =>
+      `/building/${buildingId}/room/${roomId}/tickets?startDate=${startDate}&endDate=${endDate}`,
+    deleteRoomContracts: (buildingId: number, roomId: number) =>
+      `/building/${buildingId}/room/${roomId}/delete-contracts`,
     add: '/building/add',
     delete: (buildingID: number) => `/building/${buildingID}`,
     getSchedule: (buildingID: number) => `/building/${buildingID}/schedule`,

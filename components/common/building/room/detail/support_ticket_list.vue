@@ -254,6 +254,7 @@
 import { roles } from '~/consts/roles';
 import type { SupportTicket } from '~/types/support_ticket';
 import { pageRoutes } from '~/consts/page_routes';
+import type { Room } from '~/types/building';
 
 // ---------------------- Variables ----------------------
 const userRole = useCookie('userRole');
@@ -264,11 +265,15 @@ const props = defineProps({
     required: true,
   },
   approve: {
-    type: Function as PropType<() => void>,
+    type: Function as PropType<(id: number) => Promise<void>>,
     required: true,
   },
   deny: {
-    type: Function as PropType<() => void>,
+    type: Function as PropType<(id: number) => Promise<void>>,
+    required: true,
+  },
+  roomData: {
+    type: Object as PropType<Room>,
     required: true,
   },
 });
@@ -383,5 +388,13 @@ function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
 function handleReset(clearFilters: any) {
   clearFilters({ confirm: true });
   state.searchText = '';
+}
+
+function openDetailModal(id: number) {
+  ticketDetail.value = props.tickets.find((ticket) => ticket.ID === id) || null;
+  ticketDetail.value!.roomNo = props.roomData.no;
+  ticketDetail.value!.roomFloor = props.roomData.floor;
+  ticketDetail.value!.buildingName = props.roomData.buildingName;
+  detailModalVisible.value = true;
 }
 </script>

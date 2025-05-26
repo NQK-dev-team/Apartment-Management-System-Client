@@ -68,7 +68,7 @@
                 <label for="room_status" class="flex mb-1">
                   <span>{{ $t('status') }}</span>
                 </label>
-                <a-input
+                <!-- <a-input
                   v-if="roomData.status === 1"
                   id="room_status"
                   :value="$t('rented')"
@@ -104,6 +104,23 @@
                   v-else-if="roomData.status === 5"
                   id="room_status"
                   :value="$t('unavailable')"
+                  disabled
+                  readonly
+                  :placeholder="$t('status')"
+                /> -->
+                <a-input
+                  id="room_status"
+                  :value="
+                    $t(
+                      {
+                        1: 'rented',
+                        2: 'sold',
+                        3: 'available',
+                        4: 'maintenance',
+                        5: 'unavailable',
+                      }[roomData.status] || 'status.unknown' /* Default/fallback translation key if status is not 1-5 */
+                    )
+                  "
                   disabled
                   readonly
                   :placeholder="$t('status')"
@@ -202,7 +219,7 @@
             <div class="flex items-center justify-end me-2">
               <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
             </div>
-            <CommonBuildingRoomDetailSupportTicketList :tickets="tickets" :approve="approve" :deny="deny" />
+            <CommonBuildingRoomDetailSupportTicketList :tickets="tickets" :approve="approve" :deny="deny" :room-data="roomData"/>
           </div>
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
@@ -368,9 +385,9 @@ async function deleteContracts() {
 async function getSupporTickets() {
   try {
     $event.emit('loading');
-    const ticketResponse = await api.common.support_ticket.getList(
-      1000,
-      0,
+    const ticketResponse = await api.common.building.getRoomTickets(
+      buildingID,
+      roomID,
       convertToDate(timeRange.value[0].toDate().toISOString()),
       convertToDate(timeRange.value[1].toDate().toISOString())
     );
@@ -398,6 +415,7 @@ async function approve(id: number) {
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
+    getSupporTickets();
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -419,6 +437,7 @@ async function deny(id: number) {
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
+    getSupporTickets();
   } catch (err: any) {
     if (
       err.status >= 500 ||
@@ -437,6 +456,7 @@ function disabledDate(current: Dayjs) {
   // Can not select days after today
   return current && current >= $dayjs().endOf('day');
 }
+
 // ---------------------- Lifecycle Hooks ----------------------
 onMounted(async () => {
   await getRoomData();
@@ -454,6 +474,11 @@ onMounted(async () => {
       fatal: true,
     });
   }
+});
+
+// ---------------------- Watchers ----------------------
+watch(timeRange, () => {
+  getSupporTickets();
 });
 </script>
 

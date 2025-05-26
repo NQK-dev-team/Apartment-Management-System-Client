@@ -297,6 +297,17 @@ const common = {
         method: 'GET',
       });
     },
+    getRoomTickets: async (
+      buildingId: number,
+      roomId: number,
+      startDate: string = '',
+      endDate: string = ''
+    ): Promise<APIResponse<SupportTicket[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.getRoomTickets(buildingId, roomId, startDate, endDate), {
+        method: 'GET',
+      });
+    },
     deleteRoomContracts: async (
       buildingId: number,
       roomId: number,

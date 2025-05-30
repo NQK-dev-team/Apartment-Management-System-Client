@@ -20,9 +20,9 @@
           </label>
           <a-input id="title" :value="$t('title')" :placeholder="$t('title')" class="mt-2" />
         </div>
-        <div class="flex items-center justify-center mt-3">
-          <imageUpload :label="$t('image')" />
-        </div>
+        <!-- <div class="flex items-center justify-center mt-3">
+          <imageUpload :label="$t('image')"/>
+        </div> -->
 
         <!-- <div class="flex-1 me-5">
           <label for="content" class="flex mb-1 text-xl font-bold">
@@ -129,7 +129,7 @@
 import { pageRoutes } from '~/consts/page_routes';
 import CustomerTable from '@/components/common/notice/CustomerTable.vue';
 import EmployeeTable from '@/components/common/notice/EmployeeTable.vue';
-import imageUpload from '@/components/common/customComponent/imageUpload.vue';
+// import imageUpload from '@/components/common/customComponent/imageUpload.vue';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { ref, onMounted } from 'vue';

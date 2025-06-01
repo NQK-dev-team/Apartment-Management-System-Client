@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex flex-col px-5">
+  <a-form :model="updateRoomData" class="w-full h-full flex flex-col px-5" @finish="updateRoom">
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
@@ -15,7 +15,12 @@
       <div class="flex items-center justify-between">
         <h1 class="mt-3 text-2xl">{{ $t('room', { name: roomData.no }) }}</h1>
         <div>
-          <a-button type="primary" class="rounded-sm">{{ $t('edit') }}</a-button>
+          <a-button v-show="!editMode" type="primary" class="rounded-sm" html-type="button" @click="editMode = true">{{
+            $t('edit')
+          }}</a-button>
+          <a-button v-show="editMode" type="primary" class="rounded-sm" html-type="submit">{{
+            $t('save_changes')
+          }}</a-button>
         </div>
       </div>
     </div>
@@ -65,10 +70,24 @@
           <div class="flex items-start mt-5">
             <div class="flex-1 me-2">
               <ClientOnly>
-                <label for="room_status" class="flex mb-1">
-                  <span>{{ $t('status') }}</span>
-                </label>
-                <!-- <a-input
+                <a-form-item
+                  :rules="[{ required: true, message: $t('empty_room_status'), trigger: 'blur' }]"
+                  name="status"
+                >
+                  <div class="flex items-center justify-between">
+                    <label for="room_status" class="flex mb-1">
+                      <span>{{ $t('status') }}</span>
+                      <img v-show="editMode" :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                    </label>
+                    <a-button
+                      class="flex mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+                      size="small"
+                      @click="updateRoomData.status = roomData.status"
+                    >
+                      <UndoOutlined />
+                    </a-button>
+                  </div>
+                  <!-- <a-input
                   v-if="roomData.status === 1"
                   id="room_status"
                   :value="$t('rented')"
@@ -108,30 +127,56 @@
                   readonly
                   :placeholder="$t('status')"
                 /> -->
-                <a-input
-                  id="room_status"
-                  :value="
-                    $t(
-                      {
-                        1: 'rented',
-                        2: 'sold',
-                        3: 'available',
-                        4: 'maintenance',
-                        5: 'unavailable',
-                      }[roomData.status] || 'status.unknown' /* Default/fallback translation key if status is not 1-5 */
-                    )
-                  "
-                  disabled
-                  readonly
-                  :placeholder="$t('status')"
-                />
+                  <a-input
+                    v-if="!editMode"
+                    id="room_status"
+                    :value="
+                      $t(
+                        {
+                          1: 'rented',
+                          2: 'sold',
+                          3: 'available',
+                          4: 'maintenance',
+                          5: 'unavailable',
+                        }[roomData.status] || 'N/A'
+                      )
+                    "
+                    disabled
+                    readonly
+                    :placeholder="$t('status')"
+                  />
+                  <a-select
+                    v-else
+                    id="room_status"
+                    v-model:value="updateRoomData.status"
+                    placeholder="{{ $t('select_status') }}"
+                    class="w-full text-left"
+                  >
+                    <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
+                    <a-select-option :value="1" :class="`text-[#50c433]`">{{ $t('rented') }}</a-select-option>
+                    <a-select-option :value="2" :class="`text-[#43b7f1]`">{{ $t('sold') }}</a-select-option>
+                    <a-select-option :value="3" :class="`text-[#888888]`">{{ $t('available') }}</a-select-option>
+                    <a-select-option :value="4" :class="`text-[#d8d535]`">{{ $t('maintenance') }}</a-select-option>
+                    <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
+                  </a-select>
+                </a-form-item>
               </ClientOnly>
             </div>
             <div class="flex-1 ms-2">
-              <label for="room_description" class="flex mb-1">
-                <span>{{ $t('description') }}</span>
-              </label>
+              <div class="flex items-center justify-between">
+                <label for="room_description" class="flex mb-1">
+                  <span>{{ $t('description') }}</span>
+                </label>
+                <a-button
+                  class="flex mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+                  size="small"
+                  @click="updateRoomData.description = roomData.description"
+                >
+                  <UndoOutlined />
+                </a-button>
+              </div>
               <a-textarea
+                v-if="!editMode"
                 id="room_description"
                 :value="roomData.description"
                 disabled
@@ -139,10 +184,17 @@
                 :placeholder="$t('description')"
                 :rows="3"
               />
+              <a-textarea
+                v-else
+                id="room_description"
+                v-model:value="updateRoomData.description"
+                :placeholder="$t('description')"
+                :rows="3"
+              />
             </div>
           </div>
         </div>
-        <div class="w-[250px] h-full me-12 select-none">
+        <div v-if="!editMode" class="w-[250px] h-full me-12 select-none">
           <a-carousel :autoplay="true" arrows>
             <div v-for="(image, index) in roomData.images" :key="index">
               <img
@@ -157,6 +209,64 @@
               />
             </div>
           </a-carousel>
+        </div>
+        <div v-else class="w-[250px] h-full">
+          <div class="flex items-center justify-between">
+            <div class="flex">
+              <h2 class="text-xl">{{ $t('building_image') }}</h2>
+              <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            </div>
+            <a-button
+              class="flex items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+              size="small"
+              @click="() => {}"
+            >
+              <UndoOutlined />
+            </a-button>
+          </div>
+          <img
+            v-if="!displayImages || !displayImages.length"
+            :src="svgPaths.placeholderImage"
+            :alt="$t('avatar')"
+            class="w-full mt-1"
+          />
+          <div class="flex flex-col">
+            <div v-for="(image, index) in displayImages" :key="index" class="mt-3">
+              <img :src="image" :alt="$t('building_image') + ` ${index}`" class="w-full" />
+            </div>
+          </div>
+          <div class="mt-3 text-center">
+            <!-- <a-upload
+              v-if="!props.readOnly && userRole?.toString() === roles.owner"
+              v-model:file-list="imageList"
+              accept=".png,.jpg,.jpeg"
+              multiple
+              list-type="text"
+              @remove="
+                (file) => {
+                  if (isNaN(Number(file.uid))) {
+                    buildingInfo.data.images = buildingInfo.data.images.filter((image: any) => image.uid !== file.uid);
+                  } else {
+                    const foundImage = buildingInfo.data.images.find(
+                      (image: any) => !image.isNew && image.ID === Number(file.uid)
+                    );
+                    if (foundImage) {
+                      foundImage.isDeleted = true;
+                    }
+                  }
+                }
+              "
+              @change="(e: any) => handleFileUpload(e)"
+            >
+              <a-button class="flex items-center">
+                <upload-outlined></upload-outlined>
+                {{ $t('upload_file') }}
+              </a-button>
+            </a-upload> -->
+            <div class="mt-5 text-sm" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
+              {{ $t('recommended_resolution') }}
+            </div>
+          </div>
         </div>
       </div>
       <hr class="mt-2" />
@@ -219,7 +329,12 @@
             <div class="flex items-center justify-end me-2">
               <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
             </div>
-            <CommonBuildingRoomDetailSupportTicketList :tickets="tickets" :approve="approve" :deny="deny" :room-data="roomData"/>
+            <CommonBuildingRoomDetailSupportTicketList
+              :tickets="tickets"
+              :approve="approve"
+              :deny="deny"
+              :room-data="roomData"
+            />
           </div>
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
@@ -239,16 +354,18 @@
     >
       <img alt="View image" style="width: 100%" :src="previewImage" />
     </a-modal>
-  </div>
+  </a-form>
 </template>
 
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
-import type { Room } from '~/types/building';
+import type { Room, RoomImage } from '~/types/building';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { Dayjs } from 'dayjs';
+import type { UploadFile } from 'ant-design-vue';
+import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -301,6 +418,31 @@ const deleteBucket = ref<{ value: number[] }>({ value: [] });
 const { t } = useI18n();
 const now = $dayjs();
 const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
+const editMode = ref<boolean>(false);
+const updateRoomData = ref({
+  description: '',
+  status: 0,
+  images: [] as ((RoomImage | UploadFile) & {
+    isDeleted: boolean;
+    isNew: boolean;
+  })[],
+});
+const displayImages = asyncComputed(async () => {
+  const result: string[] = [];
+
+  // for (const image of props.buildingInfo.data.images) {
+  //   if (image.isDeleted) {
+  //     continue;
+  //   } else if (image.isNew) {
+  //     const file = await getBase64((image as any).originFileObj);
+  //     result.push(file as string);
+  //   } else {
+  //     result.push((image as any).path);
+  //   }
+  // }
+
+  return result;
+});
 
 // ---------------------- Functions ----------------------
 async function getRoomData(emitLoading = true) {
@@ -312,6 +454,13 @@ async function getRoomData(emitLoading = true) {
     const data = response.data;
 
     roomData.value = data;
+    updateRoomData.value.description = data.description;
+    updateRoomData.value.status = data.status;
+    updateRoomData.value.images = data.images.map((image: RoomImage) => ({
+      ...image,
+      isDeleted: false,
+      isNew: false,
+    }));
   } catch (err: any) {
     roomData.value.ID = 0;
 
@@ -455,6 +604,10 @@ async function deny(id: number) {
 function disabledDate(current: Dayjs) {
   // Can not select days after today
   return current && current >= $dayjs().endOf('day');
+}
+
+function updateRoom() {
+  console.log('called');
 }
 
 // ---------------------- Lifecycle Hooks ----------------------

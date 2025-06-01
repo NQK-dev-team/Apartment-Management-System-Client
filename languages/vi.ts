@@ -91,7 +91,9 @@ export default {
   customer_no: 'Mã khách hàng',
   cancelled: 'Đã hủy',
   close: 'Đóng',
-  can_not_delete_a_contract_in_the_list: 'Danh sách chọn xóa đang có hợp đồng không cho phép xóa, vui lòng kiểm tra lại!',
+  can_not_delete_a_contract_in_the_list:
+    'Danh sách chọn xóa đang có hợp đồng không cho phép xóa, vui lòng kiểm tra lại!',
+  customer_must_be_18_years_old: 'Khách hàng phải từ 18 tuổi trở lên!',
 
   D: 'd',
   delete: 'Xóa',
@@ -369,7 +371,7 @@ export default {
   ssn_exists: 'Số CCCD đã tồn tại!',
   staff_new_information_updated: 'Thông tin nhân viên đã được cập nhật thành công!',
   staff_must_be_18_years_old: 'Nhân viên phải từ 18 tuổi trở lên!',
-  customer_must_be_18_years_old: 'Khách hàng phải từ 18 tuổi trở lên!',
+  save_changes: 'Lưu thay đổi',
 
   T: 't',
   total: 'Tổng',

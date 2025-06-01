@@ -25,10 +25,10 @@
             class="w-full text-left"
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" :class="`text-[#888888]`">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" :class="`text-[#888888]`">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" :class="`text-[#50c433]`">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" :class="`text-[#888888]`">{{ $t('maintenance') }}</a-select-option>
+            <a-select-option :value="1" :class="`text-[#50c433]`">{{ $t('rented') }}</a-select-option>
+            <a-select-option :value="2" :class="`text-[#43b7f1]`">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" :class="`text-[#888888]`">{{ $t('available') }}</a-select-option>
+            <a-select-option :value="4" :class="`text-[#d8d535]`">{{ $t('maintenance') }}</a-select-option>
             <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
           </a-select>
           <a-select
@@ -41,10 +41,10 @@
             readonly
           >
             <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" :class="`text-[#888888]`">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" :class="`text-[#888888]`">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" :class="`text-[#50c433]`">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" :class="`text-[#888888]`">{{ $t('maintenance') }}</a-select-option>
+            <a-select-option :value="1" :class="`text-[#50c433]`">{{ $t('rented') }}</a-select-option>
+            <a-select-option :value="2" :class="`text-[#43b7f1]`">{{ $t('sold') }}</a-select-option>
+            <a-select-option :value="3" :class="`text-[#888888]`">{{ $t('available') }}</a-select-option>
+            <a-select-option :value="4" :class="`text-[#d8d535]`">{{ $t('maintenance') }}</a-select-option>
             <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
           </a-select>
         </div>

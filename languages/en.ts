@@ -91,7 +91,9 @@ export default {
   customer_no: 'Customer number',
   cancelled: 'Cancelled',
   close: 'Close',
-  can_not_delete_a_contract_in_the_list:'The delete list contains a contract that can not be deleted. Please check again!',
+  can_not_delete_a_contract_in_the_list:
+    'The delete list contains a contract that can not be deleted. Please check again!',
+  customer_must_be_18_years_old: 'Customer must be at least 18 years old!',
 
   D: 'd',
   delete: 'Delete',
@@ -368,7 +370,7 @@ export default {
   ssn_exists: 'SSN already exists!',
   staff_new_information_updated: 'Staff information has been updated successfully!',
   staff_must_be_18_years_old: 'Staff must be at least 18 years old!',
-  customer_must_be_18_years_old: 'Customer must be at least 18 years old!',
+  save_changes: 'Save changes',
 
   T: 't',
   total: 'Total',

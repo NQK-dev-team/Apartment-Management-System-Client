@@ -172,10 +172,11 @@ const common = {
         },
       });
     },
-    updateRoom: async (buildingId: number, roomId: number): Promise<APIResponse<null>> => {
+    updateRoom: async (buildingId: number, roomId: number, data: FormData): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.building.updateRoom(buildingId, roomId), {
         method: 'POST',
+        body: data,
       });
     },
   },

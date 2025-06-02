@@ -187,6 +187,8 @@ export default {
   email_exists: 'Email đã tồn tại!',
   expire_date: 'Ngày hết hạn',
   edit_contract: 'Chỉnh sửa hợp đồng',
+  edit_mode_active: 'Đang bật chế độ chỉnh sửa',
+  edit_mode_inactive: 'Đã tắt chế độ chỉnh sửa',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -331,6 +333,7 @@ export default {
   reciever: 'Người nhận',
   resident_list: 'Danh sách cư dân',
   relationship_with_owner: 'Mối quan hệ với chủ căn hộ',
+  room_updated_success: 'Thông tin phòng đã được cập nhật thành công!',
 
   S: 's',
   staff: 'Nhân viên',

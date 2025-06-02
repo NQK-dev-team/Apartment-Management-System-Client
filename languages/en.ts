@@ -186,6 +186,8 @@ export default {
   email_exists: 'Email already exists!',
   expire_date: 'Expire date',
   edit_contract: 'Edit contract',
+  edit_mode_active: 'Edit mode has been activated',
+  edit_mode_inactive: 'Edit mode has been deactivated',
 
   F: 'f',
   finish_import: 'Import',
@@ -330,6 +332,7 @@ export default {
   reciever: 'Receiver',
   resident_list: 'Resident list',
   relationship_with_owner: 'Relationship with owner',
+  room_updated_success: 'Room information has been updated successfully!',
 
   S: 's',
   staff: 'Staff',

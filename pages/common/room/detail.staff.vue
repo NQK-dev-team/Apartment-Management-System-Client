@@ -15,9 +15,42 @@
       <div class="flex items-center justify-between">
         <h1 class="mt-3 text-2xl">{{ $t('room', { name: roomData.no }) }}</h1>
         <div>
-          <a-button v-show="!editMode" type="primary" class="rounded-sm" html-type="button" @click="editMode = true">{{
-            $t('edit')
-          }}</a-button>
+          <a-button
+            v-show="!editMode"
+            type="primary"
+            class="rounded-sm"
+            html-type="button"
+            @click="
+              () => {
+                notification.info({
+                  message: t('edit_mode_active'),
+                });
+                editMode = true;
+              }
+            "
+            >{{ $t('edit') }}</a-button
+          >
+          <a-button
+            v-show="editMode"
+            class="rounded-sm me-2"
+            html-type="button"
+            @click="
+              () => {
+                notification.info({
+                  message: t('edit_mode_inactive'),
+                });
+                editMode = false;
+                updateRoomData.description = roomData.description;
+                updateRoomData.status = roomData.status;
+                updateRoomData.images = roomData.images.map((image: any) => ({
+                  ...image,
+                  isDeleted: false,
+                  isNew: false,
+                }));
+              }
+            "
+            >{{ $t('cancel') }}</a-button
+          >
           <a-button v-show="editMode" type="primary" class="rounded-sm" html-type="submit">{{
             $t('save_changes')
           }}</a-button>
@@ -80,8 +113,10 @@
                       <img v-show="editMode" :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                     </label>
                     <a-button
-                      class="flex mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+                      v-show="editMode"
+                      class="mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
                       size="small"
+                      style="display: flex"
                       @click="updateRoomData.status = roomData.status"
                     >
                       <UndoOutlined />
@@ -168,8 +203,10 @@
                   <span>{{ $t('description') }}</span>
                 </label>
                 <a-button
-                  class="flex mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+                  v-show="editMode"
+                  class="mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
                   size="small"
+                  style="display: flex"
                   @click="updateRoomData.description = roomData.description"
                 >
                   <UndoOutlined />
@@ -219,7 +256,16 @@
             <a-button
               class="flex items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
               size="small"
-              @click="() => {}"
+              @click="
+                () => {
+                  updateRoomData.images = roomData.images.map((image: any) => ({
+                    ...image,
+                    isDeleted: false,
+                    isNew: false,
+                  }));
+                  updateRoomData.imageList = getImageList();
+                }
+              "
             >
               <UndoOutlined />
             </a-button>
@@ -235,19 +281,22 @@
               <img :src="image" :alt="$t('building_image') + ` ${index}`" class="w-full" />
             </div>
           </div>
-          <div class="mt-3 text-center">
-            <!-- <a-upload
-              v-if="!props.readOnly && userRole?.toString() === roles.owner"
-              v-model:file-list="imageList"
+          <a-form-item
+            class="mt-3 text-center"
+            :rules="[{ required: true, message: $t('image_require'), trigger: 'blur' }]"
+            name="imageList"
+          >
+            <a-upload
+              v-model:file-list="updateRoomData.imageList"
               accept=".png,.jpg,.jpeg"
               multiple
               list-type="text"
               @remove="
                 (file) => {
                   if (isNaN(Number(file.uid))) {
-                    buildingInfo.data.images = buildingInfo.data.images.filter((image: any) => image.uid !== file.uid);
+                    updateRoomData.images = updateRoomData.images.filter((image: any) => image.uid !== file.uid);
                   } else {
-                    const foundImage = buildingInfo.data.images.find(
+                    const foundImage = updateRoomData.images.find(
                       (image: any) => !image.isNew && image.ID === Number(file.uid)
                     );
                     if (foundImage) {
@@ -262,10 +311,10 @@
                 <upload-outlined></upload-outlined>
                 {{ $t('upload_file') }}
               </a-button>
-            </a-upload> -->
-            <div class="mt-5 text-sm" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
-              {{ $t('recommended_resolution') }}
-            </div>
+            </a-upload>
+          </a-form-item>
+          <div class="mt-5 text-sm" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
+            {{ $t('recommended_resolution') }}
           </div>
         </div>
       </div>
@@ -364,7 +413,7 @@ import { api } from '~/services/api';
 import type { Room, RoomImage } from '~/types/building';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { Dayjs } from 'dayjs';
-import type { UploadFile } from 'ant-design-vue';
+import type { UploadFile, UploadChangeParam } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Metadata ----------------------
@@ -426,25 +475,57 @@ const updateRoomData = ref({
     isDeleted: boolean;
     isNew: boolean;
   })[],
+  imageList: [] as any[],
 });
 const displayImages = asyncComputed(async () => {
   const result: string[] = [];
 
-  // for (const image of props.buildingInfo.data.images) {
-  //   if (image.isDeleted) {
-  //     continue;
-  //   } else if (image.isNew) {
-  //     const file = await getBase64((image as any).originFileObj);
-  //     result.push(file as string);
-  //   } else {
-  //     result.push((image as any).path);
-  //   }
-  // }
+  for (const image of updateRoomData.value.images) {
+    if (image.isDeleted) {
+      continue;
+    } else if (image.isNew) {
+      const file = await getBase64((image as any).originFileObj);
+      result.push(file as string);
+    } else {
+      result.push((image as any).path);
+    }
+  }
 
   return result;
 });
 
 // ---------------------- Functions ----------------------
+function getImageList() {
+  const result: {
+    uid: string | number;
+    name: string;
+    status: string;
+    url: string;
+  }[] = [];
+
+  updateRoomData.value.images.forEach((image: any) => {
+    if (image.isDeleted) return;
+
+    if (!image.isNew) {
+      result.push({
+        uid: image.ID,
+        name: image.title ?? '',
+        status: 'done',
+        url: image.path,
+      });
+    } else {
+      result.push({
+        uid: image.uid,
+        name: image.name,
+        status: 'done',
+        url: image.url,
+      });
+    }
+  });
+
+  return result;
+}
+
 async function getRoomData(emitLoading = true) {
   try {
     if (emitLoading) {
@@ -461,6 +542,7 @@ async function getRoomData(emitLoading = true) {
       isDeleted: false,
       isNew: false,
     }));
+    updateRoomData.value.imageList = getImageList();
   } catch (err: any) {
     roomData.value.ID = 0;
 
@@ -488,8 +570,6 @@ async function getContracts() {
     const response = await api.common.building.getRoomContracts(buildingID, roomID);
     roomData.value.contracts = response.data;
   } catch (err: any) {
-    roomData.value.ID = 0;
-
     if (
       err.status >= 500 ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
@@ -606,8 +686,63 @@ function disabledDate(current: Dayjs) {
   return current && current >= $dayjs().endOf('day');
 }
 
-function updateRoom() {
-  console.log('called');
+function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
+  event.fileList.forEach((file) => {
+    if (file.status === 'done' && isNaN(Number(file.uid))) {
+      if (updateRoomData.value.images.find((image: any) => image.isNew && !image.isDeleted && image.uid === file.uid)) {
+        return;
+      }
+      updateRoomData.value.images.push({
+        ...file,
+        isNew: true,
+        isDeleted: false,
+      });
+    }
+  });
+}
+
+async function updateRoom() {
+  let isSuccess = false;
+  try {
+    $event.emit('loading');
+
+    const formData = new FormData();
+    formData.append('description', updateRoomData.value.description);
+    formData.append('status', updateRoomData.value.status.toString());
+    updateRoomData.value.images.forEach((image) => {
+      if (image.isDeleted) {
+        formData.append('deletedRoomImages[]', (image as RoomImage).ID.toString());
+      } else if (image.isNew) {
+        formData.append('newRoomImages[]', (image as UploadFile).originFileObj as File);
+      }
+    });
+
+    await api.common.building.updateRoom(buildingID, roomID, formData);
+    isSuccess = true;
+  } catch (err: any) {
+    if (
+      err.status >= 500 ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+
+    if (isSuccess) {
+      notification.error({
+        message: t('success'),
+        description: t('room_updated_success'),
+      });
+
+      await getRoomData();
+      await getSupporTickets();
+    }
+  }
 }
 
 // ---------------------- Lifecycle Hooks ----------------------

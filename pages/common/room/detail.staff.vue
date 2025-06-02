@@ -104,6 +104,51 @@
             <div class="flex-1 me-2">
               <ClientOnly>
                 <a-form-item
+                  :rules="[
+                    { required: true, message: $t('empty_room_area'), trigger: 'blur' },
+                    {
+                      validator: async (_: RuleObject, value: string) => validationRules.roomArea(_, value, $t),
+                      trigger: 'blur',
+                    },
+                  ]"
+                  name="area"
+                >
+                  <div class="flex items-center justify-between">
+                    <label for="room_area" class="flex mb-1">
+                      <span>{{ $t('area') }} (m<sup>2</sup>)</span>
+                      <img v-show="editMode" :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                    </label>
+                    <a-button
+                      v-show="editMode"
+                      class="mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+                      size="small"
+                      style="display: flex"
+                      @click="updateRoomData.area = roomData.area"
+                    >
+                      <UndoOutlined />
+                    </a-button>
+                  </div>
+                  <a-input
+                    v-if="!editMode"
+                    id="room_area"
+                    :value="roomData.area"
+                    disabled
+                    readonly
+                    :placeholder="$t('area')"
+                  />
+                  <a-input
+                    v-else
+                    id="room_area"
+                    v-model:value="updateRoomData.area"
+                    :placeholder="$t('enter_room_area')"
+                    type="number"
+                  />
+                </a-form-item>
+              </ClientOnly>
+            </div>
+            <div class="flex-1 ms-2">
+              <ClientOnly>
+                <a-form-item
                   :rules="[{ required: true, message: $t('empty_room_status'), trigger: 'blur' }]"
                   name="status"
                 >
@@ -122,46 +167,6 @@
                       <UndoOutlined />
                     </a-button>
                   </div>
-                  <!-- <a-input
-                  v-if="roomData.status === 1"
-                  id="room_status"
-                  :value="$t('rented')"
-                  disabled
-                  readonly
-                  :placeholder="$t('status')"
-                />
-                <a-input
-                  v-else-if="roomData.status === 2"
-                  id="room_status"
-                  :value="$t('sold')"
-                  disabled
-                  readonly
-                  :placeholder="$t('status')"
-                />
-                <a-input
-                  v-else-if="roomData.status === 3"
-                  id="room_status"
-                  :value="$t('available')"
-                  disabled
-                  readonly
-                  :placeholder="$t('status')"
-                />
-                <a-input
-                  v-else-if="roomData.status === 4"
-                  id="room_status"
-                  :value="$t('maintenance')"
-                  disabled
-                  readonly
-                  :placeholder="$t('status')"
-                />
-                <a-input
-                  v-else-if="roomData.status === 5"
-                  id="room_status"
-                  :value="$t('unavailable')"
-                  disabled
-                  readonly
-                  :placeholder="$t('status')"
-                /> -->
                   <a-input
                     v-if="!editMode"
                     id="room_status"
@@ -197,7 +202,9 @@
                 </a-form-item>
               </ClientOnly>
             </div>
-            <div class="flex-1 ms-2">
+          </div>
+          <div class="flex items-start mt-5">
+            <div class="flex-1 me-2">
               <div class="flex items-center justify-between">
                 <label for="room_description" class="flex mb-1">
                   <span>{{ $t('description') }}</span>
@@ -225,10 +232,11 @@
                 v-else
                 id="room_description"
                 v-model:value="updateRoomData.description"
-                :placeholder="$t('description')"
+                :placeholder="$t('enter_room_description')"
                 :rows="3"
               />
             </div>
+            <div class="flex-1 ms-2"></div>
           </div>
         </div>
         <div v-if="!editMode" class="w-[250px] h-full me-12 select-none">
@@ -415,6 +423,8 @@ import type { SupportTicket } from '~/types/support_ticket';
 import type { Dayjs } from 'dayjs';
 import type { UploadFile, UploadChangeParam } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
+import { validationRules } from '~/consts/validation_rules';
+import type { RuleObject } from 'ant-design-vue/es/form';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -470,6 +480,7 @@ const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
 const editMode = ref<boolean>(false);
 const updateRoomData = ref({
   description: '',
+  area: 0,
   status: 0,
   images: [] as ((RoomImage | UploadFile) & {
     isDeleted: boolean;
@@ -537,6 +548,7 @@ async function getRoomData(emitLoading = true) {
     roomData.value = data;
     updateRoomData.value.description = data.description;
     updateRoomData.value.status = data.status;
+    updateRoomData.value.area = data.area;
     updateRoomData.value.images = data.images.map((image: RoomImage) => ({
       ...image,
       isDeleted: false,
@@ -709,6 +721,7 @@ async function updateRoom() {
     const formData = new FormData();
     formData.append('description', updateRoomData.value.description);
     formData.append('status', updateRoomData.value.status.toString());
+    formData.append('area', updateRoomData.value.area.toString());
     updateRoomData.value.images.forEach((image) => {
       if (image.isDeleted) {
         formData.append('deletedRoomImages[]', (image as RoomImage).ID.toString());

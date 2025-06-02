@@ -31,13 +31,19 @@ const validationRules = {
     if (birthDate.isAfter(eighteenYearsAgo)) {
       if (!isCustomer) {
         return Promise.reject(t('staff_must_be_18_years_old'));
-      } else
-      {
+      } else {
         return Promise.reject(t('customer_must_be_18_years_old'));
       }
     }
 
     return Promise.resolve();
+  },
+  roomArea: async (_: RuleObject, value: string, t: any) => {
+    if (value && Number(value) <= 0) {
+      return Promise.reject(t('zero_room_area'));
+    } else {
+      return Promise.resolve();
+    }
   },
 };
 

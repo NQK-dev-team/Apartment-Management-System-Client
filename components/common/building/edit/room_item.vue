@@ -24,12 +24,22 @@
             placeholder="{{ $t('select_status') }}"
             class="w-full text-left"
           >
-            <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" :class="`text-[#50c433]`">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" :class="`text-[#43b7f1]`">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" :class="`text-[#888888]`">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" :class="`text-[#d8d535]`">{{ $t('maintenance') }}</a-select-option>
-            <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
+            <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.RENTED" :class="`text-[#50c433]`">{{
+              $t('rented')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.SOLD" :class="`text-[#43b7f1]`">{{
+              $t('sold')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.AVAILABLE" :class="`text-[#888888]`">{{
+              $t('available')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.MAINTANCED" :class="`text-[#d8d535]`">{{
+              $t('maintenance')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.UNAVAILABLE" :class="`text-[#ff0000]`">{{
+              $t('unavailable')
+            }}</a-select-option>
           </a-select>
           <a-select
             v-else
@@ -40,12 +50,22 @@
             disabled
             readonly
           >
-            <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="1" :class="`text-[#50c433]`">{{ $t('rented') }}</a-select-option>
-            <a-select-option :value="2" :class="`text-[#43b7f1]`">{{ $t('sold') }}</a-select-option>
-            <a-select-option :value="3" :class="`text-[#888888]`">{{ $t('available') }}</a-select-option>
-            <a-select-option :value="4" :class="`text-[#d8d535]`">{{ $t('maintenance') }}</a-select-option>
-            <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
+            <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.RENTED" :class="`text-[#50c433]`">{{
+              $t('rented')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.SOLD" :class="`text-[#43b7f1]`">{{
+              $t('sold')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.AVAILABLE" :class="`text-[#888888]`">{{
+              $t('available')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.MAINTANCED" :class="`text-[#d8d535]`">{{
+              $t('maintenance')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.ROOM_STATUS.UNAVAILABLE" :class="`text-[#ff0000]`">{{
+              $t('unavailable')
+            }}</a-select-option>
           </a-select>
         </div>
       </div>
@@ -113,6 +133,7 @@
 import type { UploadFile } from 'ant-design-vue';
 import type { RoomImage } from '~/types/building';
 import { roles } from '~/consts/roles';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const userRole = useCookie('userRole');

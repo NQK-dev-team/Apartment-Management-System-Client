@@ -192,12 +192,24 @@
                     placeholder="{{ $t('select_status') }}"
                     class="w-full text-left"
                   >
-                    <a-select-option :value="0" class="hidden">{{ $t('select_status') }}</a-select-option>
-                    <a-select-option :value="1" :class="`text-[#50c433]`">{{ $t('rented') }}</a-select-option>
-                    <a-select-option :value="2" :class="`text-[#43b7f1]`">{{ $t('sold') }}</a-select-option>
-                    <a-select-option :value="3" :class="`text-[#888888]`">{{ $t('available') }}</a-select-option>
-                    <a-select-option :value="4" :class="`text-[#d8d535]`">{{ $t('maintenance') }}</a-select-option>
-                    <a-select-option :value="5" :class="`text-[#ff0000]`">{{ $t('unavailable') }}</a-select-option>
+                    <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
+                      $t('select_status')
+                    }}</a-select-option>
+                    <a-select-option :value="COMMON.ROOM_STATUS.RENTED" :class="`text-[#50c433]`">{{
+                      $t('rented')
+                    }}</a-select-option>
+                    <a-select-option :value="COMMON.ROOM_STATUS.SOLD" :class="`text-[#43b7f1]`">{{
+                      $t('sold')
+                    }}</a-select-option>
+                    <a-select-option :value="COMMON.ROOM_STATUS.AVAILABLE" :class="`text-[#888888]`">{{
+                      $t('available')
+                    }}</a-select-option>
+                    <a-select-option :value="COMMON.ROOM_STATUS.MAINTANCED" :class="`text-[#d8d535]`">{{
+                      $t('maintenance')
+                    }}</a-select-option>
+                    <a-select-option :value="COMMON.ROOM_STATUS.UNAVAILABLE" :class="`text-[#ff0000]`">{{
+                      $t('unavailable')
+                    }}</a-select-option>
                   </a-select>
                 </a-form-item>
               </ClientOnly>
@@ -425,6 +437,7 @@ import type { UploadFile, UploadChangeParam } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

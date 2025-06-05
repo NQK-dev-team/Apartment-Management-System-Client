@@ -1,4 +1,5 @@
 import type { User } from '~/types/user';
+import { COMMON } from '~/consts/common';
 
 function getUserName(user: User | undefined): string {
   if (!user) {
@@ -21,7 +22,11 @@ function getUserGender(user: User | undefined): string {
     return 'other';
   }
 
-  return user.gender === 1 ? 'male' : user.gender === 2 ? 'female' : 'other';
+  return user.gender === COMMON.USER_GENDER.MALE
+    ? 'male'
+    : user.gender === COMMON.USER_GENDER.FEMALE
+      ? 'female'
+      : 'other';
 }
 
 export { getUserName, getUserGender };

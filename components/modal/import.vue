@@ -16,12 +16,12 @@
         <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
       </div>
       <a-select id="select_import_type" ref="select" v-model:value="data.importOption" class="w-full mt-1">
-        <a-select-option :value="0" class="hidden">{{ $t('choose_option') }}</a-select-option>
-        <a-select-option :value="1">{{ $t('add_buildings') }}</a-select-option>
-        <a-select-option :value="2">{{ $t('add_rooms') }}</a-select-option>
-        <a-select-option :value="3">{{ $t('add_employees') }}</a-select-option>
-        <a-select-option :value="4">{{ $t('add_customers') }}</a-select-option>
-        <a-select-option :value="5">{{ $t('add_bills') }}</a-select-option>
+        <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('choose_option') }}</a-select-option>
+        <a-select-option :value="COMMON.IMPORT_TYPE.ADD_BUILDINGS">{{ $t('add_buildings') }}</a-select-option>
+        <a-select-option :value="COMMON.IMPORT_TYPE.ADD_ROOMS">{{ $t('add_rooms') }}</a-select-option>
+        <a-select-option :value="COMMON.IMPORT_TYPE.ADD_EMPLOYEES">{{ $t('add_employees') }}</a-select-option>
+        <a-select-option :value="COMMON.IMPORT_TYPE.ADD_CUSTOMERS">{{ $t('add_customers') }}</a-select-option>
+        <a-select-option :value="COMMON.IMPORT_TYPE.ADD_BILLS">{{ $t('add_bills') }}</a-select-option>
       </a-select>
       <div v-if="data.importOption" class="mt-4">
         <p class="font-medium">{{ $t('example_file') }}</p>
@@ -61,6 +61,7 @@
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
 import type { UploadFile } from 'ant-design-vue';
+import { COMMON } from '~/consts/common';
 // ---------------------- Variables ----------------------
 const props = defineProps({
   data: {

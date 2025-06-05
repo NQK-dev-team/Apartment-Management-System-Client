@@ -64,9 +64,9 @@
                 <span>{{ $t('gender') }}</span>
               </label>
               <a-select id="gender" :value="customerInfo.gender" class="w-full" disabled readonly>
-                <a-select-option :value="1">{{ $t('male') }}</a-select-option>
-                <a-select-option :value="2">{{ $t('female') }}</a-select-option>
-                <a-select-option :value="3">{{ $t('other') }}</a-select-option>
+                <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
+                <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
+                <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
               </a-select>
             </div>
             <div class="flex-1">
@@ -216,11 +216,11 @@
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { useI18n } from 'vue-i18n';
 import type { User } from '~/types/user';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

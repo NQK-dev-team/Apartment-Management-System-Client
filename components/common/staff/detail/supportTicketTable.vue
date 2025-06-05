@@ -24,12 +24,18 @@
         <template v-if="column.dataIndex === 'status'">
           <a-tag
             :class="{
-              'text-gray-500': value === 1,
-              'text-green-500': value === 2,
-              'text-red-500': value === 3,
+              'text-gray-500': value === COMMON.SUPPORT_TICKET_STATUS.PENDING,
+              'text-green-500': value === COMMON.SUPPORT_TICKET_STATUS.APPROVED,
+              'text-red-500': value === COMMON.SUPPORT_TICKET_STATUS.REJECTED,
             }"
           >
-            {{ value === 1 ? t('pending') : value === 2 ? t('approved') : t('denied') }}
+            {{
+              value === COMMON.SUPPORT_TICKET_STATUS.PENDING
+                ? t('pending')
+                : value === COMMON.SUPPORT_TICKET_STATUS.APPROVED
+                  ? t('approved')
+                  : t('denied')
+            }}
           </a-tag>
         </template>
       </template>
@@ -114,11 +120,15 @@
             <a-input
               id="status"
               :value="
-                ticketDetail.status === 1 ? t('pending') : ticketDetail.status === 2 ? t('approved') : t('denied')
+                ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.PENDING
+                  ? t('pending')
+                  : ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.APPROVED
+                    ? t('approved')
+                    : t('denied')
               "
               :class="{
-                'text-green-500': ticketDetail.status === 2,
-                'text-red-500': ticketDetail.status === 3,
+                'text-green-500': ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.APPROVED,
+                'text-red-500': ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.REJECTED,
               }"
               disabled
               readonly
@@ -220,6 +230,7 @@ import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { User } from '~/types/user';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
@@ -363,7 +374,7 @@ const data = computed(() =>
     owner_approving: ticket.ownerID ? getUserName(ticket.owner) : '-',
     action: {
       ticketID: ticket.ID,
-      allowAction: ticket.status === 1 && !ticket.ownerID,
+      allowAction: ticket.status === COMMON.SUPPORT_TICKET_STATUS.PENDING && !ticket.ownerID,
     },
     building: ticket.buildingName,
     floor: ticket.roomFloor,

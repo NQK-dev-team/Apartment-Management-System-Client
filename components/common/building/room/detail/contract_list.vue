@@ -8,7 +8,8 @@
       getCheckboxProps: (record: any) => ({
         disabled:
           !(userRole?.toString() === roles.owner || record.employee_id.toString() === userID?.toString()) ||
-          (record.status !== 3 && record.status !== 4),
+          (record.status !== COMMON.CONTRACT_STATUS.CANCELLED &&
+            record.status !== COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE),
       }),
     }"
     :data-source="data"
@@ -50,16 +51,16 @@
       </template>
       <template v-if="column.dataIndex === 'status'">
         <a-tag
-          :class="`text-[#${value === 1 ? '50c433' : value === 2 ? '888888' : value === 3 ? 'ff0000' : value === 4 ? '888888' : '888888'}]`"
+          :class="`text-[#${value === COMMON.CONTRACT_STATUS.ACTIVE ? '50c433' : value === COMMON.CONTRACT_STATUS.EXPIRED ? '888888' : value === COMMON.CONTRACT_STATUS.CANCELLED ? 'ff0000' : value === COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE ? '888888' : '888888'}]`"
         >
           {{
-            value === 1
+            value === COMMON.CONTRACT_STATUS.ACTIVE
               ? $t('active')
-              : value === 2
+              : value === COMMON.CONTRACT_STATUS.EXPIRED
                 ? $t('expired')
-                : value === 3
+                : value === COMMON.CONTRACT_STATUS.CANCELLED
                   ? $t('cancelled')
-                  : value === 4
+                  : value === COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE
                     ? $t('wait_for_signature')
                     : $t('not_in_effect')
           }}
@@ -73,6 +74,7 @@
 import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { roles } from '~/consts/roles';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const userID = useCookie('userID');

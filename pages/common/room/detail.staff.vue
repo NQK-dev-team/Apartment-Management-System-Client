@@ -747,7 +747,7 @@ async function updateRoom() {
     $event.emit('loading');
 
     if (isSuccess) {
-      notification.error({
+      notification.info({
         message: t('success'),
         description: t('room_updated_success'),
       });

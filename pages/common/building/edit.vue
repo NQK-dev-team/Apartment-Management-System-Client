@@ -376,11 +376,12 @@
 import { getMessageCode } from '~/consts/api_response';
 import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
-import type { EditBuilding } from '~/types/building';
+import type { BuildingImage, EditBuilding, RoomImage } from '~/types/building';
 import type { User } from '~/types/user';
 import Success from '~/public/svg/success.svg';
 import type { NullTime } from '~/types/basic_model';
 import dayjs, { type Dayjs } from 'dayjs';
+import type { UploadFile } from 'ant-design-vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -569,7 +570,110 @@ function checkStep2(): boolean {
 async function updateBuilding() {
   try {
     $event.emit('loading');
-    await api.common.building.updateBuilding(buildingID, buildingInfo.value.data, floors.value.length);
+
+    const data = buildingInfo.value.data;
+    const totalFloor = floors.value.length;
+
+    const formData = new FormData();
+    formData.append('id', buildingID.toString());
+    formData.append('name', data.name.trim());
+    formData.append('address', data.address.trim());
+    formData.append('totalFloor', totalFloor.toString());
+    data.images.forEach((image) => {
+      if (image.isDeleted) {
+        formData.append('deletedBuildingImages[]', (image as BuildingImage).ID.toString());
+      } else if (image.isNew) {
+        formData.append('newBuildingImages[]', (image as UploadFile).originFileObj as File);
+      }
+    });
+    data.services.forEach((service) => {
+      if (service.isDeleted) {
+        formData.append('deletedServices[]', service.ID.toString());
+      } else if (service.isNew) {
+        formData.append(
+          'newServices[]',
+          JSON.stringify({
+            name: service.name.trim(),
+            price: Number(service.price.toString().trim()),
+          })
+        );
+      } else {
+        formData.append(
+          'services[]',
+          JSON.stringify({
+            id: service.ID,
+            name: service.name.trim(),
+            price: Number(service.price.toString().trim()),
+          })
+        );
+      }
+    });
+    data.schedules.forEach((schedule) => {
+      if (schedule.isDeleted) {
+        formData.append('deletedSchedules[]', schedule.ID.toString());
+      } else if (schedule.isNew) {
+        formData.append(
+          'newSchedules[]',
+          JSON.stringify({
+            managerID: schedule.managerID,
+            startDate: convertToDate(schedule.startDate.toDate().toISOString()),
+            endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
+          })
+        );
+      } else {
+        formData.append(
+          'schedules[]',
+          JSON.stringify({
+            id: schedule.ID,
+            managerID: schedule.managerID,
+            startDate: convertToDate(schedule.startDate.toDate().toISOString()),
+            endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
+          })
+        );
+      }
+    });
+    data.rooms.forEach((room) => {
+      if (room.isDeleted) {
+        formData.append('deletedRooms[]', room.ID.toString());
+      } else if (room.isNew) {
+        formData.append(
+          'newRooms[]',
+          JSON.stringify({
+            floor: room.floor,
+            no: room.no,
+            status: room.status,
+            area: Number(room.area.toString().trim()),
+            description: room.description.trim(),
+          })
+        );
+        room.images.forEach((image) => {
+          if (image.isNew) {
+            formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
+          }
+        });
+      } else {
+        formData.append(
+          'rooms[]',
+          JSON.stringify({
+            id: room.ID,
+            floor: room.floor,
+            no: room.no,
+            status: room.status,
+            area: Number(room.area.toString().trim()),
+            description: room.description.trim(),
+          })
+        );
+        room.images.forEach((image) => {
+          if (image.isDeleted) {
+            formData.append('deletedRoomImages[]', (image as RoomImage).ID.toString());
+          } else if (image.isNew) {
+            formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
+          }
+        });
+      }
+    });
+
+    await api.common.building.updateBuilding(buildingID, formData);
     editSuccess.value = true;
     step.value++;
   } catch (err: any) {

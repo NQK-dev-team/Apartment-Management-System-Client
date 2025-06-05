@@ -24,12 +24,18 @@
         <template v-if="column.dataIndex === 'status'">
           <a-tag
             :class="{
-              'text-gray-500': value === 1,
-              'text-green-500': value === 2,
-              'text-red-500': value === 3,
+              'text-gray-500': value === COMMON.SUPPORT_TICKET_STATUS.PENDING,
+              'text-green-500': value === COMMON.SUPPORT_TICKET_STATUS.APPROVED,
+              'text-red-500': value === COMMON.SUPPORT_TICKET_STATUS.REJECTED,
             }"
           >
-            {{ value === 1 ? t('pending') : value === 2 ? t('approved') : t('denied') }}
+            {{
+              value === COMMON.SUPPORT_TICKET_STATUS.PENDING
+                ? t('pending')
+                : value === COMMON.SUPPORT_TICKET_STATUS.APPROVED
+                  ? t('approved')
+                  : t('denied')
+            }}
           </a-tag>
         </template>
       </template>
@@ -124,11 +130,15 @@
             <a-input
               id="status"
               :value="
-                ticketDetail.status === 1 ? t('pending') : ticketDetail.status === 2 ? t('approved') : t('denied')
+                ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.PENDING
+                  ? t('pending')
+                  : ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.APPROVED
+                    ? t('approved')
+                    : t('denied')
               "
               :class="{
-                'text-green-500': ticketDetail.status === 2,
-                'text-red-500': ticketDetail.status === 3,
+                'text-green-500': ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.APPROVED,
+                'text-red-500': ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.REJECTED,
               }"
               disabled
               readonly
@@ -254,6 +264,8 @@
 import { roles } from '~/consts/roles';
 import type { SupportTicket } from '~/types/support_ticket';
 import { pageRoutes } from '~/consts/page_routes';
+import type { Room } from '~/types/building';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const userRole = useCookie('userRole');
@@ -264,11 +276,15 @@ const props = defineProps({
     required: true,
   },
   approve: {
-    type: Function as PropType<() => void>,
+    type: Function as PropType<(id: number) => Promise<void>>,
     required: true,
   },
   deny: {
-    type: Function as PropType<() => void>,
+    type: Function as PropType<(id: number) => Promise<void>>,
+    required: true,
+  },
+  roomData: {
+    type: Object as PropType<Room>,
     required: true,
   },
 });
@@ -366,7 +382,7 @@ const data = computed(() =>
     action: {
       ticketID: ticket.ID,
       allowAction:
-        ticket.status === 1 &&
+        ticket.status === COMMON.SUPPORT_TICKET_STATUS.PENDING &&
         ((!ticket.ownerID && userRole.value?.toString() === roles.owner && ticket.managerID) ||
           (!ticket.managerID && userRole.value?.toString() === roles.manager)),
     },
@@ -383,5 +399,13 @@ function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
 function handleReset(clearFilters: any) {
   clearFilters({ confirm: true });
   state.searchText = '';
+}
+
+function openDetailModal(id: number) {
+  ticketDetail.value = props.tickets.find((ticket) => ticket.ID === id) || null;
+  ticketDetail.value!.roomNo = props.roomData.no;
+  ticketDetail.value!.roomFloor = props.roomData.floor;
+  ticketDetail.value!.buildingName = props.roomData.buildingName;
+  detailModalVisible.value = true;
 }
 </script>

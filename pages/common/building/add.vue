@@ -409,7 +409,51 @@ async function createNewBuilding() {
 
   try {
     $event.emit('loading');
-    await api.common.building.addNewBuilding(buildingInfo.value);
+
+    const building = buildingInfo.value;
+    const formData = new FormData();
+
+    formData.append('name', building.name.trim());
+    formData.append('address', building.address.trim());
+    building.services.forEach((service) => {
+      service.name = service.name.trim();
+      service.price = Number(service.price.toString().trim());
+      formData.append('services[]', JSON.stringify(service));
+    });
+    building.images.forEach((image) => {
+      formData.append('images[]', image.originFileObj as File);
+    });
+    building.schedules.forEach((schedule) => {
+      formData.append(
+        'schedules[]',
+        JSON.stringify({
+          managerID: schedule.managerID,
+          startDate: convertToDate(schedule.start as string),
+          endDate: schedule.end ? convertToDate(schedule.end as string) : '',
+        })
+      );
+    });
+    formData.append('totalFloor', building.floors.length.toString());
+    formData.append('totalRoom', building.floors.reduce((acc, floor) => acc + floor.rooms.length, 0).toString());
+    building.floors.forEach((floor, floorIndex) => {
+      floor.rooms.forEach((room, roomIndex) => {
+        formData.append(
+          'rooms[]',
+          JSON.stringify({
+            status: room.status,
+            area: Number(room.area.toString().trim()),
+            description: room.description.trim(),
+            floor: floorIndex + 1,
+            no: 1000 * (floorIndex + 1) + roomIndex + 1,
+          })
+        );
+        room.images.forEach((image) => {
+          formData.append(`roomImages[${1000 * (floorIndex + 1) + roomIndex + 1}]`, image.originFileObj as File);
+        });
+      });
+    });
+
+    await api.common.building.addNewBuilding(formData);
     addSuccess.value = true;
   } catch (err: any) {
     step.value--;

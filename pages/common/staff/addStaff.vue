@@ -97,9 +97,9 @@
                     :class="[staffInfo.gender === 0 ? 'text-gray-500' : '']"
                     :placeholder="$t('select_employee_gender')"
                   >
-                    <a-select-option :value="1">{{ $t('male') }}</a-select-option>
-                    <a-select-option :value="2">{{ $t('female') }}</a-select-option>
-                    <a-select-option :value="3">{{ $t('other') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
                   </a-select>
                 </a-form-item>
                 <a-form-item
@@ -339,6 +339,7 @@ import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/int
 import type { Building } from '~/types/building';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { validationRules } from '~/consts/validation_rules';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -509,7 +510,36 @@ async function getBuildingList() {
 async function addStaff() {
   try {
     $event.emit('loading');
-    await api.common.staff.add(staffInfo.value);
+
+    const staff = staffInfo.value;
+    const data = new FormData();
+    data.append('firstName', staff.firstName.trim());
+    data.append('lastName', staff.lastName.trim());
+    data.append('middleName', staff.middleName ? staff.middleName.trim() : '');
+    data.append('ssn', staff.ssn.trim());
+    data.append('oldSSN', staff.oldSSN ? staff.oldSSN.trim() : '');
+    data.append('dob', convertToDate(staff.dob));
+    data.append('pob', staff.pob.trim());
+    data.append('phone', staff.phone.trim());
+    data.append('permanentAddress', staff.permanentAddress.trim());
+    data.append('temporaryAddress', staff.temporaryAddress.trim());
+    data.append('email', staff.email.trim());
+    data.append('gender', staff.gender ? staff.gender.toString() : '3');
+    staff.schedules.forEach((schedule) => {
+      data.append(
+        'schedules[]',
+        JSON.stringify({
+          buildingID: schedule.buildingID,
+          startDate: convertToDate(schedule.start as string),
+          endDate: schedule.end ? convertToDate(schedule.end as string) : '',
+        })
+      );
+    });
+    data.append('profileImage', staff.profileFilePath[0].originFileObj as File);
+    data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
+    data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
+
+    await api.common.staff.add(data);
 
     notification.info({
       message: t('add_staff_success'),

@@ -1,18 +1,9 @@
 import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
-import type {
-  Building,
-  BuildingImage,
-  EditBuilding,
-  NewBuildingInfo,
-  Room,
-  RoomImage,
-  Service,
-} from '~/types/building';
-import type { UploadFile } from 'ant-design-vue';
+import type { Building, Room } from '~/types/building';
 import type { Bill } from '~/types/bill';
-import type { EditStaff, ManagerSchedule, NewCustomer, NewStaff, User } from '~/types/user';
+import type { EditStaff, ManagerSchedule, NewCustomer, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
@@ -111,49 +102,8 @@ const common = {
         method: 'GET',
       });
     },
-    addNewBuilding: async (building: NewBuildingInfo): Promise<APIResponse<null>> => {
+    addNewBuilding: async (formData: FormData): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
-      const formData = new FormData();
-
-      formData.append('name', building.name.trim());
-      formData.append('address', building.address.trim());
-      building.services.forEach((service) => {
-        service.name = service.name.trim();
-        service.price = Number(service.price.toString().trim());
-        formData.append('services[]', JSON.stringify(service));
-      });
-      building.images.forEach((image) => {
-        formData.append('images[]', image.originFileObj as File);
-      });
-      building.schedules.forEach((schedule) => {
-        formData.append(
-          'schedules[]',
-          JSON.stringify({
-            managerID: schedule.managerID,
-            startDate: convertToDate(schedule.start as string),
-            endDate: schedule.end ? convertToDate(schedule.end as string) : '',
-          })
-        );
-      });
-      formData.append('totalFloor', building.floors.length.toString());
-      formData.append('totalRoom', building.floors.reduce((acc, floor) => acc + floor.rooms.length, 0).toString());
-      building.floors.forEach((floor, floorIndex) => {
-        floor.rooms.forEach((room, roomIndex) => {
-          formData.append(
-            'rooms[]',
-            JSON.stringify({
-              status: room.status,
-              area: Number(room.area.toString().trim()),
-              description: room.description.trim(),
-              floor: floorIndex + 1,
-              no: 1000 * (floorIndex + 1) + roomIndex + 1,
-            })
-          );
-          room.images.forEach((image) => {
-            formData.append(`roomImages[${1000 * (floorIndex + 1) + roomIndex + 1}]`, image.originFileObj as File);
-          });
-        });
-      });
 
       return $api(apiRoutes.building.add, {
         method: 'POST',
@@ -178,107 +128,8 @@ const common = {
         method: 'GET',
       });
     },
-    updateBuilding(buildingID: number, data: EditBuilding, totalFloor: number): Promise<APIResponse<null>> {
+    updateBuilding(buildingID: number, formData: FormData): Promise<APIResponse<null>> {
       const $api = getApiInstance();
-      const formData = new FormData();
-
-      formData.append('id', buildingID.toString());
-      formData.append('name', data.name.trim());
-      formData.append('address', data.address.trim());
-      formData.append('totalFloor', totalFloor.toString());
-      data.images.forEach((image) => {
-        if (image.isDeleted) {
-          formData.append('deletedBuildingImages[]', (image as BuildingImage).ID.toString());
-        } else if (image.isNew) {
-          formData.append('newBuildingImages[]', (image as UploadFile).originFileObj as File);
-        }
-      });
-      data.services.forEach((service) => {
-        if (service.isDeleted) {
-          formData.append('deletedServices[]', service.ID.toString());
-        } else if (service.isNew) {
-          formData.append(
-            'newServices[]',
-            JSON.stringify({
-              name: service.name.trim(),
-              price: Number(service.price.toString().trim()),
-            })
-          );
-        } else {
-          formData.append(
-            'services[]',
-            JSON.stringify({
-              id: service.ID,
-              name: service.name.trim(),
-              price: Number(service.price.toString().trim()),
-            })
-          );
-        }
-      });
-      data.schedules.forEach((schedule) => {
-        if (schedule.isDeleted) {
-          formData.append('deletedSchedules[]', schedule.ID.toString());
-        } else if (schedule.isNew) {
-          formData.append(
-            'newSchedules[]',
-            JSON.stringify({
-              managerID: schedule.managerID,
-              startDate: convertToDate(schedule.startDate.toDate().toISOString()),
-              endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
-            })
-          );
-        } else {
-          formData.append(
-            'schedules[]',
-            JSON.stringify({
-              id: schedule.ID,
-              managerID: schedule.managerID,
-              startDate: convertToDate(schedule.startDate.toDate().toISOString()),
-              endDate: schedule.endDate ? convertToDate((schedule.endDate as Dayjs).toDate().toISOString()) : null,
-            })
-          );
-        }
-      });
-      data.rooms.forEach((room) => {
-        if (room.isDeleted) {
-          formData.append('deletedRooms[]', room.ID.toString());
-        } else if (room.isNew) {
-          formData.append(
-            'newRooms[]',
-            JSON.stringify({
-              floor: room.floor,
-              no: room.no,
-              status: room.status,
-              area: Number(room.area.toString().trim()),
-              description: room.description.trim(),
-            })
-          );
-          room.images.forEach((image) => {
-            if (image.isNew) {
-              formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
-            }
-          });
-        } else {
-          formData.append(
-            'rooms[]',
-            JSON.stringify({
-              id: room.ID,
-              floor: room.floor,
-              no: room.no,
-              status: room.status,
-              area: Number(room.area.toString().trim()),
-              description: room.description.trim(),
-            })
-          );
-          room.images.forEach((image) => {
-            if (image.isDeleted) {
-              formData.append('deletedRoomImages[]', (image as RoomImage).ID.toString());
-            } else if (image.isNew) {
-              formData.append(`newRoomImages[${room.no}]`, (image as UploadFile).originFileObj as File);
-            }
-          });
-        }
-      });
 
       return $api(apiRoutes.building.updateBuilding(buildingID), {
         method: 'POST',
@@ -297,6 +148,17 @@ const common = {
         method: 'GET',
       });
     },
+    getRoomTickets: async (
+      buildingId: number,
+      roomId: number,
+      startDate: string = '',
+      endDate: string = ''
+    ): Promise<APIResponse<SupportTicket[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.getRoomTickets(buildingId, roomId, startDate, endDate), {
+        method: 'GET',
+      });
+    },
     deleteRoomContracts: async (
       buildingId: number,
       roomId: number,
@@ -308,6 +170,13 @@ const common = {
         body: {
           IDs: contractIDs,
         },
+      });
+    },
+    updateRoom: async (buildingId: number, roomId: number, data: FormData): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.updateRoom(buildingId, roomId), {
+        method: 'POST',
+        body: data,
       });
     },
   },
@@ -359,34 +228,7 @@ const common = {
         method: 'GET',
       });
     },
-    add: async (staff: NewStaff): Promise<APIResponse<null>> => {
-      const data = new FormData();
-      data.append('firstName', staff.firstName.trim());
-      data.append('lastName', staff.lastName.trim());
-      data.append('middleName', staff.middleName ? staff.middleName.trim() : '');
-      data.append('ssn', staff.ssn.trim());
-      data.append('oldSSN', staff.oldSSN ? staff.oldSSN.trim() : '');
-      data.append('dob', convertToDate(staff.dob));
-      data.append('pob', staff.pob.trim());
-      data.append('phone', staff.phone.trim());
-      data.append('permanentAddress', staff.permanentAddress.trim());
-      data.append('temporaryAddress', staff.temporaryAddress.trim());
-      data.append('email', staff.email.trim());
-      data.append('gender', staff.gender ? staff.gender.toString() : '3');
-      staff.schedules.forEach((schedule) => {
-        data.append(
-          'schedules[]',
-          JSON.stringify({
-            buildingID: schedule.buildingID,
-            startDate: convertToDate(schedule.start as string),
-            endDate: schedule.end ? convertToDate(schedule.end as string) : '',
-          })
-        );
-      });
-      data.append('profileImage', staff.profileFilePath[0].originFileObj as File);
-      data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
-      data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
-
+    add: async (data: FormData): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.staff.add, {
         method: 'POST',

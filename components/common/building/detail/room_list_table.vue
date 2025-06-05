@@ -43,29 +43,29 @@
         <a-tag
           :bordered="false"
           :color="
-            value === 1
+            value === COMMON.ROOM_STATUS.RENTED
               ? '#50c433'
-              : value === 2
+              : value === COMMON.ROOM_STATUS.SOLD
                 ? '#43b7f1'
-                : value === 3
+                : value === COMMON.ROOM_STATUS.AVAILABLE
                   ? '#888888'
-                  : value === 4
+                  : value === COMMON.ROOM_STATUS.MAINTANCED
                     ? '#d8d535'
-                    : value === 5
+                    : value === COMMON.ROOM_STATUS.UNAVAILABLE
                       ? '#FF0000'
                       : ''
           "
         >
           {{
-            value === 1
+            value === COMMON.ROOM_STATUS.RENTED
               ? $t('rented')
-              : value === 2
+              : value === COMMON.ROOM_STATUS.SOLD
                 ? $t('bought')
-                : value === 3
+                : value === COMMON.ROOM_STATUS.AVAILABLE
                   ? $t('available')
-                  : value === 4
+                  : value === COMMON.ROOM_STATUS.MAINTANCED
                     ? $t('maintenance')
-                    : value === 5
+                    : value === COMMON.ROOM_STATUS.UNAVAILABLE
                       ? $t('unavailable')
                       : ''
           }}
@@ -86,6 +86,7 @@
 <script lang="ts" setup>
 import { pageRoutes } from '~/consts/page_routes';
 import type { Room } from '~/types/building';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();

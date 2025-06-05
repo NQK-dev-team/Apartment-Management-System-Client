@@ -102,9 +102,9 @@
                     disabled
                     readonly
                   >
-                    <a-select-option :value="1">{{ $t('male') }}</a-select-option>
-                    <a-select-option :value="2">{{ $t('female') }}</a-select-option>
-                    <a-select-option :value="3">{{ $t('other') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
                   </a-select>
                 </a-form-item>
                 <a-form-item class="flex-1">
@@ -279,6 +279,7 @@ import type { Building } from '~/types/building';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import type { NullTime } from '~/types/basic_model';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

@@ -1,0 +1,36 @@
+const COMMON = {
+  HIDDEN_OPTION: 0,
+  SUPPORT_TICKET_STATUS: {
+    PENDING: 1,
+    APPROVED: 2,
+    REJECTED: 3,
+  },
+  CONTRACT_STATUS: {
+    ACTIVE: 1,
+    EXPIRED: 2,
+    CANCELLED: 3,
+    WAITING_FOR_SIGNATURE: 4,
+    NOT_IN_EFFECT: 5,
+  },
+  ROOM_STATUS: {
+    RENTED: 1,
+    SOLD: 2,
+    AVAILABLE: 3,
+    MAINTANCED: 4,
+    UNAVAILABLE: 5,
+  },
+  USER_GENDER: {
+    MALE: 1,
+    FEMALE: 2,
+    OTHER: 3,
+  },
+  IMPORT_TYPE: {
+    ADD_BUILDINGS: 1,
+    ADD_ROOMS: 2,
+    ADD_EMPLOYEES: 3,
+    ADD_CUSTOMERS: 4,
+    ADD_BILLS: 5,
+  },
+};
+
+export { COMMON };

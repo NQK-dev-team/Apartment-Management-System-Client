@@ -98,9 +98,9 @@
                     :class="[customerInfo.gender === 0 ? 'text-gray-500' : '']"
                     :placeholder="$t('select_customer_gender')"
                   >
-                    <a-select-option :value="1">{{ $t('male') }}</a-select-option>
-                    <a-select-option :value="2">{{ $t('female') }}</a-select-option>
-                    <a-select-option :value="3">{{ $t('other') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
+                    <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
                   </a-select>
                 </a-form-item>
                 <a-form-item
@@ -343,6 +343,7 @@ import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/int
 import type { Building } from '~/types/building';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { validationRules } from '~/consts/validation_rules';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

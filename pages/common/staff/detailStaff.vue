@@ -73,9 +73,9 @@
                 <span>{{ $t('gender') }}</span>
               </label>
               <a-select id="gender" :value="staffInfo.gender" class="w-full" disabled readonly>
-                <a-select-option :value="1">{{ $t('male') }}</a-select-option>
-                <a-select-option :value="2">{{ $t('female') }}</a-select-option>
-                <a-select-option :value="3">{{ $t('other') }}</a-select-option>
+                <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
+                <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
+                <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
               </a-select>
             </div>
             <div class="flex-1">
@@ -262,6 +262,7 @@ import type { ManagerSchedule, User } from '~/types/user';
 // import type { Contract } from '~/types/contract';
 // import type { SupportTicket } from '~/types/support_ticket';
 import type { NullTime } from '~/types/basic_model';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

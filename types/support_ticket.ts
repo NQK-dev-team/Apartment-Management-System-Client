@@ -23,9 +23,9 @@ type SupportTicket = BasicModel & {
   owner: User;
   ownerResult: number;
   ownerResolveTime: NullTime;
-  roomNo: number;
-  buildingName: string;
-  roomFloor: number;
+  roomNo: number | undefined;
+  buildingName: string | undefined;
+  roomFloor: number | undefined;
 };
 
 export type { SupportTicket };

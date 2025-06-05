@@ -91,7 +91,9 @@ export default {
   customer_no: 'Mã khách hàng',
   cancelled: 'Đã hủy',
   close: 'Đóng',
-  can_not_delete_a_contract_in_the_list: 'Danh sách chọn xóa đang có hợp đồng không cho phép xóa, vui lòng kiểm tra lại!',
+  can_not_delete_a_contract_in_the_list:
+    'Danh sách chọn xóa đang có hợp đồng không cho phép xóa, vui lòng kiểm tra lại!',
+  customer_must_be_18_years_old: 'Khách hàng phải từ 18 tuổi trở lên!',
 
   D: 'd',
   delete: 'Xóa',
@@ -185,6 +187,8 @@ export default {
   email_exists: 'Email đã tồn tại!',
   expire_date: 'Ngày hết hạn',
   edit_contract: 'Chỉnh sửa hợp đồng',
+  edit_mode_active: 'Đang bật chế độ chỉnh sửa',
+  edit_mode_inactive: 'Đã tắt chế độ chỉnh sửa',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -329,6 +333,7 @@ export default {
   reciever: 'Người nhận',
   resident_list: 'Danh sách cư dân',
   relationship_with_owner: 'Mối quan hệ với chủ căn hộ',
+  room_updated_success: 'Thông tin phòng đã được cập nhật thành công!',
 
   S: 's',
   staff: 'Nhân viên',
@@ -369,7 +374,7 @@ export default {
   ssn_exists: 'Số CCCD đã tồn tại!',
   staff_new_information_updated: 'Thông tin nhân viên đã được cập nhật thành công!',
   staff_must_be_18_years_old: 'Nhân viên phải từ 18 tuổi trở lên!',
-  customer_must_be_18_years_old: 'Khách hàng phải từ 18 tuổi trở lên!',
+  save_changes: 'Lưu thay đổi',
 
   T: 't',
   total: 'Tổng',

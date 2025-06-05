@@ -745,6 +745,7 @@ async function updateRoom() {
     }
   } finally {
     $event.emit('loading');
+    editMode.value = false;
 
     if (isSuccess) {
       notification.info({

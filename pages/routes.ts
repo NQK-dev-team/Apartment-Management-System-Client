@@ -156,6 +156,11 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.notice.new,
     file: noticeBaseRoute + 'newNotice.vue',
   },
+  {
+    name: 'Sent notice',
+    path: pageRoutes.common.notice.sent,
+    file: noticeBaseRoute + 'sentNotice.vue',
+  },
 ];
 
 const appRoutes = [...authenticationRoutes, ...commonRoutes];

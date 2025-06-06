@@ -107,6 +107,7 @@ export default {
   decision_date: 'Ngày quyết định',
   denied: 'Từ chối',
   deny: 'Từ chối',
+  date: 'Ngày',
 
   E: 'e',
   edit: 'Chỉnh sửa',
@@ -240,6 +241,7 @@ export default {
   manager_approving: 'Quản lý',
   manager_decision: 'Quyết định của quản lý',
   male: 'Nam',
+  month: 'Tháng',
 
   N: 'n',
   notice: 'Thông báo',
@@ -375,6 +377,8 @@ export default {
   staff_new_information_updated: 'Thông tin nhân viên đã được cập nhật thành công!',
   staff_must_be_18_years_old: 'Nhân viên phải từ 18 tuổi trở lên!',
   save_changes: 'Lưu thay đổi',
+  sent_notice: 'Thông báo đã gửi',
+  sender: 'Người gửi',
 
   T: 't',
   total: 'Tổng',
@@ -405,6 +409,7 @@ export default {
   X: 'x',
 
   Y: 'y',
+  year: 'Năm',
 
   Z: 'z',
   zero_room_area: 'Diện tích phòng {no} phải lớn hơn 0!',

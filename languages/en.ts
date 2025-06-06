@@ -107,6 +107,7 @@ export default {
   decision_date: 'Decision date',
   denied: 'Denied',
   deny: 'Deny',
+  date: 'Date',
 
   E: 'e',
   edit: 'Edit',
@@ -239,6 +240,7 @@ export default {
   manager_approving: 'Manager',
   manager_decision: 'Manager decision',
   male: 'Male',
+  month: 'Month',
 
   N: 'n',
   notice: 'Notice',
@@ -374,6 +376,8 @@ export default {
   staff_new_information_updated: 'Staff information has been updated successfully!',
   staff_must_be_18_years_old: 'Staff must be at least 18 years old!',
   save_changes: 'Save changes',
+  sent_notice: 'Sent notice',
+  sender: 'Sender',
 
   T: 't',
   total: 'Total',
@@ -404,6 +408,7 @@ export default {
   X: 'x',
 
   Y: 'y',
+  year: 'Year',
 
   Z: 'z',
   zero_room_area: 'Room {no} area must be greater than 0!',

@@ -358,6 +358,7 @@ import Success from '~/public/svg/success.svg';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import type { User } from '~/types/user';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -458,7 +459,7 @@ async function createNewBuilding() {
   } catch (err: any) {
     step.value--;
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -615,7 +616,7 @@ onMounted(async () => {
     managers.value = response.data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

@@ -1,5 +1,6 @@
 import type { RuntimeConfig } from 'nuxt/schema';
 import { useRuntimeConfig, defineNuxtPlugin } from '#app';
+import { COMMON } from '~/consts/common';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export default defineNuxtPlugin((nuxtApp) => {
@@ -17,7 +18,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       options.headers.set('Accept', '*/*');
     },
     onResponse({ response }) {
-      if (isDevMode && response.status < 400) {
+      if (isDevMode && response.status < COMMON.HTTP_STATUS.BAD_REQUEST) {
         console.log(response);
       }
     },

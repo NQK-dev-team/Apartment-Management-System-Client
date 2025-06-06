@@ -105,6 +105,7 @@ import { Modal } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
 import Fail from '~/public/svg/fail.svg';
 import { validationRules } from '~/consts/validation_rules';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -187,7 +188,7 @@ async function checkToken() {
     userNotFound.value = false;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -222,7 +223,7 @@ async function setNewPassword() {
     }
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

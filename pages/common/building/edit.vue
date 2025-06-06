@@ -382,6 +382,7 @@ import Success from '~/public/svg/success.svg';
 import type { NullTime } from '~/types/basic_model';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { UploadFile } from 'ant-design-vue';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -679,7 +680,7 @@ async function updateBuilding() {
   } catch (err: any) {
     step.value--;
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -783,7 +784,7 @@ async function getBuildingData() {
     }
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

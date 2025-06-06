@@ -483,7 +483,7 @@ async function getSupporTickets() {
     }
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -516,7 +516,7 @@ async function refetchSupportTickets() {
       }
     } catch (err: any) {
       if (
-        err.status >= 500 ||
+        err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
         err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
         err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
       ) {
@@ -539,7 +539,7 @@ async function approve(id: number) {
     refetchSupportTickets();
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -561,7 +561,7 @@ async function deny(id: number) {
     refetchSupportTickets();
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -614,7 +614,7 @@ watch(ticketApiOffset, async (newTicketApiOffset, oldTicketApiOffset) => {
     }
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

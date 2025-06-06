@@ -1,3 +1,5 @@
+import { HTTP_STATUS } from './http_status';
+
 const COMMON = {
   HIDDEN_OPTION: 0,
   SUPPORT_TICKET_STATUS: {
@@ -31,6 +33,7 @@ const COMMON = {
     ADD_CUSTOMERS: 4,
     ADD_BILLS: 5,
   },
+  HTTP_STATUS,
 };
 
 export { COMMON };

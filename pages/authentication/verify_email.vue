@@ -82,6 +82,7 @@ import { getMessageCode } from '~/consts/api_response';
 import { svgPaths } from '~/consts/svg_paths';
 import Success from '~/public/svg/success.svg';
 import Fail from '~/public/svg/fail.svg';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -120,7 +121,7 @@ async function checkToken() {
     verifySuccess.value = false;
 
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

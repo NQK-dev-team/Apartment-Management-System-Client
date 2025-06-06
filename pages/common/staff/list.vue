@@ -84,6 +84,7 @@ import type { User } from '~/types/user';
 import { getUserGender, getUserName } from '~/utils/user';
 import { convertToDate } from '~/utils/formatter';
 import { removeDiacritics } from '~/utils/diacritics';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -258,7 +259,7 @@ async function getEmployeeList() {
     });
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -280,7 +281,7 @@ async function deleteEmployee() {
     getEmployeeList();
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

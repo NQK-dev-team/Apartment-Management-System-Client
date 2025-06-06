@@ -80,6 +80,7 @@ import type { Building, Room } from '~/types/building';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import { navItemPaddings } from './nav_menu.vue';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -110,7 +111,7 @@ async function getBuildingRoom() {
     roomList.value = data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

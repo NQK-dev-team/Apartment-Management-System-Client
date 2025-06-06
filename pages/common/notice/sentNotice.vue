@@ -16,12 +16,12 @@
       <DeleteOutlined /> -->
       <!-- notification list collum-->
       <div class="flex-initial flex-col w-1/4 flex mt-5 overflow-auto thick-border border-r-gray-300">
-        <CommonNoticeNotificationListComp />
-        <CommonNoticeNotificationListComp />
-        <CommonNoticeNotificationListComp />
-        <CommonNoticeNotificationListComp />
-        <CommonNoticeNotificationListComp />
-        <CommonNoticeNotificationListComp />
+        <CommonNoticeNotificationListComp
+          v-for="(item, idx) in 6"
+          :key="idx"
+          :selected="selectedIdx === idx"
+          @click="selectedIdx = idx"
+        />
 
       </div>
 
@@ -37,6 +37,7 @@
 <script lang="ts" setup>
 import { api } from '~/services/api';
 import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Metadata ----------------------
@@ -63,7 +64,7 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-
+const selectedIdx = ref<number | null>(null);
 
 // ---------------------- Functions ----------------------
 </script>

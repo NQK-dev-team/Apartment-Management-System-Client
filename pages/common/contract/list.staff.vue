@@ -71,7 +71,7 @@
             <span
               >{{ value }}
               <NuxtLink
-                v-if="userRole?.toString() === roles.owner"
+                v-if="userRole?.toString() === roles.owner && record.creator_role !== roles.owner"
                 :to="pageRoutes.common.staff.detail(record.employee_id)"
                 target="_blank"
                 class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -128,7 +128,17 @@
           </div>
         </template>
         <template #customFilterIcon="{ filtered, column }">
-          <SearchOutlined v-if="column.dataIndex === 'room_no'" :style="{ color: filtered ? '#108ee9' : undefined }" />
+          <SearchOutlined
+            v-if="
+              column.dataIndex === 'room_no' ||
+              column.dataIndex === 'customer' ||
+              column.dataIndex === 'customer_no' ||
+              column.dataIndex === 'employee' ||
+              column.dataIndex === 'employee_number' ||
+              column.dataIndex === 'contract_id'
+            "
+            :style="{ color: filtered ? '#108ee9' : undefined }"
+          />
           <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
         </template>
       </a-table>
@@ -144,6 +154,7 @@ import { roles } from '~/consts/roles';
 import { COMMON } from '~/consts/common';
 import type { Contract } from '~/types/contract';
 import { svgPaths } from '~/consts/svg_paths';
+import { getUserRole } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const userRole = useCookie('userRole');
@@ -179,7 +190,23 @@ const { $event } = useNuxtApp();
 const contracts = ref<Contract[]>([]);
 const offset = ref(0);
 const limit = ref(500);
+const searchInput = ref();
 const columns: any = computed(() => {
+  const buildingSet = new Set<string>();
+  const floorSet = new Set<number>();
+
+  contracts.value.forEach((contract) => {
+    if (contract.buildingName) {
+      buildingSet.add(contract.buildingName);
+    }
+    if (contract.roomFloor) {
+      floorSet.add(contract.roomFloor);
+    }
+  });
+
+  const buildings = Array.from(buildingSet).sort();
+  const floors = Array.from(floorSet).sort((a, b) => a - b);
+
   return [
     {
       title: t('no'),
@@ -192,48 +219,130 @@ const columns: any = computed(() => {
       dataIndex: 'customer',
       key: 'customer',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.customer.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('customer_no'),
       dataIndex: 'customer_no',
       key: 'customer_no',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.customer_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('employee'),
       dataIndex: 'employee',
       key: 'employee',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.employee.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('employee_number'),
       dataIndex: 'employee_number',
       key: 'employee_number',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.employee_number.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('building'),
       dataIndex: 'building',
       key: 'building',
       class: 'text-nowrap',
+      filters: buildings.map((building: string) => ({
+        text: building,
+        value: building,
+      })),
+      onFilter: (value: any, record: any) => record.building === value,
     },
     {
       title: t('floor'),
       dataIndex: 'floor',
       key: 'floor',
       class: 'text-nowrap',
+      filters: floors.map((floor: number) => ({
+        text: floor.toString(),
+        value: floor,
+      })),
+      onFilter: (value: any, record: any) => record.floor === value,
     },
     {
       title: t('room_no'),
       dataIndex: 'room_no',
       key: 'room_no',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.room_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('contract_id'),
       dataIndex: 'contract_id',
       key: 'contract_id',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.contract_id.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('startDate'),
@@ -304,6 +413,7 @@ const data = computed(() => {
     building: contract.buildingName,
     floor: contract.roomFloor,
     room_no: contract.roomNo,
+    creator_role: getUserRole(contract.creator),
   }));
 });
 const deleteBucket = ref<number[]>([]);
@@ -313,9 +423,23 @@ const state = reactive({
 });
 
 // ---------------------- Functions ----------------------
-async function getContractList() {
+async function getContractList(emitLoading = true) {
   try {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
+
+    const response = await api.common.contract.getList(limit.value, offset.value);
+
+    if (offset.value === 0) {
+      contracts.value = response.data;
+    } else {
+      contracts.value.push(...response.data);
+    }
+
+    if (response.data.length >= limit.value) {
+      offset.value += limit.value;
+    }
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -328,13 +452,19 @@ async function getContractList() {
       });
     }
   } finally {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
   }
 }
 
 async function deleteContracts() {
   try {
     $event.emit('loading');
+    await api.common.contract.deleteMany(deleteBucket.value);
+    $event.emit('deleteItemSuccess');
+    offset.value = 0;
+    deleteBucket.value = [];
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -379,6 +509,6 @@ onMounted(() => {
 
 // ---------------------- Watchers ----------------------
 watch(offset, () => {
-  getContractList();
+  getContractList(false);
 });
 </script>

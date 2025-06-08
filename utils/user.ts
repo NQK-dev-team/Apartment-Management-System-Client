@@ -29,4 +29,31 @@ function getUserGender(user: User | undefined): string {
       : 'other';
 }
 
-export { getUserName, getUserGender };
+function getUserRole(user: User | undefined): string {
+  if (!user) {
+    return '';
+  }
+
+  let string = '';
+  if (user.isOwner) {
+    string += '1';
+  } else {
+    string += '0';
+  }
+
+  if (user.isManager) {
+    string += '1';
+  } else {
+    string += '0';
+  }
+
+  if (user.isCustomer) {
+    string += '1';
+  } else {
+    string += '0';
+  }
+
+  return string;
+}
+
+export { getUserName, getUserGender, getUserRole };

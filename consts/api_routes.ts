@@ -19,7 +19,7 @@ const apiRoutes = {
     getRoomTickets: (buildingId: number, roomId: number, startDate: string = '', endDate: string = '') =>
       `/building/${buildingId}/room/${roomId}/tickets?startDate=${startDate}&endDate=${endDate}`,
     deleteRoomContracts: (buildingId: number, roomId: number) =>
-      `/building/${ buildingId }/room/${ roomId }/delete-contracts`,
+      `/building/${buildingId}/room/${roomId}/delete-contracts`,
     updateRoom: (buildingId: number, roomId: number) => `/building/${buildingId}/room/${roomId}/update`,
     add: '/building/add',
     delete: (buildingID: number) => `/building/${buildingID}`,
@@ -67,10 +67,11 @@ const apiRoutes = {
   },
   notice: {},
   contract: {
-    list: '/contract',
+    list: (limit: number = 500, offset: number = 0) => `/contract?limit=${limit}&offset=${offset}`,
     detail: (contractId: number) => `/contract/${contractId}`,
     add: '/contract/add',
     edit: (contractId: number) => `/contract/${contractId}/edit`,
+    deleteMany: '/contract/delete-many',
   },
   import: {},
 };

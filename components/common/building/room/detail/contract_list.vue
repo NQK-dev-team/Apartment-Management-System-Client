@@ -42,7 +42,7 @@
         <span
           >{{ value }}
           <NuxtLink
-            v-if="userRole?.toString() === roles.owner"
+            v-if="userRole?.toString() === roles.owner && record.creator_role !== roles.owner"
             :to="pageRoutes.common.staff.detail(record.employee_id)"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -75,6 +75,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { roles } from '~/consts/roles';
 import { COMMON } from '~/consts/common';
+import { getUserRole } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const userID = useCookie('userID');
@@ -194,6 +195,7 @@ const data = computed(() => {
     status: contract.status,
     action: contract.ID,
     key: contract.ID,
+    creator_role: getUserRole(contract.creator),
   }));
 });
 const deleteBucket = toRef(props, 'deleteBucket');

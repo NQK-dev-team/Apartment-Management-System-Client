@@ -362,7 +362,23 @@ const common = {
     },
   },
   notice: {},
-  contract: {},
+  contract: {
+    getList: async (limit: number = 500, offset: number = 0): Promise<APIResponse<Contract[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.list(limit, offset), {
+        method: 'GET',
+      });
+    },
+    deleteMany: async (contractIds: number[]): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.deleteMany, {
+        method: 'POST',
+        body: {
+          IDs: contractIds,
+        },
+      });
+    }
+  },
   import: {},
 };
 

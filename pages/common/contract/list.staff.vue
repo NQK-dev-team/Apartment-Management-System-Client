@@ -51,7 +51,6 @@
             <NuxtLink
               v-if="userRole?.toString() === roles.owner || record.employee_id.toString() === userID?.toString()"
               :to="pageRoutes.common.contract.detail(value)"
-              target="_blank"
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
               >{{ $t('detail') }}</NuxtLink
             >

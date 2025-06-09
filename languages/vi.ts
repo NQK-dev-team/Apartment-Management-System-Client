@@ -272,6 +272,7 @@ export default {
   other: 'Khác',
   old_ssn: 'Số CMND (cũ)',
   old_ssn_exists: 'Số CMND (cũ) đã tồn tại!',
+  other_resident_list: 'Danh sách người cư trú khác',
 
   P: 'p',
   payer: 'Người thanh toán',

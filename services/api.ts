@@ -377,7 +377,13 @@ const common = {
           IDs: contractIds,
         },
       });
-    }
+    },
+    getDetail: async (contractId: number): Promise<APIResponse<Contract>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.detail(contractId), {
+        method: 'GET',
+      });
+    },
   },
   import: {},
 };

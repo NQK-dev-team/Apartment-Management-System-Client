@@ -1,4 +1,5 @@
 import type { BasicFileModel, BasicModel, NullTime } from './basic_model';
+import type { Bill } from './bill';
 import type { User } from './user';
 
 type ContractFile = BasicFileModel & {
@@ -18,8 +19,10 @@ type Contract = BasicModel & {
   householder: User;
   roomID: number;
   files: ContractFile[];
+  bills: Bill[];
   roomNo: undefined | number;
   buildingName: undefined | string;
+  buildingAddress: undefined | string;
   roomFloor: undefined | number;
 };
 

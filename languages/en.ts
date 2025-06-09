@@ -271,6 +271,7 @@ export default {
   other: 'Other',
   old_ssn: 'Old SSN',
   old_ssn_exists: 'Old SSN already exists!',
+  other_resident_list: 'Other resident list',
 
   P: 'p',
   payer: 'Payer',

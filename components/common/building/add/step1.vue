@@ -28,7 +28,7 @@
             <a-button
               type="primary"
               danger
-              class="flex items-center justify-center w-10 h-10 rounded-sm"
+              class="flex items-center justify-center w-8 h-8 rounded-sm"
               :disabled="!serviceDeleteBucket.length"
               @click="
                 () => {
@@ -40,7 +40,7 @@
             /></a-button>
             <a-button
               type="primary"
-              class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
+              class="ms-2 flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
                 buildingInfo.services.push({
                   name: '',
@@ -123,7 +123,7 @@
             <a-button
               type="primary"
               danger
-              class="flex items-center justify-center w-10 h-10 rounded-sm"
+              class="flex items-center justify-center w-8 h-8 rounded-sm"
               :disabled="!scheduleDeleteBucket.length"
               @click="
                 () => {
@@ -135,7 +135,7 @@
             /></a-button>
             <a-button
               type="primary"
-              class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
+              class="ms-2 flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
                 buildingInfo.schedules.push({
                   managerID: 0,
@@ -245,7 +245,7 @@
             <a-button
               type="primary"
               danger
-              class="flex items-center justify-center w-10 h-10 rounded-sm"
+              class="flex items-center justify-center w-8 h-8 rounded-sm"
               :disabled="!floorDeleteBucket.length"
               @click="
                 () => {
@@ -257,7 +257,7 @@
             /></a-button>
             <a-button
               type="primary"
-              class="ms-2 flex items-center justify-center w-10 h-10 rounded-sm"
+              class="ms-2 flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
                 buildingInfo.floors.push({
                   rooms: [],

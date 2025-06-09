@@ -24,7 +24,7 @@
         <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
         <div class="flex items-center">
           <a-button
-            class="flex items-center justify-center w-10 h-10 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+            class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
             @click="handleUndo"
           >
             <UndoOutlined />
@@ -33,7 +33,7 @@
             v-if="userRole?.toString() === roles.owner"
             type="primary"
             danger
-            class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
+            class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
             :disabled="deleteBucket.length === 0"
             @click="
               () => {
@@ -45,7 +45,7 @@
           <a-button
             v-if="userRole?.toString() === roles.owner"
             type="primary"
-            class="flex items-center justify-center w-10 h-10 rounded-sm"
+            class="flex items-center justify-center w-8 h-8 rounded-sm"
             @click="
               () => {
                 let nextNo = 0;

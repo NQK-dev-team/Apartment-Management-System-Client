@@ -372,7 +372,7 @@
               <a-button
                 type="primary"
                 danger
-                class="flex items-center justify-center w-10 h-10 rounded-sm me-2"
+                class="flex items-center justify-center w-8 h-8 rounded-sm me-2"
                 :disabled="!deleteBucket.value.length"
                 @click="
                   () => {
@@ -381,7 +381,7 @@
                 "
                 ><DeleteOutlined
               /></a-button>
-              <a-button type="primary" class="flex items-center justify-center w-10 h-10 rounded-sm"
+              <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm"
                 ><NuxtLink :to="pageRoutes.common.contract.add" target="_blank"><PlusOutlined /></NuxtLink
               ></a-button>
             </div>

@@ -6,14 +6,14 @@
         <a-button
           type="primary"
           danger
-          class="flex items-center justify-center w-10 h-10 rounded-sm mx-2"
+          class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
           :disabled="scheduleDeleteBucket.length === 0"
           @click="deleteSchedules"
           ><DeleteOutlined
         /></a-button>
         <a-button
           type="primary"
-          class="flex items-center justify-center w-10 h-10 rounded-sm"
+          class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="
             () => {
               addCounter++;

@@ -1,5 +1,9 @@
 <template>
-  <a-form class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+  <a-form
+    :model="editContract.value"
+    class="flex-1 flex flex-col px-4 mt-5"
+    :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+  >
     <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -106,24 +110,27 @@
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item>
-          <label for="signed_date" class="flex mb-1">
-            <span>{{ $t('signed_date') }}</span>
+          <label for="expire_date" class="flex mb-1">
+            <span>{{ $t('expire_date') }}</span>
           </label>
-          <a-input id="signed_date" disabled readonly :placeholder="$t('signed_date')" />
+          <a-input id="expire_date" disabled readonly :placeholder="$t('expire_date')" />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item>
-          <label for="active_date" class="flex mb-1">
-            <span>{{ $t('active_date') }}</span>
+          <label for="status" class="flex mb-1">
+            <span>{{ $t('status') }}</span>
           </label>
-          <a-input id="active_date" disabled readonly :placeholder="$t('active_date')" />
+          <a-input id="status" disabled readonly :placeholder="$t('status')" />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
-    <div class="mt-5 flex items-center justify-between">
+    <div class="mt-10 flex items-center justify-between">
+      <h1 class="text-2xl">{{ $t('paper_list') }}</h1>
+    </div>
+    <div class="mt-10 flex items-center justify-between">
       <h1 class="text-2xl">{{ $t('resident_list') }}</h1>
       <div class="flex items-center">
         <a-button
@@ -145,7 +152,7 @@
       </div>
     </div>
     <CommonContractResidentList />
-    <div class="mt-5 flex items-center justify-between">
+    <div class="mt-10 flex items-center justify-between">
       <h1 class="text-2xl">{{ $t('bill_list') }}</h1>
       <div class="flex items-center">
         <a-button
@@ -171,11 +178,8 @@
 </template>
 
 <script lang="ts" setup>
-import { getMessageCode } from '~/consts/api_response';
 import { COMMON } from '~/consts/common';
 import { svgPaths } from '~/consts/svg_paths';
-import { api } from '~/services/api';
-import type { Building } from '~/types/building';
 import type { Contract } from '~/types/contract';
 
 // ---------------------- Variables ----------------------
@@ -195,32 +199,7 @@ const props = defineProps({
 });
 const contract = toRef(props, 'contract');
 const editContract = toRef(props, 'editContract');
-const buildings = ref<Building[]>([]);
 const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
-async function getBuildings() {
-  try {
-    $event.emit('loading');
-    const response = await api.common.building.getList();
-    buildings.value = response.data;
-
-    $event.emit('editModeContractOn');
-  } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
-      $event.emit('errorEditContract');
-    }
-  } finally {
-    $event.emit('loading');
-  }
-}
-
-// ---------------------- Lifecycles ----------------------
-onMounted(() => {
-  getBuildings();
-});
 </script>

@@ -14,6 +14,10 @@ const COMMON = {
     WAITING_FOR_SIGNATURE: 4,
     NOT_IN_EFFECT: 5,
   },
+  CONTRACT_TYPE: {
+    RENT: 1,
+    BUY: 2,
+  },
   ROOM_STATUS: {
     RENTED: 1,
     SOLD: 2,

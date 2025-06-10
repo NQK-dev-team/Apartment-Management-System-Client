@@ -54,7 +54,7 @@ export default {
   bought: 'Bought',
   building_managing: 'Building managing',
   back_face: 'back face',
-  buy: 'Buy back',
+  buy: 'Buy',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -312,6 +312,7 @@ export default {
   please_select_a_building: 'Please select a building',
   please_pick_start_date: 'Please pick a start date',
   phone_exists: 'Phone number already exists!',
+  paper_list: 'Paper list',
 
   Q: 'q',
   quarter: 'Q{quarter}',

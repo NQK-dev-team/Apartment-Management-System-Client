@@ -361,16 +361,16 @@ const columns: any = computed(() => {
       sortDirections: ['ascend', 'descend'],
       class: 'select-none text-nowrap',
     },
-    {
-      title: t('signDate'),
-      dataIndex: 'signDate',
-      key: 'signDate',
-      sorter: (a: any, b: any) =>
-        new Date(a.signDate !== '-' ? a.signDate : '2100-01-01').getTime() -
-        new Date(b.signDate !== '-' ? b.signDate : '2100-01-01').getTime(),
-      sortDirections: ['ascend', 'descend'],
-      class: 'text-nowrap',
-    },
+    // {
+    //   title: t('signDate'),
+    //   dataIndex: 'signDate',
+    //   key: 'signDate',
+    //   sorter: (a: any, b: any) =>
+    //     new Date(a.signDate !== '-' ? a.signDate : '2100-01-01').getTime() -
+    //     new Date(b.signDate !== '-' ? b.signDate : '2100-01-01').getTime(),
+    //   sortDirections: ['ascend', 'descend'],
+    //   class: 'text-nowrap',
+    // },
     {
       title: t('status'),
       dataIndex: 'status',

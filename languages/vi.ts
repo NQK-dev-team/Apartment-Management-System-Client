@@ -313,6 +313,7 @@ export default {
   please_select_a_building: 'Vui lòng chọn tòa nhà!',
   please_pick_start_date: 'Vui lòng chọn ngày bắt đầu!',
   phone_exists: 'Số điện thoại đã tồn tại!',
+  paper_list:' Danh sách giấy tờ',
 
   Q: 'q',
   quarter: 'Quý {quarter}',

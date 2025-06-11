@@ -200,6 +200,8 @@ export default {
   front_face: 'front face',
   female: 'Female',
   full_name: 'Full name',
+  file_name: 'File name',
+  file_link: 'File link',
 
   G: 'g',
   gender: 'Gender',

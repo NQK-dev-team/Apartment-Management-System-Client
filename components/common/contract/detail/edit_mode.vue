@@ -130,7 +130,7 @@
     <div class="mt-10 flex items-center justify-between">
       <h1 class="text-2xl">{{ $t('paper_list') }}</h1>
     </div>
-    <div class="mt-10 flex items-center justify-between">
+    <!-- <div class="mt-10 flex items-center justify-between">
       <h1 class="text-2xl">{{ $t('resident_list') }}</h1>
       <div class="flex items-center">
         <a-button
@@ -173,7 +173,7 @@
         /></a-button>
       </div>
     </div>
-    <CommonContractBillList />
+    <CommonContractBillList /> -->
   </a-form>
 </template>
 

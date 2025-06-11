@@ -17,10 +17,12 @@
             v-show="!editMode"
             type="primary"
             class="rounded-sm"
-            html-type="button"
             @click="
               () => {
                 editMode = true;
+                notification.info({
+                  message: t('edit_mode_active'),
+                });
               }
             "
             >{{ $t('edit') }}</a-button
@@ -28,7 +30,6 @@
           <a-button
             v-show="editMode"
             class="rounded-sm me-2"
-            html-type="button"
             @click="
               () => {
                 notification.info({
@@ -40,7 +41,7 @@
             "
             >{{ $t('cancel') }}</a-button
           >
-          <a-button v-show="editMode" type="primary" class="rounded-sm" html-type="submit">{{
+          <a-button v-show="editMode" type="primary" class="rounded-sm" @click="updateContract">{{
             $t('save_changes')
           }}</a-button>
         </div>
@@ -163,12 +164,6 @@ $event.on('errorEditContract', () => {
   notification.error({
     message: t('system_error_title'),
     description: t('system_error_description'),
-  });
-});
-
-$event.on('editModeContractOn', () => {
-  notification.info({
-    message: t('edit_mode_active'),
   });
 });
 </script>

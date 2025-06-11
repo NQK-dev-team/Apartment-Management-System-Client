@@ -201,6 +201,8 @@ export default {
   front_face: 'mặt trước',
   female: 'Nữ',
   full_name: 'Họ và tên',
+  file_name: 'Tên tệp tin',
+  file_link:' Liên kết tệp tin',
 
   G: 'g',
   gender: 'Giới tính',

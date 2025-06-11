@@ -157,11 +157,12 @@
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
     <h1 class="mt-10 text-2xl">{{ $t('paper_list') }}</h1>
+    <CommonContractDetailViewModePaperListTable :files="props.contract.files" />
     <h1 class="mt-10 text-2xl">{{ $t('other_resident_list') }}</h1>
-    <CommonContractResidentList />
+    <!-- <CommonContractResidentList /> -->
     <h1 class="mt-10 text-2xl">{{ $t('bill_list') }}</h1>
-    <CommonContractBillList />
-</div>
+    <!-- <CommonContractBillList /> -->
+  </div>
 </template>
 
 <script lang="ts" setup>

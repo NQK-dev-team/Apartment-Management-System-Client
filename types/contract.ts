@@ -26,4 +26,4 @@ type Contract = BasicModel & {
   roomFloor: undefined | number;
 };
 
-export type { Contract };
+export type { Contract, ContractFile };

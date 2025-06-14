@@ -75,7 +75,7 @@
               <a-menu-divider />
               <a-menu-item key="profile" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
                 <NuxtLink
-                  :to="pageRoutes.common.profile.page"
+                  :to="pageRoutes.common.profile.index"
                   class="flex items-center"
                   :class="[lightMode ? '' : 'text-white']"
                 >

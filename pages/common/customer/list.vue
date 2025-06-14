@@ -27,7 +27,7 @@
               }
             "
           >
-            <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
+            <img :src="svgPaths.delete" alt="Delete customer" class="w-[12px] h-[12px]" />
           </a-button>
           <NuxtLink :to="pageRoutes.common.customer.add">
             <a-button type="primary" class="rounded-sm">

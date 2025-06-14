@@ -382,7 +382,7 @@
                 ><DeleteOutlined
               /></a-button>
               <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm"
-                ><NuxtLink :to="pageRoutes.common.contract.add" target="_blank"><PlusOutlined /></NuxtLink
+                ><NuxtLink :to="pageRoutes.common.contract.add(roomID)" target="_blank"><PlusOutlined /></NuxtLink
               ></a-button>
             </div>
           </div>

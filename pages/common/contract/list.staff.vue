@@ -17,7 +17,7 @@
             }
           "
         >
-          <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
+          <img :src="svgPaths.delete" alt="Delete contract" class="w-[12px] h-[12px]" />
         </a-button>
         <NuxtLink :to="pageRoutes.common.contract.add">
           <a-button type="primary" class="rounded-sm">

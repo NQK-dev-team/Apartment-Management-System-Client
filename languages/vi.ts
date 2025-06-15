@@ -53,8 +53,9 @@ export default {
   building_information: 'Thông tin tòa nhà',
   bought: 'Đã mua',
   building_managing: 'Toà nhà quản lý',
-  back_face: 'mặt sau',
+  back_face: 'Mặt sau',
   buy: 'Mua',
+  bill_no: 'Mã hóa đơn',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -94,6 +95,7 @@ export default {
   can_not_delete_a_contract_in_the_list:
     'Danh sách chọn xóa đang có hợp đồng không cho phép xóa, vui lòng kiểm tra lại!',
   customer_must_be_18_years_old: 'Khách hàng phải từ 18 tuổi trở lên!',
+  child: 'Con cái',
 
   D: 'd',
   delete: 'Xóa',
@@ -202,7 +204,7 @@ export default {
   female: 'Nữ',
   full_name: 'Họ và tên',
   file_name: 'Tên tệp tin',
-  file_link:' Liên kết tệp tin',
+  file_link: ' Liên kết tệp tin',
 
   G: 'g',
   gender: 'Giới tính',
@@ -275,6 +277,7 @@ export default {
   old_ssn: 'Số CMND (cũ)',
   old_ssn_exists: 'Số CMND (cũ) đã tồn tại!',
   other_resident_list: 'Danh sách người cư trú khác',
+  overdue: 'Quá hạn thanh toán',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -283,6 +286,7 @@ export default {
   payment_list: 'Danh sách khoản thanh toán',
   payment_period: 'Kỳ thanh toán',
   payment_date: 'Ngày thanh toán',
+  payment_time: 'Thời gian thanh toán',
   profile: 'Thông tin cá nhân',
   password: 'Mật khẩu',
   password_require: 'Mật khẩu không được để trống!',
@@ -315,7 +319,9 @@ export default {
   please_select_a_building: 'Vui lòng chọn tòa nhà!',
   please_pick_start_date: 'Vui lòng chọn ngày bắt đầu!',
   phone_exists: 'Số điện thoại đã tồn tại!',
-  paper_list:' Danh sách giấy tờ',
+  paper_list: ' Danh sách giấy tờ',
+  parent: 'Cha/Mẹ',
+  processing: 'Đang xử lý',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -379,6 +385,7 @@ export default {
   staff_new_information_updated: 'Thông tin nhân viên đã được cập nhật thành công!',
   staff_must_be_18_years_old: 'Nhân viên phải từ 18 tuổi trở lên!',
   save_changes: 'Lưu thay đổi',
+  spouse: 'Vợ/Chồng',
 
   T: 't',
   total: 'Tổng',
@@ -397,6 +404,7 @@ export default {
   update_building_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
   update_success: 'Cập nhật thành công!',
   update_staff_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin nhân viên này không?',
+  un_paid: ' Chưa thanh toán',
 
   V: 'v',
 

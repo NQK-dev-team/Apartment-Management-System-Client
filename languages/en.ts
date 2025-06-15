@@ -55,6 +55,7 @@ export default {
   building_managing: 'Building managing',
   back_face: 'back face',
   buy: 'Buy',
+  bill_no: 'Bill number',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -94,6 +95,7 @@ export default {
   can_not_delete_a_contract_in_the_list:
     'The delete list contains a contract that can not be deleted. Please check again!',
   customer_must_be_18_years_old: 'Customer must be at least 18 years old!',
+  child: 'Child',
 
   D: 'd',
   delete: 'Delete',
@@ -274,6 +276,7 @@ export default {
   old_ssn: 'Old SSN',
   old_ssn_exists: 'Old SSN already exists!',
   other_resident_list: 'Other resident list',
+  overdue: 'Payment overdue',
 
   P: 'p',
   payer: 'Payer',
@@ -282,6 +285,7 @@ export default {
   payment_list: 'Payment list',
   payment_period: 'Payment period',
   payment_date: 'Payment date',
+  payment_time: 'Payment time',
   profile: 'Profile',
   password: 'Password',
   password_require: 'Please enter your password!',
@@ -315,6 +319,8 @@ export default {
   please_pick_start_date: 'Please pick a start date',
   phone_exists: 'Phone number already exists!',
   paper_list: 'Paper list',
+  parent: 'Parent',
+  processing: 'Processing',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -378,6 +384,7 @@ export default {
   staff_new_information_updated: 'Staff information has been updated successfully!',
   staff_must_be_18_years_old: 'Staff must be at least 18 years old!',
   save_changes: 'Save changes',
+  spouse: 'Spouse',
 
   T: 't',
   total: 'Total',
@@ -396,6 +403,7 @@ export default {
   update_building_confirm: 'Are you sure you want to update this building information?',
   update_success: 'Update success!',
   update_staff_confirm: 'Are you sure you want to update this staff information?',
+  un_paid: 'Unpaid',
 
   V: 'v',
 

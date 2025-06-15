@@ -1,9 +1,5 @@
 <template>
-  <a-form
-    :model="editContract.value"
-    class="flex-1 flex flex-col px-4 mt-5"
-    :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
-  >
+  <a-form :model="editContract.value">
     <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -151,29 +147,7 @@
         /></a-button>
       </div>
     </div>
-    <CommonContractResidentList />
-    <div class="mt-10 flex items-center justify-between">
-      <h1 class="text-2xl">{{ $t('bill_list') }}</h1>
-      <div class="flex items-center">
-        <a-button
-          class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-          @click="() => {}"
-        >
-          <UndoOutlined />
-        </a-button>
-        <a-button
-          type="primary"
-          danger
-          class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
-          @click="() => {}"
-          ><DeleteOutlined
-        /></a-button>
-        <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm" @click="() => {}"
-          ><PlusOutlined
-        /></a-button>
-      </div>
-    </div>
-    <CommonContractBillList /> -->
+    <CommonContractResidentList />-->
   </a-form>
 </template>
 
@@ -183,10 +157,6 @@ import { svgPaths } from '~/consts/svg_paths';
 import type { Contract } from '~/types/contract';
 
 // ---------------------- Variables ----------------------
-const lightModeCookie = useCookie('lightMode');
-const lightMode = computed(
-  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
-);
 const props = defineProps({
   contract: {
     type: Object as PropType<Contract>,

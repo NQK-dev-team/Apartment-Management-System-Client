@@ -57,7 +57,8 @@ const apiRoutes = {
     list: '/bill',
     detail: (billId: number) => `/bill/${billId}`,
     add: '/bill/add',
-    edit: (billId: number) => `/bill/${billId}/edit`,
+    edit: (billId: number) => `/bill/${ billId }/edit`,
+    deleteMany: '/bill/delete-many',
   },
   support_ticket: {
     approve: (ticketId: number) => `/support-ticket/${ticketId}/approve`,

@@ -47,10 +47,17 @@
         </div>
       </div>
     </div>
-    <template v-if="contract && editContract">
-      <CommonContractDetailViewMode v-if="!editMode" :contract="contract" />
-      <CommonContractDetailEditMode v-else :contract="contract" :edit-contract="editContract" />
-    </template>
+    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+      <template v-if="contract && editContract">
+        <CommonContractDetailViewMode v-if="!editMode" :contract="contract" />
+        <CommonContractDetailEditMode v-else :contract="contract" :edit-contract="editContract" />
+      </template>
+      <div class="flex flex-col items-center my-5">
+        <a-button class="my-2 w-[100px] rounded-sm">
+          <NuxtLink :to="pageRoutes.common.contract.list">{{ $t('back') }}</NuxtLink>
+        </a-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -103,6 +110,7 @@ async function getContractDetail(emitLoading = true) {
 
     const response = await api.common.contract.getDetail(contractID);
     contract.value = response.data;
+    contract.value.residents = contract.value.residents || [];
     editContract.value.value = JSON.parse(JSON.stringify(contract.value)); // Create a deep copy for editing
   } catch (err: any) {
     contract.value = null;

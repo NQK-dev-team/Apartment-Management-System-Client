@@ -37,6 +37,18 @@ const COMMON = {
     ADD_CUSTOMERS: 4,
     ADD_BILLS: 5,
   },
+  RESIDENT_TYPE: {
+    CHILD: 1,
+    SPOUSE: 2,
+    PARENT: 3,
+    OTHER: null,
+  },
+  BILL_STATUS: {
+    UN_PAID: 1,
+    PAID: 2,
+    OVERDUE: 3,
+    PROCESSING: 4,
+  },
   HTTP_STATUS,
 };
 

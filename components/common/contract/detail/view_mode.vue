@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+  <div>
     <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -44,7 +44,19 @@
         <label for="customer_no" class="flex mb-1">
           <span>{{ $t('customer_no') }}</span>
         </label>
-        <a-input id="customer_no" disabled readonly :value="contract.householder.no" :placeholder="$t('customer_no')" />
+        <a-input id="customer_no" disabled readonly :value="contract.householder.no" :placeholder="$t('customer_no')">
+          <template #suffix>
+            <NuxtLink
+              :to="
+                userRole?.toString() === roles.customer
+                  ? pageRoutes.common.profile.index
+                  : pageRoutes.common.customer.detail(contract.householderID)
+              "
+              :title="$t('detail')"
+              ><LinkOutlined
+            /></NuxtLink>
+          </template>
+        </a-input>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="employee_number" class="flex mb-1">
@@ -56,7 +68,19 @@
           readonly
           :value="contract.creator.no"
           :placeholder="$t('employee_number')"
-        />
+        >
+          <template v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner" #suffix>
+            <NuxtLink
+              :to="
+                userRole?.toString() === roles.manager
+                  ? pageRoutes.common.profile.index
+                  : pageRoutes.common.staff.detail(contract.creatorID)
+              "
+              :title="$t('detail')"
+              ><LinkOutlined
+            /></NuxtLink>
+          </template>
+        </a-input>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="contract_id" class="flex mb-1">
@@ -158,22 +182,53 @@
     </a-row>
     <h1 class="mt-10 text-2xl">{{ $t('paper_list') }}</h1>
     <CommonContractDetailViewModePaperListTable :files="props.contract.files" />
-    <h1 class="mt-10 text-2xl">{{ $t('other_resident_list') }}</h1>
-    <!-- <CommonContractResidentList /> -->
-    <h1 class="mt-10 text-2xl">{{ $t('bill_list') }}</h1>
-    <!-- <CommonContractBillList /> -->
+    <template v-if="props.contract.residents.length">
+      <h1 class="mt-10 text-2xl">{{ $t('other_resident_list') }}</h1>
+      <CommonContractDetailViewModeResidentListTable :residents="props.contract.residents" />
+    </template>
+    <div class="mt-10 flex items-center justify-between">
+      <h1 class="text-2xl">{{ $t('bill_list') }}</h1>
+      <div
+        v-if="userRole?.toString() === roles.owner || userRole?.toString() === roles.manager"
+        class="flex items-center"
+      >
+        <a-button
+          type="primary"
+          danger
+          :disabled="!deleteBillBucket.value.length"
+          class="rounded-sm me-2"
+          @click="
+            () => {
+              $event.emit('deleteItem', { callback: deleteBills });
+            }
+          "
+        >
+          <img :src="svgPaths.delete" alt="Delete bill" class="w-[12px] h-[12px]" />
+        </a-button>
+        <NuxtLink :to="pageRoutes.common.bill.add2(contractID)">
+          <a-button type="primary" class="rounded-sm">
+            <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]" />
+          </a-button>
+        </NuxtLink>
+      </div>
+    </div>
+    <CommonContractDetailViewModeBillListTable :bills="props.contract.bills" :delete-bill-bucket="deleteBillBucket" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { getMessageCode } from '~/consts/api_response';
 import { COMMON } from '~/consts/common';
+import { pageRoutes } from '~/consts/page_routes';
+import { roles } from '~/consts/roles';
+import { svgPaths } from '~/consts/svg_paths';
+import { api } from '~/services/api';
 import type { Contract } from '~/types/contract';
 
 // ---------------------- Variables ----------------------
-const lightModeCookie = useCookie('lightMode');
-const lightMode = computed(
-  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
-);
+const userRole = useCookie('userRole');
+const route = useRoute();
+const contractID = Number(route.params.id as string);
 const props = defineProps({
   contract: {
     type: Object as PropType<Contract>,
@@ -181,4 +236,30 @@ const props = defineProps({
   },
 });
 const contract = toRef(props, 'contract');
+const deleteBillBucket = ref<{ value: number[] }>({ value: [] });
+const { $event } = useNuxtApp();
+const { t } = useI18n();
+
+// ---------------------- Functions ----------------------
+async function deleteBills() {
+  try {
+    $event.emit('loading');
+    await api.common.bill.deleteMany(deleteBillBucket.value.value);
+    $event.emit('deleteItemSuccess');
+    deleteBillBucket.value.value = [];
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
 </script>

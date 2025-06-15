@@ -10,6 +10,13 @@ function convertToDate(date: string): string {
   return `${year}-${month}-${day}`;
 }
 
+function convertToMonthYear(date: string): string {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  return `${year}-${month}`;
+}
+
 function convertToDateTime(date: string): string {
   const d = new Date(date);
   const year = d.getFullYear();
@@ -21,4 +28,4 @@ function convertToDateTime(date: string): string {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
-export { formatPrice, convertToDate, convertToDateTime };
+export { formatPrice, convertToDate, convertToDateTime, convertToMonthYear };

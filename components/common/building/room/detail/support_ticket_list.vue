@@ -72,7 +72,7 @@
       </template>
       <template #customFilterIcon="{ filtered, column }">
         <SearchOutlined
-          v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no'"
+          v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no' || column.dataIndex === 'customer'"
           :style="{ color: filtered ? '#108ee9' : undefined }"
         />
         <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
@@ -328,6 +328,18 @@ const columns = computed<any[]>(() => {
       dataIndex: 'customer',
       key: 'customer',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.customer.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('creation_date'),

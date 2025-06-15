@@ -60,7 +60,7 @@
             value === COMMON.ROOM_STATUS.RENTED
               ? $t('rented')
               : value === COMMON.ROOM_STATUS.SOLD
-                ? $t('bought')
+                ? $t('sold')
                 : value === COMMON.ROOM_STATUS.AVAILABLE
                   ? $t('available')
                   : value === COMMON.ROOM_STATUS.MAINTANCED
@@ -157,11 +157,11 @@ const roomListTableColumns = computed<any>(() => {
       customFilterDropdown: false,
       filterMultiple: true,
       filters: [
-        { text: t('rented'), value: 1 },
-        { text: t('bought'), value: 2 },
-        { text: t('available'), value: 3 },
-        { text: t('maintenance'), value: 4 },
-        { text: t('unavailable'), value: 5 },
+        { text: t('rented'), value: COMMON.ROOM_STATUS.RENTED },
+        { text: t('sold'), value: COMMON.ROOM_STATUS.SOLD },
+        { text: t('available'), value: COMMON.ROOM_STATUS.AVAILABLE },
+        { text: t('maintenance'), value: COMMON.ROOM_STATUS.MAINTANCED },
+        { text: t('unavailable'), value: COMMON.ROOM_STATUS.UNAVAILABLE },
       ],
       onFilter: (value: number, record: any) => record.status === value,
       class: 'text-nowrap',

@@ -81,7 +81,6 @@ import { api } from '~/services/api';
 import { svgPaths } from '~/consts/svg_paths';
 import { pageRoutes } from '~/consts/page_routes';
 import type { User } from '~/types/user';
-import { getUserGender, getUserName } from '~/utils/user';
 import { convertToDate } from '~/utils/formatter';
 import { removeDiacritics } from '~/utils/diacritics';
 import { COMMON } from '~/consts/common';

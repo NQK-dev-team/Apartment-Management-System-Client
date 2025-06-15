@@ -48,13 +48,18 @@
       >
         <template #bodyCell="{ column, value, record }">
           <template v-if="column.dataIndex === 'action'">
-            <NuxtLink
+            <!-- <NuxtLink
               v-if="userRole?.toString() === roles.owner || record.employee_id.toString() === userID?.toString()"
               :to="pageRoutes.common.contract.detail(value)"
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
               >{{ $t('detail') }}</NuxtLink
             >
-            <div v-else></div>
+            <div v-else></div> -->
+            <NuxtLink
+              :to="pageRoutes.common.contract.detail(value)"
+              class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+              >{{ $t('detail') }}</NuxtLink
+            >
           </template>
           <template v-if="column.dataIndex === 'customer_no'">
             <span
@@ -72,6 +77,13 @@
               <NuxtLink
                 v-if="userRole?.toString() === roles.owner && record.creator_role !== roles.owner"
                 :to="pageRoutes.common.staff.detail(record.employee_id)"
+                target="_blank"
+                class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+                ><LinkOutlined
+              /></NuxtLink>
+              <NuxtLink
+                v-if="userRole?.toString() === roles.manager && record.employee_id.toString() === userID?.toString()"
+                :to="pageRoutes.common.profile.index"
                 target="_blank"
                 class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
                 ><LinkOutlined /></NuxtLink

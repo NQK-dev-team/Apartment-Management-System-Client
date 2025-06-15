@@ -178,7 +178,7 @@
                           3: 'available',
                           4: 'maintenance',
                           5: 'unavailable',
-                        }[roomData.status] || 'N/A'
+                        }[roomData.status as 1 | 2 | 3 | 4 | 5] || 'N/A'
                       )
                     "
                     disabled
@@ -312,7 +312,7 @@
               multiple
               list-type="text"
               @remove="
-                (file) => {
+                (file: any) => {
                   if (isNaN(Number(file.uid))) {
                     updateRoomData.images = updateRoomData.images.filter((image: any) => image.uid !== file.uid);
                   } else {
@@ -382,7 +382,7 @@
                 ><DeleteOutlined
               /></a-button>
               <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm"
-                ><NuxtLink :to="pageRoutes.common.contract.add(roomID)" target="_blank"><PlusOutlined /></NuxtLink
+                ><NuxtLink :to="pageRoutes.common.contract.add2(roomID)" target="_blank"><PlusOutlined /></NuxtLink
               ></a-button>
             </div>
           </div>

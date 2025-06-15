@@ -401,9 +401,9 @@ const columns = computed<any[]>(() => {
       key: 'status',
       customFilterDropdown: false,
       filters: [
-        { text: t('pending'), value: 1 },
-        { text: t('approved'), value: 2 },
-        { text: t('denied'), value: 3 },
+        { text: t('pending'), value: COMMON.SUPPORT_TICKET_STATUS.PENDING },
+        { text: t('approved'), value: COMMON.SUPPORT_TICKET_STATUS.APPROVED },
+        { text: t('denied'), value: COMMON.SUPPORT_TICKET_STATUS.REJECTED },
       ],
       onFilter: (value: any, record: any) => record.status === value,
       class: 'text-nowrap',

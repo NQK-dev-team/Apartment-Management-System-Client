@@ -159,6 +159,24 @@ const columns: any = computed(() => {
       class: 'text-nowrap',
     },
     {
+      title: t('contract_id'),
+      dataIndex: 'contract_id',
+      key: 'contract_id',
+      class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.contract_id.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
+    },
+    {
       title: t('customer'),
       dataIndex: 'customer',
       key: 'customer',
@@ -221,24 +239,6 @@ const columns: any = computed(() => {
       onFilter: (value: string, record: any) => {
         const values = value.split(',');
         return values.some((val) => record.employee_number.toString().toLowerCase().includes(val.trim().toLowerCase()));
-      },
-      onFilterDropdownOpenChange: (visible: boolean) => {
-        if (visible) {
-          setTimeout(() => {
-            searchInput.value.focus();
-          }, 100);
-        }
-      },
-    },
-    {
-      title: t('contract_id'),
-      dataIndex: 'contract_id',
-      key: 'contract_id',
-      class: 'text-nowrap',
-      customFilterDropdown: true,
-      onFilter: (value: string, record: any) => {
-        const values = value.split(',');
-        return values.some((val) => record.contract_id.toString().toLowerCase().includes(val.trim().toLowerCase()));
       },
       onFilterDropdownOpenChange: (visible: boolean) => {
         if (visible) {

@@ -49,8 +49,12 @@
     </div>
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <template v-if="contract && editContract">
-        <CommonContractDetailViewMode v-if="!editMode" :contract="contract" />
-        <CommonContractDetailEditMode v-else :contract="contract" :edit-contract="editContract" />
+        <CommonContractDetailViewMode v-if="!editMode && contract.ID" :contract="contract" />
+        <CommonContractDetailEditMode
+          v-if="editMode && contract.ID"
+          :contract="contract"
+          :edit-contract="editContract"
+        />
       </template>
       <div class="flex flex-col items-center my-5">
         <a-button class="my-2 w-[100px] rounded-sm">

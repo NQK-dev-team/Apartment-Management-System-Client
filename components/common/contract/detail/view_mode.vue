@@ -247,6 +247,7 @@ async function deleteBills() {
     await api.common.bill.deleteMany(deleteBillBucket.value.value);
     $event.emit('deleteItemSuccess');
     deleteBillBucket.value.value = [];
+    $event.emit('refetchContractBills');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

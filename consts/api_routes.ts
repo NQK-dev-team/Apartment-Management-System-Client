@@ -73,6 +73,7 @@ const apiRoutes = {
     add: '/contract/add',
     edit: (contractId: number) => `/contract/${contractId}/edit`,
     deleteMany: '/contract/delete-many',
+    bill: (contractId: number) => `/contract/${contractId}/bill`,
   },
   import: {},
 };

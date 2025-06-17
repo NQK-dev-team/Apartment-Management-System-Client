@@ -157,6 +157,30 @@ async function updateContract() {
   }
 }
 
+async function refetchContractBills() {
+  try {
+    $event.emit('loading');
+    const response = await api.common.contract.getContractBill(contractID);
+    if (contract.value) {
+      contract.value.bills = response.data;
+      editContract.value.value.bills = JSON.parse(JSON.stringify(contract.value.bills)); // Update bills in editContract
+    }
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
   await getContractDetail();
@@ -178,4 +202,6 @@ $event.on('errorEditContract', () => {
     description: t('system_error_description'),
   });
 });
+
+$event.on('refetchContractBills', refetchContractBills);
 </script>

@@ -393,6 +393,12 @@ const common = {
         method: 'GET',
       });
     },
+    getContractBill: async (contractId: number): Promise<APIResponse<Bill[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.bill(contractId), {
+        method: 'GET',
+      });
+    }
   },
   import: {},
 };

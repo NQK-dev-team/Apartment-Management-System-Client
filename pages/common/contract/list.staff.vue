@@ -172,11 +172,11 @@ const userRole = useCookie('userRole');
 const userID = useCookie('userID');
 
 // ---------------------- Metadata ----------------------
-definePageMeta({
-  name: 'Contract List',
-  layout: 'main',
-  // middleware: ['authorization-manager'],
-});
+// definePageMeta({
+//   name: 'Contract List',
+//   layout: 'main',
+//   middleware: ['authorization-manager'],
+// });
 
 useHead({
   title: 'List of contracts',

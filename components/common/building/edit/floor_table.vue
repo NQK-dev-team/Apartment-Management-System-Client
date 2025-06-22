@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
       <div v-if="userRole?.toString() === roles.owner && !props.readOnly" class="flex items-center">
-        <a-button
+        <!-- <a-button
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
             () => {
@@ -20,7 +20,7 @@
           "
         >
           <UndoOutlined />
-        </a-button>
+        </a-button> -->
         <a-button
           type="primary"
           danger

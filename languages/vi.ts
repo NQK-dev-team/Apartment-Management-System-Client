@@ -314,6 +314,7 @@ export default {
   please_select_a_building: 'Vui lòng chọn tòa nhà!',
   please_pick_start_date: 'Vui lòng chọn ngày bắt đầu!',
   phone_exists: 'Số điện thoại đã tồn tại!',
+  password_reset: 'Thiết lập lại mật khẩu',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -379,6 +380,7 @@ export default {
   save_changes: 'Lưu thay đổi',
   sent_notice: 'Thông báo đã gửi',
   sender: 'Người gửi',
+  security: 'Thiết lập bảo mật',
 
   T: 't',
   total: 'Tổng',

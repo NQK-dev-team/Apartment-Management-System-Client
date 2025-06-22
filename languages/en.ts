@@ -313,6 +313,7 @@ export default {
   please_select_a_building: 'Please select a building',
   please_pick_start_date: 'Please pick a start date',
   phone_exists: 'Phone number already exists!',
+  password_reset: 'Reset password',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -378,6 +379,7 @@ export default {
   save_changes: 'Save changes',
   sent_notice: 'Sent notice',
   sender: 'Sender',
+  security: 'Security',
 
   T: 't',
   total: 'Total',

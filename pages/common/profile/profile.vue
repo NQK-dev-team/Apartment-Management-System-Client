@@ -8,7 +8,7 @@
         <h1 class="mt-3 text-2xl">Nguyễn Văn A</h1>
       </div>
     </div>
-    <div class="flex-1 flex-col mt-5 mb-3 overflow-auto px-4 border border-black"
+    <div class="flex-1 flex-col mt-5 mb-3 overflow-auto px-4 "
       :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <!-- Edit and Delete icons -->
       <!-- <EditOutlined />
@@ -16,7 +16,7 @@
       <!-- notification list collum-->
 
       <!-- notification content collum -->
-        <div class="flex items-center mt-3 border border-black">
+        <div class="flex items-center mt-3">
           <p
             class="me-3 cursor-pointer select-none"
             :class="[
@@ -40,7 +40,7 @@
             {{ t('security') }}
           </p>
         </div>
-        <div class="flex items-center justify-center mt-3 border border-black">
+        <div class="flex items-center justify-center mt-3">
           <h2 v-show="option === 1" class="text-xl font-bold">{{ t('profile') }}</h2>
           <h2 v-show="option === 2" class="text-xl font-bold">{{ t('password_reset') }}</h2>
         </div>
@@ -201,18 +201,18 @@
             </div>
           </template>
           <template v-else-if="option === 2">
-            <div class="flex justify-center border border-black">
-              <div class="flex w-1/4 flex-col items-center border border-black">
-                <a-form-item class="w-full my-5" :label="$t('password')" name="password">
+            <div class="flex justify-center">
+              <div class="flex w-1/4 flex-col items-center">
+                <a-form-item class="w-full my-2" :label="t('password')" name="password" :labelCol="{ span: 24 }" :wrapperCol="{ span: 24 }">
                   <a-input-password autocomplete="off" />
                 </a-form-item>
-                <a-form-item class="w-full mb-5" :label="$t('new_password')" name="new_password">
+                <a-form-item class="w-full mb-2" :label="t('new_password')" name="new_password" :labelCol="{ span: 24 }" :wrapperCol="{ span: 24 }">
                   <a-input-password autocomplete="off" />
                 </a-form-item>
-                <a-form-item class="w-full mb-5" :label="$t('confirm_new_password')" name="confirm_new_password">
+                <a-form-item class="w-full mb-2" :label="t('confirm_new_password')" name="confirm_new_password" :labelCol="{ span: 24 }" :wrapperCol="{ span: 24 }">
                   <a-input-password autocomplete="off" />
                 </a-form-item>
-                <a-button type="primary" class="my-2 w-[100px] rounded-sm">{{ $t('cancel') }}</a-button>
+                <a-button type="primary" class="mt-3 w-[175px] rounded-sm">{{ t('password_reset') }}</a-button>
               </div>
             </div>
             

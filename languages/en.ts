@@ -314,6 +314,8 @@ export default {
   please_pick_start_date: 'Please pick a start date',
   phone_exists: 'Phone number already exists!',
   password_reset: 'Reset password',
+  payment: 'Payments',
+  profit: 'Profit',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -336,6 +338,7 @@ export default {
   resident_list: 'Resident list',
   relationship_with_owner: 'Relationship with owner',
   room_updated_success: 'Room information has been updated successfully!',
+  report: 'Report',
 
   S: 's',
   staff: 'Staff',

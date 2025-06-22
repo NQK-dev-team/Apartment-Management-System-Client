@@ -315,6 +315,8 @@ export default {
   please_pick_start_date: 'Vui lòng chọn ngày bắt đầu!',
   phone_exists: 'Số điện thoại đã tồn tại!',
   password_reset: 'Thiết lập lại mật khẩu',
+  payment: 'Tổng thanh toán',
+  profit: 'Lợi nhuận',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -337,6 +339,7 @@ export default {
   resident_list: 'Danh sách cư dân',
   relationship_with_owner: 'Mối quan hệ với chủ căn hộ',
   room_updated_success: 'Thông tin phòng đã được cập nhật thành công!',
+  report: 'Báo cáo',
 
   S: 's',
   staff: 'Nhân viên',

@@ -35,6 +35,7 @@ const billBaseRoute = '@/pages/common/bill/';
 const contractBaseRoute = '@/pages/common/contract/';
 const supportTicketBaseRoute = '@/pages/common/support_ticket/';
 const noticeBaseRoute = '@/pages/common/notice/';
+const reportBaseRoute = '@/pages/common/report/';
 
 const commonRoutes: Route[] = [
   // Building
@@ -165,6 +166,12 @@ const commonRoutes: Route[] = [
     name: 'Sent notice',
     path: pageRoutes.common.notice.sent,
     file: noticeBaseRoute + 'sentNotice.vue',
+  },
+  // Report
+  {
+    name: 'Report',
+    path: pageRoutes.common.report.page,
+    file: reportBaseRoute + 'detail.vue',
   },
 ];
 

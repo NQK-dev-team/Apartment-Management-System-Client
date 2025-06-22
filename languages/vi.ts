@@ -191,6 +191,7 @@ export default {
   edit_contract: 'Chỉnh sửa hợp đồng',
   edit_mode_active: 'Đang bật chế độ chỉnh sửa',
   edit_mode_inactive: 'Đã tắt chế độ chỉnh sửa',
+  enter_file_name: 'Nhập tên tệp tin',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -205,6 +206,8 @@ export default {
   full_name: 'Họ và tên',
   file_name: 'Tên tệp tin',
   file_link: ' Liên kết tệp tin',
+  file_require: 'Vui lòng chọn tệp tin!',
+  file_title_require: 'Vui lòng nhập tiêu đề tệp tin!',
 
   G: 'g',
   gender: 'Giới tính',
@@ -322,6 +325,7 @@ export default {
   paper_list: ' Danh sách giấy tờ',
   parent: 'Cha/Mẹ',
   processing: 'Đang xử lý',
+  please_select_contract_status: 'Vui lòng chọn trạng thái hợp đồng',
 
   Q: 'q',
   quarter: 'Quý {quarter}',

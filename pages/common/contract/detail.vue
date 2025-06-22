@@ -41,9 +41,17 @@
             "
             >{{ $t('cancel') }}</a-button
           >
-          <a-button v-show="editMode" type="primary" class="rounded-sm" @click="updateContract">{{
-            $t('save_changes')
-          }}</a-button>
+          <a-button
+            v-show="editMode"
+            type="primary"
+            class="rounded-sm"
+            @click="
+              () => {
+                $event.emit('validateFormEditContract');
+              }
+            "
+            >{{ $t('save_changes') }}</a-button
+          >
         </div>
       </div>
     </div>
@@ -115,6 +123,9 @@ async function getContractDetail(emitLoading = true) {
     const response = await api.common.contract.getDetail(contractID);
     contract.value = response.data;
     contract.value.residents = contract.value.residents || [];
+    for (const file of contract.value.files) {
+      file.isNew = false;
+    }
     editContract.value.value = JSON.parse(JSON.stringify(contract.value)); // Create a deep copy for editing
   } catch (err: any) {
     contract.value = null;
@@ -140,7 +151,9 @@ async function updateContract() {
   try {
     $event.emit('loading');
 
-    getContractDetail(false); // Refresh contract details
+    // console.log(editContract.value.value);
+
+    // getContractDetail(false); // Refresh contract details
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -202,6 +215,9 @@ $event.on('errorEditContract', () => {
     description: t('system_error_description'),
   });
 });
-
 $event.on('refetchContractBills', refetchContractBills);
+$event.on('refetchContractDetail', () => {
+  getContractDetail(false);
+});
+$event.on('validateFormSuccessUpdateContract', updateContract);
 </script>

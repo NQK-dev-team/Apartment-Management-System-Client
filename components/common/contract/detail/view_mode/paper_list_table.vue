@@ -2,10 +2,7 @@
   <a-table :data-source="data" :columns="columns" class="mt-5" :scroll="{ x: 'max-content' }">
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'action'">
-        <NuxtLink
-          :to="record.action"
-          target="_blank"
-          class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+        <NuxtLink :to="record.action" target="_blank" class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
           ><LinkOutlined
         /></NuxtLink>
       </template>

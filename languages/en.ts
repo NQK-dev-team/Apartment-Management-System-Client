@@ -190,6 +190,7 @@ export default {
   edit_contract: 'Edit contract',
   edit_mode_active: 'Edit mode has been activated',
   edit_mode_inactive: 'Edit mode has been deactivated',
+  enter_file_name: 'Enter file name',
 
   F: 'f',
   finish_import: 'Import',
@@ -204,6 +205,8 @@ export default {
   full_name: 'Full name',
   file_name: 'File name',
   file_link: 'File link',
+  file_require: 'Please choose a file!',
+  file_title_require: 'Please enter file title!',
 
   G: 'g',
   gender: 'Gender',
@@ -321,6 +324,7 @@ export default {
   paper_list: 'Paper list',
   parent: 'Parent',
   processing: 'Processing',
+  please_select_contract_status: 'Please select contract status',
 
   Q: 'q',
   quarter: 'Q{quarter}',

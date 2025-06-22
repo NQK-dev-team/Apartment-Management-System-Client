@@ -1,10 +1,25 @@
 import type { BasicFileModel, BasicModel, NullTime, NullString } from './basic_model';
 import type { Bill } from './bill';
 import type { User } from './user';
+// import type { UploadFile } from 'ant-design-vue';
 
 type ContractFile = BasicFileModel & {
   contractID: number;
+  isNew: boolean | undefined;
 };
+
+// type ContractFile = {
+//   ID: number;
+//   createdAt: string;
+//   createdBy: number;
+//   // deletedAt: string | null;
+//   // deletedBy: number | null;
+//   no: number | null;
+//   path: string | UploadFile;
+//   title: string | null;
+//   contractID: number;
+//   isNew: boolean | undefined;
+// };
 
 type RoomResident = BasicModel & {
   firstName: string;

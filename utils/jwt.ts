@@ -1,4 +1,8 @@
 function getRoleFromJWT(token: string): string {
+  if (!token) {
+    return '';
+  }
+
   let role = '';
   const jwtPayload = token.split('.')[1];
   const json = JSON.parse(Buffer.from(jwtPayload, 'base64url').toString('utf8'));
@@ -9,18 +13,30 @@ function getRoleFromJWT(token: string): string {
 }
 
 function getUserNameFromJWT(token: string): string {
+  if (!token) {
+    return '';
+  }
+
   const jwtPayload = token.split('.')[1];
   const json = JSON.parse(Buffer.from(jwtPayload, 'base64url').toString('utf8'));
   return json.fullName;
 }
 
 function getUserImageFromJWT(token: string): string {
+  if (!token) {
+    return '';
+  }
+
   const jwtPayload = token.split('.')[1];
   const json = JSON.parse(Buffer.from(jwtPayload, 'base64url').toString('utf8'));
   return json.imagePath;
 }
 
 function getUserIDFromJWT(token: string): string {
+  if (!token) {
+    return '';
+  }
+
   const jwtPayload = token.split('.')[1];
   const json = JSON.parse(Buffer.from(jwtPayload, 'base64url').toString('utf8'));
   return json.userID;

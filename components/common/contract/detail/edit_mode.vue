@@ -250,9 +250,9 @@
               $event.emit('deleteItem', {
                 callback: () => {
                   editContract.value.files = editContract.value.files.filter(
-                    (file) => !fileListDeleteBucker.value.includes(file.ID)
+                    (file) => !fileListDeleteBucket.value.includes(file.ID)
                   );
-                  fileListDeleteBucker.value = [];
+                  fileListDeleteBucket.value = [];
                 },
                 noPasswordRequired: true,
               });
@@ -278,7 +278,7 @@
         /></a-button>
       </div>
     </div>
-    <PaperListTable :edit-contract="editContract" :delete-bucket="fileListDeleteBucker" />
+    <PaperListTable :edit-contract="editContract" :delete-bucket="fileListDeleteBucket" />
     <div class="mt-10 flex items-center justify-between">
       <h1 class="text-2xl">{{ $t('resident_list') }}</h1>
       <div class="flex items-center">
@@ -328,8 +328,8 @@ const contract = toRef(props, 'contract');
 const editContract = toRef(props, 'editContract');
 const { $event } = useNuxtApp();
 const userRole = useCookie('userRole');
-const fileListDeleteBucker = ref({ value: [] as number[] });
-const residentListDeleteBucker = ref({ value: [] as number[] });
+const fileListDeleteBucket = ref({ value: [] as number[] });
+const residentListDeleteBucket = ref({ value: [] as number[] });
 const addFilecounter = ref(0);
 const addResidentCounter = ref(0);
 const editForm = ref<FormInstance>();
@@ -340,7 +340,9 @@ async function validateForm() {
     if (!editForm.value) return;
     await editForm.value.validateFields();
     $event.emit('validateFormSuccessUpdateContract');
-  } catch (error) { /* empty */ }
+  } catch (error) {
+    /* empty */
+  }
 }
 
 // ---------------------- Events ----------------------

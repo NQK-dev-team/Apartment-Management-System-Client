@@ -347,4 +347,10 @@ async function validateForm() {
 
 // ---------------------- Events ----------------------
 $event.on('validateFormEditContract', validateForm);
+$event.on('cancelContractEditMode', () => {
+  fileListDeleteBucket.value = { value: [] };
+  residentListDeleteBucket.value = { value: [] };
+  addFilecounter.value = 0;
+  addResidentCounter.value = 0;
+});
 </script>

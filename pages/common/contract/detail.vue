@@ -37,6 +37,7 @@
                 });
                 editMode = false;
                 editContract = { value: JSON.parse(JSON.stringify(contract)) }; // Reset to original contract
+                $event.emit('cancelContractEditMode');
               }
             "
             >{{ $t('cancel') }}</a-button

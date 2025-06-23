@@ -346,7 +346,7 @@ export default {
   rooms: 'Phòng',
   reciever: 'Người nhận',
   resident_list: 'Danh sách cư dân',
-  relationship_with_owner: 'Mối quan hệ với chủ căn hộ',
+  relationship_with_owner: 'Quan hệ với chủ hộ',
   room_updated_success: 'Thông tin phòng đã được cập nhật thành công!',
 
   S: 's',
@@ -390,6 +390,7 @@ export default {
   staff_must_be_18_years_old: 'Nhân viên phải từ 18 tuổi trở lên!',
   save_changes: 'Lưu thay đổi',
   spouse: 'Vợ/Chồng',
+  search_by_customer_no: 'Tìm kiếm theo mã khách hàng',
 
   T: 't',
   total: 'Tổng',

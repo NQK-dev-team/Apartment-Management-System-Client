@@ -243,6 +243,7 @@
       <div class="flex items-center">
         <a-button
           type="primary"
+          :disabled="!fileListDeleteBucket.value.length"
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
           @click="
@@ -284,10 +285,12 @@
       <div class="flex items-center">
         <a-button
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-          @click=" () =>
-          {
-            residentListDeleteBucket.value = [];
-          }"
+          @click="
+            () => {
+              residentListDeleteBucket.value = [];
+              editContract.value.residents = JSON.parse(JSON.stringify(contract.residents));
+            }
+          "
         >
           <UndoOutlined />
         </a-button>
@@ -295,6 +298,25 @@
           type="primary"
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
+          :disabled="!residentListDeleteBucket.value.length"
+          @click="
+            () => {
+              $event.emit('deleteItem', {
+                callback: () => {
+                  editContract.value.residents = editContract.value.residents.filter(
+                    (resident) => !residentListDeleteBucket.value.includes(resident.ID)
+                  );
+                  residentListDeleteBucket.value = [];
+                },
+                noPasswordRequired: true,
+              });
+            }
+          "
+          ><DeleteOutlined
+        /></a-button>
+        <a-button
+          type="primary"
+          class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="
             () => {
               addResidentCounter++;
@@ -314,8 +336,14 @@
                 gender: 0,
                 dob: '',
                 pob: '',
-                phone: '',
-                email: '',
+                phone: {
+                  Valid: false,
+                  String: '',
+                },
+                email: {
+                  Valid: false,
+                  String: '',
+                },
                 relationWithHouseholder: 0,
                 userAccountID: 0,
                 userAccount: undefined,
@@ -328,29 +356,15 @@
               });
             }
           "
-          ><DeleteOutlined
-        /></a-button>
-        <a-button
-          type="primary"
-          class="flex items-center justify-center w-8 h-8 rounded-sm"
-          @click="
-            () => {
-              $event.emit('deleteItem', {
-                callback: () => {
-                  editContract.value.residents = editContract.value.residents.filter(
-                    (resident) => !residentListDeleteBucket.value.includes(resident.ID)
-                  );
-                  residentListDeleteBucket.value = [];
-                },
-                noPasswordRequired: true,
-              });
-            }
-          "
           ><PlusOutlined
         /></a-button>
       </div>
     </div>
-    <ResidentListTable :edit-contract="editContract" :delete-bucket="residentListDeleteBucket" />
+    <ResidentListTable
+      :edit-contract="editContract"
+      :delete-bucket="residentListDeleteBucket"
+      :customers="customerList"
+    />
   </a-form>
 </template>
 
@@ -363,6 +377,9 @@ import type { Contract, ContractFile } from '~/types/contract';
 import PaperListTable from './edit_mode/paper_list_table.vue';
 import ResidentListTable from './edit_mode/resident_list_table.vue';
 import type { UploadFile, FormInstance } from 'ant-design-vue';
+import { getMessageCode } from '~/consts/api_response';
+import { api } from '~/services/api';
+import type { User } from '~/types/user';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
@@ -378,12 +395,16 @@ const props = defineProps({
 const contract = toRef(props, 'contract');
 const editContract = toRef(props, 'editContract');
 const { $event } = useNuxtApp();
+const { t } = useI18n();
 const userRole = useCookie('userRole');
 const fileListDeleteBucket = ref({ value: [] as number[] });
 const residentListDeleteBucket = ref({ value: [] as number[] });
 const addFilecounter = ref(0);
 const addResidentCounter = ref(0);
 const editForm = ref<FormInstance>();
+const offsetCustomer = ref(0);
+const limitCustomer = ref(500);
+const customerList = ref<User[]>([]);
 
 // ---------------------- Functions ----------------------
 async function validateForm() {
@@ -396,6 +417,41 @@ async function validateForm() {
   }
 }
 
+async function getCustomerList() {
+  try {
+    const response = await api.common.customer.getList(limitCustomer.value, offsetCustomer.value);
+    const data = response.data;
+
+    if (offsetCustomer.value === 0) {
+      customerList.value = data;
+    } else {
+      customerList.value.push(...data);
+    }
+
+    if (response.data.length === limitCustomer.value) {
+      offsetCustomer.value += limitCustomer.value;
+    }
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+  if (userRole.value?.toString() === roles.manager || userRole.value?.toString() === roles.owner) {
+    getCustomerList();
+  }
+});
+
 // ---------------------- Events ----------------------
 $event.on('validateFormEditContract', validateForm);
 $event.on('cancelContractEditMode', () => {
@@ -404,4 +460,7 @@ $event.on('cancelContractEditMode', () => {
   addFilecounter.value = 0;
   addResidentCounter.value = 0;
 });
+
+// ---------------------- Watchers ----------------------
+watch(offsetCustomer, getCustomerList);
 </script>

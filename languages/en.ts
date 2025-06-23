@@ -389,6 +389,7 @@ export default {
   staff_must_be_18_years_old: 'Staff must be at least 18 years old!',
   save_changes: 'Save changes',
   spouse: 'Spouse',
+  search_by_customer_no: 'Search by customer number',
 
   T: 't',
   total: 'Total',

@@ -29,8 +29,8 @@ type RoomResident = BasicModel & {
   oldSSN: NullString;
   dob: string;
   pob: string;
-  email: string;
-  phone: string;
+  email: NullString;
+  phone: NullString;
   gender: number;
   relationWithHouseholder: number | null;
   userAccountID: number | null;

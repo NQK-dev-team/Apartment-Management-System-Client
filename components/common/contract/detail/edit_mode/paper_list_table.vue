@@ -44,7 +44,6 @@
       <tbody>
         <PaperListItem
           v-for="(file, index) in contractFiles"
-          v-show="current * 5 >= index + 1 && (current - 1) * 5 < index + 1"
           :key="index"
           :index="index"
           :file="file"
@@ -52,9 +51,6 @@
         />
       </tbody>
     </table>
-    <div v-if="contractFiles.length > 5" class="flex items-center justify-end mt-5">
-      <a-pagination v-model:current="current" :total="contractFiles.length" :page-size="5" />
-    </div>
   </div>
 </template>
 
@@ -82,11 +78,9 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const current = ref(1);
 const deleteBucket = toRef(props, 'deleteBucket');
 const checkAllFiles = computed(() => {
   const currentPage = editContract.value.value.files
-    .filter((_, index) => current.value * 5 >= index + 1 && (current.value - 1) * 5 < index + 1)
     .filter((file) => file.isNew);
 
   return !!(currentPage.length && currentPage.every((file) => deleteBucket.value.value.includes(file.ID)));
@@ -95,7 +89,6 @@ const checkAllFiles = computed(() => {
 // ---------------------- Functions ----------------------
 function removeAllFilesFromBucket() {
   const IDs = editContract.value.value.files
-    .filter((_, index) => current.value * 5 >= index + 1 && (current.value - 1) * 5 < index + 1)
     .filter((file) => file.isNew)
     .map((schedule) => schedule.ID);
 
@@ -105,7 +98,6 @@ function removeAllFilesFromBucket() {
 function addAllFilesToBucket() {
   deleteBucket.value.value.push(
     ...editContract.value.value.files
-      .filter((_, index) => current.value * 5 >= index + 1 && (current.value - 1) * 5 < index + 1)
       .filter((file) => file.isNew)
       .map((file) => file.ID)
   );

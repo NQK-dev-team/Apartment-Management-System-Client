@@ -34,7 +34,9 @@ type RoomResident = BasicModel & {
   gender: number;
   relationWithHouseholder: number | null;
   userAccountID: number | null;
-  userAccount: User;
+  userAccount: User | undefined;
+  isNew: boolean | undefined;
+  isDeleted: boolean | undefined;
 };
 
 type Contract = BasicModel & {

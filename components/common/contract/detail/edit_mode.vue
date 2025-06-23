@@ -284,7 +284,10 @@
       <div class="flex items-center">
         <a-button
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-          @click="() => {}"
+          @click=" () =>
+          {
+            residentListDeleteBucket.value = [];
+          }"
         >
           <UndoOutlined />
         </a-button>
@@ -292,15 +295,62 @@
           type="primary"
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
-          @click="() => {}"
+          @click="
+            () => {
+              addResidentCounter++;
+              editContract.value.residents.push({
+                ID: -addResidentCounter,
+                firstName: '',
+                middleName: {
+                  Valid: false,
+                  String: '',
+                },
+                lastName: '',
+                ssn: '',
+                oldSSN: {
+                  Valid: false,
+                  String: '',
+                },
+                gender: 0,
+                dob: '',
+                pob: '',
+                phone: '',
+                email: '',
+                relationWithHouseholder: 0,
+                userAccountID: 0,
+                userAccount: undefined,
+                createdAt: '',
+                createdBy: 0,
+                updatedAt: '',
+                updatedBy: 0,
+                isNew: true,
+                isDeleted: false,
+              });
+            }
+          "
           ><DeleteOutlined
         /></a-button>
-        <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm" @click="() => {}"
+        <a-button
+          type="primary"
+          class="flex items-center justify-center w-8 h-8 rounded-sm"
+          @click="
+            () => {
+              $event.emit('deleteItem', {
+                callback: () => {
+                  editContract.value.residents = editContract.value.residents.filter(
+                    (resident) => !residentListDeleteBucket.value.includes(resident.ID)
+                  );
+                  residentListDeleteBucket.value = [];
+                },
+                noPasswordRequired: true,
+              });
+            }
+          "
           ><PlusOutlined
         /></a-button>
       </div>
     </div>
-    <CommonContractResidentList />
+    <ResidentListTable :edit-contract="editContract" :delete-bucket="residentListDeleteBucket" />
   </a-form>
 </template>
 
@@ -311,6 +361,7 @@ import { roles } from '~/consts/roles';
 import { svgPaths } from '~/consts/svg_paths';
 import type { Contract, ContractFile } from '~/types/contract';
 import PaperListTable from './edit_mode/paper_list_table.vue';
+import ResidentListTable from './edit_mode/resident_list_table.vue';
 import type { UploadFile, FormInstance } from 'ant-design-vue';
 
 // ---------------------- Variables ----------------------

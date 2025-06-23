@@ -127,6 +127,10 @@ async function getContractDetail(emitLoading = true) {
     for (const file of contract.value.files) {
       file.isNew = false;
     }
+    for (const resident of contract.value.residents) {
+      resident.isNew = false;
+      resident.isDeleted = false;
+    }
     editContract.value.value = JSON.parse(JSON.stringify(contract.value)); // Create a deep copy for editing
   } catch (err: any) {
     contract.value = null;

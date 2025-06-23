@@ -170,7 +170,7 @@
                   name="email"
                   :rules="[
                     { required: true, message: $t('please_enter_customer_email'), trigger: 'blur' },
-                    { type: 'email', message: t('email_invalid'), trigger: 'blur' },
+                    { type: 'email', message: $t('email_invalid'), trigger: 'blur' },
                   ]"
                 >
                   <label for="email" class="flex mb-1">

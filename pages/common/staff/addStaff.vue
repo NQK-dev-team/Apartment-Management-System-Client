@@ -165,7 +165,7 @@
                   name="email"
                   :rules="[
                     { required: true, message: $t('please_enter_employee_email'), trigger: 'blur' },
-                    { type: 'email', message: t('email_invalid'), trigger: 'blur' },
+                    { type: 'email', message: $t('email_invalid'), trigger: 'blur' },
                   ]"
                 >
                   <label for="email" class="flex mb-1">
@@ -548,7 +548,7 @@ async function addStaff() {
     navigateTo(pageRoutes.common.staff.list);
   } catch (err: any) {
     if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

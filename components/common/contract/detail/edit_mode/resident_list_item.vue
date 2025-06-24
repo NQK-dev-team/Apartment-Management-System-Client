@@ -308,10 +308,12 @@ function addToBucket() {
   }
 }
 
-// ---------------------- Lifecycles ----------------------
-onMounted(() => {
-  customerNo.value = resident.value.userAccountID
-    ? (customers.value.find((customer) => customer.ID === resident.value.userAccountID)?.no ?? null)
-    : null;
+// ---------------------- Watchers ----------------------
+watch(customers, () => {
+  if (!customerNo.value) {
+    customerNo.value = resident.value.userAccountID
+      ? (customers.value.find((customer) => customer.ID === resident.value.userAccountID)?.no ?? null)
+      : null;
+  }
 });
 </script>

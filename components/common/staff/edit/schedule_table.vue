@@ -27,7 +27,14 @@
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
           :disabled="scheduleDeleteBucket.length === 0"
-          @click="deleteSchedules"
+          @click="
+            () => {
+              $event.emit('deleteItem', {
+                callback: deleteSchedules,
+                noPasswordRequired: true,
+              });
+            }
+          "
           ><DeleteOutlined
         /></a-button>
         <a-button

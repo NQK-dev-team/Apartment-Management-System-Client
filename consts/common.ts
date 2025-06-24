@@ -41,7 +41,7 @@ const COMMON = {
     CHILD: 1,
     SPOUSE: 2,
     PARENT: 3,
-    OTHER: null,
+    OTHER: 4,
   },
   BILL_STATUS: {
     UN_PAID: 1,

@@ -9,7 +9,7 @@
           <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
             <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
               <a-checkbox
-                id="check_all_schedules_1"
+                id="check_all_files_1"
                 :disabled="!contractFiles.some((file) => file.isNew)"
                 :checked="checkAllFiles"
                 @click="() => (checkAllFiles ? removeAllFilesFromBucket() : addAllFilesToBucket())"

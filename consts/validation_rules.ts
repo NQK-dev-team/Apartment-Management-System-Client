@@ -45,6 +45,12 @@ const validationRules = {
       return Promise.resolve();
     }
   },
+  emptyResidentRelationship: async (_: RuleObject, value: number, t: any) => {
+    if (!value) {
+      return Promise.reject(t('please_select_owner_relationship'));
+    }
+    return Promise.resolve();
+  },
 };
 
 export { validationRules };

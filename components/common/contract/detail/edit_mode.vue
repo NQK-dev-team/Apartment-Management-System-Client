@@ -285,12 +285,7 @@
       <div class="flex items-center">
         <a-button
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-          @click="
-            () => {
-              residentListDeleteBucket.value = [];
-              editContract.value.residents = JSON.parse(JSON.stringify(contract.residents));
-            }
-          "
+          @click="resetResidentList"
         >
           <UndoOutlined />
         </a-button>
@@ -345,7 +340,10 @@
                   String: '',
                 },
                 relationWithHouseholder: 0,
-                userAccountID: 0,
+                userAccountID: {
+                  Valid: false,
+                  Int64: 0,
+                },
                 userAccount: undefined,
                 createdAt: '',
                 createdBy: 0,
@@ -373,7 +371,7 @@ import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
 import { svgPaths } from '~/consts/svg_paths';
-import type { Contract, ContractFile } from '~/types/contract';
+import type { Contract, ContractFile, RoomResident } from '~/types/contract';
 import PaperListTable from './edit_mode/paper_list_table.vue';
 import ResidentListTable from './edit_mode/resident_list_table.vue';
 import type { UploadFile, FormInstance } from 'ant-design-vue';
@@ -394,7 +392,7 @@ const props = defineProps({
 });
 const contract = toRef(props, 'contract');
 const editContract = toRef(props, 'editContract');
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const { t } = useI18n();
 const userRole = useCookie('userRole');
 const fileListDeleteBucket = ref({ value: [] as number[] });
@@ -412,6 +410,16 @@ async function validateForm() {
     if (!editForm.value) return;
     await editForm.value.validateFields();
     $event.emit('validateFormSuccessUpdateContract');
+  } catch (error) {
+    /* empty */
+  }
+}
+
+async function clearResidentListValidation() {
+  try {
+    if (!editForm.value) return;
+    editForm.value.clearValidate();
+    await editForm.value.validateFields();
   } catch (error) {
     /* empty */
   }
@@ -443,6 +451,20 @@ async function getCustomerList() {
       });
     }
   }
+}
+
+function resetResidentList() {
+  residentListDeleteBucket.value.value = [];
+  editContract.value.value.residents = [];
+  const residents: RoomResident[] = JSON.parse(JSON.stringify(contract.value.residents));
+  for (let i = 0; i < residents.length; i++) {
+    residents[i].dob = residents[i].dob ? $dayjs(residents[i].dob) : '';
+  }
+  editContract.value.value.residents = residents;
+  clearResidentListValidation();
+  setTimeout(() => {
+    $event.emit('resetResidentListItemContractEditMode');
+  }, 100);
 }
 
 // ---------------------- Lifecycles ----------------------

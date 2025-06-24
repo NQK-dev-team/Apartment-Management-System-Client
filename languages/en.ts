@@ -325,6 +325,7 @@ export default {
   parent: 'Parent',
   processing: 'Processing',
   please_select_contract_status: 'Please select contract status',
+  please_select_owner_relationship: 'Please select relationship with owner',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -390,6 +391,7 @@ export default {
   save_changes: 'Save changes',
   spouse: 'Spouse',
   search_by_customer_no: 'Search by customer number',
+  select_relationship: 'Select relationship with owner',
 
   T: 't',
   total: 'Total',

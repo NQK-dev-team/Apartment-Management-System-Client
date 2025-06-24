@@ -326,6 +326,7 @@ export default {
   parent: 'Cha/Mẹ',
   processing: 'Đang xử lý',
   please_select_contract_status: 'Vui lòng chọn trạng thái hợp đồng',
+  please_select_owner_relationship: 'Vui lòng chọn quan hệ với chủ hộ',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -391,6 +392,7 @@ export default {
   save_changes: 'Lưu thay đổi',
   spouse: 'Vợ/Chồng',
   search_by_customer_no: 'Tìm kiếm theo mã khách hàng',
+  select_relationship: 'Chọn quan hệ với chủ hộ',
 
   T: 't',
   total: 'Tổng',

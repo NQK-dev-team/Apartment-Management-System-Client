@@ -21,7 +21,7 @@
             :id="`resident_${props.index + 1}`"
             v-model:value="customerNo as string"
             class="w-full text-left"
-            :class="[resident.userAccountID ? '' : 'text-[#9ca3af]']"
+            :class="[resident.userAccountID.Int64 ? '' : 'text-[#9ca3af]']"
             show-search
             :options="[
               ...customers.map((customer) => ({
@@ -29,10 +29,12 @@
                 label: `${customer.no} - ${getUserName(customer)}`,
               })),
             ]"
+            :allow-clear="true"
             :placeholder="$t('search_by_customer_no')"
             @change="
-              resident.userAccountID =
-                customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ID ?? 0
+              resident.userAccountID.Int64 =
+                customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ID ?? 0;
+              resident.userAccountID.Valid = !!resident.userAccountID.Int64;
             "
           ></a-select>
         </a-form-item>
@@ -40,7 +42,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_last_name`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.lastName ?? ''"
@@ -52,14 +54,19 @@
           v-else
           :name="['residents', props.index, 'lastName']"
           :rules="[{ required: true, message: $t('customer_last_name_require'), trigger: 'blur' }]"
-          class="px-3"
+          class="px-3 align_validation_message_start"
         >
+          <a-input
+            :id="`resident_${props.index + 1}_last_name`"
+            v-model:value="resident.lastName"
+            :placeholder="$t('enter_customer_last_name')"
+          ></a-input>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_middle_name`"
             :value="
@@ -69,12 +76,23 @@
             readonly
           ></a-input>
         </a-form-item>
-        <a-form-item v-else class="px-3"> </a-form-item>
+        <a-form-item v-else class="px-3">
+          <a-input
+            :id="`resident_${props.index + 1}_middle_name`"
+            v-model:value="resident.middleName.String as string"
+            :placeholder="$t('enter_customer_middle_name')"
+            @change="
+              () => {
+                resident.middleName.Valid = !!resident.middleName.String;
+              }
+            "
+          ></a-input>
+        </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_first_name`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.firstName ?? ''"
@@ -86,24 +104,28 @@
           v-else
           :name="['residents', props.index, 'firstName']"
           :rules="[{ required: true, message: $t('customer_first_name_require'), trigger: 'blur' }]"
-          class="px-3"
+          class="px-3 align_validation_message_start"
         >
+          <a-input
+            :id="`resident_${props.index + 1}_first_name`"
+            v-model:value="resident.firstName"
+            :placeholder="$t('enter_customer_first_name')"
+          ></a-input>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-select
             :id="`resident_${props.index + 1}_gender`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.gender ?? 0"
             class="w-full text-left"
             :class="[
               (customers.find((customer) => customerNo && customer.no.includes(customerNo))?.gender ?? 0 === 0)
-                ? 'text-gray-500'
+                ? 'default-selected'
                 : '',
             ]"
-            :placeholder="$t('select_employee_gender')"
             disabled
             readonly
           >
@@ -116,24 +138,40 @@
           v-else
           :name="['residents', props.index, 'gender']"
           :rules="[{ required: true, message: $t('please_select_customer_gender'), trigger: 'blur' }]"
-          class="px-3"
+          class="px-3 align_validation_message_start"
         >
+          <a-select
+            :id="`resident_${props.index + 1}_gender`"
+            v-model:value="resident.gender"
+            class="w-full text-left"
+            :class="[resident.gender === 0 ? 'default-selected' : '']"
+            :placeholder="$t('select_customer_gender')"
+          >
+            <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
+              $t('select_customer_gender')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
+            <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
+            <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
+          </a-select>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_dob`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.dob ?? ''"
+            :value="
+              convertToDate(customers.find((customer) => customerNo && customer.no.includes(customerNo))?.dob ?? '')
+            "
             disabled
             readonly
           />
         </a-form-item>
         <a-form-item
           v-else
-          name="dob"
+          :name="['residents', props.index, 'dob']"
           :rules="[
             { required: true, message: $t('please_select_customer_birthdate'), trigger: 'blur' },
             {
@@ -141,14 +179,20 @@
               trigger: 'blur',
             },
           ]"
-          class="px-3"
+          class="px-3 align_validation_message_start"
         >
+          <a-date-picker
+            :id="`resident_${props.index + 1}_dob`"
+            v-model:value="resident.dob"
+            class="w-full"
+            :placeholder="$t('select_customer_dob')"
+          />
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_pob`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.pob ?? ''"
@@ -158,16 +202,21 @@
         </a-form-item>
         <a-form-item
           v-else
-          name="pob"
+          :name="['residents', props.index, 'pob']"
           :rules="[{ required: true, message: $t('please_enter_customer_pob'), trigger: 'blur' }]"
-          class="px-3"
+          class="px-3 align_validation_message_start"
         >
+          <a-input
+            :id="`resident_${props.index + 1}_pob`"
+            v-model:value="resident.pob"
+            :placeholder="$t('enter_customer_pob')"
+          ></a-input>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_ssn`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ssn ?? ''"
@@ -177,19 +226,24 @@
         </a-form-item>
         <a-form-item
           v-else
-          name="ssn"
+          :name="['residents', props.index, 'ssn']"
           :rules="[
             { required: true, message: $t('please_enter_customer_ssn'), trigger: 'blur' },
             { pattern: /^[0-9]{12}$/, message: $t('invalid_ssn'), trigger: 'blur' },
           ]"
-          class="px-3"
+          class="px-3 align_validation_message_start"
         >
+          <a-input
+            :id="`resident_${props.index + 1}_ssn`"
+            v-model:value="resident.ssn"
+            :placeholder="$t('enter_customer_ssn')"
+          ></a-input>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_old_ssn`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.oldSSN?.String ?? ''"
@@ -199,16 +253,26 @@
         </a-form-item>
         <a-form-item
           v-else
-          name="oldSSN"
+          :name="['residents', props.index, 'oldSSN', 'String']"
           :rules="[{ pattern: /^[0-9]{9}$/, message: $t('invalid_oldSSN'), trigger: 'blur' }]"
-          class="px-3"
+          class="px-3 align_validation_message_start"
         >
+          <a-input
+            :id="`resident_${props.index + 1}_old_ssn`"
+            v-model:value="resident.oldSSN.String as string"
+            :placeholder="$t('enter_customer_old_ssn')"
+            @change="
+              () => {
+                resident.oldSSN.Valid = !!resident.oldSSN.String;
+              }
+            "
+          ></a-input>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_phone`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.phone ?? ''"
@@ -218,19 +282,26 @@
         </a-form-item>
         <a-form-item
           v-else
-          name="phone"
-          :rules="[
-            { required: true, message: $t('please_enter_customer_phone'), trigger: 'blur' },
-            { pattern: /^[0-9]{10}$/, message: $t('invalid_phone'), trigger: 'blur' },
-          ]"
-          class="px-3"
+          :name="['residents', props.index, 'phone', 'String']"
+          :rules="[{ pattern: /^[0-9]{10}$/, message: $t('invalid_phone'), trigger: 'blur' }]"
+          class="px-3 align_validation_message_start"
         >
+          <a-input
+            :id="`resident_${props.index + 1}_phone`"
+            v-model:value="resident.phone.String as string"
+            :placeholder="$t('enter_customer_phone')"
+            @change="
+              () => {
+                resident.phone.Valid = !!resident.phone.String;
+              }
+            "
+          ></a-input>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID !== 0" class="px-3 align_validation_message_start">
+        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_email`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.email ?? ''"
@@ -240,19 +311,51 @@
         </a-form-item>
         <a-form-item
           v-else
-          name="email"
-          :rules="[
-            { required: true, message: $t('please_enter_customer_email'), trigger: 'blur' },
-            { type: 'email', message: $t('email_invalid'), trigger: 'blur' },
-          ]"
-          class="px-3"
+          :name="['residents', props.index, 'email', 'String']"
+          :rules="[{ type: 'email', message: $t('email_invalid'), trigger: 'blur' }]"
+          class="px-3 align_validation_message_start"
         >
+          <a-input
+            :id="`resident_${props.index + 1}_email`"
+            v-model:value="resident.email.String as string"
+            :placeholder="$t('enter_customer_email')"
+            @change="
+              () => {
+                resident.email.Valid = !!resident.email.String;
+              }
+            "
+          ></a-input>
         </a-form-item>
       </div>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item class="px-3 align_validation_message_start"> </a-form-item>
+        <a-form-item
+          class="px-3 align_validation_message_start"
+          :name="['residents', props.index, 'relationWithHouseholder']"
+          :rules="[
+            {
+              validator: async (_: RuleObject, value: number) =>
+                validationRules.emptyResidentRelationship(_, value, $t),
+              trigger: 'blur',
+            },
+          ]"
+        >
+          <a-select
+            :id="`resident_${props.index + 1}_relationship_with_owner`"
+            v-model:value="resident.relationWithHouseholder"
+            class="w-full text-left"
+            :class="[resident.relationWithHouseholder === 0 ? 'default-selected' : '']"
+          >
+            <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
+              $t('select_relationship')
+            }}</a-select-option>
+            <a-select-option :value="COMMON.RESIDENT_TYPE.SPOUSE">{{ $t('spouse') }}</a-select-option>
+            <a-select-option :value="COMMON.RESIDENT_TYPE.CHILD">{{ $t('child') }}</a-select-option>
+            <a-select-option :value="COMMON.RESIDENT_TYPE.PARENT">{{ $t('parent') }}</a-select-option>
+            <a-select-option :value="COMMON.RESIDENT_TYPE.OTHER">{{ $t('other') }}</a-select-option>
+          </a-select>
+        </a-form-item>
       </div>
     </td>
   </tr>
@@ -288,11 +391,13 @@ const props = defineProps({
     required: true,
   },
 });
+// const { $dayjs } = useNuxtApp();
 const deleteBucket = toRef(props, 'deleteBucket');
 const resident = toRef(props, 'resident');
 const checked = computed(() => deleteBucket.value.value.includes(resident.value.ID));
 const customers = toRef(props, 'customers');
 const customerNo = ref<string | null>(null);
+const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
 function removeFromBucket() {
@@ -311,9 +416,13 @@ function addToBucket() {
 // ---------------------- Watchers ----------------------
 watch(customers, () => {
   if (!customerNo.value) {
-    customerNo.value = resident.value.userAccountID
-      ? (customers.value.find((customer) => customer.ID === resident.value.userAccountID)?.no ?? null)
-      : null;
+    customerNo.value =
+      customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no ?? null;
   }
+});
+
+// ---------------------- Events ----------------------
+$event.on('resetResidentListItemContractEditMode', () => {
+  customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no ?? null;
 });
 </script>

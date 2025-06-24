@@ -51,7 +51,7 @@
             class="rounded-sm"
             @click="
               () => {
-                $event.emit('validateFormEditContract');
+                $event.emit('updateContract');
               }
             "
             >{{ $t('save_changes') }}</a-button
@@ -139,6 +139,7 @@ async function getContractDetail(emitLoading = true) {
     for (const resident of editContract.value.value.residents) {
       resident.dob = resident.dob ? $dayjs(resident.dob) : '';
     }
+    editContract.value.value.newSignDate = '';
   } catch (err: any) {
     contract.value = null;
     if (
@@ -156,29 +157,6 @@ async function getContractDetail(emitLoading = true) {
     if (emitLoading) {
       $event.emit('loading');
     }
-  }
-}
-
-async function updateContract() {
-  try {
-    $event.emit('loading');
-
-    console.log(editContract.value.value);
-
-    // getContractDetail(false); // Refresh contract details
-  } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
-      notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
-      });
-    }
-  } finally {
-    $event.emit('loading');
   }
 }
 
@@ -231,5 +209,7 @@ $event.on('refetchContractBills', refetchContractBills);
 $event.on('refetchContractDetail', () => {
   getContractDetail(false);
 });
-$event.on('validateFormSuccessUpdateContract', updateContract);
+$event.on('refetchContractDetail', () => {
+  getContractDetail(false);
+});
 </script>

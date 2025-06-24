@@ -277,7 +277,7 @@ const common = {
         method: 'GET',
       });
     },
-    add: async (staff: NewCustomer): Promise<APIResponse<null>> => {
+    add: async (data: FormData): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.customer.add, {
         method: 'POST',
@@ -354,6 +354,13 @@ const common = {
       const $api = getApiInstance();
       return $api(apiRoutes.contract.bill(contractId), {
         method: 'GET',
+      });
+    },
+    updateContract: async (contractID: number, data: FormData): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.edit(contractID), {
+        method: 'POST',
+        body: data,
       });
     },
   },

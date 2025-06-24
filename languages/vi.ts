@@ -393,6 +393,8 @@ export default {
   spouse: 'Vợ/Chồng',
   search_by_customer_no: 'Tìm kiếm theo mã khách hàng',
   select_relationship: 'Chọn quan hệ với chủ hộ',
+  select_sign_date: 'Chọn ngày ký hợp đồng',
+  sign_date_cannot_be_future: 'Ngày ký hợp đồng không thể là ngày trong tương lai!',
 
   T: 't',
   total: 'Tổng',

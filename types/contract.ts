@@ -59,6 +59,7 @@ type Contract = BasicModel & {
   buildingName: undefined | string;
   buildingAddress: undefined | string;
   roomFloor: undefined | number;
+  newSignDate: undefined | string | Dayjs;
 };
 
 export type { Contract, ContractFile, RoomResident };

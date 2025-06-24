@@ -1,7 +1,11 @@
 <template>
   <tr :class="[lightMode ? 'hover:bg-[#f1f1f1]' : 'hover:bg-[#32323280]']">
     <td class="text-sm text-center align-middle py-[16px]">
-      <a-form-item class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <a-form-item
+        class="border-r-[1px]"
+        :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+        :name="`check_resident_${props.index + 1}`"
+      >
         <a-checkbox
           :id="`check_resident_${props.index + 1}`"
           :checked="checked"
@@ -10,13 +14,17 @@
       </a-form-item>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <a-form-item class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <a-form-item
+        name="row_no"
+        class="border-r-[1px]"
+        :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+      >
         {{ props.index + 1 }}
       </a-form-item>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item class="px-3">
+        <a-form-item :name="`resident_${props.index + 1}`" class="px-3">
           <a-select
             :id="`resident_${props.index + 1}`"
             v-model:value="customerNo as string"
@@ -42,7 +50,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_last_name`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_last_name`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.lastName ?? ''"
@@ -66,7 +74,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_middle_name`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_middle_name`"
             :value="
@@ -76,7 +84,7 @@
             readonly
           ></a-input>
         </a-form-item>
-        <a-form-item v-else class="px-3">
+        <a-form-item v-else :name="`resident_${props.index + 1}_middle_name`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_middle_name`"
             v-model:value="resident.middleName.String as string"
@@ -92,7 +100,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_first_name`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_first_name`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.firstName ?? ''"
@@ -116,7 +124,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_gender`" class="px-3">
           <a-select
             :id="`resident_${props.index + 1}_gender`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.gender ?? 0"
@@ -159,7 +167,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_dob`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_dob`"
             :value="
@@ -192,7 +200,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_pob`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_pob`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.pob ?? ''"
@@ -216,7 +224,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_ssn`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_ssn`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ssn ?? ''"
@@ -243,7 +251,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_old_ssn`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_old_ssn`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.oldSSN?.String ?? ''"
@@ -272,7 +280,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_phone`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_phone`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.phone ?? ''"
@@ -301,7 +309,7 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item v-if="resident.userAccountID.Int64" class="px-3">
+        <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_email`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_email`"
             :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.email ?? ''"
@@ -424,5 +432,9 @@ watch(customers, () => {
 // ---------------------- Events ----------------------
 $event.on('resetResidentListItemContractEditMode', () => {
   customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no ?? null;
+});
+
+onBeforeUnmount(() => {
+  console.log(props.resident);
 });
 </script>

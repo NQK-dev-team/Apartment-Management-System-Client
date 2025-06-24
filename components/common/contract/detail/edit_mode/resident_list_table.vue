@@ -6,7 +6,7 @@
         :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
       >
         <tr>
-          <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
+          <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg min-w-[40px]">
             <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
               <a-checkbox
                 id="check_all_residents_1"
@@ -128,8 +128,8 @@
       </thead>
       <tbody>
         <ResidentList
-          v-for="(resident, index) in editContract.value.residents.filter((resident) => !resident.isDeleted)"
-          :key="index"
+          v-for="(resident, index) in residents"
+          :key="resident.ID"
           :index="index"
           :resident="resident"
           :delete-bucket="deleteBucket"
@@ -143,7 +143,7 @@
 <script lang="ts" setup>
 import ResidentList from './resident_list_item.vue';
 import { svgPaths } from '~/consts/svg_paths';
-import type { Contract } from '~/types/contract';
+import type { Contract, RoomResident } from '~/types/contract';
 import type { User } from '~/types/user';
 
 // ---------------------- Variables ----------------------
@@ -167,27 +167,22 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const deleteBucket = toRef(props, 'deleteBucket');
+const residents = computed<RoomResident[]>(() => {
+  return editContract.value.value.residents.filter((resident) => !resident.isDeleted);
+});
 const checkAllResidents = computed(() => {
-  const currentPage = editContract.value.value.residents
-    .filter((resident) => !resident.isDeleted);
-
-  return !!(currentPage.length && currentPage.every((resident) => deleteBucket.value.value.includes(resident.ID)));
+  return !!(
+    residents.value.length && residents.value.every((resident) => deleteBucket.value.value.includes(resident.ID))
+  );
 });
 
 // ---------------------- Functions ----------------------
 function removeAllResidentsFromBucket() {
-  const IDs = editContract.value.value.residents
-    .filter((resident) => !resident.isDeleted)
-    .map((resident) => resident.ID);
-
+  const IDs = residents.value.map((resident) => resident.ID);
   deleteBucket.value.value = deleteBucket.value.value.filter((id) => !IDs.includes(id));
 }
 
 function addAllResidentsToBucket() {
-  deleteBucket.value.value.push(
-    ...editContract.value.value.residents
-      .filter((resident) => !resident.isDeleted)
-      .map((resident) => resident.ID)
-  );
+  deleteBucket.value.value.push(...residents.value.map((resident) => resident.ID));
 }
 </script>

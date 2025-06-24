@@ -1,7 +1,11 @@
 <template>
   <tr :class="[lightMode ? 'hover:bg-[#f1f1f1]' : 'hover:bg-[#32323280]']">
     <td class="text-sm text-center align-middle py-[16px]">
-      <a-form-item class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <a-form-item
+        class="border-r-[1px]"
+        :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+        :name="`check_contract_${props.index + 1}`"
+      >
         <a-checkbox
           :id="`check_contract_${props.index + 1}`"
           :disabled="!file.isNew"
@@ -11,7 +15,7 @@
       </a-form-item>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <a-form-item class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <a-form-item name="row_no" class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         {{ props.index + 1 }}
       </a-form-item>
     </td>

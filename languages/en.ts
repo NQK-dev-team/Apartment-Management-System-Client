@@ -392,6 +392,8 @@ export default {
   spouse: 'Spouse',
   search_by_customer_no: 'Search by customer number',
   select_relationship: 'Select relationship with owner',
+  select_sign_date: 'Select contract sign date',
+  sign_date_cannot_be_future: 'Contract sign date cannot be in the future!',
 
   T: 't',
   total: 'Total',

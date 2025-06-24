@@ -513,7 +513,25 @@ async function getBuildingList() {
 async function addCustomer() {
   try {
     $event.emit('loading');
-    await api.common.customer.add(customerInfo.value);
+
+    const data = new FormData();
+    data.append('firstName', customerInfo.value.firstName.trim());
+    data.append('lastName', customerInfo.value.lastName.trim());
+    data.append('middleName', customerInfo.value.middleName ? customerInfo.value.middleName.trim() : '');
+    data.append('ssn', customerInfo.value.ssn.trim());
+    data.append('oldSSN', customerInfo.value.oldSSN ? customerInfo.value.oldSSN.trim() : '');
+    data.append('dob', convertToDate(customerInfo.value.dob));
+    data.append('pob', customerInfo.value.pob.trim());
+    data.append('phone', customerInfo.value.phone.trim());
+    data.append('permanentAddress', customerInfo.value.permanentAddress.trim());
+    data.append('temporaryAddress', customerInfo.value.temporaryAddress.trim());
+    data.append('email', customerInfo.value.email.trim());
+    data.append('gender', customerInfo.value.gender ? customerInfo.value.gender.toString() : '3');
+    data.append('profileImage', customerInfo.value.profileFilePath[0].originFileObj as File);
+    data.append('frontSSNImage', customerInfo.value.ssnFrontFilePath[0].originFileObj as File);
+    data.append('backSSNImage', customerInfo.value.ssnBackFilePath[0].originFileObj as File);
+
+    await api.common.customer.add(data);
 
     notification.info({
       message: t('add_customer_success'),

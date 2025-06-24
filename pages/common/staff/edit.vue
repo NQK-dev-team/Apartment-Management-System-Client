@@ -418,7 +418,33 @@ async function getStaffDetailInfo() {
 async function editStaff() {
   try {
     $event.emit('loading');
-    await api.common.staff.update(staffInfo.value);
+    const data = new FormData();
+    staffInfo.value.data.schedules.data.forEach((schedule) => {
+      if (schedule.isDeleted) {
+        data.append('deletedSchedules[]', schedule.ID.toString());
+      } else if (schedule.isNew) {
+        data.append(
+          'newSchedules[]',
+          JSON.stringify({
+            buildingID: schedule.buildingID,
+            startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+            endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+          })
+        );
+      } else {
+        data.append(
+          'schedules[]',
+          JSON.stringify({
+            id: schedule.ID,
+            buildingID: schedule.buildingID,
+            startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+            endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+          })
+        );
+      }
+    });
+
+    await api.common.staff.update(staffInfo.value.data.ID, data);
 
     notification.info({
       message: t('update_success'),

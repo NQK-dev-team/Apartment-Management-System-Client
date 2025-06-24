@@ -235,35 +235,9 @@ const common = {
         body: data,
       });
     },
-    update: async (staff: EditStaff): Promise<APIResponse<null>> => {
-      const data = new FormData();
-      staff.data.schedules.data.forEach((schedule) => {
-        if (schedule.isDeleted) {
-          data.append('deletedSchedules[]', schedule.ID.toString());
-        } else if (schedule.isNew) {
-          data.append(
-            'newSchedules[]',
-            JSON.stringify({
-              buildingID: schedule.buildingID,
-              startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
-              endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
-            })
-          );
-        } else {
-          data.append(
-            'schedules[]',
-            JSON.stringify({
-              id: schedule.ID,
-              buildingID: schedule.buildingID,
-              startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
-              endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
-            })
-          );
-        }
-      });
-
+    update: async (staffID: number, data: FormData): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.staff.update(staff.data.ID), {
+      return $api(apiRoutes.staff.update(staffID), {
         method: 'POST',
         body: data,
       });
@@ -304,23 +278,6 @@ const common = {
       });
     },
     add: async (staff: NewCustomer): Promise<APIResponse<null>> => {
-      const data = new FormData();
-      data.append('firstName', staff.firstName.trim());
-      data.append('lastName', staff.lastName.trim());
-      data.append('middleName', staff.middleName ? staff.middleName.trim() : '');
-      data.append('ssn', staff.ssn.trim());
-      data.append('oldSSN', staff.oldSSN ? staff.oldSSN.trim() : '');
-      data.append('dob', convertToDate(staff.dob));
-      data.append('pob', staff.pob.trim());
-      data.append('phone', staff.phone.trim());
-      data.append('permanentAddress', staff.permanentAddress.trim());
-      data.append('temporaryAddress', staff.temporaryAddress.trim());
-      data.append('email', staff.email.trim());
-      data.append('gender', staff.gender ? staff.gender.toString() : '3');
-      data.append('profileImage', staff.profileFilePath[0].originFileObj as File);
-      data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
-      data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
-
       const $api = getApiInstance();
       return $api(apiRoutes.customer.add, {
         method: 'POST',
@@ -398,7 +355,7 @@ const common = {
       return $api(apiRoutes.contract.bill(contractId), {
         method: 'GET',
       });
-    }
+    },
   },
   import: {},
 };

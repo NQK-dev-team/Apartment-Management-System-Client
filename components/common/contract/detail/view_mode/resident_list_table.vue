@@ -97,7 +97,7 @@ const data = computed(() => {
   return props.residents.map((resident, index) => ({
     no: index + 1,
     name: getUserName(resident),
-    customerNumber: resident.userAccountID ? resident.userAccount.no : '-',
+    customerNumber: resident.userAccountID ? resident.userAccount!.no : '-',
     gender: t(getUserGender(resident)),
     dob: convertToDate(resident.dob),
     ssn: resident.ssn,

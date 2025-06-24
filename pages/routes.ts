@@ -139,11 +139,6 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.contract.add,
     file: contractBaseRoute + 'add.vue',
   },
-  // {
-  //   name: 'Edit Contract',
-  //   path: pageRoutes.common.contract.edit(':id'),
-  //   file: contractBaseRoute + 'edit.vue',
-  // },
   // Support ticket
   {
     name: 'Support ticket list',

@@ -216,7 +216,7 @@
                 ticketDetail.files.map((file, index) => ({
                   uid: index.toString(),
                   name: file.title || `File ${index + 1}`,
-                  url: file.path,
+                  url: file.path as string,
                   status: 'done',
                 }))
               "

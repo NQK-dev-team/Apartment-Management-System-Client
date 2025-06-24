@@ -455,14 +455,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style lang="css">
-.align_validation_message_middle .ant-form-item-explain-error{
-  text-align: center;
-}
-
-.align_validation_message_start .ant-form-item-explain-error{
-  text-align: start;
-  margin-left:13px;
-}
-</style>

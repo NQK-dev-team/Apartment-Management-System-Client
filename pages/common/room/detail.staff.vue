@@ -255,12 +255,12 @@
           <a-carousel :autoplay="true" arrows>
             <div v-for="(image, index) in roomData.images" :key="index">
               <img
-                :src="image.path"
+                :src="image.path as string"
                 class="w-[250px] h-[300px] cursor-pointer"
                 @click="
                   () => {
                     previewVisible = true;
-                    previewImage = image.path;
+                    previewImage = image.path as string;
                   }
                 "
               />

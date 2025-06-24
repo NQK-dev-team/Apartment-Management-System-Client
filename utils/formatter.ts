@@ -3,6 +3,10 @@ function formatPrice(price: number): string {
 }
 
 function convertToDate(date: string): string {
+  if (!date) {
+    return '';
+  }
+
   const d = new Date(date);
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based

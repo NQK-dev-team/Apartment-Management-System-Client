@@ -290,4 +290,17 @@ input[type=number] {
   background-color: rgb(255, 192, 105);
   padding: 0px;
 }
+
+.default-selected .ant-select-selection-item{
+  color: rgba(156,163,175,0.5) !important;
+}
+
+.align_validation_message_start .ant-form-item-explain-error{
+  /* text-align: start;
+  margin-left:13px; */
+}
+
+.align_validation_message_middle .ant-form-item-explain-error{
+  text-align: center;
+}
 </style>

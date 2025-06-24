@@ -31,4 +31,9 @@ type NullString = {
   Valid: boolean;
 };
 
-export type { BasicModel, BasicFileModel, NullTime, NullString };
+type NullInt64 = {
+  Int64: number | null;
+  Valid: boolean;
+};
+
+export type { BasicModel, BasicFileModel, NullTime, NullString, NullInt64 };

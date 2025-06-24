@@ -37,6 +37,9 @@
                 });
                 editMode = false;
                 editContract = { value: JSON.parse(JSON.stringify(contract)) }; // Reset to original contract
+                for (const resident of editContract.value.residents) {
+                  resident.dob = resident.dob ? $dayjs(resident.dob) : '';
+                }
                 $event.emit('cancelContractEditMode');
               }
             "
@@ -106,7 +109,7 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const editMode = ref<boolean>(false);
 const userRole = useCookie('userRole');
 const contract = ref<Contract | null>(null);
@@ -130,8 +133,12 @@ async function getContractDetail(emitLoading = true) {
     for (const resident of contract.value.residents) {
       resident.isNew = false;
       resident.isDeleted = false;
+      resident.dob = resident.dob ? $dayjs(resident.dob) : '';
     }
     editContract.value.value = JSON.parse(JSON.stringify(contract.value)); // Create a deep copy for editing
+    for (const resident of editContract.value.value.residents) {
+      resident.dob = resident.dob ? $dayjs(resident.dob) : '';
+    }
   } catch (err: any) {
     contract.value = null;
     if (
@@ -156,7 +163,7 @@ async function updateContract() {
   try {
     $event.emit('loading');
 
-    // console.log(editContract.value.value);
+    console.log(editContract.value.value);
 
     // getContractDetail(false); // Refresh contract details
   } catch (err: any) {

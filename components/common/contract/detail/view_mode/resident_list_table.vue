@@ -96,15 +96,17 @@ const columns: any = computed(() => {
 const data = computed(() => {
   return props.residents.map((resident, index) => ({
     no: index + 1,
-    name: getUserName(resident),
-    customerNumber: resident.userAccountID ? resident.userAccount!.no : '-',
-    gender: t(getUserGender(resident)),
-    dob: convertToDate(resident.dob),
-    ssn: resident.ssn,
-    old_ssn: resident.oldSSN.String || '-',
-    phone: resident.phone,
-    email: resident.email,
-    id: resident.userAccountID || null,
+    name: resident.userAccountID.Int64 ? getUserName(resident.userAccount) : getUserName(resident),
+    customerNumber: resident.userAccountID.Int64 ? resident.userAccount!.no : '-',
+    gender: resident.userAccountID.Int64 ? t(getUserGender(resident.userAccount)) : t(getUserGender(resident)),
+    dob: resident.userAccountID.Int64
+      ? convertToDate(resident.userAccount!.dob as string)
+      : convertToDate(resident.dob as string),
+    ssn: resident.userAccountID.Int64 ? resident.userAccount!.ssn : resident.ssn,
+    old_ssn: resident.userAccountID.Int64 ? resident.userAccount!.oldSSN.String || '-' : resident.oldSSN.String || '-',
+    phone: resident.userAccountID.Int64 ? resident.userAccount!.phone : resident.phone.String || '-',
+    email: resident.userAccountID.Int64 ? resident.userAccount!.email : resident.email.String || '-',
+    id: resident.userAccountID.Int64 || null,
     relationship_with_owner:
       resident.relationWithHouseholder === COMMON.RESIDENT_TYPE.PARENT
         ? t('parent')

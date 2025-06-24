@@ -1,4 +1,5 @@
-import type { BasicFileModel, BasicModel, NullTime, NullString } from './basic_model';
+import type { Dayjs } from 'dayjs';
+import type { BasicFileModel, BasicModel, NullTime, NullString, NullInt64 } from './basic_model';
 import type { Bill } from './bill';
 import type { User } from './user';
 // import type { UploadFile } from 'ant-design-vue';
@@ -27,13 +28,13 @@ type RoomResident = BasicModel & {
   lastName: string;
   ssn: string;
   oldSSN: NullString;
-  dob: string;
+  dob: string | Dayjs;
   pob: string;
   email: NullString;
   phone: NullString;
   gender: number;
-  relationWithHouseholder: number | null;
-  userAccountID: number | null;
+  relationWithHouseholder: number;
+  userAccountID: NullInt64;
   userAccount: User | undefined;
   isNew: boolean | undefined;
   isDeleted: boolean | undefined;

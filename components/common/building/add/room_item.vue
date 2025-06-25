@@ -124,7 +124,7 @@
           <a-upload
             :id="`room_${1000 * (props.floor + 1) + props.index + 1}_images_${props.readOnly ? 3 : 1}`"
             v-model:file-list="roomInfo.images"
-            accept=".png,.jpg,.jpeg"
+            :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
             multiple
             list-type="picture-card"
             class="custom_room_image_upload"

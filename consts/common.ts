@@ -50,6 +50,8 @@ const COMMON = {
     PROCESSING: 4,
   },
   HTTP_STATUS,
+  ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],
+  ALLOW_FILE_EXTENSIONS: ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
 };
 
 export { COMMON };

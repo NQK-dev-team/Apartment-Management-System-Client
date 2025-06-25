@@ -35,7 +35,7 @@
       <a-upload
         v-if="!props.readOnly && userRole?.toString() === roles.owner"
         v-model:file-list="imageList"
-        accept=".png,.jpg,.jpeg"
+        :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
         multiple
         list-type="text"
         @remove="
@@ -76,6 +76,7 @@ import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/int
 import type { EditBuilding } from '~/types/building';
 import { getBase64 } from '#build/imports';
 import { roles } from '~/consts/roles';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const userRole = useCookie('userRole');

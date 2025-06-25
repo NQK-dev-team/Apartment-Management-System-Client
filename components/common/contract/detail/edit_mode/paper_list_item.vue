@@ -65,6 +65,7 @@
             :id="`contract_file_${props.index + 1}_file`"
             v-model:file-list="file.path as UploadFile[]"
             accept=".png,.jpg,.jpeg,.pdf"
+            :accept="COMMON.ALLOW_FILE_EXTENSIONS.join(',')"
           >
             <a-button class="flex flex-col items-center justify-center h-full w-full p-3">
               <plus-outlined />
@@ -80,6 +81,7 @@
 <script lang="ts" setup>
 import type { ContractFile } from '~/types/contract';
 import type { UploadFile } from 'ant-design-vue';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');

@@ -324,7 +324,7 @@
       <div class="mt-3 text-center">
         <a-upload
           v-model:file-list="buildingInfo.images"
-          accept=".png,.jpg,.jpeg"
+          :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
           multiple
           list-type="text"
           @change="(e: any) => handleFileUpload(e)"
@@ -349,6 +349,7 @@ import { svgPaths } from '~/consts/svg_paths';
 import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
 import { getBase64 } from '#build/imports';
 import type { User } from '~/types/user';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');

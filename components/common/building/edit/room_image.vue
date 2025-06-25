@@ -9,6 +9,7 @@
       list-type="picture-card"
       class="custom_room_image_upload"
       :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button' : '']"
+      :before-upload="beforeUploadRoomImage"
       @preview="handlePreview"
       @change="(e: any) => handleFileUpload(e)"
       @remove="
@@ -101,6 +102,8 @@ const props = defineProps({
 const roomInfo = toRef(props, 'roomInfo');
 const imageList = ref<any[]>([]);
 const { $event } = useNuxtApp();
+const invalidImages = ref<string[]>([]);
+const { t } = useI18n();
 
 // ---------------------- Functions ----------------------
 function handleCancel() {
@@ -119,6 +122,11 @@ async function handlePreview(file: UploadProps['fileList'][number]) {
 }
 
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
+  imageList.value = imageList.value.filter((file) => !invalidImages.value.includes(file.uid));
+  roomInfo.value.images = roomInfo.value.images.filter(
+    (file) => !(file.isNew && invalidImages.value.includes((file as any).uid))
+  );
+
   event.fileList.forEach((file) => {
     if (file.status === 'done' && isNaN(Number(file.uid))) {
       if (props.roomInfo.images.find((image: any) => image.isNew && image.uid === file.uid)) {
@@ -182,6 +190,34 @@ async function getImageList() {
   }
 
   return result;
+}
+
+function beforeUploadRoomImage(file: any): boolean {
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  return true;
 }
 
 // ---------------------- Lifecycles ----------------------

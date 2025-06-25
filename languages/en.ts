@@ -230,8 +230,12 @@ export default {
   invalid_ssn: 'SSN is not valid!',
   invalid_oldSSN: 'Old SSN is not valid!',
   invalid_phone: 'Phone number is not valid!',
-  invalid_image_file_type: 'Invalid image file type! Please upload a JPG, JPEG or PNG file.',
-  invalid_contract_file_type: 'Invalid contract file type! Please upload a PDF, DOC, DOCX, JPG, JPEG or PNG file.',
+  invalid_image_file_type: 'Invalid image file type! Please upload an image with one of the following extensions: {types}',
+  invalid_contract_file_type: 'Invalid contract file type! Please upload a file with one of the following extensions: {types}',
+  invalid_image_title: 'Image invalid',
+  invalid_file_title: 'File invalid',
+  invalid_image_size: ' Image size must be less than {size}.',
+  invalid_file_size: 'File size must be less than {size}.',
 
   J: 'j',
 

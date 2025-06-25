@@ -316,11 +316,11 @@
             class="mt-3 text-center"
             :rules="[
               { required: true, message: $t('image_require'), trigger: 'blur' },
-              {
-                validator: async (_: RuleObject, value: UploadFile[]) =>
-                  validationRules.checkImageFileType(_, value, $t),
-                trigger: 'change',
-              },
+              // {
+              //   validator: async (_: RuleObject, value: UploadFile[]) =>
+              //     validationRules.checkImageFileType(_, value, $t),
+              //   trigger: 'change',
+              // },
             ]"
             name="imageList"
           >
@@ -329,6 +329,7 @@
               multiple
               list-type="text"
               :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
+              :before-upload="beforeUploadRoomImage"
               @remove="
                 (file: any) => {
                   if (isNaN(Number(file.uid))) {
@@ -498,6 +499,7 @@ const roomData = ref<Room>({
 });
 const tickets = ref<SupportTicket[]>([]);
 const lightModeCookie = useCookie('lightMode');
+const invalidImages = ref<string[]>([]);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
@@ -730,6 +732,13 @@ function disabledDate(current: Dayjs) {
 }
 
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
+  updateRoomData.value.images = updateRoomData.value.images.filter(
+    (file) => !(file.isNew && invalidImages.value.includes((file as any).uid))
+  );
+  updateRoomData.value.imageList = updateRoomData.value.imageList.filter(
+    (file) => !invalidImages.value.includes((file as any).uid)
+  );
+
   event.fileList.forEach((file) => {
     if (file.status === 'done' && isNaN(Number(file.uid))) {
       if (updateRoomData.value.images.find((image: any) => image.isNew && !image.isDeleted && image.uid === file.uid)) {
@@ -742,6 +751,34 @@ function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
       });
     }
   });
+}
+
+function beforeUploadRoomImage(file: any): boolean {
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  return true;
 }
 
 async function updateRoom() {

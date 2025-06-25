@@ -327,6 +327,7 @@
           :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
           multiple
           list-type="text"
+          :before-upload="beforeUploadBuildingImage"
           @change="(e: any) => handleFileUpload(e)"
         >
           <a-button class="flex items-center rounded-sm">
@@ -385,9 +386,13 @@ const checkAllSchedules = computed(
 const openModal = ref<boolean>(false);
 const fallback = ref<() => void>(() => {});
 const imageList = ref<string[]>([]);
+const { t } = useI18n();
+const invalidImages = ref<string[]>([]);
 
 // ---------------------- Functions ----------------------
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
+  buildingInfo.value.images = buildingInfo.value.images.filter((file) => !invalidImages.value.includes(file.uid));
+
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -452,6 +457,34 @@ function addAllSchedulesToBucket() {
 
 function removeAllSchedulesFromBucket() {
   scheduleDeleteBucket.value = [];
+}
+
+function beforeUploadBuildingImage(file: any): boolean {
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  return true;
 }
 
 // ---------------------- Event Listeners ----------------------

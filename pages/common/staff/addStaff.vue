@@ -239,7 +239,9 @@
                 <a-upload
                   id="profileFilePath"
                   v-model:file-list="staffInfo.profileFilePath"
+                  :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
                   :max-count="1"
+                  :before-upload="beforeUploadAvatarImage"
                   @change="handleAvatarChange"
                 >
                   <a-button class="flex items-center rounded-sm">
@@ -271,7 +273,9 @@
                 <a-upload
                   id="ssnFrontFilePath"
                   v-model:file-list="staffInfo.ssnFrontFilePath"
+                  :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
                   :max-count="1"
+                  :before-upload="beforeUploadSSNFrontImage"
                   @change="handleSSNFrontChange"
                 >
                   <a-button class="flex items-center rounded-sm">
@@ -303,7 +307,9 @@
                 <a-upload
                   id="ssnBackFilePath"
                   v-model:file-list="staffInfo.ssnBackFilePath"
+                  :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
                   :max-count="1"
+                  :before-upload="beforeUploadSSNBackImage"
                   @change="handleSSNBackChange"
                 >
                   <a-button class="flex items-center rounded-sm">
@@ -387,9 +393,16 @@ const previewAvatar = ref<string>('');
 const previewSSNFront = ref<string>('');
 const previewSSNBack = ref<string>('');
 const buildingList = ref<Building[]>([]);
+const isAvatarValid = ref<boolean>(false);
+const isSSNFrontValid = ref<boolean>(false);
+const isSSNBackValid = ref<boolean>(false);
 
 // ---------------------- Functions ----------------------
 async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
+  if (!isAvatarValid.value) {
+    staffInfo.value.profileFilePath = [];
+  }
+
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -422,6 +435,10 @@ async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
+  if (!isSSNFrontValid.value) {
+    staffInfo.value.ssnFrontFilePath = [];
+  }
+
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -454,6 +471,10 @@ async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
+  if (!isSSNBackValid.value) {
+    staffInfo.value.ssnBackFilePath = [];
+  }
+
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -483,6 +504,90 @@ async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
   }
 
   previewSSNBack.value = imageList.length ? imageList[0] : '';
+}
+
+function beforeUploadAvatarImage(file: any): boolean {
+  isAvatarValid.value = false;
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  isAvatarValid.value = true;
+  return true;
+}
+
+function beforeUploadSSNFrontImage(file: any): boolean {
+  isSSNFrontValid.value = false;
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  isSSNFrontValid.value = true;
+  return true;
+}
+
+function beforeUploadSSNBackImage(file: any): boolean {
+  isSSNBackValid.value = false;
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  isSSNBackValid.value = true;
+  return true;
 }
 
 async function getBuildingList() {

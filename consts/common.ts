@@ -52,6 +52,10 @@ const COMMON = {
   HTTP_STATUS,
   ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],
   ALLOW_FILE_EXTENSIONS: ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
+  IMAGE_SIZE_LIMIT: 2 * 1024 * 1024, // 2MB
+  IMAGE_SIZE_LIMIT_STR: '2MB',
+  FILE_SIZE_LIMIT: 10 * 1024 * 1024, // 10MB
+  FILE_SIZE_LIMIT_STR: '10MB',
 };
 
 export { COMMON };

@@ -38,6 +38,7 @@
         :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
         multiple
         list-type="text"
+        :before-upload="beforeUploadBuildingImage"
         @remove="
           (file) => {
             if (isNaN(Number(file.uid))) {
@@ -100,6 +101,8 @@ const props = defineProps({
 });
 const buildingInfo = toRef(props, 'buildingInfo');
 const imageList = ref<any[]>([]);
+const invalidImages = ref<string[]>([]);
+const { t } = useI18n();
 const displayImages = asyncComputed(async () => {
   const result: string[] = [];
 
@@ -119,6 +122,11 @@ const displayImages = asyncComputed(async () => {
 
 // ---------------------- Functions ----------------------
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
+  imageList.value = imageList.value.filter((file) => !invalidImages.value.includes(file.uid));
+  buildingInfo.value.data.images = buildingInfo.value.data.images.filter(
+    (file) => !(file.isNew && invalidImages.value.includes((file as any).uid))
+  );
+
   event.fileList.forEach((file) => {
     if (file.status === 'done' && isNaN(Number(file.uid))) {
       if (props.buildingInfo.data.images.find((image: any) => image.isNew && image.uid === file.uid)) {
@@ -162,6 +170,34 @@ function getImageList() {
   });
 
   return result;
+}
+
+function beforeUploadBuildingImage(file: any): boolean {
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  return true;
 }
 
 // ---------------------- Lifecycles ----------------------

@@ -59,9 +59,9 @@
             </a-select>
           </div>
         </div>
-        <div v-else class="flex items-center justify-center w-full h-full">
+        <!-- <div v-else class="flex items-center justify-center w-full h-full">
           <h2 class="text-center text-gray-400 text-2xl">{{ $t('no_floor') }}</h2>
-        </div>
+        </div> -->
         <div v-if="selectedFloor !== -1" class="mt-10">
           <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
           <div class="mt-3 mb-2">

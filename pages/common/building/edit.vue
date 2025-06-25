@@ -359,7 +359,7 @@
               }
             }
           "
-          >{{ $t('next') }}</a-button
+          >{{ step == 3 ? $t('confirm') : $t('next') }}</a-button
         >
         <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
           $t('previous')
@@ -678,7 +678,7 @@ async function updateBuilding() {
     editSuccess.value = true;
     step.value++;
   } catch (err: any) {
-    step.value--;
+    step.value = 3;
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||

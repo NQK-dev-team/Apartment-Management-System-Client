@@ -314,14 +314,21 @@
           </div>
           <a-form-item
             class="mt-3 text-center"
-            :rules="[{ required: true, message: $t('image_require'), trigger: 'blur' }]"
+            :rules="[
+              { required: true, message: $t('image_require'), trigger: 'blur' },
+              {
+                validator: async (_: RuleObject, value: UploadFile[]) =>
+                  validationRules.checkImageFileType(_, value, $t),
+                trigger: 'change',
+              },
+            ]"
             name="imageList"
           >
             <a-upload
               v-model:file-list="updateRoomData.imageList"
-              accept=".png,.jpg,.jpeg"
               multiple
               list-type="text"
+              :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
               @remove="
                 (file: any) => {
                   if (isNaN(Number(file.uid))) {

@@ -15,7 +15,11 @@
       </a-form-item>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <a-form-item name="row_no" class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <a-form-item
+        name="row_no"
+        class="border-r-[1px]"
+        :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+      >
         {{ props.index + 1 }}
       </a-form-item>
     </td>
@@ -49,7 +53,14 @@
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-form-item
           :name="['files', props.index, 'path']"
-          :rules="[{ required: true, message: $t('file_require'), trigger: 'blur' }]"
+          :rules="[
+            { required: true, message: $t('file_require'), trigger: 'blur' },
+            {
+              validator: async (_: RuleObject, value: UploadFile[]) =>
+                validationRules.checkContractFileType(_, value, $t),
+              trigger: 'change',
+            },
+          ]"
           class="px-3"
         >
           <NuxtLink
@@ -64,8 +75,8 @@
             v-else
             :id="`contract_file_${props.index + 1}_file`"
             v-model:file-list="file.path as UploadFile[]"
-            accept=".png,.jpg,.jpeg,.pdf"
             :accept="COMMON.ALLOW_FILE_EXTENSIONS.join(',')"
+            @change="(e: any) => handleFileUpload(e)"
           >
             <a-button class="flex flex-col items-center justify-center h-full w-full p-3">
               <plus-outlined />
@@ -80,8 +91,10 @@
 
 <script lang="ts" setup>
 import type { ContractFile } from '~/types/contract';
-import type { UploadFile } from 'ant-design-vue';
+import type { UploadFile, UploadChangeParam } from 'ant-design-vue';
 import { COMMON } from '~/consts/common';
+import type { RuleObject } from 'ant-design-vue/es/form';
+import { validationRules } from '~/consts/validation_rules';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -118,6 +131,25 @@ function removeFromBucket() {
 function addToBucket() {
   if (!deleteBucket.value.value.includes(file.value.ID)) {
     deleteBucket.value.value.push(file.value.ID);
+  }
+}
+
+function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
+  // let isDone = true;
+
+  // event.fileList.forEach((file) => {
+  //   if (file.status !== 'done') {
+  //     isDone = false;
+  //   }
+  // });
+
+  // if (!isDone) {
+  //   return;
+  // }
+
+  if (event.fileList.length > 1 && event.fileList[1].status === 'done') {
+    // Remove the first file if more than one file is uploaded
+    event.fileList.splice(0, 1);
   }
 }
 

@@ -501,14 +501,7 @@ function disabledDate(current: Dayjs) {
 }
 
 async function updateContract() {
-  let validateSuccess = false;
-
   try {
-    if (!editForm.value) return;
-    await editForm.value.validateFields();
-
-    validateSuccess = true;
-
     $event.emit('loading');
 
     console.log(editContract.value.value);
@@ -523,12 +516,12 @@ async function updateContract() {
     }
     const totalNewFiles = editContract.value.value.files.filter((file) => file.isNew).length;
     formData.append('totalNewfiles', totalNewFiles.toString());
-    editContract.value.value.files
-      .filter((file) => file.isNew)
-      .forEach((file, index) => {
-        formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
-        formData.append(`file[${index}]title`, file.title || '');
-      });
+    // editContract.value.value.files
+    //   .filter((file) => file.isNew)
+    //   .forEach((file, index) => {
+    //     formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
+    //     formData.append(`file[${index}]title`, file.title || '');
+    //   });
     editContract.value.value.residents.forEach((resident) => {
       if (resident.isDeleted && !resident.isNew) {
         formData.append('removedResidents[]', resident.ID.toString());
@@ -563,10 +556,9 @@ async function updateContract() {
     $event.emit('refetchContractDetail');
   } catch (err: any) {
     if (
-      validateSuccess &&
-      (err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-        err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-        err.response._data.message === getMessageCode('PARAMETER_VALIDATION'))
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
         message: t('system_error_title'),
@@ -574,9 +566,21 @@ async function updateContract() {
       });
     }
   } finally {
-    if (validateSuccess) {
-      $event.emit('loading');
-    }
+    $event.emit('loading');
+  }
+}
+
+async function validateForm() {
+  try {
+    if (!editForm.value) return;
+    await editForm.value.validateFields();
+
+    $event.emit('updateItem', {
+      callback: updateContract,
+      updateModalContent: 'confirm_update_contract',
+    });
+  } catch (err: any) {
+    /* empty */
   }
 }
 
@@ -594,13 +598,7 @@ $event.on('cancelContractEditMode', () => {
   addFilecounter.value = 0;
   addResidentCounter.value = 0;
 });
-$event.on('updateContract', () =>
-{
-  $event.emit('updateItem', {
-    callback: updateContract,
-    updateModalContent:'confirm_update_contract',
-  })
-});
+$event.on('updateContract', validateForm);
 
 // ---------------------- Watchers ----------------------
 watch(offsetCustomer, getCustomerList);

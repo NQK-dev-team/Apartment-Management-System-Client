@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { RuleObject } from 'ant-design-vue/es/form';
 import dayjs, { type Dayjs } from 'dayjs';
+import type { UploadFile } from 'ant-design-vue';
+import { COMMON } from './common';
 
 const validationRules = {
   password: async (_: RuleObject, value: string, t: any) => {
@@ -60,6 +62,57 @@ const validationRules = {
 
     if (signDate.isAfter(today)) {
       return Promise.reject(t('sign_date_cannot_be_future'));
+    }
+
+    return Promise.resolve();
+  },
+  checkImageFileType: async (_: RuleObject, files: UploadFile[] | string, t: any) => {
+    console.log(files);
+    if (!files || typeof files === 'string') {
+      return Promise.resolve();
+    }
+
+    for (const file of files) {
+      if (isNaN(Number(file.uid))) {
+        let type = file.type || '';
+
+        if (type) {
+          type = type.split('/')[1] || '';
+        } else {
+          type = file.name.split('.').pop() || '';
+        }
+
+        if (COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+          return Promise.resolve();
+        } else {
+          return Promise.reject(t('invalid_image_file_type'));
+        }
+      }
+    }
+
+    return Promise.resolve();
+  },
+  checkContractFileType: async (_: RuleObject, files: UploadFile[] | string, t: any) => {
+    if (!files || typeof files === 'string') {
+      return Promise.resolve();
+    }
+
+    for (const file of files) {
+      if (isNaN(Number(file.uid))) {
+        let type = file.type || '';
+
+        if (type) {
+          type = type.split('/')[1] || '';
+        } else {
+          type = file.name.split('.').pop() || '';
+        }
+
+        if (COMMON.ALLOW_FILE_EXTENSIONS.includes(`.${type}`)) {
+          return Promise.resolve();
+        } else {
+          return Promise.reject(t('invalid_contract_file_type'));
+        }
+      }
     }
 
     return Promise.resolve();

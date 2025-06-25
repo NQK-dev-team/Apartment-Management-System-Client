@@ -231,6 +231,8 @@ export default {
   invalid_ssn: 'Số CCCD không hợp lệ!',
   invalid_oldSSN: 'Số CMND (cũ) không hợp lệ!',
   invalid_phone: 'Số điện thoại không hợp lệ!',
+  invalid_image_file_type: 'Tệp tin hình ảnh không hợp lệ! Vui lòng chọn tệp tin có định dạng .jpg, .jpeg hoặc .png',
+  invalid_contract_file_type:' Tệp tin văn bản hợp đồng không hợp lệ! Vui lòng chọn tệp tin có định dạng .pdf, .doc, .docx, .jpg, .jpeg hoặc .png',
 
   J: 'j',
 

@@ -1,5 +1,16 @@
 <template>
-  <a-form :model="updateRoomData" class="w-full h-full flex flex-col px-5" @finish="updateRoom">
+  <a-form
+    :model="updateRoomData"
+    class="w-full h-full flex flex-col px-5"
+    @finish="
+      () => {
+        $event.emit('updateItem', {
+          callback: updateRoom,
+          updateModalContent: 'confirm_update_room_info',
+        });
+      }
+    "
+  >
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item

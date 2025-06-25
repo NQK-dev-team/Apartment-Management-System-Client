@@ -433,8 +433,4 @@ watch(customers, () => {
 $event.on('resetResidentListItemContractEditMode', () => {
   customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no ?? null;
 });
-
-onBeforeUnmount(() => {
-  console.log(props.resident);
-});
 </script>

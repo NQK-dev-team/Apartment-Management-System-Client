@@ -594,7 +594,13 @@ $event.on('cancelContractEditMode', () => {
   addFilecounter.value = 0;
   addResidentCounter.value = 0;
 });
-$event.on('updateContract', updateContract);
+$event.on('updateContract', () =>
+{
+  $event.emit('updateItem', {
+    callback: updateContract,
+    updateModalContent:'confirm_update_contract',
+  })
+});
 
 // ---------------------- Watchers ----------------------
 watch(offsetCustomer, getCustomerList);

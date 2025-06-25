@@ -96,6 +96,8 @@ export default {
     'Danh sách chọn xóa đang có hợp đồng không cho phép xóa, vui lòng kiểm tra lại!',
   customer_must_be_18_years_old: 'Khách hàng phải từ 18 tuổi trở lên!',
   child: 'Con cái',
+  confirm_update_room_info: 'Bạn có chắc chắn muốn cập nhật thông tin phòng này không?',
+  confirm_update_contract: 'Bạn có chắc chắn muốn cập nhật thông tin hợp đồng này không?',
 
   D: 'd',
   delete: 'Xóa',

@@ -96,6 +96,8 @@ export default {
     'The delete list contains a contract that can not be deleted. Please check again!',
   customer_must_be_18_years_old: 'Customer must be at least 18 years old!',
   child: 'Child',
+  confirm_update_room_info: 'Are you sure you want to update this room information?',
+  confirm_update_contract: 'Are you sure you want to update this contract information?',
 
   D: 'd',
   delete: 'Delete',

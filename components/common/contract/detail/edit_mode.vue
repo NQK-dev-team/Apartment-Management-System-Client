@@ -553,7 +553,7 @@ async function updateContract() {
     });
 
     await api.common.contract.updateContract(editContract.value.value.ID, formData);
-    $event.emit('refetchContractDetail');
+    $event.emit('updateContractSuccess');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

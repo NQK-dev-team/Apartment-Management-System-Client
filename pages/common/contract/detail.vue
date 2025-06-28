@@ -206,10 +206,9 @@ $event.on('errorEditContract', () => {
   });
 });
 $event.on('refetchContractBills', refetchContractBills);
-$event.on('refetchContractDetail', () => {
-  getContractDetail(false);
-});
-$event.on('refetchContractDetail', () => {
+$event.on('updateContractSuccess', () =>
+{
+  editMode.value = false;
   getContractDetail(false);
 });
 </script>

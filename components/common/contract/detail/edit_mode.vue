@@ -537,7 +537,7 @@ async function updateContract() {
       );
     }
     const totalNewFiles = editContract.value.value.files.filter((file) => file.isNew).length;
-    formData.append('totalNewfiles', totalNewFiles.toString());
+    formData.append('totalNewFiles', totalNewFiles.toString());
     editContract.value.value.files
       .filter((file) => file.isNew)
       .forEach((file, index) => {

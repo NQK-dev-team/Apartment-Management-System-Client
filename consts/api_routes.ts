@@ -71,7 +71,7 @@ const apiRoutes = {
     list: (limit: number = 500, offset: number = 0) => `/contract?limit=${limit}&offset=${offset}`,
     detail: (contractId: number) => `/contract/${contractId}`,
     add: '/contract/add',
-    edit: (contractId: number) => `/contract/${contractId}/edit`,
+    edit: (contractId: number) => `/contract/${contractId}/update`,
     deleteMany: '/contract/delete-many',
     bill: (contractId: number) => `/contract/${contractId}/bill`,
   },

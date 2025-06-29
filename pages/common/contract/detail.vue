@@ -10,7 +10,12 @@
       <div class="flex items-center justify-between">
         <h1 class="mt-3 text-2xl">{{ $t('contract') }} {{ contract ? contract.ID : '' }}</h1>
         <div
-          v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner"
+          v-if="
+            (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
+            contract &&
+            contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
+            contract.status !== COMMON.CONTRACT_STATUS.CANCELLED
+          "
           class="flex justify-end"
         >
           <a-button
@@ -64,7 +69,11 @@
         <CommonContractDetailViewMode v-if="!editMode && contract.ID" :contract="contract" />
         <CommonContractDetailEditMode
           v-if="
-            editMode && contract.ID && (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner)
+            editMode &&
+            contract.ID &&
+            (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
+            contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
+            contract.status !== COMMON.CONTRACT_STATUS.CANCELLED
           "
           :contract="contract"
           :edit-contract="editContract"

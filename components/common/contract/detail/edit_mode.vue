@@ -1,5 +1,9 @@
 <template>
-  <a-form ref="editForm" :model="editContract.value">
+  <a-form
+    v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner"
+    ref="editForm"
+    :model="editContract.value"
+  >
     <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -174,7 +178,8 @@
           :name="['newSignDate']"
           :rules="[
             {
-              validator: async (_: RuleObject, value: string) => validationRules.checkSignDate(_, value, $t),
+              validator: async (_: RuleObject, value: string) =>
+                validationRules.checkSignDate(_, value, $t, contract.startDate),
               trigger: 'blur',
             },
           ]"
@@ -238,32 +243,43 @@
             <span>{{ $t('status') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-select
-            id="status"
-            v-model:value="editContract.value.status"
-            placeholder="{{ $t('select_status') }}"
-            class="w-full text-left"
-          >
-            <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="COMMON.CONTRACT_STATUS.ACTIVE" :class="`text-[#50c433]`">{{
-              $t('active')
-            }}</a-select-option>
-            <a-select-option :value="COMMON.CONTRACT_STATUS.EXPIRED" :class="`text-[#888888]`">{{
-              $t('expired')
-            }}</a-select-option>
-            <a-select-option :value="COMMON.CONTRACT_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
-              $t('cancelled')
-            }}</a-select-option>
-            <a-select-option
-              v-if="!(contract.signDate.Valid && contract.signDate.Time)"
-              :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE"
-              :class="`text-[#888888]`"
-              >{{ $t('wait_for_signature') }}</a-select-option
+          <ClientOnly>
+            <a-select
+              id="status"
+              v-model:value="editContract.value.status"
+              placeholder="{{ $t('select_status') }}"
+              class="w-full text-left"
             >
-            <a-select-option :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT" :class="`text-[#888888]`">{{
-              $t('not_in_effect')
-            }}</a-select-option>
-          </a-select>
+              <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
+              <a-select-option
+                v-if="isSignDateSet && isContractActive"
+                :value="COMMON.CONTRACT_STATUS.ACTIVE"
+                :class="`text-[#50c433]`"
+                >{{ $t('active') }}</a-select-option
+              >
+              <a-select-option
+                v-if="isSignDateSet && isContractActive"
+                :value="COMMON.CONTRACT_STATUS.EXPIRED"
+                :class="`text-[#888888]`"
+                >{{ $t('expired') }}</a-select-option
+              >
+              <a-select-option v-if="true" :value="COMMON.CONTRACT_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
+                $t('cancelled')
+              }}</a-select-option>
+              <a-select-option
+                v-if="!isSignDateSet"
+                :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE"
+                :class="`text-[#888888]`"
+                >{{ $t('wait_for_signature') }}</a-select-option
+              >
+              <a-select-option
+                v-if="isSignDateSet && !isContractActive"
+                :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT"
+                :class="`text-[#888888]`"
+                >{{ $t('not_in_effect') }}</a-select-option
+              >
+            </a-select>
+          </ClientOnly>
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
@@ -441,6 +457,12 @@ const offsetCustomer = ref(0);
 const limitCustomer = ref(500);
 const customerList = ref<User[]>([]);
 const currentDate = convertToDate(new Date().toISOString());
+const isSignDateSet = computed(
+  () => (contract.value.signDate.Valid && contract.value.signDate.Time) || editContract.value.value.newSignDate
+);
+const isContractActive = computed(() => {
+  return !$dayjs().isBefore($dayjs(contract.value.startDate));
+});
 
 // ---------------------- Functions ----------------------
 async function clearResidentListValidation() {
@@ -516,12 +538,12 @@ async function updateContract() {
     }
     const totalNewFiles = editContract.value.value.files.filter((file) => file.isNew).length;
     formData.append('totalNewfiles', totalNewFiles.toString());
-    // editContract.value.value.files
-    //   .filter((file) => file.isNew)
-    //   .forEach((file, index) => {
-    //     formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
-    //     formData.append(`file[${index}]title`, file.title || '');
-    //   });
+    editContract.value.value.files
+      .filter((file) => file.isNew)
+      .forEach((file, index) => {
+        formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
+        formData.append(`file[${index}]title`, file.title || '');
+      });
     editContract.value.value.residents.forEach((resident) => {
       if (resident.isDeleted && !resident.isNew) {
         formData.append('removedResidents[]', resident.ID.toString());
@@ -602,4 +624,18 @@ $event.on('updateContract', validateForm);
 
 // ---------------------- Watchers ----------------------
 watch(offsetCustomer, getCustomerList);
+watch(
+  () => editContract.value.value.newSignDate,
+  () => {
+    if (!editContract.value.value.newSignDate) {
+      editContract.value.value.status = COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE;
+    } else {
+      if (!isContractActive.value) {
+        editContract.value.value.status = COMMON.CONTRACT_STATUS.NOT_IN_EFFECT;
+      } else {
+        editContract.value.value.status = COMMON.CONTRACT_STATUS.ACTIVE;
+      }
+    }
+  }
+);
 </script>

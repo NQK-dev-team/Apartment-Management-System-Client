@@ -404,6 +404,7 @@ export default {
   select_relationship: 'Chọn quan hệ với chủ hộ',
   select_sign_date: 'Chọn ngày ký hợp đồng',
   sign_date_cannot_be_future: 'Ngày ký hợp đồng không thể là ngày trong tương lai!',
+  sign_date_cannot_be_after_start_date: 'Ngày ký hợp đồng không thể sau ngày bắt đầu hợp đồng!',
 
   T: 't',
   total: 'Tổng',

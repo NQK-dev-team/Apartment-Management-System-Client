@@ -63,7 +63,9 @@
       <template v-if="contract && editContract">
         <CommonContractDetailViewMode v-if="!editMode && contract.ID" :contract="contract" />
         <CommonContractDetailEditMode
-          v-if="editMode && contract.ID"
+          v-if="
+            editMode && contract.ID && (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner)
+          "
           :contract="contract"
           :edit-contract="editContract"
         />
@@ -206,8 +208,7 @@ $event.on('errorEditContract', () => {
   });
 });
 $event.on('refetchContractBills', refetchContractBills);
-$event.on('updateContractSuccess', () =>
-{
+$event.on('updateContractSuccess', () => {
   editMode.value = false;
   getContractDetail(false);
 });

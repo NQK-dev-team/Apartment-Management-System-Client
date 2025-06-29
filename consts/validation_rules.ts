@@ -53,15 +53,15 @@ const validationRules = {
     }
     return Promise.resolve();
   },
-  checkSignDate: async (_: RuleObject, value: string, t: any) => {
+  checkSignDate: async (_: RuleObject, value: string, t: any, start_date: string) => {
     if (!value) {
       return Promise.resolve();
     }
     const signDate = dayjs(value);
-    const today = dayjs();
+    const startDate = dayjs(start_date);
 
-    if (signDate.isAfter(today)) {
-      return Promise.reject(t('sign_date_cannot_be_future'));
+    if (signDate.isAfter(startDate)) {
+      return Promise.reject(t('sign_date_cannot_be_after_start_date'));
     }
 
     return Promise.resolve();

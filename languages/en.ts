@@ -402,6 +402,7 @@ export default {
   select_relationship: 'Select relationship with owner',
   select_sign_date: 'Select contract sign date',
   sign_date_cannot_be_future: 'Contract sign date cannot be in the future!',
+  sign_date_cannot_be_after_start_date: 'Contract sign date cannot be after contract start date!',
 
   T: 't',
   total: 'Total',

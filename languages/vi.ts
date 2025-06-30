@@ -99,6 +99,7 @@ export default {
   child: 'Con cái',
   confirm_update_room_info: 'Bạn có chắc chắn muốn cập nhật thông tin phòng này không?',
   confirm_update_contract: 'Bạn có chắc chắn muốn cập nhật thông tin hợp đồng này không?',
+  contract_info_updated: 'Thông tin hợp đồng đã được cập nhật thành công!',
 
   D: 'd',
   delete: 'Xóa',

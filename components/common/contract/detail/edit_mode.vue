@@ -227,14 +227,22 @@
             disabled
             readonly
             :value="
-              editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED
+              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
+                contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
+              editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
                 ? currentDate
                 : contract.endDate.Valid && contract.endDate.Time
                   ? convertToDate(contract.endDate.Time)
                   : ''
             "
             :placeholder="$t('expire_date')"
-            :class="[editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED ? 'text-[#ff0000]' : '']"
+            :class="[
+              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
+                contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
+              editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
+                ? 'text-[#ff0000]'
+                : '',
+            ]"
           />
         </a-form-item>
       </a-col>
@@ -471,7 +479,9 @@ const isContractActive = computed(() => {
   return !$dayjs().isBefore($dayjs(contract.value.startDate));
 });
 const showActiveStatus = computed(() => isSignDateSet.value && isContractActive.value);
-const showExpiredStatus = computed(() => isSignDateSet.value && isContractActive.value);
+const showExpiredStatus = computed(
+  () => isSignDateSet.value && isContractActive.value && contract.value.type !== COMMON.CONTRACT_TYPE.BUY
+);
 const showCancelledStatus = computed(() => true);
 const showWaitingForSignatureStatus = computed(() => !isSignDateSet.value && !isContractActive.value);
 const showNotInEffectStatus = computed(() => isSignDateSet.value && !isContractActive.value);
@@ -537,8 +547,6 @@ function disabledDate(current: Dayjs) {
 async function updateContract() {
   try {
     $event.emit('loading');
-
-    console.log(editContract.value.value);
 
     const formData = new FormData();
     formData.append('status', editContract.value.value.status.toString());

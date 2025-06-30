@@ -218,6 +218,11 @@ $event.on('errorEditContract', () => {
 });
 $event.on('refetchContractBills', refetchContractBills);
 $event.on('updateContractSuccess', () => {
+  notification.info({
+    message: t('update_success'),
+    description: t('contract_info_updated'),
+  });
+
   editMode.value = false;
   getContractDetail(false);
 });

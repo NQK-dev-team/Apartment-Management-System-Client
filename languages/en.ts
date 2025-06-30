@@ -99,6 +99,7 @@ export default {
   child: 'Child',
   confirm_update_room_info: 'Are you sure you want to update this room information?',
   confirm_update_contract: 'Are you sure you want to update this contract information?',
+  contract_info_updated: 'Contract information has been updated successfully!',
 
   D: 'd',
   delete: 'Delete',
@@ -231,8 +232,10 @@ export default {
   invalid_ssn: 'SSN is not valid!',
   invalid_oldSSN: 'Old SSN is not valid!',
   invalid_phone: 'Phone number is not valid!',
-  invalid_image_file_type: 'Invalid image file type! Please upload an image with one of the following extensions: {types}',
-  invalid_contract_file_type: 'Invalid contract file type! Please upload a file with one of the following extensions: {types}',
+  invalid_image_file_type:
+    'Invalid image file type! Please upload an image with one of the following extensions: {types}',
+  invalid_contract_file_type:
+    'Invalid contract file type! Please upload a file with one of the following extensions: {types}',
   invalid_image_title: 'Image invalid',
   invalid_file_title: 'File invalid',
   invalid_image_size: ' Image size must be less than {size}.',

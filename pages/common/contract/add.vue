@@ -2,77 +2,38 @@
   <div class="w-full h-full flex flex-col px-5">
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
-        <a-breadcrumb-item>
-          <NuxtLink :to="pageRoutes.common.contract.list">{{ $t('contract_list') }}</NuxtLink>
-        </a-breadcrumb-item>
+        <a-breadcrumb-item
+          ><NuxtLink :to="pageRoutes.common.contract.list">{{ $t('contract_list') }}</NuxtLink></a-breadcrumb-item
+        >
         <a-breadcrumb-item>{{ $t('add_contract') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div class="flex justify-between mt-5">
-        <h1 class="mt-3 text-2xl">{{ $t('add_contract') }}</h1>
-        <!-- <div class="flex">
-          <a-button type="primary" class="flex items-center justify-center p-2 rounded-none;">
-            {{ $t('edit') }}
-          </a-button>
-          <a-button type="primary" danger class="flex items-center justify-center p-2 rounded-none; ml-2">
-            {{ $t('delete') }}
-          </a-button>
-        </div> -->
-      </div>
+      <h1 class="mt-3 text-2xl">{{ $t('add_contract') }}</h1>
     </div>
-    <div class="flex-1 flex flex-col mt-5 overflow-auto px-4"
-      :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-      <h1 class="mt-3 text-2xl">{{ $t('contract_information') }}</h1>
-      <CommonContractInformation />
-      <div class="flex justify-between" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-        <h1 class="mt-3 text-2xl">{{ $t('resident_list') }}</h1>
-        <div class="flex">
-          <a-button type="primary" class="flex items-center justify-center p-0 w-[36px] rounded-none;">
-            <img :src="svgPaths.plus" alt="Add resident" class="w-[12px] h-[12px]" />
-          </a-button>
-          <a-button type="primary" danger class="flex items-center justify-center p-0 w-[36px] rounded-none; ml-2">
-            <img :src="svgPaths.delete" alt="Delete resident" class="w-[12px] h-[12px]" />
-          </a-button>
-        </div>
-      </div>
-      <CommonContractResidentList />
-      <div class="flex justify-between" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
-        <h1 class="mt-3 text-2xl">{{ $t('bill_list') }}</h1>
-        <!-- <div class="flex">
-          <a-button type="primary" class="flex items-center justify-center p-0 w-[36px] rounded-none;">
-            <img :src="svgPaths.plus" alt="Add contract" class="w-[12px] h-[12px]" />
-          </a-button>
-          <a-button type="primary" danger class="flex items-center justify-center p-0 w-[36px] rounded-none; ml-2">
-            <img :src="svgPaths.delete" alt="Delete contract" class="w-[12px] h-[12px]" />
-          </a-button>
-        </div> -->
-      </div>
-      <CommonContractBillList />
-    </div>
+    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { pageRoutes } from '~/consts/page_routes';
-import type { UploadFile } from 'ant-design-vue/es/upload/interface';
-import Success from '~/public/svg/success.svg';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { useI18n } from 'vue-i18n';
-import { svgPaths } from '~/consts/svg_paths';
+import type { User } from '~/types/user';
+import { COMMON } from '~/consts/common';
+import type { Dayjs } from 'dayjs';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
   name: 'Add New Contract',
   layout: 'main',
-  middleware: ['authorization-owner'],
+  middleware: ['authorization-manager'],
 });
 
 useHead({
-  title: 'Add a contract',
+  title: 'Add New Contract',
   meta: [
     {
       name: 'description',
-      content: 'Add a contract in the system',
+      content: 'Add a contract to the system',
     },
   ],
 });
@@ -80,98 +41,121 @@ useHead({
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
-const step = ref<number>(1);
-const highestStep = ref<number>(1);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const addSuccess = ref<boolean>(false);
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
+const offsetCustomer = ref(0);
+const limitCustomer = ref(500);
+const customerList = ref<User[]>([]);
+const fileListDeleteBucket = ref({ value: [] as number[] });
+const residentListDeleteBucket = ref({ value: [] as number[] });
+const addFilecounter = ref(0);
+const addResidentCounter = ref(0);
 
 // ---------------------- Functions ----------------------
+async function getCustomerList() {
+  try {
+    const response = await api.common.customer.getList(limitCustomer.value, offsetCustomer.value);
+    const data = response.data;
+
+    if (offsetCustomer.value === 0) {
+      customerList.value = data;
+    } else {
+      customerList.value.push(...data);
+    }
+
+    if (response.data.length === limitCustomer.value) {
+      offsetCustomer.value += limitCustomer.value;
+    }
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+function disabledDate(current: Dayjs) {
+  // Can not select days after today
+  return current && current >= $dayjs().endOf('day');
+}
+
+async function addContract() {
+  try {
+    $event.emit('loading');
+
+    // const formData = new FormData();
+    // formData.append('status', editContract.value.value.status.toString());
+    // if (editContract.value.value.newSignDate) {
+    //   formData.append(
+    //     'newSignDate',
+    //     convertToDate((editContract.value.value.newSignDate as Dayjs).toDate().toISOString())
+    //   );
+    // }
+    // const totalNewFiles = editContract.value.value.files.filter((file) => file.isNew).length;
+    // formData.append('totalNewFiles', totalNewFiles.toString());
+    // editContract.value.value.files
+    //   .filter((file) => file.isNew)
+    //   .forEach((file, index) => {
+    //     formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
+    //     formData.append(`file[${index}]title`, file.title || '');
+    //   });
+    // editContract.value.value.residents.forEach((resident) => {
+    //   if (resident.isDeleted && !resident.isNew) {
+    //     formData.append('removedResidents[]', resident.ID.toString());
+    //   } else {
+    //     const { userAccount, isNew, isDeleted, ...residentData } = resident;
+
+    //     // Prepare resident data for submission
+    //     const finalData = {
+    //       firstName: residentData.firstName.trim(),
+    //       middleName: residentData.middleName.String ? residentData.middleName.String.trim() : '',
+    //       lastName: residentData.lastName.trim(),
+    //       ssn: residentData.ssn.trim(),
+    //       oldSSN: residentData.oldSSN.String ? residentData.oldSSN.String.trim() : '',
+    //       phone: residentData.phone.String ? residentData.phone.String.trim() : '',
+    //       email: residentData.email.String ? residentData.email.String.trim() : '',
+    //       ID: residentData.ID <= 0 ? 0 : residentData.ID, // Ensure ID is 0 for new residents
+    //       pob: residentData.pob.trim(),
+    //       gender: resident.gender,
+    //       userAccountID: residentData.userAccountID.Int64 ? residentData.userAccountID.Int64 : 0,
+    //       relationWithHouseholder: residentData.relationWithHouseholder,
+    //       dob:
+    //         typeof residentData.dob === 'string'
+    //           ? residentData.dob
+    //           : convertToDate(residentData.dob.toDate().toISOString()),
+    //     };
+
+    //     formData.append('residents[]', JSON.stringify(finalData));
+    //   }
+    // });
+
+    // await api.common.contract.updateContract(editContract.value.value.ID, formData);
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(() => {
+  getCustomerList();
+});
 </script>
-
-<style lang="css" scoped>
-.step_title {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.step_title_selected {
-  color: black;
-}
-
-.step_title_dark {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.step_title_selected_dark {
-  color: white;
-}
-
-.step_number {
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 13px;
-  height: 18px;
-}
-
-.step_number_dark {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 13px;
-  height: 18px;
-}
-
-.step_number_selected {
-  color: white;
-  font-size: 13px;
-  height: 18px;
-}
-
-.step_number_selected_dark {
-  color: white;
-  font-size: 13px;
-  height: 18px;
-}
-
-.step_number_background {
-  background-color: rgba(0, 0, 0, 0.06);
-}
-
-.step_number_background_dark {
-  background-color: rgba(255, 255, 255, 0.12);
-}
-
-.step_number_background_selected {
-  background-color: rgb(22, 119, 255);
-}
-
-.step_number_background_completed {
-  background-color: rgb(230, 244, 255);
-}
-
-.step_number_background_completed_dark {
-  background-color: rgb(17, 26, 44);
-}
-
-.custom_step:hover .step_number_background,
-.custom_step:hover .step_number_background_dark,
-.custom_step:hover .step_number_background_selected,
-.custom_step:hover .step_number_background_completed,
-.custom_step:hover .step_number_background_completed_dark {
-  border: 1px solid #1890ff !important;
-}
-
-.custom_step:hover .step_number,
-.custom_step:hover .step_title,
-.custom_step:hover .step_number_dark,
-.custom_step:hover .step_title_dark,
-.custom_step:hover .step_number_selected,
-.custom_step:hover .step_title_selected,
-.custom_step:hover .step_number_selected_dark,
-.custom_step:hover .step_title_selected_dark {
-  color: #1890ff !important;
-}
-
-.step_border_transitition {
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-</style>

@@ -56,6 +56,7 @@ export default {
   back_face: 'back face',
   buy: 'Buy',
   bill_no: 'Bill number',
+  bill_name: 'Billing name',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -411,6 +412,7 @@ export default {
   ticket_id: 'Ticket ID',
   ticket_creation_date: 'Ticket creation date',
   title: 'Title',
+  total_payment: 'Total payment',
 
   U: 'u',
   upload_file: 'Upload file',

@@ -13,6 +13,8 @@ type Bill = BasicModel & {
   payer: User;
   contractID: number;
   contract: Contract;
+  title: string;
+  totalAmountWithExtra: number;
 };
 
 type Service = BasicModel & {

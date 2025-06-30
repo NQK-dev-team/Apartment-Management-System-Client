@@ -56,6 +56,7 @@ export default {
   back_face: 'Mặt sau',
   buy: 'Mua',
   bill_no: 'Mã hóa đơn',
+  bill_name: 'Tên hóa đơn',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -413,6 +414,7 @@ export default {
   ticket_id: 'Mã phiếu hỗ trợ',
   ticket_creation_date: 'Ngày tạo phiếu hỗ trợ',
   title: 'Tiêu đề',
+  total_payment:'Tổng thanh toán',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

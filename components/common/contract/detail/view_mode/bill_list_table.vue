@@ -256,6 +256,48 @@ const columns: any = computed(() => {
       },
     },
     {
+      title: t('bill_name'),
+      dataIndex: 'bill_name',
+      key: 'bill_name',
+      class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) =>
+          removeDiacritics(record.bill_name.toString().toLowerCase()).includes(
+            removeDiacritics(val.trim().toLowerCase())
+          )
+        );
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
+    },
+    {
+      title: t('paid_by'),
+      dataIndex: 'paid_by',
+      key: 'paid_by',
+      class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) =>
+          removeDiacritics(record.paid_by.toString().toLowerCase()).includes(removeDiacritics(val.trim().toLowerCase()))
+        );
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
+    },
+    {
       title: t('payment_period'),
       dataIndex: 'payment_period',
       key: 'payment_period',
@@ -275,9 +317,9 @@ const columns: any = computed(() => {
       sortDirections: ['ascend', 'descend'],
     },
     {
-      title: t('amount'),
-      dataIndex: 'amount',
-      key: 'amount',
+      title: t('total_payment'),
+      dataIndex: 'total_payment',
+      key: 'total_payment',
       class: 'text-nowrap',
     },
     {
@@ -358,7 +400,8 @@ const data = computed(() => {
     .map((bill: Bill, index: number) => ({
       no: index + 1,
       bill_no: bill.ID,
-      amount: formatPrice(bill.amount),
+      bill_name: bill.title,
+      total_payment: formatPrice(bill.totalAmountWithExtra),
       payment_period: convertToMonthYear(bill.period),
       payment_time: bill.paymentTime.Valid && bill.paymentTime.Time ? convertToDateTime(bill.paymentTime.Time) : '-',
       paid_by: bill.paymentTime.Valid && bill.paymentTime.Time ? getUserName(bill.payer) : '-',

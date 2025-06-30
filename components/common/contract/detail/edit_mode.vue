@@ -1,6 +1,10 @@
 <template>
   <a-form
-    v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner"
+    v-if="
+      (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
+      contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
+      contract.status !== COMMON.CONTRACT_STATUS.CANCELLED
+    "
     ref="editForm"
     :model="editContract.value"
   >
@@ -252,28 +256,31 @@
             >
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
               <a-select-option
-                v-if="isSignDateSet && isContractActive"
+                v-if="showActiveStatus"
                 :value="COMMON.CONTRACT_STATUS.ACTIVE"
                 :class="`text-[#50c433]`"
                 >{{ $t('active') }}</a-select-option
               >
               <a-select-option
-                v-if="isSignDateSet && isContractActive"
+                v-if="showExpiredStatus"
                 :value="COMMON.CONTRACT_STATUS.EXPIRED"
                 :class="`text-[#888888]`"
                 >{{ $t('expired') }}</a-select-option
               >
-              <a-select-option v-if="true" :value="COMMON.CONTRACT_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
-                $t('cancelled')
-              }}</a-select-option>
               <a-select-option
-                v-if="!isSignDateSet"
+                v-if="showCancelledStatus"
+                :value="COMMON.CONTRACT_STATUS.CANCELLED"
+                :class="`text-[#ff0000]`"
+                >{{ $t('cancelled') }}</a-select-option
+              >
+              <a-select-option
+                v-if="showWaitingForSignatureStatus"
                 :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE"
                 :class="`text-[#888888]`"
                 >{{ $t('wait_for_signature') }}</a-select-option
               >
               <a-select-option
-                v-if="isSignDateSet && !isContractActive"
+                v-if="showNotInEffectStatus"
                 :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT"
                 :class="`text-[#888888]`"
                 >{{ $t('not_in_effect') }}</a-select-option
@@ -463,6 +470,11 @@ const isSignDateSet = computed(
 const isContractActive = computed(() => {
   return !$dayjs().isBefore($dayjs(contract.value.startDate));
 });
+const showActiveStatus = computed(() => isSignDateSet.value && isContractActive.value);
+const showExpiredStatus = computed(() => isSignDateSet.value && isContractActive.value);
+const showCancelledStatus = computed(() => true);
+const showWaitingForSignatureStatus = computed(() => !isSignDateSet.value && !isContractActive.value);
+const showNotInEffectStatus = computed(() => isSignDateSet.value && !isContractActive.value);
 
 // ---------------------- Functions ----------------------
 async function clearResidentListValidation() {

@@ -57,6 +57,7 @@ export default {
   buy: 'Buy',
   bill_no: 'Bill number',
   bill_name: 'Billing name',
+  buy_contract: 'Buy contract',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -100,6 +101,7 @@ export default {
   confirm_update_room_info: 'Are you sure you want to update this room information?',
   confirm_update_contract: 'Are you sure you want to update this contract information?',
   contract_info_updated: 'Contract information has been updated successfully!',
+  contract_value_require: 'Contract value cannot be empty!',
 
   D: 'd',
   delete: 'Delete',
@@ -238,7 +240,7 @@ export default {
     'Invalid contract file type! Please upload a file with one of the following extensions: {types}',
   invalid_image_title: 'Image invalid',
   invalid_file_title: 'File invalid',
-  invalid_image_size: ' Image size must be less than {size}.',
+  invalid_image_size: 'Image size must be less than {size}.',
   invalid_file_size: 'File size must be less than {size}.',
 
   J: 'j',
@@ -338,6 +340,11 @@ export default {
   processing: 'Processing',
   please_select_contract_status: 'Please select contract status',
   please_select_owner_relationship: 'Please select relationship with owner',
+  please_select_building: 'Please select a building',
+  please_select_floor: 'Please select a floor',
+  please_select_room: 'Please select a room',
+  please_select_customer: 'Please select a customer',
+  please_select_contract_type: 'Please select a contract type',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -360,6 +367,7 @@ export default {
   resident_list: 'Resident list',
   relationship_with_owner: 'Relationship with owner',
   room_updated_success: 'Room information has been updated successfully!',
+  rent_contract: 'Rent contract',
 
   S: 's',
   staff: 'Staff',
@@ -407,6 +415,9 @@ export default {
   select_sign_date: 'Select contract sign date',
   sign_date_cannot_be_future: 'Contract sign date cannot be in the future!',
   sign_date_cannot_be_after_start_date: 'Contract sign date cannot be after contract start date!',
+  select_room: 'Select room',
+  select_customer: 'Select customer',
+  select_contract_type: 'Select contract type',
 
   T: 't',
   total: 'Total',

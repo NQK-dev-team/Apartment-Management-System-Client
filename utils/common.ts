@@ -60,9 +60,9 @@ function getUserRole(user: User | undefined): string {
 function getContractType(type: number): string {
   switch (type) {
     case COMMON.CONTRACT_TYPE.RENT:
-      return 'rent';
+      return 'rent_contract';
     case COMMON.CONTRACT_TYPE.BUY:
-      return 'buy';
+      return 'buy_contract';
     default:
       return 'N/A';
   }

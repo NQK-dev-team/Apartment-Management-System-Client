@@ -62,4 +62,20 @@ type Contract = BasicModel & {
   newSignDate: undefined | string | Dayjs;
 };
 
-export type { Contract, ContractFile, RoomResident };
+type AddContract = {
+  status: number | undefined; // 1: Active, 2: Expired, 3: Cancelled, 4: Waiting for signatures, 5: Not in effect yet
+  value: number | undefined;
+  type: number | undefined; // 1: Rent, 2: Buy
+  startDate: string | Dayjs | undefined;
+  endDate: string | Dayjs | undefined;
+  signDate: string | Dayjs | undefined;
+  creatorID: number | undefined;
+  householderID: number | undefined;
+  buildingID: number | undefined;
+  roomFloor: number | undefined;
+  roomID: number | undefined;
+  files: ContractFile[];
+  residents: RoomResident[];
+};
+
+export type { Contract, ContractFile, RoomResident, AddContract };

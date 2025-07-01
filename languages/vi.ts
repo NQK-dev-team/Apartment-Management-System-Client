@@ -57,6 +57,7 @@ export default {
   buy: 'Mua',
   bill_no: 'Mã hóa đơn',
   bill_name: 'Tên hóa đơn',
+  buy_contract: 'Hợp đồng mua bán',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -100,6 +101,7 @@ export default {
   confirm_update_room_info: 'Bạn có chắc chắn muốn cập nhật thông tin phòng này không?',
   confirm_update_contract: 'Bạn có chắc chắn muốn cập nhật thông tin hợp đồng này không?',
   contract_info_updated: 'Thông tin hợp đồng đã được cập nhật thành công!',
+  contract_value_require: 'Giá trị hợp đồng không được để trống!',
 
   D: 'd',
   delete: 'Xóa',
@@ -234,8 +236,7 @@ export default {
   invalid_oldSSN: 'Số CMND (cũ) không hợp lệ!',
   invalid_phone: 'Số điện thoại không hợp lệ!',
   invalid_image_file_type: 'Tệp tin hình ảnh không hợp lệ! Vui lòng chọn tệp tin hình ảnh có các định dạng {types}',
-  invalid_contract_file_type:
-    'Tệp tin văn bản hợp đồng không hợp lệ! Vui lòng chọn tệp tin có các định dạng {types}',
+  invalid_contract_file_type: 'Tệp tin văn bản hợp đồng không hợp lệ! Vui lòng chọn tệp tin có các định dạng {types}',
   invalid_image_title: 'Hình ảnh không hợp lệ',
   invalid_file_title: 'Tệp tin không hợp lệ',
   invalid_image_size: 'Kích thước hình ảnh không hợp lệ! Vui lòng chọn hình ảnh có kích thước nhỏ hơn {size}',
@@ -338,6 +339,11 @@ export default {
   processing: 'Đang xử lý',
   please_select_contract_status: 'Vui lòng chọn trạng thái hợp đồng',
   please_select_owner_relationship: 'Vui lòng chọn quan hệ với chủ hộ',
+  please_select_building: 'Vui lòng chọn tòa nhà',
+  please_select_floor: 'Vui lòng chọn tầng',
+  please_select_room: 'Vui lòng chọn phòng',
+  please_select_customer: 'Vui lòng chọn khách hàng',
+  please_select_contract_type: 'Vui lòng chọn loại hình hợp đồng',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -360,6 +366,7 @@ export default {
   resident_list: 'Danh sách cư dân',
   relationship_with_owner: 'Quan hệ với chủ hộ',
   room_updated_success: 'Thông tin phòng đã được cập nhật thành công!',
+  rent_contract: 'Hợp đồng cho thuê',
 
   S: 's',
   staff: 'Nhân viên',
@@ -407,6 +414,9 @@ export default {
   select_sign_date: 'Chọn ngày ký hợp đồng',
   sign_date_cannot_be_future: 'Ngày ký hợp đồng không thể là ngày trong tương lai!',
   sign_date_cannot_be_after_start_date: 'Ngày ký hợp đồng không thể sau ngày bắt đầu hợp đồng!',
+  select_room: 'Chọn phòng',
+  select_customer: 'Chọn khách hàng',
+  select_contract_type: 'Chọn loại hình hợp đồng',
 
   T: 't',
   total: 'Tổng',
@@ -415,7 +425,7 @@ export default {
   ticket_id: 'Mã phiếu hỗ trợ',
   ticket_creation_date: 'Ngày tạo phiếu hỗ trợ',
   title: 'Tiêu đề',
-  total_payment:'Tổng thanh toán',
+  total_payment: 'Tổng thanh toán',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

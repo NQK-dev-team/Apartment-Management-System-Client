@@ -80,26 +80,19 @@ const lightMode = computed(
 );
 const deleteBucket = toRef(props, 'deleteBucket');
 const checkAllFiles = computed(() => {
-  const currentPage = editContract.value.value.files
-    .filter((file) => file.isNew);
+  const currentPage = editContract.value.value.files.filter((file) => file.isNew);
 
   return !!(currentPage.length && currentPage.every((file) => deleteBucket.value.value.includes(file.ID)));
 });
 
 // ---------------------- Functions ----------------------
 function removeAllFilesFromBucket() {
-  const IDs = editContract.value.value.files
-    .filter((file) => file.isNew)
-    .map((schedule) => schedule.ID);
+  const IDs = editContract.value.value.files.filter((file) => file.isNew).map((file) => file.ID);
 
   deleteBucket.value.value = deleteBucket.value.value.filter((id) => !IDs.includes(id));
 }
 
 function addAllFilesToBucket() {
-  deleteBucket.value.value.push(
-    ...editContract.value.value.files
-      .filter((file) => file.isNew)
-      .map((file) => file.ID)
-  );
+  deleteBucket.value.value.push(...editContract.value.value.files.filter((file) => file.isNew).map((file) => file.ID));
 }
 </script>

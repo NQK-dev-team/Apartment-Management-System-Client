@@ -30,7 +30,7 @@
         "
       >
         <div class="grid grid-cols-6 gap-x-2">
-          <div class="col-span-5">
+          <div id="left_side" class="col-span-5">
             <div class="h-full flex-1 flex flex-col">
               <div class="flex items-center">
                 <a-form-item class="flex-1 me-2">

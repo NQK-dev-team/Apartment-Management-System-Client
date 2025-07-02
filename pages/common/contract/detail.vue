@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div id="page_content" class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <template v-if="contract && editContract">
         <CommonContractDetailViewMode v-if="!editMode && contract.ID" :contract="contract" />
         <CommonContractDetailEditMode

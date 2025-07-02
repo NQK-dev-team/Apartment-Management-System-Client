@@ -285,6 +285,7 @@ export default {
   not_in_effect: 'Not in effect',
   new_staff_added_to_system: 'New staff has been added to the system!',
   new_customer_added_to_system: 'New customer has been added to the system!',
+  no_data: 'No data',
 
   O: 'o',
   operation: 'Operation',

@@ -301,7 +301,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div id="page_content" class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <ClientOnly>
         <div v-show="step === 1" class="flex-1">
           <CommonBuildingEditStep1

@@ -9,7 +9,7 @@
       </a-breadcrumb>
       <h1 class="mt-3 text-2xl">{{ $t('add_contract') }}</h1>
     </div>
-    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div id="page_content" class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <a-form :model="newContract">
         <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
         <a-row :gutter="16">

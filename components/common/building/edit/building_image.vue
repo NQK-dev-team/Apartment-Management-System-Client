@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[300px] h-full">
+  <div class="min-w-[350px] max-w-[350px] h-full">
     <div class="flex items-center justify-between">
       <div class="flex">
         <h2 class="text-xl">{{ $t('building_image') }}</h2>

@@ -284,6 +284,7 @@ export default {
   not_in_effect: 'Chưa có hiệu lực',
   new_staff_added_to_system: 'Nhân viên mới đã được thêm vào hệ thống!',
   new_customer_added_to_system: 'Khách hàng mới đã được thêm vào hệ thống!',
+  no_data: 'Trống',
 
   O: 'o',
   operation: 'Thao tác',

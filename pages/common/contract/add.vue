@@ -358,7 +358,6 @@
                     ID: -addFilecounter,
                     title: '',
                     path: [] as UploadFile[],
-                    isNew: true,
                   } as ContractFile);
                 }
               "
@@ -379,11 +378,8 @@
                 () => {
                   $event.emit('deleteItem', {
                     callback: () => {
-                      newContract.residents.forEach((resident) => {
-                        resident.isDeleted = residentListDeleteBucket.value.includes(resident.ID);
-                      });
                       newContract.residents = newContract.residents.filter(
-                        (resident) => !(residentListDeleteBucket.value.includes(resident.ID) && resident.isNew)
+                        (resident) => !residentListDeleteBucket.value.includes(resident.ID)
                       );
                       residentListDeleteBucket.value = [];
                     },
@@ -412,7 +408,7 @@
                       Valid: false,
                       String: '',
                     },
-                    gender: 0,
+                    gender: undefined,
                     dob: '',
                     pob: '',
                     phone: {
@@ -433,9 +429,7 @@
                     createdBy: 0,
                     updatedAt: '',
                     updatedBy: 0,
-                    isNew: true,
-                    isDeleted: false,
-                  });
+                  } as RoomResident);
                 }
               "
               ><PlusOutlined
@@ -465,7 +459,7 @@ import { api } from '~/services/api';
 import type { User } from '~/types/user';
 import { COMMON } from '~/consts/common';
 import { svgPaths } from '~/consts/svg_paths';
-import type { AddContract, ContractFile } from '~/types/contract';
+import type { AddContract, ContractFile, RoomResident } from '~/types/contract';
 import type { Room, Building } from '~/types/building';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
@@ -630,42 +624,36 @@ async function addContract() {
     //     convertToDate((newContract.value.newSignDate as Dayjs).toDate().toISOString())
     //   );
     // }
-    const totalNewFiles = newContract.value.files.filter((file) => file.isNew).length;
+    const totalNewFiles = newContract.value.files.length;
     formData.append('totalNewFiles', totalNewFiles.toString());
-    newContract.value.files
-      .filter((file) => file.isNew)
-      .forEach((file, index) => {
-        formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
-        formData.append(`file[${index}]title`, file.title || '');
-      });
+    newContract.value.files.forEach((file, index) => {
+      formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
+      formData.append(`file[${index}]title`, file.title || '');
+    });
     newContract.value.residents.forEach((resident) => {
-      if (resident.isDeleted && !resident.isNew) {
-        // formData.append('removedResidents[]', resident.ID.toString());
-      } else {
-        const { userAccount, isNew, isDeleted, ...residentData } = resident;
+      const { userAccount, ...residentData } = resident;
 
-        // Prepare resident data for submission
-        const finalData = {
-          firstName: residentData.firstName.trim(),
-          middleName: residentData.middleName.String ? residentData.middleName.String.trim() : '',
-          lastName: residentData.lastName.trim(),
-          ssn: residentData.ssn.trim(),
-          oldSSN: residentData.oldSSN.String ? residentData.oldSSN.String.trim() : '',
-          phone: residentData.phone.String ? residentData.phone.String.trim() : '',
-          email: residentData.email.String ? residentData.email.String.trim() : '',
-          ID: residentData.ID <= 0 ? 0 : residentData.ID, // Ensure ID is 0 for new residents
-          pob: residentData.pob.trim(),
-          gender: resident.gender,
-          userAccountID: residentData.userAccountID.Int64 ? residentData.userAccountID.Int64 : 0,
-          relationWithHouseholder: residentData.relationWithHouseholder,
-          dob:
-            typeof residentData.dob === 'string'
-              ? residentData.dob
-              : convertToDate(residentData.dob.toDate().toISOString()),
-        };
+      // Prepare resident data for submission
+      const finalData = {
+        firstName: residentData.firstName.trim(),
+        middleName: residentData.middleName.String ? residentData.middleName.String.trim() : '',
+        lastName: residentData.lastName.trim(),
+        ssn: residentData.ssn.trim(),
+        oldSSN: residentData.oldSSN.String ? residentData.oldSSN.String.trim() : '',
+        phone: residentData.phone.String ? residentData.phone.String.trim() : '',
+        email: residentData.email.String ? residentData.email.String.trim() : '',
+        ID: residentData.ID <= 0 ? 0 : residentData.ID, // Ensure ID is 0 for new residents
+        pob: residentData.pob.trim(),
+        gender: resident.gender,
+        userAccountID: residentData.userAccountID.Int64 ? residentData.userAccountID.Int64 : 0,
+        relationWithHouseholder: residentData.relationWithHouseholder,
+        dob:
+          typeof residentData.dob === 'string'
+            ? residentData.dob
+            : convertToDate(residentData.dob.toDate().toISOString()),
+      };
 
-        formData.append('residents[]', JSON.stringify(finalData));
-      }
+      formData.append('residents[]', JSON.stringify(finalData));
     });
 
     // await api.common.contract.updateContract(newContract.value.ID, formData);

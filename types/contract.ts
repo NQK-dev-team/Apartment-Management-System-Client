@@ -32,7 +32,7 @@ type RoomResident = BasicModel & {
   pob: string;
   email: NullString;
   phone: NullString;
-  gender: number;
+  gender: number | undefined;
   relationWithHouseholder: number;
   userAccountID: NullInt64;
   userAccount: User | undefined;

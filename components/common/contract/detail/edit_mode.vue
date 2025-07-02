@@ -393,7 +393,7 @@
                   Valid: false,
                   String: '',
                 },
-                gender: 0,
+                gender: undefined,
                 dob: '',
                 pob: '',
                 phone: {

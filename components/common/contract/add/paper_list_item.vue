@@ -8,7 +8,6 @@
       >
         <a-checkbox
           :id="`check_contract_${props.index + 1}`"
-          :disabled="!file.isNew"
           :checked="checked"
           @click="checked ? removeFromBucket() : addToBucket()"
         ></a-checkbox>
@@ -31,16 +30,6 @@
           class="px-3 align_validation_message_start"
         >
           <a-input
-            v-if="!file.isNew"
-            :id="`contract_file_${props.index + 1}_name`"
-            :value="file.title ?? ''"
-            :placeholder="$t('file_name')"
-            type="text"
-            disabled
-            readonly
-          />
-          <a-input
-            v-else
             :id="`contract_file_${props.index + 1}_name`"
             v-model:value="file.title as string"
             :placeholder="$t('enter_file_name')"
@@ -63,16 +52,7 @@
           ]"
           class="px-3"
         >
-          <NuxtLink
-            v-if="!file.isNew"
-            :to="file.path as string"
-            target="_blank"
-            class="text-[#1890FF]"
-            :title="file.path"
-            ><LinkOutlined
-          /></NuxtLink>
           <a-upload
-            v-else
             :id="`contract_file_${props.index + 1}_file`"
             v-model:file-list="file.path as UploadFile[]"
             :max-count="1"

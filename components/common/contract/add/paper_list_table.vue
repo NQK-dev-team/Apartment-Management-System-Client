@@ -10,7 +10,7 @@
             <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
               <a-checkbox
                 id="check_all_files_1"
-                :disabled="!contractFiles.some((file) => file.isNew)"
+                :disabled="!newContract.files.length"
                 :checked="checkAllFiles"
                 @click="() => (checkAllFiles ? removeAllFilesFromBucket() : addAllFilesToBucket())"
               ></a-checkbox>
@@ -80,26 +80,19 @@ const lightMode = computed(
 );
 const deleteBucket = toRef(props, 'deleteBucket');
 const checkAllFiles = computed(() => {
-  const currentPage = newContract.value.files
-    .filter((file) => file.isNew);
+  const currentPage = newContract.value.files;
 
   return !!(currentPage.length && currentPage.every((file) => deleteBucket.value.value.includes(file.ID)));
 });
 
 // ---------------------- Functions ----------------------
 function removeAllFilesFromBucket() {
-  const IDs = newContract.value.files
-    .filter((file) => file.isNew)
-    .map((file) => file.ID);
+  const IDs = newContract.value.files.map((file) => file.ID);
 
   deleteBucket.value.value = deleteBucket.value.value.filter((id) => !IDs.includes(id));
 }
 
 function addAllFilesToBucket() {
-  deleteBucket.value.value.push(
-    ...newContract.value.files
-      .filter((file) => file.isNew)
-      .map((file) => file.ID)
-  );
+  deleteBucket.value.value.push(...newContract.value.files.map((file) => file.ID));
 }
 </script>

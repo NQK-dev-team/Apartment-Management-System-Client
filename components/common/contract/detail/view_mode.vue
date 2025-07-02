@@ -127,18 +127,6 @@
         />
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <label for="signed_date" class="flex mb-1">
-          <span>{{ $t('signed_date') }}</span>
-        </label>
-        <a-input
-          id="signed_date"
-          disabled
-          readonly
-          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
-          :placeholder="$t('signed_date')"
-        />
-      </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="active_date" class="flex mb-1">
           <span>{{ $t('active_date') }}</span>
         </label>
@@ -150,8 +138,6 @@
           :placeholder="$t('active_date')"
         />
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="expire_date" class="flex mb-1">
           <span>{{ $t('expire_date') }}</span>
@@ -162,6 +148,20 @@
           readonly
           :value="contract.endDate.Valid && contract.endDate.Time ? convertToDate(contract.endDate.Time) : ''"
           :placeholder="$t('expire_date')"
+        />
+      </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <label for="signed_date" class="flex mb-1">
+          <span>{{ $t('signed_date') }}</span>
+        </label>
+        <a-input
+          id="signed_date"
+          disabled
+          readonly
+          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
+          :placeholder="$t('signed_date')"
         />
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">

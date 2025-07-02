@@ -165,6 +165,52 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item name="active_date">
+          <label for="active_date" class="flex mb-1">
+            <span>{{ $t('active_date') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input
+            id="active_date"
+            disabled
+            readonly
+            :value="convertToDate(contract.startDate)"
+            :placeholder="$t('active_date')"
+          />
+        </a-form-item>
+      </a-col>
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item name="expire_date">
+          <label for="expire_date" class="flex mb-1">
+            <span>{{ $t('expire_date') }}</span>
+          </label>
+          <a-input
+            id="expire_date"
+            disabled
+            readonly
+            :value="
+              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
+                contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
+              editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
+                ? currentDate
+                : contract.endDate.Valid && contract.endDate.Time
+                  ? convertToDate(contract.endDate.Time)
+                  : ''
+            "
+            :placeholder="$t('expire_date')"
+            :class="[
+              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
+                contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
+              editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
+                ? 'text-[#ff0000]'
+                : '',
+            ]"
+          />
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item v-if="contract.signDate.Valid && contract.signDate.Time" name="signed_date">
           <label for="signed_date" class="flex mb-1">
             <span>{{ $t('signed_date') }}</span>
@@ -197,52 +243,6 @@
             :disabled-date="disabledDate"
             class="w-full"
             :placeholder="$t('select_sign_date')"
-          />
-        </a-form-item>
-      </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <a-form-item name="active_date">
-          <label for="active_date" class="flex mb-1">
-            <span>{{ $t('active_date') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-          </label>
-          <a-input
-            id="active_date"
-            disabled
-            readonly
-            :value="convertToDate(contract.startDate)"
-            :placeholder="$t('active_date')"
-          />
-        </a-form-item>
-      </a-col>
-    </a-row>
-    <a-row :gutter="16">
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <a-form-item name="expire_date">
-          <label for="expire_date" class="flex mb-1">
-            <span>{{ $t('expire_date') }}</span>
-          </label>
-          <a-input
-            id="expire_date"
-            disabled
-            readonly
-            :value="
-              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
-                contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
-              editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
-                ? currentDate
-                : contract.endDate.Valid && contract.endDate.Time
-                  ? convertToDate(contract.endDate.Time)
-                  : ''
-            "
-            :placeholder="$t('expire_date')"
-            :class="[
-              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
-                contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
-              editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
-                ? 'text-[#ff0000]'
-                : '',
-            ]"
           />
         </a-form-item>
       </a-col>

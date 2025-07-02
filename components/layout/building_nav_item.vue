@@ -51,7 +51,7 @@
         mode="multiple"
         :placeholder="$t('enter_search')"
         max-tag-count="responsive"
-        class="w-full"
+        class="w-full mt-1"
         :class="navItemPaddings[1]"
       ></a-select>
     </div>

@@ -55,14 +55,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { Contract } from '~/types/contract';
+import type { AddContract } from '~/types/contract';
 import PaperListItem from './paper_list_item.vue';
 import { svgPaths } from '~/consts/svg_paths';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
-  editContract: {
-    type: Object as PropType<{ value: Contract }>,
+  newContract: {
+    type: Object as PropType<AddContract>,
     required: true,
   },
   deleteBucket: {
@@ -70,9 +70,9 @@ const props = defineProps({
     required: true,
   },
 });
-const editContract = toRef(props, 'editContract');
+const newContract = toRef(props, 'newContract');
 const contractFiles = computed(() => {
-  return editContract.value.value.files || [];
+  return newContract.value.files || [];
 });
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
@@ -80,7 +80,7 @@ const lightMode = computed(
 );
 const deleteBucket = toRef(props, 'deleteBucket');
 const checkAllFiles = computed(() => {
-  const currentPage = editContract.value.value.files
+  const currentPage = newContract.value.files
     .filter((file) => file.isNew);
 
   return !!(currentPage.length && currentPage.every((file) => deleteBucket.value.value.includes(file.ID)));
@@ -88,16 +88,16 @@ const checkAllFiles = computed(() => {
 
 // ---------------------- Functions ----------------------
 function removeAllFilesFromBucket() {
-  const IDs = editContract.value.value.files
+  const IDs = newContract.value.files
     .filter((file) => file.isNew)
-    .map((schedule) => schedule.ID);
+    .map((file) => file.ID);
 
   deleteBucket.value.value = deleteBucket.value.value.filter((id) => !IDs.includes(id));
 }
 
 function addAllFilesToBucket() {
   deleteBucket.value.value.push(
-    ...editContract.value.value.files
+    ...newContract.value.files
       .filter((file) => file.isNew)
       .map((file) => file.ID)
   );

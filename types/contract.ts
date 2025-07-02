@@ -69,6 +69,7 @@ type AddContract = {
   startDate: string | Dayjs | undefined;
   endDate: string | Dayjs | undefined;
   signDate: string | Dayjs | undefined;
+  createdAt: string | Dayjs | undefined;
   creatorID: number | undefined;
   householderID: number | undefined;
   buildingID: number | undefined;

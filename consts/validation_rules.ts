@@ -66,6 +66,45 @@ const validationRules = {
 
     return Promise.resolve();
   },
+  checkActiveDate: async (_: RuleObject, value: string, t: any, create_date: string) => {
+    if (!value) {
+      return Promise.resolve();
+    }
+    const activeDate = dayjs(value);
+    const createDate = dayjs(create_date);
+
+    if (activeDate.isBefore(createDate)) {
+      return Promise.reject(t('active_date_cannot_be_before_create_date'));
+    }
+
+    return Promise.resolve();
+  },
+  checkEndDate: async (_: RuleObject, value: string, t: any, start_date: string) => {
+    if (!value) {
+      return Promise.resolve();
+    }
+    const endDate = dayjs(value);
+    const startDate = dayjs(start_date);
+
+    if (endDate.isBefore(startDate)) {
+      return Promise.reject(t('end_date_cannot_be_before_start_date'));
+    }
+
+    return Promise.resolve();
+  },
+  checkSignDate2: async (_: RuleObject, value: string, t: any, create_date: string) => {
+    if (!value) {
+      return Promise.resolve();
+    }
+    const signDate = dayjs(value);
+    const createDate = dayjs(create_date);
+
+    if (signDate.isBefore(createDate)) {
+      return Promise.reject(t('sign_date_cannot_be_before_create_date'));
+    }
+
+    return Promise.resolve();
+  },
   // checkImageFileType: async (_: RuleObject, files: UploadFile[] | string, t: any) => {
   //   if (!files || typeof files === 'string') {
   //     return Promise.resolve();

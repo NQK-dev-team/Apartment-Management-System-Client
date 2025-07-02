@@ -85,6 +85,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     secure: config.public.isHttps,
     sameSite: 'lax',
   });
+  const userNo = useCookie('userNo', {
+    httpOnly: false,
+    secure: config.public.isHttps,
+    sameSite: 'lax',
+  });
   const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
@@ -96,6 +101,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           userName.value = getUserNameFromJWT(newToken.jwtToken);
           userImage.value = getUserImageFromJWT(newToken.jwtToken);
           userID.value = getUserIDFromJWT(newToken.jwtToken);
+          userNo.value = getUserNoFromJWT(newToken.jwtToken);
           isJWTValid = true;
           refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
         } else if (!nonAuthRoutes.includes(to.path)) {
@@ -109,6 +115,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       userName.value = getUserNameFromJWT(jwt.value);
       userImage.value = getUserImageFromJWT(jwt.value);
       userID.value = getUserIDFromJWT(jwt.value);
+      userNo.value = getUserNoFromJWT(jwt.value);
       isJWTValid = true;
     }
   } else {
@@ -120,6 +127,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         userName.value = getUserNameFromJWT(newToken.jwtToken);
         userImage.value = getUserImageFromJWT(newToken.jwtToken);
         userID.value = getUserIDFromJWT(newToken.jwtToken);
+        userNo.value = getUserNoFromJWT(newToken.jwtToken);
         isJWTValid = true;
         refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
       } else if (!nonAuthRoutes.includes(to.path)) {

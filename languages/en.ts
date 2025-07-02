@@ -31,8 +31,10 @@ export default {
   add_staff_success: 'Add staff successfully!',
   add_customer_success: 'Add customer successfully!',
   add_customer_fail: 'Add customer failed!',
-  active_date: 'Active date',
+  active_date: 'Start date',
   add_contract: 'Add contract',
+  active_date_cannot_be_before_create_date: 'Active date cannot be before contract creation date!',
+  active_date_required: 'Contract start date cannot be empty!',
 
   B: 'b',
   balance: 'Balance',
@@ -102,6 +104,7 @@ export default {
   confirm_update_contract: 'Are you sure you want to update this contract information?',
   contract_info_updated: 'Contract information has been updated successfully!',
   contract_value_require: 'Contract value cannot be empty!',
+  contract_create_date_require: 'Contract create date cannot be empty!',
 
   D: 'd',
   delete: 'Delete',
@@ -192,11 +195,12 @@ export default {
   enter_customer_temporary_address: 'Enter customer temporary address',
   edit_employee: 'Edit employee',
   email_exists: 'Email already exists!',
-  expire_date: 'Expire date',
+  expire_date: 'End date',
   edit_contract: 'Edit contract',
   edit_mode_active: 'Edit mode has been activated',
   edit_mode_inactive: 'Edit mode has been deactivated',
   enter_file_name: 'Enter file name',
+  end_date_cannot_be_before_start_date:'Contract end date cannot be before contract start date!',
 
   F: 'f',
   finish_import: 'Import',
@@ -418,6 +422,7 @@ export default {
   select_room: 'Select room',
   select_customer: 'Select customer',
   select_contract_type: 'Select contract type',
+  sign_date_cannot_be_before_create_date: 'Contract sign date cannot be before contract creation date!',
 
   T: 't',
   total: 'Total',

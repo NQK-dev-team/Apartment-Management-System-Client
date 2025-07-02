@@ -33,6 +33,8 @@ export default {
   add_customer_fail: 'Thêm khách hàng không thành công!',
   active_date: 'Ngày có hiệu lực',
   add_contract: 'Thêm hợp đồng',
+  active_date_cannot_be_before_create_date: 'Ngày hợp đồng có hiệu lực không thể trước ngày tạo hợp đồng!',
+  active_date_required: 'Ngày hợp đồng có hiệu lực không được để trống!',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -102,6 +104,7 @@ export default {
   confirm_update_contract: 'Bạn có chắc chắn muốn cập nhật thông tin hợp đồng này không?',
   contract_info_updated: 'Thông tin hợp đồng đã được cập nhật thành công!',
   contract_value_require: 'Giá trị hợp đồng không được để trống!',
+  contract_create_date_require: 'Ngày tạo hợp đồng không được để trống!',
 
   D: 'd',
   delete: 'Xóa',
@@ -198,6 +201,7 @@ export default {
   edit_mode_active: 'Đang bật chế độ chỉnh sửa',
   edit_mode_inactive: 'Đã tắt chế độ chỉnh sửa',
   enter_file_name: 'Nhập tên tệp tin',
+  end_date_cannot_be_before_start_date: 'Ngày kết thúc hợp đồng không được trước ngày bắt đầu hợp đồng!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -417,6 +421,7 @@ export default {
   select_room: 'Chọn phòng',
   select_customer: 'Chọn khách hàng',
   select_contract_type: 'Chọn loại hình hợp đồng',
+  sign_date_cannot_be_before_create_date: 'Ngày ký hợp đồng không thể trước ngày tạo hợp đồng!',
 
   T: 't',
   total: 'Tổng',

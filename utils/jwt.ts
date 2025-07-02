@@ -42,4 +42,14 @@ function getUserIDFromJWT(token: string): string {
   return json.userID;
 }
 
-export { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT, getUserIDFromJWT };
+function getUserNoFromJWT(token: string): string {
+  if (!token) {
+    return '';
+  }
+
+  const jwtPayload = token.split('.')[1];
+  const json = JSON.parse(Buffer.from(jwtPayload, 'base64url').toString('utf8'));
+  return json.userNo;
+}
+
+export { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT, getUserIDFromJWT, getUserNoFromJWT };

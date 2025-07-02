@@ -10,7 +10,7 @@
             <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
               <a-checkbox
                 id="check_all_residents_1"
-                :disabled="!editContract.value.residents.length"
+                :disabled="!newContract.residents.length"
                 :checked="checkAllResidents"
                 @click="() => (checkAllResidents ? removeAllResidentsFromBucket() : addAllResidentsToBucket())"
               ></a-checkbox>
@@ -143,13 +143,13 @@
 <script lang="ts" setup>
 import ResidentList from './resident_list_item.vue';
 import { svgPaths } from '~/consts/svg_paths';
-import type { Contract, RoomResident } from '~/types/contract';
+import type { AddContract, RoomResident } from '~/types/contract';
 import type { User } from '~/types/user';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
-  editContract: {
-    type: Object as PropType<{ value: Contract }>,
+  newContract: {
+    type: Object as PropType<AddContract>,
     required: true,
   },
   deleteBucket: {
@@ -161,14 +161,14 @@ const props = defineProps({
     required: true,
   },
 });
-const editContract = toRef(props, 'editContract');
+const newContract = toRef(props, 'newContract');
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const deleteBucket = toRef(props, 'deleteBucket');
 const residents = computed<RoomResident[]>(() => {
-  return editContract.value.value.residents.filter((resident) => !resident.isDeleted);
+  return newContract.value.residents.filter((resident) => !resident.isDeleted);
 });
 const checkAllResidents = computed(() => {
   return !!(

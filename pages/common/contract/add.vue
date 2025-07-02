@@ -124,25 +124,13 @@
                 <span>{{ $t('employee_number') }}</span>
                 <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <!-- <a-input
+              <a-input
                 id="employee_number"
                 disabled
                 readonly
-                :value="contract.creator.no"
+                :value="creatorInfo"
                 :placeholder="$t('employee_number')"
-              >
-                <template v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner" #suffix>
-                  <NuxtLink
-                    :to="
-                      userRole?.toString() === roles.manager
-                        ? pageRoutes.common.profile.index
-                        : pageRoutes.common.staff.detail(contract.creatorID)
-                    "
-                    :title="$t('detail')"
-                    ><LinkOutlined
-                  /></NuxtLink>
-                </template>
-              </a-input> -->
+              />
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -190,28 +178,85 @@
         </a-row>
         <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="created_date">
+            <a-form-item
+              :name="['createdAt']"
+              :rules="[{ required: true, message: $t('contract_create_date_require'), trigger: 'blur' }]"
+            >
               <label for="created_date" class="flex mb-1">
                 <span>{{ $t('created_date') }}</span>
                 <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <!-- <a-input
-                id="created_date"
-                disabled
-                readonly
-                :value="convertToDate(contract.createdAt)"
-                :placeholder="$t('created_date')"
-              /> -->
+              <a-date-picker id="created_date" v-model:value="newContract.createdAt" class="w-full" />
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <!-- <a-form-item
-              v-else
-              :name="['newSignDate']"
+            <a-form-item
+              :name="['startDate']"
+              :rules="[
+                { required: true, message: $t('active_date_required'), trigger: 'blur' },
+                {
+                  validator: async (_: RuleObject, value: string) =>
+                    validationRules.checkActiveDate(
+                      _,
+                      value,
+                      $t,
+                      newContract.createdAt ? newContract.createdAt.toString() : ''
+                    ),
+                  trigger: 'blur',
+                },
+              ]"
+            >
+              <label for="active_date" class="flex mb-1">
+                <span>{{ $t('active_date') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <a-date-picker id="active_date" v-model:value="newContract.startDate" class="w-full" />
+            </a-form-item>
+          </a-col>
+          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+            <a-form-item
+              :name="['endDate']"
               :rules="[
                 {
                   validator: async (_: RuleObject, value: string) =>
-                    validationRules.checkSignDate(_, value, $t, contract.startDate),
+                    validationRules.checkEndDate(
+                      _,
+                      value,
+                      $t,
+                      newContract.startDate ? newContract.startDate.toString() : ''
+                    ),
+                  trigger: 'blur',
+                },
+              ]"
+            >
+              <label for="expire_date" class="flex mb-1">
+                <span>{{ $t('expire_date') }}</span>
+              </label>
+              <a-date-picker id="expire_date" v-model:value="newContract.endDate" class="w-full" />
+            </a-form-item>
+          </a-col>
+          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+            <a-form-item
+              :name="['signDate']"
+              :rules="[
+                {
+                  validator: async (_: RuleObject, value: string) =>
+                    validationRules.checkSignDate(
+                      _,
+                      value,
+                      $t,
+                      newContract.startDate ? newContract.startDate.toString() : ''
+                    ),
+                  trigger: 'blur',
+                },
+                {
+                  validator: async (_: RuleObject, value: string) =>
+                    validationRules.checkSignDate2(
+                      _,
+                      value,
+                      $t,
+                      newContract.createdAt ? newContract.createdAt.toString() : ''
+                    ),
                   trigger: 'blur',
                 },
               ]"
@@ -219,57 +264,7 @@
               <label for="signed_date" class="flex mb-1">
                 <span>{{ $t('signed_date') }}</span>
               </label>
-              <a-date-picker
-                id="signed_date"
-                v-model:value="editContract.value.newSignDate"
-                :disabled-date="disabledDate"
-                class="w-full"
-                :placeholder="$t('select_sign_date')"
-              />
-            </a-form-item> -->
-          </a-col>
-          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="active_date">
-              <label for="active_date" class="flex mb-1">
-                <span>{{ $t('active_date') }}</span>
-                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-              </label>
-              <!-- <a-input
-                id="active_date"
-                disabled
-                readonly
-                :value="convertToDate(contract.startDate)"
-                :placeholder="$t('active_date')"
-              /> -->
-            </a-form-item>
-          </a-col>
-          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="expire_date">
-              <label for="expire_date" class="flex mb-1">
-                <span>{{ $t('expire_date') }}</span>
-              </label>
-              <!-- <a-input
-                id="expire_date"
-                disabled
-                readonly
-                :value="
-                  (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
-                    contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
-                  editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
-                    ? currentDate
-                    : contract.endDate.Valid && contract.endDate.Time
-                      ? convertToDate(contract.endDate.Time)
-                      : ''
-                "
-                :placeholder="$t('expire_date')"
-                :class="[
-                  (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
-                    contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
-                  editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
-                    ? 'text-[#ff0000]'
-                    : '',
-                ]"
-              /> -->
+              <a-date-picker id="signed_date" v-model:value="newContract.signDate" class="w-full" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -286,7 +281,7 @@
               <!-- <ClientOnly>
                 <a-select
                   id="status"
-                  v-model:value="editContract.value.status"
+                  v-model:value="newContract.status"
                   placeholder="{{ $t('select_status') }}"
                   class="w-full text-left"
                 >
@@ -340,63 +335,12 @@
               class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
               @click="
                 () => {
-                  // $event.emit('deleteItem', {
-                  //   callback: () => {
-                  //     editContract.value.files = editContract.value.files.filter(
-                  //       (file) => !fileListDeleteBucket.value.includes(file.ID)
-                  //     );
-                  //     fileListDeleteBucket.value = [];
-                  //   },
-                  //   noPasswordRequired: true,
-                  // });
-                }
-              "
-              ><DeleteOutlined
-            /></a-button>
-            <a-button
-              type="primary"
-              class="flex items-center justify-center w-8 h-8 rounded-sm"
-              @click="
-                () => {
-                  // addFilecounter++;
-                  // editContract.value.files.push({
-                  //   ID: -addFilecounter,
-                  //   title: '',
-                  //   path: [] as UploadFile[],
-                  //   isNew: true,
-                  // } as ContractFile);
-                }
-              "
-              ><PlusOutlined
-            /></a-button>
-          </div>
-        </div>
-        <!-- <PaperListTable :edit-contract="editContract" :delete-bucket="fileListDeleteBucket" />
-        <div class="mt-10 flex items-center justify-between">
-          <h1 class="text-2xl">{{ $t('resident_list') }}</h1>
-          <div class="flex items-center">
-            <a-button
-              class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-              @click="resetResidentList"
-            >
-              <UndoOutlined />
-            </a-button>
-            <a-button
-              type="primary"
-              danger
-              class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
-              :disabled="!residentListDeleteBucket.value.length"
-              @click="
-                () => {
                   $event.emit('deleteItem', {
                     callback: () => {
-                      editContract.value.residents.forEach((resident) => {
-                        resident.isDeleted = residentListDeleteBucket.value.includes(resident.ID);
-                      });
-                      editContract.value.residents = editContract.value.residents.filter(
-                        (resident) => !(residentListDeleteBucket.value.includes(resident.ID) && resident.isNew)
+                      newContract.files = newContract.files.filter(
+                        (file) => !fileListDeleteBucket.value.includes(file.ID)
                       );
-                      residentListDeleteBucket.value = [];
+                      fileListDeleteBucket.value = [];
                     },
                     noPasswordRequired: true,
                   });
@@ -409,8 +353,53 @@
               class="flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
                 () => {
+                  addFilecounter++;
+                  newContract.files.push({
+                    ID: -addFilecounter,
+                    title: '',
+                    path: [] as UploadFile[],
+                    isNew: true,
+                  } as ContractFile);
+                }
+              "
+              ><PlusOutlined
+            /></a-button>
+          </div>
+        </div>
+        <CommonContractAddPaperListTable :new-contract="newContract" :delete-bucket="fileListDeleteBucket" />
+        <div class="mt-10 flex items-center justify-between">
+          <h1 class="text-2xl">{{ $t('resident_list') }}</h1>
+          <div class="flex items-center">
+            <a-button
+              type="primary"
+              danger
+              class="flex items-center justify-center w-8 h-8 rounded-sm"
+              :disabled="!residentListDeleteBucket.value.length"
+              @click="
+                () => {
+                  $event.emit('deleteItem', {
+                    callback: () => {
+                      newContract.residents.forEach((resident) => {
+                        resident.isDeleted = residentListDeleteBucket.value.includes(resident.ID);
+                      });
+                      newContract.residents = newContract.residents.filter(
+                        (resident) => !(residentListDeleteBucket.value.includes(resident.ID) && resident.isNew)
+                      );
+                      residentListDeleteBucket.value = [];
+                    },
+                    noPasswordRequired: true,
+                  });
+                }
+              "
+              ><DeleteOutlined
+            /></a-button>
+            <a-button
+              type="primary"
+              class="flex items-center justify-center w-8 h-8 rounded-sm ms-2"
+              @click="
+                () => {
                   addResidentCounter++;
-                  editContract.value.residents.push({
+                  newContract.residents.push({
                     ID: -addResidentCounter,
                     firstName: '',
                     middleName: {
@@ -453,11 +442,11 @@
             /></a-button>
           </div>
         </div>
-        <ResidentListTable
-          :edit-contract="editContract"
+        <CommonContractAddResidentListTable
+          :new-contract="newContract"
           :delete-bucket="residentListDeleteBucket"
           :customers="customerList"
-        /> -->
+        />
         <div class="flex flex-col items-center mt-5">
           <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
           <a-button class="w-[100px] rounded-sm mt-3" @click.prevent="navigateTo(pageRoutes.common.contract.list)">
@@ -475,10 +464,12 @@ import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import type { User } from '~/types/user';
 import { COMMON } from '~/consts/common';
-import type { Dayjs } from 'dayjs';
 import { svgPaths } from '~/consts/svg_paths';
-import type { AddContract } from '~/types/contract';
+import type { AddContract, ContractFile } from '~/types/contract';
 import type { Room, Building } from '~/types/building';
+import { validationRules } from '~/consts/validation_rules';
+import type { RuleObject } from 'ant-design-vue/es/form';
+import type { UploadFile } from 'ant-design-vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -498,12 +489,14 @@ useHead({
 });
 
 // ---------------------- Variables ----------------------
+const userNo = useCookie('userNo');
+const userName = useCookie('userName');
 const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const { $event, $dayjs } = useNuxtApp();
+const { $event } = useNuxtApp();
 const newContract = ref<AddContract>({
   buildingID: undefined,
   roomFloor: undefined,
@@ -515,6 +508,7 @@ const newContract = ref<AddContract>({
   signDate: '',
   startDate: '',
   endDate: '',
+  createdAt: '',
   status: COMMON.HIDDEN_OPTION,
   files: [],
   residents: [],
@@ -569,6 +563,13 @@ const roomList = computed<Room[]>(() => {
 
   return result;
 });
+const creatorInfo = computed<string>(() => {
+  if (userNo.value && userName.value) {
+    return `${userNo.value} - ${userName.value}`;
+  }
+
+  return '';
+});
 
 // ---------------------- Functions ----------------------
 async function getCustomerList() {
@@ -617,62 +618,57 @@ async function getBuildingList() {
   }
 }
 
-function disabledDate(current: Dayjs) {
-  // Can not select days after today
-  return current && current >= $dayjs().endOf('day');
-}
-
 async function addContract() {
   try {
     $event.emit('loading');
 
-    // const formData = new FormData();
-    // formData.append('status', editContract.value.value.status.toString());
-    // if (editContract.value.value.newSignDate) {
+    const formData = new FormData();
+    // formData.append('status', newContract.value.status.toString());
+    // if (newContract.value.newSignDate) {
     //   formData.append(
     //     'newSignDate',
-    //     convertToDate((editContract.value.value.newSignDate as Dayjs).toDate().toISOString())
+    //     convertToDate((newContract.value.newSignDate as Dayjs).toDate().toISOString())
     //   );
     // }
-    // const totalNewFiles = editContract.value.value.files.filter((file) => file.isNew).length;
-    // formData.append('totalNewFiles', totalNewFiles.toString());
-    // editContract.value.value.files
-    //   .filter((file) => file.isNew)
-    //   .forEach((file, index) => {
-    //     formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
-    //     formData.append(`file[${index}]title`, file.title || '');
-    //   });
-    // editContract.value.value.residents.forEach((resident) => {
-    //   if (resident.isDeleted && !resident.isNew) {
-    //     formData.append('removedResidents[]', resident.ID.toString());
-    //   } else {
-    //     const { userAccount, isNew, isDeleted, ...residentData } = resident;
+    const totalNewFiles = newContract.value.files.filter((file) => file.isNew).length;
+    formData.append('totalNewFiles', totalNewFiles.toString());
+    newContract.value.files
+      .filter((file) => file.isNew)
+      .forEach((file, index) => {
+        formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
+        formData.append(`file[${index}]title`, file.title || '');
+      });
+    newContract.value.residents.forEach((resident) => {
+      if (resident.isDeleted && !resident.isNew) {
+        // formData.append('removedResidents[]', resident.ID.toString());
+      } else {
+        const { userAccount, isNew, isDeleted, ...residentData } = resident;
 
-    //     // Prepare resident data for submission
-    //     const finalData = {
-    //       firstName: residentData.firstName.trim(),
-    //       middleName: residentData.middleName.String ? residentData.middleName.String.trim() : '',
-    //       lastName: residentData.lastName.trim(),
-    //       ssn: residentData.ssn.trim(),
-    //       oldSSN: residentData.oldSSN.String ? residentData.oldSSN.String.trim() : '',
-    //       phone: residentData.phone.String ? residentData.phone.String.trim() : '',
-    //       email: residentData.email.String ? residentData.email.String.trim() : '',
-    //       ID: residentData.ID <= 0 ? 0 : residentData.ID, // Ensure ID is 0 for new residents
-    //       pob: residentData.pob.trim(),
-    //       gender: resident.gender,
-    //       userAccountID: residentData.userAccountID.Int64 ? residentData.userAccountID.Int64 : 0,
-    //       relationWithHouseholder: residentData.relationWithHouseholder,
-    //       dob:
-    //         typeof residentData.dob === 'string'
-    //           ? residentData.dob
-    //           : convertToDate(residentData.dob.toDate().toISOString()),
-    //     };
+        // Prepare resident data for submission
+        const finalData = {
+          firstName: residentData.firstName.trim(),
+          middleName: residentData.middleName.String ? residentData.middleName.String.trim() : '',
+          lastName: residentData.lastName.trim(),
+          ssn: residentData.ssn.trim(),
+          oldSSN: residentData.oldSSN.String ? residentData.oldSSN.String.trim() : '',
+          phone: residentData.phone.String ? residentData.phone.String.trim() : '',
+          email: residentData.email.String ? residentData.email.String.trim() : '',
+          ID: residentData.ID <= 0 ? 0 : residentData.ID, // Ensure ID is 0 for new residents
+          pob: residentData.pob.trim(),
+          gender: resident.gender,
+          userAccountID: residentData.userAccountID.Int64 ? residentData.userAccountID.Int64 : 0,
+          relationWithHouseholder: residentData.relationWithHouseholder,
+          dob:
+            typeof residentData.dob === 'string'
+              ? residentData.dob
+              : convertToDate(residentData.dob.toDate().toISOString()),
+        };
 
-    //     formData.append('residents[]', JSON.stringify(finalData));
-    //   }
-    // });
+        formData.append('residents[]', JSON.stringify(finalData));
+      }
+    });
 
-    // await api.common.contract.updateContract(editContract.value.value.ID, formData);
+    // await api.common.contract.updateContract(newContract.value.ID, formData);
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

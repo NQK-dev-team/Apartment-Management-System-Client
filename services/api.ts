@@ -102,7 +102,7 @@ const common = {
         method: 'GET',
       });
     },
-    addNewBuilding: async (formData: FormData): Promise<APIResponse<null>> => {
+    addNewBuilding: async (formData: FormData): Promise<APIResponse<number>> => {
       const $api = getApiInstance();
 
       return $api(apiRoutes.building.add, {
@@ -228,7 +228,7 @@ const common = {
         method: 'GET',
       });
     },
-    add: async (data: FormData): Promise<APIResponse<null>> => {
+    add: async (data: FormData): Promise<APIResponse<number>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.staff.add, {
         method: 'POST',
@@ -277,7 +277,7 @@ const common = {
         method: 'GET',
       });
     },
-    add: async (data: FormData): Promise<APIResponse<null>> => {
+    add: async (data: FormData): Promise<APIResponse<number>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.customer.add, {
         method: 'POST',

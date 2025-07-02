@@ -151,7 +151,7 @@
               <tbody v-else>
                 <tr class="h-[150px]">
                   <td
-                    :colspan="14"
+                    :colspan="100"
                     class="border-b-[1px]"
                     :class="[lightMode ? 'border-[#f0f0f0]' : 'border-[#303030]']"
                   >

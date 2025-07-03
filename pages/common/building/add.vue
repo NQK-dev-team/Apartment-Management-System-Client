@@ -296,7 +296,11 @@
         </div>
       </div>
     </div>
-    <div id="page_content" class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div
+      id="page_content"
+      class="flex-1 flex flex-col px-4 mt-5"
+      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+    >
       <div v-show="step === 1" class="flex-1">
         <CommonBuildingAddStep1 :building-info="buildingInfo" :managers="managers" />
       </div>
@@ -315,9 +319,12 @@
             <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
             <p class="text-center my-2">{{ $t('add_building_success_title') }}</p>
             <p class="text-center my-2">{{ $t('add_building_success_note') }}</p>
-            <div class="my-2 w-[100px]">
-              <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.list">
-                <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
+            <div class="my-2 flex flex-col items-center">
+              <NuxtLink :to="pageRoutes.common.building.detail(newBuildingID)">
+                <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_building_detail') }}</a-button>
+              </NuxtLink>
+              <NuxtLink :to="pageRoutes.common.building.list" class="w-full">
+                <a-button class="w-full rounded-sm">{{ $t('back') }}</a-button>
               </NuxtLink>
             </div>
           </div>
@@ -398,6 +405,7 @@ const buildingInfo = ref<NewBuildingInfo>({
 const addSuccess = ref<boolean>(false);
 const { $event } = useNuxtApp();
 const managers = ref<User[]>([]);
+const newBuildingID = ref<number>(0);
 
 // ---------------------- Functions ----------------------
 async function createNewBuilding() {
@@ -456,7 +464,8 @@ async function createNewBuilding() {
       });
     });
 
-    await api.common.building.addNewBuilding(formData);
+    const response = await api.common.building.addNewBuilding(formData);
+    newBuildingID.value = response.data;
     addSuccess.value = true;
   } catch (err: any) {
     step.value = 3;

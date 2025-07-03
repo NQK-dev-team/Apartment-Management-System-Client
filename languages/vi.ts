@@ -17,7 +17,8 @@ export default {
   area: 'Diện tích',
   available: 'Còn trống',
   add_building_success_title: 'Thông tin tòa nhà mới đã được thêm thành công',
-  add_building_success_note: 'Bạn có thể quay lại trang danh sách tòa nhà bằng cách chọn nút "Quay lại" ở dưới',
+  add_building_success_note:
+    'Bạn có thể truy cập vào trang thông tin tòa nhà mới tạo bằng nút "Chi tiết tòa nhà mới", hoặc quay lại trang danh sách tòa nhà bằng nút "Quay lại" ở dưới',
   add_service_success: 'Dịch vụ mới đã được thêm thành công!',
   add_room_success: 'Phòng mới đã được thêm thành công!',
   add_service: 'Thêm dịch vụ',
@@ -35,6 +36,12 @@ export default {
   add_contract: 'Thêm hợp đồng',
   active_date_cannot_be_before_create_date: 'Ngày hợp đồng có hiệu lực không thể trước ngày tạo hợp đồng!',
   active_date_required: 'Ngày hợp đồng có hiệu lực không được để trống!',
+  add_customer_success_title: 'Khách hàng mới đã được thêm thành công',
+  add_customer_success_note:
+    'Bạn có thể truy cập vào trang thông tin khách hàng mới tạo bằng nút "Chi tiết khách hàng mới", hoặc quay lại trang danh sách khách hàng bằng nút "Quay lại" ở dưới',
+  add_staff_success_title: 'Nhân viên mới đã được thêm thành công',
+  add_staff_success_note:
+    'Bạn có thể truy cập vào trang thông tin nhân viên mới tạo bằng nút "Chi tiết nhân viên mới", hoặc quay lại trang danh sách nhân viên bằng nút "Quay lại" ở dưới',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -285,6 +292,9 @@ export default {
   new_staff_added_to_system: 'Nhân viên mới đã được thêm vào hệ thống!',
   new_customer_added_to_system: 'Khách hàng mới đã được thêm vào hệ thống!',
   no_data: 'Trống',
+  new_building_detail: 'Chi tiết tòa nhà mới',
+  new_customer_detail: 'Chi tiết khách hàng mới',
+  new_staff_detail: 'Chi tiết nhân viên mới',
 
   O: 'o',
   operation: 'Thao tác',

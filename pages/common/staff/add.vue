@@ -10,7 +10,7 @@
       <h1 class="mt-3 text-2xl">{{ $t('add_employee') }}</h1>
     </div>
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
-      <a-form class="py-3" :model="staffInfo" layout="vertical" @finish="addStaff">
+      <a-form v-show="!addSuccess" class="py-3" :model="staffInfo" layout="vertical" @finish="addStaff">
         <div class="grid grid-cols-6 gap-x-2">
           <div id="left_side" class="col-span-5">
             <div class="h-full flex-1 flex flex-col">
@@ -331,6 +331,24 @@
           </a-button>
         </div>
       </a-form>
+      <ClientOnly>
+        <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+          <div class="flex items-center justify-center mt-5">
+            <Success class="text-green-600 text-4xl" />
+          </div>
+          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+          <p class="text-center my-2">{{ $t('add_staff_success_title') }}</p>
+          <p class="text-center my-2">{{ $t('add_staff_success_note') }}</p>
+          <div class="my-2 flex flex-col items-center">
+            <NuxtLink :to="pageRoutes.common.staff.detail(newStaffID)">
+              <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_staff_detail') }}</a-button>
+            </NuxtLink>
+            <NuxtLink :to="pageRoutes.common.staff.list" class="w-full">
+              <a-button class="rounded-sm w-full">{{ $t('back') }}</a-button>
+            </NuxtLink>
+          </div>
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>
@@ -346,6 +364,7 @@ import type { Building } from '~/types/building';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { validationRules } from '~/consts/validation_rules';
 import { COMMON } from '~/consts/common';
+import Success from '~/public/svg/success.svg';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -396,6 +415,8 @@ const buildingList = ref<Building[]>([]);
 const isAvatarValid = ref<boolean>(false);
 const isSSNFrontValid = ref<boolean>(false);
 const isSSNBackValid = ref<boolean>(false);
+const addSuccess = ref<boolean>(false);
+const newStaffID = ref<number>(0);
 
 // ---------------------- Functions ----------------------
 async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
@@ -644,13 +665,15 @@ async function addStaff() {
     data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
     data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
 
-    await api.common.staff.add(data);
+    const response = await api.common.staff.add(data);
+    newStaffID.value = response.data;
+    addSuccess.value = true;
 
-    notification.info({
-      message: t('add_staff_success'),
-      description: t('new_staff_added_to_system'),
-    });
-    navigateTo(pageRoutes.common.staff.list);
+    // notification.info({
+    //   message: t('add_staff_success'),
+    //   description: t('new_staff_added_to_system'),
+    // });
+    // navigateTo(pageRoutes.common.staff.list);
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

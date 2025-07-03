@@ -17,7 +17,7 @@ export default {
   area: 'Area',
   available: 'Available',
   add_building_success_title: 'New building information has been added successfully',
-  add_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
+  add_building_success_note: 'You can access the newly created building detail page by clicking the "New building detail" button, or go back to the building list page by clicking the "Back" button below',
   add_service_success: 'New service has been added successfully!',
   add_room_success: 'New room has been added successfully!',
   add_service: 'Add service',
@@ -35,6 +35,12 @@ export default {
   add_contract: 'Add contract',
   active_date_cannot_be_before_create_date: 'Active date cannot be before contract creation date!',
   active_date_required: 'Contract start date cannot be empty!',
+  add_customer_success_title: 'New customer has been added successfully',
+  add_customer_success_note:
+    'You can access the newly created customer detail page by clicking the "New customer detail" button, or go back to the customer list page by clicking the "Back" button below',
+  add_staff_success_title: 'New staff has been added successfully',
+  add_staff_success_note:
+    'You can access the newly created staff detail page by clicking the "New staff detail" button, or go back to the staff list page by clicking the "Back" button below',
 
   B: 'b',
   balance: 'Balance',
@@ -286,6 +292,9 @@ export default {
   new_staff_added_to_system: 'New staff has been added to the system!',
   new_customer_added_to_system: 'New customer has been added to the system!',
   no_data: 'No data',
+  new_building_detail: 'New building detail',
+  new_customer_detail: 'New customer detail',
+  new_staff_detail: 'New staff detail',
 
   O: 'o',
   operation: 'Operation',

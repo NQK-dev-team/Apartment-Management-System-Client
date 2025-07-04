@@ -388,14 +388,20 @@
                   String: '',
                 },
                 lastName: '',
-                ssn: '',
+                ssn: {
+                  Valid: false,
+                  String: '',
+                },
                 oldSSN: {
                   Valid: false,
                   String: '',
                 },
                 gender: undefined,
                 dob: '',
-                pob: '',
+                pob: {
+                  Valid: false,
+                  String: '',
+                },
                 phone: {
                   Valid: false,
                   String: '',
@@ -575,12 +581,12 @@ async function updateContract() {
           firstName: residentData.firstName.trim(),
           middleName: residentData.middleName.String ? residentData.middleName.String.trim() : '',
           lastName: residentData.lastName.trim(),
-          ssn: residentData.ssn.trim(),
+          ssn: residentData.ssn.String ? residentData.ssn.String.trim() : '',
           oldSSN: residentData.oldSSN.String ? residentData.oldSSN.String.trim() : '',
           phone: residentData.phone.String ? residentData.phone.String.trim() : '',
           email: residentData.email.String ? residentData.email.String.trim() : '',
           ID: residentData.ID <= 0 ? 0 : residentData.ID, // Ensure ID is 0 for new residents
-          pob: residentData.pob.trim(),
+          pob: residentData.pob.String ? residentData.pob.String.trim() : '',
           gender: resident.gender,
           userAccountID: residentData.userAccountID.Int64 ? residentData.userAccountID.Int64 : 0,
           relationWithHouseholder: residentData.relationWithHouseholder,

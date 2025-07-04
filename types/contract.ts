@@ -26,10 +26,10 @@ type RoomResident = BasicModel & {
   firstName: string;
   middleName: NullString;
   lastName: string;
-  ssn: string;
+  ssn: NullString;
   oldSSN: NullString;
   dob: string | Dayjs;
-  pob: string;
+  pob: NullString;
   email: NullString;
   phone: NullString;
   gender: number | undefined;

@@ -8,7 +8,21 @@
       enter-button
       @search="searchEmployee"
     />
-    <a-table :columns="columns" class="mt-5" :data-source="data" :scroll="{ x: 'max-content' }"> </a-table>
+    <a-table :columns="columns" class="mt-5" :data-source="data" :scroll="{ x: 'max-content' }">
+      <template #bodyCell="{ value, column, record }">
+        <template v-if="column.key === 'employee_number'">
+          <span
+            >{{ value }}
+            <NuxtLink
+              :to="pageRoutes.common.staff.detail(record.ID)"
+              class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+              target="_blank"
+            >
+              <LinkOutlined /> </NuxtLink
+          ></span>
+        </template>
+      </template>
+    </a-table>
   </div>
 </template>
 
@@ -17,6 +31,7 @@ import type { ManagerSchedule } from '~/types/user';
 import { getUserName, convertToDate } from '#build/imports';
 import type { NullTime } from '~/types/basic_model';
 import { removeDiacritics } from '~/utils/diacritics';
+import { pageRoutes } from '~/consts/page_routes';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -93,6 +108,7 @@ function searchEmployee() {
     phone: string;
     startDate: string;
     endDate: string;
+    ID: number;
   }[] = [];
   props.schedules.forEach((schedule, index) => {
     result.push({
@@ -104,6 +120,7 @@ function searchEmployee() {
       phone: schedule.manager.phone,
       startDate: convertToDate(schedule.startDate as string),
       endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time!) : '-',
+      ID: schedule.manager.ID,
     });
   });
   data.value = result.filter((user) => {
@@ -130,6 +147,7 @@ onMounted(() => {
       phone: schedule.manager.phone,
       startDate: convertToDate(schedule.startDate as string),
       endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time!) : '-',
+      ID: schedule.manager.ID,
     });
   });
   data.value = result;

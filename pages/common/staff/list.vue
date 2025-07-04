@@ -168,12 +168,12 @@ const columns = computed(() => [
     key: 'email',
     class: 'text-nowrap',
   },
-  {
-    title: t('temporary_address'),
-    dataIndex: 'temporary_address',
-    key: 'temporary_address',
-    class: 'text-nowrap',
-  },
+  // {
+  //   title: t('temporary_address'),
+  //   dataIndex: 'temporary_address',
+  //   key: 'temporary_address',
+  //   class: 'text-nowrap',
+  // },
   {
     title: t('action'),
     dataIndex: 'action',
@@ -192,7 +192,7 @@ const dataSource = ref<
     old_ssn: string;
     phone: string;
     email: string;
-    temporary_address: string;
+    // temporary_address: string;
     action: number;
     key: number;
   }[]
@@ -251,7 +251,7 @@ async function getEmployeeList() {
         old_ssn: user.oldSSN.String || '-',
         phone: user.phone,
         email: user.email,
-        temporary_address: user.temporaryAddress,
+        // temporary_address: user.temporaryAddress,
         action: user.ID,
         key: user.ID,
       };

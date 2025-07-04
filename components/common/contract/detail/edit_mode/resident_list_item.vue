@@ -203,7 +203,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_pob`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_pob`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.pob ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.pob.String ?? ''"
             disabled
             readonly
           ></a-input>
@@ -216,7 +216,7 @@
         >
           <a-input
             :id="`resident_${props.index + 1}_pob`"
-            v-model:value="resident.pob"
+            v-model:value="resident.pob.String as string"
             :placeholder="$t('enter_customer_pob')"
           ></a-input>
         </a-form-item>
@@ -243,7 +243,7 @@
         >
           <a-input
             :id="`resident_${props.index + 1}_ssn`"
-            v-model:value="resident.ssn"
+            v-model:value="resident.ssn.String as string"
             :placeholder="$t('enter_customer_ssn')"
           ></a-input>
         </a-form-item>

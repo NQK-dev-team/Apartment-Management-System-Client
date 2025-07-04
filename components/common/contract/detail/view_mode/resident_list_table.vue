@@ -62,6 +62,12 @@ const columns: any = computed(() => {
       class: 'text-nowrap',
     },
     {
+      title: t('pob'),
+      dataIndex: 'pob',
+      key: 'pob',
+      class: 'text-nowrap',
+    },
+    {
       title: t('ssn'),
       dataIndex: 'ssn',
       key: 'ssn',
@@ -102,7 +108,8 @@ const data = computed(() => {
     dob: resident.userAccountID.Int64
       ? convertToDate(resident.userAccount!.dob as string)
       : convertToDate(resident.dob as string),
-    ssn: resident.userAccountID.Int64 ? resident.userAccount!.ssn : resident.ssn,
+    pob: resident.userAccountID.Int64 ? resident.userAccount!.pob.String || '-' : resident.pob.String || '-',
+    ssn: resident.userAccountID.Int64 ? resident.userAccount!.ssn : resident.ssn.String || '-',
     old_ssn: resident.userAccountID.Int64 ? resident.userAccount!.oldSSN.String || '-' : resident.oldSSN.String || '-',
     phone: resident.userAccountID.Int64 ? resident.userAccount!.phone : resident.phone.String || '-',
     email: resident.userAccountID.Int64 ? resident.userAccount!.email : resident.email.String || '-',

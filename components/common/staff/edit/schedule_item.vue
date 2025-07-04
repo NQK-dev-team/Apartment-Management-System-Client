@@ -54,7 +54,17 @@
       </a-form-item>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <a-form-item :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <a-form-item
+        class="align_validation_message_start"
+        :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+        :name="['schedules', 'data', props.index, 'end']"
+        :rules="[
+          {
+            validator: (_, value) => validationRules.checkScheduleEndDate(_, value, $t, schedule.start),
+            trigger: 'blur',
+          },
+        ]"
+      >
         <div class="px-3">
           <a-date-picker
             :id="`schedule_${props.index + 1}_end`"
@@ -65,11 +75,11 @@
       </a-form-item>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <div :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item class="px-3">
+      <a-form-item :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+        <div class="px-3">
           <p v-if="schedule.ID <= 0" class="text-red-500">{{ $t('new') }}</p>
-        </a-form-item>
-      </div>
+        </div>
+      </a-form-item>
     </td>
   </tr>
 </template>
@@ -77,6 +87,7 @@
 <script lang="ts" setup>
 import type { Building } from '~/types/building';
 import type { Dayjs } from 'dayjs';
+import { validationRules } from '~/consts/validation_rules';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');

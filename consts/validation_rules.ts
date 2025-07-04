@@ -105,6 +105,17 @@ const validationRules = {
 
     return Promise.resolve();
   },
+  checkScheduleEndDate: async (_: RuleObject, value: string, t: any, startDate: string | Dayjs | undefined) => {
+    if (!value || !startDate) {
+      return Promise.resolve();
+    }
+    const endDate = dayjs(value);
+    const start = dayjs(startDate);
+
+    if (endDate.isBefore(start)) {
+      return Promise.reject(t('schedule_end_date_cannot_be_before_start_date'));
+    }
+  },
   // checkImageFileType: async (_: RuleObject, files: UploadFile[] | string, t: any) => {
   //   if (!files || typeof files === 'string') {
   //     return Promise.resolve();

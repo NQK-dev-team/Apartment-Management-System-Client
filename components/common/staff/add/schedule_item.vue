@@ -54,7 +54,17 @@
       </a-form-item>
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
-      <a-form-item :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+      <a-form-item
+        class="align_validation_message_start"
+        :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+        :name="['schedules', props.index, 'end']"
+        :rules="[
+          {
+            validator: (_, value) => validationRules.checkScheduleEndDate(_, value, $t, schedule.start),
+            trigger: 'blur',
+          },
+        ]"
+      >
         <div class="px-3">
           <a-date-picker
             :id="`schedule_${props.index + 1}_end`"
@@ -68,6 +78,7 @@
 </template>
 
 <script lang="ts" setup>
+import { validationRules } from '~/consts/validation_rules';
 import type { Building } from '~/types/building';
 
 // ---------------------- Variables ----------------------

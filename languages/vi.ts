@@ -433,6 +433,7 @@ export default {
   select_customer: 'Chọn khách hàng',
   select_contract_type: 'Chọn loại hình hợp đồng',
   sign_date_cannot_be_before_create_date: 'Ngày ký hợp đồng không thể trước ngày tạo hợp đồng!',
+  schedule_end_date_cannot_be_before_start_date: 'Ngày kết thúc lịch quản lý không thể trước ngày bắt đầu!',
 
   T: 't',
   total: 'Tổng',

@@ -433,6 +433,7 @@ export default {
   select_customer: 'Select customer',
   select_contract_type: 'Select contract type',
   sign_date_cannot_be_before_create_date: 'Contract sign date cannot be before contract creation date!',
+  schedule_end_date_cannot_be_before_start_date: 'Schedule end date cannot be before start date!',
 
   T: 't',
   total: 'Total',

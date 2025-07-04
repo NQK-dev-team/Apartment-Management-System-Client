@@ -296,8 +296,8 @@ input[type=number] {
 }
 
 .align_validation_message_start .ant-form-item-explain-error{
-  /* text-align: start;
-  margin-left:13px; */
+  text-align: start;
+  margin-left:13px;
 }
 
 .align_validation_message_middle .ant-form-item-explain-error{

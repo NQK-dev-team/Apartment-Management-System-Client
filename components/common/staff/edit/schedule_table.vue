@@ -5,20 +5,7 @@
       <div class="flex items-center">
         <a-button
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-          @click="
-            () => {
-              addCounter = 0;
-              current = 1;
-              scheduleDeleteBucket = [];
-              const originalSchedules = JSON.parse(JSON.stringify(props.originalSchedules));
-              originalSchedules.forEach((schedule: any) => {
-                schedule.start = dayjs(schedule.start as string);
-                schedule.end = (schedule.end as NullTime).Valid ? dayjs((schedule.end as NullTime).Time as string) : '';
-              });
-              schedules.data = originalSchedules;
-              props.formRef.clearValidate();
-            }
-          "
+          @click="resetTable"
         >
           <UndoOutlined />
         </a-button>
@@ -285,6 +272,19 @@ function removeAllSchedulesFromBucket() {
   scheduleDeleteBucket.value = scheduleDeleteBucket.value.filter((id) => !IDs.includes(id));
 }
 
+function resetTable() {
+  addCounter.value = 0;
+  current.value = 1;
+  scheduleDeleteBucket.value = [];
+  const originalSchedules = JSON.parse(JSON.stringify(props.originalSchedules));
+  originalSchedules.forEach((schedule: any) => {
+    schedule.start = dayjs(schedule.start as string);
+    schedule.end = (schedule.end as NullTime).Valid ? dayjs((schedule.end as NullTime).Time as string) : '';
+  });
+  schedules.value.data = originalSchedules;
+  props.formRef.clearValidate();
+}
+
 // ---------------------- Event Listeners ----------------------
 $event.on('addScheduleToDeleteBucketAddStaff', (e: any) => {
   if (!scheduleDeleteBucket.value.includes(e)) {
@@ -295,6 +295,8 @@ $event.on('addScheduleToDeleteBucketAddStaff', (e: any) => {
 $event.on('removeScheduleFromDeleteBucketAddStaff', (e: any) => {
   scheduleDeleteBucket.value = scheduleDeleteBucket.value.filter((id) => id !== e);
 });
+
+$event.on('staffDetailCancelEditMode', resetTable);
 
 // ---------------------- Lifecycles ----------------------
 onMounted(() => {

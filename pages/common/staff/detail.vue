@@ -1,34 +1,52 @@
 <template>
   <div class="w-full h-full flex flex-col px-5">
+    <!-- Page header -->
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
           ><NuxtLink :to="pageRoutes.common.staff.list">{{ $t('employee_list') }}</NuxtLink></a-breadcrumb-item
         >
-        <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.staff.detail(staffID)">{{
-            $t('employee_info')
-          }}</NuxtLink></a-breadcrumb-item
-        >
-        <a-breadcrumb-item>{{ $t('edit_employee') }}</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('employee_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('edit_employee') }}</h1>
+      <div class="flex justify-between items-center">
+        <h1 class="mt-3 text-2xl">{{ staffFullName }}</h1>
+        <div class="flex justify-end">
+          <a-button
+            v-show="!editMode"
+            type="primary"
+            class="rounded-sm"
+            @click="
+              () => {
+                editMode = true;
+                notification.info({
+                  message: t('edit_mode_active'),
+                });
+              }
+            "
+            >{{ $t('edit') }}</a-button
+          >
+          <a-button
+            v-show="editMode"
+            class="rounded-sm me-2"
+            @click="
+              () => {
+                notification.info({
+                  message: t('edit_mode_inactive'),
+                });
+                editMode = false;
+                $event.emit('staffDetailCancelEditMode');
+              }
+            "
+            >{{ $t('cancel') }}</a-button
+          >
+          <a-button v-show="editMode" type="primary" class="rounded-sm" @click="validateUpdateForm">{{
+            $t('save_changes')
+          }}</a-button>
+        </div>
+      </div>
     </div>
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
-      <a-form
-        ref="formRef"
-        class="py-3"
-        :model="staffInfo.data"
-        layout="vertical"
-        @finish="
-          () => {
-            $event.emit('updateItem', {
-              callback: editStaff,
-              updateModalContent: 'update_staff_confirm',
-            });
-          }
-        "
-      >
+      <a-form ref="formRef" class="py-3" :model="staffInfo.data" layout="vertical">
         <div class="grid grid-cols-6 gap-x-2">
           <div id="left_side" class="col-span-5">
             <div class="h-full flex-1 flex flex-col">
@@ -227,7 +245,14 @@
                 </a-form-item>
                 <div class="flex-1"></div>
               </div>
+              <div v-if="!editMode" class="mt-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
+                </div>
+                <CommonStaffDetailBuildingTable :schedules="schedules" />
+              </div>
               <CommonStaffEditScheduleTable
+                v-else
                 :schedules="staffInfo.data.schedules"
                 :original-schedules="originalSchedules"
                 :building-list="buildingList"
@@ -240,29 +265,19 @@
               <div>{{ $t('avatar') }}<span class="text-red-500 ms-1">*</span></div>
               <img :src="staffInfo.data.profileFilePath" :alt="$t('avatar')" class="w-full h-full mt-1" />
             </a-form-item>
-            <div class="text-sm text-center" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
-              {{ $t('recommended_resolution') }}
-            </div>
             <a-form-item class="mt-5 align_validation_message_middle">
               <div>{{ $t('national_id') + ' ' + $t('front_face') }}<span class="text-red-500 ms-1">*</span></div>
               <img :src="staffInfo.data.ssnFrontFilePath" :alt="$t('avatar')" class="w-full h-full mt-1" />
             </a-form-item>
-            <div class="text-sm text-center" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
-              {{ $t('recommended_resolution') }}
-            </div>
             <a-form-item class="mt-5 align_validation_message_middle">
               <div>{{ $t('national_id') + ' ' + $t('back_face') }}<span class="text-red-500 ms-1">*</span></div>
               <img :src="staffInfo.data.ssnBackFilePath" :alt="$t('avatar')" class="w-full h-full mt-1" />
             </a-form-item>
-            <div class="text-sm text-center" :class="[lightMode ? 'text-[#00000080]' : 'text-[#d2d2d2a3]']">
-              {{ $t('recommended_resolution') }}
-            </div>
           </div>
         </div>
         <div class="flex flex-col items-center mt-5">
-          <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
           <a-button class="w-[100px] rounded-sm mt-3" @click.prevent="navigateTo(pageRoutes.common.staff.list)">
-            {{ $t('cancel') }}
+            {{ $t('back') }}
           </a-button>
         </div>
       </a-form>
@@ -271,41 +286,41 @@
 </template>
 
 <script lang="ts" setup>
+import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { pageRoutes } from '~/consts/page_routes';
-import type { EditStaff, ManagerSchedule } from '~/types/user';
-import type { Building } from '~/types/building';
-import dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
+import type { ManagerSchedule, EditStaff } from '~/types/user';
 import type { NullTime } from '~/types/basic_model';
 import { COMMON } from '~/consts/common';
+import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Edit Staff',
+  name: 'Staff Detail',
   layout: 'main',
   middleware: ['authorization-owner'],
 });
 
 useHead({
-  title: 'Edit Staff',
+  title: 'Staff Detail',
   meta: [
     {
       name: 'description',
-      content: 'Update staff information in the system',
+      content: 'Staff detail information in the system',
     },
   ],
 });
 
 // ---------------------- Variables ----------------------
+const { t } = useI18n();
 const route = useRoute();
 const staffID = Number(route.params.id as string);
-const { t } = useI18n();
 const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const { $event } = useNuxtApp();
 const staffInfo = ref<EditStaff>({
   data: {
     ID: staffID,
@@ -330,6 +345,10 @@ const staffInfo = ref<EditStaff>({
     },
   },
 });
+const staffFullName = ref('');
+const schedules = ref<ManagerSchedule[]>([]);
+const buildingList = ref<Building[]>([]);
+const formRef = ref();
 const originalSchedules = ref<
   {
     ID: number;
@@ -340,9 +359,7 @@ const originalSchedules = ref<
     isDeleted: boolean;
   }[]
 >([]);
-const { $event } = useNuxtApp();
-const buildingList = ref<Building[]>([]);
-const formRef = ref();
+const editMode = ref(false);
 
 // ---------------------- Functions ----------------------
 async function getStaffDetailInfo() {
@@ -351,6 +368,15 @@ async function getStaffDetailInfo() {
     const response = await api.common.staff.getDetail(staffID);
     const scheduleResponse = await api.common.staff.getSchedule(staffID);
     const buildingResponse = await api.common.building.getList();
+
+    schedules.value = scheduleResponse.data.sort(
+      (a, b) =>
+        new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
+        new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
+          new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
+    );
+
+    staffFullName.value = getUserName(response.data);
 
     staffInfo.value.data.ID = response.data.ID;
     staffInfo.value.data.no = response.data.no;
@@ -415,7 +441,7 @@ async function getStaffDetailInfo() {
   }
 }
 
-async function editStaff() {
+async function updateStaff() {
   try {
     $event.emit('loading');
     const data = new FormData();
@@ -452,6 +478,8 @@ async function editStaff() {
     });
 
     await getStaffDetailInfo();
+
+    editMode.value = false;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -465,6 +493,21 @@ async function editStaff() {
     }
   } finally {
     $event.emit('loading');
+  }
+}
+
+async function validateUpdateForm() {
+  try {
+    if (!formRef.value) {
+      return;
+    }
+    await formRef.value.validate();
+    $event.emit('updateItem', {
+      callback: updateStaff,
+      updateModalContent: 'update_staff_confirm',
+    });
+  } catch (err: any) {
+    /* empty */
   }
 }
 

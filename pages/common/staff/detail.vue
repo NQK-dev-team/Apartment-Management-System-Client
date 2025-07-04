@@ -51,7 +51,7 @@
           <div id="left_side" class="col-span-5">
             <div class="h-full flex-1 flex flex-col">
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1 me-5">
                   <label for="employee_number" class="flex mb-1">
                     <span>{{ $t('employee_number') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -79,7 +79,7 @@
                 </a-form-item>
               </div>
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1 me-5">
                   <label for="middleName" class="flex mb-1">
                     <span>{{ $t('middle_name') }}</span>
                   </label>
@@ -106,7 +106,7 @@
                 </a-form-item>
               </div>
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1 me-5">
                   <label for="gender" class="flex mb-1">
                     <span>{{ $t('gender') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -141,7 +141,7 @@
                 </a-form-item>
               </div>
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2" name="oldSSN">
+                <a-form-item class="flex-1 me-5" name="oldSSN">
                   <label for="ssn" class="flex mb-1">
                     <span>{{ $t('ssn') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -168,7 +168,7 @@
                 </a-form-item>
               </div>
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1 me-5">
                   <label for="pob" class="flex mb-1">
                     <span>{{ $t('pob') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -197,7 +197,7 @@
                 </a-form-item>
               </div>
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1 me-5">
                   <label for="email" class="flex mb-1">
                     <span>{{ $t('email') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -229,7 +229,7 @@
                 </div>
               </div>
               <div class="flex items-center">
-                <a-form-item class="flex-1 me-2">
+                <a-form-item class="flex-1 me-5">
                   <label for="temporary_address" class="flex mb-1">
                     <span>{{ $t('temporary_address') }}</span>
                     <span class="text-red-500 ms-1">*</span>
@@ -249,7 +249,7 @@
                 <div class="flex items-center justify-between">
                   <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
                 </div>
-                <CommonStaffDetailBuildingTable :schedules="schedules" />
+                <CommonStaffDetailScheduleTable :schedules="schedules" />
               </div>
               <CommonStaffEditScheduleTable
                 v-else

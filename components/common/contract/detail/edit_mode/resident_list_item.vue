@@ -182,10 +182,10 @@
           :name="['residents', props.index, 'dob']"
           :rules="[
             { required: true, message: $t('please_select_customer_birthdate'), trigger: 'blur' },
-            {
-              validator: async (_: RuleObject, value: string) => validationRules.dateOfBirth(_, value, $t, true),
-              trigger: 'blur',
-            },
+            // {
+            //   validator: async (_: RuleObject, value: string) => validationRules.dateOfBirth(_, value, $t, true),
+            //   trigger: 'blur',
+            // },
           ]"
           class="px-3 align_validation_message_start"
         >
@@ -234,12 +234,14 @@
         </a-form-item>
         <a-form-item
           v-else
-          :name="['residents', props.index, 'ssn']"
-          :rules="[
-            { required: true, message: $t('please_enter_customer_ssn'), trigger: 'blur' },
-            { pattern: /^[0-9]{12}$/, message: $t('invalid_ssn'), trigger: 'blur' },
-          ]"
+          :name="['residents', props.index, 'ssn', 'String']"
+          :rules="[{ pattern: /^[0-9]{12}$/, message: $t('invalid_ssn'), trigger: 'blur' }]"
           class="px-3 align_validation_message_start"
+          @change="
+            () => {
+              resident.ssn.Valid = !!resident.ssn.String;
+            }
+          "
         >
           <a-input
             :id="`resident_${props.index + 1}_ssn`"

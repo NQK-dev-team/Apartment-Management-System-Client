@@ -189,7 +189,10 @@
     <div class="mt-10 flex items-center justify-between">
       <h1 class="text-2xl">{{ $t('bill_list') }}</h1>
       <div
-        v-if="userRole?.toString() === roles.owner || userRole?.toString() === roles.manager"
+        v-if="
+          (userRole?.toString() === roles.owner || userRole?.toString() === roles.manager) &&
+          contract.status === COMMON.CONTRACT_STATUS.ACTIVE
+        "
         class="flex items-center"
       >
         <a-button

@@ -77,6 +77,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
 import { svgPaths } from '~/consts/svg_paths';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -154,7 +155,7 @@ async function login() {
   //     await navigateTo(targetRoute);
   //   })
   //   .catch((err) => {
-  //     if (err.status === 500) {
+  //     if (err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR) {
   //       notification.error({
   //         message: t('system_error_title'),
   //         description: t('system_error_description'),
@@ -187,7 +188,7 @@ async function login() {
     await navigateTo(targetRoute);
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

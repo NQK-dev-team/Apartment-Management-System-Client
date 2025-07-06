@@ -101,7 +101,7 @@
               <label for="pob" class="flex mb-1">
                 <span>{{ $t('pob') }}</span>
               </label>
-              <a-input id="pob" :value="customerInfo.pob" :placeholder="$t('pob')" disabled readonly />
+              <a-input id="pob" :value="customerInfo.pob.String ?? ''" :placeholder="$t('pob')" disabled readonly />
             </div>
             <div class="flex-1">
               <label for="phone_number" class="flex mb-1">
@@ -266,7 +266,10 @@ const customerInfo = ref<User>({
     Valid: false,
   },
   dob: '',
-  pob: '',
+  pob: {
+    String: '',
+    Valid: false,
+  },
   email: '',
   phone: '',
   permanentAddress: '',
@@ -301,7 +304,7 @@ async function getCustomerDetail() {
     tickets.value = ticketResponse.data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

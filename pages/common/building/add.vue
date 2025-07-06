@@ -296,7 +296,11 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div
+      id="page_content"
+      class="flex-1 flex flex-col px-4 mt-5"
+      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+    >
       <div v-show="step === 1" class="flex-1">
         <CommonBuildingAddStep1 :building-info="buildingInfo" :managers="managers" />
       </div>
@@ -307,19 +311,24 @@
         <CommonBuildingAddStep3 :building-info="buildingInfo" :step="step" :managers="managers" />
       </div>
       <div v-show="step === 4" class="flex-1">
-        <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
-          <div class="flex items-center justify-center mt-5">
-            <Success class="text-green-600 text-4xl" />
+        <ClientOnly>
+          <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+            <div class="flex items-center justify-center mt-5">
+              <Success class="text-green-600 text-4xl" />
+            </div>
+            <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+            <p class="text-center my-2">{{ $t('add_building_success_title') }}</p>
+            <p class="text-center my-2">{{ $t('add_building_success_note') }}</p>
+            <div class="my-2 flex flex-col items-center">
+              <NuxtLink :to="pageRoutes.common.building.detail(newBuildingID)">
+                <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_building_detail') }}</a-button>
+              </NuxtLink>
+              <NuxtLink :to="pageRoutes.common.building.list" class="w-full">
+                <a-button class="w-full rounded-sm">{{ $t('back') }}</a-button>
+              </NuxtLink>
+            </div>
           </div>
-          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
-          <p class="text-center my-2">{{ $t('add_building_success_title') }}</p>
-          <p class="text-center my-2">{{ $t('add_building_success_note') }}</p>
-          <div class="my-2 w-[100px]">
-            <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.list">
-              <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
-            </NuxtLink>
-          </div>
-        </div>
+        </ClientOnly>
       </div>
       <div class="steps-action flex flex-col items-center mb-3 mt-10">
         <a-button
@@ -337,7 +346,7 @@
               }
             }
           "
-          >{{ $t('next') }}</a-button
+          >{{ step == 3 ? $t('confirm') : $t('next') }}</a-button
         >
         <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
           $t('previous')
@@ -358,6 +367,7 @@ import Success from '~/public/svg/success.svg';
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import type { User } from '~/types/user';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -395,6 +405,7 @@ const buildingInfo = ref<NewBuildingInfo>({
 const addSuccess = ref<boolean>(false);
 const { $event } = useNuxtApp();
 const managers = ref<User[]>([]);
+const newBuildingID = ref<number>(0);
 
 // ---------------------- Functions ----------------------
 async function createNewBuilding() {
@@ -453,12 +464,13 @@ async function createNewBuilding() {
       });
     });
 
-    await api.common.building.addNewBuilding(formData);
+    const response = await api.common.building.addNewBuilding(formData);
+    newBuildingID.value = response.data;
     addSuccess.value = true;
   } catch (err: any) {
-    step.value--;
+    step.value = 3;
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -615,7 +627,7 @@ onMounted(async () => {
     managers.value = response.data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

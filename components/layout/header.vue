@@ -75,7 +75,7 @@
               <a-menu-divider />
               <a-menu-item key="profile" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
                 <NuxtLink
-                  :to="pageRoutes.common.profile.page"
+                  :to="pageRoutes.common.profile.index"
                   class="flex items-center"
                   :class="[lightMode ? '' : 'text-white']"
                 >
@@ -105,6 +105,7 @@ import { api } from '~/services/api';
 import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { svgPaths } from '~/consts/svg_paths';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
@@ -150,7 +151,7 @@ async function logout() {
     $event.emit('loading');
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

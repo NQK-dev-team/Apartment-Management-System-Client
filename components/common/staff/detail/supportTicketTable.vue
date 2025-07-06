@@ -211,7 +211,7 @@
                 ticketDetail.files.map((file, index) => ({
                   uid: index.toString(),
                   name: file.title || `File ${index + 1}`,
-                  url: file.path,
+                  url: file.path as string,
                   status: 'done',
                 }))
               "
@@ -405,7 +405,7 @@ async function approve(id: number) {
     $event.emit('refreshTicketTableDetailStaff');
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -427,7 +427,7 @@ async function deny(id: number) {
     $event.emit('refreshTicketTableDetailStaff');
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

@@ -1,3 +1,5 @@
+import type { UploadFile } from 'ant-design-vue';
+
 type BasicModel = {
   ID: number;
   createdAt: string;
@@ -15,7 +17,7 @@ type BasicFileModel = {
   // deletedAt: string | null;
   // deletedBy: number | null;
   no: number | null;
-  path: string;
+  path: string | UploadFile[];
   title: string | null;
 };
 
@@ -29,4 +31,9 @@ type NullString = {
   Valid: boolean;
 };
 
-export type { BasicModel, BasicFileModel, NullTime, NullString };
+type NullInt64 = {
+  Int64: number | null;
+  Valid: boolean;
+};
+
+export type { BasicModel, BasicFileModel, NullTime, NullString, NullInt64 };

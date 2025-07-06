@@ -1,5 +1,16 @@
 <template>
-  <a-form :model="updateRoomData" class="w-full h-full flex flex-col px-5" @finish="updateRoom">
+  <a-form
+    :model="updateRoomData"
+    class="w-full h-full flex flex-col px-5"
+    @finish="
+      () => {
+        $event.emit('updateItem', {
+          callback: updateRoom,
+          updateModalContent: 'confirm_update_room_info',
+        });
+      }
+    "
+  >
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
@@ -178,7 +189,7 @@
                           3: 'available',
                           4: 'maintenance',
                           5: 'unavailable',
-                        }[roomData.status] || 'N/A'
+                        }[roomData.status as 1 | 2 | 3 | 4 | 5] || 'N/A'
                       )
                     "
                     disabled
@@ -255,12 +266,12 @@
           <a-carousel :autoplay="true" arrows>
             <div v-for="(image, index) in roomData.images" :key="index">
               <img
-                :src="image.path"
+                :src="image.path as string"
                 class="w-[250px] h-[300px] cursor-pointer"
                 @click="
                   () => {
                     previewVisible = true;
-                    previewImage = image.path;
+                    previewImage = image.path as string;
                   }
                 "
               />
@@ -303,16 +314,24 @@
           </div>
           <a-form-item
             class="mt-3 text-center"
-            :rules="[{ required: true, message: $t('image_require'), trigger: 'blur' }]"
+            :rules="[
+              { required: true, message: $t('image_require'), trigger: 'blur' },
+              // {
+              //   validator: async (_: RuleObject, value: UploadFile[]) =>
+              //     validationRules.checkImageFileType(_, value, $t),
+              //   trigger: 'change',
+              // },
+            ]"
             name="imageList"
           >
             <a-upload
               v-model:file-list="updateRoomData.imageList"
-              accept=".png,.jpg,.jpeg"
               multiple
               list-type="text"
+              :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
+              :before-upload="beforeUploadRoomImage"
               @remove="
-                (file) => {
+                (file: any) => {
                   if (isNaN(Number(file.uid))) {
                     updateRoomData.images = updateRoomData.images.filter((image: any) => image.uid !== file.uid);
                   } else {
@@ -372,7 +391,7 @@
               <a-button
                 type="primary"
                 danger
-                class="flex items-center justify-center w-10 h-10 rounded-sm me-2"
+                class="flex items-center justify-center w-8 h-8 rounded-sm me-2"
                 :disabled="!deleteBucket.value.length"
                 @click="
                   () => {
@@ -381,8 +400,8 @@
                 "
                 ><DeleteOutlined
               /></a-button>
-              <a-button type="primary" class="flex items-center justify-center w-10 h-10 rounded-sm"
-                ><NuxtLink :to="pageRoutes.common.contract.add" target="_blank"><PlusOutlined /></NuxtLink
+              <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm"
+                ><NuxtLink :to="pageRoutes.common.contract.add2(roomID)" target="_blank"><PlusOutlined /></NuxtLink
               ></a-button>
             </div>
           </div>
@@ -480,6 +499,7 @@ const roomData = ref<Room>({
 });
 const tickets = ref<SupportTicket[]>([]);
 const lightModeCookie = useCookie('lightMode');
+const invalidImages = ref<string[]>([]);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
@@ -572,7 +592,7 @@ async function getRoomData(emitLoading = true) {
     roomData.value.ID = 0;
 
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -596,7 +616,7 @@ async function getContracts() {
     roomData.value.contracts = response.data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -616,7 +636,7 @@ async function deleteContracts() {
     await api.common.building.deleteRoomContracts(buildingID, roomID, deleteBucket.value.value);
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -648,7 +668,7 @@ async function getSupporTickets() {
     tickets.value = ticketResponse.data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -672,7 +692,7 @@ async function approve(id: number) {
     getSupporTickets();
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -694,7 +714,7 @@ async function deny(id: number) {
     getSupporTickets();
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -712,6 +732,13 @@ function disabledDate(current: Dayjs) {
 }
 
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
+  updateRoomData.value.images = updateRoomData.value.images.filter(
+    (file) => !(file.isNew && invalidImages.value.includes((file as any).uid))
+  );
+  updateRoomData.value.imageList = updateRoomData.value.imageList.filter(
+    (file) => !invalidImages.value.includes((file as any).uid)
+  );
+
   event.fileList.forEach((file) => {
     if (file.status === 'done' && isNaN(Number(file.uid))) {
       if (updateRoomData.value.images.find((image: any) => image.isNew && !image.isDeleted && image.uid === file.uid)) {
@@ -724,6 +751,34 @@ function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
       });
     }
   });
+}
+
+function beforeUploadRoomImage(file: any): boolean {
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    invalidImages.value.push(file.uid);
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  return true;
 }
 
 async function updateRoom() {
@@ -747,7 +802,7 @@ async function updateRoom() {
     isSuccess = true;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -758,14 +813,12 @@ async function updateRoom() {
     }
   } finally {
     $event.emit('loading');
-    editMode.value = false;
-
     if (isSuccess) {
+      editMode.value = false;
       notification.info({
         message: t('success'),
         description: t('room_updated_success'),
       });
-
       await getRoomData();
       await getSupporTickets();
     }

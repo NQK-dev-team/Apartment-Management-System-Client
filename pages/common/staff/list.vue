@@ -81,9 +81,9 @@ import { api } from '~/services/api';
 import { svgPaths } from '~/consts/svg_paths';
 import { pageRoutes } from '~/consts/page_routes';
 import type { User } from '~/types/user';
-import { getUserGender, getUserName } from '~/utils/user';
 import { convertToDate } from '~/utils/formatter';
 import { removeDiacritics } from '~/utils/diacritics';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -168,12 +168,12 @@ const columns = computed(() => [
     key: 'email',
     class: 'text-nowrap',
   },
-  {
-    title: t('temporary_address'),
-    dataIndex: 'temporary_address',
-    key: 'temporary_address',
-    class: 'text-nowrap',
-  },
+  // {
+  //   title: t('temporary_address'),
+  //   dataIndex: 'temporary_address',
+  //   key: 'temporary_address',
+  //   class: 'text-nowrap',
+  // },
   {
     title: t('action'),
     dataIndex: 'action',
@@ -192,7 +192,7 @@ const dataSource = ref<
     old_ssn: string;
     phone: string;
     email: string;
-    temporary_address: string;
+    // temporary_address: string;
     action: number;
     key: number;
   }[]
@@ -251,14 +251,14 @@ async function getEmployeeList() {
         old_ssn: user.oldSSN.String || '-',
         phone: user.phone,
         email: user.email,
-        temporary_address: user.temporaryAddress,
+        // temporary_address: user.temporaryAddress,
         action: user.ID,
         key: user.ID,
       };
     });
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -280,7 +280,7 @@ async function deleteEmployee() {
     getEmployeeList();
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

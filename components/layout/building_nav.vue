@@ -52,6 +52,7 @@ import House from '~/public/svg/house.svg';
 import { api } from '~/services/api';
 import { getMessageCode } from '~/consts/api_response';
 import type { Building } from '~/types/building';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -81,7 +82,7 @@ async function getBuildingList() {
     buildingList.value = data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

@@ -17,7 +17,8 @@ export default {
   area: 'Area',
   available: 'Available',
   add_building_success_title: 'New building information has been added successfully',
-  add_building_success_note: 'You can go back to the building list page by clicking the "Back" button below',
+  add_building_success_note:
+    'You can access the newly created building detail page by clicking the "New building detail" button, or go back to the building list page by clicking the "Back" button below',
   add_service_success: 'New service has been added successfully!',
   add_room_success: 'New room has been added successfully!',
   add_service: 'Add service',
@@ -31,8 +32,19 @@ export default {
   add_staff_success: 'Add staff successfully!',
   add_customer_success: 'Add customer successfully!',
   add_customer_fail: 'Add customer failed!',
-  active_date: 'Active date',
+  active_date: 'Start date',
   add_contract: 'Add contract',
+  active_date_cannot_be_before_create_date: 'Active date cannot be before contract creation date!',
+  active_date_required: 'Contract start date cannot be empty!',
+  add_customer_success_title: 'New customer has been added successfully',
+  add_customer_success_note:
+    'You can access the newly created customer detail page by clicking the "New customer detail" button, or go back to the customer list page by clicking the "Back" button below',
+  add_staff_success_title: 'New staff has been added successfully',
+  add_staff_success_note:
+    'You can access the newly created staff detail page by clicking the "New staff detail" button, or go back to the staff list page by clicking the "Back" button below',
+  add_contract_success_title: 'New contract has been added successfully',
+  add_contract_success_note:
+    'You can access the newly created contract detail page by clicking the "New contract detail" button, or go back to the contract list page by clicking the "Back" button below',
 
   B: 'b',
   balance: 'Balance',
@@ -54,7 +66,10 @@ export default {
   bought: 'Bought',
   building_managing: 'Building managing',
   back_face: 'back face',
-  buy: 'Buy back',
+  buy: 'Buy',
+  bill_no: 'Bill number',
+  bill_name: 'Billing name',
+  buy_contract: 'Buy contract',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -94,6 +109,13 @@ export default {
   can_not_delete_a_contract_in_the_list:
     'The delete list contains a contract that can not be deleted. Please check again!',
   customer_must_be_18_years_old: 'Customer must be at least 18 years old!',
+  child: 'Child',
+  confirm_update_room_info: 'Are you sure you want to update this room information?',
+  confirm_update_contract: 'Are you sure you want to update this contract information?',
+  contract_info_updated: 'Contract information has been updated successfully!',
+  contract_value_require: 'Contract value cannot be empty!',
+  contract_create_date_require: 'Contract create date cannot be empty!',
+  contract_status: 'Contract status',
 
   D: 'd',
   delete: 'Delete',
@@ -185,10 +207,13 @@ export default {
   enter_customer_temporary_address: 'Enter customer temporary address',
   edit_employee: 'Edit employee',
   email_exists: 'Email already exists!',
-  expire_date: 'Expire date',
+  expire_date: 'End date',
   edit_contract: 'Edit contract',
   edit_mode_active: 'Edit mode has been activated',
   edit_mode_inactive: 'Edit mode has been deactivated',
+  enter_file_name: 'Enter file name',
+  end_date_cannot_be_before_start_date: 'Contract end date cannot be before contract start date!',
+  expire_date_required: 'Contract end date cannot be empty!',
 
   F: 'f',
   finish_import: 'Import',
@@ -201,6 +226,10 @@ export default {
   front_face: 'front face',
   female: 'Female',
   full_name: 'Full name',
+  file_name: 'File name',
+  file_link: 'File link',
+  file_require: 'Please choose a file!',
+  file_title_require: 'Please enter file title!',
 
   G: 'g',
   gender: 'Gender',
@@ -222,6 +251,14 @@ export default {
   invalid_ssn: 'SSN is not valid!',
   invalid_oldSSN: 'Old SSN is not valid!',
   invalid_phone: 'Phone number is not valid!',
+  invalid_image_file_type:
+    'Invalid image file type! Please upload an image with one of the following extensions: {types}',
+  invalid_contract_file_type:
+    'Invalid contract file type! Please upload a file with one of the following extensions: {types}',
+  invalid_image_title: 'Image invalid',
+  invalid_file_title: 'File invalid',
+  invalid_image_size: 'Image size must be less than {size}.',
+  invalid_file_size: 'File size must be less than {size}.',
 
   J: 'j',
 
@@ -262,6 +299,12 @@ export default {
   not_in_effect: 'Not in effect',
   new_staff_added_to_system: 'New staff has been added to the system!',
   new_customer_added_to_system: 'New customer has been added to the system!',
+  no_data: 'No data',
+  new_building_detail: 'New building detail',
+  new_customer_detail: 'New customer detail',
+  new_staff_detail: 'New staff detail',
+  new_contract_detail: 'New contract detail',
+  not_applicable: 'Not applicable',
 
   O: 'o',
   operation: 'Operation',
@@ -273,6 +316,8 @@ export default {
   other: 'Other',
   old_ssn: 'Old SSN',
   old_ssn_exists: 'Old SSN already exists!',
+  other_resident_list: 'Other resident list',
+  overdue: 'Payment overdue',
 
   P: 'p',
   payer: 'Payer',
@@ -281,6 +326,7 @@ export default {
   payment_list: 'Payment list',
   payment_period: 'Payment period',
   payment_date: 'Payment date',
+  payment_time: 'Payment time',
   profile: 'Profile',
   password: 'Password',
   password_require: 'Please enter your password!',
@@ -316,6 +362,16 @@ export default {
   password_reset: 'Reset password',
   payment: 'Payments',
   profit: 'Profit',
+  paper_list: 'Paper list',
+  parent: 'Parent',
+  processing: 'Processing',
+  please_select_contract_status: 'Please select contract status',
+  please_select_owner_relationship: 'Please select relationship with owner',
+  please_select_building: 'Please select a building',
+  please_select_floor: 'Please select a floor',
+  please_select_room: 'Please select a room',
+  please_select_customer: 'Please select a customer',
+  please_select_contract_type: 'Please select a contract type',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -339,6 +395,7 @@ export default {
   relationship_with_owner: 'Relationship with owner',
   room_updated_success: 'Room information has been updated successfully!',
   report: 'Report',
+  rent_contract: 'Rent contract',
 
   S: 's',
   staff: 'Staff',
@@ -383,6 +440,17 @@ export default {
   sent_notice: 'Sent notice',
   sender: 'Sender',
   security: 'Security',
+  spouse: 'Spouse',
+  search_by_customer_no: 'Search by customer number',
+  select_relationship: 'Select relationship with owner',
+  select_sign_date: 'Select contract sign date',
+  sign_date_cannot_be_future: 'Contract sign date cannot be in the future!',
+  sign_date_cannot_be_after_start_date: 'Contract sign date cannot be after contract start date!',
+  select_room: 'Select room',
+  select_customer: 'Select customer',
+  select_contract_type: 'Select contract type',
+  sign_date_cannot_be_before_create_date: 'Contract sign date cannot be before contract creation date!',
+  schedule_end_date_cannot_be_before_start_date: 'Schedule end date cannot be before start date!',
 
   T: 't',
   total: 'Total',
@@ -391,6 +459,7 @@ export default {
   ticket_id: 'Ticket ID',
   ticket_creation_date: 'Ticket creation date',
   title: 'Title',
+  total_payment: 'Total payment',
 
   U: 'u',
   upload_file: 'Upload file',
@@ -401,6 +470,7 @@ export default {
   update_building_confirm: 'Are you sure you want to update this building information?',
   update_success: 'Update success!',
   update_staff_confirm: 'Are you sure you want to update this staff information?',
+  un_paid: 'Unpaid',
 
   V: 'v',
 

@@ -1,6 +1,6 @@
 <template>
   <div class="flex overflow-auto w-full h-full pt-5">
-    <div class="flex-1 h-full flex flex-col me-10">
+    <div id="edit_building_step_1_left_side" class="flex-1 h-full flex flex-col me-10">
       <div class="flex">
         <div class="flex-1">
           <label for="building_name_1" class="flex mb-1">
@@ -57,6 +57,7 @@
         :building-info="buildingInfo"
         :original-building-info="props.originalBuildingInfo"
         :read-only="props.readOnly"
+        :step="1"
       />
       <CommonBuildingEditScheduleTable
         :building-info="buildingInfo"
@@ -64,7 +65,7 @@
         :managers="managers"
         :step="1"
       />
-      <CommonBuildingEditFloorTable :floors="props.floors" />
+      <CommonBuildingEditFloorTable :floors="props.floors" :step="1" />
     </div>
     <CommonBuildingEditBuildingImage
       v-if="buildingInfo.data.images.length"

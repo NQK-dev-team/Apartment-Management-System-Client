@@ -72,7 +72,7 @@
       </template>
       <template #customFilterIcon="{ filtered, column }">
         <SearchOutlined
-          v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no'"
+          v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no' || column.dataIndex === 'customer'"
           :style="{ color: filtered ? '#108ee9' : undefined }"
         />
         <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
@@ -246,7 +246,7 @@
                 ticketDetail.files.map((file, index) => ({
                   uid: index.toString(),
                   name: file.title || `File ${index + 1}`,
-                  url: file.path,
+                  url: file.path as string,
                   status: 'done',
                 }))
               "
@@ -328,6 +328,18 @@ const columns = computed<any[]>(() => {
       dataIndex: 'customer',
       key: 'customer',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.customer.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('creation_date'),
@@ -343,9 +355,9 @@ const columns = computed<any[]>(() => {
       key: 'status',
       customFilterDropdown: false,
       filters: [
-        { text: t('pending'), value: 1 },
-        { text: t('approved'), value: 2 },
-        { text: t('denied'), value: 3 },
+        { text: t('pending'), value: COMMON.SUPPORT_TICKET_STATUS.PENDING },
+        { text: t('approved'), value: COMMON.SUPPORT_TICKET_STATUS.APPROVED },
+        { text: t('denied'), value: COMMON.SUPPORT_TICKET_STATUS.REJECTED },
       ],
       onFilter: (value: any, record: any) => record.status === value,
       class: 'text-nowrap',

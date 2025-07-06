@@ -3,7 +3,7 @@ import type { APITokenResponse } from '~/types/api_response';
 import { pageRoutes } from '~/consts/page_routes';
 import { apiRoutes } from '~/consts/api_routes';
 import { roles } from '~/consts/roles';
-import { getRoleFromJWT, getUserIDFromJWT } from '~/utils/jwt';
+// import { getRoleFromJWT, getUserIDFromJWT } from '~/utils/jwt';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
@@ -31,7 +31,7 @@ async function verifyToken(token: string): Promise<boolean> {
   return body.data;
 }
 
-async function getNewToken(refreshToken: string): Promise<string> {
+async function getNewToken(refreshToken: string): Promise<APITokenResponse<null>> {
   // Get a new token
   const response = await fetch(getServerBaseUrl() + apiRoutes.authentication.refreshToken, {
     method: 'POST',
@@ -44,7 +44,7 @@ async function getNewToken(refreshToken: string): Promise<string> {
 
   const body: APITokenResponse<null> = await response.json();
 
-  return body.jwtToken;
+  return body;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,18 +85,25 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     secure: config.public.isHttps,
     sameSite: 'lax',
   });
+  const userNo = useCookie('userNo', {
+    httpOnly: false,
+    secure: config.public.isHttps,
+    sameSite: 'lax',
+  });
   const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
       if (refreshToken && refreshToken.value) {
-        const newToken = await getNewToken(refreshToken.value);
+        const newToken: APITokenResponse<null> = await getNewToken(refreshToken.value);
         if (newToken) {
-          jwt.value = newToken;
-          userRole.value = getRoleFromJWT(newToken);
-          userName.value = getUserNameFromJWT(newToken);
-          userImage.value = getUserImageFromJWT(newToken);
-          userID.value = getUserIDFromJWT(newToken);
+          jwt.value = newToken.jwtToken;
+          userRole.value = getRoleFromJWT(newToken.jwtToken);
+          userName.value = getUserNameFromJWT(newToken.jwtToken);
+          userImage.value = getUserImageFromJWT(newToken.jwtToken);
+          userID.value = getUserIDFromJWT(newToken.jwtToken);
+          userNo.value = getUserNoFromJWT(newToken.jwtToken);
           isJWTValid = true;
+          refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
         } else if (!nonAuthRoutes.includes(to.path)) {
           return navigateTo(pageRoutes.authentication.login);
         }
@@ -108,18 +115,21 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       userName.value = getUserNameFromJWT(jwt.value);
       userImage.value = getUserImageFromJWT(jwt.value);
       userID.value = getUserIDFromJWT(jwt.value);
+      userNo.value = getUserNoFromJWT(jwt.value);
       isJWTValid = true;
     }
   } else {
     if (refreshToken && refreshToken.value) {
-      const newToken = await getNewToken(refreshToken.value);
+      const newToken: APITokenResponse<null> = await getNewToken(refreshToken.value);
       if (newToken) {
-        jwt.value = newToken;
-        userRole.value = getRoleFromJWT(newToken);
-        userName.value = getUserNameFromJWT(newToken);
-        userImage.value = getUserImageFromJWT(newToken);
-        userID.value = getUserIDFromJWT(newToken);
+        jwt.value = newToken.jwtToken;
+        userRole.value = getRoleFromJWT(newToken.jwtToken);
+        userName.value = getUserNameFromJWT(newToken.jwtToken);
+        userImage.value = getUserImageFromJWT(newToken.jwtToken);
+        userID.value = getUserIDFromJWT(newToken.jwtToken);
+        userNo.value = getUserNoFromJWT(newToken.jwtToken);
         isJWTValid = true;
+        refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
       } else if (!nonAuthRoutes.includes(to.path)) {
         return navigateTo(pageRoutes.authentication.login);
       }

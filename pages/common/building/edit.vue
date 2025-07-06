@@ -301,7 +301,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div id="page_content" class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <ClientOnly>
         <div v-show="step === 1" class="flex-1">
           <CommonBuildingEditStep1
@@ -359,7 +359,7 @@
               }
             }
           "
-          >{{ $t('next') }}</a-button
+          >{{ step == 3 ? $t('confirm') : $t('next') }}</a-button
         >
         <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
           $t('previous')
@@ -382,6 +382,7 @@ import Success from '~/public/svg/success.svg';
 import type { NullTime } from '~/types/basic_model';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { UploadFile } from 'ant-design-vue';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -677,9 +678,9 @@ async function updateBuilding() {
     editSuccess.value = true;
     step.value++;
   } catch (err: any) {
-    step.value--;
+    step.value = 3;
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -783,7 +784,7 @@ async function getBuildingData() {
     }
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

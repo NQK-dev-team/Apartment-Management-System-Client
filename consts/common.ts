@@ -1,3 +1,5 @@
+import { HTTP_STATUS } from './http_status';
+
 const COMMON = {
   HIDDEN_OPTION: 0,
   SUPPORT_TICKET_STATUS: {
@@ -11,6 +13,10 @@ const COMMON = {
     CANCELLED: 3,
     WAITING_FOR_SIGNATURE: 4,
     NOT_IN_EFFECT: 5,
+  },
+  CONTRACT_TYPE: {
+    RENT: 1,
+    BUY: 2,
   },
   ROOM_STATUS: {
     RENTED: 1,
@@ -31,6 +37,25 @@ const COMMON = {
     ADD_CUSTOMERS: 4,
     ADD_BILLS: 5,
   },
+  RESIDENT_TYPE: {
+    CHILD: 1,
+    SPOUSE: 2,
+    PARENT: 3,
+    OTHER: 4,
+  },
+  BILL_STATUS: {
+    UN_PAID: 1,
+    PAID: 2,
+    OVERDUE: 3,
+    PROCESSING: 4,
+  },
+  HTTP_STATUS,
+  ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],
+  ALLOW_FILE_EXTENSIONS: ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
+  IMAGE_SIZE_LIMIT: 2 * 1024 * 1024, // 2MB
+  IMAGE_SIZE_LIMIT_STR: '2MB',
+  FILE_SIZE_LIMIT: 10 * 1024 * 1024, // 10MB
+  FILE_SIZE_LIMIT_STR: '10MB',
 };
 
 export { COMMON };

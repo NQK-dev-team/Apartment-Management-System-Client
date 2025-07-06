@@ -24,9 +24,13 @@
         @ok="
           () => {
             deleteConfirmModal = false;
-            confirmPasswordModal = true;
-            passwordDeleteConfirmFormRef?.clearValidate();
-            passwordDeletionfForm.confirmPasswordForDeletion = '';
+            if (noPasswordRequired) {
+              callbackFunction();
+            } else {
+              confirmPasswordModal = true;
+              passwordDeleteConfirmFormRef?.clearValidate();
+              passwordDeletionfForm.confirmPasswordForDeletion = '';
+            }
           }
         "
       >
@@ -39,9 +43,13 @@
         @ok="
           () => {
             updateConfirmModal = false;
-            confirmPasswordModal = true;
-            passwordDeleteConfirmFormRef?.clearValidate();
-            passwordDeletionfForm.confirmPasswordForDeletion = '';
+            if (noPasswordRequired) {
+              callbackFunction();
+            } else {
+              confirmPasswordModal = true;
+              passwordDeleteConfirmFormRef?.clearValidate();
+              passwordDeletionfForm.confirmPasswordForDeletion = '';
+            }
           }
         "
       >
@@ -101,12 +109,13 @@ const updateModalContent = ref<string>('');
 const updateConfirmModal = ref<boolean>(false);
 const deleteConfirmModal = ref<boolean>(false);
 const confirmPasswordModal = ref<boolean>(false);
-const callbackDeleteFunction = ref<() => void>(() => {});
+const callbackFunction = ref<() => void>(() => {});
 const passwordDeletionfForm = ref({
   confirmPasswordForDeletion: '',
 });
 const passwordDeleteConfirmFormRef = ref<FormInstance>();
 const isDeleteModalOpen = ref<boolean>(false);
+const noPasswordRequired = ref<boolean>(false);
 
 notification.config({
   placement: 'topRight',
@@ -153,7 +162,7 @@ async function verifyPassword() {
       confirmPasswordModal.value = false;
     }
     if (allowCallBack) {
-      callbackDeleteFunction.value();
+      callbackFunction.value();
     }
   }
 }
@@ -167,16 +176,18 @@ $event.on('toggleTheme', (e: any) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 $event.on('deleteItem', (e: any) => {
   deleteConfirmModal.value = true;
-  callbackDeleteFunction.value = e.callback;
+  callbackFunction.value = e.callback;
   isDeleteModalOpen.value = true;
+  noPasswordRequired.value = e.noPasswordRequired || false;
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 $event.on('updateItem', (e: any) => {
   updateConfirmModal.value = true;
-  callbackDeleteFunction.value = e.callback;
+  callbackFunction.value = e.callback;
   updateModalContent.value = t(e.updateModalContent);
   isDeleteModalOpen.value = false;
+  noPasswordRequired.value = e.noPasswordRequired || false;
 });
 
 $event.on('deleteItemSuccess', () => {
@@ -278,5 +289,18 @@ input[type=number] {
 .highlight {
   background-color: rgb(255, 192, 105);
   padding: 0px;
+}
+
+.default-selected .ant-select-selection-item{
+  color: rgba(156,163,175,0.5) !important;
+}
+
+.align_validation_message_start .ant-form-item-explain-error{
+  text-align: start;
+  margin-left:13px;
+}
+
+.align_validation_message_middle .ant-form-item-explain-error{
+  text-align: center;
 }
 </style>

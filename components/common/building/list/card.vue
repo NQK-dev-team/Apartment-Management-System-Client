@@ -29,6 +29,7 @@
 </template>
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
+import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
@@ -73,7 +74,7 @@ async function deleteBuilding() {
     $event.emit('reload-building-list');
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

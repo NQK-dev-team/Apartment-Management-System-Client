@@ -19,14 +19,20 @@
   >
     <template #bodyCell="{ column, value, record }">
       <template v-if="column.dataIndex === 'action'">
-        <NuxtLink
+        <!-- <NuxtLink
           v-if="userRole?.toString() === roles.owner || record.employee_id.toString() === userID?.toString()"
           :to="pageRoutes.common.contract.detail(value)"
           target="_blank"
           class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
           >{{ $t('detail') }}</NuxtLink
         >
-        <div v-else></div>
+        <div v-else></div> -->
+        <NuxtLink
+          :to="pageRoutes.common.contract.detail(value)"
+          target="_blank"
+          class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+          >{{ $t('detail') }}</NuxtLink
+        >
       </template>
       <template v-if="column.dataIndex === 'customer_no'">
         <span
@@ -42,8 +48,15 @@
         <span
           >{{ value }}
           <NuxtLink
-            v-if="userRole?.toString() === roles.owner"
+            v-if="userRole?.toString() === roles.owner && record.creator_role !== roles.owner"
             :to="pageRoutes.common.staff.detail(record.employee_id)"
+            target="_blank"
+            class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+            ><LinkOutlined
+          /></NuxtLink>
+          <NuxtLink
+            v-if="userRole?.toString() === roles.manager && record.employee_id.toString() === userID?.toString()"
+            :to="pageRoutes.common.profile.index"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
             ><LinkOutlined /></NuxtLink
@@ -67,6 +80,51 @@
         </a-tag>
       </template>
     </template>
+    <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
+      <div class="p-[8px]">
+        <a-input
+          ref="searchInput"
+          :placeholder="t('enter_search')"
+          :value="selectedKeys[0]"
+          class="block width-[200px] mb-[8px]"
+          @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+          @press-enter="handleSearch(selectedKeys, confirm, column.dataIndex)"
+        />
+        <div class="flex items-center">
+          <a-button
+            size="small"
+            class="w-[90px] h-[25px] inline-flex items-center justify-center"
+            @click="handleReset(clearFilters)"
+            >{{ t('clear') }}</a-button
+          >
+          <a-button
+            type="primary"
+            size="small"
+            class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
+            @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+          >
+            <template #icon>
+              <SearchOutlined />
+            </template>
+            {{ t('search') }}
+          </a-button>
+        </div>
+      </div>
+    </template>
+    <template #customFilterIcon="{ filtered, column }">
+      <SearchOutlined
+        v-if="
+          column.dataIndex === 'room_no' ||
+          column.dataIndex === 'customer' ||
+          column.dataIndex === 'customer_no' ||
+          column.dataIndex === 'employee' ||
+          column.dataIndex === 'employee_number' ||
+          column.dataIndex === 'contract_id'
+        "
+        :style="{ color: filtered ? '#108ee9' : undefined }"
+      />
+      <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+    </template>
   </a-table>
 </template>
 
@@ -75,6 +133,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { roles } from '~/consts/roles';
 import { COMMON } from '~/consts/common';
+import { getUserRole } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const userID = useCookie('userID');
@@ -90,6 +149,7 @@ const props = defineProps({
     required: true,
   },
 });
+const searchInput = ref();
 const columns: any = computed(() => {
   return [
     {
@@ -99,34 +159,94 @@ const columns: any = computed(() => {
       class: 'text-nowrap',
     },
     {
+      title: t('contract_id'),
+      dataIndex: 'contract_id',
+      key: 'contract_id',
+      class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.contract_id.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
+    },
+    {
       title: t('customer'),
       dataIndex: 'customer',
       key: 'customer',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.customer.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('customer_no'),
       dataIndex: 'customer_no',
       key: 'customer_no',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.customer_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('employee'),
       dataIndex: 'employee',
       key: 'employee',
       class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.employee.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('employee_number'),
       dataIndex: 'employee_number',
       key: 'employee_number',
       class: 'text-nowrap',
-    },
-    {
-      title: t('contract_id'),
-      dataIndex: 'contract_id',
-      key: 'contract_id',
-      class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.employee_number.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('startDate'),
@@ -146,26 +266,26 @@ const columns: any = computed(() => {
       sortDirections: ['ascend', 'descend'],
       class: 'select-none text-nowrap',
     },
-    {
-      title: t('signDate'),
-      dataIndex: 'signDate',
-      key: 'signDate',
-      sorter: (a: any, b: any) =>
-        new Date(a.signDate !== '-' ? a.signDate : '2100-01-01').getTime() -
-        new Date(b.signDate !== '-' ? b.signDate : '2100-01-01').getTime(),
-      sortDirections: ['ascend', 'descend'],
-      class: 'text-nowrap',
-    },
+    // {
+    //   title: t('signDate'),
+    //   dataIndex: 'signDate',
+    //   key: 'signDate',
+    //   sorter: (a: any, b: any) =>
+    //     new Date(a.signDate !== '-' ? a.signDate : '2100-01-01').getTime() -
+    //     new Date(b.signDate !== '-' ? b.signDate : '2100-01-01').getTime(),
+    //   sortDirections: ['ascend', 'descend'],
+    //   class: 'text-nowrap',
+    // },
     {
       title: t('status'),
       dataIndex: 'status',
       key: 'status',
       filters: [
-        { text: t('active'), value: 1 },
-        { text: t('expired'), value: 2 },
-        { text: t('cancelled'), value: 3 },
-        { text: t('wait_for_signature'), value: 4 },
-        { text: t('not_in_effect'), value: 5 },
+        { text: t('active'), value: COMMON.CONTRACT_STATUS.ACTIVE },
+        { text: t('expired'), value: COMMON.CONTRACT_STATUS.EXPIRED },
+        { text: t('cancelled'), value: COMMON.CONTRACT_STATUS.CANCELLED },
+        { text: t('wait_for_signature'), value: COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE },
+        { text: t('not_in_effect'), value: COMMON.CONTRACT_STATUS.NOT_IN_EFFECT },
       ],
       onFilter: (value: any, record: any) => record.status === value,
       class: 'text-nowrap',
@@ -194,7 +314,24 @@ const data = computed(() => {
     status: contract.status,
     action: contract.ID,
     key: contract.ID,
+    creator_role: getUserRole(contract.creator),
   }));
 });
 const deleteBucket = toRef(props, 'deleteBucket');
+const state = reactive({
+  searchText: '',
+  searchedColumn: '',
+});
+
+// ---------------------- Functions ----------------------
+function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
+  confirm();
+  state.searchText = selectedKeys[0];
+  state.searchedColumn = dataIndex;
+}
+
+function handleReset(clearFilters: any) {
+  clearFilters({ confirm: true });
+  state.searchText = '';
+}
 </script>

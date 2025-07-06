@@ -30,7 +30,7 @@
         "
       >
         <div class="grid grid-cols-6 gap-x-2">
-          <div class="col-span-5">
+          <div id="left_side" class="col-span-5">
             <div class="h-full flex-1 flex flex-col">
               <div class="flex items-center">
                 <a-form-item class="flex-1 me-2">
@@ -227,6 +227,7 @@
                 </a-form-item>
                 <div class="flex-1"></div>
               </div>
+              
               <CommonStaffEditScheduleTable
                 :schedules="staffInfo.data.schedules"
                 :original-schedules="originalSchedules"
@@ -399,7 +400,7 @@ async function getStaffDetailInfo() {
     buildingList.value = buildingResponse.data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -418,7 +419,33 @@ async function getStaffDetailInfo() {
 async function editStaff() {
   try {
     $event.emit('loading');
-    await api.common.staff.update(staffInfo.value);
+    const data = new FormData();
+    staffInfo.value.data.schedules.data.forEach((schedule) => {
+      if (schedule.isDeleted) {
+        data.append('deletedSchedules[]', schedule.ID.toString());
+      } else if (schedule.isNew) {
+        data.append(
+          'newSchedules[]',
+          JSON.stringify({
+            buildingID: schedule.buildingID,
+            startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+            endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+          })
+        );
+      } else {
+        data.append(
+          'schedules[]',
+          JSON.stringify({
+            id: schedule.ID,
+            buildingID: schedule.buildingID,
+            startDate: convertToDate((schedule.start as Dayjs).toDate().toISOString()),
+            endDate: schedule.end ? convertToDate((schedule.end as Dayjs).toDate().toISOString()) : null,
+          })
+        );
+      }
+    });
+
+    await api.common.staff.update(staffInfo.value.data.ID, data);
 
     notification.info({
       message: t('update_success'),
@@ -428,7 +455,7 @@ async function editStaff() {
     await getStaffDetailInfo();
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -455,14 +482,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style lang="css">
-.align_validation_message_middle .ant-form-item-explain-error{
-  text-align: center;
-}
-
-.align_validation_message_start .ant-form-item-explain-error{
-  text-align: start;
-  margin-left:13px;
-}
-</style>

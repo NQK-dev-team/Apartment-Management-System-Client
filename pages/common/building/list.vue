@@ -49,6 +49,7 @@ import { api } from '~/services/api';
 import { ref } from 'vue';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -111,13 +112,15 @@ async function getBuildingList() {
         address: element.address,
         totalRoom: element.totalRoom,
         totalFloor: element.totalFloor,
-        image: element.images.length ? element.images[0].path : '',
+        image: Array.isArray(element.images) && element.images.length > 0 && typeof element.images[0].path === 'string'
+          ? element.images[0].path
+          : '',
       };
     });
     buildingListFiltered.value = buildingList.value;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

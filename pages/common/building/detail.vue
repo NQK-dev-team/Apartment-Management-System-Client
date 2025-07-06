@@ -89,12 +89,12 @@
             </template> -->
             <div v-for="(image, index) in buildingData.images" :key="index">
               <img
-                :src="image.path"
+                :src="image.path as string"
                 class="w-[250px] h-[300px] cursor-pointer"
                 @click="
                   () => {
                     previewVisible = true;
-                    previewImage = image.path;
+                    previewImage = image.path as string;
                   }
                 "
               />
@@ -190,6 +190,7 @@
 z
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
+import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
 import type { NullTime } from '~/types/basic_model';
@@ -264,7 +265,7 @@ async function getBuildingData(emitLoading = true) {
     );
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

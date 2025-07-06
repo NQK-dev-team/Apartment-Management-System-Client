@@ -10,9 +10,9 @@
       <h1 class="mt-3 text-2xl">{{ $t('add_employee') }}</h1>
     </div>
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
-      <a-form class="py-3" :model="staffInfo" layout="vertical" @finish="addStaff">
+      <a-form v-show="!addSuccess" class="py-3" :model="staffInfo" layout="vertical" @finish="addStaff">
         <div class="grid grid-cols-6 gap-x-2">
-          <div class="col-span-5">
+          <div id="left_side" class="col-span-5">
             <div class="h-full flex-1 flex flex-col">
               <div class="flex items-center">
                 <a-form-item
@@ -165,7 +165,7 @@
                   name="email"
                   :rules="[
                     { required: true, message: $t('please_enter_employee_email'), trigger: 'blur' },
-                    { type: 'email', message: t('email_invalid'), trigger: 'blur' },
+                    { type: 'email', message: $t('email_invalid'), trigger: 'blur' },
                   ]"
                 >
                   <label for="email" class="flex mb-1">
@@ -239,7 +239,9 @@
                 <a-upload
                   id="profileFilePath"
                   v-model:file-list="staffInfo.profileFilePath"
+                  :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
                   :max-count="1"
+                  :before-upload="beforeUploadAvatarImage"
                   @change="handleAvatarChange"
                 >
                   <a-button class="flex items-center rounded-sm">
@@ -271,7 +273,9 @@
                 <a-upload
                   id="ssnFrontFilePath"
                   v-model:file-list="staffInfo.ssnFrontFilePath"
+                  :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
                   :max-count="1"
+                  :before-upload="beforeUploadSSNFrontImage"
                   @change="handleSSNFrontChange"
                 >
                   <a-button class="flex items-center rounded-sm">
@@ -303,7 +307,9 @@
                 <a-upload
                   id="ssnBackFilePath"
                   v-model:file-list="staffInfo.ssnBackFilePath"
+                  :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
                   :max-count="1"
+                  :before-upload="beforeUploadSSNBackImage"
                   @change="handleSSNBackChange"
                 >
                   <a-button class="flex items-center rounded-sm">
@@ -325,6 +331,24 @@
           </a-button>
         </div>
       </a-form>
+      <ClientOnly>
+        <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+          <div class="flex items-center justify-center mt-5">
+            <Success class="text-green-600 text-4xl" />
+          </div>
+          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+          <p class="text-center my-2">{{ $t('add_staff_success_title') }}</p>
+          <p class="text-center my-2">{{ $t('add_staff_success_note') }}</p>
+          <div class="my-2 flex flex-col items-center">
+            <NuxtLink :to="pageRoutes.common.staff.detail(newStaffID)">
+              <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_staff_detail') }}</a-button>
+            </NuxtLink>
+            <NuxtLink :to="pageRoutes.common.staff.list" class="w-full">
+              <a-button class="rounded-sm w-full">{{ $t('back') }}</a-button>
+            </NuxtLink>
+          </div>
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>
@@ -340,6 +364,7 @@ import type { Building } from '~/types/building';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { validationRules } from '~/consts/validation_rules';
 import { COMMON } from '~/consts/common';
+import Success from '~/public/svg/success.svg';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -387,9 +412,18 @@ const previewAvatar = ref<string>('');
 const previewSSNFront = ref<string>('');
 const previewSSNBack = ref<string>('');
 const buildingList = ref<Building[]>([]);
+const isAvatarValid = ref<boolean>(false);
+const isSSNFrontValid = ref<boolean>(false);
+const isSSNBackValid = ref<boolean>(false);
+const addSuccess = ref<boolean>(false);
+const newStaffID = ref<number>(0);
 
 // ---------------------- Functions ----------------------
 async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
+  if (!isAvatarValid.value) {
+    staffInfo.value.profileFilePath = [];
+  }
+
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -422,6 +456,10 @@ async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
+  if (!isSSNFrontValid.value) {
+    staffInfo.value.ssnFrontFilePath = [];
+  }
+
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -454,6 +492,10 @@ async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
+  if (!isSSNBackValid.value) {
+    staffInfo.value.ssnBackFilePath = [];
+  }
+
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -485,6 +527,90 @@ async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
   previewSSNBack.value = imageList.length ? imageList[0] : '';
 }
 
+function beforeUploadAvatarImage(file: any): boolean {
+  isAvatarValid.value = false;
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  isAvatarValid.value = true;
+  return true;
+}
+
+function beforeUploadSSNFrontImage(file: any): boolean {
+  isSSNFrontValid.value = false;
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  isSSNFrontValid.value = true;
+  return true;
+}
+
+function beforeUploadSSNBackImage(file: any): boolean {
+  isSSNBackValid.value = false;
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
+    });
+    return false;
+  }
+
+  if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
+    notification.error({
+      message: t('invalid_image_title'),
+      description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
+    });
+    return false;
+  }
+  isSSNBackValid.value = true;
+  return true;
+}
+
 async function getBuildingList() {
   try {
     $event.emit('loading');
@@ -492,7 +618,7 @@ async function getBuildingList() {
     buildingList.value = buildingResponse.data;
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -539,16 +665,18 @@ async function addStaff() {
     data.append('frontSSNImage', staff.ssnFrontFilePath[0].originFileObj as File);
     data.append('backSSNImage', staff.ssnBackFilePath[0].originFileObj as File);
 
-    await api.common.staff.add(data);
+    const response = await api.common.staff.add(data);
+    newStaffID.value = response.data;
+    addSuccess.value = true;
 
-    notification.info({
-      message: t('add_staff_success'),
-      description: t('new_staff_added_to_system'),
-    });
-    navigateTo(pageRoutes.common.staff.list);
+    // notification.info({
+    //   message: t('add_staff_success'),
+    //   description: t('new_staff_added_to_system'),
+    // });
+    // navigateTo(pageRoutes.common.staff.list);
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -593,12 +721,12 @@ onMounted(() => {
 </script>
 
 <style lang="css">
-.align_validation_message_middle .ant-form-item-explain-error{
+/* .align_validation_message_middle .ant-form-item-explain-error{
   text-align: center;
 }
 
 .align_validation_message_start .ant-form-item-explain-error{
   text-align: start;
   margin-left:13px;
-}
+} */
 </style>

@@ -27,7 +27,7 @@
               }
             "
           >
-            <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
+            <img :src="svgPaths.delete" alt="Delete customer" class="w-[12px] h-[12px]" />
           </a-button>
           <NuxtLink :to="pageRoutes.common.customer.add">
             <a-button type="primary" class="rounded-sm">
@@ -80,6 +80,7 @@ import { api } from '~/services/api';
 import { svgPaths } from '~/consts/svg_paths';
 import { pageRoutes } from '~/consts/page_routes';
 import type { User } from '~/types/user';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -250,7 +251,7 @@ async function getCustomerList() {
     }
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
@@ -279,7 +280,7 @@ async function deleteCustomer() {
     }
   } catch (err: any) {
     if (
-      err.status >= 500 ||
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {

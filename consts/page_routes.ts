@@ -18,7 +18,7 @@ const pageRoutes = {
       detail: (roomId: number | string) => `/room/${roomId}`,
     },
     profile: {
-      page: '/profile',
+      index: '/profile',
     },
     staff: {
       list: '/staff',
@@ -34,7 +34,10 @@ const pageRoutes = {
     bill: {
       list: '/bill',
       detail: (billId: number | string) => `/bill/${billId}`,
-      add: '/bill/add',
+      add2: (contractID: number | null = null) => {
+        return contractID ? `/bill/add?contract=${contractID}` : '/bill/add';
+      },
+      add:`/bill/add`,
       edit: (billId: number | string) => `/bill/${billId}/edit`,
     },
     support_ticket: {
@@ -49,7 +52,10 @@ const pageRoutes = {
     contract: {
       list: '/contract',
       detail: (contractId: number | string) => `/contract/${contractId}`,
-      add: '/contract/add',
+      add2: (roomID: number | null = null) => {
+        return roomID ? `/contract/add?room=${roomID}` : '/contract/add';
+      },
+      add: `/contract/add`,
       edit: (contractId: number | string) => `/contract/${contractId}/edit`,
     },
     report: {

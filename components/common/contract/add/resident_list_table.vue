@@ -88,7 +88,6 @@
               :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
             >
               {{ $t('ssn') }}
-              <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
             </div>
           </th>
           <th class="text-sm font-normal text-center align-middle py-[16px] w-[300px]">

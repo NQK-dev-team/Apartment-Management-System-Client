@@ -41,6 +41,9 @@ export default {
   add_staff_success_title: 'New staff has been added successfully',
   add_staff_success_note:
     'You can access the newly created staff detail page by clicking the "New staff detail" button, or go back to the staff list page by clicking the "Back" button below',
+  add_contract_success_title: 'New contract has been added successfully',
+  add_contract_success_note:
+    'You can access the newly created contract detail page by clicking the "New contract detail" button, or go back to the contract list page by clicking the "Back" button below',
 
   B: 'b',
   balance: 'Balance',
@@ -111,6 +114,7 @@ export default {
   contract_info_updated: 'Contract information has been updated successfully!',
   contract_value_require: 'Contract value cannot be empty!',
   contract_create_date_require: 'Contract create date cannot be empty!',
+  contract_status: 'Contract status',
 
   D: 'd',
   delete: 'Delete',
@@ -206,7 +210,8 @@ export default {
   edit_mode_active: 'Edit mode has been activated',
   edit_mode_inactive: 'Edit mode has been deactivated',
   enter_file_name: 'Enter file name',
-  end_date_cannot_be_before_start_date:'Contract end date cannot be before contract start date!',
+  end_date_cannot_be_before_start_date: 'Contract end date cannot be before contract start date!',
+  expire_date_required: 'Contract end date cannot be empty!',
 
   F: 'f',
   finish_import: 'Import',
@@ -295,6 +300,8 @@ export default {
   new_building_detail: 'New building detail',
   new_customer_detail: 'New customer detail',
   new_staff_detail: 'New staff detail',
+  new_contract_detail: 'New contract detail',
+  not_applicable: 'Not applicable',
 
   O: 'o',
   operation: 'Operation',

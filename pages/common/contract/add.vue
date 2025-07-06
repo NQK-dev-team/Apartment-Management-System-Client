@@ -14,7 +14,7 @@
       class="flex-1 flex flex-col px-4 mt-5"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <a-form :model="newContract">
+      <a-form v-show="!addSuccess" :model="newContract" @finish="addContract">
         <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
         <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -42,7 +42,6 @@
             <a-form-item name="building_address">
               <label for="building_address" class="flex mb-1">
                 <span>{{ $t('building_address') }}</span>
-                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
               <a-input
                 id="building_address"
@@ -89,7 +88,7 @@
                 id="room_no"
                 v-model:value="newContract.roomID"
                 :disabled="!roomList.length"
-                :placeholder="$t('select_room')"
+                :placeholder="roomList.length ? $t('select_room') : 'N/A'"
                 class="w-full text-left"
               >
                 <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
@@ -219,6 +218,30 @@
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
+              v-if="newContract.type === COMMON.CONTRACT_TYPE.RENT"
+              :name="['endDate']"
+              :rules="[
+                { required: true, message: $t('expire_date_required'), trigger: 'blur' },
+                {
+                  validator: async (_: RuleObject, value: string) =>
+                    validationRules.checkEndDate(
+                      _,
+                      value,
+                      $t,
+                      newContract.startDate ? newContract.startDate.toString() : ''
+                    ),
+                  trigger: 'blur',
+                },
+              ]"
+            >
+              <label for="expire_date" class="flex mb-1">
+                <span>{{ $t('expire_date') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <a-date-picker id="expire_date" v-model:value="newContract.endDate" class="w-full" />
+            </a-form-item>
+            <a-form-item
+              v-else
               :name="['endDate']"
               :rules="[
                 {
@@ -236,7 +259,14 @@
               <label for="expire_date" class="flex mb-1">
                 <span>{{ $t('expire_date') }}</span>
               </label>
-              <a-date-picker id="expire_date" v-model:value="newContract.endDate" class="w-full" />
+              <a-date-picker
+                id="expire_date"
+                v-model:value="newContract.endDate"
+                class="w-full"
+                disabled
+                readonly
+                :placeholder="$t('not_applicable')"
+              />
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -274,56 +304,37 @@
         </a-row>
         <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item
-              :name="['status']"
-              :rules="[{ required: true, message: $t('please_select_contract_status'), trigger: 'blur' }]"
-            >
+            <a-form-item :name="['status']">
               <label for="status" class="flex mb-1">
                 <span>{{ $t('status') }}</span>
                 <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <!-- <ClientOnly>
+              <ClientOnly>
                 <a-select
                   id="status"
-                  v-model:value="newContract.status"
-                  placeholder="{{ $t('select_status') }}"
+                  disabled
+                  readonly
+                  :value="contractStatus"
                   class="w-full text-left"
+                  placeholder="N/A"
                 >
-                  <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
-                    $t('select_status')
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.ACTIVE" :class="`text-[#50c433]`">{{
+                    $t('active')
                   }}</a-select-option>
-                  <a-select-option
-                    v-if="showActiveStatus"
-                    :value="COMMON.CONTRACT_STATUS.ACTIVE"
-                    :class="`text-[#50c433]`"
-                    >{{ $t('active') }}</a-select-option
-                  >
-                  <a-select-option
-                    v-if="showExpiredStatus"
-                    :value="COMMON.CONTRACT_STATUS.EXPIRED"
-                    :class="`text-[#888888]`"
-                    >{{ $t('expired') }}</a-select-option
-                  >
-                  <a-select-option
-                    v-if="showCancelledStatus"
-                    :value="COMMON.CONTRACT_STATUS.CANCELLED"
-                    :class="`text-[#ff0000]`"
-                    >{{ $t('cancelled') }}</a-select-option
-                  >
-                  <a-select-option
-                    v-if="showWaitingForSignatureStatus"
-                    :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE"
-                    :class="`text-[#888888]`"
-                    >{{ $t('wait_for_signature') }}</a-select-option
-                  >
-                  <a-select-option
-                    v-if="showNotInEffectStatus"
-                    :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT"
-                    :class="`text-[#888888]`"
-                    >{{ $t('not_in_effect') }}</a-select-option
-                  >
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.EXPIRED" :class="`text-[#888888]`">{{
+                    $t('expired')
+                  }}</a-select-option>
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
+                    $t('cancelled')
+                  }}</a-select-option>
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE" :class="`text-[#888888]`">{{
+                    $t('wait_for_signature')
+                  }}</a-select-option>
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT" :class="`text-[#888888]`">{{
+                    $t('not_in_effect')
+                  }}</a-select-option>
                 </a-select>
-              </ClientOnly> -->
+              </ClientOnly>
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
@@ -458,6 +469,24 @@
           </a-button>
         </div>
       </a-form>
+      <ClientOnly>
+        <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+          <div class="flex items-center justify-center mt-5">
+            <Success class="text-green-600 text-4xl" />
+          </div>
+          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+          <p class="text-center my-2">{{ $t('add_contract_success_title') }}</p>
+          <p class="text-center my-2">{{ $t('add_contract_success_note') }}</p>
+          <div class="my-2 flex flex-col items-center">
+            <NuxtLink :to="pageRoutes.common.contract.detail(newContractID)">
+              <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_contract_detail') }}</a-button>
+            </NuxtLink>
+            <NuxtLink :to="pageRoutes.common.contract.list" class="w-full">
+              <a-button class="rounded-sm w-full">{{ $t('back') }}</a-button>
+            </NuxtLink>
+          </div>
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>
@@ -500,7 +529,7 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const newContract = ref<AddContract>({
   buildingID: undefined,
   roomFloor: undefined,
@@ -574,6 +603,98 @@ const creatorInfo = computed<string>(() => {
 
   return '';
 });
+const addSuccess = ref(false);
+const newContractID = ref(0);
+const contractStatus = computed<number | undefined>(() => {
+  const currentDate = $dayjs().set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+
+  if (newContract.value.createdAt && newContract.value.startDate) {
+    const createDate = $dayjs(newContract.value.createdAt)
+      .set('hour', 0)
+      .set('minute', 0)
+      .set('second', 0)
+      .set('millisecond', 0);
+    const startDate = $dayjs(newContract.value.startDate)
+      .set('hour', 0)
+      .set('minute', 0)
+      .set('second', 0)
+      .set('millisecond', 0);
+
+    if (startDate.isBefore(createDate)) {
+      return undefined;
+    }
+
+    if (newContract.value.signDate) {
+      const signDate = $dayjs(newContract.value.signDate)
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0)
+        .set('millisecond', 0);
+
+      if (signDate.isBefore(createDate)) {
+        return undefined;
+      }
+
+      if (startDate.isBefore(signDate)) {
+        return undefined;
+      }
+    }
+
+    if (newContract.value.endDate) {
+      const endDate = $dayjs(newContract.value.endDate)
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0)
+        .set('millisecond', 0);
+
+      if (endDate.isBefore(startDate)) {
+        return undefined;
+      }
+    }
+  }
+
+  if (newContract.value.createdAt && newContract.value.startDate) {
+    const startDate = $dayjs(newContract.value.startDate)
+      .set('hour', 0)
+      .set('minute', 0)
+      .set('second', 0)
+      .set('millisecond', 0);
+
+    if (!newContract.value.signDate) {
+      if (currentDate.isBefore(startDate)) {
+        return COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE;
+      } else {
+        return COMMON.CONTRACT_STATUS.CANCELLED;
+      }
+    } else {
+      if (!newContract.value.endDate) {
+        if (currentDate.isBefore(startDate)) {
+          return COMMON.CONTRACT_STATUS.NOT_IN_EFFECT;
+        } else {
+          return COMMON.CONTRACT_STATUS.ACTIVE;
+        }
+      } else {
+        const endDate = $dayjs(newContract.value.endDate)
+          .set('hour', 0)
+          .set('minute', 0)
+          .set('second', 0)
+          .set('millisecond', 0);
+
+        if (endDate.isBefore(currentDate)) {
+          return COMMON.CONTRACT_STATUS.EXPIRED;
+        } else {
+          if (currentDate.isBefore(startDate)) {
+            return COMMON.CONTRACT_STATUS.NOT_IN_EFFECT;
+          } else {
+            return COMMON.CONTRACT_STATUS.ACTIVE;
+          }
+        }
+      }
+    }
+  }
+
+  return undefined;
+});
 
 // ---------------------- Functions ----------------------
 async function getCustomerList() {
@@ -627,13 +748,27 @@ async function addContract() {
     $event.emit('loading');
 
     const formData = new FormData();
-    // formData.append('status', newContract.value.status.toString());
-    // if (newContract.value.newSignDate) {
-    //   formData.append(
-    //     'newSignDate',
-    //     convertToDate((newContract.value.newSignDate as Dayjs).toDate().toISOString())
-    //   );
-    // }
+    formData.append('buildingID', newContract.value.buildingID?.toString() || '');
+    formData.append('roomID', newContract.value.roomID?.toString() || '');
+    formData.append('householderID', newContract.value.householderID?.toString() || '');
+    formData.append('contractType', newContract.value.type?.toString() || '');
+    formData.append('contractValue', newContract.value.value?.toString() || '0');
+    formData.append(
+      'createdAt',
+      newContract.value.createdAt ? convertToDate(newContract.value.createdAt.toString()) || '' : ''
+    );
+    formData.append(
+      'startDate',
+      newContract.value.startDate ? convertToDate(newContract.value.startDate.toString()) || '' : ''
+    );
+    formData.append(
+      'endDate',
+      newContract.value.endDate ? convertToDate(newContract.value.endDate.toString()) || '' : ''
+    );
+    formData.append(
+      'signDate',
+      newContract.value.signDate ? convertToDate(newContract.value.signDate.toString()) || '' : ''
+    );
     const totalNewFiles = newContract.value.files.length;
     formData.append('totalNewFiles', totalNewFiles.toString());
     newContract.value.files.forEach((file, index) => {
@@ -666,7 +801,9 @@ async function addContract() {
       formData.append('residents[]', JSON.stringify(finalData));
     });
 
-    // await api.common.contract.updateContract(newContract.value.ID, formData);
+    const response = await api.common.contract.addContract(formData);
+    newContractID.value = response.data;
+    addSuccess.value = true;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -699,6 +836,27 @@ watch(
     if (newContract.value.value !== undefined && newContract.value.value < 0) {
       newContract.value.value = 0;
     }
+  }
+);
+watch(
+  () => newContract.value.type,
+  () => {
+    if (newContract.value.type === COMMON.CONTRACT_TYPE.BUY) {
+      newContract.value.endDate = '';
+    }
+  }
+);
+watch(
+  () => newContract.value.buildingID,
+  () => {
+    newContract.value.roomFloor = undefined;
+    newContract.value.roomID = undefined;
+  }
+);
+watch(
+  () => newContract.value.roomFloor,
+  () => {
+    newContract.value.roomID = undefined;
   }
 );
 </script>

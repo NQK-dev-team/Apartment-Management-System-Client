@@ -42,6 +42,9 @@ export default {
   add_staff_success_title: 'Nhân viên mới đã được thêm thành công',
   add_staff_success_note:
     'Bạn có thể truy cập vào trang thông tin nhân viên mới tạo bằng nút "Chi tiết nhân viên mới", hoặc quay lại trang danh sách nhân viên bằng nút "Quay lại" ở dưới',
+  add_contract_success_title: 'Hợp đồng mới đã được thêm thành công',
+  add_contract_success_note:
+    'Bạn có thể truy cập vào trang thông tin hợp đồng mới tạo bằng nút "Chi tiết hợp đồng mới", hoặc quay lại trang danh sách hợp đồng bằng nút "Quay lại" ở dưới',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -112,6 +115,7 @@ export default {
   contract_info_updated: 'Thông tin hợp đồng đã được cập nhật thành công!',
   contract_value_require: 'Giá trị hợp đồng không được để trống!',
   contract_create_date_require: 'Ngày tạo hợp đồng không được để trống!',
+  contract_status: 'Trạng thái hợp đồng',
 
   D: 'd',
   delete: 'Xóa',
@@ -209,6 +213,7 @@ export default {
   edit_mode_inactive: 'Đã tắt chế độ chỉnh sửa',
   enter_file_name: 'Nhập tên tệp tin',
   end_date_cannot_be_before_start_date: 'Ngày kết thúc hợp đồng không được trước ngày bắt đầu hợp đồng!',
+  expire_date_required: ' Ngày hết hạn hợp đồng không được để trống!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -295,6 +300,8 @@ export default {
   new_building_detail: 'Chi tiết tòa nhà mới',
   new_customer_detail: 'Chi tiết khách hàng mới',
   new_staff_detail: 'Chi tiết nhân viên mới',
+  new_contract_detail: 'Chi tiết hợp đồng mới',
+  not_applicable: 'Không áp dụng',
 
   O: 'o',
   operation: 'Thao tác',

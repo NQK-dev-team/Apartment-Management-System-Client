@@ -363,6 +363,13 @@ const common = {
         body: data,
       });
     },
+    addContract: async (data: FormData): Promise<APIResponse<number>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.add, {
+        method: 'POST',
+        body: data,
+      });
+    },
   },
   import: {},
 };

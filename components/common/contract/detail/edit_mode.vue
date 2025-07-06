@@ -29,7 +29,6 @@
         <a-form-item name="building_address">
           <label for="building_address" class="flex mb-1">
             <span>{{ $t('building_address') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
             id="building_address"
@@ -183,15 +182,21 @@
         <a-form-item name="expire_date">
           <label for="expire_date" class="flex mb-1">
             <span>{{ $t('expire_date') }}</span>
+            <img
+              v-if="contract.type === COMMON.CONTRACT_TYPE.RENT"
+              :src="svgPaths.asterisk"
+              alt="Asterisk"
+              class="ms-1 select-none"
+            />
           </label>
           <a-input
             id="expire_date"
             disabled
             readonly
             :value="
-              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
-                contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
-              editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
+              (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED ||
+                editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED) &&
+              contract.type !== COMMON.CONTRACT_TYPE.BUY
                 ? currentDate
                 : contract.endDate.Valid && contract.endDate.Time
                   ? convertToDate(contract.endDate.Time)

@@ -194,6 +194,7 @@
             v-model:value="resident.dob"
             class="w-full"
             :placeholder="$t('select_customer_dob')"
+            :disabled-date="disabledDate"
           />
         </a-form-item>
       </div>
@@ -372,6 +373,7 @@ import type { User } from '~/types/user';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { COMMON } from '~/consts/common';
+import type { Dayjs } from 'dayjs';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -396,13 +398,12 @@ const props = defineProps({
     required: true,
   },
 });
-// const { $dayjs } = useNuxtApp();
 const deleteBucket = toRef(props, 'deleteBucket');
 const resident = toRef(props, 'resident');
 const checked = computed(() => deleteBucket.value.value.includes(resident.value.ID));
 const customers = toRef(props, 'customers');
 const customerNo = ref<string | null>(null);
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
 function removeFromBucket() {
@@ -416,6 +417,11 @@ function addToBucket() {
   if (!deleteBucket.value.value.includes(resident.value.ID)) {
     deleteBucket.value.value.push(resident.value.ID);
   }
+}
+
+function disabledDate(current: Dayjs) {
+  // Can not select days after today
+  return current && current >= $dayjs().endOf('day');
 }
 
 // ---------------------- Watchers ----------------------

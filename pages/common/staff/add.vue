@@ -77,6 +77,7 @@
                     v-model:value="staffInfo.dob"
                     class="w-full"
                     :placeholder="$t('select_employee_dob')"
+                    :disabled-date="disabledDate"
                   />
                 </a-form-item>
               </div>
@@ -365,6 +366,7 @@ import type { RuleObject } from 'ant-design-vue/es/form';
 import { validationRules } from '~/consts/validation_rules';
 import { COMMON } from '~/consts/common';
 import Success from '~/public/svg/success.svg';
+import type { Dayjs } from 'dayjs';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -407,7 +409,7 @@ const staffInfo = ref<NewStaff>({
   permanentAddress: '',
   schedules: [],
 });
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const previewAvatar = ref<string>('');
 const previewSSNFront = ref<string>('');
 const previewSSNBack = ref<string>('');
@@ -712,6 +714,11 @@ async function addStaff() {
   } finally {
     $event.emit('loading');
   }
+}
+
+function disabledDate(current: Dayjs) {
+  // Can not select days after today
+  return current && current >= $dayjs().endOf('day');
 }
 
 // ---------------------- Lifecycles ----------------------

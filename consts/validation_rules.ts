@@ -27,10 +27,15 @@ const validationRules = {
     if (!value) {
       return Promise.resolve();
     }
-    const birthDate = dayjs(value);
-    const eighteenYearsAgo = dayjs().subtract(18, 'year');
+    const birthDate = dayjs(value).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const eighteenYearsAgo = dayjs()
+      .set('hour', 0)
+      .set('minute', 0)
+      .set('second', 0)
+      .set('millisecond', 0)
+      .subtract(18, 'year');
 
-    if (birthDate.isAfter(eighteenYearsAgo)) {
+    if (eighteenYearsAgo.isBefore(birthDate)) {
       if (!isCustomer) {
         return Promise.reject(t('staff_must_be_18_years_old'));
       } else {
@@ -57,10 +62,10 @@ const validationRules = {
     if (!value) {
       return Promise.resolve();
     }
-    const signDate = dayjs(value);
-    const startDate = dayjs(start_date);
+    const signDate = dayjs(value).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const startDate = dayjs(start_date).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 
-    if (signDate.isAfter(startDate)) {
+    if (startDate.isBefore(signDate)) {
       return Promise.reject(t('sign_date_cannot_be_after_start_date'));
     }
 
@@ -70,8 +75,8 @@ const validationRules = {
     if (!value) {
       return Promise.resolve();
     }
-    const activeDate = dayjs(value);
-    const createDate = dayjs(create_date);
+    const activeDate = dayjs(value).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const createDate = dayjs(create_date).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 
     if (activeDate.isBefore(createDate)) {
       return Promise.reject(t('active_date_cannot_be_before_create_date'));
@@ -83,8 +88,8 @@ const validationRules = {
     if (!value) {
       return Promise.resolve();
     }
-    const endDate = dayjs(value);
-    const startDate = dayjs(start_date);
+    const endDate = dayjs(value).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const startDate = dayjs(start_date).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 
     if (endDate.isBefore(startDate)) {
       return Promise.reject(t('end_date_cannot_be_before_start_date'));
@@ -96,8 +101,8 @@ const validationRules = {
     if (!value) {
       return Promise.resolve();
     }
-    const signDate = dayjs(value);
-    const createDate = dayjs(create_date);
+    const signDate = dayjs(value).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const createDate = dayjs(create_date).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 
     if (signDate.isBefore(createDate)) {
       return Promise.reject(t('sign_date_cannot_be_before_create_date'));
@@ -109,12 +114,13 @@ const validationRules = {
     if (!value || !startDate) {
       return Promise.resolve();
     }
-    const endDate = dayjs(value);
-    const start = dayjs(startDate);
-
+    const endDate = dayjs(value).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const start = dayjs(startDate).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
     if (endDate.isBefore(start)) {
       return Promise.reject(t('schedule_end_date_cannot_be_before_start_date'));
     }
+
+    return Promise.resolve();
   },
   // checkImageFileType: async (_: RuleObject, files: UploadFile[] | string, t: any) => {
   //   if (!files || typeof files === 'string') {

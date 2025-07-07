@@ -68,7 +68,7 @@ const commonRoutes: Route[] = [
   // Profile
   {
     name: 'Profile',
-    path: pageRoutes.common.profile.page,
+    path: pageRoutes.common.profile.index,
     file: profileBaseRoute + 'profile.vue',
   },
   // Staff

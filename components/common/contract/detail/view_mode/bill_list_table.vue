@@ -105,7 +105,10 @@
         />
         <SearchOutlined
           v-else-if="
-            column.dataIndex === 'bill_no' || column.dataIndex === 'customer_no' || column.dataIndex === 'paid_by'
+            column.dataIndex === 'bill_no' ||
+            column.dataIndex === 'customer_no' ||
+            column.dataIndex === 'paid_by' ||
+            column.dataIndex === 'bill_name'
           "
           :style="{ color: filtered ? '#108ee9' : undefined }"
         />

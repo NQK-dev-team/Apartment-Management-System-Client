@@ -15,6 +15,9 @@ type Bill = BasicModel & {
   contract: Contract;
   title: string;
   totalAmountWithExtra: number;
+  roomNo: number | undefined;
+  buildingName: string | undefined;
+  roomFloor: number | undefined;
 };
 
 type Service = BasicModel & {

@@ -110,7 +110,7 @@ const commonRoutes: Route[] = [
   },
   // Bill
   {
-    name: 'Bill List',
+    name: 'Billing List',
     path: pageRoutes.common.bill.list,
     file: billBaseRoute + 'list.vue',
   },

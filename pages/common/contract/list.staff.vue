@@ -21,7 +21,7 @@
         </a-button>
         <NuxtLink :to="pageRoutes.common.contract.add">
           <a-button type="primary" class="rounded-sm">
-            <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]" />
+            <img :src="svgPaths.plus" alt="Add contract" class="w-[12px] h-[12px]" />
           </a-button>
         </NuxtLink>
       </div>

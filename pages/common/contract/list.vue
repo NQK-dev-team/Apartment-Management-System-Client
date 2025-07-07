@@ -6,9 +6,6 @@
 import { roles } from '~/consts/roles';
 import ContractListStaff from '~/pages/common/contract/list.staff.vue';
 
-// ---------------------- Variables ----------------------
-const userRole = useCookie('userRole');
-
 // ---------------------- Metadata ----------------------
 definePageMeta({
   name: 'Contract List',
@@ -18,4 +15,7 @@ definePageMeta({
   //     ? ['authorization-manager']
   //     : ['authorization-customer'],
 });
+
+// ---------------------- Variables ----------------------
+const userRole = useCookie('userRole');
 </script>

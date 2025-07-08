@@ -54,10 +54,11 @@ const apiRoutes = {
     getTicket: (customerId: number) => `/customer/${customerId}/ticket`,
   },
   bill: {
-    list: '/bill',
+    list: (limit: number = 500, offset: number = 0, startMonth: string = '', endMonth: string = '') =>
+      `/bill?limit=${limit}&offset=${offset}&startMonth=${startMonth}&endMonth=${endMonth}`,
     detail: (billId: number) => `/bill/${billId}`,
     add: '/bill/add',
-    edit: (billId: number) => `/bill/${ billId }/edit`,
+    edit: (billId: number) => `/bill/${billId}/edit`,
     deleteMany: '/bill/delete-many',
   },
   support_ticket: {

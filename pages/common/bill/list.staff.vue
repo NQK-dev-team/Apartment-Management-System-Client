@@ -158,7 +158,6 @@ import { pageRoutes } from '~/consts/page_routes';
 import { COMMON } from '~/consts/common';
 import type { Dayjs } from 'dayjs';
 import type { Bill } from '~/types/bill';
-import type { Building } from '~/types/building';
 
 // ---------------------- Metadata ----------------------
 useHead({
@@ -420,11 +419,27 @@ const data = computed(() => {
 });
 
 // ---------------------- Functions ----------------------
-async function getBillList() {
+async function getBillList(emitLoading = true) {
   try {
-    $event.emit('loading');
-    // const response = await api.common.bill.getList();
-    // const data = response.data;
+    if (emitLoading) {
+      $event.emit('loading');
+    }
+    const response = await api.common.bill.getList(
+      limit.value,
+      offset.value,
+      convertToMonthYear(timeRange.value[0].toDate().toISOString()),
+      convertToMonthYear(timeRange.value[1].toDate().toISOString())
+    );
+
+    if (offset.value === 0) {
+      billList.value = response.data;
+    } else {
+      billList.value.push(...response.data);
+    }
+
+    if (response.data.length >= limit.value) {
+      offset.value += limit.value;
+    }
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -437,13 +452,24 @@ async function getBillList() {
       });
     }
   } finally {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
   }
 }
 
 async function deleteBills() {
   try {
     $event.emit('loading');
+    await api.common.bill.deleteMany(deleteBucket.value);
+    $event.emit('deleteItemSuccess');
+    deleteBucket.value = [];
+
+    if (offset.value > 0) {
+      offset.value = 0;
+    } else {
+      await getBillList();
+    }
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -489,5 +515,10 @@ onBeforeMount(() => {
 
 onMounted(() => {
   getBillList();
+});
+
+// ---------------------- Watchers ----------------------
+watch(offset, () => {
+  getBillList(false);
 });
 </script>

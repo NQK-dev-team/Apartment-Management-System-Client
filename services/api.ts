@@ -286,9 +286,14 @@ const common = {
     },
   },
   bill: {
-    getList: async (): Promise<APIResponse<Bill[]>> => {
+    getList: async (
+      limit: number = 500,
+      offset: number = 0,
+      startMonth: string = '',
+      endMonth: string = ''
+    ): Promise<APIResponse<Bill[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.bill.list, {
+      return $api(apiRoutes.bill.list(limit, offset, startMonth, endMonth), {
         method: 'GET',
       });
     },

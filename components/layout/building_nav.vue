@@ -53,6 +53,7 @@ import { api } from '~/services/api';
 import { getMessageCode } from '~/consts/api_response';
 import type { Building } from '~/types/building';
 import { COMMON } from '~/consts/common';
+import { managerScheduleStore } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -69,6 +70,8 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const buildingList = ref<Building[]>([]);
+const scheduleStore = managerScheduleStore();
+
 // ---------------------- Functions ----------------------
 function toggleDropdown(e: Event) {
   e.preventDefault();
@@ -80,6 +83,12 @@ async function getBuildingList() {
     const response = await api.common.building.getList();
     const data = response.data;
     buildingList.value = data;
+
+    const roomIDs = [] as number[];
+    data.forEach((building) => {
+      roomIDs.push(...building.rooms.map((room) => room.ID));
+    });
+    scheduleStore.setRooms(roomIDs);
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

@@ -1,14 +1,16 @@
 <template>
   <div>
     <a-table :columns="columns" :data-source="data" class="mt-3" :scroll="{ x: 'max-content' }">
-      <template #bodyCell="{ column, value }">
+      <template #bodyCell="{ column, value, record }">
         <template v-if="column.dataIndex === 'action'">
           <NuxtLink
+            v-if="scheduleStore.getRooms().includes(record.room_id) || userRole?.toString() === roles.owner"
             :to="pageRoutes.common.contract.detail(value)"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
             >{{ $t('detail') }}</NuxtLink
           >
+          <div v-else></div>
         </template>
         <template v-if="column.dataIndex === 'status'">
           <a-tag
@@ -74,6 +76,8 @@
 import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { COMMON } from '~/consts/common';
+import { managerScheduleStore } from '#build/imports';
+import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
@@ -210,6 +214,8 @@ const state = reactive({
   searchedColumn: '',
 });
 const data = ref<any[]>([]);
+const scheduleStore = managerScheduleStore();
+const userRole = useCookie('userRole');
 
 // ---------------------- Functions ----------------------
 function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
@@ -236,6 +242,7 @@ onMounted(() => {
     signDate: contract.signDate.Valid ? convertToDate(contract.signDate.Time!) : '-',
     status: contract.status,
     action: contract.ID,
+    room_id: contract.roomID,
   }));
 });
 </script>

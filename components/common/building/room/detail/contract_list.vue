@@ -6,10 +6,11 @@
         deleteBucket.value = selectedRowKeys;
       },
       getCheckboxProps: (record: any) => ({
-        disabled:
-          !(userRole?.toString() === roles.owner || record.employee_id.toString() === userID?.toString()) ||
-          (record.status !== COMMON.CONTRACT_STATUS.CANCELLED &&
-            record.status !== COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE),
+        disabled: !(
+          (scheduleStore.getRooms().includes(record.room_id) || userRole?.toString() === roles.owner) &&
+          (record.status === COMMON.CONTRACT_STATUS.CANCELLED ||
+            record.status === COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE)
+        ),
       }),
     }"
     :data-source="data"
@@ -133,10 +134,11 @@ import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { roles } from '~/consts/roles';
 import { COMMON } from '~/consts/common';
-import { getUserRole } from '#build/imports';
+import { getUserRole, managerScheduleStore } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const userID = useCookie('userID');
+const scheduleStore = managerScheduleStore();
 const userRole = useCookie('userRole');
 const { t } = useI18n();
 const props = defineProps({

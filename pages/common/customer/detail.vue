@@ -123,6 +123,29 @@
                 readonly
                 autocomplete="off"
               />
+            <div class="flex items-center justify-center mt-3">
+              <div v-show="option === 1" class="justify-between items-center w-full" style="display: flex">
+                <div></div>
+                <h2 class="text-xl font-bold">{{ $t('contract') }}</h2>
+                <div class="flex items-center justify-end">
+                  <a-button
+                    type="primary"
+                    danger
+                    class="flex items-center justify-center w-8 h-8 rounded-sm me-2"
+                    :disabled="!deleteContractBucket.value.length"
+                    @click="
+                      () => {
+                        $event.emit('deleteItem', { callback: deleteContracts });
+                      }
+                    "
+                    ><DeleteOutlined
+                  /></a-button>
+                  <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm"
+                    ><NuxtLink :to="pageRoutes.common.contract.add3(customerID)" target="_blank"
+                      ><PlusOutlined /></NuxtLink
+                  ></a-button>
+                </div>
+              </div>
             </div>
             <div class="flex-1">
               <label for="permanent_address" class="flex mb-1">
@@ -134,6 +157,7 @@
                 :placeholder="$t('permanent_address')"
                 disabled
                 readonly
+                :delete-bucket="deleteContractBucket"
               />
             </div>
           </div>
@@ -148,6 +172,7 @@
                 :placeholder="$t('temporary_address')"
                 disabled
                 readonly
+                :delete-bucket="deleteContractBucket"
               />
             </div>
             <div class="flex-1"></div>
@@ -193,7 +218,6 @@
           </p>
         </div>
         <div class="flex items-center justify-center mt-3">
-          <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('contract') }}</h2>
           <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('support_ticket') }}</h2>
         </div>
         <ClientOnly>
@@ -246,6 +270,7 @@ const lightMode = computed(
 );
 const route = useRoute();
 const customerID = Number(route.params.id as string);
+const { t } = useI18n();
 const { $event } = useNuxtApp();
 const customerInfo = ref<User>({
   ID: 0,
@@ -290,6 +315,9 @@ const dob = computed<Dayjs>(() => dayjs(customerInfo.value.dob));
 const option = ref<number>(1);
 const contracts = ref<Contract[]>([]);
 const tickets = ref<SupportTicket[]>([]);
+const deleteContractBucket = ref<{ value: number[] }>({
+  value: [],
+});
 
 // ---------------------- Functions ----------------------
 async function getCustomerDetail() {
@@ -315,6 +343,30 @@ async function getCustomerDetail() {
       });
     }
     customerInfo.value.ID = 0;
+  } finally {
+    $event.emit('loading');
+  }
+}
+
+async function deleteContracts() {
+  try {
+    $event.emit('loading');
+    await api.common.contract.deleteMany(deleteContractBucket.value.value);
+    $event.emit('deleteItemSuccess');
+    deleteContractBucket.value.value = [];
+    const contractResponse = await api.common.customer.getContract(customerID);
+    contracts.value = contractResponse.data;
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
   } finally {
     $event.emit('loading');
   }

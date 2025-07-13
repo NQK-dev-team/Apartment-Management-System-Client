@@ -530,11 +530,16 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const { $event, $dayjs } = useNuxtApp();
+const route = useRoute();
+const buildingID = Number(route.query.buildingID as string);
+const roomID = Number(route.query.roomID as string);
+const floor = Number(route.query.floor as string);
+const customerID = Number(route.query.customerID as string);
 const newContract = ref<AddContract>({
-  buildingID: undefined,
-  roomFloor: undefined,
-  roomID: undefined,
-  householderID: undefined,
+  buildingID: buildingID || undefined,
+  roomFloor: floor || undefined,
+  roomID: roomID || undefined,
+  householderID: customerID || undefined,
   creatorID: undefined,
   type: undefined,
   value: undefined,

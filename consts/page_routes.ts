@@ -37,7 +37,7 @@ const pageRoutes = {
       add2: (contractID: number | null = null) => {
         return contractID ? `/bill/add?contract=${contractID}` : '/bill/add';
       },
-      add:`/bill/add`,
+      add: `/bill/add`,
       edit: (billId: number | string) => `/bill/${billId}/edit`,
     },
     support_ticket: {
@@ -52,10 +52,15 @@ const pageRoutes = {
     contract: {
       list: '/contract',
       detail: (contractId: number | string) => `/contract/${contractId}`,
-      add2: (roomID: number | null = null) => {
-        return roomID ? `/contract/add?room=${roomID}` : '/contract/add';
+      add2: (buildingID: number | null = null, floor: number | null = null, roomID: number | null = null) => {
+        return buildingID && floor && roomID
+          ? `/contract/add?buildingID=${buildingID}&floor=${floor}&roomID=${roomID}`
+          : '/contract/add';
       },
       add: `/contract/add`,
+      add3: (customerID: number | null = null) => {
+        return customerID ? `/contract/add?customerID=${customerID}` : '/contract/add';
+      },
       edit: (contractId: number | string) => `/contract/${contractId}/edit`,
     },
     report: {

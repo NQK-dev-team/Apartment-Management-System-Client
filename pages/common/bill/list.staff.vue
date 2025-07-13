@@ -521,4 +521,12 @@ onMounted(() => {
 watch(offset, () => {
   getBillList(false);
 });
+
+watch(timeRange, () => {
+  if (offset.value > 0) {
+    offset.value = 0;
+  } else {
+    getBillList();
+  }
+});
 </script>

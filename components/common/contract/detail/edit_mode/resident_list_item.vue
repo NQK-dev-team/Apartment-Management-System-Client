@@ -39,6 +39,7 @@
             ]"
             :allow-clear="true"
             :placeholder="$t('search_by_customer_no')"
+            :filter-option="filterOption"
             @change="
               resident.userAccountID.Int64 =
                 customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ID ?? 0;
@@ -427,6 +428,10 @@ function addToBucket() {
 function disabledDate(current: Dayjs) {
   // Can not select days after today
   return current && current >= $dayjs().endOf('day');
+}
+
+function filterOption(input: string, option: any) {
+  return removeDiacritics(option.label.toLowerCase()).includes(removeDiacritics(input.toLowerCase()));
 }
 
 // ---------------------- Watchers ----------------------

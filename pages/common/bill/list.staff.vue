@@ -51,7 +51,6 @@
           <template v-if="column.dataIndex === 'action'">
             <NuxtLink
               :to="pageRoutes.common.bill.detail(value)"
-              target="_blank"
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
               >{{ $t('detail') }}</NuxtLink
             >

@@ -404,7 +404,7 @@ const data = computed(() => {
       no: index + 1,
       bill_no: bill.ID,
       bill_name: bill.title,
-      total_payment: formatPrice(bill.totalAmountWithExtra),
+      total_payment: formatPrice(bill.amount),
       payment_period: convertToMonthYear(bill.period),
       payment_time: bill.paymentTime.Valid && bill.paymentTime.Time ? convertToDateTime(bill.paymentTime.Time) : '-',
       paid_by: bill.paymentTime.Valid && bill.paymentTime.Time ? getUserName(bill.payer) : '-',

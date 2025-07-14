@@ -208,7 +208,7 @@ onMounted(async () => {
   }
 });
 
-// ---------------------- Expose ----------------------
+// ---------------------- Events ----------------------
 $event.on('errorEditContract', () => {
   editMode.value = false;
   notification.error({

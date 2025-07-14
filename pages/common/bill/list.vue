@@ -8,7 +8,7 @@ import BillListStaff from '~/pages/common/bill/list.staff.vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'Bill List',
+  name: 'Billing List',
   layout: 'main',
 });
 

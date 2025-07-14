@@ -3,6 +3,13 @@ import type { User } from './user';
 import type { Contract } from './contract';
 import type { Building } from './building';
 
+type BillPayment = BasicModel & {
+  name: string;
+  billID: number;
+  amount: number;
+  note: string;
+};
+
 type Bill = BasicModel & {
   period: string;
   status: number;
@@ -14,10 +21,10 @@ type Bill = BasicModel & {
   contractID: number;
   contract: Contract;
   title: string;
-  totalAmountWithExtra: number;
   roomNo: number | undefined;
   buildingName: string | undefined;
   roomFloor: number | undefined;
+  billPayments: BillPayment[];
 };
 
 type Service = BasicModel & {

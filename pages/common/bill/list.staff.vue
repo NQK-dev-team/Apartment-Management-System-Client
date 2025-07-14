@@ -202,46 +202,6 @@ const columns: any = computed(() => {
       class: 'text-nowrap w-[75px]',
     },
     {
-      title: t('bill_no'),
-      dataIndex: 'bill_no',
-      key: 'bill_no',
-      class: 'text-nowrap',
-      customFilterDropdown: true,
-      onFilter: (value: string, record: any) => {
-        const values = value.split(',');
-        return values.some((val) => record.bill_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
-      },
-      onFilterDropdownOpenChange: (visible: boolean) => {
-        if (visible) {
-          setTimeout(() => {
-            searchInput.value.focus();
-          }, 100);
-        }
-      },
-    },
-    {
-      title: t('bill_name'),
-      dataIndex: 'bill_name',
-      key: 'bill_name',
-      class: 'text-nowrap',
-      customFilterDropdown: true,
-      onFilter: (value: string, record: any) => {
-        const values = value.split(',');
-        return values.some((val) =>
-          removeDiacritics(record.bill_name.toString().toLowerCase()).includes(
-            removeDiacritics(val.trim().toLowerCase())
-          )
-        );
-      },
-      onFilterDropdownOpenChange: (visible: boolean) => {
-        if (visible) {
-          setTimeout(() => {
-            searchInput.value.focus();
-          }, 100);
-        }
-      },
-    },
-    {
       title: t('building'),
       dataIndex: 'building',
       key: 'building',
@@ -280,6 +240,46 @@ const columns: any = computed(() => {
         }
       },
       class: 'text-nowrap',
+    },
+    {
+      title: t('bill_no'),
+      dataIndex: 'bill_no',
+      key: 'bill_no',
+      class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) => record.bill_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
+    },
+    {
+      title: t('bill_name'),
+      dataIndex: 'bill_name',
+      key: 'bill_name',
+      class: 'text-nowrap',
+      customFilterDropdown: true,
+      onFilter: (value: string, record: any) => {
+        const values = value.split(',');
+        return values.some((val) =>
+          removeDiacritics(record.bill_name.toString().toLowerCase()).includes(
+            removeDiacritics(val.trim().toLowerCase())
+          )
+        );
+      },
+      onFilterDropdownOpenChange: (visible: boolean) => {
+        if (visible) {
+          setTimeout(() => {
+            searchInput.value.focus();
+          }, 100);
+        }
+      },
     },
     {
       title: t('paid_by'),
@@ -415,6 +415,9 @@ const data = computed(() => {
       key: bill.ID,
       status: t(getBillStatus(bill.status)),
       status_numeric: bill.status,
+      building: bill.buildingName ?? '',
+      room_no: bill.roomNo,
+      floor: bill.roomFloor ?? 0,
     }));
 });
 

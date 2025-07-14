@@ -115,19 +115,14 @@ const commonRoutes: Route[] = [
     file: billBaseRoute + 'list.vue',
   },
   {
-    name: 'Bill Detail',
+    name: 'Billing Detail',
     path: pageRoutes.common.bill.detail(':id'),
     file: billBaseRoute + 'detail.vue',
   },
   {
-    name: 'Add New Bill',
+    name: 'Add New Billing',
     path: pageRoutes.common.bill.add,
     file: billBaseRoute + 'add.vue',
-  },
-  {
-    name: 'Edit Bill',
-    path: pageRoutes.common.bill.edit(':id'),
-    file: billBaseRoute + 'edit.vue',
   },
   // Contract
   {

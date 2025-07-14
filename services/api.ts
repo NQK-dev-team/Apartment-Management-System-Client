@@ -306,6 +306,12 @@ const common = {
         },
       });
     },
+    getDetail: async (billId: number): Promise<APIResponse<Bill>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.bill.detail(billId), {
+        method: 'GET',
+      });
+    },
   },
   support_ticket: {
     approve: async (ticketId: number): Promise<APIResponse<null>> => {

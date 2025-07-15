@@ -13,8 +13,8 @@
           v-if="
             (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
             bill &&
-            bill.status !== COMMON.BILL_STATUS.UN_PAID &&
-            bill.status !== COMMON.BILL_STATUS.OVERDUE
+            bill.status !== COMMON.BILL_STATUS.PAID &&
+            bill.status !== COMMON.BILL_STATUS.PROCESSING
           "
           class="flex justify-end"
         >
@@ -42,7 +42,7 @@
                 });
                 editMode = false;
                 editBill = { value: JSON.parse(JSON.stringify(bill)) }; // Reset to original billing information
-                // $event.emit('cancelBillEditMode');
+                $event.emit('cancelBillingEditMode');
               }
             "
             >{{ $t('cancel') }}</a-button
@@ -53,7 +53,7 @@
             class="rounded-sm"
             @click="
               () => {
-                // $event.emit('updateBill');
+                $event.emit('updateBillingInfo');
               }
             "
             >{{ $t('save_changes') }}</a-button
@@ -152,6 +152,4 @@ onMounted(async () => {
     });
   }
 });
-
-// ---------------------- Events ----------------------
 </script>

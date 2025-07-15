@@ -236,6 +236,7 @@ export default {
   gender: 'Giới tính',
 
   H: 'h',
+  house_holder: 'Chủ hộ',
 
   I: 'i',
   import_file: 'Thêm dữ liệu từ tệp tin',

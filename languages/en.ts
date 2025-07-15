@@ -235,6 +235,7 @@ export default {
   gender: 'Gender',
 
   H: 'h',
+  house_holder: 'Householder',
 
   I: 'i',
   import_file: 'Import data from file',
@@ -465,12 +466,12 @@ export default {
   upload_file: 'Upload file',
   user_not_found: 'User not found!',
   unpaidRooms: 'Number of unpaid rooms',
-  unpaid: 'Unpaid',
+  unpaid: 'Waiting for payment',
   unavailable: 'Unavailable',
   update_building_confirm: 'Are you sure you want to update this building information?',
   update_success: 'Update success!',
   update_staff_confirm: 'Are you sure you want to update this staff information?',
-  un_paid: 'Unpaid',
+  un_paid: 'Waiting for payment',
 
   V: 'v',
 

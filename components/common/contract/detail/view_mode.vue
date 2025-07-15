@@ -51,6 +51,7 @@
                   : pageRoutes.common.customer.detail(contract.householderID)
               "
               :title="$t('detail')"
+              target="_blank"
               ><LinkOutlined
             /></NuxtLink>
           </template>

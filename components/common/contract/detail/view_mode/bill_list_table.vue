@@ -10,7 +10,8 @@
         getCheckboxProps: (record: any) => ({
           disabled:
             record.status_numeric === COMMON.BILL_STATUS.PAID ||
-            record.status_numeric === COMMON.BILL_STATUS.PROCESSING,
+            record.status_numeric === COMMON.BILL_STATUS.PROCESSING ||
+            record.status_numeric === COMMON.BILL_STATUS.CANCELLED,
         }),
       }"
       :data-source="data"
@@ -337,6 +338,7 @@ const columns: any = computed(() => {
         { text: t('paid'), value: COMMON.BILL_STATUS.PAID },
         { text: t('overdue'), value: COMMON.BILL_STATUS.OVERDUE },
         { text: t('processing'), value: COMMON.BILL_STATUS.PROCESSING },
+        { text: t('cancelled'), value: COMMON.BILL_STATUS.CANCELLED },
       ],
       onFilter: (value: number, record: any) => record.status_numeric === value,
     },

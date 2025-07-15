@@ -48,6 +48,7 @@ const COMMON = {
     PAID: 2,
     OVERDUE: 3,
     PROCESSING: 4,
+    CANCELLED: 5,
   },
   HTTP_STATUS,
   ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],

@@ -66,7 +66,10 @@
       class="flex-1 flex flex-col px-4 mt-5"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <template v-if="bill && editBill"> </template>
+      <template v-if="bill && editBill">
+        <CommonBillDetailViewMode v-if="!editMode" :bill="bill" />
+        <CommonBillDetailEditMode v-else :bill="editBill.value" />
+      </template>
       <div class="flex flex-col items-center my-5">
         <a-button class="my-2 w-[100px] rounded-sm">
           <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('back') }}</NuxtLink>

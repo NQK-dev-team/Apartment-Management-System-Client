@@ -14,7 +14,7 @@
           :placeholder="$t('building_name')"
         />
       </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="building_address" class="flex mb-1">
           <span>{{ $t('building_address') }}</span>
         </label>
@@ -25,7 +25,7 @@
           :value="contract.buildingAddress"
           :placeholder="$t('building_address')"
         />
-      </a-col>
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="room_floor" class="flex mb-1">
           <span>{{ $t('floor') }}</span>
@@ -38,8 +38,6 @@
         </label>
         <a-input id="room_no" disabled readonly :value="contract.roomNo" :placeholder="$t('room_no')"
       /></a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="customer_no" class="flex mb-1">
           <span>{{ $t('customer_no') }}</span>
@@ -58,6 +56,26 @@
           </template>
         </a-input>
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <label for="customer_no" class="flex mb-1">
+          <span>{{ $t('customer_no') }}</span>
+        </label>
+        <a-input id="customer_no" disabled readonly :value="contract.householder.no" :placeholder="$t('customer_no')">
+          <template #suffix>
+            <NuxtLink
+              :to="
+                userRole?.toString() === roles.customer
+                  ? pageRoutes.common.profile.index
+                  : pageRoutes.common.customer.detail(contract.householderID)
+              "
+              :title="$t('detail')"
+              ><LinkOutlined
+            /></NuxtLink>
+          </template>
+        </a-input>
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="employee_number" class="flex mb-1">
           <span>{{ $t('employee_number') }}</span>
@@ -100,8 +118,6 @@
           :placeholder="$t('contract_type')"
         />
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="contract_value" class="flex mb-1">
           <span>{{ $t('contract_value') }}</span>
@@ -114,6 +130,20 @@
           :placeholder="$t('contract_value')"
         />
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <label for="contract_value" class="flex mb-1">
+          <span>{{ $t('contract_value') }}</span>
+        </label>
+        <a-input
+          id="contract_value"
+          disabled
+          readonly
+          :value="formatPrice(contract.value)"
+          :placeholder="$t('contract_value')"
+        />
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="created_date" class="flex mb-1">
           <span>{{ $t('created_date') }}</span>
@@ -150,8 +180,6 @@
           :placeholder="$t('expire_date')"
         />
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="signed_date" class="flex mb-1">
           <span>{{ $t('signed_date') }}</span>
@@ -164,6 +192,20 @@
           :placeholder="$t('signed_date')"
         />
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <label for="signed_date" class="flex mb-1">
+          <span>{{ $t('signed_date') }}</span>
+        </label>
+        <a-input
+          id="signed_date"
+          disabled
+          readonly
+          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
+          :placeholder="$t('signed_date')"
+        />
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="status" class="flex mb-1">
           <span>{{ $t('status') }}</span>
@@ -177,6 +219,7 @@
           :placeholder="$t('status')"
         />
       </a-col>
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>

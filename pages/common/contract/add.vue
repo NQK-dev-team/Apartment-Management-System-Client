@@ -38,7 +38,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="building_address">
               <label for="building_address" class="flex mb-1">
                 <span>{{ $t('building_address') }}</span>
@@ -51,7 +51,7 @@
                 :placeholder="$t('building_address')"
               />
             </a-form-item>
-          </a-col>
+          </a-col> -->
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['roomFloor']"
@@ -97,8 +97,6 @@
               </a-select>
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['householderID']"
@@ -121,6 +119,30 @@
               </a-select>
             </a-form-item>
           </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+            <a-form-item
+              :name="['householderID']"
+              :rules="[{ required: true, message: $t('please_select_customer'), trigger: 'blur' }]"
+            >
+              <label for="customer_no" class="flex mb-1">
+                <span>{{ $t('customer_no') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <a-select
+                id="customer_no"
+                v-model:value="newContract.householderID"
+                class="w-full text-left"
+                show-search
+                :placeholder="$t('select_customer')"
+              >
+                <a-select-option v-for="(customer, index) in customerList" :key="index" :value="customer.ID">
+                  {{ customer.no }} - {{ getUserName(customer) }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col> -->
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="employee_number">
               <label for="employee_number" class="flex mb-1">
@@ -178,8 +200,6 @@
               />
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['createdAt']"
@@ -192,6 +212,20 @@
               <a-date-picker id="created_date" v-model:value="newContract.createdAt" class="w-full" />
             </a-form-item>
           </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+            <a-form-item
+              :name="['createdAt']"
+              :rules="[{ required: true, message: $t('contract_create_date_require'), trigger: 'blur' }]"
+            >
+              <label for="created_date" class="flex mb-1">
+                <span>{{ $t('created_date') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <a-date-picker id="created_date" v-model:value="newContract.createdAt" class="w-full" />
+            </a-form-item>
+          </a-col> -->
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['startDate']"
@@ -301,8 +335,42 @@
               <a-date-picker id="signed_date" v-model:value="newContract.signDate" class="w-full" />
             </a-form-item>
           </a-col>
+          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+            <a-form-item :name="['status']">
+              <label for="status" class="flex mb-1">
+                <span>{{ $t('status') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <ClientOnly>
+                <a-select
+                  id="status"
+                  disabled
+                  readonly
+                  :value="contractStatus"
+                  class="w-full text-left"
+                  placeholder="N/A"
+                >
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.ACTIVE" :class="`text-[#50c433]`">{{
+                    $t('active')
+                  }}</a-select-option>
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.EXPIRED" :class="`text-[#888888]`">{{
+                    $t('expired')
+                  }}</a-select-option>
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
+                    $t('cancelled')
+                  }}</a-select-option>
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE" :class="`text-[#888888]`">{{
+                    $t('wait_for_signature')
+                  }}</a-select-option>
+                  <a-select-option :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT" :class="`text-[#888888]`">{{
+                    $t('not_in_effect')
+                  }}</a-select-option>
+                </a-select>
+              </ClientOnly>
+            </a-form-item>
+          </a-col>
         </a-row>
-        <a-row :gutter="16">
+        <!-- <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item :name="['status']">
               <label for="status" class="flex mb-1">
@@ -339,7 +407,7 @@
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
-        </a-row>
+        </a-row> -->
         <div class="mt-10 flex items-center justify-between">
           <h1 class="text-2xl">{{ $t('paper_list') }}</h1>
           <div class="flex items-center">

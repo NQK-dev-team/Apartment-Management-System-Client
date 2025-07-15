@@ -25,7 +25,7 @@
           />
         </a-form-item>
       </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="building_address">
           <label for="building_address" class="flex mb-1">
             <span>{{ $t('building_address') }}</span>
@@ -38,7 +38,7 @@
             :placeholder="$t('building_address')"
           />
         </a-form-item>
-      </a-col>
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="room_floor">
           <label for="room_floor" class="flex mb-1">
@@ -57,8 +57,6 @@
           <a-input id="room_no" disabled readonly :value="contract.roomNo" :placeholder="$t('room_no')" />
         </a-form-item>
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="customer_no">
           <label for="customer_no" class="flex mb-1">
@@ -80,6 +78,29 @@
           </a-input>
         </a-form-item>
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item name="customer_no">
+          <label for="customer_no" class="flex mb-1">
+            <span>{{ $t('customer_no') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input id="customer_no" disabled readonly :value="contract.householder.no" :placeholder="$t('customer_no')">
+            <template #suffix>
+              <NuxtLink
+                :to="
+                  userRole?.toString() === roles.customer
+                    ? pageRoutes.common.profile.index
+                    : pageRoutes.common.customer.detail(contract.householderID)
+                "
+                :title="$t('detail')"
+                ><LinkOutlined
+              /></NuxtLink>
+            </template>
+          </a-input>
+        </a-form-item>
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="employee_number">
           <label for="employee_number" class="flex mb-1">
@@ -131,8 +152,6 @@
           />
         </a-form-item>
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="contract_value">
           <label for="contract_value" class="flex mb-1">
@@ -148,6 +167,23 @@
           />
         </a-form-item>
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item name="contract_value">
+          <label for="contract_value" class="flex mb-1">
+            <span>{{ $t('contract_value') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input
+            id="contract_value"
+            disabled
+            readonly
+            :value="formatPrice(contract.value)"
+            :placeholder="$t('contract_value')"
+          />
+        </a-form-item>
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="created_date">
           <label for="created_date" class="flex mb-1">
@@ -213,8 +249,6 @@
           />
         </a-form-item>
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item v-if="contract.signDate.Valid && contract.signDate.Time" name="signed_date">
           <label for="signed_date" class="flex mb-1">
@@ -251,6 +285,44 @@
           />
         </a-form-item>
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
+      <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item v-if="contract.signDate.Valid && contract.signDate.Time" name="signed_date">
+          <label for="signed_date" class="flex mb-1">
+            <span>{{ $t('signed_date') }}</span>
+          </label>
+          <a-input
+            id="signed_date"
+            disabled
+            readonly
+            :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
+            :placeholder="$t('signed_date')"
+          />
+        </a-form-item>
+        <a-form-item
+          v-else
+          :name="['newSignDate']"
+          :rules="[
+            {
+              validator: async (_: RuleObject, value: string) =>
+                validationRules.checkSignDate(_, value, $t, contract.startDate),
+              trigger: 'blur',
+            },
+          ]"
+        >
+          <label for="signed_date" class="flex mb-1">
+            <span>{{ $t('signed_date') }}</span>
+          </label>
+          <a-date-picker
+            id="signed_date"
+            v-model:value="editContract.value.newSignDate"
+            :disabled-date="disabledDate"
+            class="w-full"
+            :placeholder="$t('select_sign_date')"
+          />
+        </a-form-item>
+      </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item
           :name="['status']"
@@ -302,6 +374,7 @@
           </ClientOnly>
         </a-form-item>
       </a-col>
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>

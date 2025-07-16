@@ -373,6 +373,7 @@ export default {
   please_select_room: 'Please select a room',
   please_select_customer: 'Please select a customer',
   please_select_contract_type: 'Please select a contract type',
+  payment_name: 'Payment name',
 
   Q: 'q',
   quarter: 'Q{quarter}',

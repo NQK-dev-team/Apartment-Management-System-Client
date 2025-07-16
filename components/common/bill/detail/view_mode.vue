@@ -99,7 +99,7 @@
           readonly
           :value="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : ''"
           :title="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : ''"
-          :placeholder="$t('paid_by')"
+          placeholder="-"
         >
           <template v-if="bill.payerID" #suffix>
             <NuxtLink :to="pageRoutes.common.customer.detail(bill.payerID)" :title="$t('detail')" target="_blank">
@@ -122,7 +122,7 @@
             disabled
             readonly
             :value="bill.paymentTime.Time && bill.paymentTime.Valid ? $dayjs(bill.paymentTime.Time) : ''"
-            :placeholder="$t('payment_time')"
+            placeholder="-"
           />
         </a-form-item>
       </a-col>
@@ -131,6 +131,23 @@
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
     <h1 class="mt-10 text-2xl">{{ $t('payment_list') }}</h1>
+    <a-table
+      :columns="paymentTableColumns"
+      :data-source="paymentTableData"
+      class="mt-3"
+      :scroll="{ x: 'max-content' }"
+      :pagination="false"
+    >
+      <template #summary>
+        <a-table-summary-row>
+          <a-table-summary-cell class="font-bold text-lg">{{ $t('total_payment') }}</a-table-summary-cell>
+          <a-table-summary-cell></a-table-summary-cell>
+          <a-table-summary-cell>
+            <a-typography-text class="font-bold text-lg">{{ formatPrice(bill.amount) }}</a-typography-text>
+          </a-table-summary-cell>
+        </a-table-summary-row>
+      </template>
+    </a-table>
   </a-form>
 </template>
 
@@ -147,6 +164,46 @@ const props = defineProps({
   },
 });
 const bill = toRef(props, 'bill');
+const { t } = useI18n();
+const paymentTableColumns = computed<any>(() => {
+  return [
+    {
+      title: t('no'),
+      dataIndex: 'no',
+      key: 'no',
+      class: 'text-nowrap',
+    },
+    {
+      title: t('payment_name'),
+      dataIndex: 'payment_name',
+      key: 'payment_name',
+      class: 'text-nowrap',
+    },
+    {
+      title: t('amount'),
+      dataIndex: 'amount',
+      key: 'amount',
+      class: 'text-nowrap',
+      sorter: (a: any, b: any) => a.amount - b.amount,
+      sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: t('note'),
+      dataIndex: 'note',
+      key: 'note',
+      class: 'text-nowrap',
+    },
+  ];
+});
+const paymentTableData = computed(() => {
+  return bill.value.billPayments.map((payment, index) => ({
+    key: index,
+    no: index + 1,
+    payment_name: payment.name,
+    amount: formatPrice(payment.amount),
+    note: payment.note.String,
+  }));
+});
 
 // ---------------------- Functions ----------------------
 function getBillStatusStr(): string {

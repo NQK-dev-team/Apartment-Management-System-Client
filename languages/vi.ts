@@ -372,6 +372,7 @@ export default {
   please_select_room: 'Vui lòng chọn phòng',
   please_select_customer: 'Vui lòng chọn khách hàng',
   please_select_contract_type: 'Vui lòng chọn loại hình hợp đồng',
+  payment_name: 'Tên khoản thu',
 
   Q: 'q',
   quarter: 'Quý {quarter}',

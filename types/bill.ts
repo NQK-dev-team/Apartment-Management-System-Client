@@ -1,4 +1,4 @@
-import type { BasicModel, NullTime } from './basic_model';
+import type { BasicModel, NullString, NullTime } from './basic_model';
 import type { User } from './user';
 import type { Contract } from './contract';
 import type { Building } from './building';
@@ -7,13 +7,13 @@ type BillPayment = BasicModel & {
   name: string;
   billID: number;
   amount: number;
-  note: string;
+  note: NullString;
 };
 
 type Bill = BasicModel & {
   period: string;
   status: number;
-  note: string;
+  note: NullString;
   paymentTime: NullTime;
   amount: number;
   payerID: number;

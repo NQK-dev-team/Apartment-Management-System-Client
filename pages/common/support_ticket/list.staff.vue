@@ -162,7 +162,7 @@
               <label for="manager" class="mb-1">{{ $t('manager_approving') }}</label>
               <a-input
                 id="manager"
-                :value="ticketDetail.managerID ? getUserName(ticketDetail.manager) : ''"
+                :value="ticketDetail.managerID ? getUserName(ticketDetail.manager) : '-'"
                 disabled
                 readonly
               />
@@ -171,7 +171,7 @@
               <label for="employee_number" class="mb-1">{{ $t('employee_number') }}</label>
               <a-input
                 id="employee_number"
-                :value="ticketDetail.managerID ? ticketDetail.manager.no : ''"
+                :value="ticketDetail.managerID ? ticketDetail.manager.no : '-'"
                 disabled
                 readonly
               >
@@ -201,7 +201,9 @@
               <a-input
                 id="decision_date_1"
                 :value="
-                  ticketDetail?.managerResolveTime.Valid ? convertToDateTime(ticketDetail.managerResolveTime.Time!) : ''
+                  ticketDetail?.managerResolveTime.Valid
+                    ? convertToDateTime(ticketDetail.managerResolveTime.Time!)
+                    : '-'
                 "
                 disabled
                 readonly
@@ -213,7 +215,7 @@
               <label for="owner" class="mb-1">{{ $t('owner_approving') }}</label>
               <a-input
                 id="owner"
-                :value="ticketDetail.ownerID ? getUserName(ticketDetail.owner) : ''"
+                :value="ticketDetail.ownerID ? getUserName(ticketDetail.owner) : '-'"
                 disabled
                 readonly
               />
@@ -222,7 +224,7 @@
               <label for="owner_decision" class="mb-1">{{ $t('owner_decision') }}</label>
               <a-input
                 id="owner_decision"
-                :value="ticketDetail.ownerID ? (ticketDetail.ownerResult ? t('approved') : t('denied')) : ''"
+                :value="ticketDetail.ownerID ? (ticketDetail.ownerResult ? t('approved') : t('denied')) : '-'"
                 disabled
                 readonly
               />
@@ -234,7 +236,7 @@
               <a-input
                 id="decision_date_2"
                 :value="
-                  ticketDetail?.ownerResolveTime.Valid ? convertToDateTime(ticketDetail.ownerResolveTime.Time!) : ''
+                  ticketDetail?.ownerResolveTime.Valid ? convertToDateTime(ticketDetail.ownerResolveTime.Time!) : '-'
                 "
                 disabled
                 readonly

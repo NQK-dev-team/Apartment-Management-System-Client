@@ -64,7 +64,7 @@ function getContractType(type: number): string {
     case COMMON.CONTRACT_TYPE.BUY:
       return 'buy_contract';
     default:
-      return 'N/A';
+      return '-';
   }
 }
 
@@ -81,7 +81,7 @@ function getContractStatus(status: number): string {
     case COMMON.CONTRACT_STATUS.NOT_IN_EFFECT:
       return 'not_in_effect';
     default:
-      return 'N/A';
+      return '-';
   }
 }
 
@@ -96,7 +96,7 @@ function getBillStatus(status: number): string {
     case COMMON.BILL_STATUS.PROCESSING:
       return 'processing';
     default:
-      return 'N/A';
+      return '-';
   }
 }
 

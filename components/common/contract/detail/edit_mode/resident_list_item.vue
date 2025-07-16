@@ -54,7 +54,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_last_name`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_last_name`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.lastName ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.lastName || '-'"
             disabled
             readonly
           ></a-input>
@@ -79,7 +79,7 @@
           <a-input
             :id="`resident_${props.index + 1}_middle_name`"
             :value="
-              customers.find((customer) => customerNo && customer.no.includes(customerNo))?.middleName?.String ?? ''
+              customers.find((customer) => customerNo && customer.no.includes(customerNo))?.middleName?.String || '-'
             "
             disabled
             readonly
@@ -104,7 +104,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_first_name`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_first_name`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.firstName ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.firstName || '-'"
             disabled
             readonly
           ></a-input>
@@ -172,7 +172,7 @@
           <a-input
             :id="`resident_${props.index + 1}_dob`"
             :value="
-              convertToDate(customers.find((customer) => customerNo && customer.no.includes(customerNo))?.dob ?? '')
+              convertToDate(customers.find((customer) => customerNo && customer.no.includes(customerNo))?.dob || '-')
             "
             disabled
             readonly
@@ -205,7 +205,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_pob`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_pob`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.pob.String ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.pob.String || '-'"
             disabled
             readonly
           ></a-input>
@@ -229,7 +229,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_ssn`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_ssn`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ssn ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ssn || '-'"
             disabled
             readonly
           ></a-input>
@@ -258,7 +258,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_old_ssn`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_old_ssn`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.oldSSN?.String ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.oldSSN?.String || '-'"
             disabled
             readonly
           ></a-input>
@@ -287,7 +287,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_phone`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_phone`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.phone ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.phone || '-'"
             disabled
             readonly
           ></a-input>
@@ -316,7 +316,7 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_email`" class="px-3">
           <a-input
             :id="`resident_${props.index + 1}_email`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.email ?? ''"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.email || '-'"
             disabled
             readonly
           ></a-input>

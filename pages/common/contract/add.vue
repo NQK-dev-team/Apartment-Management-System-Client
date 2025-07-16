@@ -88,7 +88,7 @@
                 id="room_no"
                 v-model:value="newContract.roomID"
                 :disabled="!roomList.length"
-                :placeholder="roomList.length ? $t('select_room') : 'N/A'"
+                :placeholder="roomList.length ? $t('select_room') : '-'"
                 class="w-full text-left"
               >
                 <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
@@ -348,7 +348,7 @@
                   readonly
                   :value="contractStatus"
                   class="w-full text-left"
-                  placeholder="N/A"
+                  placeholder="-"
                 >
                   <a-select-option :value="COMMON.CONTRACT_STATUS.ACTIVE" :class="`text-[#50c433]`">{{
                     $t('active')
@@ -384,7 +384,7 @@
                   readonly
                   :value="contractStatus"
                   class="w-full text-left"
-                  placeholder="N/A"
+                  placeholder="-"
                 >
                   <a-select-option :value="COMMON.CONTRACT_STATUS.ACTIVE" :class="`text-[#50c433]`">{{
                     $t('active')

@@ -47,7 +47,7 @@
               </label>
               <a-input
                 id="middle_name"
-                :value="staffInfo.middleName.Valid ? (staffInfo.middleName.String as string) : ''"
+                :value="staffInfo.middleName.Valid ? (staffInfo.middleName.String as string) : '-'"
                 :placeholder="$t('middle_name')"
                 disabled
                 readonly
@@ -98,7 +98,7 @@
               </label>
               <a-input
                 id="old_ssn"
-                :value="staffInfo.oldSSN.Valid ? (staffInfo.oldSSN.String as string) : ''"
+                :value="staffInfo.oldSSN.Valid ? (staffInfo.oldSSN.String as string) : '-'"
                 :placeholder="$t('old_ssn')"
                 disabled
                 readonly

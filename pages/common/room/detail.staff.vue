@@ -189,7 +189,7 @@
                           3: 'available',
                           4: 'maintenance',
                           5: 'unavailable',
-                        }[roomData.status as 1 | 2 | 3 | 4 | 5] || 'N/A'
+                        }[roomData.status as 1 | 2 | 3 | 4 | 5] || '-'
                       )
                     "
                     disabled

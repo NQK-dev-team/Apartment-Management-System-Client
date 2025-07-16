@@ -166,7 +166,7 @@
             <label for="owner" class="mb-1">{{ $t('owner_approving') }}</label>
             <a-input
               id="owner"
-              :value="ticketDetail.ownerID ? getUserName(ticketDetail.owner) : ''"
+              :value="ticketDetail.ownerID ? getUserName(ticketDetail.owner) : '-'"
               disabled
               readonly
             />
@@ -175,7 +175,7 @@
             <label for="owner_decision" class="mb-1">{{ $t('owner_decision') }}</label>
             <a-input
               id="owner_decision"
-              :value="ticketDetail.ownerID ? (ticketDetail.ownerResult ? t('approved') : t('denied')) : ''"
+              :value="ticketDetail.ownerID ? (ticketDetail.ownerResult ? t('approved') : t('denied')) : '-'"
               disabled
               readonly
             />

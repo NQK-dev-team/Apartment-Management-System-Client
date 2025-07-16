@@ -97,8 +97,8 @@
           id="paid_by"
           disabled
           readonly
-          :value="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : ''"
-          :title="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : ''"
+          :value="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
+          :title="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
           placeholder="-"
         >
           <template v-if="bill.payerID" #suffix>
@@ -121,7 +121,7 @@
             show-time
             disabled
             readonly
-            :value="bill.paymentTime.Time && bill.paymentTime.Valid ? $dayjs(bill.paymentTime.Time) : ''"
+            :value="bill.paymentTime.Time && bill.paymentTime.Valid ? $dayjs(bill.paymentTime.Time) : '-'"
             placeholder="-"
           />
         </a-form-item>
@@ -219,6 +219,6 @@ function getBillStatusStr(): string {
     return 'cancelled';
   }
 
-  return 'N/A';
+  return '-';
 }
 </script>

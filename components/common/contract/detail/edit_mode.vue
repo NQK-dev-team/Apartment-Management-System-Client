@@ -237,15 +237,15 @@
                 ? currentDate
                 : contract.endDate.Valid && contract.endDate.Time
                   ? convertToDate(contract.endDate.Time)
-                  : ''
+                  : '-'
             "
-            :placeholder="$t('expire_date')"
+            placeholder="-"
             :class="[
               (editContract.value.status === COMMON.CONTRACT_STATUS.EXPIRED &&
                 contract.type !== COMMON.CONTRACT_TYPE.BUY) ||
               editContract.value.status === COMMON.CONTRACT_STATUS.CANCELLED
                 ? 'text-[#ff0000]'
-                : '',
+                : '-',
             ]"
           />
         </a-form-item>
@@ -259,8 +259,8 @@
             id="signed_date"
             disabled
             readonly
-            :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
-            :placeholder="$t('signed_date')"
+            :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : '-'"
+            placeholder="-"
           />
         </a-form-item>
         <a-form-item
@@ -297,7 +297,7 @@
             id="signed_date"
             disabled
             readonly
-            :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
+            :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : '-'"
             :placeholder="$t('signed_date')"
           />
         </a-form-item>

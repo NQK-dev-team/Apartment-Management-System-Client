@@ -86,7 +86,7 @@
                   <a-input
                     id="middleName"
                     :value="staffInfo.data.middleName"
-                    :placeholder="$t('enter_employee_middle_name')"
+                    :placeholder="editMode ? $t('enter_employee_middle_name') : '-'"
                     disabled
                     readonly
                   />
@@ -161,7 +161,7 @@
                   <a-input
                     id="oldSSN"
                     :value="staffInfo.data.oldSSN"
-                    :placeholder="$t('enter_employee_old_ssn')"
+                    :placeholder="editMode ? $t('enter_employee_old_ssn') : '-'"
                     disabled
                     readonly
                   />

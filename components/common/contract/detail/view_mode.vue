@@ -177,8 +177,8 @@
           id="expire_date"
           disabled
           readonly
-          :value="contract.endDate.Valid && contract.endDate.Time ? convertToDate(contract.endDate.Time) : ''"
-          :placeholder="$t('expire_date')"
+          :value="contract.endDate.Valid && contract.endDate.Time ? convertToDate(contract.endDate.Time) : '-'"
+          placeholder="-"
         />
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -189,8 +189,8 @@
           id="signed_date"
           disabled
           readonly
-          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
-          :placeholder="$t('signed_date')"
+          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : '-'"
+          placeholder="-"
         />
       </a-col>
     </a-row>
@@ -203,7 +203,7 @@
           id="signed_date"
           disabled
           readonly
-          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : ''"
+          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : '-'"
           :placeholder="$t('signed_date')"
         />
       </a-col> -->

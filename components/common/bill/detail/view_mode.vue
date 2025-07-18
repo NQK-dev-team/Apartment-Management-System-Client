@@ -121,7 +121,7 @@
             show-time
             disabled
             readonly
-            :value="bill.paymentTime.Time && bill.paymentTime.Valid ? $dayjs(bill.paymentTime.Time) : '-'"
+            :value="bill.paymentTime.Time && bill.paymentTime.Valid ? $dayjs(bill.paymentTime.Time) : ''"
             placeholder="-"
           />
         </a-form-item>

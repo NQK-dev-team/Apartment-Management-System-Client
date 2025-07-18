@@ -66,6 +66,14 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item name="bill_name">
+          <label for="bill_name" class="flex mb-1">
+            <span>{{ $t('bill_name') }}</span>
+          </label>
+          <a-input id="bill_name" disabled readonly :value="bill.title" :placeholder="$t('bill_name')" />
+        </a-form-item>
+      </a-col>
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="payment_period">
           <label for="payment_period" class="flex mb-1">
             <span>{{ $t('payment_period') }}</span>
@@ -89,6 +97,8 @@
           <a-input id="status" disabled readonly :value="$t(getBillStatusStr())" :placeholder="$t('status')" />
         </a-form-item>
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="paid_by" class="flex mb-1">
           <span>{{ $t('paid_by') }}</span>
@@ -108,8 +118,6 @@
           </template>
         </a-input>
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="payment_time">
           <label for="payment_time" class="flex mb-1">
@@ -126,8 +134,14 @@
           />
         </a-form-item>
       </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item name="bill_note">
+          <label for="bill_note" class="flex mb-1">
+            <span>{{ $t('note') }}</span>
+          </label>
+          <a-textarea id="bill_note" disabled readonly :value="bill.note.String as string" :placeholder="$t('note')" />
+        </a-form-item>
+      </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
     <h1 class="mt-10 text-2xl">{{ $t('payment_list') }}</h1>

@@ -116,6 +116,7 @@ export default {
   contract_value_require: 'Contract value cannot be empty!',
   contract_create_date_require: 'Contract create date cannot be empty!',
   contract_status: 'Contract status',
+  contract_value_invalid: 'Contract value is not valid!',
 
   D: 'd',
   delete: 'Delete',

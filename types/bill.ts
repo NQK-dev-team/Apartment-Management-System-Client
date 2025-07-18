@@ -8,6 +8,7 @@ type BillPayment = BasicModel & {
   billID: number;
   amount: number;
   note: NullString;
+  isDeleted: boolean | undefined;
 };
 
 type Bill = BasicModel & {
@@ -34,4 +35,4 @@ type Service = BasicModel & {
   price: number;
 };
 
-export type { Bill, Service };
+export type { Bill, Service, BillPayment };

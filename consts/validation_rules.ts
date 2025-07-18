@@ -122,6 +122,16 @@ const validationRules = {
 
     return Promise.resolve();
   },
+  checkNonNegative: async (_: RuleObject, value: number | string, t: any, errorString: string = '') => {
+    if (value === undefined || value === null || value === '') {
+      return Promise.resolve();
+    }
+    const numValue = Number(value);
+    if (isNaN(numValue) || numValue < 0) {
+      return Promise.reject(t(errorString));
+    }
+    return Promise.resolve();
+  },
   // checkImageFileType: async (_: RuleObject, files: UploadFile[] | string, t: any) => {
   //   if (!files || typeof files === 'string') {
   //     return Promise.resolve();

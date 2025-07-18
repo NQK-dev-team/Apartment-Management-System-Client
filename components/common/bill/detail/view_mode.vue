@@ -1,5 +1,5 @@
 <template>
-  <a-form :model="bill">
+  <a-form>
     <h1 class="mt-5 text-2xl">{{ $t('bill_info') }}</h1>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -138,7 +138,7 @@
       :scroll="{ x: 'max-content' }"
       :pagination="false"
     >
-      <template #summary>
+      <template v-if="paymentTableData.length" #summary>
         <a-table-summary-row>
           <a-table-summary-cell class="font-bold text-lg">{{ $t('total_payment') }}</a-table-summary-cell>
           <a-table-summary-cell></a-table-summary-cell>

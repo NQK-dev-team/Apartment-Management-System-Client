@@ -185,7 +185,14 @@
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['value']"
-              :rules="[{ required: true, message: $t('contract_value_require'), trigger: 'blur' }]"
+              :rules="[
+                { required: true, message: $t('contract_value_require'), trigger: 'blur' },
+                {
+                  validator: async (_: RuleObject, value: string) =>
+                    validationRules.checkNonNegative(_, value, $t, 'contract_value_invalid'),
+                  trigger: 'blur',
+                },
+              ]"
             >
               <label for="contract_value" class="flex mb-1">
                 <span>{{ $t('contract_value') }}</span>
@@ -903,14 +910,14 @@ onMounted(async () => {
 
 // ---------------------- Watchers ----------------------
 watch(offsetCustomer, getCustomerList);
-watch(
-  () => newContract.value.value,
-  () => {
-    if (newContract.value.value !== undefined && newContract.value.value < 0) {
-      newContract.value.value = 0;
-    }
-  }
-);
+// watch(
+//   () => newContract.value.value,
+//   () => {
+//     if (newContract.value.value !== undefined && newContract.value.value < 0) {
+//       newContract.value.value = 0;
+//     }
+//   }
+// );
 watch(
   () => newContract.value.type,
   () => {

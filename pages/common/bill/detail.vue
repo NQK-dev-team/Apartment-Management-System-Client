@@ -68,7 +68,7 @@
     >
       <template v-if="bill && editBill">
         <CommonBillDetailViewMode v-if="!editMode" :bill="bill" />
-        <CommonBillDetailEditMode v-else :bill="editBill.value" />
+        <CommonBillDetailEditMode v-else :edit-bill="editBill" :old-bill="bill" />
       </template>
       <div class="flex flex-col items-center my-5">
         <a-button class="my-2 w-[100px] rounded-sm">
@@ -152,4 +152,7 @@ onMounted(async () => {
     });
   }
 });
+
+// ---------------------- Events ----------------------
+$event.on('updateBillingSuccess', getBillingDetail);
 </script>

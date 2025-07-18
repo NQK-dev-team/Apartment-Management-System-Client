@@ -116,6 +116,7 @@ export default {
   contract_value_require: 'Giá trị hợp đồng không được để trống!',
   contract_create_date_require: 'Ngày tạo hợp đồng không được để trống!',
   contract_status: 'Trạng thái hợp đồng',
+  contract_value_invalid: 'Giá trị hợp đồng không hợp lệ!',
 
   D: 'd',
   delete: 'Xóa',

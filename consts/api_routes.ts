@@ -60,6 +60,7 @@ const apiRoutes = {
     add: '/bill/add',
     edit: (billId: number) => `/bill/${billId}/edit`,
     deleteMany: '/bill/delete-many',
+    update: (billId: number) => `/bill/${billId}/update`,
   },
   support_ticket: {
     approve: (ticketId: number) => `/support-ticket/${ticketId}/approve`,

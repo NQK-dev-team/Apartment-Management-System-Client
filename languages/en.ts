@@ -70,6 +70,8 @@ export default {
   bill_no: 'Bill number',
   bill_name: 'Billing name',
   buy_contract: 'Buy contract',
+  bill_name_require: 'Billing name cannot be empty!',
+  bill_info_updated: 'Billing information has been updated successfully!',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -117,6 +119,7 @@ export default {
   contract_create_date_require: 'Contract create date cannot be empty!',
   contract_status: 'Contract status',
   contract_value_invalid: 'Contract value is not valid!',
+  confirm_update_bill: 'Are you sure you want to update this billing information?',
 
   D: 'd',
   delete: 'Delete',
@@ -215,6 +218,11 @@ export default {
   enter_file_name: 'Enter file name',
   end_date_cannot_be_before_start_date: 'Contract end date cannot be before contract start date!',
   expire_date_required: 'Contract end date cannot be empty!',
+  enter_payment_name: 'Enter payment name',
+  enter_payment_note: 'Enter payment note',
+  enter_payment_amount: 'Enter payment amount',
+  enter_bill_name: 'Enter bill name',
+  enter_note: 'Enter note',
 
   F: 'f',
   finish_import: 'Import',
@@ -375,6 +383,9 @@ export default {
   please_select_customer: 'Please select a customer',
   please_select_contract_type: 'Please select a contract type',
   payment_name: 'Payment name',
+  payment_name_require: 'Payment name cannot be empty!',
+  payment_amount_require: 'Payment amount cannot be empty!',
+  payment_amount_invalid: 'Payment amount is not valid!',
 
   Q: 'q',
   quarter: 'Q{quarter}',

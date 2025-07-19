@@ -70,6 +70,8 @@ export default {
   bill_no: 'Mã hóa đơn',
   bill_name: 'Tên hóa đơn',
   buy_contract: 'Hợp đồng mua bán',
+  bill_name_require: 'Tên hóa đơn không được để trống!',
+  bill_info_updated: 'Thông tin hóa đơn đã được cập nhật thành công!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -117,6 +119,7 @@ export default {
   contract_create_date_require: 'Ngày tạo hợp đồng không được để trống!',
   contract_status: 'Trạng thái hợp đồng',
   contract_value_invalid: 'Giá trị hợp đồng không hợp lệ!',
+  confirm_update_bill: 'Bạn có chắc chắn muốn cập nhật thông tin hóa đơn này không?',
 
   D: 'd',
   delete: 'Xóa',
@@ -215,7 +218,12 @@ export default {
   edit_mode_inactive: 'Đã tắt chế độ chỉnh sửa',
   enter_file_name: 'Nhập tên tệp tin',
   end_date_cannot_be_before_start_date: 'Ngày kết thúc hợp đồng không được trước ngày bắt đầu hợp đồng!',
-  expire_date_required: ' Ngày hết hạn hợp đồng không được để trống!',
+  expire_date_required: 'Ngày hết hạn hợp đồng không được để trống!',
+  enter_payment_name: 'Nhập tên khoản thu',
+  enter_payment_note: 'Nhập ghi chú khoản thu',
+  enter_payment_amount: 'Nhập số tiền khoản thu',
+  enter_bill_name: 'Nhập tên hóa đơn',
+  enter_note: 'Nhập ghi chú',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -229,7 +237,7 @@ export default {
   female: 'Nữ',
   full_name: 'Họ và tên',
   file_name: 'Tên tệp tin',
-  file_link: ' Liên kết tệp tin',
+  file_link: 'Liên kết tệp tin',
   file_require: 'Vui lòng chọn tệp tin!',
   file_title_require: 'Vui lòng nhập tiêu đề tệp tin!',
 
@@ -271,7 +279,7 @@ export default {
   last_name: 'Họ',
 
   M: 'm',
-  managerName: ' Tên quản lý',
+  managerName: 'Tên quản lý',
   maintenance: 'Bảo trì',
   management_schedule: 'Lịch quản lý',
   middle_name: 'Tên đệm',
@@ -363,7 +371,7 @@ export default {
   password_reset: 'Thiết lập lại mật khẩu',
   payment: 'Tổng thanh toán',
   profit: 'Lợi nhuận',
-  paper_list: ' Danh sách giấy tờ',
+  paper_list: 'Danh sách giấy tờ',
   parent: 'Cha/Mẹ',
   processing: 'Đang xử lý',
   please_select_contract_status: 'Vui lòng chọn trạng thái hợp đồng',
@@ -374,6 +382,9 @@ export default {
   please_select_customer: 'Vui lòng chọn khách hàng',
   please_select_contract_type: 'Vui lòng chọn loại hình hợp đồng',
   payment_name: 'Tên khoản thu',
+  payment_name_require: 'Tên khoản thu không được để trống!',
+  payment_amount_require: 'Số tiền khoản thu không được để trống!',
+  payment_amount_invalid: 'Số tiền khoản thu không hợp lệ!',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -472,7 +483,7 @@ export default {
   update_building_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin tòa nhà này không?',
   update_success: 'Cập nhật thành công!',
   update_staff_confirm: 'Bạn có chắc chắn muốn cập nhật thông tin nhân viên này không?',
-  un_paid: ' Chưa thanh toán',
+  un_paid: 'Chưa thanh toán',
 
   V: 'v',
 

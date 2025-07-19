@@ -35,4 +35,22 @@ type Service = BasicModel & {
   price: number;
 };
 
-export type { Bill, Service, BillPayment };
+type UpdateBill = {
+  title: string;
+  status: number;
+  note: string;
+  payments: {
+    ID: number;
+    name: string;
+    amount: number;
+    note: string;
+  }[];
+  newPayments: {
+    name: string;
+    amount: number;
+    note: string;
+  }[];
+  deletedPayments: number[];
+};
+
+export type { Bill, Service, BillPayment, UpdateBill };

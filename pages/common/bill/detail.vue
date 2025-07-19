@@ -154,5 +154,18 @@ onMounted(async () => {
 });
 
 // ---------------------- Events ----------------------
-$event.on('updateBillingSuccess', getBillingDetail);
+$event.on('updateBillingSuccess', () => {
+  notification.info({
+    message: t('update_success'),
+    description: t('bill_info_updated'),
+  });
+
+  notification.info({
+    message: t('edit_mode_inactive'),
+  });
+  editMode.value = false;
+  $event.emit('cancelBillingEditMode');
+
+  getBillingDetail();
+});
 </script>

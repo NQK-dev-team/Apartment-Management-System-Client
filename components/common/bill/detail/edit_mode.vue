@@ -1,5 +1,5 @@
 <template>
-  <a-form ref="editForm" :model="bill">
+  <a-form ref="editForm" :model="bill.value">
     <h1 class="mt-5 text-2xl">{{ $t('bill_info') }}</h1>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -7,7 +7,13 @@
           <label for="building_name" class="flex mb-1">
             <span>{{ $t('building') }}</span>
           </label>
-          <a-input id="building_name" disabled readonly :value="bill.buildingName" :placeholder="$t('building_name')" />
+          <a-input
+            id="building_name"
+            disabled
+            readonly
+            :value="bill.value.buildingName"
+            :placeholder="$t('building_name')"
+          />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -15,7 +21,7 @@
           <label for="room_floor" class="flex mb-1">
             <span>{{ $t('floor') }}</span>
           </label>
-          <a-input id="room_floor" disabled readonly :value="bill.roomFloor" :placeholder="$t('floor')" />
+          <a-input id="room_floor" disabled readonly :value="bill.value.roomFloor" :placeholder="$t('floor')" />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -23,16 +29,19 @@
           <label for="room_no" class="flex mb-1">
             <span>{{ $t('room_no') }}</span>
           </label>
-          <a-input id="room_no" disabled readonly :value="bill.roomNo" :placeholder="$t('room_no')" />
+          <a-input id="room_no" disabled readonly :value="bill.value.roomNo" :placeholder="$t('room_no')" />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="contract_id" class="flex mb-1">
           <span>{{ $t('contract_id') }}</span>
         </label>
-        <a-input id="contract_id" disabled readonly :value="bill.contractID" :placeholder="$t('contract_id')">
+        <a-input id="contract_id" disabled readonly :value="bill.value.contractID" :placeholder="$t('contract_id')">
           <template #suffix>
-            <NuxtLink :to="pageRoutes.common.contract.detail(bill.contractID)" :title="$t('detail')" target="_blank"
+            <NuxtLink
+              :to="pageRoutes.common.contract.detail(bill.value.contractID)"
+              :title="$t('detail')"
+              target="_blank"
               ><LinkOutlined
             /></NuxtLink>
           </template>
@@ -49,13 +58,13 @@
             id="house_holder"
             disabled
             readonly
-            :value="`${bill.contract.householder.no} - ${getUserName(bill.contract.householder)}`"
-            :title="`${bill.contract.householder.no} - ${getUserName(bill.contract.householder)}`"
+            :value="`${bill.value.contract.householder.no} - ${getUserName(bill.value.contract.householder)}`"
+            :title="`${bill.value.contract.householder.no} - ${getUserName(bill.value.contract.householder)}`"
             :placeholder="$t('house_holder')"
           >
             <template #suffix>
               <NuxtLink
-                :to="pageRoutes.common.customer.detail(bill.contract.householderID)"
+                :to="pageRoutes.common.customer.detail(bill.value.contract.householderID)"
                 :title="$t('detail')"
                 target="_blank"
               >
@@ -63,6 +72,35 @@
               </NuxtLink>
             </template>
           </a-input>
+        </a-form-item>
+      </a-col>
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item :name="['title']" :rules="[{ required: true, message: $t('bill_name_require'), trigger: 'blur' }]">
+          <label for="bill_name" class="flex mb-1 justify-between">
+            <div class="flex items-center">
+              <span>{{ $t('bill_name') }}</span>
+              <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            </div>
+            <a-button
+              class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+              size="small"
+              style="display: flex"
+              @click="
+                () => {
+                  bill.value.title = props.oldBill.title;
+                  clearValidation();
+                  useTimeout(0, {
+                    callback: () => {
+                      validateForm(false);
+                    },
+                  });
+                }
+              "
+            >
+              <UndoOutlined />
+            </a-button>
+          </label>
+          <a-input id="bill_name" v-model:value="bill.value.title" :placeholder="$t('enter_bill_name')" />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -75,7 +113,7 @@
             class="w-full"
             disabled
             readonly
-            :value="$dayjs(bill.period)"
+            :value="$dayjs(bill.value.period)"
             :placeholder="$t('payment_period')"
             picker="month"
           />
@@ -83,13 +121,59 @@
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="status">
-          <label for="status" class="flex mb-1">
-            <span>{{ $t('status') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          <label for="status" class="flex mb-1 justify-between">
+            <div class="flex items-center">
+              <span>{{ $t('status') }}</span>
+              <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            </div>
+            <a-button
+              class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+              size="small"
+              style="display: flex"
+              @click="
+                () => {
+                  bill.value.status = props.oldBill.status;
+                  clearValidation();
+                  useTimeout(0, {
+                    callback: () => {
+                      validateForm(false);
+                    },
+                  });
+                }
+              "
+            >
+              <UndoOutlined />
+            </a-button>
           </label>
-          <!-- <a-input id="status" disabled readonly :value="$t(getBillStatusStr())" :placeholder="$t('status')" /> -->
+          <ClientOnly>
+            <a-select
+              id="status"
+              v-model:value="bill.value.status"
+              placeholder="{{ $t('select_status') }}"
+              class="w-full text-left"
+            >
+              <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
+              <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#50c433] hidden`">{{
+                $t('unpaid')
+              }}</a-select-option>
+              <a-select-option :value="COMMON.BILL_STATUS.PAID" :class="`text-[#888888] hidden`">{{
+                $t('paid')
+              }}</a-select-option>
+              <a-select-option :value="COMMON.BILL_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
+                $t('cancelled')
+              }}</a-select-option>
+              <a-select-option :value="COMMON.BILL_STATUS.OVERDUE" :class="`text-[#888888] hidden`">{{
+                $t('overdue')
+              }}</a-select-option>
+              <a-select-option :value="COMMON.BILL_STATUS.PROCESSING" :class="`text-[#888888] hidden`">{{
+                $t('processing')
+              }}</a-select-option>
+            </a-select>
+          </ClientOnly>
         </a-form-item>
       </a-col>
+    </a-row>
+    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="paid_by" class="flex mb-1">
           <span>{{ $t('paid_by') }}</span>
@@ -98,19 +182,21 @@
           id="paid_by"
           disabled
           readonly
-          :value="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
-          :title="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
-          :placeholder="$t('paid_by')"
+          :value="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
+          :title="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
+          placeholder="-"
         >
-          <template v-if="bill.payerID" #suffix>
-            <NuxtLink :to="pageRoutes.common.customer.detail(bill.payerID)" :title="$t('detail')" target="_blank">
+          <template v-if="bill.value.payerID.Valid" #suffix>
+            <NuxtLink
+              :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
+              :title="$t('detail')"
+              target="_blank"
+            >
               <LinkOutlined />
             </NuxtLink>
           </template>
         </a-input>
       </a-col>
-    </a-row>
-    <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="payment_time">
           <label for="payment_time" class="flex mb-1">
@@ -122,13 +208,29 @@
             show-time
             disabled
             readonly
-            :value="bill.paymentTime.Time && bill.paymentTime.Valid ? $dayjs(bill.paymentTime.Time) : '-'"
-            :placeholder="$t('payment_time')"
+            :value="
+              bill.value.paymentTime.Time && bill.value.paymentTime.Valid ? $dayjs(bill.value.paymentTime.Time) : ''
+            "
+            placeholder="-"
           />
         </a-form-item>
       </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
-      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
+      <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+        <a-form-item name="bill_note">
+          <label for="bill_note" class="flex mb-1 justify-between">
+            <span>{{ $t('note') }}</span>
+            <a-button
+              class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
+              size="small"
+              style="display: flex"
+              @click="bill.value.note = JSON.parse(JSON.stringify(props.oldBill.note))"
+            >
+              <UndoOutlined />
+            </a-button>
+          </label>
+          <a-textarea id="bill_note" v-model:value="bill.value.note.String as string" :placeholder="$t('enter_note')" />
+        </a-form-item>
+      </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
     <div class="mt-10 flex items-center justify-between">
@@ -136,7 +238,17 @@
       <div class="flex items-center">
         <a-button
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-          @click="() => {}"
+          @click="
+            () => {
+              bill.value.billPayments = JSON.parse(JSON.stringify(props.oldBill.billPayments));
+              clearValidation();
+              useTimeout(0, {
+                callback: () => {
+                  validateForm(false);
+                },
+              });
+            }
+          "
         >
           <UndoOutlined />
         </a-button>
@@ -148,50 +260,112 @@
           @click="
             () => {
               $event.emit('deleteItem', {
-                callback: () => {},
+                callback: () => {
+                  const deletedIDs = [] as number[];
+                  bill.value.billPayments.forEach((payment) => {
+                    if (deleteBucket.value.includes(payment.ID)) {
+                      if (payment.ID < 0) {
+                        deletedIDs.push(payment.ID);
+                      } else {
+                        payment.isDeleted = true;
+                      }
+                    }
+                  });
+                  bill.value.billPayments = bill.value.billPayments.filter(
+                    (payment) => !deletedIDs.includes(payment.ID)
+                  );
+                  deleteBucket.value = [];
+                },
                 noPasswordRequired: true,
               });
             }
           "
           ><DeleteOutlined
         /></a-button>
-        <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm" @click="() => {}"
+        <a-button
+          type="primary"
+          class="flex items-center justify-center w-8 h-8 rounded-sm"
+          @click="
+            () => {
+              addCounter++;
+              bill.value.billPayments.push({
+                ID: -addCounter,
+                name: '',
+                amount: 0,
+                note: {
+                  Valid: false,
+                  String: '',
+                },
+              } as BillPayment);
+            }
+          "
           ><PlusOutlined
         /></a-button>
       </div>
     </div>
+    <CommonBillDetailEditModePaymentListTable :payments="bill.value.billPayments" :delete-bucket="deleteBucket" />
   </a-form>
 </template>
 
 <script lang="ts" setup>
 import { svgPaths } from '~/consts/svg_paths';
-import type { Bill } from '~/types/bill';
+import type { Bill, BillPayment, UpdateBill } from '~/types/bill';
 import type { FormInstance } from 'ant-design-vue';
-import api from '~/plugins/api';
 import { getMessageCode } from '~/consts/api_response';
 import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
+import { api } from '~/services/api';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
-  bill: {
+  editBill: {
+    type: Object as PropType<{ value: Bill }>,
+    required: true,
+  },
+  oldBill: {
     type: Object as PropType<Bill>,
     required: true,
   },
 });
-const bill = toRef(props, 'bill');
+const bill = toRef(props, 'editBill');
 const editForm = ref<FormInstance>();
 const { $event } = useNuxtApp();
 const { t } = useI18n();
+const deleteBucket = ref({ value: [] as number[] });
+const addCounter = ref(0);
 
 // ---------------------- Functions ----------------------
 async function updateBill() {
   try {
     $event.emit('loading');
 
-    const formData = new FormData();
+    const data: UpdateBill = {
+      title: bill.value.value.title,
+      status: bill.value.value.status,
+      note: bill.value.value.note.String || '',
+      payments: bill.value.value.billPayments
+        .filter((payment) => payment.ID > 0 && !payment.isDeleted)
+        .map((payment) => ({
+          ID: payment.ID,
+          name: payment.name,
+          amount: Number(payment.amount),
+          note: payment.note.String || '',
+        })),
+      newPayments: bill.value.value.billPayments
+        .filter((payment) => payment.ID < 0 && !payment.isDeleted)
+        .map((payment) => ({
+          name: payment.name,
+          amount: Number(payment.amount),
+          note: payment.note.String || '',
+        })),
+      deletedPayments: bill.value.value.billPayments
+        .filter((payment) => payment.ID > 0 && payment.isDeleted)
+        .map((payment) => payment.ID),
+    };
 
-    $event.emit('updateContractSuccess');
+    await api.common.bill.updateBill(bill.value.value.ID, data);
+
+    $event.emit('updateBillingSuccess');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -208,19 +382,32 @@ async function updateBill() {
   }
 }
 
-async function validateForm() {
+async function validateForm(callUpdateBill = true) {
   try {
     if (!editForm.value) {
       return;
     }
     await editForm.value.validateFields();
-    updateBill();
+    if (callUpdateBill) {
+      $event.emit('updateItem', {
+        callback: updateBill,
+        updateModalContent: 'confirm_update_bill',
+      });
+    }
   } catch (error) {
     /* empty */
   }
 }
 
+function clearValidation() {
+  if (editForm.value) {
+    editForm.value.clearValidate();
+  }
+}
+
 // ---------------------- Events ----------------------
-$event.on('updateBillingInfo', validateForm);
-$event.on('cancelBillingEditMode', () => {});
+$event.on('updateBillingInfo', () => {
+  validateForm();
+});
+$event.on('cancelBillingEditMode', clearValidation);
 </script>

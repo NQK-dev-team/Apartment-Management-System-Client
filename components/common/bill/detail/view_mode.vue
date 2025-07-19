@@ -107,12 +107,16 @@
           id="paid_by"
           disabled
           readonly
-          :value="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
-          :title="bill.payerID ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
+          :value="bill.payerID.Valid ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
+          :title="bill.payerID.Valid ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
           placeholder="-"
         >
-          <template v-if="bill.payerID" #suffix>
-            <NuxtLink :to="pageRoutes.common.customer.detail(bill.payerID)" :title="$t('detail')" target="_blank">
+          <template v-if="bill.payerID.Valid" #suffix>
+            <NuxtLink
+              :to="pageRoutes.common.customer.detail(bill.payerID.Int64 as number)"
+              :title="$t('detail')"
+              target="_blank"
+            >
               <LinkOutlined />
             </NuxtLink>
           </template>

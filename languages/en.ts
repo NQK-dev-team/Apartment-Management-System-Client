@@ -72,6 +72,7 @@ export default {
   buy_contract: 'Buy contract',
   bill_name_require: 'Billing name cannot be empty!',
   bill_info_updated: 'Billing information has been updated successfully!',
+  bill_status_require: 'Billing status cannot be empty!',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -223,6 +224,7 @@ export default {
   enter_payment_amount: 'Enter payment amount',
   enter_bill_name: 'Enter bill name',
   enter_note: 'Enter note',
+  enter_payment_time: 'Enter payment time',
 
   F: 'f',
   finish_import: 'Import',
@@ -386,6 +388,7 @@ export default {
   payment_name_require: 'Payment name cannot be empty!',
   payment_amount_require: 'Payment amount cannot be empty!',
   payment_amount_invalid: 'Payment amount is not valid!',
+  payment_time_required: 'Payment time cannot be empty!',
 
   Q: 'q',
   quarter: 'Q{quarter}',

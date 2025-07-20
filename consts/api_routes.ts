@@ -77,6 +77,7 @@ const apiRoutes = {
     deleteMany: '/contract/delete-many',
     bill: (contractId: number) => `/contract/${contractId}/bill`,
     activeList: '/contract/active-list',
+    getAllResidentList: (contractID: number) => `/contract/${contractID}/resident-list`,
   },
   import: {},
 };

@@ -115,13 +115,14 @@ const route = useRoute();
 const billID = Number(route.params.id as string);
 const bill = ref<Bill | null>(null);
 const editBill = ref<{ value: Bill }>({ value: {} as Bill });
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
 async function getBillingDetail() {
   try {
     $event.emit('loading');
     const response = await api.common.bill.getDetail(billID);
+    response.data.paymentTime.Time = response.data.paymentTime.Valid ? $dayjs(response.data.paymentTime.Time) : '';
     bill.value = response.data;
     editBill.value = { value: JSON.parse(JSON.stringify(bill.value)) };
   } catch (err: any) {

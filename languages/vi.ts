@@ -72,6 +72,7 @@ export default {
   buy_contract: 'Hợp đồng mua bán',
   bill_name_require: 'Tên hóa đơn không được để trống!',
   bill_info_updated: 'Thông tin hóa đơn đã được cập nhật thành công!',
+  bill_status_require: 'Trạng thái hóa đơn không được để trống!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -224,6 +225,7 @@ export default {
   enter_payment_amount: 'Nhập số tiền khoản thu',
   enter_bill_name: 'Nhập tên hóa đơn',
   enter_note: 'Nhập ghi chú',
+  enter_payment_time: 'Nhập thời gian thanh toán',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -385,6 +387,7 @@ export default {
   payment_name_require: 'Tên khoản thu không được để trống!',
   payment_amount_require: 'Số tiền khoản thu không được để trống!',
   payment_amount_invalid: 'Số tiền khoản thu không hợp lệ!',
+  payment_time_required: 'Thời gian thanh toán không được để trống!',
 
   Q: 'q',
   quarter: 'Quý {quarter}',

@@ -51,6 +51,8 @@ type UpdateBill = {
     note: string;
   }[];
   deletedPayments: number[];
+  payerID: number;
+  paymentTime: string;
 };
 
 type AddBill1 = {

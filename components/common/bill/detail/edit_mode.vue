@@ -1,5 +1,14 @@
 <template>
-  <a-form ref="editForm" :model="bill.value">
+  <a-form
+    v-if="
+      (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
+      props.oldBill &&
+      props.oldBill.status !== COMMON.BILL_STATUS.PAID &&
+      props.oldBill.status !== COMMON.BILL_STATUS.PROCESSING
+    "
+    ref="editForm"
+    :model="bill.value"
+  >
     <h1 class="mt-5 text-2xl">{{ $t('bill_info') }}</h1>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -33,19 +42,21 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <label for="contract_id" class="flex mb-1">
-          <span>{{ $t('contract_id') }}</span>
-        </label>
-        <a-input id="contract_id" disabled readonly :value="bill.value.contractID" :placeholder="$t('contract_id')">
-          <template #suffix>
-            <NuxtLink
-              :to="pageRoutes.common.contract.detail(bill.value.contractID)"
-              :title="$t('detail')"
-              target="_blank"
-              ><LinkOutlined
-            /></NuxtLink>
-          </template>
-        </a-input>
+        <a-form-item name="contract_id">
+          <label for="contract_id" class="flex mb-1">
+            <span>{{ $t('contract_id') }}</span>
+          </label>
+          <a-input id="contract_id" disabled readonly :value="bill.value.contractID" :placeholder="$t('contract_id')">
+            <template #suffix>
+              <NuxtLink
+                :to="pageRoutes.common.contract.detail(bill.value.contractID)"
+                :title="$t('detail')"
+                target="_blank"
+                ><LinkOutlined
+              /></NuxtLink>
+            </template>
+          </a-input>
+        </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="16">
@@ -120,7 +131,10 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <a-form-item name="status">
+        <a-form-item
+          :name="['status']"
+          :rules="[{ required: true, message: $t('bill_status_require'), trigger: 'change' }]"
+        >
           <label for="status" class="flex mb-1 justify-between">
             <div class="flex items-center">
               <span>{{ $t('status') }}</span>
@@ -153,19 +167,19 @@
               class="w-full text-left"
             >
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#50c433] hidden`">{{
+              <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#888888]`">{{
                 $t('unpaid')
               }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.PAID" :class="`text-[#888888] hidden`">{{
+              <a-select-option :value="COMMON.BILL_STATUS.PAID" :class="`text-[#50c433]`">{{
                 $t('paid')
               }}</a-select-option>
               <a-select-option :value="COMMON.BILL_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
                 $t('cancelled')
               }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.OVERDUE" :class="`text-[#888888] hidden`">{{
+              <a-select-option :value="COMMON.BILL_STATUS.OVERDUE" :class="`text-[#ff0000] hidden`">{{
                 $t('overdue')
               }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.PROCESSING" :class="`text-[#888888] hidden`">{{
+              <a-select-option :value="COMMON.BILL_STATUS.PROCESSING" :class="`text-[#d8d535] hidden`">{{
                 $t('processing')
               }}</a-select-option>
             </a-select>
@@ -175,32 +189,57 @@
     </a-row>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <label for="paid_by" class="flex mb-1">
-          <span>{{ $t('paid_by') }}</span>
-        </label>
-        <a-input
-          id="paid_by"
-          disabled
-          readonly
-          :value="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
-          :title="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
-          placeholder="-"
-        >
-          <template v-if="bill.value.payerID.Valid" #suffix>
-            <NuxtLink
-              :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
-              :title="$t('detail')"
-              target="_blank"
-            >
-              <LinkOutlined />
-            </NuxtLink>
-          </template>
-        </a-input>
+        <a-form-item v-if="bill.value.status !== COMMON.BILL_STATUS.PAID" name="paid_by">
+          <label for="paid_by" class="flex mb-1">
+            <span>{{ $t('paid_by') }}</span>
+          </label>
+          <a-input
+            id="paid_by"
+            disabled
+            readonly
+            :value="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
+            :title="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
+            placeholder="-"
+          >
+            <template v-if="bill.value.payerID.Valid" #suffix>
+              <NuxtLink
+                :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
+                :title="$t('detail')"
+                target="_blank"
+              >
+                <LinkOutlined />
+              </NuxtLink>
+            </template>
+          </a-input>
+        </a-form-item>
+        <a-form-item v-else>
+          <label for="paid_by" class="flex mb-1">
+            <span>{{ $t('paid_by') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input
+            id="paid_by"
+            :value="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
+            :title="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
+            placeholder="-"
+          >
+            <template v-if="bill.value.payerID.Valid" #suffix>
+              <NuxtLink
+                :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
+                :title="$t('detail')"
+                target="_blank"
+              >
+                <LinkOutlined />
+              </NuxtLink>
+            </template>
+          </a-input>
+        </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <a-form-item name="payment_time">
+        <a-form-item v-if="bill.value.status !== COMMON.BILL_STATUS.PAID" name="payment_time">
           <label for="payment_time" class="flex mb-1">
             <span>{{ $t('payment_time') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-date-picker
             id="payment_time"
@@ -208,10 +247,24 @@
             show-time
             disabled
             readonly
-            :value="
-              bill.value.paymentTime.Time && bill.value.paymentTime.Valid ? $dayjs(bill.value.paymentTime.Time) : ''
-            "
+            :value="bill.value.paymentTime.Time && bill.value.paymentTime.Valid ? bill.value.paymentTime.Time : ''"
             placeholder="-"
+          />
+        </a-form-item>
+        <a-form-item
+          v-else
+          :name="['paymentTime', 'Time']"
+          :rules="[{ required: true, message: $t('payment_time_required'), trigger: 'change' }]"
+        >
+          <label for="payment_time" class="flex mb-1">
+            <span>{{ $t('payment_time') }}</span>
+          </label>
+          <a-date-picker
+            id="payment_time"
+            v-model:value="bill.value.paymentTime.Time as Dayjs | string"
+            class="w-full"
+            show-time
+            :placeholder="$t('enter_payment_time')"
           />
         </a-form-item>
       </a-col>
@@ -315,6 +368,9 @@ import { getMessageCode } from '~/consts/api_response';
 import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
+import { roles } from '~/consts/roles';
+import type { User } from '~/types/user';
+import type { Dayjs } from 'dayjs';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
@@ -333,6 +389,8 @@ const { $event } = useNuxtApp();
 const { t } = useI18n();
 const deleteBucket = ref({ value: [] as number[] });
 const addCounter = ref(0);
+const userRole = useCookie('userRole');
+const customerList = ref<User[]>([]);
 
 // ---------------------- Functions ----------------------
 async function updateBill() {
@@ -404,6 +462,32 @@ function clearValidation() {
     editForm.value.clearValidate();
   }
 }
+
+async function getCustomerList() {
+  try {
+    const response = await api.common.contract.getAllResidentList(bill.value.value.contractID);
+    const data = response.data;
+    customerList.value = data;
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  }
+}
+
+// ---------------------- Lifecycles ----------------------
+onMounted(async () => {
+  $event.emit('loading');
+  await getCustomerList();
+  $event.emit('loading');
+});
 
 // ---------------------- Events ----------------------
 $event.on('updateBillingInfo', () => {

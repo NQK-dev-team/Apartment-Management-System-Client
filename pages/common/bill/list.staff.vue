@@ -77,7 +77,8 @@
                     ? 'text-[#50c433]'
                     : record.status_numeric === COMMON.BILL_STATUS.PROCESSING
                       ? 'text-[#d8d535]'
-                      : record.status_numeric === COMMON.BILL_STATUS.OVERDUE
+                      : record.status_numeric === COMMON.BILL_STATUS.OVERDUE ||
+                          record.status_numeric === COMMON.BILL_STATUS.CANCELLED
                         ? 'text-[#ff0000]'
                         : '',
               ]"

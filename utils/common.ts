@@ -95,6 +95,8 @@ function getBillStatus(status: number): string {
       return 'overdue';
     case COMMON.BILL_STATUS.PROCESSING:
       return 'processing';
+    case COMMON.BILL_STATUS.CANCELLED:
+      return 'cancelled';
     default:
       return '-';
   }

@@ -52,7 +52,7 @@ const data = computed(() =>
     no: index + 1,
     building_managing: schedule.building.name,
     startDate: convertToDate(schedule.startDate as string),
-    endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time!) : '-',
+    endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time! as string) : '-',
   }))
 );
 </script>

@@ -372,8 +372,8 @@ async function getStaffDetailInfo() {
     schedules.value = scheduleResponse.data.sort(
       (a, b) =>
         new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
-        new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
-          new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
+        new Date((b.endDate as NullTime).Valid ? ((b.endDate as NullTime).Time! as string) : '2100-01-01').getTime() -
+          new Date((a.endDate as NullTime).Valid ? ((a.endDate as NullTime).Time! as string) : '2100-01-01').getTime()
     );
 
     staffFullName.value = getUserName(response.data);
@@ -399,8 +399,8 @@ async function getStaffDetailInfo() {
       .sort(
         (a, b) =>
           new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
-          new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
-            new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
+          new Date((b.endDate as NullTime).Valid ? ((b.endDate as NullTime).Time! as string) : '2100-01-01').getTime() -
+            new Date((a.endDate as NullTime).Valid ? ((a.endDate as NullTime).Time! as string) : '2100-01-01').getTime()
       )
       .map((schedule) => ({
         ID: schedule.ID,

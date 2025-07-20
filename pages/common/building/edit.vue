@@ -301,7 +301,11 @@
         </div>
       </div>
     </div>
-    <div id="page_content" class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div
+      id="page_content"
+      class="flex-1 flex flex-col px-4 mt-5"
+      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+    >
       <ClientOnly>
         <div v-show="step === 1" class="flex-1">
           <CommonBuildingEditStep1
@@ -738,8 +742,8 @@ async function getBuildingData() {
       .sort(
         (a, b) =>
           new Date(b.startDate as string).getTime() - new Date(a.startDate as string).getTime() ||
-          new Date((b.endDate as NullTime).Valid ? (b.endDate as NullTime).Time! : '2100-01-01').getTime() -
-            new Date((a.endDate as NullTime).Valid ? (a.endDate as NullTime).Time! : '2100-01-01').getTime()
+          new Date((b.endDate as NullTime).Valid ? ((b.endDate as NullTime).Time! as string) : '2100-01-01').getTime() -
+            new Date((a.endDate as NullTime).Valid ? ((a.endDate as NullTime).Time! as string) : '2100-01-01').getTime()
       )
       .map((schedule) => {
         return {

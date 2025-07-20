@@ -1,4 +1,5 @@
 import type { UploadFile } from 'ant-design-vue';
+import type { Dayjs } from 'dayjs';
 
 type BasicModel = {
   ID: number;
@@ -22,7 +23,7 @@ type BasicFileModel = {
 };
 
 type NullTime = {
-  Time: string | null;
+  Time: string | null | Dayjs;
   Valid: boolean;
 };
 

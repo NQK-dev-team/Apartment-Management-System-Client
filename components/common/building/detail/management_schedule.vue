@@ -119,7 +119,9 @@ function searchEmployee() {
       email: schedule.manager.email,
       phone: schedule.manager.phone,
       startDate: convertToDate(schedule.startDate as string),
-      endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time!) : '-',
+      endDate: (schedule.endDate as NullTime).Valid
+        ? convertToDate((schedule.endDate as NullTime).Time! as string)
+        : '-',
       ID: schedule.manager.ID,
     });
   });
@@ -146,7 +148,9 @@ onMounted(() => {
       email: schedule.manager.email,
       phone: schedule.manager.phone,
       startDate: convertToDate(schedule.startDate as string),
-      endDate: (schedule.endDate as NullTime).Valid ? convertToDate((schedule.endDate as NullTime).Time!) : '-',
+      endDate: (schedule.endDate as NullTime).Valid
+        ? convertToDate((schedule.endDate as NullTime).Time! as string)
+        : '-',
       ID: schedule.manager.ID,
     });
   });

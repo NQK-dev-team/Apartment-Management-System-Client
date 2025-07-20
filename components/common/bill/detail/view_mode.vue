@@ -27,16 +27,18 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <label for="contract_id" class="flex mb-1">
-          <span>{{ $t('contract_id') }}</span>
-        </label>
-        <a-input id="contract_id" disabled readonly :value="bill.contractID" :placeholder="$t('contract_id')">
-          <template #suffix>
-            <NuxtLink :to="pageRoutes.common.contract.detail(bill.contractID)" :title="$t('detail')" target="_blank"
-              ><LinkOutlined
-            /></NuxtLink>
-          </template>
-        </a-input>
+        <a-form-item name="contract_id">
+          <label for="contract_id" class="flex mb-1">
+            <span>{{ $t('contract_id') }}</span>
+          </label>
+          <a-input id="contract_id" disabled readonly :value="bill.contractID" :placeholder="$t('contract_id')">
+            <template #suffix>
+              <NuxtLink :to="pageRoutes.common.contract.detail(bill.contractID)" :title="$t('detail')" target="_blank"
+                ><LinkOutlined
+              /></NuxtLink>
+            </template>
+          </a-input>
+        </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="16">
@@ -100,27 +102,29 @@
     </a-row>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <label for="paid_by" class="flex mb-1">
-          <span>{{ $t('paid_by') }}</span>
-        </label>
-        <a-input
-          id="paid_by"
-          disabled
-          readonly
-          :value="bill.payerID.Valid ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
-          :title="bill.payerID.Valid ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
-          placeholder="-"
-        >
-          <template v-if="bill.payerID.Valid" #suffix>
-            <NuxtLink
-              :to="pageRoutes.common.customer.detail(bill.payerID.Int64 as number)"
-              :title="$t('detail')"
-              target="_blank"
-            >
-              <LinkOutlined />
-            </NuxtLink>
-          </template>
-        </a-input>
+        <a-form-item name="paid_by">
+          <label for="paid_by" class="flex mb-1">
+            <span>{{ $t('paid_by') }}</span>
+          </label>
+          <a-input
+            id="paid_by"
+            disabled
+            readonly
+            :value="bill.payerID.Valid ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
+            :title="bill.payerID.Valid ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
+            placeholder="-"
+          >
+            <template v-if="bill.payerID.Valid" #suffix>
+              <NuxtLink
+                :to="pageRoutes.common.customer.detail(bill.payerID.Int64 as number)"
+                :title="$t('detail')"
+                target="_blank"
+              >
+                <LinkOutlined />
+              </NuxtLink>
+            </template>
+          </a-input>
+        </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="payment_time">

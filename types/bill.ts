@@ -53,4 +53,31 @@ type UpdateBill = {
   deletedPayments: number[];
 };
 
-export type { Bill, Service, BillPayment, UpdateBill };
+type AddBill1 = {
+  buildingID: number;
+  floor: number;
+  roomID: number;
+  contractID: number;
+  period: string;
+  status: number;
+  note: NullString;
+  paymentTime: NullTime;
+  amount: number;
+  payerID: NullInt64;
+  title: string;
+  billPayments: BillPayment[];
+};
+
+type AddBill2 = {
+  contractID: number;
+  period: string;
+  status: number;
+  note: NullString;
+  paymentTime: NullTime;
+  amount: number;
+  payerID: NullInt64;
+  title: string;
+  billPayments: BillPayment[];
+};
+
+export type { Bill, Service, BillPayment, UpdateBill, AddBill1, AddBill2 };

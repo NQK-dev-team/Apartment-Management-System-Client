@@ -388,6 +388,12 @@ const common = {
         body: data,
       });
     },
+    getActiveList: async (): Promise<APIResponse<Contract[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.activeList, {
+        method: 'GET',
+      });
+    }
   },
   import: {},
 };

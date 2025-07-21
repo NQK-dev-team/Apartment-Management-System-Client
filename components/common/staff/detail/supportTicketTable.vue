@@ -154,7 +154,9 @@
             <a-input
               id="decision_date_1"
               :value="
-                ticketDetail?.managerResolveTime.Valid ? convertToDateTime(ticketDetail.managerResolveTime.Time!) : ''
+                ticketDetail?.managerResolveTime.Valid
+                  ? convertToDateTime(ticketDetail.managerResolveTime.Time! as string)
+                  : ''
               "
               disabled
               readonly
@@ -187,7 +189,9 @@
             <a-input
               id="decision_date_2"
               :value="
-                ticketDetail?.ownerResolveTime.Valid ? convertToDateTime(ticketDetail.ownerResolveTime.Time!) : ''
+                ticketDetail?.ownerResolveTime.Valid
+                  ? convertToDateTime(ticketDetail.ownerResolveTime.Time! as string)
+                  : ''
               "
               disabled
               readonly

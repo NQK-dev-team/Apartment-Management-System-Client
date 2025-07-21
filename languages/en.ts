@@ -389,6 +389,7 @@ export default {
   payment_amount_require: 'Payment amount cannot be empty!',
   payment_amount_invalid: 'Payment amount is not valid!',
   payment_time_required: 'Payment time cannot be empty!',
+  paid_by_required: 'Payer information cannot be empty!',
 
   Q: 'q',
   quarter: 'Q{quarter}',

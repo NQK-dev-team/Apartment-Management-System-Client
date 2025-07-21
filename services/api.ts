@@ -394,12 +394,6 @@ const common = {
         method: 'GET',
       });
     },
-    getAllResidentList: async (contractID: number): Promise<APIResponse<User[]>> => {
-      const $api = getApiInstance();
-      return $api(apiRoutes.contract.getAllResidentList(contractID), {
-        method: 'GET',
-      });
-    },
   },
   import: {},
 };

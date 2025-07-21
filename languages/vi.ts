@@ -388,6 +388,7 @@ export default {
   payment_amount_require: 'Số tiền khoản thu không được để trống!',
   payment_amount_invalid: 'Số tiền khoản thu không hợp lệ!',
   payment_time_required: 'Thời gian thanh toán không được để trống!',
+  paid_by_required: 'Thông tin người thanh toán không được để trống!',
 
   Q: 'q',
   quarter: 'Quý {quarter}',

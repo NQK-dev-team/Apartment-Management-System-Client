@@ -167,7 +167,7 @@
               class="w-full text-left"
             >
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#888888]`">{{
+              <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#888888] hidden`">{{
                 $t('unpaid')
               }}</a-select-option>
               <a-select-option :value="COMMON.BILL_STATUS.PAID" :class="`text-[#50c433]`">{{
@@ -212,27 +212,32 @@
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item v-else>
+        <a-form-item
+          v-else
+          :name="['payerID', 'Int64']"
+          :rules="[{ required: true, message: $t('paid_by_required'), trigger: 'change' }]"
+        >
           <label for="paid_by" class="flex mb-1">
             <span>{{ $t('paid_by') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input
+          <a-select
             id="paid_by"
-            :value="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
-            :title="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
-            placeholder="-"
+            v-model:value="bill.value.payerID.Int64 as number"
+            class="w-full text-left"
+            show-search
+            :placeholder="$t('select_customer')"
+            :filter-option="filterOption"
           >
-            <template v-if="bill.value.payerID.Valid" #suffix>
-              <NuxtLink
-                :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
-                :title="$t('detail')"
-                target="_blank"
-              >
-                <LinkOutlined />
-              </NuxtLink>
-            </template>
-          </a-input>
+            <a-select-option
+              v-for="(customer, index) in customerList"
+              :key="index"
+              :value="customer.ID"
+              :label="`${customer.no} - ${getUserName(customer)}`"
+            >
+              {{ customer.no }} - {{ getUserName(customer) }}
+            </a-select-option>
+          </a-select>
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
@@ -244,7 +249,6 @@
           <a-date-picker
             id="payment_time"
             class="w-full"
-            show-time
             disabled
             readonly
             :value="bill.value.paymentTime.Time && bill.value.paymentTime.Valid ? bill.value.paymentTime.Time : ''"
@@ -258,13 +262,14 @@
         >
           <label for="payment_time" class="flex mb-1">
             <span>{{ $t('payment_time') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-date-picker
             id="payment_time"
             v-model:value="bill.value.paymentTime.Time as Dayjs | string"
             class="w-full"
-            show-time
             :placeholder="$t('enter_payment_time')"
+            :disabled-date="disabledDate"
           />
         </a-form-item>
       </a-col>
@@ -385,7 +390,7 @@ const props = defineProps({
 });
 const bill = toRef(props, 'editBill');
 const editForm = ref<FormInstance>();
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const { t } = useI18n();
 const deleteBucket = ref({ value: [] as number[] });
 const addCounter = ref(0);
@@ -419,6 +424,18 @@ async function updateBill() {
       deletedPayments: bill.value.value.billPayments
         .filter((payment) => payment.ID > 0 && payment.isDeleted)
         .map((payment) => payment.ID),
+      payerID:
+        props.oldBill.status !== COMMON.BILL_STATUS.PAID &&
+        bill.value.value.status === COMMON.BILL_STATUS.PAID &&
+        bill.value.value.payerID.Int64
+          ? bill.value.value.payerID.Int64
+          : 0,
+      paymentTime:
+        props.oldBill.status !== COMMON.BILL_STATUS.PAID &&
+        bill.value.value.status === COMMON.BILL_STATUS.PAID &&
+        bill.value.value.paymentTime.Time
+          ? convertToDate($dayjs(bill.value.value.paymentTime.Time).toString())
+          : '',
     };
 
     await api.common.bill.updateBill(bill.value.value.ID, data);
@@ -465,9 +482,16 @@ function clearValidation() {
 
 async function getCustomerList() {
   try {
-    const response = await api.common.contract.getAllResidentList(bill.value.value.contractID);
-    const data = response.data;
-    customerList.value = data;
+    const response = await api.common.contract.getDetail(bill.value.value.contractID);
+    customerList.value = [];
+
+    customerList.value.push(response.data.householder);
+
+    response.data.residents.forEach((resident) => {
+      if (resident.userAccountID.Valid && resident.userAccount) {
+        customerList.value.push(resident.userAccount);
+      }
+    });
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -481,6 +505,15 @@ async function getCustomerList() {
     }
   }
 }
+
+function filterOption(input: string, option: any) {
+  return removeDiacritics(option.label.toLowerCase()).includes(removeDiacritics(input.toLowerCase()));
+}
+
+const disabledDate = (current: Dayjs) => {
+  // Can not select days after today
+  return current && current >= $dayjs().endOf('day');
+};
 
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {

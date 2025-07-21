@@ -123,6 +123,7 @@ async function getBillingDetail() {
     $event.emit('loading');
     const response = await api.common.bill.getDetail(billID);
     response.data.paymentTime.Time = response.data.paymentTime.Valid ? $dayjs(response.data.paymentTime.Time) : '';
+    response.data.payerID.Int64 = response.data.payerID.Valid ? response.data.payerID.Int64 : null;
     bill.value = response.data;
     editBill.value = { value: JSON.parse(JSON.stringify(bill.value)) };
   } catch (err: any) {

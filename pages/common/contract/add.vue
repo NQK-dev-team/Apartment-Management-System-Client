@@ -112,8 +112,14 @@
                 class="w-full text-left"
                 show-search
                 :placeholder="$t('select_customer')"
+                :filter-option="filterOption"
               >
-                <a-select-option v-for="(customer, index) in customerList" :key="index" :value="customer.ID">
+                <a-select-option
+                  v-for="(customer, index) in customerList"
+                  :key="index"
+                  :value="customer.ID"
+                  :label="`${customer.no} - ${getUserName(customer)}`"
+                >
                   {{ customer.no }} - {{ getUserName(customer) }}
                 </a-select-option>
               </a-select>
@@ -899,6 +905,10 @@ async function addContract() {
   } finally {
     $event.emit('loading');
   }
+}
+
+function filterOption(input: string, option: any) {
+  return removeDiacritics(option.label.toLowerCase()).includes(removeDiacritics(input.toLowerCase()));
 }
 
 // ---------------------- Lifecycles ----------------------

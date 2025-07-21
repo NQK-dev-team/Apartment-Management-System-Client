@@ -32,10 +32,17 @@
             :class="[resident.userAccountID.Int64 ? '' : 'text-[#9ca3af]']"
             show-search
             :options="[
-              ...customers.map((customer) => ({
-                value: customer.ID,
-                label: `${customer.no} - ${getUserName(customer)}`,
-              })),
+              ...customers
+                .filter((customer) => {
+                  if (props.newContract.householderID) {
+                    return customer.ID !== props.newContract.householderID;
+                  }
+                  return true;
+                })
+                .map((customer) => ({
+                  value: customer.ID,
+                  label: `${customer.no} - ${getUserName(customer)}`,
+                })),
             ]"
             :allow-clear="true"
             :placeholder="$t('search_by_customer_no')"
@@ -369,7 +376,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { RoomResident } from '~/types/contract';
+import type { AddContract, RoomResident } from '~/types/contract';
 import type { User } from '~/types/user';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
@@ -396,6 +403,10 @@ const props = defineProps({
   },
   customers: {
     type: Array as PropType<User[]>,
+    required: true,
+  },
+  newContract: {
+    type: Object as PropType<AddContract>,
     required: true,
   },
 });

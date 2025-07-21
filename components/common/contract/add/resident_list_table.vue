@@ -133,6 +133,7 @@
           :resident="resident"
           :delete-bucket="deleteBucket"
           :customers="props.customers"
+          :new-contract="newContract"
         />
       </tbody>
       <tbody v-else>
@@ -240,4 +241,17 @@ onMounted(() => {
 
   resizeObserver.observe(document.getElementById('page_content')!);
 });
+
+// ---------------------- Watchers ----------------------
+watch(
+  () => newContract.value.householderID,
+  (householderID) => {
+    if (householderID) {
+      deleteBucket.value.value = deleteBucket.value.value.filter((ID) => ID !== householderID);
+      newContract.value.residents = newContract.value.residents.filter(
+        (resident) => resident.userAccountID.Int64 !== householderID
+      );
+    }
+  }
+);
 </script>

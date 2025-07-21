@@ -578,6 +578,7 @@ import type { Room, Building } from '~/types/building';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import type { UploadFile } from 'ant-design-vue';
+import Success from '~/public/svg/success.svg';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({

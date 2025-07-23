@@ -262,30 +262,28 @@
           <div class="flex items-center">
             <a-button
               type="primary"
-              :disabled="false"
+              :disabled="deleteBucket.value.length === 0"
               danger
               class="flex items-center justify-center w-8 h-8 rounded-sm me-2"
               @click="
                 () => {
-                  // $event.emit('deleteItem', {
-                  //   callback: () => {
-                  //     const deletedIDs = [] as number[];
-                  //     bill.value.billPayments.forEach((payment) => {
-                  //       if (deleteBucket.value.includes(payment.ID)) {
-                  //         if (payment.ID < 0) {
-                  //           deletedIDs.push(payment.ID);
-                  //         } else {
-                  //           payment.isDeleted = true;
-                  //         }
-                  //       }
-                  //     });
-                  //     bill.value.billPayments = bill.value.billPayments.filter(
-                  //       (payment) => !deletedIDs.includes(payment.ID)
-                  //     );
-                  //     deleteBucket.value = [];
-                  //   },
-                  //   noPasswordRequired: true,
-                  // });
+                  $event.emit('deleteItem', {
+                    callback: () => {
+                      const deletedIDs = [] as number[];
+                      bill.billPayments.forEach((payment) => {
+                        if (deleteBucket.value.includes(payment.ID)) {
+                          if (payment.ID < 0) {
+                            deletedIDs.push(payment.ID);
+                          } else {
+                            payment.isDeleted = true;
+                          }
+                        }
+                      });
+                      bill.billPayments = bill.billPayments.filter((payment) => !deletedIDs.includes(payment.ID));
+                      deleteBucket.value = [];
+                    },
+                    noPasswordRequired: true,
+                  });
                 }
               "
               ><DeleteOutlined
@@ -295,29 +293,30 @@
               class="flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
                 () => {
-                  // addCounter++;
-                  // bill.value.billPayments.push({
-                  //   ID: -addCounter,
-                  //   name: '',
-                  //   amount: 0,
-                  //   note: {
-                  //     Valid: false,
-                  //     String: '',
-                  //   },
-                  // } as BillPayment);
+                  addCounter++;
+                  bill.billPayments.push({
+                    ID: -addCounter,
+                    name: '',
+                    amount: 0,
+                    note: {
+                      Valid: false,
+                      String: '',
+                    },
+                  } as BillPayment);
                 }
               "
               ><PlusOutlined
             /></a-button>
           </div>
         </div>
-        <!-- <CommonBillDetailEditModePaymentListTable :payments="bill.value.billPayments" :delete-bucket="deleteBucket" /> -->
+        <CommonBillAddPaymentListTable :payments="bill.billPayments" :delete-bucket="deleteBucket" />
+        <div class="flex flex-col items-center my-5">
+          <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
+          <a-button html-type="button" class="my-2 w-[100px] rounded-sm">
+            <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('back') }}</NuxtLink>
+          </a-button>
+        </div>
       </a-form>
-      <div class="flex flex-col items-center my-5">
-        <a-button class="my-2 w-[100px] rounded-sm">
-          <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('back') }}</NuxtLink>
-        </a-button>
-      </div>
     </div>
   </div>
 </template>
@@ -328,9 +327,10 @@ import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
 import { svgPaths } from '~/consts/svg_paths';
 import type { FormInstance } from 'ant-design-vue';
-import type { Building } from '~/types/building';
+import type { Building, Room } from '~/types/building';
 import { COMMON } from '~/consts/common';
 import type { Contract } from '~/types/contract';
+import type { AddBill1, BillPayment } from '~/types/bill';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -358,16 +358,80 @@ const lightMode = computed(
 const addSuccess = ref<boolean>(false);
 const { $event } = useNuxtApp();
 const addForm = ref<FormInstance>();
-const bill = ref();
+const bill = ref<AddBill1>({
+  buildingID: 0,
+  floor: 0,
+  roomID: 0,
+  contractID: 0,
+  period: '',
+  status: undefined,
+  note: '',
+  paymentTime: '',
+  amount: 0,
+  payerID: null,
+  title: '',
+  billPayments: [],
+});
 const addCounter = ref(0);
 const buildingList = ref<Building[]>([]);
 const contractList = ref<Contract[]>([]);
+const deleteBucket = ref<{ value: number[] }>({ value: [] });
+const offset = ref(0);
+const limit = ref(500);
+const floorList = computed<number[]>(() => {
+  const result: number[] = [];
+
+  if (!bill.value.buildingID) {
+    return result;
+  }
+
+  const building = buildingList.value.find((b) => b.ID === bill.value.buildingID);
+  if (!building) {
+    return result;
+  }
+  result.push(...Array.from({ length: building.totalFloor }, (_, i) => i + 1));
+
+  return result;
+});
+const roomList = computed<Room[]>(() => {
+  const result: Room[] = [];
+
+  if (!bill.value.buildingID || !bill.value.floor) {
+    return result;
+  }
+
+  const building = buildingList.value.find((b) => b.ID === bill.value.buildingID);
+  if (!building) {
+    return result;
+  }
+
+  if (!building.rooms || !building.rooms.length) {
+    return result;
+  }
+
+  for (const room of building.rooms) {
+    if (room.floor === bill.value.floor) {
+      result.push(room);
+    }
+  }
+
+  return result;
+});
 
 // ---------------------- Functions ----------------------
 async function getActiveContractList() {
   try {
-    const response = await api.common.contract.getActiveList();
-    contractList.value = response.data;
+    const response = await api.common.contract.getActiveList(limit.value, offset.value);
+
+    if (offset.value === 0) {
+      contractList.value = response.data;
+    } else {
+      contractList.value.push(...response.data);
+    }
+
+    if (response.data.length >= limit.value) {
+      offset.value += limit.value;
+    }
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -409,4 +473,7 @@ onMounted(async () => {
 });
 
 // ---------------------- Watchers ----------------------
+watch(offset, () => {
+  getActiveContractList();
+});
 </script>

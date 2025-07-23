@@ -76,7 +76,7 @@ const apiRoutes = {
     edit: (contractId: number) => `/contract/${contractId}/update`,
     deleteMany: '/contract/delete-many',
     bill: (contractId: number) => `/contract/${contractId}/bill`,
-    activeList: '/contract/active-list',
+    activeList: (limit: number = 500, offset: number = 0) => `/contract/active-list?limit=${limit}&offset=${offset}`,
   },
   import: {},
 };

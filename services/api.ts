@@ -388,9 +388,9 @@ const common = {
         body: data,
       });
     },
-    getActiveList: async (): Promise<APIResponse<Contract[]>> => {
+    getActiveList: async (limit: number = 500, offset: number = 0): Promise<APIResponse<Contract[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.contract.activeList, {
+      return $api(apiRoutes.contract.activeList(limit, offset), {
         method: 'GET',
       });
     },

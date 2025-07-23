@@ -2,6 +2,7 @@ import type { BasicModel, NullInt64, NullString, NullTime } from './basic_model'
 import type { User } from './user';
 import type { Contract } from './contract';
 import type { Building } from './building';
+import type { Dayjs } from 'dayjs';
 
 type BillPayment = BasicModel & {
   name: string;
@@ -61,11 +62,11 @@ type AddBill1 = {
   roomID: number;
   contractID: number;
   period: string;
-  status: number;
-  note: NullString;
-  paymentTime: NullTime;
+  status: number | undefined;
+  note: string;
+  paymentTime: string | Dayjs;
   amount: number;
-  payerID: NullInt64;
+  payerID: number | null;
   title: string;
   billPayments: BillPayment[];
 };

@@ -312,7 +312,7 @@
         </a-button>
         <a-button
           type="primary"
-          :disabled="false"
+          :disabled="deleteBucket.value.length === 0"
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
           @click="

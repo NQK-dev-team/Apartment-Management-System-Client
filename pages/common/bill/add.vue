@@ -62,9 +62,9 @@
               </template>
             </a-input>
           </a-col>
-        </a-row>
+        </a-row> -->
         <a-row :gutter="16">
-          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="house_holder">
               <label for="house_holder" class="flex mb-1">
                 <span>{{ $t('house_holder') }}</span>
@@ -88,40 +88,20 @@
                 </template>
               </a-input>
             </a-form-item>
-          </a-col>
+          </a-col> -->
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['title']"
               :rules="[{ required: true, message: $t('bill_name_require'), trigger: 'blur' }]"
             >
-              <label for="bill_name" class="flex mb-1 justify-between">
-                <div class="flex items-center">
-                  <span>{{ $t('bill_name') }}</span>
-                  <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-                </div>
-                <a-button
-                  class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-                  size="small"
-                  style="display: flex"
-                  @click="
-                    () => {
-                      bill.value.title = props.oldBill.title;
-                      clearValidation();
-                      useTimeout(0, {
-                        callback: () => {
-                          validateForm(false);
-                        },
-                      });
-                    }
-                  "
-                >
-                  <UndoOutlined />
-                </a-button>
+              <label for="bill_name" class="flex mb-1">
+                <span>{{ $t('bill_name') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <a-input id="bill_name" v-model:value="bill.value.title" :placeholder="$t('enter_bill_name')" />
+              <a-input id="bill_name" v-model:value="bill.title" :placeholder="$t('enter_bill_name')" />
             </a-form-item>
           </a-col>
-          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="payment_period">
               <label for="payment_period" class="flex mb-1">
                 <span>{{ $t('payment_period') }}</span>
@@ -191,10 +171,10 @@
                 </a-select>
               </ClientOnly>
             </a-form-item>
-          </a-col>
+          </a-col> -->
         </a-row>
         <a-row :gutter="16">
-          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <label for="paid_by" class="flex mb-1">
               <span>{{ $t('paid_by') }}</span>
             </label>
@@ -234,29 +214,17 @@
                 placeholder="-"
               />
             </a-form-item>
-          </a-col>
+          </a-col> -->
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="bill_note">
-              <label for="bill_note" class="flex mb-1 justify-between">
+              <label for="bill_note" class="flex mb-1">
                 <span>{{ $t('note') }}</span>
-                <a-button
-                  class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-                  size="small"
-                  style="display: flex"
-                  @click="bill.value.note = JSON.parse(JSON.stringify(props.oldBill.note))"
-                >
-                  <UndoOutlined />
-                </a-button>
               </label>
-              <a-textarea
-                id="bill_note"
-                v-model:value="bill.value.note.String as string"
-                :placeholder="$t('enter_note')"
-              />
+              <a-textarea id="bill_note" v-model:value="bill.note" :placeholder="$t('enter_note')" />
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
-        </a-row> -->
+        </a-row>
         <div class="mt-10 flex items-center justify-between">
           <h1 class="text-2xl">{{ $t('payment_list') }}</h1>
           <div class="flex items-center">

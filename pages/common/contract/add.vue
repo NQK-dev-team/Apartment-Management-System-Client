@@ -65,7 +65,7 @@
                 id="room_floor"
                 v-model:value="newContract.roomFloor"
                 :disabled="!floorList.length"
-                :placeholder="$t('select_floor')"
+                :placeholder="floorList.length ? $t('select_floor') : '-'"
                 class="w-full text-left"
               >
                 <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_floor') }}</a-select-option>

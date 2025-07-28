@@ -389,6 +389,7 @@ export default {
   payment_amount_invalid: 'Số tiền khoản thu không hợp lệ!',
   payment_time_required: 'Thời gian thanh toán không được để trống!',
   paid_by_required: 'Thông tin người thanh toán không được để trống!',
+  payment_period_required: 'Kỳ thanh toán không được để trống!',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -468,6 +469,8 @@ export default {
   select_contract_type: 'Chọn loại hình hợp đồng',
   sign_date_cannot_be_before_create_date: 'Ngày ký hợp đồng không thể trước ngày tạo hợp đồng!',
   schedule_end_date_cannot_be_before_start_date: 'Ngày kết thúc lịch quản lý không thể trước ngày bắt đầu!',
+  select_payment_period: 'Chọn kỳ thanh toán',
+  search_contract_by: 'Tìm kiếm hợp đồng theo',
 
   T: 't',
   total: 'Tổng',

@@ -57,16 +57,16 @@ type UpdateBill = {
 };
 
 type AddBill1 = {
-  buildingID: number;
-  floor: number;
-  roomID: number;
-  contractID: number;
+  buildingID: number | undefined;
+  floor: number | undefined;
+  roomID: number | undefined;
+  contractID: number | undefined;
   period: string;
   status: number | undefined;
   note: string;
   paymentTime: string | Dayjs;
   amount: number;
-  payerID: number | null;
+  payerID: number | undefined;
   title: string;
   billPayments: BillPayment[];
 };

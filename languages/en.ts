@@ -390,6 +390,7 @@ export default {
   payment_amount_invalid: 'Payment amount is not valid!',
   payment_time_required: 'Payment time cannot be empty!',
   paid_by_required: 'Payer information cannot be empty!',
+  payment_period_required: 'Payment period cannot be empty!',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -469,6 +470,8 @@ export default {
   select_contract_type: 'Select contract type',
   sign_date_cannot_be_before_create_date: 'Contract sign date cannot be before contract creation date!',
   schedule_end_date_cannot_be_before_start_date: 'Schedule end date cannot be before start date!',
+  select_payment_period: 'Select payment period',
+  search_contract_by: 'Search contract by',
 
   T: 't',
   total: 'Total',

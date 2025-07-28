@@ -7,7 +7,7 @@
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ $t('add_bill') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <h1 class="mt-3 text-2xl">{{ $t('add_bill') }}</h1>
+      <h1 class="text-2xl mt-3">{{ $t('add_bill') }}</h1>
     </div>
     <div
       id="page_content"
@@ -16,55 +16,97 @@
     >
       <a-form ref="addForm" :model="bill">
         <h1 class="mt-5 text-2xl">{{ $t('bill_info') }}</h1>
-        <!-- <a-row :gutter="16">
+        <div class="mt-3 flex items-center">
+          <p>{{ $t('search_contract_by') }}:</p>
+          <div class="flex items-center ms-3">
+            <a-radio-group v-model:value="searchByRoom">
+              <a-radio :value="true">{{ $t('room') }}</a-radio>
+              <a-radio :value="false">{{ $t('contract_id') }}</a-radio>
+            </a-radio-group>
+          </div>
+        </div>
+        <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="building_name">
+            <a-form-item
+              v-if="searchByRoom"
+              :name="['buildingID']"
+              :rules="[{ required: true, message: $t('please_select_building'), trigger: 'blur' }]"
+            >
               <label for="building_name" class="flex mb-1">
                 <span>{{ $t('building') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <a-input
+              <a-select
                 id="building_name"
-                disabled
-                readonly
-                :value="bill.value.buildingName"
-                :placeholder="$t('building_name')"
-              />
+                v-model:value="bill.buildingID"
+                :placeholder="$t('select_building')"
+                class="w-full text-left"
+              >
+                <a-select-option v-for="(building, index) in buildingList" :key="index" :value="building.ID">{{
+                  building.name
+                }}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="room_floor">
+            <a-form-item
+              v-if="searchByRoom"
+              :name="['floor']"
+              :rules="[{ required: true, message: $t('please_select_floor'), trigger: 'blur' }]"
+            >
               <label for="room_floor" class="flex mb-1">
                 <span>{{ $t('floor') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <a-input id="room_floor" disabled readonly :value="bill.value.roomFloor" :placeholder="$t('floor')" />
+              <a-select
+                id="room_floor"
+                v-model:value="bill.floor"
+                :disabled="!floorList.length"
+                :placeholder="floorList.length ? $t('select_floor') : '-'"
+                class="w-full text-left"
+              >
+                <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_floor') }}</a-select-option>
+                <a-select-option v-for="(floor, index) in floorList" :key="index" :value="floor">{{
+                  floor
+                }}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="room_no">
+            <a-form-item
+              v-if="searchByRoom"
+              :name="['roomID']"
+              :rules="[{ required: true, message: $t('please_select_room'), trigger: 'blur' }]"
+            >
               <label for="room_no" class="flex mb-1">
                 <span>{{ $t('room_no') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <a-input id="room_no" disabled readonly :value="bill.value.roomNo" :placeholder="$t('room_no')" />
+              <a-select
+                id="room_no"
+                v-model:value="bill.roomID"
+                :disabled="!roomList.length"
+                :placeholder="roomList.length ? $t('select_room') : '-'"
+                class="w-full text-left"
+              >
+                <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
+                  room.no
+                }}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <label for="contract_id" class="flex mb-1">
-              <span>{{ $t('contract_id') }}</span>
-            </label>
-            <a-input id="contract_id" disabled readonly :value="bill.value.contractID" :placeholder="$t('contract_id')">
-              <template #suffix>
-                <NuxtLink
-                  :to="pageRoutes.common.contract.detail(bill.value.contractID)"
-                  :title="$t('detail')"
-                  target="_blank"
-                  ><LinkOutlined
-                /></NuxtLink>
-              </template>
-            </a-input>
+            <a-form-item v-if="searchByRoom" name="contract_id">
+              <label for="contract_id" class="flex mb-1">
+                <span>{{ $t('contract_id') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <a-input id="contract_id" disabled readonly :value="bill.contractID" :placeholder="$t('contract_id')" />
+            </a-form-item>
           </a-col>
-        </a-row> -->
+        </a-row>
         <a-row :gutter="16">
-          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="house_holder">
               <label for="house_holder" class="flex mb-1">
                 <span>{{ $t('house_holder') }}</span>
@@ -73,13 +115,29 @@
                 id="house_holder"
                 disabled
                 readonly
-                :value="`${bill.value.contract.householder.no} - ${getUserName(bill.value.contract.householder)}`"
-                :title="`${bill.value.contract.householder.no} - ${getUserName(bill.value.contract.householder)}`"
+                :value="
+                  bill.contractID && contractList.find((c) => c.ID === bill.contractID)
+                    ? contractList.find((c) => c.ID === bill.contractID)?.householder.no +
+                      ' - ' +
+                      getUserName(contractList.find((c) => c.ID === bill.contractID)?.householder)
+                    : '-'
+                "
+                :title="
+                  bill.contractID && contractList.find((c) => c.ID === bill.contractID)
+                    ? contractList.find((c) => c.ID === bill.contractID)?.householder.no +
+                      ' - ' +
+                      getUserName(contractList.find((c) => c.ID === bill.contractID)?.householder)
+                    : '-'
+                "
                 :placeholder="$t('house_holder')"
               >
-                <template #suffix>
+                <template v-if="bill.contractID && contractList.find((c) => c.ID === bill.contractID)" #suffix>
                   <NuxtLink
-                    :to="pageRoutes.common.customer.detail(bill.value.contract.householderID)"
+                    :to="
+                      pageRoutes.common.customer.detail(
+                        contractList.find((c) => c.ID === bill.contractID)?.householderID as number
+                      )
+                    "
                     :title="$t('detail')"
                     target="_blank"
                   >
@@ -88,7 +146,7 @@
                 </template>
               </a-input>
             </a-form-item>
-          </a-col> -->
+          </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['title']"
@@ -101,23 +159,25 @@
               <a-input id="bill_name" v-model:value="bill.title" :placeholder="$t('enter_bill_name')" />
             </a-form-item>
           </a-col>
-          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="payment_period">
+          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+            <a-form-item
+              :name="['period']"
+              :rules="[{ required: true, message: $t('payment_period_required'), trigger: 'blur' }]"
+            >
               <label for="payment_period" class="flex mb-1">
                 <span>{{ $t('payment_period') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
               <a-date-picker
                 id="payment_period"
+                v-model:value="bill.period"
                 class="w-full"
-                disabled
-                readonly
-                :value="$dayjs(bill.value.period)"
-                :placeholder="$t('payment_period')"
+                :placeholder="$t('select_payment_period')"
                 picker="month"
               />
             </a-form-item>
           </a-col>
-          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="status">
               <label for="status" class="flex mb-1 justify-between">
                 <div class="flex items-center">
@@ -298,7 +358,8 @@ import type { FormInstance } from 'ant-design-vue';
 import type { Building, Room } from '~/types/building';
 import { COMMON } from '~/consts/common';
 import type { Contract } from '~/types/contract';
-import type { AddBill1, BillPayment } from '~/types/bill';
+import type { AddBill1, Bill, BillPayment } from '~/types/bill';
+import type { User } from '~/types/user';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -327,16 +388,16 @@ const addSuccess = ref<boolean>(false);
 const { $event } = useNuxtApp();
 const addForm = ref<FormInstance>();
 const bill = ref<AddBill1>({
-  buildingID: 0,
-  floor: 0,
-  roomID: 0,
-  contractID: 0,
+  buildingID: undefined,
+  floor: undefined,
+  roomID: undefined,
+  contractID: undefined,
   period: '',
   status: undefined,
   note: '',
   paymentTime: '',
   amount: 0,
-  payerID: null,
+  payerID: undefined,
   title: '',
   billPayments: [],
 });
@@ -385,6 +446,45 @@ const roomList = computed<Room[]>(() => {
 
   return result;
 });
+const residentAccountList = computed<User[]>(() => {
+  const result: User[] = [];
+
+  if (!bill.value.contractID) {
+    return result;
+  }
+
+  const contract = contractList.value.find((c) => c.ID === bill.value.contractID);
+  if (!contract) {
+    return result;
+  }
+
+  result.push(contract.householder);
+
+  contract.residents.forEach((resident) => {
+    if (resident.userAccountID.Valid) {
+      result.push(resident.userAccount!);
+    }
+  });
+
+  return result;
+});
+const billList = asyncComputed<Bill[]>(async () => {
+  if (!bill.value.contractID) {
+    return [];
+  }
+
+  let result = [] as Bill[];
+
+  try {
+    const response = await api.common.contract.getContractBill(bill.value.contractID);
+    result = response.data;
+  } catch (err: any) {
+    result = [];
+  }
+
+  return result;
+});
+const searchByRoom = ref<boolean>(true);
 
 // ---------------------- Functions ----------------------
 async function getActiveContractList() {
@@ -429,6 +529,25 @@ async function getBuildingList() {
         description: t('system_error_description'),
       });
     }
+  }
+}
+
+async function addBill() {
+  try {
+    $event.emit('loading');
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
   }
 }
 

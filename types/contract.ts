@@ -60,6 +60,7 @@ type Contract = BasicModel & {
   buildingAddress: undefined | string;
   roomFloor: undefined | number;
   newSignDate: undefined | string | Dayjs;
+  buildingID: number | undefined;
 };
 
 type AddContract = {

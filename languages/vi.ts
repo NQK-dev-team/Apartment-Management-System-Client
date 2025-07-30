@@ -45,6 +45,9 @@ export default {
   add_contract_success_title: 'Hợp đồng mới đã được thêm thành công',
   add_contract_success_note:
     'Bạn có thể truy cập vào trang thông tin hợp đồng mới tạo bằng nút "Chi tiết hợp đồng mới", hoặc quay lại trang danh sách hợp đồng bằng nút "Quay lại" ở dưới',
+  add_bill_success_title: 'Hóa đơn mới đã được thêm thành công',
+  add_bill_success_note:
+    'Bạn có thể truy cập vào trang thông tin hóa đơn mới tạo bằng nút "Chi tiết hóa đơn mới", hoặc quay lại trang danh sách hóa đơn bằng nút "Quay lại" ở dưới',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -121,6 +124,7 @@ export default {
   contract_status: 'Trạng thái hợp đồng',
   contract_value_invalid: 'Giá trị hợp đồng không hợp lệ!',
   confirm_update_bill: 'Bạn có chắc chắn muốn cập nhật thông tin hóa đơn này không?',
+  contract_id_required: 'Mã hợp đồng không được để trống!',
 
   D: 'd',
   delete: 'Xóa',
@@ -316,6 +320,7 @@ export default {
   new_staff_detail: 'Chi tiết nhân viên mới',
   new_contract_detail: 'Chi tiết hợp đồng mới',
   not_applicable: 'Không áp dụng',
+  new_bill_detail: 'Chi tiết hóa đơn mới',
 
   O: 'o',
   operation: 'Thao tác',
@@ -471,6 +476,8 @@ export default {
   schedule_end_date_cannot_be_before_start_date: 'Ngày kết thúc lịch quản lý không thể trước ngày bắt đầu!',
   select_payment_period: 'Chọn kỳ thanh toán',
   search_contract_by: 'Tìm kiếm hợp đồng theo',
+  select_contract_id: 'Chọn mã hợp đồng',
+  select_payment_time: 'Chọn thời gian thanh toán',
 
   T: 't',
   total: 'Tổng',

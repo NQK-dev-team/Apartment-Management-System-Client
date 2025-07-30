@@ -2,7 +2,7 @@ import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
 import type { Building, Room } from '~/types/building';
-import type { Bill, UpdateBill } from '~/types/bill';
+import type { AddBill2, Bill, UpdateBill } from '~/types/bill';
 import type { EditStaff, ManagerSchedule, NewCustomer, User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
@@ -315,6 +315,13 @@ const common = {
     updateBill: async (billId: number, data: UpdateBill): Promise<APIResponse<null>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.bill.update(billId), {
+        method: 'POST',
+        body: data,
+      });
+    },
+    addBill: async (data: AddBill2): Promise<APIResponse<number>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.bill.add, {
         method: 'POST',
         body: data,
       });

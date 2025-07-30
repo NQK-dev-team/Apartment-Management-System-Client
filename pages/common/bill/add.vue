@@ -14,7 +14,7 @@
       class="flex-1 flex flex-col px-4 mt-5"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <a-form ref="addForm" :model="bill">
+      <a-form ref="addForm" :model="bill" @finish="addBill">
         <h1 class="mt-5 text-2xl">{{ $t('bill_info') }}</h1>
         <div class="mt-3 flex items-center">
           <p>{{ $t('search_contract_by') }}:</p>
@@ -47,6 +47,23 @@
                 }}</a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item v-else :name="['buildingID']">
+              <label for="building_name" class="flex mb-1">
+                <span>{{ $t('building') }}</span>
+              </label>
+              <a-select
+                id="building_name"
+                v-model:value="bill.buildingID"
+                disabled
+                readonly
+                placeholder="-"
+                class="w-full text-left"
+              >
+                <a-select-option v-for="(building, index) in buildingList" :key="index" :value="building.ID">{{
+                  building.name
+                }}</a-select-option>
+              </a-select>
+            </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
@@ -62,6 +79,24 @@
                 id="room_floor"
                 v-model:value="bill.floor"
                 :disabled="!floorList.length"
+                :placeholder="floorList.length ? $t('select_floor') : '-'"
+                class="w-full text-left"
+              >
+                <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_floor') }}</a-select-option>
+                <a-select-option v-for="(floor, index) in floorList" :key="index" :value="floor">{{
+                  floor
+                }}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item v-else :name="['floor']">
+              <label for="room_floor" class="flex mb-1">
+                <span>{{ $t('floor') }}</span>
+              </label>
+              <a-select
+                id="room_floor"
+                v-model:value="bill.floor"
+                disabled
+                readonly
                 :placeholder="floorList.length ? $t('select_floor') : '-'"
                 class="w-full text-left"
               >
@@ -94,14 +129,95 @@
                 }}</a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item v-else :name="['roomID']">
+              <label for="room_no" class="flex mb-1">
+                <span>{{ $t('room_no') }}</span>
+              </label>
+              <a-select
+                id="room_no"
+                v-model:value="bill.roomID"
+                disabled
+                readonly
+                :placeholder="roomList.length ? $t('select_room') : '-'"
+                class="w-full text-left"
+              >
+                <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
+                  room.no
+                }}</a-select-option>
+              </a-select>
+            </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item v-if="searchByRoom" name="contract_id">
+            <a-form-item
+              v-if="searchByRoom"
+              :name="['contractID']"
+              :rules="[{ required: true, message: $t('contract_id_required'), trigger: 'blur' }]"
+            >
               <label for="contract_id" class="flex mb-1">
                 <span>{{ $t('contract_id') }}</span>
                 <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
               </label>
-              <a-input id="contract_id" disabled readonly :value="bill.contractID" :placeholder="$t('contract_id')" />
+              <a-input
+                id="contract_id"
+                disabled
+                readonly
+                :value="bill.contractID"
+                :placeholder="$t('select_contract_id')"
+                :title="
+                  bill.contractID && contractList.find((c) => c.ID === bill.contractID)
+                    ? contractList.find((c) => c.ID === bill.contractID)?.ID
+                    : '-'
+                "
+              />
+            </a-form-item>
+            <a-form-item
+              v-else
+              :name="['contractID']"
+              :rules="[{ required: true, message: $t('contract_id_required'), trigger: 'blur' }]"
+            >
+              <label for="contract_id" class="flex mb-1">
+                <span>{{ $t('contract_id') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <a-select
+                id="contract_id"
+                ref="contractDropDownRef"
+                v-model:value="bill.contractID"
+                show-search
+                allow-clear
+                :placeholder="$t('select_contract_id')"
+                :filter-option="filterOption"
+                class="w-full text-left"
+                :title="
+                  bill.contractID && contractList.find((c) => c.ID === bill.contractID)
+                    ? contractList.find((c) => c.ID === bill.contractID)?.ID
+                    : '-'
+                "
+                @focus="isContractDropDownFocused = true"
+                @blur="isContractDropDownFocused = false"
+                @change="
+                  () => {
+                    useTimeout(100, {
+                      callback: () => {
+                        if (contractDropDownRef) {
+                          contractDropDownRef.blur();
+                        }
+                      },
+                    });
+                  }
+                "
+              >
+                <a-select-option
+                  v-for="(contract, index) in contractList"
+                  :key="index"
+                  :value="contract.ID"
+                  :label="`${contract.ID} - ${getUserName(contract.householder)}`"
+                  ><span>{{ contract.ID }}</span
+                  ><span v-if="isContractDropDownFocused">
+                    - {{ getUserName(contract.householder) }}</span
+                  ></a-select-option
+                >
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -177,104 +293,100 @@
               />
             </a-form-item>
           </a-col>
-          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="status">
-              <label for="status" class="flex mb-1 justify-between">
-                <div class="flex items-center">
+          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+            <ClientOnly>
+              <a-form-item name="status">
+                <label for="bill_status" class="flex mb-1">
                   <span>{{ $t('status') }}</span>
                   <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-                </div>
-                <a-button
-                  class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
-                  size="small"
-                  style="display: flex"
-                  @click="
-                    () => {
-                      bill.value.status = props.oldBill.status;
-                      clearValidation();
-                      useTimeout(0, {
-                        callback: () => {
-                          validateForm(false);
-                        },
-                      });
-                    }
-                  "
-                >
-                  <UndoOutlined />
-                </a-button>
-              </label>
-              <ClientOnly>
+                </label>
                 <a-select
-                  id="status"
-                  v-model:value="bill.value.status"
-                  placeholder="{{ $t('select_status') }}"
+                  id="bill_status"
+                  v-model:value="bill.status"
+                  :placeholder="$t('select_status')"
                   class="w-full text-left"
                 >
                   <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
                     $t('select_status')
                   }}</a-select-option>
-                  <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#50c433] hidden`">{{
-                    $t('unpaid')
-                  }}</a-select-option>
-                  <a-select-option :value="COMMON.BILL_STATUS.PAID" :class="`text-[#888888] hidden`">{{
-                    $t('paid')
-                  }}</a-select-option>
-                  <a-select-option :value="COMMON.BILL_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
-                    $t('cancelled')
-                  }}</a-select-option>
-                  <a-select-option :value="COMMON.BILL_STATUS.OVERDUE" :class="`text-[#888888] hidden`">{{
-                    $t('overdue')
-                  }}</a-select-option>
-                  <a-select-option :value="COMMON.BILL_STATUS.PROCESSING" :class="`text-[#888888] hidden`">{{
-                    $t('processing')
-                  }}</a-select-option>
+                  <a-select-option
+                    :value="COMMON.BILL_STATUS.UN_PAID"
+                    :class="[`text-[#50c433]`, { hidden: !showUnpaid }]"
+                    >{{ $t('unpaid') }}</a-select-option
+                  >
+                  <a-select-option
+                    :value="COMMON.BILL_STATUS.PAID"
+                    :class="[`text-[#888888]`, { hidden: !showPaid }]"
+                    >{{ $t('paid') }}</a-select-option
+                  >
+                  <a-select-option
+                    :value="COMMON.BILL_STATUS.CANCELLED"
+                    :class="[`text-[#ff0000]`, { hidden: !showCancelled }]"
+                    >{{ $t('cancelled') }}</a-select-option
+                  >
+                  <a-select-option
+                    :value="COMMON.BILL_STATUS.OVERDUE"
+                    :class="[`text-[#888888]`, { hidden: !showOverdue }]"
+                    >{{ $t('overdue') }}</a-select-option
+                  >
                 </a-select>
-              </ClientOnly>
-            </a-form-item>
-          </a-col> -->
+              </a-form-item>
+            </ClientOnly>
+          </a-col>
         </a-row>
         <a-row :gutter="16">
-          <!-- <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
+          <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <label for="paid_by" class="flex mb-1">
               <span>{{ $t('paid_by') }}</span>
             </label>
-            <a-input
+            <a-select
               id="paid_by"
-              disabled
-              readonly
-              :value="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
-              :title="bill.value.payerID.Valid ? `${bill.value.payer.no} - ${getUserName(bill.value.payer)}` : '-'"
-              placeholder="-"
-            >
-              <template v-if="bill.value.payerID.Valid" #suffix>
-                <NuxtLink
-                  :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
-                  :title="$t('detail')"
-                  target="_blank"
-                >
-                  <LinkOutlined />
-                </NuxtLink>
-              </template>
-            </a-input>
+              v-model:value="bill.payerID"
+              class="w-full text-left"
+              :class="[bill.payerID ? '' : 'text-[#9ca3af]']"
+              show-search
+              :options="[
+                ...(Array.isArray(residentAccountList) ? residentAccountList : []).map((customer) => ({
+                  value: customer.ID,
+                  label: `${customer.no} - ${getUserName(customer)}`,
+                })),
+              ]"
+              :allow-clear="true"
+              :placeholder="$t('search_by_customer_no')"
+              :filter-option="filterOption"
+            ></a-select>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="payment_time">
+            <a-form-item v-if="!bill.payerID" name="payment_time">
               <label for="payment_time" class="flex mb-1">
                 <span>{{ $t('payment_time') }}</span>
               </label>
               <a-date-picker
                 id="payment_time"
-                class="w-full"
-                show-time
+                v-model:value="bill.paymentTime"
                 disabled
                 readonly
-                :value="
-                  bill.value.paymentTime.Time && bill.value.paymentTime.Valid ? $dayjs(bill.value.paymentTime.Time) : ''
-                "
-                placeholder="-"
+                class="w-full"
+                :placeholder="$t('select_payment_time')"
               />
             </a-form-item>
-          </a-col> -->
+            <a-form-item
+              v-else
+              :name="['paymentTime']"
+              :rules="[{ required: true, message: $t('payment_time_required'), trigger: 'blur' }]"
+            >
+              <label for="payment_time" class="flex mb-1">
+                <span>{{ $t('payment_time') }}</span>
+                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+              </label>
+              <a-date-picker
+                id="payment_time"
+                v-model:value="bill.paymentTime"
+                class="w-full"
+                :placeholder="$t('select_payment_time')"
+              />
+            </a-form-item>
+          </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item name="bill_note">
               <label for="bill_note" class="flex mb-1">
@@ -345,6 +457,24 @@
           </a-button>
         </div>
       </a-form>
+      <ClientOnly>
+        <div v-show="addSuccess" class="h-full w-full flex-col items-center justify-center" style="display: flex">
+          <div class="flex items-center justify-center mt-5">
+            <Success class="text-green-600 text-4xl" />
+          </div>
+          <h2 class="text-xl my-2">{{ $t('finish') }}</h2>
+          <p class="text-center my-2">{{ $t('add_bill_success_title') }}</p>
+          <p class="text-center my-2">{{ $t('add_bill_success_note') }}</p>
+          <div class="my-2 flex flex-col items-center">
+            <NuxtLink :to="pageRoutes.common.bill.detail(newBillID)">
+              <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_bill_detail') }}</a-button>
+            </NuxtLink>
+            <NuxtLink :to="pageRoutes.common.bill.list" class="w-full">
+              <a-button class="rounded-sm w-full">{{ $t('back') }}</a-button>
+            </NuxtLink>
+          </div>
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>
@@ -358,8 +488,9 @@ import type { FormInstance } from 'ant-design-vue';
 import type { Building, Room } from '~/types/building';
 import { COMMON } from '~/consts/common';
 import type { Contract } from '~/types/contract';
-import type { AddBill1, Bill, BillPayment } from '~/types/bill';
+import type { AddBill1, AddBill2, BillPayment } from '~/types/bill';
 import type { User } from '~/types/user';
+import type { Dayjs } from 'dayjs';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -385,7 +516,7 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const addSuccess = ref<boolean>(false);
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const addForm = ref<FormInstance>();
 const bill = ref<AddBill1>({
   buildingID: undefined,
@@ -446,38 +577,22 @@ const roomList = computed<Room[]>(() => {
 
   return result;
 });
-const residentAccountList = computed<User[]>(() => {
-  const result: User[] = [];
+const residentAccountList = asyncComputed<User[]>(async () => {
+  let result: User[] = [];
 
   if (!bill.value.contractID) {
     return result;
   }
-
-  const contract = contractList.value.find((c) => c.ID === bill.value.contractID);
-  if (!contract) {
-    return result;
-  }
-
-  result.push(contract.householder);
-
-  contract.residents.forEach((resident) => {
-    if (resident.userAccountID.Valid) {
-      result.push(resident.userAccount!);
-    }
-  });
-
-  return result;
-});
-const billList = asyncComputed<Bill[]>(async () => {
-  if (!bill.value.contractID) {
-    return [];
-  }
-
-  let result = [] as Bill[];
 
   try {
-    const response = await api.common.contract.getContractBill(bill.value.contractID);
-    result = response.data;
+    const response = await api.common.contract.getDetail(bill.value.contractID);
+    result.push(response.data.householder);
+
+    response.data.residents.forEach((resident) => {
+      if (resident.userAccountID.Valid) {
+        result.push(resident.userAccount!);
+      }
+    });
   } catch (err: any) {
     result = [];
   }
@@ -485,6 +600,13 @@ const billList = asyncComputed<Bill[]>(async () => {
   return result;
 });
 const searchByRoom = ref<boolean>(true);
+const showPaid = ref<boolean>(true);
+const showUnpaid = ref<boolean>(true);
+const showCancelled = ref<boolean>(true);
+const showOverdue = ref<boolean>(true);
+const isContractDropDownFocused = ref<boolean>(false);
+const contractDropDownRef = ref<HTMLElement | null>(null);
+const newBillID = ref(0);
 
 // ---------------------- Functions ----------------------
 async function getActiveContractList() {
@@ -535,6 +657,27 @@ async function getBuildingList() {
 async function addBill() {
   try {
     $event.emit('loading');
+
+    const data: AddBill2 = {
+      contractID: bill.value.contractID || 0,
+      title: bill.value.title,
+      period: convertToDate($dayjs(bill.value.period).startOf('month').toDate().toISOString()),
+      status: bill.value.status || 0,
+      note: bill.value.note || '',
+      paymentTime: bill.value.paymentTime ? convertToDate($dayjs(bill.value.paymentTime).toDate().toISOString()) : '',
+      amount: bill.value.amount || 0,
+      payerID: bill.value.payerID || 0,
+      billPayments: bill.value.billPayments.map((payment) => ({
+        name: payment.name || '',
+        amount: payment.amount || 0,
+        note: payment.note.String || '',
+      })),
+    };
+
+    const response = await api.common.bill.addBill(data);
+    newBillID.value = response.data;
+
+    addSuccess.value = true;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -551,6 +694,10 @@ async function addBill() {
   }
 }
 
+function filterOption(input: string, option: any) {
+  return removeDiacritics(option.label.toLowerCase()).includes(removeDiacritics(input.toLowerCase()));
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
   $event.emit('loading');
@@ -563,4 +710,99 @@ onMounted(async () => {
 watch(offset, () => {
   getActiveContractList();
 });
+watch(
+  () => bill.value.buildingID,
+  () => {
+    if (!searchByRoom.value) {
+      return;
+    }
+    bill.value.floor = undefined;
+    bill.value.roomID = undefined;
+  }
+);
+watch(
+  () => bill.value.floor,
+  () => {
+    if (!searchByRoom.value) {
+      return;
+    }
+    bill.value.roomID = undefined;
+  }
+);
+watch(
+  () => [bill.value.buildingID, bill.value.floor, bill.value.roomID],
+  () => {
+    if (bill.value.buildingID && bill.value.floor && bill.value.roomID && searchByRoom.value) {
+      const result = contractList.value.find(
+        (c) => c.buildingID === bill.value.buildingID && c.roomID === bill.value.roomID
+      );
+
+      if (result) {
+        bill.value.contractID = result.ID;
+      } else {
+        bill.value.contractID = undefined;
+      }
+    }
+  }
+);
+watch(
+  () => bill.value.contractID,
+  () => {
+    bill.value.payerID = undefined;
+
+    if (!searchByRoom.value) {
+      const result = contractList.value.find((c) => c.ID === bill.value.contractID);
+
+      if (!result) {
+        bill.value.buildingID = undefined;
+        bill.value.floor = undefined;
+        bill.value.roomID = undefined;
+        return;
+      }
+
+      bill.value.roomID = result.roomID;
+      bill.value.buildingID = result.buildingID;
+      bill.value.floor = result.roomFloor;
+    }
+  }
+);
+watch(
+  () => [bill.value.payerID, bill.value.period],
+  () => {
+    const now: Dayjs = $dayjs();
+    const currentMonth = now.month();
+    const currentYear = now.year();
+
+    if (bill.value.payerID) {
+      bill.value.status = COMMON.BILL_STATUS.PAID;
+      showUnpaid.value = false;
+      showPaid.value = true;
+      showOverdue.value = false;
+      return;
+    }
+
+    if (bill.value.period) {
+      // Month comparison
+      const periodMonth = $dayjs(bill.value.period).month();
+      const periodYear = $dayjs(bill.value.period).year();
+
+      if (periodYear < currentYear || (periodYear === currentYear && periodMonth < currentMonth)) {
+        bill.value.status = COMMON.BILL_STATUS.OVERDUE;
+        showUnpaid.value = false;
+        showPaid.value = false;
+        showOverdue.value = true;
+      } else {
+        bill.value.status = COMMON.BILL_STATUS.UN_PAID;
+        showUnpaid.value = true;
+        showPaid.value = false;
+        showOverdue.value = false;
+      }
+    } else {
+      bill.value.status = undefined;
+      showUnpaid.value = true;
+      showPaid.value = true;
+      showOverdue.value = true;
+    }
+  }
+);
 </script>

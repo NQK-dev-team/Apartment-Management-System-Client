@@ -45,6 +45,9 @@ export default {
   add_contract_success_title: 'New contract has been added successfully',
   add_contract_success_note:
     'You can access the newly created contract detail page by clicking the "New contract detail" button, or go back to the contract list page by clicking the "Back" button below',
+  add_bill_success_title: 'New billing has been added successfully',
+  add_bill_success_note:
+    'You can access the newly created billing detail page by clicking the "New billing detail" button, or go back to the billing list page by clicking the "Back" button below',
 
   B: 'b',
   balance: 'Balance',
@@ -121,6 +124,7 @@ export default {
   contract_status: 'Contract status',
   contract_value_invalid: 'Contract value is not valid!',
   confirm_update_bill: 'Are you sure you want to update this billing information?',
+  contract_id_required: 'Contract ID cannot be empty!',
 
   D: 'd',
   delete: 'Delete',
@@ -317,6 +321,7 @@ export default {
   new_staff_detail: 'New staff detail',
   new_contract_detail: 'New contract detail',
   not_applicable: 'Not applicable',
+  new_bill_detail: 'New billing detail',
 
   O: 'o',
   operation: 'Operation',
@@ -472,6 +477,8 @@ export default {
   schedule_end_date_cannot_be_before_start_date: 'Schedule end date cannot be before start date!',
   select_payment_period: 'Select payment period',
   search_contract_by: 'Search contract by',
+  select_contract_id: 'Select contract ID',
+  select_payment_time: 'Select payment time',
 
   T: 't',
   total: 'Total',

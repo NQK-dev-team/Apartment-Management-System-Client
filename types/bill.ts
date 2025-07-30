@@ -75,12 +75,16 @@ type AddBill2 = {
   contractID: number;
   period: string;
   status: number;
-  note: NullString;
-  paymentTime: NullTime;
+  note: string;
+  paymentTime: string;
   amount: number;
-  payerID: NullInt64;
+  payerID: number;
   title: string;
-  billPayments: BillPayment[];
+  billPayments: {
+    name: string;
+    amount: number;
+    note: string;
+  }[];
 };
 
 export type { Bill, Service, BillPayment, UpdateBill, AddBill1, AddBill2 };

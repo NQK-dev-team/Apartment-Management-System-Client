@@ -43,7 +43,7 @@
           :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
         >
           <tr>
-            <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
+            <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg min-w-[40px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 <a-checkbox
                   id="check_all_schedules_1"
@@ -52,7 +52,7 @@
                 ></a-checkbox>
               </div>
             </th>
-            <th class="text-sm font-normal text-center align-middle py-[16px] w-[75px]">
+            <th class="text-sm font-normal text-center align-middle py-[16px] min-w-[75px]">
               <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                 {{ $t('no') }}
               </div>

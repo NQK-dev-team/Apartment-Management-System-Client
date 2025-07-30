@@ -87,7 +87,7 @@
             :class="[lightMode ? 'bg-[#FAFAFA] border-[#8080801a]' : 'bg-[#323232] border-[#80808040]']"
           >
             <tr>
-              <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg w-[40px]">
+              <th class="text-sm text-center align-middle py-[16px] rounded-tl-lg min-w-[40px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   <a-checkbox
                     id="check_all_room_2"
@@ -96,12 +96,12 @@
                   ></a-checkbox>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[150px]">
+              <th class="text-sm font-normal text-center align-middle py-[16px] min-w-[150px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   {{ $t('room_no') }}
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[150px]">
+              <th class="text-sm font-normal text-center align-middle py-[16px] min-w-[150px]">
                 <div
                   class="border-r-[1px] h-[20px] flex items-center justify-center"
                   :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
@@ -112,7 +112,7 @@
                   </div>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[200px]">
+              <th class="text-sm font-normal text-center align-middle py-[16px] min-w-[200px]">
                 <div
                   class="border-r-[1px] h-[20px] flex items-center justify-center"
                   :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
@@ -123,7 +123,7 @@
                   </div>
                 </div>
               </th>
-              <th class="text-sm font-normal text-center align-middle py-[16px] w-[350px]">
+              <th class="text-sm font-normal text-center align-middle py-[16px] min-w-[350px]">
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   {{ $t('description') }}
                 </div>
@@ -141,7 +141,7 @@
               </th>
               <th
                 v-if="userRole?.toString() === roles.owner"
-                class="text-sm font-normal text-center align-middle py-[16px] w-[75px]"
+                class="text-sm font-normal text-center align-middle py-[16px] min-w-[75px]"
               >
                 <div class="border-r-[1px] h-[20px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
                   {{ $t('note') }}

@@ -21,7 +21,7 @@
             v-if="!props.readOnly"
             :id="`room_${roomInfo.no}_status_1`"
             v-model:value="roomInfo.status"
-            placeholder="{{ $t('select_status') }}"
+            :placeholder="{{ $t('select_status') }}"
             class="w-full text-left"
           >
             <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
@@ -45,7 +45,7 @@
             v-else
             :id="`room_${roomInfo.no}_status_3`"
             :value="roomInfo.status"
-            placeholder="{{ $t('select_status') }}"
+            :placeholder="{{ $t('select_status') }}"
             class="w-full text-left"
             disabled
             readonly

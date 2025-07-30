@@ -200,7 +200,7 @@
                     v-else
                     id="room_status"
                     v-model:value="updateRoomData.status"
-                    :placeholder="{{ $t('select_status') }}"
+                    :placeholder="$t('select_status')"
                     class="w-full text-left"
                   >
                     <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{

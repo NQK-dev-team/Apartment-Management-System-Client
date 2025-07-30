@@ -337,7 +337,7 @@
             <a-select
               id="status"
               v-model:value="editContract.value.status"
-              :placeholder="{{ $t('select_status') }}"
+              :placeholder="$t('select_status')"
               class="w-full text-left"
             >
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>

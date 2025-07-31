@@ -654,6 +654,14 @@ async function getBuildingList() {
 }
 
 async function addBill() {
+  if (bill.value.billPayments.length === 0) {
+    notification.error({
+      message: t('error'),
+      description: t('bill_payment_list_empty'),
+    });
+    return;
+  }
+
   try {
     $event.emit('loading');
 

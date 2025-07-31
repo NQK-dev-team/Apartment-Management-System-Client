@@ -463,6 +463,19 @@ async function validateForm(callUpdateBill = true) {
       return;
     }
     await editForm.value.validateFields();
+
+    const oldPayments = bill.value.value.billPayments.filter((payment) => payment.ID > 0 && !payment.isDeleted);
+    const deletedPaymenst = bill.value.value.billPayments.filter((payment) => payment.ID > 0 && payment.isDeleted);
+    const newPayments = bill.value.value.billPayments.filter((payment) => payment.ID < 0 && !payment.isDeleted);
+
+    if (oldPayments.length + newPayments.length - deletedPaymenst.length === 0) {
+      notification.error({
+        message: t('error'),
+        description: t('bill_payment_list_empty'),
+      });
+      return;
+    }
+
     if (callUpdateBill) {
       $event.emit('updateItem', {
         callback: updateBill,

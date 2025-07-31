@@ -76,6 +76,7 @@ export default {
   bill_name_require: 'Tên hóa đơn không được để trống!',
   bill_info_updated: 'Thông tin hóa đơn đã được cập nhật thành công!',
   bill_status_require: 'Trạng thái hóa đơn không được để trống!',
+  bill_payment_list_empty: 'Danh sách các khoản thanh toán của hóa đơn không được để trống!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -230,6 +231,7 @@ export default {
   enter_bill_name: 'Nhập tên hóa đơn',
   enter_note: 'Nhập ghi chú',
   enter_payment_time: 'Nhập thời gian thanh toán',
+  error: 'Lỗi',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -339,7 +341,7 @@ export default {
   payer: 'Người thanh toán',
   payer_id: 'Mã người thanh toán',
   paid_by: 'Người thanh toán',
-  payment_list: 'Danh sách khoản thanh toán',
+  payment_list: 'Danh sách các khoản thanh toán',
   payment_period: 'Kỳ thanh toán',
   payment_date: 'Ngày thanh toán',
   payment_time: 'Thời gian thanh toán',

@@ -76,6 +76,7 @@ export default {
   bill_name_require: 'Billing name cannot be empty!',
   bill_info_updated: 'Billing information has been updated successfully!',
   bill_status_require: 'Billing status cannot be empty!',
+  bill_payment_list_empty: 'Billing payment list cannot be empty!',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -229,6 +230,7 @@ export default {
   enter_bill_name: 'Enter bill name',
   enter_note: 'Enter note',
   enter_payment_time: 'Enter payment time',
+  error: 'Error',
 
   F: 'f',
   finish_import: 'Import',

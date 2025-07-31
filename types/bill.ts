@@ -65,7 +65,6 @@ type AddBill1 = {
   status: number | undefined;
   note: string;
   paymentTime: string | Dayjs;
-  amount: number;
   payerID: number | undefined;
   title: string;
   billPayments: BillPayment[];
@@ -77,7 +76,6 @@ type AddBill2 = {
   status: number;
   note: string;
   paymentTime: string;
-  amount: number;
   payerID: number;
   title: string;
   billPayments: {

@@ -527,7 +527,6 @@ const bill = ref<AddBill1>({
   status: undefined,
   note: '',
   paymentTime: '',
-  amount: 0,
   payerID: undefined,
   title: '',
   billPayments: [],
@@ -665,7 +664,6 @@ async function addBill() {
       status: bill.value.status || 0,
       note: bill.value.note || '',
       paymentTime: bill.value.paymentTime ? convertToDate($dayjs(bill.value.paymentTime).toDate().toISOString()) : '',
-      amount: bill.value.amount || 0,
       payerID: bill.value.payerID || 0,
       billPayments: bill.value.billPayments.map((payment) => ({
         name: payment.name || '',

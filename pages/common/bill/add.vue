@@ -661,7 +661,7 @@ async function addBill() {
     const data: AddBill2 = {
       contractID: bill.value.contractID || 0,
       title: bill.value.title,
-      period: convertToDate($dayjs(bill.value.period).startOf('month').toDate().toISOString()),
+      period: convertToMonthYear($dayjs(bill.value.period).startOf('month').toDate().toISOString()),
       status: bill.value.status || 0,
       note: bill.value.note || '',
       paymentTime: bill.value.paymentTime ? convertToDate($dayjs(bill.value.paymentTime).toDate().toISOString()) : '',

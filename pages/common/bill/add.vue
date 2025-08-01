@@ -383,6 +383,7 @@
                 id="payment_time"
                 v-model:value="bill.paymentTime"
                 class="w-full"
+                :disabled-date="disabledDate"
                 :placeholder="$t('select_payment_time')"
               />
             </a-form-item>
@@ -491,6 +492,7 @@ import type { Contract } from '~/types/contract';
 import type { AddBill1, AddBill2, BillPayment } from '~/types/bill';
 import type { User } from '~/types/user';
 import type { Dayjs } from 'dayjs';
+import Success from '~/public/svg/success.svg';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -704,6 +706,16 @@ function filterOption(input: string, option: any) {
   return removeDiacritics(option.label.toLowerCase()).includes(removeDiacritics(input.toLowerCase()));
 }
 
+function disabledDate(current: Dayjs) {
+  if (!bill.value.period) {
+    return true; // If no period is set, disable all dates
+  }
+
+  // Can not select days after today or before the first day of billing period
+  const firstDayOfPeriod = $dayjs(bill.value.period).startOf('month');
+  return current && (current >= $dayjs().endOf('day') || current < firstDayOfPeriod);
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
   $event.emit('loading');
@@ -779,6 +791,23 @@ watch(
     const currentMonth = now.month();
     const currentYear = now.year();
 
+    if (!bill.value.period) {
+      bill.value.paymentTime = '';
+    }
+
+    if (bill.value.period) {
+      const periodMonth = $dayjs(bill.value.period).month();
+      const periodYear = $dayjs(bill.value.period).year();
+
+      if (bill.value.paymentTime) {
+        const paymentTimeMonth = $dayjs(bill.value.paymentTime).month();
+        const paymentTimeYear = $dayjs(bill.value.paymentTime).year();
+        if (paymentTimeYear < periodYear || (paymentTimeYear === periodYear && paymentTimeMonth < periodMonth)) {
+          bill.value.paymentTime = '';
+        }
+      }
+    }
+
     if (bill.value.payerID) {
       bill.value.status = COMMON.BILL_STATUS.PAID;
       showUnpaid.value = false;
@@ -788,7 +817,6 @@ watch(
     }
 
     if (bill.value.period) {
-      // Month comparison
       const periodMonth = $dayjs(bill.value.period).month();
       const periodYear = $dayjs(bill.value.period).year();
 

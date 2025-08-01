@@ -523,11 +523,11 @@ function filterOption(input: string, option: any) {
   return removeDiacritics(option.label.toLowerCase()).includes(removeDiacritics(input.toLowerCase()));
 }
 
-const disabledDate = (current: Dayjs) => {
+function disabledDate(current: Dayjs) {
   // Can not select days after today or before the first day of billing period
   const firstDayOfPeriod = $dayjs(bill.value.value.period).startOf('month');
   return current && (current >= $dayjs().endOf('day') || current < firstDayOfPeriod);
-};
+}
 
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {

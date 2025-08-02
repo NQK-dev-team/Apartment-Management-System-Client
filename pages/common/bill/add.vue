@@ -14,7 +14,7 @@
       class="flex-1 flex flex-col px-4 mt-5"
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
-      <a-form ref="addForm" :model="bill" @finish="addBill">
+      <a-form v-show="!addSuccess" ref="addForm" :model="bill" @finish="addBill">
         <h1 class="mt-5 text-2xl">{{ $t('bill_info') }}</h1>
         <div class="mt-3 flex items-center">
           <p>{{ $t('search_contract_by') }}:</p>
@@ -677,7 +677,7 @@ async function addBill() {
       payerID: bill.value.payerID || 0,
       billPayments: bill.value.billPayments.map((payment) => ({
         name: payment.name || '',
-        amount: payment.amount || 0,
+        amount: Number(payment.amount),
         note: payment.note.String || '',
       })),
     };

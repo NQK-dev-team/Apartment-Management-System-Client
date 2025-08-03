@@ -132,6 +132,24 @@ const validationRules = {
     }
     return Promise.resolve();
   },
+  dateOfBirth2: async (_: RuleObject, value: Dayjs | string, t: any) => {
+    if (!value) {
+      return Promise.resolve();
+    }
+    const birthDate = dayjs(value).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const eighteenYearsAgo = dayjs()
+      .set('hour', 0)
+      .set('minute', 0)
+      .set('second', 0)
+      .set('millisecond', 0)
+      .subtract(18, 'year');
+
+    if (eighteenYearsAgo.isBefore(birthDate)) {
+      return Promise.reject(t('user_must_be_18_years_old'));
+    }
+
+    return Promise.resolve();
+  },
   // checkImageFileType: async (_: RuleObject, files: UploadFile[] | string, t: any) => {
   //   if (!files || typeof files === 'string') {
   //     return Promise.resolve();

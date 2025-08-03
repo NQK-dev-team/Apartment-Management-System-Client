@@ -1,6 +1,7 @@
 import type { BasicModel, NullTime, NullString } from './basic_model';
 import type { Building } from './building';
 import type { Dayjs } from 'dayjs';
+import type { UploadFile } from 'ant-design-vue/es/upload/interface';
 
 type User = BasicModel & {
   no: string;
@@ -23,6 +24,10 @@ type User = BasicModel & {
   isManager: boolean;
   isCustomer: boolean;
   gender: number;
+  dobDayjs: Dayjs | undefined;
+  newProfile: undefined | UploadFile[];
+  newFrontSSN: undefined | UploadFile[];
+  newBackSSN: undefined | UploadFile[];
 };
 
 type ManagerSchedule = BasicModel & {

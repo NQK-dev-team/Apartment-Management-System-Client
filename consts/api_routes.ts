@@ -27,7 +27,9 @@ const apiRoutes = {
     updateBuilding: (buildingID: number) => `/building/${buildingID}/update`,
   },
   room: {},
-  profile: {},
+  profile: {
+    getProfile: `/user/profile`,
+  },
   staff: {
     list: '/staff',
     detail: (staffId: number) => `/staff/${staffId}`,

@@ -181,7 +181,14 @@ const common = {
     },
   },
   room: {},
-  profile: {},
+  profile: {
+    getProfile: async (): Promise<APIResponse<User>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.profile.getProfile, {
+        method: 'GET',
+      });
+    },
+  },
   staff: {
     getList: async (): Promise<APIResponse<User[]>> => {
       const $api = getApiInstance();

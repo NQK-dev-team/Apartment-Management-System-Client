@@ -160,7 +160,7 @@ const commonRoutes: Route[] = [
   // Report
   {
     name: 'Report',
-    path: pageRoutes.common.report.page,
+    path: pageRoutes.common.report.index,
     file: reportBaseRoute + 'detail.vue',
   },
 ];

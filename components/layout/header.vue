@@ -83,6 +83,16 @@
                   <p class="ms-2">{{ $t('profile') }}</p>
                 </NuxtLink>
               </a-menu-item>
+              <a-menu-item key="security" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
+                <NuxtLink
+                  :to="pageRoutes.common.profile.security"
+                  class="flex items-center"
+                  :class="[lightMode ? '' : 'text-white']"
+                >
+                  <LockOutlined class="w-[12px] h-[12px] select-none" />
+                  <p class="ms-2">{{ $t('security_setting') }}</p>
+                </NuxtLink>
+              </a-menu-item>
               <a-menu-item key="logout" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']" @click="logout">
                 <div class="flex items-center">
                   <img :src="svgPaths.signOut" alt="Log out" class="w-[12px] h-[12px] select-none" />

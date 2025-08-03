@@ -19,6 +19,7 @@ const pageRoutes = {
     },
     profile: {
       index: '/profile',
+      security: '/security',
     },
     staff: {
       list: '/staff',
@@ -64,7 +65,7 @@ const pageRoutes = {
       edit: (contractId: number | string) => `/contract/${contractId}/edit`,
     },
     report: {
-      page: '/report',
+      index: '/',
     },
   },
 };

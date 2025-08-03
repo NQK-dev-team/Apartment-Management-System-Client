@@ -108,7 +108,7 @@
                 <label for="pob" class="flex mb-1">
                   <span>{{ $t('pob') }}</span>
                 </label>
-                <a-input id="pob" :value="customerInfo.pob.String ?? ''" :placeholder="$t('pob')" disabled readonly />
+                <a-input id="pob" :value="customerInfo.pob || ''" :placeholder="$t('pob')" disabled readonly />
               </div>
               <div class="flex-1">
                 <label for="phone_number" class="flex mb-1">
@@ -308,10 +308,7 @@ const customerInfo = ref<User>({
     Valid: false,
   },
   dob: '',
-  pob: {
-    String: '',
-    Valid: false,
-  },
+  pob: '',
   email: '',
   phone: '',
   permanentAddress: '',

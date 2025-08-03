@@ -236,7 +236,7 @@
               contract.type !== COMMON.CONTRACT_TYPE.BUY
                 ? currentDate
                 : contract.endDate.Valid && contract.endDate.Time
-                  ? convertToDate(contract.endDate.Time)
+                  ? convertToDate(contract.endDate.Time as string)
                   : '-'
             "
             placeholder="-"
@@ -259,7 +259,9 @@
             id="signed_date"
             disabled
             readonly
-            :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : '-'"
+            :value="
+              contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time as string) : '-'
+            "
             placeholder="-"
           />
         </a-form-item>
@@ -477,10 +479,7 @@
                 },
                 gender: undefined,
                 dob: '',
-                pob: {
-                  Valid: false,
-                  String: '',
-                },
+                pob: '',
                 phone: {
                   Valid: false,
                   String: '',
@@ -665,7 +664,7 @@ async function updateContract() {
           phone: residentData.phone.String ? residentData.phone.String.trim() : '',
           email: residentData.email.String ? residentData.email.String.trim() : '',
           ID: residentData.ID <= 0 ? 0 : residentData.ID, // Ensure ID is 0 for new residents
-          pob: residentData.pob.String ? residentData.pob.String.trim() : '',
+          pob: residentData.pob ? residentData.pob.trim() : '',
           gender: resident.gender,
           userAccountID: residentData.userAccountID.Int64 ? residentData.userAccountID.Int64 : 0,
           relationWithHouseholder: residentData.relationWithHouseholder,

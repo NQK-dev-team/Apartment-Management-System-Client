@@ -10,7 +10,7 @@ type User = BasicModel & {
   ssn: string;
   oldSSN: NullString;
   dob: string;
-  pob: NullString;
+  pob: string;
   email: string;
   phone: string;
   ssnFrontFilePath: string;

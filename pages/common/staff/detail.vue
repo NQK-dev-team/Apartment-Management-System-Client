@@ -386,7 +386,7 @@ async function getStaffDetailInfo() {
     staffInfo.value.data.ssn = response.data.ssn;
     staffInfo.value.data.oldSSN = response.data.oldSSN.Valid ? (response.data.oldSSN.String as string) : '';
     staffInfo.value.data.dob = dayjs(response.data.dob);
-    staffInfo.value.data.pob = response.data.pob.String ?? '';
+    staffInfo.value.data.pob = response.data.pob ?? '';
     staffInfo.value.data.email = response.data.email;
     staffInfo.value.data.phone = response.data.phone;
     staffInfo.value.data.ssnFrontFilePath = response.data.ssnFrontFilePath;

@@ -108,7 +108,7 @@ const data = computed(() => {
     dob: resident.userAccountID.Int64
       ? convertToDate(resident.userAccount!.dob as string)
       : convertToDate(resident.dob as string),
-    pob: resident.userAccountID.Int64 ? resident.userAccount!.pob.String || '-' : resident.pob.String || '-',
+    pob: resident.userAccountID.Int64 ? resident.userAccount!.pob || '-' : resident.pob || '-',
     ssn: resident.userAccountID.Int64 ? resident.userAccount!.ssn : resident.ssn.String || '-',
     old_ssn: resident.userAccountID.Int64 ? resident.userAccount!.oldSSN.String || '-' : resident.oldSSN.String || '-',
     phone: resident.userAccountID.Int64 ? resident.userAccount!.phone : resident.phone.String || '-',

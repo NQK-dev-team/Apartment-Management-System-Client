@@ -155,7 +155,7 @@ async function getImageList() {
   //   if (!image.isNew) {
   //     result.push({
   //       uid: image.ID,
-  //       name: image.title ?? '',
+  //       name: image.title || '',
   //       status: 'done',
   //       url: image.path,
   //     });
@@ -175,7 +175,7 @@ async function getImageList() {
     if (!image.isNew) {
       result.push({
         uid: (image as any).ID,
-        name: (image as any).title ?? '',
+        name: (image as any).title || '',
         status: 'done',
         url: (image as any).path,
       });

@@ -190,8 +190,8 @@ const offset = ref(0);
 const limit = ref(500);
 const billList = ref<Bill[]>([]);
 const columns: any = computed(() => {
-  const buildings = [...new Set(billList.value.map((bill) => bill.buildingName ?? ''))];
-  const floors = [...new Set(billList.value.map((bill) => bill.roomFloor ?? 0))];
+  const buildings = [...new Set(billList.value.map((bill) => bill.buildingName || ''))];
+  const floors = [...new Set(billList.value.map((bill) => bill.roomFloor || 0))];
   buildings.sort((a, b) => removeDiacritics(a).toLowerCase().localeCompare(removeDiacritics(b).toLowerCase()));
   floors.sort((a, b) => a - b);
 
@@ -417,9 +417,9 @@ const data = computed(() => {
       key: bill.ID,
       status: t(getBillStatus(bill.status)),
       status_numeric: bill.status,
-      building: bill.buildingName ?? '',
+      building: bill.buildingName || '',
       room_no: bill.roomNo,
-      floor: bill.roomFloor ?? 0,
+      floor: bill.roomFloor || 0,
     }));
 });
 

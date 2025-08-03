@@ -29,10 +29,10 @@ export default defineEventHandler(async (event) => {
       Accept: 'application/json, image/*',
     };
     if (jwt) {
-      headers['Authorization'] = `Bearer ${jwt ?? ''}`;
+      headers['Authorization'] = `Bearer ${jwt || ''}`;
     }
     if (refreshToken) {
-      headers['X-Refresh-Token'] = refreshToken ?? '';
+      headers['X-Refresh-Token'] = refreshToken || '';
     }
 
     const response = await proxyRequest(event, apiUrl, {

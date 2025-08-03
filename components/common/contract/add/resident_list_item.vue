@@ -49,7 +49,7 @@
             :filter-option="filterOption"
             @change="
               resident.userAccountID.Int64 =
-                customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ID ?? 0;
+                customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ID || 0;
               resident.userAccountID.Valid = !!resident.userAccountID.Int64;
             "
           ></a-select>
@@ -135,10 +135,10 @@
         <a-form-item v-if="resident.userAccountID.Int64" :name="`resident_${props.index + 1}_gender`" class="px-3">
           <a-select
             :id="`resident_${props.index + 1}_gender`"
-            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.gender ?? 0"
+            :value="customers.find((customer) => customerNo && customer.no.includes(customerNo))?.gender || 0"
             class="w-full text-left"
             :class="[
-              (customers.find((customer) => customerNo && customer.no.includes(customerNo))?.gender ?? 0 === 0)
+              customers.find((customer) => customerNo && customer.no.includes(customerNo))?.gender || 0 === 0
                 ? 'default-selected'
                 : '',
             ]"
@@ -444,12 +444,12 @@ function filterOption(input: string, option: any) {
 watch(customers, () => {
   if (!customerNo.value) {
     customerNo.value =
-      customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no ?? null;
+      customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || null;
   }
 });
 
 // ---------------------- Events ----------------------
 $event.on('resetResidentListItemContractEditMode', () => {
-  customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no ?? null;
+  customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || null;
 });
 </script>

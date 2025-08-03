@@ -30,7 +30,7 @@
               })),
             ]"
             :placeholder="$t('search_by_employee_no')"
-            @change="schedule.managerID = props.managers.find((manager) => manager.no === schedule.managerNo)?.ID ?? 0"
+            @change="schedule.managerID = props.managers.find((manager) => manager.no === schedule.managerNo)?.ID || 0"
           ></a-select>
           <a-select
             v-else
@@ -57,14 +57,14 @@
           <a-input
             v-if="!props.readOnly"
             :id="`schedule_${props.index + 1}_manager_email_1`"
-            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email || ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
             :id="`schedule_${props.index + 1}_manager_email_3`"
-            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.email || ''"
             disabled
             readonly
           ></a-input>
@@ -77,14 +77,14 @@
           <a-input
             v-if="!props.readOnly"
             :id="`schedule_${props.index + 1}_manager_phone_1`"
-            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone || ''"
             disabled
             readonly
           ></a-input>
           <a-input
             v-else
             :id="`schedule_${props.index + 1}_manager_phone_3`"
-            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone ?? ''"
+            :value="managers.find((manager: User) => manager.no === schedule.managerNo)?.phone || ''"
             disabled
             readonly
           ></a-input>

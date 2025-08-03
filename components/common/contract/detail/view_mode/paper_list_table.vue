@@ -46,7 +46,7 @@ const columns: any = computed(() => {
 const data = computed(() => {
   return props.files.map((file, index) => ({
     no: index + 1,
-    file_name: file.title ?? '',
+    file_name: file.title || '',
     action: file.path,
   }));
 });

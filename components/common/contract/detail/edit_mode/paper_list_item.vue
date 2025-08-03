@@ -33,7 +33,7 @@
           <a-input
             v-if="!file.isNew"
             :id="`contract_file_${props.index + 1}_name`"
-            :value="file.title ?? ''"
+            :value="file.title || ''"
             :placeholder="$t('file_name')"
             type="text"
             disabled

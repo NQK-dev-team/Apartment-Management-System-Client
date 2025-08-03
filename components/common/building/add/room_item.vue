@@ -81,7 +81,7 @@
             :min="0"
             @change="
               (e: any) => {
-                roomInfo.area = e.target.value ?? '';
+                roomInfo.area = e.target.value || '';
               }
             "
           />

@@ -313,8 +313,8 @@ const lightMode = computed(
 const { t } = useI18n();
 const searchInput = ref();
 const columns = computed<any[]>(() => {
-  const buildings = [...new Set(tickets.value.map((ticket) => ticket.buildingName ?? ''))];
-  const floors = [...new Set(tickets.value.map((ticket) => ticket.roomFloor ?? 0))];
+  const buildings = [...new Set(tickets.value.map((ticket) => ticket.buildingName || ''))];
+  const floors = [...new Set(tickets.value.map((ticket) => ticket.roomFloor || 0))];
   buildings.sort((a, b) => removeDiacritics(a).toLowerCase().localeCompare(removeDiacritics(b).toLowerCase()));
   floors.sort((a, b) => a - b);
 
@@ -460,9 +460,9 @@ const data = computed(() =>
         ((!ticket.ownerID && userRole.value?.toString() === roles.owner && ticket.managerID) ||
           (!ticket.managerID && userRole.value?.toString() === roles.manager)),
     },
-    building: ticket.buildingName ?? '',
-    floor: ticket.roomFloor ?? 0,
-    room_no: ticket.roomNo ?? 0,
+    building: ticket.buildingName || '',
+    floor: ticket.roomFloor || 0,
+    room_no: ticket.roomNo || 0,
   }))
 );
 const ticketDetail = ref<SupportTicket | null>(null);

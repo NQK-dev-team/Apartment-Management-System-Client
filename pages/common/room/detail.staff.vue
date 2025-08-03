@@ -554,7 +554,7 @@ function getImageList() {
     if (!image.isNew) {
       result.push({
         uid: image.ID,
-        name: image.title ?? '',
+        name: image.title || '',
         status: 'done',
         url: image.path,
       });

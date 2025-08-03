@@ -45,8 +45,8 @@ export default defineNuxtConfig({
       apiVersion: process.env.API_VERSION,
       isDevMode: process.env.NODE_ENV === 'development',
       isHttps: process.env.IS_HTTPS === 'true',
-      port: process.env.APP_PORT ?? '3000',
-      host: process.env.APP_HOST ?? 'localhost',
+      port: process.env.APP_PORT || '3000',
+      host: process.env.APP_HOST || 'localhost',
     },
   },
   app: {
@@ -57,7 +57,7 @@ export default defineNuxtConfig({
   },
   devServer: {
     port: process.env.APP_PORT ? Number(process.env.APP_PORT) : 3000,
-    host: process.env.APP_HOST ?? 'localhost',
+    host: process.env.APP_HOST || 'localhost',
     // https: {
     //   key: '',
     //   cert: '',

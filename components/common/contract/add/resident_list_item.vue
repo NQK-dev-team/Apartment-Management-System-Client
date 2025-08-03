@@ -217,7 +217,12 @@
             readonly
           ></a-input>
         </a-form-item>
-        <a-form-item v-else :name="['residents', props.index, 'pob']" class="px-3 align_validation_message_start">
+        <a-form-item
+          v-else
+          :name="['residents', props.index, 'pob']"
+          :rules="[{ required: true, message: $t('please_enter_customer_pob'), trigger: 'blur' }]"
+          class="px-3 align_validation_message_start"
+        >
           <a-input
             :id="`resident_${props.index + 1}_pob`"
             v-model:value="resident.pob"

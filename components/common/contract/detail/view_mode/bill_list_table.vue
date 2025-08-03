@@ -410,7 +410,8 @@ const data = computed(() => {
       bill_name: bill.title,
       total_payment: formatPrice(bill.amount),
       payment_period: convertToMonthYear(bill.period),
-      payment_time: bill.paymentTime.Valid && bill.paymentTime.Time ? convertToDateTime(bill.paymentTime.Time) : '-',
+      payment_time:
+        bill.paymentTime.Valid && bill.paymentTime.Time ? convertToDateTime(bill.paymentTime.Time as string) : '-',
       paid_by: bill.paymentTime.Valid && bill.paymentTime.Time ? getUserName(bill.payer) : '-',
       customer_no: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.no : '-',
       action: bill.ID,

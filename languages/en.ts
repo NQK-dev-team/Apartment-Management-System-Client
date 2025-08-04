@@ -131,6 +131,7 @@ export default {
   change_password: 'Change password',
   change_email: 'Change email',
   current_email: 'Current email',
+  current_password_incorrect: 'Current password is incorrect!',
 
   D: 'd',
   delete: 'Delete',
@@ -341,6 +342,7 @@ export default {
   new_bill_detail: 'New billing detail',
   new_email: 'New email',
   new_email_required: 'New email cannot be empty!',
+  new_password_has_been_set: 'New password has been set successfully!',
 
   O: 'o',
   operation: 'Operation',
@@ -416,6 +418,7 @@ export default {
   paid_by_required: 'Payer information cannot be empty!',
   payment_period_required: 'Payment period cannot be empty!',
   please_select_user_gender: 'Please select user gender',
+  profile_info_updated: 'User personal information has been updated successfully!',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -532,6 +535,7 @@ export default {
   user_temporary_address_required: 'User temporary address cannot be empty!',
   user_dob_required: 'User date of birth cannot be empty!',
   user_must_be_18_years_old: 'User must be at least 18 years old!',
+  update_fail: 'Update failed!',
 
   V: 'v',
 

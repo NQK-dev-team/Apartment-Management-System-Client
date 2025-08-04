@@ -31,6 +31,9 @@ const apiRoutes = {
     getProfile: `/user/profile`,
     updateProfile: `/user/profile/update`,
   },
+  security: {
+    changePassword: `/user/security/change-password`,
+  },  
   staff: {
     list: '/staff',
     detail: (staffId: number) => `/staff/${staffId}`,

@@ -194,7 +194,20 @@ const common = {
         method: 'POST',
         body: data,
       });
-    }
+    },
+  },
+  security: {
+    changePassword: async (data: {
+      oldPassword: string;
+      newPassword: string;
+      confirmNewPassword: string;
+    }): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.security.changePassword, {
+        method: 'POST',
+        body: data,
+      });
+    },
   },
   staff: {
     getList: async (): Promise<APIResponse<User[]>> => {

@@ -131,6 +131,7 @@ export default {
   change_password: 'Đổi mật khẩu',
   change_email: 'Đổi email',
   current_email: 'Email hiện tại',
+  current_password_incorrect: 'Mật khẩu hiện tại không chính xác!',
 
   D: 'd',
   delete: 'Xóa',
@@ -340,6 +341,7 @@ export default {
   new_bill_detail: 'Chi tiết hóa đơn mới',
   new_email: 'Email mới',
   new_email_required: 'Email mới không được để trống!',
+  new_password_has_been_set: 'Mật khẩu mới đã được thiết lập!',
 
   O: 'o',
   operation: 'Thao tác',
@@ -415,6 +417,7 @@ export default {
   paid_by_required: 'Thông tin người thanh toán không được để trống!',
   payment_period_required: 'Kỳ thanh toán không được để trống!',
   please_select_user_gender: 'Vui lòng chọn giới tính của người dùng',
+  profile_info_updated: 'Thông tin cá nhân đã được cập nhật thành công!',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -531,6 +534,7 @@ export default {
   user_temporary_address_required: 'Địa chỉ tạm trú của người dùng không được để trống!',
   user_dob_required: 'Ngày sinh của người dùng không được để trống!',
   user_must_be_18_years_old: 'Người dùng phải từ đủ 18 tuổi trở lên!',
+  update_fail: 'Cập nhật không thành công!',
 
   V: 'v',
 

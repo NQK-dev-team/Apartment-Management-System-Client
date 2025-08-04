@@ -38,6 +38,13 @@
           </label>
           <a-input id="new_email" v-model:value="changeEmailModel.newEmail" autocomplete="off" type="email" />
         </a-form-item>
+        <a-form-item name="password" :rules="[{ required: true, message: $t('empty_password'), trigger: 'blur' }]">
+          <label for="password" class="flex mb-1">
+            <span>{{ $t('password') }}</span>
+            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+          </label>
+          <a-input-password id="password" v-model="changeEmailModel.password" autocomplete="off" />
+        </a-form-item>
         <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
       </a-form>
       <a-form :model="changePasswordModel" class="mt-20 min-w-[600px] max-w-[600px]" @finish="changePassword">
@@ -50,7 +57,7 @@
             <span>{{ $t('current_password') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input-password id="current_password" v-model="changePasswordModel.oldPassword" autocomplete="off" />
+          <a-input-password id="current_password" v-model:value="changePasswordModel.oldPassword" autocomplete="off" />
         </a-form-item>
         <a-form-item
           name="newPassword"
@@ -70,10 +77,10 @@
             <span>{{ $t('new_password') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input-password id="new_password" v-model="changePasswordModel.newPassword" autocomplete="off" />
+          <a-input-password id="new_password" v-model:value="changePasswordModel.newPassword" autocomplete="off" />
         </a-form-item>
         <a-form-item
-          name="confirmPassword"
+          name="confirmNewPassword"
           :rules="[
             {
               required: true,
@@ -93,7 +100,7 @@
           </label>
           <a-input-password
             id="confirm_new_password"
-            v-model="changePasswordModel.confirmPassword"
+            v-model:value="changePasswordModel.confirmNewPassword"
             autocomplete="off"
           />
         </a-form-item>
@@ -138,18 +145,20 @@ const { $event } = useNuxtApp();
 const changePasswordModel = ref<{
   oldPassword: string;
   newPassword: string;
-  confirmPassword: string;
+  confirmNewPassword: string;
 }>({
   oldPassword: '',
   newPassword: '',
-  confirmPassword: '',
+  confirmNewPassword: '',
 });
 const changeEmailModel = ref<{
   oldEmail: string;
   newEmail: string;
+  password: string;
 }>({
   oldEmail: '',
   newEmail: '',
+  password: '',
 });
 const userInfo = ref<User | null>(null);
 
@@ -157,8 +166,29 @@ const userInfo = ref<User | null>(null);
 async function changePassword() {
   try {
     $event.emit('loading');
+
+    await api.common.security.changePassword(changePasswordModel.value);
+
+    changePasswordModel.value = {
+      oldPassword: '',
+      newPassword: '',
+      confirmNewPassword: '',
+    };
+
+    notification.info({
+      message: t('update_success'),
+      description: t('new_password_has_been_set'),
+    });
   } catch (err: any) {
     if (
+      err.status === COMMON.HTTP_STATUS.BAD_REQUEST ||
+      err.response._data.message === getMessageCode('PASSWORD_INCORRECT')
+    ) {
+      notification.error({
+        message: t('update_fail'),
+        description: t('current_password_incorrect'),
+      });
+    } else if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')

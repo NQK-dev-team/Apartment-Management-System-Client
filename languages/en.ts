@@ -126,6 +126,11 @@ export default {
   contract_value_invalid: 'Contract value is not valid!',
   confirm_update_bill: 'Are you sure you want to update this billing information?',
   contract_id_required: 'Contract ID cannot be empty!',
+  current_password: 'Current password',
+  current_password_required: 'Current password cannot be empty!',
+  change_password: 'Change password',
+  change_email: 'Change email',
+  current_email: 'Current email',
 
   D: 'd',
   delete: 'Delete',
@@ -334,6 +339,8 @@ export default {
   new_contract_detail: 'New contract detail',
   not_applicable: 'Not applicable',
   new_bill_detail: 'New billing detail',
+  new_email: 'New email',
+  new_email_required: 'New email cannot be empty!',
 
   O: 'o',
   operation: 'Operation',

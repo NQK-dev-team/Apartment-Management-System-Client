@@ -20,6 +20,9 @@ const pageRoutes = {
     profile: {
       index: '/profile',
     },
+    security: {
+      index: '/security',
+    },
     staff: {
       list: '/staff',
       add: '/staff/add',

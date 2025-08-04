@@ -85,7 +85,7 @@
               </a-menu-item>
               <a-menu-item key="security" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
                 <NuxtLink
-                  :to="pageRoutes.common.profile.security"
+                  :to="pageRoutes.common.security.index"
                   class="flex items-center"
                   :class="[lightMode ? '' : 'text-white']"
                 >

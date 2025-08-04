@@ -126,6 +126,11 @@ export default {
   contract_value_invalid: 'Giá trị hợp đồng không hợp lệ!',
   confirm_update_bill: 'Bạn có chắc chắn muốn cập nhật thông tin hóa đơn này không?',
   contract_id_required: 'Mã hợp đồng không được để trống!',
+  current_password: 'Mật khẩu hiện tại',
+  current_password_required: 'Mật khẩu hiện tại không được để trống!',
+  change_password: 'Đổi mật khẩu',
+  change_email: 'Đổi email',
+  current_email: 'Email hiện tại',
 
   D: 'd',
   delete: 'Xóa',
@@ -333,6 +338,8 @@ export default {
   new_contract_detail: 'Chi tiết hợp đồng mới',
   not_applicable: 'Không áp dụng',
   new_bill_detail: 'Chi tiết hóa đơn mới',
+  new_email: 'Email mới',
+  new_email_required: 'Email mới không được để trống!',
 
   O: 'o',
   operation: 'Thao tác',

@@ -337,17 +337,17 @@ async function updateUserInfo() {
     $event.emit('loading');
 
     const data = new FormData();
-    data.append('lastName', user.value.lastName);
-    data.append('middleName', user.value.middleName.String || '');
-    data.append('firstName', user.value.firstName);
+    data.append('lastName', user.value.lastName.trim());
+    data.append('middleName', user.value.middleName.String ? user.value.middleName.String.trim() : '');
+    data.append('firstName', user.value.firstName.trim());
     data.append('gender', user.value.gender.toString());
     data.append('dob', user.value.dobDayjs!.format('YYYY-MM-DD'));
-    data.append('ssn', user.value.ssn);
-    data.append('oldSSN', user.value.oldSSN.String || '');
-    data.append('pob', user.value.pob);
-    data.append('phone', user.value.phone);
-    data.append('permanentAddress', user.value.permanentAddress);
-    data.append('temporaryAddress', user.value.temporaryAddress);
+    data.append('ssn', user.value.ssn.trim());
+    data.append('oldSSN', user.value.oldSSN.String ? user.value.oldSSN.String.trim() : '');
+    data.append('pob', user.value.pob.trim());
+    data.append('phone', user.value.phone.trim());
+    data.append('permanentAddress', user.value.permanentAddress.trim());
+    data.append('temporaryAddress', user.value.temporaryAddress.trim());
     if (user.value.newProfile && user.value.newProfile.length) {
       data.append('newProfile', user.value.newProfile[0].originFileObj as File);
     }
@@ -359,6 +359,11 @@ async function updateUserInfo() {
     }
 
     await api.common.profile.updateProfile(data);
+
+    notification.info({
+      message: t('update_success'),
+      description: t('profile_info_updated'),
+    });
 
     $event.emit('refetchProfile');
   } catch (err: any) {

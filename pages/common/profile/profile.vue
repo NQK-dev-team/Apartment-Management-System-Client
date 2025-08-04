@@ -135,5 +135,9 @@ onMounted(async () => {
 });
 
 // ---------------------- Events ----------------------
-$event.on('refetchProfile', getUserInfo);
+$event.on('refetchProfile', () =>
+{
+  editMode.value = false;
+  getUserInfo();
+});
 </script>

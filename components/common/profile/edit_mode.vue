@@ -377,6 +377,24 @@ async function updateUserInfo() {
         description: t('system_error_description'),
       });
     }
+    if (err.response._data.message === getMessageCode('SSN_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('update_fail'),
+        description: t('ssn_exists'),
+      });
+    }
+    if (err.response._data.message === getMessageCode('PHONE_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('update_fail'),
+        description: t('phone_exists'),
+      });
+    }
+    if (err.response._data.message === getMessageCode('OLD_SSN_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('update_fail'),
+        description: t('old_ssn_exists'),
+      });
+    }
   } finally {
     $event.emit('loading');
   }

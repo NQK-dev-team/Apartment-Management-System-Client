@@ -15,7 +15,7 @@
       :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
     >
       <a-form v-show="!addSuccess" :model="newContract" @finish="addContract">
-        <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
+        <h2 class="mt-5 text-xl font-bold">{{ $t('contract_information') }}</h2>
         <a-row :gutter="16">
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
@@ -422,7 +422,7 @@
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
         </a-row> -->
         <div class="mt-10 flex items-center justify-between">
-          <h1 class="text-2xl">{{ $t('paper_list') }}</h1>
+          <h2 class="text-xl font-bold">{{ $t('paper_list') }}</h2>
           <div class="flex items-center">
             <a-button
               type="primary"
@@ -463,7 +463,7 @@
         </div>
         <CommonContractAddPaperListTable :new-contract="newContract" :delete-bucket="fileListDeleteBucket" />
         <div class="mt-10 flex items-center justify-between">
-          <h1 class="text-2xl">{{ $t('resident_list') }}</h1>
+          <h2 class="text-xl font-bold">{{ $t('resident_list') }}</h2>
           <div class="flex items-center">
             <a-button
               type="primary"

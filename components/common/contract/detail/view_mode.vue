@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
+    <h2 class="mt-5 text-xl font-bold">{{ $t('contract_information') }}</h2>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="building_name" class="flex mb-1">
@@ -177,7 +177,9 @@
           id="expire_date"
           disabled
           readonly
-          :value="contract.endDate.Valid && contract.endDate.Time ? convertToDate(contract.endDate.Time) : '-'"
+          :value="
+            contract.endDate.Valid && contract.endDate.Time ? convertToDate(contract.endDate.Time as string) : '-'
+          "
           placeholder="-"
         />
       </a-col>
@@ -189,7 +191,9 @@
           id="signed_date"
           disabled
           readonly
-          :value="contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time) : '-'"
+          :value="
+            contract.signDate.Valid && contract.signDate.Time ? convertToDate(contract.signDate.Time as string) : '-'
+          "
           placeholder="-"
         />
       </a-col>
@@ -224,14 +228,14 @@
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
-    <h1 class="mt-10 text-2xl">{{ $t('paper_list') }}</h1>
+    <h2 class="mt-10 text-xl font-bold">{{ $t('paper_list') }}</h2>
     <CommonContractDetailViewModePaperListTable :files="props.contract.files" />
     <template v-if="props.contract.residents.length">
-      <h1 class="mt-10 text-2xl">{{ $t('other_resident_list') }}</h1>
+      <h2 class="mt-10 text-xl font-bold">{{ $t('other_resident_list') }}</h2>
       <CommonContractDetailViewModeResidentListTable :residents="props.contract.residents" />
     </template>
     <div class="mt-10 flex items-center justify-between">
-      <h1 class="text-2xl">{{ $t('bill_list') }}</h1>
+      <h2 class="text-xl font-bold">{{ $t('bill_list') }}</h2>
       <div
         v-if="
           (userRole?.toString() === roles.owner || userRole?.toString() === roles.manager) &&

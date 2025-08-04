@@ -1,6 +1,6 @@
 <template>
   <a-form>
-    <h1 class="mt-5 text-2xl">{{ $t('bill_info') }}</h1>
+    <h2 class="mt-5 text-xl font-bold">{{ $t('bill_info') }}</h2>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="building_name">
@@ -152,7 +152,7 @@
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
-    <h1 class="mt-10 text-2xl">{{ $t('payment_list') }}</h1>
+    <h2 class="mt-10 text-xl font-bold">{{ $t('payment_list') }}</h2>
     <a-table
       :columns="paymentTableColumns"
       :data-source="paymentTableData"

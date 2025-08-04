@@ -8,7 +8,7 @@
     ref="editForm"
     :model="editContract.value"
   >
-    <h1 class="mt-5 text-2xl">{{ $t('contract_information') }}</h1>
+    <h2 class="mt-5 text-xl font-bold">{{ $t('contract_information') }}</h2>
     <a-row :gutter="16">
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="building_name">
@@ -382,7 +382,7 @@
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>
     </a-row>
     <div class="mt-10 flex items-center justify-between">
-      <h1 class="text-2xl">{{ $t('paper_list') }}</h1>
+      <h2 class="text-xl font-bold">{{ $t('paper_list') }}</h2>
       <div class="flex items-center">
         <a-button
           type="primary"
@@ -424,7 +424,7 @@
     </div>
     <PaperListTable :edit-contract="editContract" :delete-bucket="fileListDeleteBucket" />
     <div class="mt-10 flex items-center justify-between">
-      <h1 class="text-2xl">{{ $t('resident_list') }}</h1>
+      <h2 class="text-xl font-bold">{{ $t('resident_list') }}</h2>
       <div class="flex items-center">
         <a-button
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"

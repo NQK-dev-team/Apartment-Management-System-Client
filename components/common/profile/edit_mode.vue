@@ -307,6 +307,7 @@ import { svgPaths } from '~/consts/svg_paths';
 import { validationRules } from '~/consts/validation_rules';
 import type { Dayjs } from 'dayjs';
 import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/interface';
+import { api } from '~/services/api';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -318,13 +319,8 @@ const props = defineProps({
     type: Object as PropType<User>,
     required: true,
   },
-  oldInfo: {
-    type: Object as PropType<User>,
-    required: true,
-  },
 });
 const user = toRef(props, 'user');
-const oldInfo = toRef(props, 'oldInfo');
 const { $event, $dayjs } = useNuxtApp();
 const { t } = useI18n();
 const editForm = ref<FormInstance>();
@@ -339,6 +335,32 @@ const isNewSSNBackValid = ref(false);
 async function updateUserInfo() {
   try {
     $event.emit('loading');
+
+    const data = new FormData();
+    data.append('lastName', user.value.lastName);
+    data.append('middleName', user.value.middleName.String || '');
+    data.append('firstName', user.value.firstName);
+    data.append('gender', user.value.gender.toString());
+    data.append('dob', user.value.dobDayjs!.format('YYYY-MM-DD'));
+    data.append('ssn', user.value.ssn);
+    data.append('oldSSN', user.value.oldSSN.String || '');
+    data.append('pob', user.value.pob);
+    data.append('phone', user.value.phone);
+    data.append('permanentAddress', user.value.permanentAddress);
+    data.append('temporaryAddress', user.value.temporaryAddress);
+    if (user.value.newProfile && user.value.newProfile.length) {
+      data.append('newProfile', user.value.newProfile[0].originFileObj as File);
+    }
+    if (user.value.newFrontSSN && user.value.newFrontSSN.length) {
+      data.append('newFrontSSN', user.value.newFrontSSN[0].originFileObj as File);
+    }
+    if (user.value.newBackSSN && user.value.newBackSSN.length) {
+      data.append('newBackSSN', user.value.newBackSSN[0].originFileObj as File);
+    }
+
+    await api.common.profile.updateProfile(data);
+
+    $event.emit('refetchProfile');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

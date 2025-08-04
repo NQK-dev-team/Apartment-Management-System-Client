@@ -19,7 +19,6 @@ const pageRoutes = {
     },
     profile: {
       index: '/profile',
-      security: '/security',
     },
     staff: {
       list: '/staff',

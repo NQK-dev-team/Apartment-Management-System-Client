@@ -5,7 +5,7 @@
         <a-breadcrumb-item>{{ $t('profile') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div class="mt-3 flex items-center justify-between">
-        <h1 class="text-2xl">{{ userInfo ? getUserName(userInfo) : '' }}</h1>
+        <h2 class="text-xl font-bold">{{ oldUserInfo ? getUserName(oldUserInfo) : '' }}</h2>
         <div class="flex justify-end">
           <a-button
             v-show="!editMode"
@@ -30,7 +30,8 @@
                   message: t('edit_mode_inactive'),
                 });
                 editMode = false;
-                userInfo = JSON.parse(JSON.stringify(oldUserInfo)); // Reset to old user info
+                userInfo = JSON.parse(JSON.stringify(oldUserInfo));
+                userInfo!.dobDayjs = $dayjs(userInfo!.dobDayjs);
                 $event.emit('cancelProfileEditMode');
               }
             "
@@ -51,7 +52,7 @@
       </div>
     </div>
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
-      <CommonProfileEditMode v-if="editMode && userInfo && oldUserInfo" :user="userInfo" :old-info="oldUserInfo" />
+      <CommonProfileEditMode v-if="editMode && userInfo && oldUserInfo" :user="userInfo" />
       <CommonProfileViewMode v-if="!editMode && userInfo" :user="userInfo" />
     </div>
   </div>

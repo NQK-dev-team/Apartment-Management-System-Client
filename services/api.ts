@@ -188,6 +188,13 @@ const common = {
         method: 'GET',
       });
     },
+    updateProfile: async (data: FormData): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.profile.updateProfile, {
+        method: 'POST',
+        body: data,
+      });
+    }
   },
   staff: {
     getList: async (): Promise<APIResponse<User[]>> => {

@@ -29,6 +29,7 @@ const apiRoutes = {
   room: {},
   profile: {
     getProfile: `/user/profile`,
+    updateProfile: `/user/profile/update`,
   },
   staff: {
     list: '/staff',

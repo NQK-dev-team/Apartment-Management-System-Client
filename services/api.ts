@@ -208,6 +208,13 @@ const common = {
         body: data,
       });
     },
+    changeEmail: async (data: { newEmail: string; password: string }): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.security.changeEmail, {
+        method: 'POST',
+        body: data,
+      });
+    },
   },
   staff: {
     getList: async (): Promise<APIResponse<User[]>> => {

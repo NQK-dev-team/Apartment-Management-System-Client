@@ -43,7 +43,7 @@
             <span>{{ $t('password') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input-password id="password" v-model="changeEmailModel.password" autocomplete="off" />
+          <a-input-password id="password" v-model:value="changeEmailModel.password" autocomplete="off" />
         </a-form-item>
         <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
       </a-form>
@@ -107,6 +107,12 @@
         <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
       </a-form>
     </div>
+    <a-modal v-model:open="emailChangeModalVisible" @cancel="closeModal">
+      <p class="mt-3">{{ $t('email_change_success_content') }}</p>
+      <template #footer>
+        <a-button type="primary" @click="closeModal">{{ $t('confirm') }}</a-button>
+      </template>
+    </a-modal>
   </div>
 </template>
 
@@ -118,6 +124,7 @@ import { api } from '~/services/api';
 import type { User } from '~/types/user';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
+import { pageRoutes } from '~/consts/page_routes';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -161,6 +168,7 @@ const changeEmailModel = ref<{
   password: '',
 });
 const userInfo = ref<User | null>(null);
+const emailChangeModalVisible = ref(false);
 
 // ---------------------- Functions ----------------------
 async function changePassword() {
@@ -206,8 +214,25 @@ async function changePassword() {
 async function changeEmail() {
   try {
     $event.emit('loading');
+
+    await api.common.security.changeEmail(changeEmailModel.value);
+    await api.authentication.logout();
+    emailChangeModalVisible.value = true;
   } catch (err: any) {
     if (
+      err.status === COMMON.HTTP_STATUS.BAD_REQUEST ||
+      err.response._data.message === getMessageCode('PASSWORD_INCORRECT')
+    ) {
+      notification.error({
+        message: t('update_fail'),
+        description: t('password_incorrect'),
+      });
+    } else if (err.response._data.message === getMessageCode('EMAIL_ALREADY_EXISTS')) {
+      notification.error({
+        message: t('update_fail'),
+        description: t('email_exists'),
+      });
+    } else if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
@@ -245,6 +270,11 @@ async function getUserInfo() {
   } finally {
     $event.emit('loading');
   }
+}
+
+async function closeModal() {
+  emailChangeModalVisible.value = false;
+  await navigateTo(pageRoutes.authentication.login);
 }
 
 // ---------------------- Lifecycles ----------------------

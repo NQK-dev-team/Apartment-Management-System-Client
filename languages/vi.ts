@@ -178,7 +178,7 @@ export default {
   empty_room_area: 'Diện tích phòng {no} không được để trống!',
   empty_service_price: 'Phí dịch vụ {no} không được để trống!',
   employee_list: 'Danh sách nhân viên',
-  empty_password: 'Mật khẩu đang để trống!',
+  empty_password: 'Mật khẩu không được để trống!',
   employee_name: 'Tên nhân viên',
   employee_number: 'Mã nhân viên',
   endDate: 'Ngày kết thúc',
@@ -248,6 +248,8 @@ export default {
   enter_user_temporary_address: 'Nhập địa chỉ tạm trú của người dùng',
   enter_user_permanent_address: 'Nhập địa chỉ thường trú của người dùng',
   enter_user_dob: 'Nhập ngày sinh của người dùng',
+  email_change_success_content:
+    'Địa chỉ email của bạn đã được thay đổi thành công!\nChúng tôi đã gửi một email xác nhận đến địa chỉ email mới của bạn. Vui lòng kiểm tra hộp thư và xác nhận để hoàn tất quá trình thay đổi.',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -418,6 +420,7 @@ export default {
   payment_period_required: 'Kỳ thanh toán không được để trống!',
   please_select_user_gender: 'Vui lòng chọn giới tính của người dùng',
   profile_info_updated: 'Thông tin cá nhân đã được cập nhật thành công!',
+  password_incorrect: 'Mật khẩu không chính xác!',
 
   Q: 'q',
   quarter: 'Quý {quarter}',

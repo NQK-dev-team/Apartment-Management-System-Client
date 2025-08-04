@@ -178,7 +178,7 @@ export default {
   empty_room_area: 'Room {no} area cannot be empty!',
   empty_service_price: 'Service {no} price cannot be empty!',
   employee_list: 'Employee list',
-  empty_password: 'Empty password!',
+  empty_password: 'Password is empty!',
   employee_name: 'Employee name',
   employee_number: 'Employee number',
   endDate: 'End date',
@@ -419,6 +419,7 @@ export default {
   payment_period_required: 'Payment period cannot be empty!',
   please_select_user_gender: 'Please select user gender',
   profile_info_updated: 'User personal information has been updated successfully!',
+  password_incorrect: 'Password is incorrect!',
 
   Q: 'q',
   quarter: 'Q{quarter}',

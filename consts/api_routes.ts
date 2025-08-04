@@ -33,7 +33,8 @@ const apiRoutes = {
   },
   security: {
     changePassword: `/user/security/change-password`,
-  },  
+    changeEmail: `/user/security/change-email`,
+  },
   staff: {
     list: '/staff',
     detail: (staffId: number) => `/staff/${staffId}`,

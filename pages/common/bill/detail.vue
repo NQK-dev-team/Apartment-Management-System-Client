@@ -162,9 +162,6 @@ $event.on('updateBillingSuccess', () => {
     description: t('bill_info_updated'),
   });
 
-  notification.info({
-    message: t('edit_mode_inactive'),
-  });
   editMode.value = false;
   $event.emit('cancelBillingEditMode');
 

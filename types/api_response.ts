@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type BaseAPIResponse = {
+  status: number;
   message: string;
   validateError: any;
 };

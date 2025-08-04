@@ -3,6 +3,7 @@ import type { APITokenResponse } from '~/types/api_response';
 import { pageRoutes } from '~/consts/page_routes';
 import { apiRoutes } from '~/consts/api_routes';
 import { roles } from '~/consts/roles';
+import { COMMON } from '~/consts/common';
 // import { getRoleFromJWT, getUserIDFromJWT } from '~/utils/jwt';
 
 function getServerBaseUrl(): string {
@@ -31,7 +32,7 @@ async function verifyToken(token: string): Promise<boolean> {
   return body.data;
 }
 
-async function getNewToken(refreshToken: string): Promise<APITokenResponse<null>> {
+async function getNewToken(refreshToken: string): Promise<APITokenResponse<null> | null> {
   // Get a new token
   const response = await fetch(getServerBaseUrl() + apiRoutes.authentication.refreshToken, {
     method: 'POST',
@@ -43,6 +44,10 @@ async function getNewToken(refreshToken: string): Promise<APITokenResponse<null>
   });
 
   const body: APITokenResponse<null> = await response.json();
+
+  if (body.status !== COMMON.HTTP_STATUS.OK) {
+    return null;
+  }
 
   return body;
 }
@@ -94,7 +99,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
       if (refreshToken && refreshToken.value) {
-        const newToken: APITokenResponse<null> = await getNewToken(refreshToken.value);
+        const newToken: APITokenResponse<null> | null = await getNewToken(refreshToken.value);
         if (newToken) {
           jwt.value = newToken.jwtToken;
           userRole.value = getRoleFromJWT(newToken.jwtToken);
@@ -120,7 +125,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     }
   } else {
     if (refreshToken && refreshToken.value) {
-      const newToken: APITokenResponse<null> = await getNewToken(refreshToken.value);
+      const newToken: APITokenResponse<null> | null = await getNewToken(refreshToken.value);
       if (newToken) {
         jwt.value = newToken.jwtToken;
         userRole.value = getRoleFromJWT(newToken.jwtToken);

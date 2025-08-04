@@ -433,6 +433,7 @@ export default {
   room_updated_success: 'Room information has been updated successfully!',
   report: 'Report',
   rent_contract: 'Rent contract',
+  room_image: 'Room image',
 
   S: 's',
   staff: 'Staff',

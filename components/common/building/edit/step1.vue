@@ -7,7 +7,7 @@
             <span>{{ $t('building_name') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input-search
+          <!-- <a-input-search
             v-if="userRole?.toString() === roles.owner && !props.readOnly"
             id="building_name_1"
             v-model:value="buildingInfo.data.name"
@@ -17,7 +17,13 @@
             <template #enterButton>
               <a-button><UndoOutlined /></a-button>
             </template>
-          </a-input-search>
+          </a-input-search> -->
+          <a-input
+            v-if="userRole?.toString() === roles.owner && !props.readOnly"
+            id="building_name_1"
+            v-model:value="buildingInfo.data.name"
+            :placeholder="$t('enter_building_name')"
+          />
           <a-input
             v-else
             id="building_name_1"
@@ -32,7 +38,7 @@
             <span>{{ $t('building_address') }}</span>
             <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
-          <a-input-search
+          <!-- <a-input-search
             v-if="userRole?.toString() === roles.owner && !props.readOnly"
             id="building_address_1"
             v-model:value="buildingInfo.data.address"
@@ -42,7 +48,13 @@
             <template #enterButton>
               <a-button><UndoOutlined /></a-button>
             </template>
-          </a-input-search>
+          </a-input-search> -->
+          <a-input
+            v-if="userRole?.toString() === roles.owner && !props.readOnly"
+            id="building_address_1"
+            v-model:value="buildingInfo.data.address"
+            :placeholder="$t('enter_building_address')"
+          />
           <a-input
             v-else
             id="building_address_1"

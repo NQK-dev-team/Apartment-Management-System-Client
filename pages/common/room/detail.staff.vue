@@ -129,7 +129,7 @@
                       <span>{{ $t('area') }} (m<sup>2</sup>)</span>
                       <img v-show="editMode" :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                     </label>
-                    <a-button
+                    <!-- <a-button
                       v-show="editMode"
                       class="mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
                       size="small"
@@ -137,7 +137,7 @@
                       @click="updateRoomData.area = roomData.area"
                     >
                       <UndoOutlined />
-                    </a-button>
+                    </a-button> -->
                   </div>
                   <a-input
                     v-if="!editMode"
@@ -168,7 +168,7 @@
                       <span>{{ $t('status') }}</span>
                       <img v-show="editMode" :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
                     </label>
-                    <a-button
+                    <!-- <a-button
                       v-show="editMode"
                       class="mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
                       size="small"
@@ -176,7 +176,7 @@
                       @click="updateRoomData.status = roomData.status"
                     >
                       <UndoOutlined />
-                    </a-button>
+                    </a-button> -->
                   </div>
                   <a-input
                     v-if="!editMode"
@@ -232,7 +232,7 @@
                 <label for="room_description" class="flex mb-1">
                   <span>{{ $t('description') }}</span>
                 </label>
-                <a-button
+                <!-- <a-button
                   v-show="editMode"
                   class="mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
                   size="small"
@@ -240,7 +240,7 @@
                   @click="updateRoomData.description = roomData.description"
                 >
                   <UndoOutlined />
-                </a-button>
+                </a-button> -->
               </div>
               <a-textarea
                 v-if="!editMode"
@@ -278,13 +278,13 @@
             </div>
           </a-carousel>
         </div>
-        <div v-else class="w-[250px] h-full">
+        <div v-else class="min-w-[350px] max-w-[350px] h-full">
           <div class="flex items-center justify-between">
             <div class="flex">
-              <h2 class="text-xl">{{ $t('building_image') }}</h2>
+              <h2 class="text-xl">{{ $t('room_image') }}</h2>
               <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
             </div>
-            <a-button
+            <!-- <a-button
               class="flex items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
               size="small"
               @click="
@@ -299,7 +299,7 @@
               "
             >
               <UndoOutlined />
-            </a-button>
+            </a-button> -->
           </div>
           <img
             v-if="!displayImages || !displayImages.length"
@@ -309,7 +309,7 @@
           />
           <div class="flex flex-col">
             <div v-for="(image, index) in displayImages" :key="index" class="mt-3">
-              <img :src="image" :alt="$t('building_image') + ` ${index}`" class="w-full" />
+              <img :src="image" :alt="$t('room_image') + ` ${index}`" class="w-full h-full" />
             </div>
           </div>
           <a-form-item

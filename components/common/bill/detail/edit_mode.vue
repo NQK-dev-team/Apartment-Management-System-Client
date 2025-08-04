@@ -92,7 +92,7 @@
               <span>{{ $t('bill_name') }}</span>
               <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
             </div>
-            <a-button
+            <!-- <a-button
               class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
               size="small"
               style="display: flex"
@@ -109,7 +109,7 @@
               "
             >
               <UndoOutlined />
-            </a-button>
+            </a-button> -->
           </label>
           <a-input id="bill_name" v-model:value="bill.value.title" :placeholder="$t('enter_bill_name')" />
         </a-form-item>
@@ -140,7 +140,7 @@
               <span>{{ $t('status') }}</span>
               <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
             </div>
-            <a-button
+            <!-- <a-button
               class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
               size="small"
               style="display: flex"
@@ -157,7 +157,7 @@
               "
             >
               <UndoOutlined />
-            </a-button>
+            </a-button> -->
           </label>
           <ClientOnly>
             <a-select
@@ -277,14 +277,14 @@
         <a-form-item name="bill_note">
           <label for="bill_note" class="flex mb-1 justify-between">
             <span>{{ $t('note') }}</span>
-            <a-button
+            <!-- <a-button
               class="items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
               size="small"
               style="display: flex"
               @click="bill.value.note = JSON.parse(JSON.stringify(props.oldBill.note))"
             >
               <UndoOutlined />
-            </a-button>
+            </a-button> -->
           </label>
           <a-textarea id="bill_note" v-model:value="bill.value.note.String as string" :placeholder="$t('enter_note')" />
         </a-form-item>

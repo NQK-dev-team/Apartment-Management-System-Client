@@ -432,6 +432,7 @@ export default {
   room_updated_success: 'Thông tin phòng đã được cập nhật thành công!',
   report: 'Báo cáo',
   rent_contract: 'Hợp đồng cho thuê',
+  room_image: 'Hình ảnh phòng',
 
   S: 's',
   staff: 'Nhân viên',

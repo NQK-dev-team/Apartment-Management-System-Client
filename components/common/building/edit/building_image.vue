@@ -5,7 +5,7 @@
         <h2 class="text-xl">{{ $t('building_image') }}</h2>
         <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
       </div>
-      <a-button
+      <!-- <a-button
         v-if="userRole?.toString() === roles.owner && !props.readOnly"
         class="flex items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
         size="small"
@@ -18,7 +18,7 @@
       >
         <UndoOutlined />
       </a-button>
-      <div v-else></div>
+      <div v-else></div> -->
     </div>
     <img
       v-if="!displayImages || !displayImages.length"

@@ -286,7 +286,7 @@ const columns: any = computed(() => {
       },
     },
     {
-      title: t('customer'),
+      title: t('house_holder'),
       dataIndex: 'customer',
       key: 'customer',
       class: 'text-nowrap',
@@ -304,7 +304,7 @@ const columns: any = computed(() => {
       },
     },
     {
-      title: t('customer_no'),
+      title: t('house_holder_no'),
       dataIndex: 'customer_no',
       key: 'customer_no',
       class: 'text-nowrap',
@@ -322,7 +322,7 @@ const columns: any = computed(() => {
       },
     },
     {
-      title: t('employee'),
+      title: t('contract_creator'),
       dataIndex: 'employee',
       key: 'employee',
       class: 'text-nowrap',
@@ -340,7 +340,7 @@ const columns: any = computed(() => {
       },
     },
     {
-      title: t('employee_number'),
+      title: t('contract_creator_no'),
       dataIndex: 'employee_number',
       key: 'employee_number',
       class: 'text-nowrap',
@@ -418,8 +418,8 @@ const data = computed(() => {
     employee_id: contract.creator.ID,
     contract_id: contract.ID,
     startDate: convertToDate(contract.startDate),
-    endDate: contract.endDate.Valid ? convertToDate(contract.endDate.Time!) : '-',
-    signDate: contract.signDate.Valid ? convertToDate(contract.signDate.Time!) : '-',
+    endDate: contract.endDate.Valid ? convertToDate(contract.endDate.Time! as string) : '-',
+    signDate: contract.signDate.Valid ? convertToDate(contract.signDate.Time! as string) : '-',
     status: contract.status,
     action: contract.ID,
     key: contract.ID,

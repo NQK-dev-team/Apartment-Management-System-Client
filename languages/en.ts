@@ -132,6 +132,8 @@ export default {
   change_email: 'Change email',
   current_email: 'Current email',
   current_password_incorrect: 'Current password is incorrect!',
+  contract_creator: 'Contract creator',
+  contract_creator_no: 'Contract creator number',
 
   D: 'd',
   delete: 'Delete',
@@ -269,6 +271,7 @@ export default {
 
   H: 'h',
   house_holder: 'Householder',
+  house_holder_no: 'Householder number',
 
   I: 'i',
   import_file: 'Import data from file',

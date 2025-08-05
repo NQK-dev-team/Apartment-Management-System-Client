@@ -132,6 +132,8 @@ export default {
   change_email: 'Đổi email',
   current_email: 'Email hiện tại',
   current_password_incorrect: 'Mật khẩu hiện tại không chính xác!',
+  contract_creator: 'Người tạo hợp đồng',
+  contract_creator_no: 'Mã người tạo hợp đồng',
 
   D: 'd',
   delete: 'Xóa',
@@ -272,6 +274,7 @@ export default {
 
   H: 'h',
   house_holder: 'Chủ hộ',
+  house_holder_no: 'Mã chủ hộ',
 
   I: 'i',
   import_file: 'Thêm dữ liệu từ tệp tin',

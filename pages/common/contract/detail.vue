@@ -11,10 +11,12 @@
         <h1 class="mt-3 text-2xl">{{ $t('contract') }} {{ contract ? contract.ID : '' }}</h1>
         <div
           v-if="
-            (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
             contract &&
             contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
-            contract.status !== COMMON.CONTRACT_STATUS.CANCELLED
+            contract.status !== COMMON.CONTRACT_STATUS.CANCELLED &&
+            (userRole?.toString() === roles.manager ||
+              userRole?.toString() === roles.owner ||
+              (userRole?.toString() === roles.customer && Number(userID) === contract.householderID))
           "
           class="flex justify-end"
         >
@@ -64,7 +66,11 @@
         </div>
       </div>
     </div>
-    <div id="page_content" class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
+    <div
+      id="page_content"
+      class="flex-1 flex flex-col px-4 mt-5"
+      :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']"
+    >
       <template v-if="contract && editContract">
         <CommonContractDetailViewMode v-if="!editMode && contract.ID" :contract="contract" />
         <CommonContractDetailEditMode
@@ -123,6 +129,7 @@ const lightMode = computed(
 const { $event, $dayjs } = useNuxtApp();
 const editMode = ref<boolean>(false);
 const userRole = useCookie('userRole');
+const userID = useCookie('userID');
 const contract = ref<Contract | null>(null);
 const route = useRoute();
 const contractID = Number(route.params.id as string);

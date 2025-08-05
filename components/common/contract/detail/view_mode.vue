@@ -40,16 +40,18 @@
       /></a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="customer_no" class="flex mb-1">
-          <span>{{ $t('customer_no') }}</span>
+          <span>{{ $t('house_holder') }}</span>
         </label>
-        <a-input id="customer_no" disabled readonly :value="contract.householder.no" :placeholder="$t('customer_no')">
-          <template #suffix>
+        <a-input
+          id="customer_no"
+          disabled
+          readonly
+          :value="contract.householder.no + ' - ' + getUserName(contract.householder)"
+          :placeholder="$t('house_holder')"
+        >
+          <template v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner" #suffix>
             <NuxtLink
-              :to="
-                userRole?.toString() === roles.customer
-                  ? pageRoutes.common.profile.index
-                  : pageRoutes.common.customer.detail(contract.householderID)
-              "
+              :to="pageRoutes.common.customer.detail(contract.householderID)"
               :title="$t('detail')"
               target="_blank"
               ><LinkOutlined
@@ -79,25 +81,25 @@
       </a-col> -->
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <label for="employee_number" class="flex mb-1">
-          <span>{{ $t('employee_number') }}</span>
+          <span>{{ $t('contract_creator') }}</span>
         </label>
         <a-input
           id="employee_number"
           disabled
           readonly
-          :value="contract.creator.no"
-          :placeholder="$t('employee_number')"
+          :value="contract.creator.no + ' - ' + getUserName(contract.creator)"
+          :placeholder="$t('contract_creator')"
         >
-          <template v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner" #suffix>
-            <NuxtLink
-              :to="
-                userRole?.toString() === roles.manager
-                  ? pageRoutes.common.profile.index
-                  : pageRoutes.common.staff.detail(contract.creatorID)
-              "
-              :title="$t('detail')"
+          <template v-if="userRole?.toString() === roles.owner" #suffix>
+            <NuxtLink :to="pageRoutes.common.staff.detail(contract.creatorID)" :title="$t('detail')"
               ><LinkOutlined
             /></NuxtLink>
+          </template>
+          <template
+            v-else-if="userRole?.toString() === roles.manager && Number(userID || 0) === contract.creatorID"
+            #suffix
+          >
+            <NuxtLink :to="pageRoutes.common.profile.index" :title="$t('detail')"><LinkOutlined /></NuxtLink>
           </template>
         </a-input>
       </a-col>
@@ -278,6 +280,7 @@ import type { Contract } from '~/types/contract';
 
 // ---------------------- Variables ----------------------
 const userRole = useCookie('userRole');
+const userID = useCookie('userID');
 const route = useRoute();
 const contractID = Number(route.params.id as string);
 const props = defineProps({

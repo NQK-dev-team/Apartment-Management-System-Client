@@ -77,7 +77,9 @@
           v-if="
             editMode &&
             contract.ID &&
-            (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
+            (userRole?.toString() === roles.manager ||
+              userRole?.toString() === roles.owner ||
+              (userRole?.toString() === roles.customer && Number(userID) === contract.householderID)) &&
             contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
             contract.status !== COMMON.CONTRACT_STATUS.CANCELLED
           "

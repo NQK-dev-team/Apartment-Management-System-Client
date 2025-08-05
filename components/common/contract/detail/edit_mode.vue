@@ -1,7 +1,9 @@
 <template>
   <a-form
     v-if="
-      (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
+      (userRole?.toString() === roles.manager ||
+        userRole?.toString() === roles.owner ||
+        (userRole?.toString() === roles.customer && Number(userID) === contract.householderID)) &&
       contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
       contract.status !== COMMON.CONTRACT_STATUS.CANCELLED
     "
@@ -251,7 +253,10 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <a-form-item v-if="contract.signDate.Valid && contract.signDate.Time" name="signed_date">
+        <a-form-item
+          v-if="(contract.signDate.Valid && contract.signDate.Time) || userRole?.toString() === roles.customer"
+          name="signed_date"
+        >
           <label for="signed_date" class="flex mb-1">
             <span>{{ $t('signed_date') }}</span>
           </label>
@@ -337,9 +342,51 @@
           </label>
           <ClientOnly>
             <a-select
+              v-if="userRole?.toString() !== roles.customer"
               id="status"
               v-model:value="editContract.value.status"
               :placeholder="$t('select_status')"
+              class="w-full text-left"
+            >
+              <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
+              <a-select-option
+                v-if="showActiveStatus"
+                :value="COMMON.CONTRACT_STATUS.ACTIVE"
+                :class="`text-[#50c433]`"
+                >{{ $t('active') }}</a-select-option
+              >
+              <a-select-option
+                v-if="showExpiredStatus"
+                :value="COMMON.CONTRACT_STATUS.EXPIRED"
+                :class="`text-[#888888]`"
+                >{{ $t('expired') }}</a-select-option
+              >
+              <a-select-option
+                v-if="showCancelledStatus"
+                :value="COMMON.CONTRACT_STATUS.CANCELLED"
+                :class="`text-[#ff0000]`"
+                >{{ $t('cancelled') }}</a-select-option
+              >
+              <a-select-option
+                v-if="showWaitingForSignatureStatus"
+                :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE"
+                :class="`text-[#888888]`"
+                >{{ $t('wait_for_signature') }}</a-select-option
+              >
+              <a-select-option
+                v-if="showNotInEffectStatus"
+                :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT"
+                :class="`text-[#888888]`"
+                >{{ $t('not_in_effect') }}</a-select-option
+              >
+            </a-select>
+            <a-select
+              v-else
+              id="status"
+              :value="editContract.value.status"
+              :placeholder="$t('select_status')"
+              disabled
+              readonly
               class="w-full text-left"
             >
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
@@ -547,6 +594,7 @@ const editContract = toRef(props, 'editContract');
 const { $event, $dayjs } = useNuxtApp();
 const { t } = useI18n();
 const userRole = useCookie('userRole');
+const userID = useCookie('userID');
 const fileListDeleteBucket = ref({ value: [] as number[] });
 const residentListDeleteBucket = ref({ value: [] as number[] });
 const addFilecounter = ref(0);

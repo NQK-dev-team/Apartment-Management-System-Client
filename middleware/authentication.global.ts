@@ -45,7 +45,7 @@ async function getNewToken(refreshToken: string): Promise<APITokenResponse<null>
 
   const body: APITokenResponse<null> = await response.json();
 
-  if (body.status !== COMMON.HTTP_STATUS.OK) {
+  if (body.status && body.status !== COMMON.HTTP_STATUS.OK) {
     return null;
   }
 

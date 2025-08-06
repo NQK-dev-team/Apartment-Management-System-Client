@@ -7,47 +7,10 @@
       <h1 class="mt-3 text-2xl">{{ $t('bill_list') }}</h1>
       <div class="flex justify-between items-center mt-3">
         <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" picker="month" />
-        <div class="flex justify-end items-center">
-          <a-button
-            type="primary"
-            danger
-            :disabled="!deleteBucket.length"
-            class="rounded-sm me-2"
-            @click="
-              () => {
-                $event.emit('deleteItem', { callback: deleteBills });
-              }
-            "
-          >
-            <img :src="svgPaths.delete" alt="Delete bill" class="w-[12px] h-[12px]" />
-          </a-button>
-          <NuxtLink :to="pageRoutes.common.bill.add">
-            <a-button type="primary" class="rounded-sm">
-              <img :src="svgPaths.plus" alt="Add bill" class="w-[12px] h-[12px]" />
-            </a-button>
-          </NuxtLink>
-        </div>
       </div>
     </div>
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
-      <a-table
-        :row-selection="{
-          selectedRowKeys: deleteBucket,
-          onChange: (selectedRowKeys: any) => {
-            deleteBucket = selectedRowKeys;
-          },
-          getCheckboxProps: (record: any) => ({
-            disabled:
-              record.status_numeric === COMMON.BILL_STATUS.PAID ||
-              record.status_numeric === COMMON.BILL_STATUS.PROCESSING ||
-              record.status_numeric === COMMON.BILL_STATUS.CANCELLED,
-          }),
-        }"
-        :data-source="data"
-        :columns="columns"
-        class="mt-5"
-        :scroll="{ x: 'max-content' }"
-      >
+      <a-table :data-source="data" :columns="columns" class="mt-5" :scroll="{ x: 'max-content' }">
         <template #bodyCell="{ column, value, record }">
           <template v-if="column.dataIndex === 'action'">
             <NuxtLink
@@ -55,18 +18,6 @@
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
               >{{ $t('detail') }}</NuxtLink
             >
-          </template>
-          <template v-if="column.dataIndex === 'paid_by'">
-            <span>
-              {{ value }}
-              <NuxtLink
-                v-if="record.payerID"
-                :to="pageRoutes.common.customer.detail(record.payerID)"
-                target="_blank"
-                class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
-                ><LinkOutlined
-              /></NuxtLink>
-            </span>
           </template>
           <template v-if="column.dataIndex === 'status'">
             <span
@@ -153,7 +104,6 @@
 <script lang="ts" setup>
 import { getMessageCode } from '~/consts/api_response';
 import { api } from '~/services/api';
-import { svgPaths } from '~/consts/svg_paths';
 import { roles } from '~/consts/roles';
 import { pageRoutes } from '~/consts/page_routes';
 import { COMMON } from '~/consts/common';
@@ -179,7 +129,6 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const userRole = useCookie('userRole');
-const deleteBucket = ref<number[]>([]);
 const timeRange = ref<[Dayjs, Dayjs]>([$dayjs().startOf('quarter'), $dayjs()]);
 const searchInput = ref();
 const state = reactive({
@@ -444,34 +393,6 @@ async function getBillList(emitLoading = true) {
   }
 }
 
-async function deleteBills() {
-  try {
-    $event.emit('loading');
-    await api.common.bill.deleteMany(deleteBucket.value);
-    $event.emit('deleteItemSuccess');
-    deleteBucket.value = [];
-
-    if (offset.value > 0) {
-      offset.value = 0;
-    } else {
-      await getBillList();
-    }
-  } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
-      notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
-      });
-    }
-  } finally {
-    $event.emit('loading');
-  }
-}
-
 function disabledDate(current: Dayjs) {
   // Can not select days after today
   return current && current >= $dayjs().endOf('day');
@@ -490,7 +411,7 @@ function handleReset(clearFilters: any) {
 
 // ---------------------- Lifecycles ----------------------
 onBeforeMount(() => {
-  if (userRole.value?.toString() !== roles.owner && userRole.value?.toString() !== roles.manager) {
+  if (userRole.value?.toString() !== roles.customer) {
     throw createError({
       statusCode: 404,
       statusMessage: 'Page not found',

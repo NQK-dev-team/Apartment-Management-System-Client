@@ -14,9 +14,7 @@
             contract &&
             contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
             contract.status !== COMMON.CONTRACT_STATUS.CANCELLED &&
-            (userRole?.toString() === roles.manager ||
-              userRole?.toString() === roles.owner ||
-              (userRole?.toString() === roles.customer && Number(userID) === contract.householderID))
+            (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner)
           "
           class="flex justify-end"
         >
@@ -77,9 +75,7 @@
           v-if="
             editMode &&
             contract.ID &&
-            (userRole?.toString() === roles.manager ||
-              userRole?.toString() === roles.owner ||
-              (userRole?.toString() === roles.customer && Number(userID) === contract.householderID)) &&
+            (userRole?.toString() === roles.manager || userRole?.toString() === roles.owner) &&
             contract.status !== COMMON.CONTRACT_STATUS.EXPIRED &&
             contract.status !== COMMON.CONTRACT_STATUS.CANCELLED
           "
@@ -131,7 +127,6 @@ const lightMode = computed(
 const { $event, $dayjs } = useNuxtApp();
 const editMode = ref<boolean>(false);
 const userRole = useCookie('userRole');
-const userID = useCookie('userID');
 const contract = ref<Contract | null>(null);
 const route = useRoute();
 const contractID = Number(route.params.id as string);

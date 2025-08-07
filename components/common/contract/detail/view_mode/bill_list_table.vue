@@ -28,7 +28,7 @@
             >{{ $t('detail') }}</NuxtLink
           >
         </template>
-        <template v-if="column.dataIndex === 'customer_no'">
+        <template v-if="column.dataIndex === 'paid_by'">
           <span>
             {{ value }}
             <NuxtLink
@@ -126,18 +126,6 @@
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
             >{{ $t('detail') }}</NuxtLink
           >
-        </template>
-        <template v-if="column.dataIndex === 'customer_no'">
-          <span>
-            {{ value }}
-            <NuxtLink
-              v-if="record.payerID"
-              :to="pageRoutes.common.customer.detail(record.payerID)"
-              target="_blank"
-              class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
-              ><LinkOutlined
-            /></NuxtLink>
-          </span>
         </template>
         <template v-if="column.dataIndex === 'status'">
           <span
@@ -284,26 +272,6 @@ const columns: any = computed(() => {
       },
     },
     {
-      title: t('paid_by'),
-      dataIndex: 'paid_by',
-      key: 'paid_by',
-      class: 'text-nowrap',
-      customFilterDropdown: true,
-      onFilter: (value: string, record: any) => {
-        const values = value.split(',');
-        return values.some((val) =>
-          removeDiacritics(record.paid_by.toString().toLowerCase()).includes(removeDiacritics(val.trim().toLowerCase()))
-        );
-      },
-      onFilterDropdownOpenChange: (visible: boolean) => {
-        if (visible) {
-          setTimeout(() => {
-            searchInput.value.focus();
-          }, 100);
-        }
-      },
-    },
-    {
       title: t('payment_period'),
       dataIndex: 'payment_period',
       key: 'payment_period',
@@ -362,24 +330,24 @@ const columns: any = computed(() => {
         }
       },
     },
-    {
-      title: t('customer_no'),
-      dataIndex: 'customer_no',
-      key: 'customer_no',
-      class: 'text-nowrap',
-      customFilterDropdown: true,
-      onFilter: (value: string, record: any) => {
-        const values = value.split(',');
-        return values.some((val) => record.customer_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
-      },
-      onFilterDropdownOpenChange: (visible: boolean) => {
-        if (visible) {
-          setTimeout(() => {
-            searchInput.value.focus();
-          }, 100);
-        }
-      },
-    },
+    // {
+    //   title: t('customer_no'),
+    //   dataIndex: 'customer_no',
+    //   key: 'customer_no',
+    //   class: 'text-nowrap',
+    //   customFilterDropdown: true,
+    //   onFilter: (value: string, record: any) => {
+    //     const values = value.split(',');
+    //     return values.some((val) => record.customer_no.toString().toLowerCase().includes(val.trim().toLowerCase()));
+    //   },
+    //   onFilterDropdownOpenChange: (visible: boolean) => {
+    //     if (visible) {
+    //       setTimeout(() => {
+    //         searchInput.value.focus();
+    //       }, 100);
+    //     }
+    //   },
+    // },
     {
       title: t('payment_time'),
       dataIndex: 'payment_time',
@@ -412,8 +380,8 @@ const data = computed(() => {
       payment_period: convertToMonthYear(bill.period),
       payment_time:
         bill.paymentTime.Valid && bill.paymentTime.Time ? convertToDateTime(bill.paymentTime.Time as string) : '-',
-      paid_by: bill.paymentTime.Valid && bill.paymentTime.Time ? getUserName(bill.payer) : '-',
-      customer_no: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.no : '-',
+      paid_by: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.no + ' - ' + getUserName(bill.payer) : '-',
+      // customer_no: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.no : '-',
       action: bill.ID,
       payerID: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.ID : null,
       key: bill.ID,

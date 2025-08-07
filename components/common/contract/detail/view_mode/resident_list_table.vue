@@ -1,7 +1,13 @@
 <template>
   <a-table :data-source="data" :columns="columns" class="mt-5" :scroll="{ x: 'max-content' }">
     <template #bodyCell="{ column, value, record }">
-      <template v-if="column.dataIndex === 'customerNumber' && value !== '-'">
+      <template
+        v-if="
+          column.dataIndex === 'customerNumber' &&
+          value !== '-' &&
+          (userRole?.toString() === roles.owner || userRole?.toString() === roles.manager)
+        "
+      >
         <span>
           {{ value }}
           <NuxtLink
@@ -19,6 +25,7 @@
 <script lang="ts" setup>
 import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
+import { roles } from '~/consts/roles';
 import type { RoomResident } from '~/types/contract';
 
 // ---------------------- Variables ----------------------
@@ -124,4 +131,5 @@ const data = computed(() => {
             : t('other'),
   }));
 });
+const userRole = useCookie('userRole');
 </script>

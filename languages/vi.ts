@@ -443,7 +443,7 @@ export default {
   room_image_require: 'Vui lòng chọn ít nhất một hình ảnh cho phòng {no}!',
   rooms: 'Phòng',
   reciever: 'Người nhận',
-  resident_list: 'Danh sách cư dân',
+  resident_list: 'Danh sách cư trú',
   relationship_with_owner: 'Quan hệ với chủ hộ',
   room_updated_success: 'Thông tin phòng đã được cập nhật thành công!',
   report: 'Báo cáo',

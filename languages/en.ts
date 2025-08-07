@@ -77,6 +77,7 @@ export default {
   bill_info_updated: 'Billing information has been updated successfully!',
   bill_status_require: 'Billing status cannot be empty!',
   bill_payment_list_empty: 'Billing payment list cannot be empty!',
+  bill_pay: 'Pay bill',
 
   C: 'c',
   choose_option: 'Choose an option',

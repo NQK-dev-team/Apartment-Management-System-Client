@@ -77,6 +77,7 @@ export default {
   bill_info_updated: 'Thông tin hóa đơn đã được cập nhật thành công!',
   bill_status_require: 'Trạng thái hóa đơn không được để trống!',
   bill_payment_list_empty: 'Danh sách các khoản thanh toán của hóa đơn không được để trống!',
+  bill_pay: 'Thanh toán hóa đơn',
 
   C: 'c',
   choose_option: 'Chọn danh mục',

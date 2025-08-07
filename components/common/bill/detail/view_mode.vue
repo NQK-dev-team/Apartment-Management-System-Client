@@ -55,7 +55,7 @@
             :title="`${bill.contract.householder.no} - ${getUserName(bill.contract.householder)}`"
             :placeholder="$t('house_holder')"
           >
-            <template #suffix>
+            <template v-if="userRole?.toString() === roles.owner || userRole?.toString() === roles.manager" #suffix>
               <NuxtLink
                 :to="pageRoutes.common.customer.detail(bill.contract.householderID)"
                 :title="$t('detail')"
@@ -114,7 +114,12 @@
             :title="bill.payerID.Valid ? `${bill.payer.no} - ${getUserName(bill.payer)}` : '-'"
             placeholder="-"
           >
-            <template v-if="bill.payerID.Valid" #suffix>
+            <template
+              v-if="
+                bill.payerID.Valid && (userRole?.toString() === roles.owner || userRole?.toString() === roles.manager)
+              "
+              #suffix
+            >
               <NuxtLink
                 :to="pageRoutes.common.customer.detail(bill.payerID.Int64 as number)"
                 :title="$t('detail')"
@@ -176,6 +181,7 @@
 <script lang="ts" setup>
 import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
+import { roles } from '~/consts/roles';
 import type { Bill } from '~/types/bill';
 
 // ---------------------- Variables ----------------------
@@ -226,6 +232,7 @@ const paymentTableData = computed(() => {
     note: payment.note.String,
   }));
 });
+const userRole = useCookie('userRole');
 
 // ---------------------- Functions ----------------------
 function getBillStatusStr(): string {

@@ -71,7 +71,13 @@
         <CommonBillDetailEditMode v-else :edit-bill="editBill" :old-bill="bill" />
       </template>
       <div class="flex flex-col items-center my-5">
-        <a-button class="my-2 w-[100px] rounded-sm">
+        <a-button
+          v-if="userRole?.toString() === roles.customer"
+          type="primary"
+          class="w-[150px] flex items-center justify-center"
+          >{{ $t('bill_pay') }}</a-button
+        >
+        <a-button class="my-2 rounded-sm w-[150px]">
           <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('back') }}</NuxtLink>
         </a-button>
       </div>

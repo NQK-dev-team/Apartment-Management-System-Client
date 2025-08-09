@@ -149,6 +149,7 @@ export default {
   denied: 'Denied',
   deny: 'Deny',
   date: 'Date',
+  decision_time: 'Decision time',
 
   E: 'e',
   edit: 'Edit',

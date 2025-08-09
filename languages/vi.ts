@@ -149,6 +149,7 @@ export default {
   denied: 'Từ chối',
   deny: 'Từ chối',
   date: 'Ngày',
+  decision_time: 'Thời gian quyết định',
 
   E: 'e',
   edit: 'Chỉnh sửa',

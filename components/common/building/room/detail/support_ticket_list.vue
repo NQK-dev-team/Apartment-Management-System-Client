@@ -107,11 +107,12 @@
         <div class="flex w-full mt-5">
           <div class="flex-1 flex flex-col">
             <label for="customer" class="mb-1">{{ $t('customer') }}</label>
-            <a-input id="customer" :value="getUserName(ticketDetail.customer)" disabled readonly />
-          </div>
-          <div class="ms-2 flex-1 flex flex-col">
-            <label for="customer_no" class="mb-1">{{ $t('customer_no') }}</label>
-            <a-input id="customer_no" :value="ticketDetail.customer.no" disabled readonly>
+            <a-input
+              id="customer"
+              :value="ticketDetail.customer.no + ' - ' + getUserName(ticketDetail.customer)"
+              disabled
+              readonly
+            >
               <template #suffix>
                 <NuxtLink :to="pageRoutes.common.customer.detail(ticketDetail.customer.ID)" target="_blank"
                   ><LinkOutlined
@@ -119,13 +120,13 @@
               </template>
             </a-input>
           </div>
-        </div>
-        <div class="flex w-full mt-5">
-          <div class="flex-1 flex flex-col">
+          <div class="ms-2 flex-1 flex flex-col">
             <label for="creation_date" class="mb-1">{{ $t('creation_date') }}</label>
             <a-input id="creation_date" :value="convertToDateTime(ticketDetail.createdAt)" disabled readonly />
           </div>
-          <div class="ms-2 flex-1 flex flex-col">
+        </div>
+        <div class="flex w-full mt-5">
+          <div class="flex-1 flex flex-col">
             <label for="status" class="mb-1">{{ $t('status') }}</label>
             <a-input
               id="status"
@@ -144,22 +145,16 @@
               readonly
             />
           </div>
-        </div>
-        <div class="flex w-full mt-5">
-          <div class="flex-1 flex flex-col">
+          <div class="ms-2 flex-1 flex flex-col">
             <label for="manager" class="mb-1">{{ $t('manager_approving') }}</label>
             <a-input
               id="manager"
-              :value="ticketDetail.managerID ? getUserName(ticketDetail.manager) : '-'"
-              disabled
-              readonly
-            />
-          </div>
-          <div class="ms-2 flex-1 flex flex-col">
-            <label for="employee_number" class="mb-1">{{ $t('employee_number') }}</label>
-            <a-input
-              id="employee_number"
-              :value="ticketDetail.managerID ? ticketDetail.manager.no : '-'"
+              :value="
+                ticketDetail.managerID ? ticketDetail.manager.no + ' - ' + getUserName(ticketDetail.manager) : '-'
+              "
+              :title="
+                ticketDetail.managerID ? ticketDetail.manager.no + ' - ' + getUserName(ticketDetail.manager) : '-'
+              "
               disabled
               readonly
             >
@@ -185,9 +180,9 @@
             />
           </div>
           <div class="ms-2 flex-1 flex flex-col">
-            <label for="decision_date_1" class="mb-1">{{ $t('decision_date') }}</label>
+            <label for="decision_time_1" class="mb-1">{{ $t('decision_time') }}</label>
             <a-input
-              id="decision_date_1"
+              id="decision_time_1"
               :value="
                 ticketDetail?.managerResolveTime.Valid
                   ? convertToDateTime(ticketDetail.managerResolveTime.Time! as string)
@@ -203,7 +198,8 @@
             <label for="owner" class="mb-1">{{ $t('owner_approving') }}</label>
             <a-input
               id="owner"
-              :value="ticketDetail.ownerID ? getUserName(ticketDetail.owner) : '-'"
+              :value="ticketDetail.ownerID ? ticketDetail.owner.no + ' - ' + getUserName(ticketDetail.owner) : '-'"
+              :title="ticketDetail.ownerID ? ticketDetail.owner.no + ' - ' + getUserName(ticketDetail.owner) : '-'"
               disabled
               readonly
             />
@@ -220,9 +216,9 @@
         </div>
         <div class="flex w-full mt-5">
           <div class="flex-1 flex flex-col">
-            <label for="decision_date_2" class="mb-1">{{ $t('decision_date') }}</label>
+            <label for="decision_time_2" class="mb-1">{{ $t('decision_time') }}</label>
             <a-input
-              id="decision_date_2"
+              id="decision_time_2"
               :value="
                 ticketDetail?.ownerResolveTime.Valid
                   ? convertToDateTime(ticketDetail.ownerResolveTime.Time! as string)
@@ -366,18 +362,18 @@ const columns = computed<any[]>(() => {
       onFilter: (value: any, record: any) => record.status === value,
       class: 'text-nowrap',
     },
-    {
-      title: t('manager_approving'),
-      dataIndex: 'manager_approving',
-      key: 'manager_approving',
-      class: 'text-nowrap',
-    },
-    {
-      title: t('owner_approving'),
-      dataIndex: 'owner_approving',
-      key: 'owner_approving',
-      class: 'text-nowrap',
-    },
+    // {
+    //   title: t('manager_approving'),
+    //   dataIndex: 'manager_approving',
+    //   key: 'manager_approving',
+    //   class: 'text-nowrap',
+    // },
+    // {
+    //   title: t('owner_approving'),
+    //   dataIndex: 'owner_approving',
+    //   key: 'owner_approving',
+    //   class: 'text-nowrap',
+    // },
     {
       title: t('action'),
       dataIndex: 'action',

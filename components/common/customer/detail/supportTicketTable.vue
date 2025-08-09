@@ -78,7 +78,7 @@
         <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
       </template>
     </a-table>
-    <a-modal v-model:open="detailModalVisible" class="w-[800px]">
+    <a-modal v-model:open="detailModalVisible" class="w-[700px]">
       <template #title>{{ $t('support_ticket_detail') }}</template>
       <template #footer>
         <a-button @click="detailModalVisible = false">{{ $t('close') }}</a-button>
@@ -107,7 +107,12 @@
         <div class="flex w-full mt-5">
           <div class="flex-1 flex flex-col">
             <label for="customer" class="mb-1">{{ $t('customer') }}</label>
-            <a-input id="customer" :value="getUserName(ticketDetail.customer)" disabled readonly />
+            <a-input
+              id="customer"
+              :value="ticketDetail.customer.no + ' - ' + getUserName(ticketDetail.customer)"
+              disabled
+              readonly
+            />
           </div>
           <div class="ms-2 flex-1 flex flex-col">
             <label for="creation_date" class="mb-1">{{ $t('creation_date') }}</label>
@@ -138,10 +143,24 @@
             <label for="manager" class="mb-1">{{ $t('manager_approving') }}</label>
             <a-input
               id="manager"
-              :value="ticketDetail.managerID ? getUserName(ticketDetail.manager) : '-'"
+              :value="
+                ticketDetail.managerID ? ticketDetail.manager.no + ' - ' + getUserName(ticketDetail.manager) : '-'
+              "
+              :title="
+                ticketDetail.managerID ? ticketDetail.manager.no + ' - ' + getUserName(ticketDetail.manager) : '-'
+              "
               disabled
               readonly
-            />
+            >
+              <template #suffix>
+                <NuxtLink
+                  v-if="ticketDetail.managerID && userRole?.toString() === roles.owner"
+                  :to="pageRoutes.common.staff.detail(ticketDetail.manager.ID)"
+                  target="_blank"
+                  ><LinkOutlined
+                /></NuxtLink>
+              </template>
+            </a-input>
           </div>
         </div>
         <div class="flex w-full mt-5">
@@ -155,9 +174,9 @@
             />
           </div>
           <div class="ms-2 flex-1 flex flex-col">
-            <label for="decision_date_1" class="mb-1">{{ $t('decision_date') }}</label>
+            <label for="decision_time_1" class="mb-1">{{ $t('decision_time') }}</label>
             <a-input
-              id="decision_date_1"
+              id="decision_time_1"
               :value="
                 ticketDetail?.managerResolveTime.Valid
                   ? convertToDateTime(ticketDetail.managerResolveTime.Time! as string)
@@ -173,7 +192,8 @@
             <label for="owner" class="mb-1">{{ $t('owner_approving') }}</label>
             <a-input
               id="owner"
-              :value="ticketDetail.ownerID ? getUserName(ticketDetail.owner) : '-'"
+              :value="ticketDetail.ownerID ? ticketDetail.owner.no + ' - ' + getUserName(ticketDetail.owner) : '-'"
+              :title="ticketDetail.ownerID ? ticketDetail.owner.no + ' - ' + getUserName(ticketDetail.owner) : '-'"
               disabled
               readonly
             />
@@ -190,9 +210,9 @@
         </div>
         <div class="flex w-full mt-5">
           <div class="flex-1 flex flex-col">
-            <label for="decision_date_2" class="mb-1">{{ $t('decision_date') }}</label>
+            <label for="decision_time_2" class="mb-1">{{ $t('decision_time') }}</label>
             <a-input
-              id="decision_date_2"
+              id="decision_time_2"
               :value="
                 ticketDetail?.ownerResolveTime.Valid
                   ? convertToDateTime(ticketDetail.ownerResolveTime.Time! as string)
@@ -240,6 +260,7 @@ import { roles } from '~/consts/roles';
 import { api } from '~/services/api';
 import type { SupportTicket } from '~/types/support_ticket';
 import { COMMON } from '~/consts/common';
+import { pageRoutes } from '~/consts/page_routes';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
@@ -342,18 +363,18 @@ const columns = computed<any[]>(() => {
       onFilter: (value: any, record: any) => record.status === value,
       class: 'text-nowrap',
     },
-    {
-      title: t('manager_approving'),
-      dataIndex: 'manager_approving',
-      key: 'manager_approving',
-      class: 'text-nowrap',
-    },
-    {
-      title: t('owner_approving'),
-      dataIndex: 'owner_approving',
-      key: 'owner_approving',
-      class: 'text-nowrap',
-    },
+    // {
+    //   title: t('manager_approving'),
+    //   dataIndex: 'manager_approving',
+    //   key: 'manager_approving',
+    //   class: 'text-nowrap',
+    // },
+    // {
+    //   title: t('owner_approving'),
+    //   dataIndex: 'owner_approving',
+    //   key: 'owner_approving',
+    //   class: 'text-nowrap',
+    // },
     {
       title: t('action'),
       dataIndex: 'action',

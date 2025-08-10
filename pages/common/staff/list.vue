@@ -233,9 +233,12 @@ function searchEmployee() {
   isFilter.value = !!searchValue.value.trim();
 }
 
-async function getEmployeeList() {
+async function getEmployeeList(emitLoading = true) {
   try {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
+
     deleteBucket.value = [];
     const response = await api.common.staff.getList();
     const data = response.data;
@@ -268,7 +271,9 @@ async function getEmployeeList() {
       });
     }
   } finally {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
   }
 }
 
@@ -277,7 +282,7 @@ async function deleteEmployee() {
     $event.emit('loading');
     await api.common.staff.deleteMany(deleteBucket.value);
     $event.emit('deleteItemSuccess');
-    getEmployeeList();
+    getEmployeeList(false);
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

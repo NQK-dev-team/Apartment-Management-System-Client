@@ -454,7 +454,7 @@ async function deleteBills() {
     if (offset.value > 0) {
       offset.value = 0;
     } else {
-      await getBillList();
+      await getBillList(false);
     }
   } catch (err: any) {
     if (

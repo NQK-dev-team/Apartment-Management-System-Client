@@ -476,8 +476,13 @@ async function deleteContracts() {
     $event.emit('loading');
     await api.common.contract.deleteMany(deleteBucket.value);
     $event.emit('deleteItemSuccess');
-    offset.value = 0;
     deleteBucket.value = [];
+
+    if (offset.value === 0) {
+      await getContractList(false);
+    } else {
+      offset.value = 0;
+    }
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

@@ -223,9 +223,12 @@ function searchCustomer() {
   isFilter.value = !!searchValue.value.trim();
 }
 
-async function getCustomerList() {
+async function getCustomerList(emitLoading = true) {
   try {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
+
     deleteBucket.value = [];
     const response = await api.common.customer.getList(limit.value, offset.value);
     const data = response.data;
@@ -261,7 +264,9 @@ async function getCustomerList() {
       });
     }
   } finally {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
   }
 }
 
@@ -276,7 +281,7 @@ async function deleteCustomer() {
       dataSource.value = [];
       offset.value = 0;
     } else {
-      getCustomerList();
+      getCustomerList(false);
     }
   } catch (err: any) {
     if (

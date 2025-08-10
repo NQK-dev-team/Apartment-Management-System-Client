@@ -4,6 +4,7 @@ import type { User } from './user';
 
 type SupportTicketFile = BasicFileModel & {
   supportTicketID: number;
+  isDeleted: undefined;
 };
 
 type SupportTicket = BasicModel & {

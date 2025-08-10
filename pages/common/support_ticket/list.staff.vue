@@ -186,7 +186,7 @@
               <label for="manager_decision" class="mb-1">{{ $t('manager_decision') }}</label>
               <a-input
                 id="manager_decision"
-                :value="ticketDetail.managerResult ? t('approved') : t('denied')"
+                :value="!ticketDetail.managerID ? '-' : ticketDetail.managerResult ? t('approved') : t('denied')"
                 disabled
                 readonly
               />

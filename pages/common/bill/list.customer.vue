@@ -4,8 +4,8 @@
       <a-breadcrumb>
         <a-breadcrumb-item>{{ $t('bill_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
-      <div class="mt-3 flex items-center justify-between">
-        <h1 class="text-2xl">{{ $t('bill_list') }}</h1>
+      <h1 class="text-2xl mt-3">{{ $t('bill_list') }}</h1>
+      <div class="flex items-center justify-end">
         <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" picker="month" />
       </div>
     </div>

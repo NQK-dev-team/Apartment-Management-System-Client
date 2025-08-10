@@ -543,12 +543,13 @@ async function refetchSupportTickets() {
 
 async function approve(id: number) {
   try {
+    $event.emit('loading');
     await api.common.support_ticket.approve(id);
     notification.info({
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
-    refetchSupportTickets();
+    await refetchSupportTickets();
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -560,17 +561,20 @@ async function approve(id: number) {
         description: t('system_error_description'),
       });
     }
+  } finally {
+    $event.emit('loading');
   }
 }
 
 async function deny(id: number) {
   try {
+    $event.emit('loading');
     await api.common.support_ticket.deny(id);
     notification.info({
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
-    refetchSupportTickets();
+    await refetchSupportTickets();
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -582,6 +586,8 @@ async function deny(id: number) {
         description: t('system_error_description'),
       });
     }
+  } finally {
+    $event.emit('loading');
   }
 }
 
@@ -617,8 +623,12 @@ onMounted(() => {
 });
 
 // ---------------------- Watchers ----------------------
-watch(timeRange, () => {
-  refetchSupportTickets();
+watch(timeRange, async () => {
+  $event.emit('loading');
+
+  await refetchSupportTickets();
+
+  $event.emit('loading');
 });
 
 watch(ticketApiOffset, async (newTicketApiOffset, oldTicketApiOffset) => {

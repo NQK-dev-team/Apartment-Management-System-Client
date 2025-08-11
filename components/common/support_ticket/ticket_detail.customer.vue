@@ -196,6 +196,7 @@
               v-model:file-list="ticketDetail.fileList"
               class="mt-2"
               multiple
+              :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
               :before-upload="beforeUploadImage"
               @change="handleFileUpload"
             >

@@ -472,7 +472,7 @@ async function updateStaff() {
 
     await api.common.staff.update(staffInfo.value.data.ID, data);
 
-    notification.info({
+    notification.success({
       message: t('update_success'),
       description: t('staff_new_information_updated'),
     });

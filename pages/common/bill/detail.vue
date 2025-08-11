@@ -163,7 +163,7 @@ onMounted(async () => {
 
 // ---------------------- Events ----------------------
 $event.on('updateBillingSuccess', () => {
-  notification.info({
+  notification.success({
     message: t('update_success'),
     description: t('bill_info_updated'),
   });

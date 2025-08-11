@@ -420,7 +420,7 @@ function openDetailModal(id: number) {
 async function approve(id: number) {
   try {
     await api.common.support_ticket.approve(id);
-    notification.info({
+    notification.success({
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
@@ -441,7 +441,7 @@ async function approve(id: number) {
 async function deny(id: number) {
   try {
     await api.common.support_ticket.deny(id);
-    notification.info({
+    notification.success({
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });

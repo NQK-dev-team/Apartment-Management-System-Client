@@ -183,7 +183,7 @@ async function changePassword() {
       confirmNewPassword: '',
     };
 
-    notification.info({
+    notification.success({
       message: t('update_success'),
       description: t('new_password_has_been_set'),
     });

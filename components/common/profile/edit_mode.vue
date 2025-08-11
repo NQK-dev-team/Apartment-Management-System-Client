@@ -357,7 +357,7 @@ async function updateUserInfo() {
 
     await api.common.profile.updateProfile(data);
 
-    notification.info({
+    notification.success({
       message: t('update_success'),
       description: t('profile_info_updated'),
     });

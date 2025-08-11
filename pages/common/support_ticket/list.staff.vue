@@ -545,7 +545,7 @@ async function approve(id: number) {
   try {
     $event.emit('loading');
     await api.common.support_ticket.approve(id);
-    notification.info({
+    notification.success({
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
@@ -570,7 +570,7 @@ async function deny(id: number) {
   try {
     $event.emit('loading');
     await api.common.support_ticket.deny(id);
-    notification.info({
+    notification.success({
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });

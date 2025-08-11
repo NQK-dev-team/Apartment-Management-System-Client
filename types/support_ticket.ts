@@ -31,4 +31,11 @@ type SupportTicket = BasicModel & {
   fileList: UploadFile[] | undefined;
 };
 
-export type { SupportTicket };
+type AddSupportTicket = {
+  title: string;
+  content: string;
+  roomID: number | undefined;
+  fileList: UploadFile[];
+};
+
+export type { SupportTicket, AddSupportTicket, SupportTicketFile };

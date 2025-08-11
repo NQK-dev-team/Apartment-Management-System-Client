@@ -180,7 +180,14 @@ const common = {
       });
     },
   },
-  room: {},
+  room: {
+    getList: async (): Promise<APIResponse<Room[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.room.getList, {
+        method: 'GET',
+      });
+    },
+  },
   profile: {
     getProfile: async (): Promise<APIResponse<User>> => {
       const $api = getApiInstance();
@@ -400,7 +407,7 @@ const common = {
         method: 'POST',
         body: data,
       });
-    }
+    },
   },
   notice: {},
   contract: {

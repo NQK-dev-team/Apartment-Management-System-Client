@@ -135,6 +135,7 @@ export default {
   current_password_incorrect: 'Current password is incorrect!',
   contract_creator: 'Contract creator',
   contract_creator_no: 'Contract creator number',
+  create_ticket: 'Create support ticket',
 
   D: 'd',
   delete: 'Delete',

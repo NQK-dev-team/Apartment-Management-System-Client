@@ -135,6 +135,7 @@ export default {
   current_password_incorrect: 'Mật khẩu hiện tại không chính xác!',
   contract_creator: 'Người tạo hợp đồng',
   contract_creator_no: 'Mã người tạo hợp đồng',
+  create_ticket: 'Tạo phiếu hỗ trợ',
 
   D: 'd',
   delete: 'Xóa',

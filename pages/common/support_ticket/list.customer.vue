@@ -22,7 +22,7 @@
           >
             <img :src="svgPaths.delete" alt="Delete contract" class="w-[12px] h-[12px]" />
           </a-button>
-          <a-button type="primary" class="rounded-sm">
+          <a-button type="primary" class="rounded-sm" @click="openAddModal.value = true">
             <img :src="svgPaths.plus" alt="Add contract" class="w-[12px] h-[12px]" />
           </a-button>
         </div>
@@ -110,10 +110,8 @@
           <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
         </template>
       </a-table>
-      <CommonSupportTicketDetailCustomer
-        :ticket-detail="ticketDetail"
-        :detail-modal-visible="detailModalVisible"
-      />
+      <CommonSupportTicketDetailCustomer :ticket-detail="ticketDetail" :detail-modal-visible="detailModalVisible" />
+      <CommonSupportTicketAddTicketCustomer :open-add-modal="openAddModal" />
     </div>
   </div>
 </template>
@@ -313,6 +311,7 @@ const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
 const ticketApiOffset = ref<number>(0);
 const ticketApiLimit = ref<number>(500);
 const deleteBucket = ref<number[]>([]);
+const openAddModal = ref({ value: false });
 
 // ---------------------- Functions ----------------------
 function openDetailModal(id: number) {

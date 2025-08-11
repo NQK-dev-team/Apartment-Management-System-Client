@@ -26,7 +26,9 @@ const apiRoutes = {
     getSchedule: (buildingID: number) => `/building/${buildingID}/schedule`,
     updateBuilding: (buildingID: number) => `/building/${buildingID}/update`,
   },
-  room: {},
+  room: {
+    getList: '/room',
+  },
   profile: {
     getProfile: `/user/profile`,
     updateProfile: `/user/profile/update`,

@@ -521,6 +521,9 @@ export default {
   ticket_creation_date: 'Ngày tạo phiếu hỗ trợ',
   title: 'Tiêu đề',
   total_payment: 'Tổng thanh toán',
+  ticket_title_required: 'Tiêu đề phiếu hỗ trợ không được để trống!',
+  ticket_content_required: 'Nội dung phiếu hỗ trợ không được để trống!',
+  ticket_info_updated: 'Thông tin phiếu hỗ trợ đã được cập nhật thành công!',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

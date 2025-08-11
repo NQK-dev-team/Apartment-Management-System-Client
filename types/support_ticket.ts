@@ -1,10 +1,11 @@
 import type { BasicFileModel, BasicModel, NullTime } from './basic_model';
 import type { Contract } from './contract';
 import type { User } from './user';
+import type { UploadFile } from 'ant-design-vue';
 
 type SupportTicketFile = BasicFileModel & {
   supportTicketID: number;
-  isDeleted: undefined;
+  isDeleted: undefined | boolean;
 };
 
 type SupportTicket = BasicModel & {
@@ -27,6 +28,7 @@ type SupportTicket = BasicModel & {
   roomNo: number | undefined;
   buildingName: string | undefined;
   roomFloor: number | undefined;
+  fileList: UploadFile[] | undefined;
 };
 
 export type { SupportTicket };

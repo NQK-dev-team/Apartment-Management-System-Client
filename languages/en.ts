@@ -520,6 +520,9 @@ export default {
   ticket_creation_date: 'Ticket creation date',
   title: 'Title',
   total_payment: 'Total payment',
+  ticket_title_required: 'Ticket title cannot be empty!',
+  ticket_content_required: 'Ticket content cannot be empty!',
+  ticket_info_updated: 'Support ticket information has been updated successfully!',
 
   U: 'u',
   upload_file: 'Upload file',

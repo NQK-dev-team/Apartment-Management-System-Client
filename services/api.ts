@@ -394,6 +394,13 @@ const common = {
         },
       });
     },
+    update: async (ticketId: number, data: FormData): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.support_ticket.update(ticketId), {
+        method: 'POST',
+        body: data,
+      });
+    }
   },
   notice: {},
   contract: {

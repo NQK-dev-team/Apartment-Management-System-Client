@@ -385,6 +385,7 @@ watch(
         status: 'done',
       });
     });
+    ticketFormRef.value?.clearValidate();
   }
 );
 </script>

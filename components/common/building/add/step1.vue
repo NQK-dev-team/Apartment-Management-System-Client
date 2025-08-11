@@ -513,6 +513,7 @@ import type { UploadChangeParam, UploadFile } from 'ant-design-vue/es/upload/int
 import { getBase64 } from '#build/imports';
 import type { User } from '~/types/user';
 import { COMMON } from '~/consts/common';
+import { Upload } from 'ant-design-vue';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -549,13 +550,10 @@ const openModal = ref<boolean>(false);
 const fallback = ref<() => void>(() => {});
 const imageList = ref<string[]>([]);
 const { t } = useI18n();
-const invalidImages = ref<string[]>([]);
 const pageContentWidth = ref(0);
 
 // ---------------------- Functions ----------------------
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
-  buildingInfo.value.images = buildingInfo.value.images.filter((file) => !invalidImages.value.includes(file.uid));
-
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -622,7 +620,7 @@ function removeAllSchedulesFromBucket() {
   scheduleDeleteBucket.value = [];
 }
 
-function beforeUploadBuildingImage(file: any): boolean {
+function beforeUploadBuildingImage(file: any): boolean|string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -631,21 +629,19 @@ function beforeUploadBuildingImage(file: any): boolean {
   }
 
   if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
   return true;
 }

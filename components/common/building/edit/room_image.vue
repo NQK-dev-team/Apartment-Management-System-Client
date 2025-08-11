@@ -58,7 +58,7 @@
 
 <script lang="ts" setup>
 import { getBase64 } from '#build/imports';
-import type { UploadProps, UploadFile } from 'ant-design-vue';
+import { type UploadProps, type UploadFile, Upload } from 'ant-design-vue';
 import type { UploadChangeParam } from 'ant-design-vue/es/upload/interface';
 import { COMMON } from '~/consts/common';
 import type { RoomImage } from '~/types/building';
@@ -102,7 +102,6 @@ const props = defineProps({
 const roomInfo = toRef(props, 'roomInfo');
 const imageList = ref<any[]>([]);
 const { $event } = useNuxtApp();
-const invalidImages = ref<string[]>([]);
 const { t } = useI18n();
 
 // ---------------------- Functions ----------------------
@@ -122,11 +121,6 @@ async function handlePreview(file: UploadProps['fileList'][number]) {
 }
 
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
-  imageList.value = imageList.value.filter((file) => !invalidImages.value.includes(file.uid));
-  roomInfo.value.images = roomInfo.value.images.filter(
-    (file) => !(file.isNew && invalidImages.value.includes((file as any).uid))
-  );
-
   event.fileList.forEach((file) => {
     if (file.status === 'done' && isNaN(Number(file.uid))) {
       if (props.roomInfo.images.find((image: any) => image.isNew && image.uid === file.uid)) {
@@ -192,7 +186,7 @@ async function getImageList() {
   return result;
 }
 
-function beforeUploadRoomImage(file: any): boolean {
+function beforeUploadRoomImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -201,21 +195,19 @@ function beforeUploadRoomImage(file: any): boolean {
   }
 
   if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
   return true;
 }

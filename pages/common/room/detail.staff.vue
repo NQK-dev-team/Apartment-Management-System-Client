@@ -453,7 +453,7 @@ import { api } from '~/services/api';
 import type { Room, RoomImage } from '~/types/building';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { Dayjs } from 'dayjs';
-import type { UploadFile, UploadChangeParam } from 'ant-design-vue';
+import { type UploadFile, type UploadChangeParam, Upload } from 'ant-design-vue';
 import { svgPaths } from '~/consts/svg_paths';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
@@ -500,7 +500,6 @@ const roomData = ref<Room>({
 });
 const tickets = ref<SupportTicket[]>([]);
 const lightModeCookie = useCookie('lightMode');
-const invalidImages = ref<string[]>([]);
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
@@ -733,13 +732,6 @@ function disabledDate(current: Dayjs) {
 }
 
 function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
-  updateRoomData.value.images = updateRoomData.value.images.filter(
-    (file) => !(file.isNew && invalidImages.value.includes((file as any).uid))
-  );
-  updateRoomData.value.imageList = updateRoomData.value.imageList.filter(
-    (file) => !invalidImages.value.includes((file as any).uid)
-  );
-
   event.fileList.forEach((file) => {
     if (file.status === 'done' && isNaN(Number(file.uid))) {
       if (updateRoomData.value.images.find((image: any) => image.isNew && !image.isDeleted && image.uid === file.uid)) {
@@ -754,7 +746,7 @@ function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
   });
 }
 
-function beforeUploadRoomImage(file: any): boolean {
+function beforeUploadRoomImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -763,21 +755,19 @@ function beforeUploadRoomImage(file: any): boolean {
   }
 
   if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
   return true;
 }

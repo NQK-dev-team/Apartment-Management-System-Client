@@ -130,7 +130,6 @@
             class="custom_room_image_upload"
             :class="[props.readOnly ? 'custom_room_image_upload_hide_delete_button' : '']"
             :before-upload="beforeUploadRoomImage"
-            @change="handleFileUpload"
             @preview="handlePreview"
           >
             <div v-if="!props.readOnly">
@@ -149,7 +148,7 @@
 
 <script lang="ts" setup>
 import { getBase64 } from '#build/imports';
-import type { UploadProps, UploadFile, UploadChangeParam } from 'ant-design-vue';
+import { type UploadProps, type UploadFile, type UploadChangeParam, Upload } from 'ant-design-vue';
 import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
@@ -190,7 +189,6 @@ const checked = computed(() => props.deleteBucket.includes(props.index));
 const previewVisible = ref(false);
 const previewImage = ref('');
 const previewTitle = ref('');
-const invalidImages = ref<string[]>([]);
 const { t } = useI18n();
 
 // ---------------------- Functions ----------------------
@@ -207,10 +205,6 @@ function handleCancel() {
   previewTitle.value = '';
 }
 
-function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
-  roomInfo.value.images = roomInfo.value.images.filter((file) => !invalidImages.value.includes(file.uid));
-}
-
 // @ts-ignore
 async function handlePreview(file: UploadProps['fileList'][number]) {
   if (!file.url && !file.preview) {
@@ -221,7 +215,7 @@ async function handlePreview(file: UploadProps['fileList'][number]) {
   previewTitle.value = file.name || file.url.substring(file.url.lastIndexOf('/') + 1);
 }
 
-function beforeUploadRoomImage(file: any) {
+function beforeUploadRoomImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -230,21 +224,19 @@ function beforeUploadRoomImage(file: any) {
   }
 
   if (!COMMON.ALLOW_IMAGE_EXTENSIONS.includes(`.${type}`)) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
-    invalidImages.value.push(file.uid);
     notification.error({
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
   return true;
 }

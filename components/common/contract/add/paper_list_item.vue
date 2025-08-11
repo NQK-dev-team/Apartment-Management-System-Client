@@ -44,11 +44,6 @@
           :name="['files', props.index, 'path']"
           :rules="[
             { required: true, message: $t('file_require'), trigger: 'blur' },
-            // {
-            //   validator: async (_: RuleObject, value: UploadFile[]) =>
-            //     validationRules.checkContractFileType(_, value, $t),
-            //   trigger: 'change',
-            // },
           ]"
           class="px-3"
         >
@@ -58,7 +53,6 @@
             :max-count="1"
             :accept="COMMON.ALLOW_FILE_EXTENSIONS.join(',')"
             :before-upload="beforeUploadFile"
-            @change="(e: any) => handleFileUpload(e)"
           >
             <a-button class="flex flex-col items-center justify-center h-full w-full p-3">
               <plus-outlined />
@@ -73,10 +67,8 @@
 
 <script lang="ts" setup>
 import type { ContractFile } from '~/types/contract';
-import type { UploadFile, UploadChangeParam } from 'ant-design-vue';
+import { type UploadFile, Upload } from 'ant-design-vue';
 import { COMMON } from '~/consts/common';
-// import type { RuleObject } from 'ant-design-vue/es/form';
-// import { validationRules } from '~/consts/validation_rules';
 
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
@@ -101,8 +93,6 @@ const deleteBucket = toRef(props, 'deleteBucket');
 const file = toRef(props, 'file');
 const checked = computed(() => deleteBucket.value.value.includes(file.value.ID));
 const { t } = useI18n();
-const validFile = ref(false);
-// const uploadFile = ref([]);
 
 // ---------------------- Functions ----------------------
 function removeFromBucket() {
@@ -118,19 +108,7 @@ function addToBucket() {
   }
 }
 
-function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
-  // if (event.fileList.length > 1 && event.fileList[1].status === 'done') {
-  //   // Remove the first file if more than one file is uploaded
-  //   event.fileList.splice(0, 1);
-  // }
-
-  if (!validFile.value) {
-    file.value.path = [];
-  }
-}
-
-function beforeUploadFile(file: any) {
-  validFile.value = false;
+function beforeUploadFile(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -143,7 +121,7 @@ function beforeUploadFile(file: any) {
       message: t('invalid_file_title'),
       description: t('invalid_contract_file_type', { types: COMMON.ALLOW_FILE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.FILE_SIZE_LIMIT) {
@@ -151,14 +129,8 @@ function beforeUploadFile(file: any) {
       message: t('invalid_file_title'),
       description: t('invalid_file_size', { size: COMMON.FILE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
-  validFile.value = true;
   return true;
 }
-
-// // ---------------------- Watchers ----------------------
-// watch(uploadFile, () => {
-//   file.value.path = uploadFile.value.length > 0 ? uploadFile.value[0] : '';
-// });
 </script>

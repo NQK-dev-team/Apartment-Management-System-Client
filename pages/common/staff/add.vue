@@ -367,6 +367,7 @@ import { validationRules } from '~/consts/validation_rules';
 import { COMMON } from '~/consts/common';
 import Success from '~/public/svg/success.svg';
 import type { Dayjs } from 'dayjs';
+import { Upload } from 'ant-design-vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -414,18 +415,11 @@ const previewAvatar = ref<string>('');
 const previewSSNFront = ref<string>('');
 const previewSSNBack = ref<string>('');
 const buildingList = ref<Building[]>([]);
-const isAvatarValid = ref<boolean>(false);
-const isSSNFrontValid = ref<boolean>(false);
-const isSSNBackValid = ref<boolean>(false);
 const addSuccess = ref<boolean>(false);
 const newStaffID = ref<number>(0);
 
 // ---------------------- Functions ----------------------
 async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
-  if (!isAvatarValid.value) {
-    staffInfo.value.profileFilePath = [];
-  }
-
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -440,12 +434,6 @@ async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
 
   const files = event.fileList.map((file) => file.originFileObj);
   const imageList: string[] = [];
-  // Array.from(files).forEach(async (file) => {
-  //   if (file) {
-  //     const base64 = await getBase64(file);
-  //     imageList.push(base64 as string);
-  //   }
-  // });
 
   for (const file of files) {
     if (file) {
@@ -458,10 +446,6 @@ async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
-  if (!isSSNFrontValid.value) {
-    staffInfo.value.ssnFrontFilePath = [];
-  }
-
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -476,12 +460,6 @@ async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
 
   const files = event.fileList.map((file) => file.originFileObj);
   const imageList: string[] = [];
-  // Array.from(files).forEach(async (file) => {
-  //   if (file) {
-  //     const base64 = await getBase64(file);
-  //     imageList.push(base64 as string);
-  //   }
-  // });
 
   for (const file of files) {
     if (file) {
@@ -494,10 +472,6 @@ async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
-  if (!isSSNBackValid.value) {
-    staffInfo.value.ssnBackFilePath = [];
-  }
-
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -512,12 +486,6 @@ async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
 
   const files = event.fileList.map((file) => file.originFileObj);
   const imageList: string[] = [];
-  // Array.from(files).forEach(async (file) => {
-  //   if (file) {
-  //     const base64 = await getBase64(file);
-  //     imageList.push(base64 as string);
-  //   }
-  // });
 
   for (const file of files) {
     if (file) {
@@ -529,8 +497,7 @@ async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
   previewSSNBack.value = imageList.length ? imageList[0] : '';
 }
 
-function beforeUploadAvatarImage(file: any): boolean {
-  isAvatarValid.value = false;
+function beforeUploadAvatarImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -543,7 +510,7 @@ function beforeUploadAvatarImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
@@ -551,14 +518,12 @@ function beforeUploadAvatarImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
-  isAvatarValid.value = true;
   return true;
 }
 
-function beforeUploadSSNFrontImage(file: any): boolean {
-  isSSNFrontValid.value = false;
+function beforeUploadSSNFrontImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -571,7 +536,7 @@ function beforeUploadSSNFrontImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
@@ -579,14 +544,12 @@ function beforeUploadSSNFrontImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
-  isSSNFrontValid.value = true;
   return true;
 }
 
-function beforeUploadSSNBackImage(file: any): boolean {
-  isSSNBackValid.value = false;
+function beforeUploadSSNBackImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -599,7 +562,7 @@ function beforeUploadSSNBackImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
@@ -607,9 +570,8 @@ function beforeUploadSSNBackImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
-  isSSNBackValid.value = true;
   return true;
 }
 

@@ -301,7 +301,7 @@
 import { getMessageCode } from '~/consts/api_response';
 import { COMMON } from '~/consts/common';
 import type { User } from '~/types/user';
-import type { FormInstance } from 'ant-design-vue';
+import { Upload, type FormInstance } from 'ant-design-vue';
 import type { RuleObject } from 'ant-design-vue/es/form';
 import { svgPaths } from '~/consts/svg_paths';
 import { validationRules } from '~/consts/validation_rules';
@@ -327,9 +327,6 @@ const editForm = ref<FormInstance>();
 const previewNewFrontSSNFile = ref('');
 const previewNewBackSSNFile = ref('');
 const previewNewProfileFile = ref('');
-const isNewAvatarValid = ref(false);
-const isNewSSNFrontValid = ref(false);
-const isNewSSNBackValid = ref(false);
 
 // ---------------------- Functions ----------------------
 async function updateUserInfo() {
@@ -425,10 +422,6 @@ function disabledDate(current: Dayjs) {
 }
 
 async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
-  if (!isNewAvatarValid.value) {
-    user.value.newProfile = [];
-  }
-
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -455,10 +448,6 @@ async function handleAvatarChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
-  if (!isNewSSNFrontValid.value) {
-    user.value.newFrontSSN = [];
-  }
-
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -485,10 +474,6 @@ async function handleSSNFrontChange(event: UploadChangeParam<UploadFile<any>>) {
 }
 
 async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
-  if (!isNewSSNBackValid.value) {
-    user.value.newBackSSN = [];
-  }
-
   let isDone = true;
 
   event.fileList.forEach((file) => {
@@ -514,8 +499,7 @@ async function handleSSNBackChange(event: UploadChangeParam<UploadFile<any>>) {
   previewNewBackSSNFile.value = imageList.length ? imageList[0] : '';
 }
 
-function beforeUploadAvatarImage(file: any): boolean {
-  isNewAvatarValid.value = false;
+function beforeUploadAvatarImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -528,7 +512,7 @@ function beforeUploadAvatarImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
@@ -536,14 +520,12 @@ function beforeUploadAvatarImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
-  isNewAvatarValid.value = true;
   return true;
 }
 
-function beforeUploadSSNFrontImage(file: any): boolean {
-  isNewSSNFrontValid.value = false;
+function beforeUploadSSNFrontImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -556,7 +538,7 @@ function beforeUploadSSNFrontImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
@@ -564,14 +546,12 @@ function beforeUploadSSNFrontImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
-  isNewSSNFrontValid.value = true;
   return true;
 }
 
-function beforeUploadSSNBackImage(file: any): boolean {
-  isNewSSNBackValid.value = false;
+function beforeUploadSSNBackImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';
@@ -584,7 +564,7 @@ function beforeUploadSSNBackImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_file_type', { types: COMMON.ALLOW_IMAGE_EXTENSIONS.join(', ') }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
 
   if (file.size >= COMMON.IMAGE_SIZE_LIMIT) {
@@ -592,9 +572,8 @@ function beforeUploadSSNBackImage(file: any): boolean {
       message: t('invalid_image_title'),
       description: t('invalid_image_size', { size: COMMON.IMAGE_SIZE_LIMIT_STR }),
     });
-    return false;
+    return Upload.LIST_IGNORE;
   }
-  isNewSSNBackValid.value = true;
   return true;
 }
 

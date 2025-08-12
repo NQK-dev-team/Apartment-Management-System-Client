@@ -136,6 +136,7 @@ export default {
   contract_creator: 'Người tạo hợp đồng',
   contract_creator_no: 'Mã người tạo hợp đồng',
   create_ticket: 'Tạo phiếu hỗ trợ',
+  create_ticket_success: 'Tạo phiếu hỗ trợ thành công!',
 
   D: 'd',
   delete: 'Xóa',
@@ -350,6 +351,7 @@ export default {
   new_email: 'Email mới',
   new_email_required: 'Email mới không được để trống!',
   new_password_has_been_set: 'Mật khẩu mới đã được thiết lập!',
+  new_ticket_created: 'Phiếu hỗ trợ mới của bạn đã được tạo thành công',
 
   O: 'o',
   operation: 'Thao tác',

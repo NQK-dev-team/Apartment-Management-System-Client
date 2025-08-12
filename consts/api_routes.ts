@@ -78,6 +78,7 @@ const apiRoutes = {
       `/support-ticket?limit=${limit}&offset=${offset}&startDate=${startDate}&endDate=${endDate}`,
     deleteMany: '/support-ticket/delete-many',
     update: (ticketId: number) => `/support-ticket/${ticketId}/update`,
+    add: '/support-ticket/add',
   },
   notice: {},
   contract: {

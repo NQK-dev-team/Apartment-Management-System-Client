@@ -408,6 +408,13 @@ const common = {
         body: data,
       });
     },
+    add: async (data: FormData): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.support_ticket.add, {
+        method: 'POST',
+        body: data,
+      });
+    },
   },
   notice: {},
   contract: {

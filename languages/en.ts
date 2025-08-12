@@ -136,6 +136,7 @@ export default {
   contract_creator: 'Contract creator',
   contract_creator_no: 'Contract creator number',
   create_ticket: 'Create support ticket',
+  create_ticket_success: 'Support ticket created successfully!',
 
   D: 'd',
   delete: 'Delete',
@@ -349,6 +350,7 @@ export default {
   new_email: 'New email',
   new_email_required: 'New email cannot be empty!',
   new_password_has_been_set: 'New password has been set successfully!',
+  new_ticket_created: 'New support ticket has been created successfully!',
 
   O: 'o',
   operation: 'Operation',

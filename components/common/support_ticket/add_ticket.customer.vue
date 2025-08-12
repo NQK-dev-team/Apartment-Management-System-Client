@@ -217,6 +217,23 @@ async function getRoomList() {
 async function addTicket() {
   try {
     $event.emit('loading');
+    const formData = new FormData();
+    formData.append('title', newTicket.value?.title || '');
+    formData.append('content', newTicket.value?.content || '');
+    formData.append('roomID', newTicket.value?.roomID?.toString() || '');
+    newTicket.value?.fileList.forEach((file) => {
+      formData.append('files[]', file.originFileObj as File);
+    });
+
+    await api.common.support_ticket.add(formData);
+
+    notification.success({
+      message: t('create_ticket_success'),
+      description: t('new_ticket_created'),
+    });
+
+    $event.emit('refetchCustomerSupportTickets');
+    openAddModal.value.value = false;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

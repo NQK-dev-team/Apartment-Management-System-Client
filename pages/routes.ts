@@ -66,6 +66,11 @@ const commonRoutes: Route[] = [
     file: roomBaseRoute + 'detail.staff.vue',
   },
   // Room
+  {
+    name: 'Room List',
+    path: pageRoutes.common.room.list,
+    file: roomBaseRoute + 'list.vue',
+  },
   // Profile
   {
     name: 'Profile',

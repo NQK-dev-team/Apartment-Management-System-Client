@@ -5,8 +5,8 @@
         <a-breadcrumb-item>{{ $t('building_list') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <h1 class="mt-3 text-2xl">{{ $t('building_list') }}</h1>
-      <div class="flex justify-between items-center">
-        <div></div>
+      <div class="flex justify-end items-center">
+        <!-- <div></div>
         <a-input-search
           id="searchBuilding"
           v-model:value="searchValue"
@@ -14,7 +14,7 @@
           :placeholder="$t('enter_search')"
           enter-button
           @search="filterBuildingList"
-        />
+        /> -->
         <NuxtLink v-if="userRole?.toString() === roles.owner" :to="pageRoutes.common.building.add">
           <a-button type="primary" class="flex items-center rounded-sm"><PlusOutlined /></a-button>
         </NuxtLink>
@@ -24,7 +24,7 @@
       <div class="flex justify-center items-center">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <CommonBuildingListCard
-            v-for="(building, index) in buildingListFiltered"
+            v-for="(building, index) in buildingList"
             v-show="current * 8 >= index + 1 && (current - 1) * 8 < index + 1"
             :id="building.id"
             :key="index"
@@ -36,8 +36,8 @@
           />
         </div>
       </div>
-      <div v-if="buildingListFiltered.length > 8" class="flex justify-center mt-10 mb-3">
-        <a-pagination v-model:current="current" :total="buildingListFiltered.length" :default-page-size="8" />
+      <div v-if="buildingList.length > 8" class="flex justify-center mt-10 mb-3">
+        <a-pagination v-model:current="current" :total="buildingList.length" :default-page-size="8" />
       </div>
     </div>
   </div>
@@ -87,17 +87,17 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const current = ref(1);
-const searchValue = ref('');
-const buildingListFiltered = ref<
-  {
-    id: number;
-    name: string;
-    address: string;
-    totalRoom: number;
-    totalFloor: number;
-    image: string;
-  }[]
->([]);
+// const searchValue = ref('');
+// const buildingListFiltered = ref<
+//   {
+//     id: number;
+//     name: string;
+//     address: string;
+//     totalRoom: number;
+//     totalFloor: number;
+//     image: string;
+//   }[]
+// >([]);
 
 // ---------------------- Functions ----------------------
 async function getBuildingList() {
@@ -117,7 +117,7 @@ async function getBuildingList() {
           : '',
       };
     });
-    buildingListFiltered.value = buildingList.value;
+    // buildingListFiltered.value = buildingList.value;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -134,12 +134,12 @@ async function getBuildingList() {
   }
 }
 
-function filterBuildingList() {
-  buildingListFiltered.value = buildingList.value.filter((building) => {
-    return removeDiacritics(building.name).toLowerCase().includes(searchValue.value.toLowerCase().trim());
-  });
-  current.value = 1;
-}
+// function filterBuildingList() {
+//   buildingListFiltered.value = buildingList.value.filter((building) => {
+//     return removeDiacritics(building.name).toLowerCase().includes(searchValue.value.toLowerCase().trim());
+//   });
+//   current.value = 1;
+// }
 
 // ---------------------- Lifecycles ----------------------
 onMounted(() => {

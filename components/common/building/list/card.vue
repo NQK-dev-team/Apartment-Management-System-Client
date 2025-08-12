@@ -2,7 +2,11 @@
   <NuxtLink :to="pageRoutes.common.building.detail(props.id)">
     <a-card hoverable class="w-[275px] border-2 select-none" :title="props.name">
       <template #cover>
-        <img alt="Building image" :src="props.image" class="w-[275px] h-[325px] rounded-none p-[2px]" />
+        <a-carousel :autoplay="true" arrows>
+          <div v-for="(image, index) in props.images" :key="index">
+            <img class="w-[275px] h-[325px] rounded-none p-[2px]" :src="image" :alt="`Building image ${index + 1}`" />
+          </div>
+        </a-carousel>
       </template>
       <template #actions>
         <NuxtLink :to="pageRoutes.common.building.edit(props.id)">
@@ -54,8 +58,8 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  image: {
-    type: String,
+  images: {
+    type: Array as PropType<Array<string>>,
     required: true,
   },
   id: {

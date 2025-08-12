@@ -32,7 +32,7 @@
             :address="building.address"
             :total-room="building.totalRoom"
             :total-floor="building.totalFloor"
-            :image="building.image"
+            :images="building.images"
           />
         </div>
       </div>
@@ -77,7 +77,7 @@ const buildingList = ref<
     address: string;
     totalRoom: number;
     totalFloor: number;
-    image: string;
+    images: string[];
   }[]
 >([]);
 const { $event } = useNuxtApp();
@@ -112,9 +112,9 @@ async function getBuildingList() {
         address: element.address,
         totalRoom: element.totalRoom,
         totalFloor: element.totalFloor,
-        image: Array.isArray(element.images) && element.images.length > 0 && typeof element.images[0].path === 'string'
-          ? element.images[0].path
-          : '',
+        images: element.images.map((image) => {
+          return image.path as string;
+        }),
       };
     });
     // buildingListFiltered.value = buildingList.value;

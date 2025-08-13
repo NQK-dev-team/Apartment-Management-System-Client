@@ -116,6 +116,8 @@ import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { svgPaths } from '~/consts/svg_paths';
 import { COMMON } from '~/consts/common';
+import type { RuntimeConfig } from 'nuxt/schema';
+import { websocketRoutes } from '~/consts/websocket_routes';
 
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
@@ -143,6 +145,8 @@ const { t } = useI18n();
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
+const websocketConnection = ref<WebSocket | null>(null);
+
 // ---------------------- Functions ----------------------
 function openImportModal() {
   modalImportData.value.isOpen = true;
@@ -197,6 +201,8 @@ $event.on('addNotification', (e: any) => {
 
 // ------------------------ Lifecycles ----------------------
 onMounted(() => {
+  const config: RuntimeConfig = useRuntimeConfig();
+
   // Get user name and image from JWT token store
   userName.value = '';
   imageSrc.value = '';
@@ -207,5 +213,11 @@ onMounted(() => {
   if (!imageSrc.value) {
     imageSrc.value = '/image/default_user_image.png';
   }
+
+  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
+});
+
+onUnmounted(() => {
+  websocketConnection.value?.close();
 });
 </script>

@@ -45,8 +45,9 @@ export default defineNuxtConfig({
       apiVersion: process.env.API_VERSION,
       isDevMode: process.env.NODE_ENV === 'development',
       isHttps: process.env.IS_HTTPS === 'true',
-      port: process.env.APP_PORT || '3000',
-      host: process.env.APP_HOST || 'localhost',
+      port: process.env.APP_PORT,
+      host: process.env.APP_HOST,
+      webSocketURL: process.env.WEBSOCKET_URL,
     },
   },
   app: {

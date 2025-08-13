@@ -187,6 +187,18 @@ const common = {
         method: 'GET',
       });
     },
+    getDetail: async (roomId: number): Promise<APIResponse<Room>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.room.getDetail(roomId), {
+        method: 'GET',
+      });
+    },
+    getTicket: async (roomId: number): Promise<APIResponse<SupportTicket[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.room.getTicket(roomId), {
+        method: 'GET',
+      });
+    },
   },
   profile: {
     getProfile: async (): Promise<APIResponse<User>> => {

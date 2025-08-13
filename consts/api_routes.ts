@@ -28,6 +28,8 @@ const apiRoutes = {
   },
   room: {
     getList: '/room',
+    getDetail: (roomId: number) => `/room/${roomId}`,
+    getTicket: (roomId: number) => `/room/${roomId}/support-ticket`,
   },
   profile: {
     getProfile: `/user/profile`,

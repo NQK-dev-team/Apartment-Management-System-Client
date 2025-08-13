@@ -71,6 +71,11 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.room.list,
     file: roomBaseRoute + 'list.vue',
   },
+  {
+    name: 'Room Detail',
+    path: pageRoutes.common.room.detail(':id'),
+    file: roomBaseRoute + 'detail.customer.vue',
+  },
   // Profile
   {
     name: 'Profile',

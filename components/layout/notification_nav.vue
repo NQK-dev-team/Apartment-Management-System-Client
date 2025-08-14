@@ -92,7 +92,8 @@ const props = defineProps({
     required: true,
   },
 });
-const isDropdownOpen = ref<boolean>(false);
+const route = useRoute();
+const isDropdownOpen = ref<boolean>(route.path.includes(pageRoutes.common.notice.index));
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );

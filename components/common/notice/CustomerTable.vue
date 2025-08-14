@@ -1,119 +1,305 @@
 <template>
-  <div>
-    <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" bordered class="mt-2">
-      <template #bodyCell="{ column, text }">
-        <template v-if="column.dataIndex && column.dataIndex !== 'operation'">
-          <div>
-            {{ text }}
-          </div>
-        </template>
+  <a-table
+    :columns="columns"
+    :data-source="data"
+    :row-selection="{
+      selectedRowKeys: notificationData.recievers,
+      onChange: (selectedRowKeys: any) => {
+        notificationData.recievers = selectedRowKeys;
+      },
+    }"
+    class="mt-3"
+    :scroll="{ x: 'max-content' }"
+  >
+    <template #bodyCell="{ value, column }">
+      <template v-if="column.key === 'action'">
+        <NuxtLink
+          :to="pageRoutes.common.customer.detail(value)"
+          class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+          target="_blank"
+        >
+          {{ $t('detail') }}
+        </NuxtLink>
       </template>
-    </a-table>
-  </div>
+      <template v-if="column.key === 'gender'">
+        {{ $t(getUserGender(undefined, value)) }}
+      </template>
+      <template v-if="column.key === 'old_ssn'">
+        {{ value || '-' }}
+      </template>
+    </template>
+    <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
+      <div class="p-[8px]">
+        <a-input
+          ref="searchInput"
+          :placeholder="t('enter_search')"
+          :value="selectedKeys[0]"
+          class="block width-[200px] mb-[8px]"
+          @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+          @press-enter="handleSearch(selectedKeys, confirm, column.dataIndex)"
+        />
+        <div class="flex items-center">
+          <a-button
+            size="small"
+            class="w-[90px] h-[25px] inline-flex items-center justify-center"
+            @click="handleReset(clearFilters)"
+            >{{ t('clear') }}</a-button
+          >
+          <a-button
+            type="primary"
+            size="small"
+            class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
+            @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+          >
+            <template #icon>
+              <SearchOutlined />
+            </template>
+            {{ t('search') }}
+          </a-button>
+        </div>
+      </div>
+    </template>
+    <template #customFilterIcon="{ filtered, column }">
+      <SearchOutlined
+        v-if="
+          column.dataIndex === 'name' ||
+          column.dataIndex === 'customerNumber' ||
+          column.dataIndex === 'ssn' ||
+          column.dataIndex === 'old_ssn' ||
+          column.dataIndex === 'phone' ||
+          column.dataIndex === 'email'
+        "
+        :style="{ color: filtered ? '#108ee9' : undefined }"
+      />
+      <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+    </template>
+  </a-table>
 </template>
 
 <script lang="ts" setup>
+import { COMMON } from '~/consts/common';
+import { pageRoutes } from '~/consts/page_routes';
+import type { Building } from '~/types/building';
+import type { User } from '~/types/user';
+
+// ---------------------- Variables ----------------------
+const props = defineProps({
+  customerList: {
+    type: Array as PropType<User[]>,
+    required: true,
+  },
+  notificationData: {
+    type: Object as PropType<{
+      title: string;
+      content: string;
+      recievers: number[];
+    }>,
+    required: true,
+  },
+  buildingList: {
+    type: Array as PropType<Building[]>,
+    required: true,
+  },
+});
+const customerList = toRef(props, 'customerList');
+const notificationData = toRef(props, 'notificationData');
+const buildingList = toRef(props, 'buildingList');
 const { t } = useI18n();
-const emit = defineEmits(['update-selected-count']); // Define the emitted event
-
-const columns = computed<any>(() => {
-  return [
-    {
-      title: t('no'),
-      align: 'center',
-      dataIndex: 'no',
-      width: '5%',
-    },
-    {
-      title: t('customer'),
-      align: 'center',
-      dataIndex: 'name',
-      width: '15%',
-    },
-    {
-      title: t('customer_id'),
-      align: 'center',
-      dataIndex: 'customerId',
-      width: '15%',
-    },
-    {
-      title: t('phone'),
-      align: 'center',
-      dataIndex: 'phoneNumber',
-      width: '10%',
-    },
-    {
-      title: t('ssn'),
-      align: 'center',
-      dataIndex: 'nationalId',
-      width: '10%',
-    },
-    {
-      title: t('email'),
-      align: 'center',
-      dataIndex: 'contactMail',
-      width: '20%',
-    },
-    {
-      title: t('room'),
-      align: 'center',
-      dataIndex: 'room',
-      width: '20%',
-    },
-  ];
+const state = reactive({
+  searchText: '',
+  searchedColumn: '',
 });
+const searchInput = ref();
+const columns = computed<any>(() => [
+  {
+    title: t('no'),
+    dataIndex: 'no',
+    key: 'no',
+    class: 'text-nowrap',
+  },
+  {
+    title: t('name'),
+    dataIndex: 'name',
+    key: 'name',
+    class: 'text-nowrap',
+    customFilterDropdown: true,
+    onFilter: (value: string, record: any) => {
+      const values = value.split(',');
+      return values.some((val) =>
+        removeDiacritics(record.name.toString().toLowerCase()).includes(val.trim().toLowerCase())
+      );
+    },
+    onFilterDropdownOpenChange: (visible: boolean) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+  {
+    title: t('customer_no'),
+    dataIndex: 'customerNumber',
+    key: 'customerNumber',
+    class: 'text-nowrap',
+    customFilterDropdown: true,
+    onFilter: (value: string, record: any) => {
+      const values = value.split(',');
+      return values.some((val) => record.customerNumber.toString().toLowerCase().includes(val.trim().toLowerCase()));
+    },
+    onFilterDropdownOpenChange: (visible: boolean) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+  {
+    title: t('gender'),
+    dataIndex: 'gender',
+    key: 'gender',
+    class: 'text-nowrap',
+    filters: [
+      {
+        text: t(getUserGender(undefined, COMMON.USER_GENDER.MALE)),
+        value: COMMON.USER_GENDER.MALE,
+      },
+      {
+        text: t(getUserGender(undefined, COMMON.USER_GENDER.FEMALE)),
+        value: COMMON.USER_GENDER.FEMALE,
+      },
+      {
+        text: t(getUserGender(undefined, COMMON.USER_GENDER.OTHER)),
+        value: COMMON.USER_GENDER.OTHER,
+      },
+    ],
+    onFilter: (value: any, record: any) => record.gender === value,
+  },
+  {
+    title: t('dob'),
+    dataIndex: 'dob',
+    key: 'dob',
+    class: 'text-nowrap',
+  },
+  {
+    title: t('ssn'),
+    dataIndex: 'ssn',
+    key: 'ssn',
+    class: 'text-nowrap',
+    customFilterDropdown: true,
+    onFilter: (value: string, record: any) => {
+      const values = value.split(',');
+      return values.some((val) => record.ssn.toString().toLowerCase().includes(val.trim().toLowerCase()));
+    },
+    onFilterDropdownOpenChange: (visible: boolean) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+  {
+    title: t('old_ssn'),
+    dataIndex: 'old_ssn',
+    key: 'old_ssn',
+    class: 'text-nowrap',
+    customFilterDropdown: true,
+    onFilter: (value: string, record: any) => {
+      const values = value.split(',');
+      return values.some((val) => record.old_ssn.toString().toLowerCase().includes(val.trim().toLowerCase()));
+    },
+    onFilterDropdownOpenChange: (visible: boolean) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+  {
+    title: t('phone'),
+    dataIndex: 'phone',
+    key: 'phone',
+    class: 'text-nowrap',
+    customFilterDropdown: true,
+    onFilter: (value: string, record: any) => {
+      const values = value.split(',');
+      return values.some((val) => record.phone.toString().toLowerCase().includes(val.trim().toLowerCase()));
+    },
+    onFilterDropdownOpenChange: (visible: boolean) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+  {
+    title: t('email'),
+    dataIndex: 'email',
+    key: 'email',
+    class: 'text-nowrap',
+    customFilterDropdown: true,
+    onFilter: (value: string, record: any) => {
+      const values = value.split(',');
+      return values.some((val) => record.email.toString().toLowerCase().includes(val.trim().toLowerCase()));
+    },
+    onFilterDropdownOpenChange: (visible: boolean) => {
+      if (visible) {
+        setTimeout(() => {
+          searchInput.value.focus();
+        }, 100);
+      }
+    },
+  },
+  {
+    title: t('action'),
+    dataIndex: 'action',
+    key: 'action',
+    class: 'text-nowrap',
+  },
+]);
+const data = computed<
+  {
+    no: number;
+    name: string;
+    customerNumber: string;
+    gender: number;
+    dob: string;
+    ssn: string;
+    old_ssn: string;
+    phone: string;
+    email: string;
+    key: number;
+    action: number;
+  }[]
+>(() =>
+  customerList.value.map((customer, index) => ({
+    no: index + 1,
+    name: getUserName(customer),
+    customerNumber: customer.no,
+    gender: customer.gender,
+    dob: convertToDate(customer.dob),
+    ssn: customer.ssn,
+    old_ssn: customer.oldSSN.String || '',
+    phone: customer.phone,
+    email: customer.email,
+    key: customer.ID,
+    action: customer.ID,
+  }))
+);
 
-interface DataItem {
-  key: string;
-  no: number;
-  name: string;
-  customerId: string;
-  phoneNumber: string;
-  nationalId: string;
-  contactMail: string;
-  room: string;
+// ---------------------- Functions ----------------------
+function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {
+  confirm();
+  state.searchText = selectedKeys[0];
+  state.searchedColumn = dataIndex;
 }
 
-const data: DataItem[] = [];
-const rooms = ['A1-01', 'B1-01', 'C1-01'];
-
-function getRandomRooms() {
-  const shuffled = rooms.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, 1);
-  return selected.toString();
+function handleReset(clearFilters: any) {
+  clearFilters({ confirm: true });
+  state.searchText = '';
 }
-
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i.toString(),
-    no: i + 1,
-    name: `Edward Long Man ${i}`,
-    customerId: `${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`,
-    phoneNumber: Math.random().toString().substr(2, 10),
-    nationalId: Math.random().toString().substr(2, 10),
-    contactMail: 'placeholder_email@gmail.com',
-    room: getRandomRooms(),
-  });
-}
-
-const dataSource = ref(data);
-
-const rowSelection = ref({
-  checkStrictly: false,
-  onChange: (selectedRowKeys: (string | number)[], selectedRows: DataItem[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    emit('update-selected-count', selectedRows.length); // Emit the count of selected rows
-  },
-  onSelect: (record: DataItem, selected: boolean, selectedRows: DataItem[]) => {
-    console.log(record, selected, selectedRows);
-    emit('update-selected-count', selectedRows.length);
-  },
-  onSelectAll: (selected: boolean, selectedRows: DataItem[], changeRows: DataItem[]) => {
-    console.log(selected, selectedRows, changeRows);
-    emit('update-selected-count', selectedRows.length);
-  },
-});
 </script>
-
-<style scoped>
-</style>

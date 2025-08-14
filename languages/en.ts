@@ -137,6 +137,8 @@ export default {
   contract_creator_no: 'Contract creator number',
   create_ticket: 'Create support ticket',
   create_ticket_success: 'Support ticket created successfully!',
+  choose_all_employee: 'Choose all employees',
+  choose_all_customer: 'Choose all customers',
 
   D: 'd',
   delete: 'Delete',
@@ -351,6 +353,11 @@ export default {
   new_email_required: 'New email cannot be empty!',
   new_password_has_been_set: 'New password has been set successfully!',
   new_ticket_created: 'New support ticket has been created successfully!',
+  notification_send_fail: 'Notification can not be sent!',
+  notification_title_required: 'Notification title cannot be empty!',
+  notification_content_required: 'Notification content cannot be empty!',
+  notification_receiver_required: 'Please select at least one receiver for the notification!',
+  notification_sent: 'Notification has been sent successfully!',
 
   O: 'o',
   operation: 'Operation',
@@ -514,6 +521,7 @@ export default {
   select_payment_time: 'Select payment time',
   security_setting: 'Security setting',
   select_user_gender: 'Select user gender',
+  send_notification: 'Send notification',
 
   T: 't',
   total: 'Total',

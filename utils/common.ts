@@ -18,7 +18,11 @@ function getUserName(user: User | RoomResident | undefined): string {
   return name;
 }
 
-function getUserGender(user: User | RoomResident | undefined): string {
+function getUserGender(user: User | RoomResident | undefined, gender: number | undefined = undefined): string {
+  if (gender) {
+    return gender === COMMON.USER_GENDER.MALE ? 'male' : gender === COMMON.USER_GENDER.FEMALE ? 'female' : 'other';
+  }
+
   if (!user) {
     return 'other';
   }

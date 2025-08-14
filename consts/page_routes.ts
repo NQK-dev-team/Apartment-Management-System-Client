@@ -47,6 +47,7 @@ const pageRoutes = {
       list: '/support-ticket',
     },
     notice: {
+      index: '/notice',
       sent: '/notice/sent',
       new: '/notice/new',
       inbox: '/notice/inbox',

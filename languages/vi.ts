@@ -137,6 +137,8 @@ export default {
   contract_creator_no: 'Mã người tạo hợp đồng',
   create_ticket: 'Tạo phiếu hỗ trợ',
   create_ticket_success: 'Tạo phiếu hỗ trợ thành công!',
+  choose_all_employee: 'Chọn tất cả nhân viên',
+  choose_all_customer: 'Chọn tất cả khách hàng',
 
   D: 'd',
   delete: 'Xóa',
@@ -352,6 +354,11 @@ export default {
   new_email_required: 'Email mới không được để trống!',
   new_password_has_been_set: 'Mật khẩu mới đã được thiết lập!',
   new_ticket_created: 'Phiếu hỗ trợ mới của bạn đã được tạo thành công',
+  notification_send_fail: 'Gửi thông báo không thành công!',
+  notification_title_required: 'Tiêu đề thông báo không được để trống!',
+  notification_content_required: 'Nội dung thông báo không được để trống!',
+  notification_receiver_required: 'Vui lòng chọn người nhận thông báo!',
+  notification_sent: 'Thông báo đã được gửi thành công!',
 
   O: 'o',
   operation: 'Thao tác',
@@ -515,6 +522,7 @@ export default {
   select_payment_time: 'Chọn thời gian thanh toán',
   security_setting: 'Cài đặt bảo mật',
   select_user_gender: 'Chọn giới tính của người dùng',
+  send_notification: 'Gửi thông báo',
 
   T: 't',
   total: 'Tổng',

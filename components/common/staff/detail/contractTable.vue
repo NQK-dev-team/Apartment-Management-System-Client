@@ -142,8 +142,8 @@ function filter() {
       customer_no: contract.householder.no,
       contract_id: contract.ID,
       startDate: convertToDate(contract.startDate),
-      endDate: contract.endDate.Valid ? convertToDate(contract.endDate.Time!) : '-',
-      signDate: contract.signDate.Valid ? convertToDate(contract.signDate.Time!) : '-',
+      endDate: contract.endDate.Valid ? convertToDate(contract.endDate.Time! as string) : '-',
+      signDate: contract.signDate.Valid ? convertToDate(contract.signDate.Time! as string) : '-',
       status: contract.status,
       action: contract.ID,
     }))
@@ -165,8 +165,8 @@ onMounted(() => {
     customer_no: contract.householder.no,
     contract_id: contract.ID,
     startDate: convertToDate(contract.startDate),
-    endDate: contract.endDate.Valid ? convertToDate(contract.endDate.Time!) : '-',
-    signDate: contract.signDate.Valid ? convertToDate(contract.signDate.Time!) : '-',
+    endDate: contract.endDate.Valid ? convertToDate(contract.endDate.Time! as string) : '-',
+    signDate: contract.signDate.Valid ? convertToDate(contract.signDate.Time! as string) : '-',
     status: contract.status,
     action: contract.ID,
   }));

@@ -7,7 +7,10 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config: RuntimeConfig = useRuntimeConfig();
   const isDevMode = config.public.isDevMode as boolean;
 
-  const baseURL = `${config.public.isHttps ? 'https' : 'http'}://${config.public.host}${config.public.port ? `:${config.public.port}` : ''}/api`;
+  // const baseURL = `${config.public.isHttps ? 'https' : 'http'}://${config.public.host}${config.public.port ? `:${config.public.port}` : ''}/api`;
+
+  const url = useRequestURL();
+  const baseURL = `${url.protocol}//${url.host}/api`;
 
   const api = $fetch.create({
     baseURL,

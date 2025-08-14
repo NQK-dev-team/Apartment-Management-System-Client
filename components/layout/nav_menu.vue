@@ -3,7 +3,7 @@
     class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-xl menu_transition overflow-auto hideBrowserScrollbar"
     :class="[
       lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white',
-      !collapse ? 'w-[250px] min-w-[250px]' : 'w-[75px] min-w-[75px]',
+      !collapse ? 'w-[250px]' : 'w-[75px]',
     ]"
   >
     <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
@@ -49,7 +49,7 @@
         />
         <LayoutNavItem
           v-if="props.role === roles.owner"
-          :href="pageRoutes.common.report.page"
+          :href="pageRoutes.common.report.index"
           :icon="Report"
           :label="$t('statistic')"
           :collapse="collapse"
@@ -110,10 +110,10 @@ const lightMode = computed(
 
 <style lang="css" scoped>
 .menu_transition{
-  transition: width 0.25s ease-out;
+  transition: width 0.25s ease-in-out;
 }
 
 .collapse_button_transform{
-  transition: left 0.25s ease-out;
+  transition: left 0.25s ease-in-out;
 }
 </style>

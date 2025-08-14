@@ -4,8 +4,18 @@
     :to="props.href"
     :class="[
       lightMode ? 'light_nav' : 'dark_nav',
-      currentRoute.path.includes(props.href) ? (lightMode ? 'light_selected' : 'dark_selected') : '',
-      currentRoute.path.includes(props.href) && lightMode && !props.collapse ? 'light_selected_border' : '',
+      (props.href !== '/' && currentRoute.path.includes(props.href)) ||
+      (props.href === '/' && currentRoute.path === '/')
+        ? lightMode
+          ? 'light_selected'
+          : 'dark_selected'
+        : '',
+      ((props.href !== '/' && currentRoute.path.includes(props.href)) ||
+        (props.href === '/' && currentRoute.path === '/')) &&
+      lightMode &&
+      !props.collapse
+        ? 'light_selected_border'
+        : '',
       props.collapse ? 'justify-center px-5' : 'justify-start ps-5',
       !props.isChild ? 'my-1' : props.collapse ? 'my-1' : 'my-0',
       !props.collapse || !props.hideWhenCollapse ? 'flex' : 'hidden',

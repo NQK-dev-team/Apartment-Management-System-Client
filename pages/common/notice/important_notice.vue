@@ -320,6 +320,7 @@ const previewVisible = ref(false);
 const previewImage = ref('');
 const previewTitle = ref('');
 const websocketConnection = ref<WebSocket | null>(null);
+const userID = useCookie('userID');
 
 // ---------------------- Functions ----------------------
 async function getInboxList(emitLoading = true) {
@@ -524,9 +525,9 @@ onMounted(() => {
   websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
 
   websocketConnection.value.onmessage = (event) => {
-    const data: { type: number } = JSON.parse(event.data);
+    const data: { type: number; users: number[] } = JSON.parse(event.data);
 
-    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_IMPORTANT) {
+    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_IMPORTANT && data.users.includes(Number(userID?.value || 0))) {
       if (offset.value === 0) {
         getInboxList(false);
       } else {

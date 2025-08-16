@@ -146,6 +146,7 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const websocketConnection = ref<WebSocket | null>(null);
+const userID = useCookie('userID');
 
 // ---------------------- Functions ----------------------
 function openImportModal() {
@@ -217,9 +218,9 @@ onMounted(() => {
   websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
 
   websocketConnection.value.onmessage = (event) => {
-    const data: { type: number } = JSON.parse(event.data);
+    const data: { type: number; users: number[] } = JSON.parse(event.data);
 
-    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_INBOX) {
+    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_INBOX && data.users.includes(Number(userID?.value || 0))) {
       /* to be developed */
     }
   };

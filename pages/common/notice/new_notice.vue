@@ -200,7 +200,7 @@ async function getEmployeeList(emitLoading = true) {
       $event.emit('loading');
     }
 
-    const response = await api.common.staff.getList(true);
+    const response = await api.common.staff.getList();
     staffList.value = response.data;
   } catch (err: any) {
     if (
@@ -226,7 +226,7 @@ async function getCustomerList(emitLoading = true) {
       $event.emit('loading');
     }
 
-    const response = await api.common.customer.getList(customerListAPILimit.value, customerListAPIOffset.value, true);
+    const response = await api.common.customer.getList(customerListAPILimit.value, customerListAPIOffset.value);
 
     if (customerListAPIOffset.value === 0) {
       customerList.value = response.data;

@@ -44,10 +44,10 @@
                 ]"
               >
                 <div class="flex items-center justify-between pe-3">
-                  <div class="text-lg font-semibold select-none">
+                  <div class="text-lg font-semibold select-none text-ellipsis overflow-hidden whitespace-nowrap">
                     {{ notification.title }}
                   </div>
-                  <div class="flex items-center">
+                  <div class="flex items-center ms-5">
                     <StarFilled
                       v-if="notification.isMarked === COMMON.NOTIFICATION.MARKED"
                       class="text-2xl w-[20px] h-[25px] text-yellow-500"
@@ -79,10 +79,10 @@
                 ]"
               >
                 <div class="flex items-center justify-between pe-3">
-                  <div class="text-lg font-semibold select-none">
+                  <div class="text-lg font-semibold select-none text-ellipsis overflow-hidden whitespace-nowrap">
                     {{ notification.title }}
                   </div>
-                  <div class="flex items-center">
+                  <div class="flex items-center ms-5">
                     <StarFilled
                       v-if="notification.isMarked === COMMON.NOTIFICATION.MARKED"
                       class="text-2xl w-[20px] h-[25px] text-yellow-500"

@@ -148,13 +148,13 @@ import { Upload, type UploadFile } from 'ant-design-vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
-  name: 'New notice',
+  name: 'New Notice',
   layout: 'main',
   middleware: ['authorization-manager'],
 });
 
 useHead({
-  title: 'New notice',
+  title: 'New Notice',
   meta: [
     {
       name: 'description',

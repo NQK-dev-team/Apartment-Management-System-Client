@@ -215,6 +215,14 @@ onMounted(() => {
   }
 
   websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
+
+  websocketConnection.value.onmessage = (event) => {
+    const data: { type: number } = JSON.parse(event.data);
+
+    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_INBOX) {
+      /* to be developed */
+    }
+  };
 });
 
 onUnmounted(() => {

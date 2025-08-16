@@ -7,6 +7,7 @@ import type { EditStaff, ManagerSchedule, NewCustomer, User } from '~/types/user
 import type { Dayjs } from 'dayjs';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
+import type { Notification } from '~/types/notification';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -428,7 +429,45 @@ const common = {
       });
     },
   },
-  notice: {},
+  notice: {
+    add: async (data: FormData): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.add, {
+        method: 'POST',
+        body: data,
+      });
+    },
+    getInbox: async (limit: number = 500, offset: number = 0): Promise<APIResponse<Notification[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.inbox(limit, offset), {
+        method: 'GET',
+      });
+    },
+    readNotification: async (notificationId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.readNotification(notificationId), {
+        method: 'PATCH',
+      });
+    },
+    unreadNotification: async (notificationId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.unreadNotification(notificationId), {
+        method: 'PATCH',
+      });
+    },
+    markNotification: async (notificationId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.markNotification(notificationId), {
+        method: 'PATCH',
+      });
+    },
+    unmarkNotification: async (notificationId: number): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.unmarkNotification(notificationId), {
+        method: 'PATCH',
+      });
+    },
+  },
   contract: {
     getList: async (limit: number = 500, offset: number = 0): Promise<APIResponse<Contract[]>> => {
       const $api = getApiInstance();

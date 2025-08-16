@@ -32,4 +32,20 @@ function convertToDateTime(date: string): string {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
-export { formatPrice, convertToDate, convertToDateTime, convertToMonthYear };
+function convertToDateTime2(date: string, locale: string): string {
+  // Similar to convertToDateTime but month will be displayed as word
+  const d = new Date(date);
+  const hour = String(d.getHours()).padStart(2, '0');
+  const minute = String(d.getMinutes()).padStart(2, '0');
+  const second = String(d.getSeconds()).padStart(2, '0');
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  return `${d.toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', options)} ${hour}:${minute}:${second}`;
+}
+
+export { formatPrice, convertToDate, convertToDateTime, convertToMonthYear, convertToDateTime2 };

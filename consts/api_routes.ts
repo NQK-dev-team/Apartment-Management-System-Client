@@ -82,7 +82,14 @@ const apiRoutes = {
     update: (ticketId: number) => `/support-ticket/${ticketId}/update`,
     add: '/support-ticket/add',
   },
-  notice: {},
+  notice: {
+    add: `/notification/add`,
+    inbox: (limit: number = 500, offset: number = 0) => `/notification/inbox?limit=${limit}&offset=${offset}`,
+    readNotification: (notificationId: number) => `/notification/${notificationId}/read`,
+    unreadNotification: (notificationId: number) => `/notification/${notificationId}/unread`,
+    markNotification: (notificationId: number) => `/notification/${notificationId}/mark`,
+    unmarkNotification: (notificationId: number) => `/notification/${notificationId}/unmark`,
+  },
   contract: {
     list: (limit: number = 500, offset: number = 0) => `/contract?limit=${limit}&offset=${offset}`,
     detail: (contractId: number) => `/contract/${contractId}`,

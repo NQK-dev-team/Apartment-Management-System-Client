@@ -24,6 +24,26 @@
             <CommonNoticeQuill id="content" v-model:content="notificationData.content" />
           </ClientOnly>
         </div>
+        <div class="mt-5">
+          <div class="flex mb-1 text-xl font-bold">
+            {{ $t('attached_file') }}
+          </div>
+          <div class="inline-block">
+            <a-upload
+              id="files"
+              v-model:file-list="notificationData.files"
+              class="mt-2"
+              :accept="COMMON.ALLOW_FILE_EXTENSIONS.join(',')"
+              multiple
+              :before-upload="beforeUploadFile"
+            >
+              <a-button class="flex items-center">
+                <upload-outlined></upload-outlined>
+                {{ $t('upload_file') }}
+              </a-button>
+            </a-upload>
+          </div>
+        </div>
         <div class="flex items-center mt-5">
           <h2 class="me-3 text-xl font-bold">{{ $t('reciever') }}:</h2>
           <p
@@ -37,7 +57,7 @@
             @click="
               () => {
                 option = 1;
-                notificationData.recievers = [];
+                notificationData.receivers = [];
               }
             "
           >
@@ -53,7 +73,7 @@
             @click="
               () => {
                 option = 2;
-                notificationData.recievers = [];
+                notificationData.receivers = [];
               }
             "
           >
@@ -71,62 +91,32 @@
               <h2 class="text-xl font-bold">
                 {{ $t('employee_list') }}
               </h2>
-              <a-checkbox
-                class="ms-5"
-                :checked="
-                  !!notificationData.recievers.length &&
-                  notificationData.recievers.length === staffList.length &&
-                  notificationData.recievers.every((receiver) => !!staffList.find((item) => item.ID === receiver))
-                "
-                @change="
-                  (e) => {
-                    if (e.target.checked) {
-                      notificationData.recievers = staffList.map((item) => item.ID);
-                    } else {
-                      notificationData.recievers = [];
-                    }
-                  }
-                "
-                >{{ $t('choose_all_employee') }}</a-checkbox
-              >
+              <a-checkbox v-model:checked="chooseAllStaff" class="ms-5">{{ $t('choose_all_employee') }}</a-checkbox>
             </div>
-            <div v-show="option === 2" class="items-center" style="display: flex">
-              <h2 class="text-xl font-bold">{{ $t('customer_list') }}</h2>
-              <a-checkbox
-                class="ms-5"
-                :checked="
-                  !!notificationData.recievers.length &&
-                  notificationData.recievers.length === customerList.length &&
-                  notificationData.recievers.every((receiver) => !!customerList.find((item) => item.ID === receiver))
-                "
-                @change="
-                  (e) => {
-                    if (e.target.checked) {
-                      notificationData.recievers = customerList.map((item) => item.ID);
-                    } else {
-                      notificationData.recievers = [];
-                    }
-                  }
-                "
-                >{{ $t('choose_all_customer') }}</a-checkbox
-              >
+            <div v-show="option === 2" class="items-center justify-between" style="display: flex">
+              <div class="flex items-center">
+                <h2 class="text-xl font-bold">{{ $t('customer_list') }}</h2>
+                <a-checkbox v-model:checked="chooseAllCustomer" class="ms-5">{{
+                  $t('choose_all_customer')
+                }}</a-checkbox>
+              </div>
+              <div v-show="showLoadingIcon" class="items-center" style="display: flex">
+                <a-spin :indicator="indicator" :class="[lightMode ? 'text-[#737373]' : 'text-black']" />
+                <p class="ms-2" :class="[lightMode ? 'text-[#737373]' : 'text-black']">{{ $t('loading_data') }}</p>
+              </div>
             </div>
           </ClientOnly>
         </div>
-        <div class="mt-5">
-          <CommonNoticeEmployeeTable
-            v-if="userRole?.toString() === roles.owner && option === 1"
-            :staff-list="staffList"
-            :notification-data="notificationData"
-            :building-list="buildingList"
-          />
-          <CommonNoticeCustomerTable
-            v-if="option === 2"
-            :customer-list="customerList"
-            :notification-data="notificationData"
-            :building-list="buildingList"
-          />
-        </div>
+        <CommonNoticeEmployeeTable
+          v-if="userRole?.toString() === roles.owner && option === 1"
+          :staff-list="staffList"
+          :notification-data="notificationData"
+        />
+        <CommonNoticeCustomerTable
+          v-if="option === 2"
+          :customer-list="customerList"
+          :notification-data="notificationData"
+        />
         <div class="flex flex-col items-center my-5">
           <a-button
             class="my-2 rounded-sm"
@@ -134,7 +124,7 @@
             :disabled="
               notificationData.title === '' ||
               notificationData.content === '' ||
-              notificationData.recievers.length === 0
+              notificationData.receivers.length === 0
             "
             @click="sendNotification"
           >
@@ -152,8 +142,9 @@ import { COMMON } from '~/consts/common';
 import { roles } from '~/consts/roles';
 import { svgPaths } from '~/consts/svg_paths';
 import { api } from '~/services/api';
-import type { Building } from '~/types/building';
 import type { User } from '~/types/user';
+import { LoadingOutlined } from '@ant-design/icons-vue';
+import { Upload, type UploadFile } from 'ant-design-vue';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -180,7 +171,7 @@ const lightMode = computed(
 const { t } = useI18n();
 const { $event } = useNuxtApp();
 const userRole = useCookie('userRole');
-const option = ref<number>(1);
+const option = ref<number>(userRole.value?.toString() === roles.owner ? 1 : 2);
 const customerListAPIOffset = ref<number>(0);
 const customerListAPILimit = ref<number>(500);
 const staffList = ref<User[]>([]);
@@ -188,9 +179,19 @@ const customerList = ref<User[]>([]);
 const notificationData = ref({
   title: '',
   content: '',
-  recievers: [] as number[],
+  receivers: [] as number[],
+  files: [] as UploadFile[],
 });
-const buildingList = ref<Building[]>([]);
+const chooseAllStaff = ref(false);
+const chooseAllCustomer = ref(false);
+const indicator = h(LoadingOutlined, {
+  style: {
+    fontSize: '24px',
+    'z-index': 20010,
+  },
+  spin: true,
+});
+const showLoadingIcon = ref(true);
 
 // ---------------------- Functions ----------------------
 async function getEmployeeList(emitLoading = true) {
@@ -199,7 +200,7 @@ async function getEmployeeList(emitLoading = true) {
       $event.emit('loading');
     }
 
-    const response = await api.common.staff.getList();
+    const response = await api.common.staff.getList(true);
     staffList.value = response.data;
   } catch (err: any) {
     if (
@@ -225,7 +226,7 @@ async function getCustomerList(emitLoading = true) {
       $event.emit('loading');
     }
 
-    const response = await api.common.customer.getList(customerListAPILimit.value, customerListAPIOffset.value);
+    const response = await api.common.customer.getList(customerListAPILimit.value, customerListAPIOffset.value, true);
 
     if (customerListAPIOffset.value === 0) {
       customerList.value = response.data;
@@ -236,31 +237,10 @@ async function getCustomerList(emitLoading = true) {
     if (response.data.length === customerListAPILimit.value) {
       customerListAPIOffset.value += customerListAPILimit.value;
     }
-  } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
-      notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
-      });
-    }
-  } finally {
-    if (emitLoading) {
-      $event.emit('loading');
-    }
-  }
-}
 
-async function getBuildingList(emitLoading = true) {
-  try {
-    if (emitLoading) {
-      $event.emit('loading');
+    if (response.data.length === 0) {
+      showLoadingIcon.value = false;
     }
-    const response = await api.common.building.getList();
-    buildingList.value = response.data;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -283,8 +263,6 @@ async function sendNotification() {
   try {
     $event.emit('loading');
 
-    console.log(notificationData.value);
-
     if (notificationData.value.title === '') {
       notification.error({
         message: t('notification_send_fail'),
@@ -293,7 +271,11 @@ async function sendNotification() {
       return;
     }
 
-    if (notificationData.value.content === '') {
+    if (
+      notificationData.value.content === '' ||
+      notificationData.value.content === '<p></p>' ||
+      notificationData.value.content === '<p><br></p>'
+    ) {
       notification.error({
         message: t('notification_send_fail'),
         description: t('notification_content_required'),
@@ -301,13 +283,26 @@ async function sendNotification() {
       return;
     }
 
-    if (notificationData.value.recievers.length === 0) {
+    if (notificationData.value.receivers.length === 0) {
       notification.error({
         message: t('notification_send_fail'),
         description: t('notification_receiver_required'),
       });
       return;
     }
+
+    const data = new FormData();
+    data.append('title', notificationData.value.title);
+    data.append('content', sanitizeString(notificationData.value.content));
+    // notificationData.value.receivers.forEach((receiver) => {
+    //   data.append('receivers[]', receiver.toString());
+    // });
+    data.append('receiverStr', notificationData.value.receivers.join(','));
+    notificationData.value.files.forEach((file) => {
+      data.append('files[]', file.originFileObj as File);
+    });
+
+    await api.common.notice.add(data);
 
     notification.success({
       message: t('success'),
@@ -316,9 +311,12 @@ async function sendNotification() {
 
     notificationData.value = {
       title: '',
-      content: '',
-      recievers: [],
+      content: '<p></p>',
+      receivers: [],
+      files: [],
     };
+    chooseAllCustomer.value = false;
+    chooseAllStaff.value = false;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -335,14 +333,39 @@ async function sendNotification() {
   }
 }
 
+function beforeUploadFile(file: any): boolean | string {
+  let type = file.type || '';
+  if (type) {
+    type = type.split('/')[1] || '';
+  } else {
+    type = file.name.split('.').pop() || '';
+  }
+
+  if (!COMMON.ALLOW_FILE_EXTENSIONS.includes(`.${type}`) && !COMMON.ALLOW_FILE_EXTENSIONS_ADVANCE.includes(type)) {
+    notification.error({
+      message: t('invalid_file_title'),
+      description: t('invalid_file_type', { types: COMMON.ALLOW_FILE_EXTENSIONS.join(', ') }),
+    });
+    return Upload.LIST_IGNORE;
+  }
+
+  if (file.size >= COMMON.FILE_SIZE_LIMIT) {
+    notification.error({
+      message: t('invalid_file_title'),
+      description: t('invalid_file_size', { size: COMMON.FILE_SIZE_LIMIT_STR }),
+    });
+    return Upload.LIST_IGNORE;
+  }
+  return true;
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
   $event.emit('loading');
   if (userRole.value?.toString() === roles.owner) {
-    getEmployeeList(false);
+    await getEmployeeList(false);
   }
-  getCustomerList(false);
-  getBuildingList(false);
+  await getCustomerList(false);
   $event.emit('loading');
 });
 
@@ -350,4 +373,29 @@ onMounted(async () => {
 watch(customerListAPIOffset, () => {
   getCustomerList(false);
 });
+
+watch(chooseAllStaff, () => {
+  if (chooseAllStaff.value) {
+    notificationData.value.receivers = staffList.value.map((item) => item.ID);
+  } else {
+    notificationData.value.receivers = [];
+  }
+});
+
+watch(chooseAllCustomer, () => {
+  if (chooseAllCustomer.value) {
+    notificationData.value.receivers = customerList.value.map((item) => item.ID);
+  } else {
+    notificationData.value.receivers = [];
+  }
+});
+
+watch(
+  () => customerList.value.length,
+  () => {
+    if (chooseAllCustomer.value) {
+      notificationData.value.receivers = customerList.value.map((item) => item.ID);
+    }
+  }
+);
 </script>

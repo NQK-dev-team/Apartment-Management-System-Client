@@ -48,6 +48,7 @@ export default {
   add_bill_success_title: 'New billing has been added successfully',
   add_bill_success_note:
     'You can access the newly created billing detail page by clicking the "New billing detail" button, or go back to the billing list page by clicking the "Back" button below',
+  attached_file: 'Attached file',
 
   B: 'b',
   balance: 'Balance',
@@ -271,6 +272,7 @@ export default {
   file_link: 'File link',
   file_require: 'Please choose a file!',
   file_title_require: 'Please enter file title!',
+  file: 'File',
 
   G: 'g',
   gender: 'Gender',
@@ -302,6 +304,7 @@ export default {
   invalid_file_title: 'File invalid',
   invalid_image_size: 'Image size must be less than {size}.',
   invalid_file_size: 'File size must be less than {size}.',
+  invalid_file_type: 'Invalid file type! Please upload a file with one of the following extensions: {types}',
 
   J: 'j',
 
@@ -311,6 +314,7 @@ export default {
   log_out: 'Log out',
   log_in: 'Log in',
   last_name: 'Last name',
+  loading_data: 'Loading data...',
 
   M: 'm',
   managerName: "Manager's Name",
@@ -321,11 +325,15 @@ export default {
   manager_decision: 'Manager decision',
   male: 'Male',
   month: 'Month',
+  mark_as_read: 'Mark as read',
+  mark_as_unread: 'Mark as unread',
+  mark_as_important: 'Mark as important',
+  mark_as_unimportant: 'Unmark as important',
 
   N: 'n',
   notice: 'Notice',
   new_notice: 'New notification',
-  notice_inbox: 'Received',
+  notice_inbox: 'Inbox',
   notice_starred: 'Starred',
   notice_sent: 'Sent',
   new_password: 'New password',
@@ -358,6 +366,7 @@ export default {
   notification_content_required: 'Notification content cannot be empty!',
   notification_receiver_required: 'Please select at least one receiver for the notification!',
   notification_sent: 'Notification has been sent successfully!',
+  notice_important: 'Important',
 
   O: 'o',
   operation: 'Operation',
@@ -522,6 +531,7 @@ export default {
   security_setting: 'Security setting',
   select_user_gender: 'Select user gender',
   send_notification: 'Send notification',
+  send_time: 'Send time',
 
   T: 't',
   total: 'Total',

@@ -3,9 +3,9 @@
     :columns="columns"
     :data-source="data"
     :row-selection="{
-      selectedRowKeys: notificationData.recievers,
+      selectedRowKeys: notificationData.receivers,
       onChange: (selectedRowKeys: any) => {
-        notificationData.recievers = selectedRowKeys;
+        notificationData.receivers = selectedRowKeys;
       },
     }"
     class="mt-3"
@@ -14,18 +14,18 @@
     <template #bodyCell="{ value, column }">
       <template v-if="column.key === 'action'">
         <NuxtLink
-          :to="pageRoutes.common.customer.detail(value)"
+          :to="pageRoutes.common.staff.detail(value)"
           class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
           target="_blank"
         >
           {{ $t('detail') }}
         </NuxtLink>
       </template>
-      <template v-if="column.key === 'gender'">
-        {{ $t(getUserGender(undefined, value)) }}
-      </template>
       <template v-if="column.key === 'old_ssn'">
         {{ value || '-' }}
+      </template>
+      <template v-if="column.key === 'gender'">
+        {{ $t(getUserGender(undefined, value)) }}
       </template>
     </template>
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
@@ -63,7 +63,7 @@
       <SearchOutlined
         v-if="
           column.dataIndex === 'name' ||
-          column.dataIndex === 'customerNumber' ||
+          column.dataIndex === 'employeeNumber' ||
           column.dataIndex === 'ssn' ||
           column.dataIndex === 'old_ssn' ||
           column.dataIndex === 'phone' ||
@@ -79,12 +79,11 @@
 <script lang="ts" setup>
 import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
-import type { Building } from '~/types/building';
 import type { User } from '~/types/user';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({
-  customerList: {
+  staffList: {
     type: Array as PropType<User[]>,
     required: true,
   },
@@ -92,18 +91,13 @@ const props = defineProps({
     type: Object as PropType<{
       title: string;
       content: string;
-      recievers: number[];
+      receivers: number[];
     }>,
     required: true,
   },
-  buildingList: {
-    type: Array as PropType<Building[]>,
-    required: true,
-  },
 });
-const customerList = toRef(props, 'customerList');
+const staffList = toRef(props, 'staffList');
 const notificationData = toRef(props, 'notificationData');
-const buildingList = toRef(props, 'buildingList');
 const { t } = useI18n();
 const state = reactive({
   searchText: '',
@@ -138,14 +132,14 @@ const columns = computed<any>(() => [
     },
   },
   {
-    title: t('customer_no'),
-    dataIndex: 'customerNumber',
-    key: 'customerNumber',
+    title: t('employee_number'),
+    dataIndex: 'employeeNumber',
+    key: 'employeeNumber',
     class: 'text-nowrap',
     customFilterDropdown: true,
     onFilter: (value: string, record: any) => {
       const values = value.split(',');
-      return values.some((val) => record.customerNumber.toString().toLowerCase().includes(val.trim().toLowerCase()));
+      return values.some((val) => record.employeeNumber.toString().toLowerCase().includes(val.trim().toLowerCase()));
     },
     onFilterDropdownOpenChange: (visible: boolean) => {
       if (visible) {
@@ -265,7 +259,7 @@ const data = computed<
   {
     no: number;
     name: string;
-    customerNumber: string;
+    employeeNumber: string;
     gender: number;
     dob: string;
     ssn: string;
@@ -276,18 +270,18 @@ const data = computed<
     action: number;
   }[]
 >(() =>
-  customerList.value.map((customer, index) => ({
+  staffList.value.map((staff, index) => ({
     no: index + 1,
-    name: getUserName(customer),
-    customerNumber: customer.no,
-    gender: customer.gender,
-    dob: convertToDate(customer.dob),
-    ssn: customer.ssn,
-    old_ssn: customer.oldSSN.String || '',
-    phone: customer.phone,
-    email: customer.email,
-    key: customer.ID,
-    action: customer.ID,
+    name: getUserName(staff),
+    employeeNumber: staff.no,
+    gender: staff.gender,
+    dob: convertToDate(staff.dob),
+    ssn: staff.ssn,
+    old_ssn: staff.oldSSN.String || '',
+    phone: staff.phone,
+    email: staff.email,
+    key: staff.ID,
+    action: staff.ID,
   }))
 );
 

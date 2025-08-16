@@ -50,9 +50,20 @@ const COMMON = {
     PROCESSING: 4,
     CANCELLED: 5,
   },
+  NOTIFICATION: {
+    READ: 1,
+    UNREAD: 0,
+    MARKED: 1,
+    UNMARKED: 0,
+  },
+  WEBSOCKET_SIGNAL_TYPE: {
+    NEW_INBOX: 1,
+    NEW_IMPORTANT: 2,
+  },
   HTTP_STATUS,
   ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],
   ALLOW_FILE_EXTENSIONS: ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
+  ALLOW_FILE_EXTENSIONS_ADVANCE: ['vnd.openxmlformats-officedocument.wordprocessingml.document', 'msword'],
   IMAGE_SIZE_LIMIT: 2 * 1024 * 1024, // 2MB
   IMAGE_SIZE_LIMIT_STR: '2MB',
   FILE_SIZE_LIMIT: 10 * 1024 * 1024, // 10MB

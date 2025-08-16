@@ -168,6 +168,16 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.notice.sent,
     file: noticeBaseRoute + 'sentNotice.vue',
   },
+  {
+    name: 'Inbox',
+    path: pageRoutes.common.notice.inbox,
+    file: noticeBaseRoute + 'inbox_notice.vue',
+  },
+  {
+    name: 'Important',
+    path: pageRoutes.common.notice.important,
+    file: noticeBaseRoute + 'important_notice.vue',
+  },
   // Report
   {
     name: 'Report',

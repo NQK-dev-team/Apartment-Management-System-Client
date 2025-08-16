@@ -48,6 +48,7 @@ export default {
   add_bill_success_title: 'Hóa đơn mới đã được thêm thành công',
   add_bill_success_note:
     'Bạn có thể truy cập vào trang thông tin hóa đơn mới tạo bằng nút "Chi tiết hóa đơn mới", hoặc quay lại trang danh sách hóa đơn bằng nút "Quay lại" ở dưới',
+  attached_file: 'Tệp đính kèm',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -274,6 +275,7 @@ export default {
   file_link: 'Liên kết tệp tin',
   file_require: 'Vui lòng chọn tệp tin!',
   file_title_require: 'Vui lòng nhập tiêu đề tệp tin!',
+  file: 'Tệp tin',
 
   G: 'g',
   gender: 'Giới tính',
@@ -303,6 +305,7 @@ export default {
   invalid_file_title: 'Tệp tin không hợp lệ',
   invalid_image_size: 'Kích thước hình ảnh không hợp lệ! Vui lòng chọn hình ảnh có kích thước nhỏ hơn {size}',
   invalid_file_size: 'Kích thước tệp tin không hợp lệ! Vui lòng chọn tệp tin có kích thước nhỏ hơn {size}',
+  invalid_file_type: 'Tệp tin không hợp lệ! Vui lòng chọn tệp tin có các định dạng {types}',
 
   J: 'j',
 
@@ -312,6 +315,7 @@ export default {
   log_out: 'Đăng xuất',
   log_in: 'Đăng nhập',
   last_name: 'Họ',
+  loading_data: 'Đang tải dữ liệu...',
 
   M: 'm',
   managerName: 'Tên quản lý',
@@ -322,6 +326,10 @@ export default {
   manager_decision: 'Quyết định của quản lý',
   male: 'Nam',
   month: 'Tháng',
+  mark_as_read: 'Đánh dấu đã đọc',
+  mark_as_unread: 'Đánh dấu chưa đọc',
+  mark_as_important: 'Đánh dấu quan trọng',
+  mark_as_unimportant: 'Đánh dấu không quan trọng',
 
   N: 'n',
   notice: 'Thông báo',
@@ -359,6 +367,7 @@ export default {
   notification_content_required: 'Nội dung thông báo không được để trống!',
   notification_receiver_required: 'Vui lòng chọn người nhận thông báo!',
   notification_sent: 'Thông báo đã được gửi thành công!',
+  notice_important: 'Quan trọng',
 
   O: 'o',
   operation: 'Thao tác',
@@ -523,6 +532,7 @@ export default {
   security_setting: 'Cài đặt bảo mật',
   select_user_gender: 'Chọn giới tính của người dùng',
   send_notification: 'Gửi thông báo',
+  send_time: 'Thời gian gửi',
 
   T: 't',
   total: 'Tổng',

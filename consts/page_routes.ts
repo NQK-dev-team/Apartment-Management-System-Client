@@ -51,7 +51,7 @@ const pageRoutes = {
       sent: '/notice/sent',
       new: '/notice/new',
       inbox: '/notice/inbox',
-      starred: '/notice/starred',
+      important: '/notice/important',
     },
     contract: {
       list: '/contract',

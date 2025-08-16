@@ -1,6 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 
-function sanitizeContent(content: string): string {
+function sanitizeString(content: string): string {
   const sanitizeOptions = {
     allowedTags: [
       'address',
@@ -280,7 +280,7 @@ function sanitizeContent(content: string): string {
     // URL schemes we permit
     allowedSchemes: ['http', 'https', 'ftp', 'mailto', 'tel'],
     allowedSchemesByTag: {},
-    allowedSchemesAppliedToAttributes: ['href', 'src', 'cite'],
+    allowedSchemesAppliedToAttributes: [], //['href', 'src', 'cite'],
     allowProtocolRelative: true,
     enforceHtmlBoundary: false,
     parseStyleAttributes: true,
@@ -289,4 +289,4 @@ function sanitizeContent(content: string): string {
   return sanitizeHtml(content, sanitizeOptions);
 }
 
-export { sanitizeContent };
+export { sanitizeString };

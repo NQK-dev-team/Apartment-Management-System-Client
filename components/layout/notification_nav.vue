@@ -39,10 +39,10 @@
         />
         <LayoutNavItem
           v-if="props.role !== roles.owner"
-          :label="$t('notice_starred')"
+          :label="$t('notice_important')"
           :icon="Star"
           :collapse="props.collapse"
-          :href="pageRoutes.common.notice.starred"
+          :href="pageRoutes.common.notice.important"
           :is-child="true"
           :item-level="1"
         />

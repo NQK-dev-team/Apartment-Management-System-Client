@@ -319,6 +319,7 @@ const previewImage = ref('');
 const previewTitle = ref('');
 const websocketConnection = ref<WebSocket | null>(null);
 const userID = useCookie('userID');
+const isNotificationDetailFoundInList = ref(false);
 
 // ---------------------- Functions ----------------------
 async function getInboxList(emitLoading = true) {
@@ -336,6 +337,16 @@ async function getInboxList(emitLoading = true) {
     }
 
     filteredInboxList.value = inboxList.value;
+
+    if (response.data.length && notificationDetail.value) {
+      if (response.data.find((elem) => notificationDetail.value && elem.ID === notificationDetail.value.ID)) {
+        isNotificationDetailFoundInList.value = true;
+      }
+    }
+
+    if (notificationDetail.value && !isNotificationDetailFoundInList.value) {
+      notificationDetail.value = null;
+    }
 
     if (response.data.length === inboxList.value.length) {
       offset.value += limit.value;
@@ -526,6 +537,7 @@ onMounted(() => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);
 
     if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_INBOX && data.users.includes(Number(userID?.value || 0))) {
+      isNotificationDetailFoundInList.value = false;
       if (offset.value === 0) {
         getInboxList(false);
       } else {

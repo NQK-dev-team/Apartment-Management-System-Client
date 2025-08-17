@@ -155,6 +155,7 @@ export default {
   deny: 'Deny',
   date: 'Date',
   decision_time: 'Decision time',
+  dashboard: 'Dashboard',
 
   E: 'e',
   edit: 'Edit',

@@ -17,7 +17,7 @@
       ]"
       :title="$t('building')"
     >
-      <component :is="House" :class="[props.collapse ? 'text-2xl' : 'text-xl']" />
+      <component :is="BuildingSVG" :class="[props.collapse ? 'text-2xl' : 'text-xl']" />
       <span v-show="!props.collapse" class="flex-1 text-sm truncate ms-3">
         {{ $t('building') }}
       </span>
@@ -48,7 +48,7 @@
 import DownArrow from '~/public/svg/down_arrow.svg';
 import UpArrow from '~/public/svg/up_arrow.svg';
 import { pageRoutes } from '~/consts/page_routes';
-import House from '~/public/svg/house.svg';
+import BuildingSVG from '~/public/svg/building.svg';
 import { api } from '~/services/api';
 import { getMessageCode } from '~/consts/api_response';
 import type { Building } from '~/types/building';

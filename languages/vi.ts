@@ -155,6 +155,7 @@ export default {
   deny: 'Từ chối',
   date: 'Ngày',
   decision_time: 'Thời gian quyết định',
+  dashboard: 'Trang chủ',
 
   E: 'e',
   edit: 'Chỉnh sửa',

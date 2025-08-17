@@ -1,10 +1,7 @@
 <template>
   <div
     class="relative h-full flex flex-col py-2 border-r-[1px] border-solid border-[#0505050f] shadow-xl menu_transition overflow-auto hideBrowserScrollbar"
-    :class="[
-      lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white',
-      !collapse ? 'w-[250px]' : 'w-[75px]',
-    ]"
+    :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white', !collapse ? 'w-[250px]' : 'w-[75px]']"
   >
     <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
       <DoubleLeftOutlined
@@ -19,6 +16,13 @@
       />
     </div>
     <div class="flex flex-col w-full flex-1">
+      <LayoutNavItem
+        v-if="props.role === roles.owner"
+        :href="pageRoutes.common.report.index"
+        :icon="House"
+        :label="$t('dashboard')"
+        :collapse="collapse"
+      />
       <template v-if="props.role !== roles.customer">
         <LayoutBuildingNav :collapse="collapse" />
         <LayoutNavItem
@@ -47,16 +51,9 @@
           :label="$t('support_ticket')"
           :collapse="collapse"
         />
-        <LayoutNavItem
-          v-if="props.role === roles.owner"
-          :href="pageRoutes.common.report.index"
-          :icon="Report"
-          :label="$t('statistic')"
-          :collapse="collapse"
-        />
       </template>
       <template v-if="props.role === roles.customer">
-        <LayoutNavItem :href="pageRoutes.common.room.list" :icon="House" :label="$t('room')" :collapse="collapse" />
+        <LayoutNavItem :href="pageRoutes.common.room.list" :icon="Room" :label="$t('room')" :collapse="collapse" />
         <LayoutNavItem
           :href="pageRoutes.common.contract.list"
           :icon="Contract"
@@ -84,7 +81,7 @@ import User from '~/public/svg/user.svg';
 import Contract from '~/public/svg/contract.svg';
 import Card from '~/public/svg/card.svg';
 import Edit from '~/public/svg/edit.svg';
-import Report from '~/public/svg/report.svg';
+import Room from '~/public/svg/room.svg';
 import House from '~/public/svg/house.svg';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';

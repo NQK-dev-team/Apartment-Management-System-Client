@@ -180,7 +180,7 @@ async function login() {
       roleCookie.value &&
       (roleCookie.value.toString() === roles.owner || roleCookie.value.toString() === roles.manager)
     ) {
-      targetRoute = pageRoutes.common.building.list;
+      targetRoute = pageRoutes.common.report.index;
     } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.customer) {
       targetRoute = pageRoutes.common.room.list;
     }

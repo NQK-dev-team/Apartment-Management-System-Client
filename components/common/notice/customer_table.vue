@@ -3,9 +3,9 @@
     :columns="columns"
     :data-source="data"
     :row-selection="{
-      selectedRowKeys: notificationData.receivers,
+      selectedRowKeys: notificationData.customerReceivers,
       onChange: (selectedRowKeys: any) => {
-        notificationData.receivers = selectedRowKeys;
+        notificationData.customerReceivers = selectedRowKeys;
       },
     }"
     class="mt-3"
@@ -91,7 +91,8 @@ const props = defineProps({
     type: Object as PropType<{
       title: string;
       content: string;
-      receivers: number[];
+      customerReceivers: number[];
+      staffReceivers: number[];
     }>,
     required: true,
   },

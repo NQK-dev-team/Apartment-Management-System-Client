@@ -57,7 +57,7 @@
             @click="
               () => {
                 option = 1;
-                notificationData.receivers = [];
+                // notificationData.receivers = [];
               }
             "
           >
@@ -73,7 +73,7 @@
             @click="
               () => {
                 option = 2;
-                notificationData.receivers = [];
+                // notificationData.receivers = [];
               }
             "
           >
@@ -124,7 +124,7 @@
             :disabled="
               notificationData.title === '' ||
               notificationData.content === '' ||
-              notificationData.receivers.length === 0
+              (notificationData.customerReceivers.length === 0 && notificationData.staffReceivers.length === 0)
             "
             @click="sendNotification"
           >
@@ -179,7 +179,8 @@ const customerList = ref<User[]>([]);
 const notificationData = ref({
   title: '',
   content: '',
-  receivers: [] as number[],
+  customerReceivers: [] as number[],
+  staffReceivers: [] as number[],
   files: [] as UploadFile[],
 });
 const chooseAllStaff = ref(false);
@@ -283,7 +284,7 @@ async function sendNotification() {
       return;
     }
 
-    if (notificationData.value.receivers.length === 0) {
+    if (notificationData.value.customerReceivers.length === 0 && notificationData.value.staffReceivers.length === 0) {
       notification.error({
         message: t('notification_send_fail'),
         description: t('notification_receiver_required'),
@@ -297,7 +298,10 @@ async function sendNotification() {
     // notificationData.value.receivers.forEach((receiver) => {
     //   data.append('receivers[]', receiver.toString());
     // });
-    data.append('receiverStr', notificationData.value.receivers.join(','));
+    data.append(
+      'receiverStr',
+      [...notificationData.value.customerReceivers, ...notificationData.value.staffReceivers].join(',')
+    );
     notificationData.value.files.forEach((file) => {
       data.append('files[]', file.originFileObj as File);
     });
@@ -312,7 +316,8 @@ async function sendNotification() {
     notificationData.value = {
       title: '',
       content: '<p></p>',
-      receivers: [],
+      customerReceivers: [],
+      staffReceivers: [],
       files: [],
     };
     chooseAllCustomer.value = false;
@@ -376,17 +381,17 @@ watch(customerListAPIOffset, () => {
 
 watch(chooseAllStaff, () => {
   if (chooseAllStaff.value) {
-    notificationData.value.receivers = staffList.value.map((item) => item.ID);
+    notificationData.value.staffReceivers = staffList.value.map((item) => item.ID);
   } else {
-    notificationData.value.receivers = [];
+    notificationData.value.staffReceivers = [];
   }
 });
 
 watch(chooseAllCustomer, () => {
   if (chooseAllCustomer.value) {
-    notificationData.value.receivers = customerList.value.map((item) => item.ID);
+    notificationData.value.customerReceivers = customerList.value.map((item) => item.ID);
   } else {
-    notificationData.value.receivers = [];
+    notificationData.value.customerReceivers = [];
   }
 });
 
@@ -394,7 +399,7 @@ watch(
   () => customerList.value.length,
   () => {
     if (chooseAllCustomer.value) {
-      notificationData.value.receivers = customerList.value.map((item) => item.ID);
+      notificationData.value.customerReceivers = customerList.value.map((item) => item.ID);
     }
   }
 );

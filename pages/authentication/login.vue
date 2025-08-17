@@ -175,12 +175,10 @@ async function login() {
     await api.authentication.login(formData.value.email, formData.value.password, formData.value.remember);
     const roleCookie = useCookie('userRole');
     let targetRoute = '';
-    if (
-      roleCookie &&
-      roleCookie.value &&
-      (roleCookie.value.toString() === roles.owner || roleCookie.value.toString() === roles.manager)
-    ) {
+    if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.owner) {
       targetRoute = pageRoutes.common.report.index;
+    } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.manager) {
+      targetRoute = pageRoutes.common.building.list;
     } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.customer) {
       targetRoute = pageRoutes.common.room.list;
     }

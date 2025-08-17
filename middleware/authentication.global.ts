@@ -146,8 +146,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (nonAuthRoutes.includes(to.path) && isJWTValid) {
     const role = jwt && jwt.value ? getRoleFromJWT(jwt.value) : '';
 
-    if (role === roles.owner || role === roles.manager) {
+    if (role === roles.owner) {
       return navigateTo(pageRoutes.common.report.index);
+    } else if (role === roles.manager) {
+      return navigateTo(pageRoutes.common.building.list);
     } else if (role === roles.customer) {
       return navigateTo(pageRoutes.common.room.list);
     }

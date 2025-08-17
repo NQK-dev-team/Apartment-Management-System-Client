@@ -19,7 +19,7 @@
       <LayoutNavItem
         v-if="props.role === roles.owner"
         :href="pageRoutes.common.report.index"
-        :icon="House"
+        :icon="Chart"
         :label="$t('dashboard')"
         :collapse="collapse"
       />
@@ -83,6 +83,7 @@ import Card from '~/public/svg/card.svg';
 import Edit from '~/public/svg/edit.svg';
 import Room from '~/public/svg/room.svg';
 import House from '~/public/svg/house.svg';
+import Chart from '~/public/svg/chart.svg';
 import { pageRoutes } from '~/consts/page_routes';
 import { roles } from '~/consts/roles';
 

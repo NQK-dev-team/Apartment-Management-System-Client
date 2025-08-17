@@ -26,29 +26,64 @@
             <div
               v-for="(notification, index) in filteredSentList"
               :key="index"
-              class="cursor-pointer pe-2"
-              @click="notificationDetail = notification"
+              class="cursor-pointer pe-2 flex items-center"
             >
               <div
-                class="ps-3 rounded-md py-3 block w-full my-2"
+                class="ps-3 rounded-md py-3 block w-full my-2 overflow-hidden"
                 :class="[
-                  lightMode ? 'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]' : 'hover:bg-[#797979] active:bg-[#a1a1a1]',
+                  {
+                    'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]':
+                      lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                  },
+                  {
+                    'hover:bg-[#797979] active:bg-[#a1a1a1]':
+                      !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                  },
+                  { 'text-[#ffffff] bg-[#1890FF]': notificationDetail && notificationDetail.ID === notification.ID },
                 ]"
+                @click="
+                  (e: any) => {
+                    if (e.target.nodeName === 'svg' || e.target.nodeName === 'path') {
+                      return;
+                    }
+                    notificationDetail = notification;
+                  }
+                "
               >
                 <div class="flex items-center justify-between pe-3">
                   <div class="text-lg font-semibold select-none text-ellipsis overflow-hidden whitespace-nowrap">
                     {{ notification.title }}
                   </div>
-                  <div class="flex items-center ms-10">
+                  <!-- <div class="flex items-center ms-10">
                     <NuxtLink
                       :to="pageRoutes.common.notice.edit(notification.ID)"
                       class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
                       ><EditOutlined class="text-2xl w-[20px] h-[25px]"
                     /></NuxtLink>
-                    <DeleteOutlined class="text-2xl w-[20px] h-[25px] text-red-500 ms-2" />
-                  </div>
+                    <DeleteOutlined
+                      class="text-2xl w-[20px] h-[25px] text-red-500 hover:text-red-400 active:text-red-200 ms-2"
+                      @click="
+                        () => {
+                          $event.emit('deleteItem', {
+                            callback: () => {
+                              deleteNotification(notification.ID);
+                            },
+                          });
+                        }
+                      "
+                    />
+                  </div> -->
                 </div>
-                <div class="text-sm select-none" :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
+                <div
+                  class="text-sm select-none"
+                  :class="[
+                    {
+                      'text-gray-700': lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-gray-300': !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-[#ffffff]': notificationDetail && notificationDetail.ID === notification.ID,
+                    },
+                  ]"
+                >
                   {{ $t('send_time') }}:&nbsp;
                   {{
                     notification.createdAt === notification.updatedAt
@@ -57,6 +92,43 @@
                   }}
                 </div>
               </div>
+              <!-- <div class="ms-1 h-[48px] my-2">
+                <a-dropdown>
+                  <template #overlay>
+                    <a-menu>
+                      <a-menu-item>
+                        <NuxtLink
+                          :to="pageRoutes.common.notice.edit(notification.ID)"
+                          class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+                        >
+                          <EditOutlined class="me-1" />{{ $t('edit') }}
+                        </NuxtLink>
+                      </a-menu-item>
+                      <a-menu-item
+                        @click="
+                          () => {
+                            $event.emit('deleteItem', {
+                              callback: () => {
+                                deleteNotification(notification.ID);
+                              },
+                            });
+                          }
+                        "
+                      >
+                        <span class="text-red-500 hover:text-red-400 active:text-red-200"
+                          ><DeleteOutlined class="me-1" />{{ $t('delete') }}</span
+                        >
+                      </a-menu-item>
+                    </a-menu>
+                  </template>
+                  <div
+                    class="h-full rounded-md flex items-center justify-center"
+                    :class="[lightMode ? 'hover:bg-[#f1f1f1]' : 'hover:bg-[#32323280]']"
+                  >
+                    <MoreOutlined class="text-xl" />
+                  </div>
+                </a-dropdown>
+              </div> -->
             </div>
           </div>
           <tbody v-else>
@@ -272,6 +344,35 @@ async function handlePreview(file: UploadProps['fileList'][number]) {
     window.open(file.url, '_blank');
   }
 }
+
+// async function deleteNotification(id: number) {
+//   try {
+//     $event.emit('loading');
+//     await api.common.notice.delete(id);
+
+//     if (notificationDetail.value && notificationDetail.value.ID === id) {
+//       notificationDetail.value = null;
+//     }
+
+//     filteredSentList.value = filteredSentList.value.filter((elem) => elem.ID !== id);
+//     sentList.value = sentList.value.filter((elem) => elem.ID !== id);
+
+//     $event.emit('deleteItemSuccess');
+//   } catch (err: any) {
+//     if (
+//       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+//       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+//       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+//     ) {
+//       notification.error({
+//         message: t('system_error_title'),
+//         description: t('system_error_description'),
+//       });
+//     }
+//   } finally {
+//     $event.emit('loading');
+//   }
+// }
 
 // @ts-ignore
 function isFileImage(file: UploadProps['fileList'][number]): boolean {

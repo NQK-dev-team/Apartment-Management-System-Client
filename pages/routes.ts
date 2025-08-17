@@ -178,6 +178,11 @@ const commonRoutes: Route[] = [
     path: pageRoutes.common.notice.important,
     file: noticeBaseRoute + 'important_notice.vue',
   },
+  // {
+  //   name: 'Edit Notice',
+  //   path: pageRoutes.common.notice.edit(':id'),
+  //   file: noticeBaseRoute + 'edit_notice.vue',
+  // },
   // Report
   {
     name: 'Report',

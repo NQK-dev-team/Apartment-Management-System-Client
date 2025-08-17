@@ -89,6 +89,9 @@ const apiRoutes = {
     unreadNotification: (notificationId: number) => `/notification/${notificationId}/unread`,
     markNotification: (notificationId: number) => `/notification/${notificationId}/mark`,
     unmarkNotification: (notificationId: number) => `/notification/${notificationId}/unmark`,
+    getSent: (limit: number = 500, offset: number = 0) => `/notification/sent?limit=${limit}&offset=${offset}`,
+    // delete: (notificationId: number) => `/notification/${ notificationId }`,
+    // getDetail: (notificationId: number) => `/notification/${ notificationId }`,
   },
   contract: {
     list: (limit: number = 500, offset: number = 0) => `/contract?limit=${limit}&offset=${offset}`,

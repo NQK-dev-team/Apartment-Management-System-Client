@@ -59,6 +59,7 @@ const COMMON = {
   WEBSOCKET_SIGNAL_TYPE: {
     NEW_INBOX: 1,
     NEW_IMPORTANT: 2,
+    NEW_SENT: 3,
   },
   HTTP_STATUS,
   ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],

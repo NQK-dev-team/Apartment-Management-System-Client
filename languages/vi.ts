@@ -259,6 +259,7 @@ export default {
   enter_user_dob: 'Nhập ngày sinh của người dùng',
   email_change_success_content:
     'Địa chỉ email của bạn đã được thay đổi thành công!\nChúng tôi đã gửi một email xác nhận đến địa chỉ email mới của bạn. Vui lòng kiểm tra hộp thư và xác nhận để hoàn tất quá trình thay đổi.',
+  edit_notice: 'Cập nhật thông báo',
 
   F: 'f',
   finish_import: 'Hoàn tất',

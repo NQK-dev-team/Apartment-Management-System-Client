@@ -256,6 +256,7 @@ export default {
   enter_user_permanent_address: 'Enter user permanent address',
   enter_user_temporary_address: 'Enter user temporary address',
   enter_user_dob: 'Enter user date of birth',
+  edit_notice: 'Edit notificaiton',
 
   F: 'f',
   finish_import: 'Import',
@@ -510,7 +511,7 @@ export default {
   staff_new_information_updated: 'Staff information has been updated successfully!',
   staff_must_be_18_years_old: 'Staff must be at least 18 years old!',
   save_changes: 'Save changes',
-  sent_notice: 'Sent notice',
+  sent_notice: 'Sent notification',
   sender: 'Sender',
   security: 'Security',
   spouse: 'Spouse',

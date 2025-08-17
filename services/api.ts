@@ -467,6 +467,24 @@ const common = {
         method: 'PATCH',
       });
     },
+    getSent: async (limit: number = 500, offset: number = 0): Promise<APIResponse<Notification[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.getSent(limit, offset), {
+        method: 'GET',
+      });
+    },
+    // delete: async (notificationId: number): Promise<APIResponse<null>> => {
+    //   const $api = getApiInstance();
+    //   return $api(apiRoutes.notice.delete(notificationId), {
+    //     method: 'DELETE',
+    //   });
+    // },
+    // getDetail: async (notificationId: number): Promise<APIResponse<Notification>> => {
+    //   const $api = getApiInstance();
+    //   return $api(apiRoutes.notice.getDetail(notificationId), {
+    //     method: 'GET',
+    //   });
+    // },
   },
   contract: {
     getList: async (limit: number = 500, offset: number = 0): Promise<APIResponse<Contract[]>> => {

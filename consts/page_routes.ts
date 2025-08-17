@@ -52,6 +52,7 @@ const pageRoutes = {
       new: '/notice/new',
       inbox: '/notice/inbox',
       important: '/notice/important',
+      // edit: (noticeId: number | string) => `/notice/${noticeId}/edit`,
     },
     contract: {
       list: '/contract',

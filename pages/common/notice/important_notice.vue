@@ -40,7 +40,15 @@
                 dot
                 class="ps-3 rounded-md py-3 block w-full my-2"
                 :class="[
-                  lightMode ? 'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]' : 'hover:bg-[#797979] active:bg-[#a1a1a1]',
+                  {
+                    'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]':
+                      lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                  },
+                  {
+                    'hover:bg-[#797979] active:bg-[#a1a1a1]':
+                      !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                  },
+                  { 'text-[#ffffff] bg-[#1890FF]': notificationDetail && notificationDetail.ID === notification.ID },
                 ]"
               >
                 <div class="flex items-center justify-between pe-3">
@@ -58,11 +66,29 @@
                     />
                   </div>
                 </div>
-                <div class="text-sm select-none" :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
+                <div
+                  class="text-sm select-none"
+                  :class="[
+                    {
+                      'text-gray-700': lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-gray-300': !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-[#ffffff]': notificationDetail && notificationDetail.ID === notification.ID,
+                    },
+                  ]"
+                >
                   {{ $t('sender') }}:&nbsp;
                   {{ getUserName(notification.sender) }}
                 </div>
-                <div class="text-sm select-none" :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
+                <div
+                  class="text-sm select-none"
+                  :class="[
+                    {
+                      'text-gray-700': lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-gray-300': !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-[#ffffff]': notificationDetail && notificationDetail.ID === notification.ID,
+                    },
+                  ]"
+                >
                   {{ $t('send_time') }}:&nbsp;
                   {{
                     notification.createdAt === notification.updatedAt
@@ -75,7 +101,15 @@
                 v-else-if="notification.isRead === COMMON.NOTIFICATION.READ"
                 class="ps-3 rounded-md py-3 block w-full my-2"
                 :class="[
-                  lightMode ? 'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]' : 'hover:bg-[#797979] active:bg-[#a1a1a1]',
+                  {
+                    'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]':
+                      lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                  },
+                  {
+                    'hover:bg-[#797979] active:bg-[#a1a1a1]':
+                      !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                  },
+                  { 'text-[#ffffff] bg-[#1890FF]': notificationDetail && notificationDetail.ID === notification.ID },
                 ]"
               >
                 <div class="flex items-center justify-between pe-3">
@@ -93,11 +127,29 @@
                     />
                   </div>
                 </div>
-                <div class="text-sm select-none" :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
+                <div
+                  class="text-sm select-none"
+                  :class="[
+                    {
+                      'text-gray-700': lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-gray-300': !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-[#ffffff]': notificationDetail && notificationDetail.ID === notification.ID,
+                    },
+                  ]"
+                >
                   {{ $t('sender') }}:&nbsp;
                   {{ getUserName(notification.sender) }}
                 </div>
-                <div class="text-sm select-none" :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
+                <div
+                  class="text-sm select-none"
+                  :class="[
+                    {
+                      'text-gray-700': lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-gray-300': !lightMode && !(notificationDetail && notificationDetail.ID === notification.ID),
+                      'text-[#ffffff]': notificationDetail && notificationDetail.ID === notification.ID,
+                    },
+                  ]"
+                >
                   {{ $t('send_time') }}:&nbsp;
                   {{
                     notification.createdAt === notification.updatedAt
@@ -186,35 +238,38 @@
                   </a-menu>
                 </template>
                 <a-button size="small">
-                  <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    v-if="lightMode"
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="#000000"
+                  >
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
-                      <rect width="24" height="24" fill="white"></rect>
-                      <circle
-                        cx="7"
-                        cy="12"
-                        r="0.5"
-                        stroke="#000000"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></circle>
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="0.5"
-                        stroke="#000000"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></circle>
-                      <circle
-                        cx="17"
-                        cy="12"
-                        r="0.5"
-                        stroke="#000000"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></circle>
+                      <circle cx="18" cy="12" r="1.5" transform="rotate(90 18 12)" fill="#000000"></circle>
+                      <circle cx="12" cy="12" r="1.5" transform="rotate(90 12 12)" fill="#000000"></circle>
+                      <circle cx="6" cy="12" r="1.5" transform="rotate(90 6 12)" fill="#000000"></circle>
+                    </g>
+                  </svg>
+                  <svg
+                    v-else
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="#ffffff"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <circle cx="18" cy="12" r="1.5" transform="rotate(90 18 12)" fill="#ffffff"></circle>
+                      <circle cx="12" cy="12" r="1.5" transform="rotate(90 12 12)" fill="#ffffff"></circle>
+                      <circle cx="6" cy="12" r="1.5" transform="rotate(90 6 12)" fill="#ffffff"></circle>
                     </g>
                   </svg>
                 </a-button>

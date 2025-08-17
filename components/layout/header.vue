@@ -44,15 +44,17 @@
           </template>
         </a-dropdown>
       </div>
-      <div v-if="displayImport" class="mx-3 h-[24px]">
+      <div v-if="isAdmin" class="mx-3 h-[24px]">
         <button class="h-[22px]" @click="openImportModal">
           <img :src="svgPaths.upload" alt="Import" class="w-[14px] h-[14px] select-none" />
         </button>
       </div>
-      <div class="mx-3 h-[24px]">
+      <div v-if="!isAdmin" class="mx-3 h-[24px]">
         <a-dropdown :trigger="['click']" placement="bottomRight">
-          <div class="ant-dropdown-link cursor-pointer h-[22px] flex items-center" @click="getNotificationList">
-            <img :src="svgPaths.notification" alt="Notification" class="w-[17px] h-[17px] select-none" />
+          <div class="ant-dropdown-link cursor-pointer h-[22px] flex items-center">
+            <a-badge dot :count="newNotificationCount">
+              <img :src="svgPaths.notification" alt="Notification" class="w-[17px] h-[17px] select-none" />
+            </a-badge>
           </div>
           <template #overlay>
             <a-menu>
@@ -129,11 +131,11 @@ const props = defineProps({
     default: false,
   },
 });
-const displayImport = toRef(props, 'isAdmin');
+const isAdmin = toRef(props, 'isAdmin');
 const lightModeCookie = useCookie('lightMode');
 const userNameCookie = useCookie('userName');
 const userImageCookie = useCookie('userImage');
-const notifcationCount = ref<number>(0);
+const newNotificationCount = ref<number>(0);
 const modalImportData = ref<{ isOpen: boolean; importOption: number; fileList: UploadFile[] }>({
   isOpen: false,
   importOption: 0,
@@ -147,6 +149,9 @@ const lightMode = computed(
 );
 const websocketConnection = ref<WebSocket | null>(null);
 const userID = useCookie('userID');
+const noticeOffset = ref(0);
+const noticeLimit = ref(10);
+const canLoadMore = ref(true);
 
 // ---------------------- Functions ----------------------
 function openImportModal() {
@@ -180,7 +185,18 @@ async function logout() {
   }
 }
 
-function getNotificationList() {}
+async function getNotificationList() {
+  try {
+    const response = await api.common.notice.getInbox(noticeLimit.value, noticeOffset.value);
+    newNotificationCount.value = response.data.filter((elem) => !elem.isRead).length;
+
+    if (response.data.length === 0) {
+      canLoadMore.value = false;
+    }
+  } catch (err: any) {
+    console.error(err);
+  }
+}
 
 function clearImportOption() {
   modalImportData.value = {
@@ -193,15 +209,10 @@ function clearImportOption() {
 function submitImport() {
   clearImportOption();
 }
-
-// ------------------------ Event Listeners ----------------------
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-$event.on('addNotification', (e: any) => {
-  notifcationCount.value += e.notifcationCount;
-});
-
 // ------------------------ Lifecycles ----------------------
 onMounted(() => {
+  getNotificationList();
+
   const config: RuntimeConfig = useRuntimeConfig();
 
   // Get user name and image from JWT token store

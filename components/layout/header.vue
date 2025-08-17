@@ -120,6 +120,7 @@ import { svgPaths } from '~/consts/svg_paths';
 import { COMMON } from '~/consts/common';
 import type { RuntimeConfig } from 'nuxt/schema';
 import { websocketRoutes } from '~/consts/websocket_routes';
+import type { Notification } from '~/types/notification';
 
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
@@ -152,6 +153,7 @@ const userID = useCookie('userID');
 const noticeOffset = ref(0);
 const noticeLimit = ref(10);
 const canLoadMore = ref(true);
+const notificationList = ref<Notification[]>([]);
 
 // ---------------------- Functions ----------------------
 function openImportModal() {
@@ -193,6 +195,8 @@ async function getNotificationList() {
     if (response.data.length === 0) {
       canLoadMore.value = false;
     }
+
+    notificationList.value.push(...response.data);
   } catch (err: any) {
     console.error(err);
   }

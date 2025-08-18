@@ -29,6 +29,7 @@
           >
             <div
               v-for="(notification, index) in filteredInboxList"
+              :id="`notification_${notification.ID}`"
               :key="index"
               class="cursor-pointer pe-2"
               @click="
@@ -375,57 +376,9 @@ const scrollPosition = ref({
   top: 0,
   left: 0,
 });
+const ignoreOffsetWatcher = ref(false);
 
 // ---------------------- Functions ----------------------
-async function getInboxList(emitLoading = true) {
-  try {
-    if (emitLoading) {
-      $event.emit('loading');
-    }
-
-    const response = await api.common.notice.getInbox(limit.value, offset.value);
-
-    if (offset.value === 0) {
-      inboxList.value = response.data;
-    } else {
-      inboxList.value.push(...response.data);
-    }
-
-    filteredInboxList.value = inboxList.value;
-
-    if (response.data.length === limit.value) {
-      offset.value += limit.value;
-    }
-
-    if (response.data.length < limit.value) {
-      setTimeout(() => {
-        if (notificationDetail.value) {
-          document.getElementById('notificationList')?.scrollTo({
-            top: scrollPosition.value.top,
-            left: scrollPosition.value.left,
-            behavior: 'smooth',
-          });
-        }
-      }, 100);
-    }
-  } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
-      notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
-      });
-    }
-  } finally {
-    if (emitLoading) {
-      $event.emit('loading');
-    }
-  }
-}
-
 async function readNotification(notificationId: number) {
   try {
     const result = inboxList.value.find((elem) => elem.ID === notificationId);
@@ -507,6 +460,70 @@ async function unmarkNotification(notificationId: number) {
         message: t('system_error_title'),
         description: t('system_error_description'),
       });
+    }
+  }
+}
+
+async function getInboxList(emitLoading = true) {
+  try {
+    if (emitLoading) {
+      $event.emit('loading');
+    }
+
+    const response = await api.common.notice.getInbox(limit.value, offset.value);
+
+    if (offset.value === 0) {
+      inboxList.value = response.data;
+    } else {
+      inboxList.value.push(...response.data);
+    }
+
+    filteredInboxList.value = inboxList.value;
+
+    if (response.data.length === limit.value) {
+      offset.value += limit.value;
+    }
+
+    if (response.data.length < limit.value) {
+      setTimeout(async () => {
+        if (queryID.value) {
+          await readNotification(Number(queryID.value));
+          notificationDetail.value = inboxList.value.find((elem) => elem.ID === Number(queryID.value)) || null;
+          scrollPosition.value = {
+            top: document.getElementById(`notification_${queryID.value}`)?.offsetTop || 0,
+            left: document.getElementById(`notification_${queryID.value}`)?.offsetLeft || 0,
+          };
+        }
+
+        if (notificationDetail.value && notificationDetail.value.ID !== inboxList.value[0].ID) {
+          document.getElementById('notificationList')?.scrollTo({
+            top: scrollPosition.value.top,
+            left: scrollPosition.value.left,
+            behavior: 'smooth',
+          });
+        } else {
+          document.getElementById('notificationList')?.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
+    }
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    if (emitLoading) {
+      $event.emit('loading');
     }
   }
 }
@@ -614,7 +631,25 @@ onUnmounted(() => {
 
 // ---------------------- Watchers ----------------------
 watch(offset, () => {
-  getInboxList(false);
+  if (!ignoreOffsetWatcher.value) {
+    getInboxList(false);
+  }
+  ignoreOffsetWatcher.value = false;
+});
+
+watch(queryID, () => {
+  scrollPosition.value = {
+    top: 0,
+    left: 0,
+  };
+  inboxList.value = [];
+  filteredInboxList.value = [];
+  notificationDetail.value = null;
+  if (offset.value !== 0) {
+    ignoreOffsetWatcher.value = true;
+    offset.value = 0;
+  }
+  getInboxList();
 });
 </script>
 

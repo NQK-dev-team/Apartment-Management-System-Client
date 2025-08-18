@@ -85,7 +85,8 @@
                   ]"
                 >
                   {{ $t('send_time') }}:&nbsp;
-                  {{ convertToDateTime2(notification.sendTime, locale) }}
+                  <!-- {{ convertToDateTime2(notification.sendTime, locale) }} -->
+                  {{ $dayjs(notification.sendTime).fromNow() }}
                 </div>
               </div>
               <!-- <div class="ms-1 h-[48px] my-2">
@@ -238,7 +239,6 @@ import type { Notification } from '~/types/notification';
 import type { UploadProps } from 'ant-design-vue';
 import type { RuntimeConfig } from 'nuxt/schema';
 import { websocketRoutes } from '~/consts/websocket_routes';
-import { pageRoutes } from '~/consts/page_routes';
 
 // ---------------------- Metadata ----------------------
 definePageMeta({
@@ -263,7 +263,7 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const { t, locale } = useI18n();
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const offset = ref<number>(0);
 const limit = ref<number>(500);
 const sentList = ref<Notification[]>([]);
@@ -275,6 +275,7 @@ const previewImage = ref('');
 const previewTitle = ref('');
 const websocketConnection = ref<WebSocket | null>(null);
 const userID = useCookie('userID');
+$dayjs.locale(locale.value);
 
 // ---------------------- Functions ----------------------
 async function getSentList(emitLoading = true) {

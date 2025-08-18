@@ -88,7 +88,8 @@
                   ]"
                 >
                   {{ $t('send_time') }}:&nbsp;
-                  {{ convertToDateTime2(notification.sendTime, locale) }}
+                  <!-- {{ convertToDateTime2(notification.sendTime, locale) }} -->
+                  {{ $dayjs(notification.sendTime).fromNow() }}
                 </div>
               </a-badge>
               <div
@@ -145,7 +146,8 @@
                   ]"
                 >
                   {{ $t('send_time') }}:&nbsp;
-                  {{ convertToDateTime2(notification.sendTime, locale) }}
+                  <!-- {{ convertToDateTime2(notification.sendTime, locale) }} -->
+                  {{ $dayjs(notification.sendTime).fromNow() }}
                 </div>
               </div>
             </div>
@@ -350,7 +352,7 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const { t, locale } = useI18n();
-const { $event } = useNuxtApp();
+const { $event, $dayjs } = useNuxtApp();
 const offset = ref<number>(0);
 const limit = ref<number>(500);
 const inboxList = ref<Notification[]>([]);
@@ -363,6 +365,7 @@ const previewTitle = ref('');
 const websocketConnection = ref<WebSocket | null>(null);
 const userID = useCookie('userID');
 const isNotificationDetailFoundInList = ref(false);
+$dayjs.locale(locale.value);
 
 // ---------------------- Functions ----------------------
 async function getInboxList(emitLoading = true) {

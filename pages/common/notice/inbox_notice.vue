@@ -22,7 +22,11 @@
             enter-button
             @search="searchInbox"
           />
-          <div v-if="filteredInboxList.length !== 0" class="overflow-auto hideBrowserScrollbar flex-1 flex flex-col">
+          <div
+            v-if="filteredInboxList.length !== 0"
+            id="notificationList"
+            class="overflow-auto hideBrowserScrollbar flex-1 flex flex-col"
+          >
             <div
               v-for="(notification, index) in filteredInboxList"
               :key="index"
@@ -365,6 +369,10 @@ const previewTitle = ref('');
 const websocketConnection = ref<WebSocket | null>(null);
 const userID = useCookie('userID');
 $dayjs.locale(locale.value);
+const scrollPosition = ref({
+  top: 0,
+  left: 0,
+});
 
 // ---------------------- Functions ----------------------
 async function getInboxList(emitLoading = true) {
@@ -383,8 +391,20 @@ async function getInboxList(emitLoading = true) {
 
     filteredInboxList.value = inboxList.value;
 
-    if (response.data.length === inboxList.value.length) {
+    if (response.data.length === limit.value) {
       offset.value += limit.value;
+    }
+
+    if (response.data.length < limit.value) {
+      setTimeout(() => {
+        if (notificationDetail.value) {
+          document.getElementById('notificationList')?.scrollTo({
+            top: scrollPosition.value.top,
+            left: scrollPosition.value.left,
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
     }
   } catch (err: any) {
     if (
@@ -572,6 +592,11 @@ onMounted(() => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);
 
     if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_INBOX && data.users.includes(Number(userID?.value || 0))) {
+      scrollPosition.value = {
+        top: document.getElementById('notificationList')?.scrollTop || 0,
+        left: document.getElementById('notificationList')?.scrollLeft || 0,
+      };
+
       if (offset.value === 0) {
         getInboxList(false);
       } else {

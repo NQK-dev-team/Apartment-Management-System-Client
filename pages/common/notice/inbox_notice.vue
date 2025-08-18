@@ -369,6 +369,8 @@ const previewTitle = ref('');
 const websocketConnection = ref<WebSocket | null>(null);
 const userID = useCookie('userID');
 $dayjs.locale(locale.value);
+const route = useRoute();
+const queryID = computed(() => route.query.id as string | undefined);
 const scrollPosition = ref({
   top: 0,
   left: 0,

@@ -399,10 +399,16 @@ async function getInboxList(emitLoading = true) {
 
     if (response.data.length < limit.value) {
       setTimeout(() => {
-        if (notificationDetail.value) {
+        if (notificationDetail.value && notificationDetail.value.ID !== inboxList.value[0].ID) {
           document.getElementById('notificationList')?.scrollTo({
             top: scrollPosition.value.top,
             left: scrollPosition.value.left,
+            behavior: 'smooth',
+          });
+        } else {
+          document.getElementById('notificationList')?.scrollTo({
+            top: 0,
+            left: 0,
             behavior: 'smooth',
           });
         }
@@ -599,7 +605,7 @@ onMounted(() => {
         top: document.getElementById('notificationList')?.scrollTop || 0,
         left: document.getElementById('notificationList')?.scrollLeft || 0,
       };
-      
+
       if (offset.value === 0) {
         getInboxList(false);
       } else {

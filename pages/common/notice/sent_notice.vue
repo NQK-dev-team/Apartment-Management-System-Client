@@ -85,11 +85,7 @@
                   ]"
                 >
                   {{ $t('send_time') }}:&nbsp;
-                  {{
-                    notification.createdAt === notification.updatedAt
-                      ? convertToDateTime2(notification.sendTime, locale)
-                      : convertToDateTime2(notification.updatedAt, locale)
-                  }}
+                  {{ convertToDateTime2(notification.sendTime, locale) }}
                 </div>
               </div>
               <!-- <div class="ms-1 h-[48px] my-2">
@@ -186,11 +182,7 @@
             </div>
             <div class="mt-5" :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
               {{ $t('send_time') }}:&nbsp;
-              {{
-                notificationDetail.createdAt === notificationDetail.updatedAt
-                  ? convertToDateTime2(notificationDetail.sendTime, locale)
-                  : convertToDateTime2(notificationDetail.updatedAt, locale)
-              }}
+              {{ convertToDateTime2(notificationDetail.sendTime, locale) }}
             </div>
             <h2 class="mt-10 text-center text-2xl">{{ notificationDetail.title }}</h2>
             <div v-html="sanitizeString(notificationDetail.content)"></div>

@@ -377,6 +377,7 @@ const scrollPosition = ref({
   left: 0,
 });
 const ignoreOffsetWatcher = ref(false);
+const calledByQueryIDWatcher = ref(!!queryID.value);
 
 // ---------------------- Functions ----------------------
 async function readNotification(notificationId: number) {
@@ -486,27 +487,39 @@ async function getInboxList(emitLoading = true) {
 
     if (response.data.length < limit.value) {
       setTimeout(async () => {
-        if (queryID.value) {
+        if (queryID.value && calledByQueryIDWatcher.value) {
           await readNotification(Number(queryID.value));
           notificationDetail.value = inboxList.value.find((elem) => elem.ID === Number(queryID.value)) || null;
-          scrollPosition.value = {
-            top: document.getElementById(`notification_${queryID.value}`)?.offsetTop || 0,
-            left: document.getElementById(`notification_${queryID.value}`)?.offsetLeft || 0,
-          };
+          // scrollPosition.value = {
+          //   top: document.getElementById(`notification_${queryID.value}`)?.offsetTop || 0,
+          //   left: document.getElementById(`notification_${queryID.value}`)?.offsetLeft || 0,
+          // };
+          document.getElementById(`notification_${queryID.value}`)?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
         }
 
-        if (notificationDetail.value && notificationDetail.value.ID !== inboxList.value[0].ID) {
+        if (
+          notificationDetail.value &&
+          notificationDetail.value.ID !== inboxList.value[0].ID &&
+          !calledByQueryIDWatcher.value
+        ) {
           document.getElementById('notificationList')?.scrollTo({
             top: scrollPosition.value.top,
             left: scrollPosition.value.left,
             behavior: 'smooth',
           });
-        } else {
+        } else if (!calledByQueryIDWatcher.value) {
           document.getElementById('notificationList')?.scrollTo({
             top: 0,
             left: 0,
             behavior: 'smooth',
           });
+        }
+
+        if (calledByQueryIDWatcher.value) {
+          calledByQueryIDWatcher.value = false;
         }
       }, 100);
     }
@@ -649,6 +662,7 @@ watch(queryID, () => {
     ignoreOffsetWatcher.value = true;
     offset.value = 0;
   }
+  calledByQueryIDWatcher.value = true;
   getInboxList();
 });
 </script>

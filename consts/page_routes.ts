@@ -50,7 +50,7 @@ const pageRoutes = {
       index: '/notice',
       sent: '/notice/sent',
       new: '/notice/new',
-      inbox: '/notice/inbox',
+      inbox: (id: number | null = null) => (id ? `/notice/inbox?id=${id}` : '/notice/inbox'),
       important: '/notice/important',
       // edit: (noticeId: number | string) => `/notice/${noticeId}/edit`,
     },

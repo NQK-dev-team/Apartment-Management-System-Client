@@ -318,6 +318,7 @@ export default {
   log_in: 'Đăng nhập',
   last_name: 'Họ',
   loading_data: 'Đang tải dữ liệu...',
+  load_more: 'Tải thêm',
 
   M: 'm',
   managerName: 'Tên quản lý',
@@ -332,6 +333,7 @@ export default {
   mark_as_unread: 'Đánh dấu chưa đọc',
   mark_as_important: 'Đánh dấu quan trọng',
   mark_as_unimportant: 'Đánh dấu không quan trọng',
+  mark_all_as_read: 'Đánh dấu tất cả đã đọc',
 
   N: 'n',
   notice: 'Thông báo',
@@ -370,6 +372,7 @@ export default {
   notification_receiver_required: 'Vui lòng chọn người nhận thông báo!',
   notification_sent: 'Thông báo đã được gửi thành công!',
   notice_important: 'Quan trọng',
+  notifications: 'Thông báo',
 
   O: 'o',
   operation: 'Thao tác',

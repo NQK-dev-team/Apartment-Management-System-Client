@@ -90,6 +90,7 @@ const apiRoutes = {
     markNotification: (notificationId: number) => `/notification/${notificationId}/mark`,
     unmarkNotification: (notificationId: number) => `/notification/${notificationId}/unmark`,
     getSent: (limit: number = 500, offset: number = 0) => `/notification/sent?limit=${limit}&offset=${offset}`,
+    markManyAsRead: `/notification/read-many`,
     // delete: (notificationId: number) => `/notification/${ notificationId }`,
     // getDetail: (notificationId: number) => `/notification/${ notificationId }`,
   },

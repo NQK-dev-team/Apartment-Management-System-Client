@@ -49,7 +49,7 @@
           <img :src="svgPaths.upload" alt="Import" class="w-[14px] h-[14px] select-none" />
         </button>
       </div>
-      <div v-if="!isAdmin" class="mx-3 h-[24px]">
+      <div v-if="userRole?.toString() !== roles.owner" class="mx-3 h-[24px]">
         <a-dropdown :trigger="['click']" placement="bottomRight">
           <div class="ant-dropdown-link cursor-pointer h-[22px] flex items-center">
             <a-badge dot :count="newNotificationCount">
@@ -57,9 +57,70 @@
             </a-badge>
           </div>
           <template #overlay>
-            <a-menu>
-              <a-menu-item key="TBD"> To Be Developed </a-menu-item>
+            <a-menu class="w-[400px] px-2">
+              <div class="flex items-center justify-between">
+                <p class="font-bold text-lg select-none">{{ $t('notifications') }}</p>
+                <div
+                  class="flex items-center cursor-pointer text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
+                  @click="readAllNotification"
+                >
+                  <DoubleTick class="text-lg" />
+                  <p class="select-none">{{ $t('mark_all_as_read') }}</p>
+                </div>
+              </div>
               <a-menu-divider />
+              <div id="notificationDropdownList" class="overflow-auto max-h-[400px]">
+                <NuxtLink
+                  v-for="(notification, index) in notificationList"
+                  :key="index"
+                  :to="pageRoutes.common.notice.inbox(notification.ID)"
+                  class="pb-5 pt-3 cursor-pointer rounded-md px-2 flex flex-col"
+                  :class="[
+                    {
+                      'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]': lightMode,
+                    },
+                    {
+                      'hover:bg-[#797979] active:bg-[#a1a1a1]': !lightMode,
+                    },
+                  ]"
+                  @click="notificationList[index].isRead = COMMON.NOTIFICATION.READ"
+                >
+                  <div
+                    class="select-none text-ellipsis overflow-hidden whitespace-nowrap"
+                    :class="[
+                      {
+                        'font-bold text-black': lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
+                        'font-bold text-white': !lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
+                        'text-gray-600': lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                        'text-gray-300': !lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                      },
+                    ]"
+                  >
+                    {{ notification.title }}
+                  </div>
+                  <div
+                    class="text-xs select-none"
+                    :class="[
+                      {
+                        'font-bold text-black': lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
+                        'font-bold text-white': !lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
+                        'text-gray-600': lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                        'text-gray-300': !lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                      },
+                    ]"
+                  >
+                    {{ $dayjs(notification.sendTime).fromNow() }}
+                  </div>
+                </NuxtLink>
+              </div>
+              <a-menu-divider v-if="canLoadMore" />
+              <div
+                v-if="canLoadMore"
+                class="flex items-center justify-center text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9] select-none cursor-pointer my-1"
+                @click="getMoreNotification"
+              >
+                {{ $t('load_more') }}
+              </div>
             </a-menu>
           </template>
         </a-dropdown>
@@ -121,6 +182,8 @@ import { COMMON } from '~/consts/common';
 import type { RuntimeConfig } from 'nuxt/schema';
 import { websocketRoutes } from '~/consts/websocket_routes';
 import type { Notification } from '~/types/notification';
+import { roles } from '~/consts/roles';
+import DoubleTick from '~/public/svg/double_tick.svg';
 
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
@@ -136,7 +199,6 @@ const isAdmin = toRef(props, 'isAdmin');
 const lightModeCookie = useCookie('lightMode');
 const userNameCookie = useCookie('userName');
 const userImageCookie = useCookie('userImage');
-const newNotificationCount = ref<number>(0);
 const modalImportData = ref<{ isOpen: boolean; importOption: number; fileList: UploadFile[] }>({
   isOpen: false,
   importOption: 0,
@@ -151,9 +213,15 @@ const lightMode = computed(
 const websocketConnection = ref<WebSocket | null>(null);
 const userID = useCookie('userID');
 const noticeOffset = ref(0);
-const noticeLimit = ref(10);
+const noticeLimit = ref(2);
 const canLoadMore = ref(true);
 const notificationList = ref<Notification[]>([]);
+const userRole = useCookie('userRole');
+const newNotificationCount = computed(() => {
+  return notificationList.value.filter((elem) => elem.isRead === COMMON.NOTIFICATION.UNREAD).length;
+});
+const scrollPosition = ref({ top: 0, left: 0 });
+const previousOffset = ref(0);
 
 // ---------------------- Functions ----------------------
 function openImportModal() {
@@ -190,15 +258,36 @@ async function logout() {
 async function getNotificationList() {
   try {
     const response = await api.common.notice.getInbox(noticeLimit.value, noticeOffset.value);
-    newNotificationCount.value = response.data.filter((elem) => !elem.isRead).length;
 
-    if (response.data.length === 0) {
+    if (response.data.length < noticeLimit.value) {
       canLoadMore.value = false;
     }
 
+    setTimeout(async () => {
+      document.getElementById('notificationDropdownList')?.scrollTo({
+        top: scrollPosition.value.top,
+        left: scrollPosition.value.left,
+        behavior: 'smooth',
+      });
+    }, 100);
+
     notificationList.value.push(...response.data);
+
+    if (previousOffset.value !== 0 && noticeOffset.value !== previousOffset.value) {
+      noticeOffset.value += noticeLimit.value;
+      getNotificationList();
+    } else {
+      previousOffset.value = 0;
+    }
   } catch (err: any) {
     console.error(err);
+  }
+}
+
+function getMoreNotification() {
+  if (canLoadMore.value) {
+    noticeOffset.value += noticeLimit.value;
+    getNotificationList();
   }
 }
 
@@ -208,6 +297,25 @@ function clearImportOption() {
     importOption: 0,
     fileList: [],
   };
+}
+
+async function readAllNotification() {
+  try {
+    const result = notificationList.value.filter((elem) => !elem.isRead);
+
+    if (result.length === 0) {
+      return;
+    }
+
+    await api.common.notice.markManyAsRead(result.map((elem) => elem.ID));
+    notificationList.value
+      .filter((elem) => !elem.isRead)
+      .forEach((elem) => {
+        elem.isRead = COMMON.NOTIFICATION.READ;
+      });
+  } catch (err: any) {
+    /* empty */
+  }
 }
 
 function submitImport() {
@@ -232,11 +340,18 @@ onMounted(() => {
 
   websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
 
-  websocketConnection.value.onmessage = (event) => {
+  websocketConnection.value.onmessage = async (event) => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);
 
     if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_INBOX && data.users.includes(Number(userID?.value || 0))) {
-      /* to be developed */
+      notificationList.value = [];
+      previousOffset.value = noticeOffset.value;
+      noticeOffset.value = 0;
+      scrollPosition.value = {
+        top: document.getElementById('notificationDropdownList')?.scrollTop || 0,
+        left: document.getElementById('notificationDropdownList')?.scrollLeft || 0,
+      };
+      getNotificationList();
     }
   };
 });

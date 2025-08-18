@@ -33,7 +33,7 @@
           :label="$t('notice_inbox')"
           :icon="Inbox"
           :collapse="props.collapse"
-          :href="pageRoutes.common.notice.inbox"
+          :href="pageRoutes.common.notice.inbox()"
           :is-child="true"
           :item-level="1"
         />

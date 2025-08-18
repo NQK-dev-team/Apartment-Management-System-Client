@@ -170,7 +170,7 @@ const commonRoutes: Route[] = [
   },
   {
     name: 'Inbox',
-    path: pageRoutes.common.notice.inbox,
+    path: pageRoutes.common.notice.inbox(),
     file: noticeBaseRoute + 'inbox_notice.vue',
   },
   {

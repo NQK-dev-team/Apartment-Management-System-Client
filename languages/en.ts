@@ -317,6 +317,7 @@ export default {
   log_in: 'Log in',
   last_name: 'Last name',
   loading_data: 'Loading data...',
+  load_more: 'Load more',
 
   M: 'm',
   managerName: "Manager's Name",
@@ -331,6 +332,7 @@ export default {
   mark_as_unread: 'Mark as unread',
   mark_as_important: 'Mark as important',
   mark_as_unimportant: 'Unmark as important',
+  mark_all_as_read: 'Mark all as read',
 
   N: 'n',
   notice: 'Notice',
@@ -369,6 +371,7 @@ export default {
   notification_receiver_required: 'Please select at least one receiver for the notification!',
   notification_sent: 'Notification has been sent successfully!',
   notice_important: 'Important',
+  notifications: 'Notifications',
 
   O: 'o',
   operation: 'Operation',

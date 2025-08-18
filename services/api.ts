@@ -473,6 +473,16 @@ const common = {
         method: 'GET',
       });
     },
+    markManyAsRead: async (notificationIds: number[]): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.notice.markManyAsRead, {
+        method: 'POST',
+        body: {
+          IDs: notificationIds,
+        },
+      });
+    },
+
     // delete: async (notificationId: number): Promise<APIResponse<null>> => {
     //   const $api = getApiInstance();
     //   return $api(apiRoutes.notice.delete(notificationId), {

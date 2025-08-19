@@ -69,6 +69,17 @@
         </p>
         <p class="ant-upload-text text-sm">{{ $t('drag_and_drop_file') }}</p>
       </a-upload-dragger>
+      <p
+        class="text-xs mt-2 text-center"
+        :class="[
+          {
+            'text-gray-400': lightMode,
+            'text-gray-500': !lightMode,
+          },
+        ]"
+      >
+        {{ $t('upload_note') }}
+      </p>
     </div>
   </div>
 </template>
@@ -81,6 +92,10 @@ import { api } from '~/services/api';
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
 const { $event } = useNuxtApp();
+const lightModeCookie = useCookie('lightMode');
+const lightMode = computed(
+  () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
+);
 const searchInput = ref();
 const columns: any = computed(() => {
   return [

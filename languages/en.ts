@@ -581,6 +581,7 @@ export default {
   upload_service: 'Upload service',
   upload_time: 'Upload time',
   upload_by: 'Uploaded by',
+  upload_note:'Uploaded files will be processed by the system automatically at 0:00 every day.',
 
   V: 'v',
 

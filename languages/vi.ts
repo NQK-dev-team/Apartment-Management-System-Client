@@ -582,6 +582,7 @@ export default {
   upload_service: 'Dịch vụ tải tệp tin',
   upload_time: 'Thời gian tải lên',
   upload_by: 'Người tải lên',
+  upload_note: 'Tệp tin tải lên sẽ được hệ thống tự động xử lý vào lúc 0h mỗi ngày.',
 
   V: 'v',
 

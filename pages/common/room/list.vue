@@ -16,7 +16,7 @@
         />
       </div> -->
     </div>
-    <div class="mt-5 overflow-auto p-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+    <div class="mt-5 overflow-auto p-3 flex-1" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <div class="flex justify-center items-center">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <CommonRoomListCard

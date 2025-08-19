@@ -291,22 +291,27 @@ async function readAllNotification() {
   }
 }
 
+async function getUserInfo() {
+  try {
+    const response = await api.common.profile.getProfile();
+    userName.value = getUserName(response.data);
+    imageSrc.value = response.data.profileFilePath;
+  } catch (err: any) {
+    userName.value = userNameCookie && userNameCookie.value ? userNameCookie.value : '';
+    imageSrc.value = userImageCookie && userImageCookie.value ? userImageCookie.value : '';
+  } finally {
+    if (!imageSrc.value) {
+      imageSrc.value = '/image/default_user_image.png';
+    }
+  }
+}
+
 // ------------------------ Lifecycles ----------------------
 onMounted(() => {
   getNotificationList();
+  getUserInfo();
 
   const config: RuntimeConfig = useRuntimeConfig();
-
-  // Get user name and image from JWT token store
-  userName.value = '';
-  imageSrc.value = '';
-
-  userName.value = userNameCookie && userNameCookie.value ? userNameCookie.value : '';
-  imageSrc.value = userImageCookie && userImageCookie.value ? userImageCookie.value : '';
-
-  if (!imageSrc.value) {
-    imageSrc.value = '/image/default_user_image.png';
-  }
 
   websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
 

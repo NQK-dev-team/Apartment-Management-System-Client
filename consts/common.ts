@@ -31,11 +31,9 @@ const COMMON = {
     OTHER: 3,
   },
   IMPORT_TYPE: {
-    ADD_BUILDINGS: 1,
-    ADD_ROOMS: 2,
-    ADD_EMPLOYEES: 3,
-    ADD_CUSTOMERS: 4,
-    ADD_BILLS: 5,
+    ADD_CUSTOMERS: 1,
+    ADD_CONTRACTS: 2,
+    ADD_BILLS: 3,
   },
   RESIDENT_TYPE: {
     CHILD: 1,
@@ -65,10 +63,14 @@ const COMMON = {
   ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],
   ALLOW_FILE_EXTENSIONS: ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
   ALLOW_FILE_EXTENSIONS_ADVANCE: ['vnd.openxmlformats-officedocument.wordprocessingml.document', 'msword'],
+  ALLOW_UPLOAD_FILE_EXTENSIONS: ['.xls', '.xlsx'],
+  ALLOW_UPLOAD_FILE_EXTENSIONS_ADVANCE: ['vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'vnd.ms-excel'],
   IMAGE_SIZE_LIMIT: 2 * 1024 * 1024, // 2MB
   IMAGE_SIZE_LIMIT_STR: '2MB',
   FILE_SIZE_LIMIT: 10 * 1024 * 1024, // 10MB
   FILE_SIZE_LIMIT_STR: '10MB',
+  UPLOAD_FILE_SIZE_LIMIT: 20 * 1024 * 1024, // 20MB
+  UPLOAD_FILE_SIZE_LIMIT_STR: '20MB',
 };
 
 export { COMMON };

@@ -106,4 +106,25 @@ function getBillStatus(status: number): string {
   }
 }
 
-export { getContractType, getContractStatus, getUserName, getUserGender, getUserRole, getBillStatus };
+function getImportTypeLabel(type: number): string {
+  switch (type) {
+    case COMMON.IMPORT_TYPE.ADD_CUSTOMERS:
+      return 'customer';
+    case COMMON.IMPORT_TYPE.ADD_CONTRACTS:
+      return 'contract';
+    case COMMON.IMPORT_TYPE.ADD_BILLS:
+      return 'bill';
+    default:
+      return '-';
+  }
+}
+
+export {
+  getContractType,
+  getContractStatus,
+  getUserName,
+  getUserGender,
+  getUserRole,
+  getBillStatus,
+  getImportTypeLabel,
+};

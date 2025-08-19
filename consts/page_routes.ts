@@ -71,6 +71,9 @@ const pageRoutes = {
     report: {
       index: '/',
     },
+    upload: {
+      index: '/upload',
+    },
   },
 };
 

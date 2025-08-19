@@ -156,6 +156,8 @@ export default {
   date: 'Date',
   decision_time: 'Decision time',
   dashboard: 'Dashboard',
+  display_category: 'Display category',
+  drag_and_drop_file: 'Drag and drop file here or click to select file',
 
   E: 'e',
   edit: 'Edit',
@@ -275,6 +277,7 @@ export default {
   file_require: 'Please choose a file!',
   file_title_require: 'Please enter file title!',
   file: 'File',
+  file_size: 'File size',
 
   G: 'g',
   gender: 'Gender',
@@ -449,6 +452,7 @@ export default {
   please_select_user_gender: 'Please select user gender',
   profile_info_updated: 'User personal information has been updated successfully!',
   password_incorrect: 'Password is incorrect!',
+  process_result: 'Process result',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -537,6 +541,7 @@ export default {
   select_user_gender: 'Select user gender',
   send_notification: 'Send notification',
   send_time: 'Send time',
+  select_upload_category: 'Select upload category',
 
   T: 't',
   total: 'Total',
@@ -571,6 +576,8 @@ export default {
   user_dob_required: 'User date of birth cannot be empty!',
   user_must_be_18_years_old: 'User must be at least 18 years old!',
   update_fail: 'Update failed!',
+  upload_service: 'Upload service',
+  upload_time: 'Upload time',
 
   V: 'v',
 

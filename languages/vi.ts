@@ -156,6 +156,8 @@ export default {
   date: 'Ngày',
   decision_time: 'Thời gian quyết định',
   dashboard: 'Trang chủ',
+  display_category: 'Chế độ hiển thị',
+  drag_and_drop_file: 'Kéo và thả tệp tin vào đây hoặc nhấp để chọn tệp tin',
 
   E: 'e',
   edit: 'Chỉnh sửa',
@@ -278,6 +280,7 @@ export default {
   file_require: 'Vui lòng chọn tệp tin!',
   file_title_require: 'Vui lòng nhập tiêu đề tệp tin!',
   file: 'Tệp tin',
+  file_size: 'Kích thước tệp tin',
 
   G: 'g',
   gender: 'Giới tính',
@@ -450,6 +453,7 @@ export default {
   please_select_user_gender: 'Vui lòng chọn giới tính của người dùng',
   profile_info_updated: 'Thông tin cá nhân đã được cập nhật thành công!',
   password_incorrect: 'Mật khẩu không chính xác!',
+  process_result: 'Kết quả xử lý',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -538,6 +542,7 @@ export default {
   select_user_gender: 'Chọn giới tính của người dùng',
   send_notification: 'Gửi thông báo',
   send_time: 'Thời gian gửi',
+  select_upload_category: 'Chọn danh mục thêm dữ liệu',
 
   T: 't',
   total: 'Tổng',
@@ -572,6 +577,8 @@ export default {
   user_dob_required: 'Ngày sinh của người dùng không được để trống!',
   user_must_be_18_years_old: 'Người dùng phải từ đủ 18 tuổi trở lên!',
   update_fail: 'Cập nhật không thành công!',
+  upload_service: 'Dịch vụ tải tệp tin',
+  upload_time: 'Thời gian tải lên',
 
   V: 'v',
 

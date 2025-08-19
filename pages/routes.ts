@@ -37,6 +37,7 @@ const supportTicketBaseRoute = '@/pages/common/support_ticket/';
 const noticeBaseRoute = '@/pages/common/notice/';
 const reportBaseRoute = '@/pages/common/report/';
 const securityBaseRoute = '@/pages/common/security/';
+const uploadBaseRoute = '@/pages/common/upload/';
 
 const commonRoutes: Route[] = [
   // Building
@@ -194,6 +195,12 @@ const commonRoutes: Route[] = [
     name: 'Security Settings',
     path: pageRoutes.common.security.index,
     file: securityBaseRoute + 'security.vue',
+  },
+  // Upload
+  {
+    name: 'Upload',
+    path: pageRoutes.common.upload.index,
+    file: uploadBaseRoute + 'index.vue',
   },
 ];
 

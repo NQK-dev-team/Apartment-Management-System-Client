@@ -44,10 +44,10 @@
           </template>
         </a-dropdown>
       </div>
-      <div v-if="isAdmin" class="mx-3 h-[24px]">
-        <button class="h-[22px]" @click="openImportModal">
+      <div v-if="userRole?.toString() === roles.owner || userRole?.toString() === roles.manager" class="mx-3 h-[24px]">
+        <NuxtLink :to="pageRoutes.common.upload.index" target="_blank" class="h-[22px] flex items-center">
           <img :src="svgPaths.upload" alt="Import" class="w-[14px] h-[14px] select-none" />
-        </button>
+        </NuxtLink>
       </div>
       <div v-if="userRole?.toString() !== roles.owner" class="mx-3 h-[24px]">
         <a-dropdown :trigger="['click']" placement="bottomRight">
@@ -168,11 +168,9 @@
       </div>
     </div>
   </div>
-  <ModalImport :data="modalImportData" :on-cancel="clearImportOption" :on-submit="submitImport" />
 </template>
 
 <script lang="ts" setup>
-import type { UploadFile } from 'ant-design-vue';
 import Profile from '~/public/svg/profile.svg';
 import { api } from '~/services/api';
 import { pageRoutes } from '~/consts/page_routes';
@@ -188,22 +186,9 @@ import DoubleTick from '~/public/svg/double_tick.svg';
 // ---------------------- Variables ----------------------
 const { setLocale } = useI18n();
 const { $event } = useNuxtApp();
-const props = defineProps({
-  isAdmin: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-});
-const isAdmin = toRef(props, 'isAdmin');
 const lightModeCookie = useCookie('lightMode');
 const userNameCookie = useCookie('userName');
 const userImageCookie = useCookie('userImage');
-const modalImportData = ref<{ isOpen: boolean; importOption: number; fileList: UploadFile[] }>({
-  isOpen: false,
-  importOption: 0,
-  fileList: [],
-});
 const imageSrc = ref<string>('/image/default_user_image.png');
 const userName = ref<string>('');
 const { t } = useI18n();
@@ -224,10 +209,6 @@ const scrollPosition = ref({ top: 0, left: 0 });
 const previousOffset = ref(0);
 
 // ---------------------- Functions ----------------------
-function openImportModal() {
-  modalImportData.value.isOpen = true;
-}
-
 function switchThemeMode() {
   const currentMode =
     lightModeCookie.value === null || lightModeCookie.value === undefined ? 1 : parseInt(lightModeCookie.value);
@@ -291,14 +272,6 @@ function getMoreNotification() {
   }
 }
 
-function clearImportOption() {
-  modalImportData.value = {
-    isOpen: false,
-    importOption: 0,
-    fileList: [],
-  };
-}
-
 async function readAllNotification() {
   try {
     const result = notificationList.value.filter((elem) => !elem.isRead);
@@ -318,9 +291,6 @@ async function readAllNotification() {
   }
 }
 
-function submitImport() {
-  clearImportOption();
-}
 // ------------------------ Lifecycles ----------------------
 onMounted(() => {
   getNotificationList();

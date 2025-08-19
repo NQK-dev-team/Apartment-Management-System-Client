@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full flex flex-col bg-[#efefef]">
     <div class="header">
-      <LayoutHeader :is-admin="userRole !== roles.customer" />
+      <LayoutHeader />
     </div>
     <div class="flex w-full content">
       <LayoutNavMenu :role="userRole" />

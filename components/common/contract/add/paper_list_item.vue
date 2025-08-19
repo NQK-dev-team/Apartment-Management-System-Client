@@ -45,7 +45,7 @@
           :rules="[
             { required: true, message: $t('file_require'), trigger: 'blur' },
           ]"
-          class="px-3"
+          class="px-3 inline-block"
         >
           <a-upload
             :id="`contract_file_${props.index + 1}_file`"

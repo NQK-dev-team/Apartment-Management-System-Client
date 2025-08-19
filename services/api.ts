@@ -3,11 +3,11 @@ import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
 import type { Building, Room } from '~/types/building';
 import type { AddBill2, Bill, UpdateBill } from '~/types/bill';
-import type { EditStaff, ManagerSchedule, NewCustomer, User } from '~/types/user';
-import type { Dayjs } from 'dayjs';
+import type { ManagerSchedule, User } from '~/types/user';
 import type { Contract } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { Notification } from '~/types/notification';
+import type { Upload } from '~/types/upload';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -545,7 +545,27 @@ const common = {
       });
     },
   },
-  import: {},
+  upload: {
+    uploadFile: async (data: FormData): Promise<APIResponse<null>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.upload.uploadFile, {
+        method: 'POST',
+        body: data,
+      });
+    },
+    getUploadFiles: async (type: number): Promise<APIResponse<Upload[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.upload.getUploadFiles(type), {
+        method: 'GET',
+      });
+    },
+    getProcessedFiles: async (type: number): Promise<APIResponse<Upload[]>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.upload.getProcessedFiles(type), {
+        method: 'GET',
+      });
+    },
+  },
 };
 
 const api = {

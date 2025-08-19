@@ -103,7 +103,11 @@ const apiRoutes = {
     bill: (contractId: number) => `/contract/${contractId}/bill`,
     activeList: (limit: number = 500, offset: number = 0) => `/contract/active-list?limit=${limit}&offset=${offset}`,
   },
-  import: {},
+  upload: {
+    getUploadFiles: (type: number) => `upload/not-process?type=${type}`,
+    getProcessedFiles: (type: number) => `upload/processed?type=${type}`,
+    uploadFile: 'upload/add',
+  },
 };
 
 export { apiRoutes };

@@ -281,6 +281,8 @@ export default {
   file_title_require: 'Vui lòng nhập tiêu đề tệp tin!',
   file: 'Tệp tin',
   file_size: 'Kích thước tệp tin',
+  file_upload_success: 'Tệp tin {name} đã được tải lên thành công!',
+  file_upload_failed: 'Tệp tin {name} tải lên thất bại!',
 
   G: 'g',
   gender: 'Giới tính',
@@ -579,6 +581,7 @@ export default {
   update_fail: 'Cập nhật không thành công!',
   upload_service: 'Dịch vụ tải tệp tin',
   upload_time: 'Thời gian tải lên',
+  upload_by: 'Người tải lên',
 
   V: 'v',
 

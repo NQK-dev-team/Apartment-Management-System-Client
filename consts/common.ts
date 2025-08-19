@@ -30,10 +30,14 @@ const COMMON = {
     FEMALE: 2,
     OTHER: 3,
   },
-  IMPORT_TYPE: {
+  UPLOAD_TYPE: {
     ADD_CUSTOMERS: 1,
     ADD_CONTRACTS: 2,
     ADD_BILLS: 3,
+  },
+  PROCESS_RESULT: {
+    SUCCESS: 1,
+    FAILED: 2,
   },
   RESIDENT_TYPE: {
     CHILD: 1,

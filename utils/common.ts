@@ -108,15 +108,25 @@ function getBillStatus(status: number): string {
 
 function getImportTypeLabel(type: number): string {
   switch (type) {
-    case COMMON.IMPORT_TYPE.ADD_CUSTOMERS:
+    case COMMON.UPLOAD_TYPE.ADD_CUSTOMERS:
       return 'customer';
-    case COMMON.IMPORT_TYPE.ADD_CONTRACTS:
+    case COMMON.UPLOAD_TYPE.ADD_CONTRACTS:
       return 'contract';
-    case COMMON.IMPORT_TYPE.ADD_BILLS:
+    case COMMON.UPLOAD_TYPE.ADD_BILLS:
       return 'bill';
     default:
       return '-';
   }
+}
+
+function getFileSizeString(size: number): string {
+  const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB'];
+  let i = 0;
+  while (size >= 1024 && i < units.length - 1) {
+    size /= 1024;
+    i++;
+  }
+  return `${size.toFixed(2)} ${units[i]}`;
 }
 
 export {
@@ -127,4 +137,5 @@ export {
   getUserRole,
   getBillStatus,
   getImportTypeLabel,
+  getFileSizeString,
 };

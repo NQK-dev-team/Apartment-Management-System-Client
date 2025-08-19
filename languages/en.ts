@@ -278,6 +278,8 @@ export default {
   file_title_require: 'Please enter file title!',
   file: 'File',
   file_size: 'File size',
+  file_upload_success: 'File {name} uploaded successfully!',
+  file_upload_failed: 'File {name} upload failed!',
 
   G: 'g',
   gender: 'Gender',
@@ -578,6 +580,7 @@ export default {
   update_fail: 'Update failed!',
   upload_service: 'Upload service',
   upload_time: 'Upload time',
+  upload_by: 'Uploaded by',
 
   V: 'v',
 

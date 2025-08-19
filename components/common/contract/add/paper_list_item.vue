@@ -42,9 +42,7 @@
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-form-item
           :name="['files', props.index, 'path']"
-          :rules="[
-            { required: true, message: $t('file_require'), trigger: 'blur' },
-          ]"
+          :rules="[{ required: true, message: $t('file_require'), trigger: 'blur' }]"
           class="px-3 inline-block"
         >
           <a-upload
@@ -116,7 +114,7 @@ function beforeUploadFile(file: any): boolean | string {
     type = file.name.split('.').pop() || '';
   }
 
-  if (!COMMON.ALLOW_FILE_EXTENSIONS.includes(`.${type}`)) {
+  if (!COMMON.ALLOW_FILE_EXTENSIONS.includes(`.${type}`) && !COMMON.ALLOW_FILE_EXTENSIONS_ADVANCE.includes(type)) {
     notification.error({
       message: t('invalid_file_title'),
       description: t('invalid_contract_file_type', { types: COMMON.ALLOW_FILE_EXTENSIONS.join(', ') }),

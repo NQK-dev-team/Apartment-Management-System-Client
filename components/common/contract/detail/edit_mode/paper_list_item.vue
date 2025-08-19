@@ -134,7 +134,7 @@ function beforeUploadFile(file: any): boolean | string {
     type = file.name.split('.').pop() || '';
   }
 
-  if (!COMMON.ALLOW_FILE_EXTENSIONS.includes(`.${type}`)) {
+  if (!COMMON.ALLOW_FILE_EXTENSIONS.includes(`.${type}`) && !COMMON.ALLOW_FILE_EXTENSIONS_ADVANCE.includes(type)) {
     notification.error({
       message: t('invalid_file_title'),
       description: t('invalid_contract_file_type', { types: COMMON.ALLOW_FILE_EXTENSIONS.join(', ') }),

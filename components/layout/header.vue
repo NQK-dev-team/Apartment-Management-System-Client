@@ -91,8 +91,8 @@
                       {
                         'font-bold text-black': lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
                         'font-bold text-white': !lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
-                        'text-gray-600': lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
-                        'text-gray-300': !lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                        'text-gray-500': lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                        'text-gray-400': !lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
                       },
                     ]"
                   >
@@ -104,8 +104,8 @@
                       {
                         'font-bold text-black': lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
                         'font-bold text-white': !lightMode && notification.isRead === COMMON.NOTIFICATION.UNREAD,
-                        'text-gray-600': lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
-                        'text-gray-300': !lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                        'text-gray-500': lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
+                        'text-gray-400': !lightMode && notification.isRead === COMMON.NOTIFICATION.READ,
                       },
                     ]"
                   >

@@ -1,5 +1,6 @@
 const websocketRoutes = {
-  index: '/',
+  notification: '/notification',
+  upload: '/upload',
 };
 
 export { websocketRoutes };

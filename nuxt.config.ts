@@ -51,12 +51,22 @@ export default defineNuxtConfig({
       // port: process.env.APP_PORT,
       // host: process.env.APP_HOST,
       webSocketURL: process.env.WEBSOCKET_URL,
+      webSocketPrefix: process.env.WEBSOCKET_PREFIX,
+      webSocketVersion: process.env.WEBSOCKET_VERSION,
     },
   },
   app: {
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
+    },
+  },
+  vite: {
+    server: {
+      hmr: {
+        host: process.env.APP_HOST || 'localhost',
+        port: process.env.APP_PORT ? Number(process.env.APP_PORT) : 3000,
+      },
     },
   },
   devServer: {

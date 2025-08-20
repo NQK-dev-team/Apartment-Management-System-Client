@@ -333,7 +333,6 @@ import type { Notification } from '~/types/notification';
 import type { UploadProps } from 'ant-design-vue';
 import Read from '~/public/svg/read.svg';
 import Unread from '~/public/svg/unread.svg';
-import type { RuntimeConfig } from 'nuxt/schema';
 import { websocketRoutes } from '~/consts/websocket_routes';
 
 // ---------------------- Metadata ----------------------
@@ -593,8 +592,10 @@ function handleCancel() {
 // ---------------------- Lifecycles ----------------------
 onMounted(() => {
   getInboxList();
-  const config: RuntimeConfig = useRuntimeConfig();
-  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.index);
+
+  websocketConnection.value = new WebSocket(
+    `${location.protocol.includes('https') ? 'wss' : 'ws'}://${location.host}/ws${websocketRoutes.notification}?clientUserID=${Number(userID?.value || 0)}`
+  );
 
   websocketConnection.value.onmessage = (event) => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);

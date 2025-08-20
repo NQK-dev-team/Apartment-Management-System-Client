@@ -177,7 +177,6 @@ import { pageRoutes } from '~/consts/page_routes';
 import { getMessageCode } from '~/consts/api_response';
 import { svgPaths } from '~/consts/svg_paths';
 import { COMMON } from '~/consts/common';
-import type { RuntimeConfig } from 'nuxt/schema';
 import { websocketRoutes } from '~/consts/websocket_routes';
 import type { Notification } from '~/types/notification';
 import { roles } from '~/consts/roles';
@@ -311,9 +310,9 @@ onMounted(() => {
   getNotificationList();
   getUserInfo();
 
-  const config: RuntimeConfig = useRuntimeConfig();
-
-  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.index);
+  websocketConnection.value = new WebSocket(
+    `${location.protocol.includes('https') ? 'wss' : 'ws'}://${location.host}/ws${websocketRoutes.notification}?clientUserID=${Number(userID?.value || 0)}`
+  );
 
   websocketConnection.value.onmessage = async (event) => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);

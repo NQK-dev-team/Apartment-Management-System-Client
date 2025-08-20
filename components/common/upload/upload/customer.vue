@@ -88,6 +88,8 @@
 import { COMMON } from '~/consts/common';
 import { type UploadFile, Upload, type UploadChangeParam } from 'ant-design-vue';
 import { api } from '~/services/api';
+import type { RuntimeConfig } from 'nuxt/schema';
+import { websocketRoutes } from '~/consts/websocket_routes';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -178,6 +180,8 @@ const state = reactive({
   searchText: '',
   searchedColumn: '',
 });
+const timeOut = ref();
+const websocketConnection = ref<WebSocket | null>(null);
 
 // ---------------------- Functions ----------------------
 async function fetchUploadedFiles() {
@@ -267,7 +271,7 @@ async function handleChange(info: UploadChangeParam) {
 
     fileList.value = [];
 
-    await fetchUploadedFiles();
+    // await fetchUploadedFiles();
   }
 }
 
@@ -285,5 +289,26 @@ function handleReset(clearFilters: any) {
 // ---------------------- Lifecycles ----------------------
 onMounted(() => {
   fetchUploadedFiles();
+
+  const config: RuntimeConfig = useRuntimeConfig();
+
+  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.index);
+
+  websocketConnection.value.onmessage = (event) => {
+    const data: { type: number; users: number[] } = JSON.parse(event.data);
+
+    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.UPLOAD_CUSTOMER) {
+      if (timeOut.value) {
+        clearTimeout(timeOut.value);
+      }
+      timeOut.value = setTimeout(() => {
+        fetchUploadedFiles();
+      }, 1000);
+    }
+  };
+});
+
+onUnmounted(() => {
+  websocketConnection.value?.close();
 });
 </script>

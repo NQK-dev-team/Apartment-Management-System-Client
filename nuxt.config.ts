@@ -5,9 +5,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   ssr: true,
-  // nitro: {
-  //   preset: 'node-server', // Set nitro preset for the building process
-  // },
+  nitro: {
+    // preset: 'node-server', // Set nitro preset for the building process
+    experimental: {
+      websocket: true,
+    },
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxtjs/i18n',

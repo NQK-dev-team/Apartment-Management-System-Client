@@ -21,12 +21,18 @@
               >
             </a-radio-group>
           </div>
-          <div class="mt-5">
-            <p class="font-bold mb-1">{{ $t('display_category') }}</p>
-            <a-select v-model:value="viewCatory" class="w-32">
-              <a-select-option :value="1">{{ $t('upload_file') }}</a-select-option>
-              <a-select-option :value="2">{{ $t('process_result') }}</a-select-option>
-            </a-select>
+          <div class="mt-5 flex items-center">
+            <div>
+              <p class="font-bold mb-1">{{ $t('display_category') }}</p>
+              <a-select v-model:value="viewCatory" class="w-32">
+                <a-select-option :value="1">{{ $t('upload_file') }}</a-select-option>
+                <a-select-option :value="2">{{ $t('process_result') }}</a-select-option>
+              </a-select>
+            </div>
+            <div v-if="viewCatory === 2" class="ms-5">
+              <p class="font-bold mb-1">{{ $t('process_date') }}</p>
+              <a-date-picker id="process_date" v-model:value="daySelect" :disabled-date="disabledDate" class="w-48" />
+            </div>
           </div>
         </div>
         <hr class="my-5" />
@@ -36,9 +42,15 @@
           <CommonUploadUploadBill v-if="importOption === COMMON.UPLOAD_TYPE.ADD_BILLS" />
         </div>
         <div v-else-if="viewCatory === 2" class="flex-1">
-          <CommonUploadResultCustomer v-if="importOption === COMMON.UPLOAD_TYPE.ADD_CUSTOMERS" />
-          <CommonUploadResultContract v-if="importOption === COMMON.UPLOAD_TYPE.ADD_CONTRACTS" />
-          <CommonUploadResultBill v-if="importOption === COMMON.UPLOAD_TYPE.ADD_BILLS" />
+          <CommonUploadResultCustomer
+            v-if="importOption === COMMON.UPLOAD_TYPE.ADD_CUSTOMERS"
+            :day-select="daySelect"
+          />
+          <CommonUploadResultContract
+            v-if="importOption === COMMON.UPLOAD_TYPE.ADD_CONTRACTS"
+            :day-select="daySelect"
+          />
+          <CommonUploadResultBill v-if="importOption === COMMON.UPLOAD_TYPE.ADD_BILLS" :day-select="daySelect" />
         </div>
       </div>
     </ClientOnly>
@@ -46,6 +58,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Dayjs } from 'dayjs';
 import { COMMON } from '~/consts/common';
 
 // ---------------------- Metadata ----------------------
@@ -72,4 +85,12 @@ const lightMode = computed(
 );
 const importOption = ref<number | null>(null);
 const viewCatory = ref(1);
+const { $dayjs } = useNuxtApp();
+const daySelect = ref<Dayjs>($dayjs());
+
+// ---------------------- Functions ----------------------
+function disabledDate(current: Dayjs) {
+  // Can not select days after today
+  return current && current >= $dayjs().endOf('day');
+}
 </script>

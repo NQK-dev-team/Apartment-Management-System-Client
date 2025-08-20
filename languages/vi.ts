@@ -283,6 +283,7 @@ export default {
   file_size: 'Kích thước tệp tin',
   file_upload_success: 'Tệp tin {name} đã được tải lên thành công!',
   file_upload_failed: 'Tệp tin {name} tải lên thất bại!',
+  failed: 'Thất bại',
 
   G: 'g',
   gender: 'Giới tính',
@@ -456,6 +457,7 @@ export default {
   profile_info_updated: 'Thông tin cá nhân đã được cập nhật thành công!',
   password_incorrect: 'Mật khẩu không chính xác!',
   process_result: 'Kết quả xử lý',
+  process_date: 'Ngày xử lý',
 
   Q: 'q',
   quarter: 'Quý {quarter}',

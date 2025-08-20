@@ -280,6 +280,7 @@ export default {
   file_size: 'File size',
   file_upload_success: 'File {name} uploaded successfully!',
   file_upload_failed: 'File {name} upload failed!',
+  failed: 'Failed',
 
   G: 'g',
   gender: 'Gender',
@@ -455,6 +456,7 @@ export default {
   profile_info_updated: 'User personal information has been updated successfully!',
   password_incorrect: 'Password is incorrect!',
   process_result: 'Process result',
+  process_date: 'Process date',
 
   Q: 'q',
   quarter: 'Q{quarter}',

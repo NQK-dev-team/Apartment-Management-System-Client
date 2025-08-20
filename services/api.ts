@@ -559,9 +559,9 @@ const common = {
         method: 'GET',
       });
     },
-    getProcessedFiles: async (type: number): Promise<APIResponse<Upload[]>> => {
+    getProcessedFiles: async (type: number, date: string): Promise<APIResponse<Upload[]>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.upload.getProcessedFiles(type), {
+      return $api(apiRoutes.upload.getProcessedFiles(type, date), {
         method: 'GET',
       });
     },

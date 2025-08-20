@@ -105,7 +105,7 @@ const apiRoutes = {
   },
   upload: {
     getUploadFiles: (type: number) => `upload/not-process?type=${type}`,
-    getProcessedFiles: (type: number) => `upload/processed?type=${type}`,
+    getProcessedFiles: (type: number, date: string) => `upload/processed?type=${type}&date=${date}`,
     uploadFile: 'upload/add',
   },
 };

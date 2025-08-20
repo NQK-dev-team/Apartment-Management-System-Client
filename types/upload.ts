@@ -1,3 +1,4 @@
+import type { NullInt64, NullTime } from './basic_model';
 import type { User } from './user';
 
 type Upload = {
@@ -9,8 +10,8 @@ type Upload = {
   urlPath: string;
   size: number;
   uploadType: number;
-  processDate: string;
-  processResult: number;
+  processDate: NullTime;
+  processResult: NullInt64;
 };
 
 export type { Upload };

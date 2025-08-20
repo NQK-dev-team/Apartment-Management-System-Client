@@ -594,13 +594,12 @@ function handleCancel() {
 onMounted(() => {
   getInboxList();
   const config: RuntimeConfig = useRuntimeConfig();
-  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
+  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.index);
 
   websocketConnection.value.onmessage = (event) => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);
 
-    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_IMPORTANT && data.users.includes(Number(userID?.value || 0)))
-    {
+    if (data.type === COMMON.WEBSOCKET_SIGNAL_TYPE.NEW_IMPORTANT && data.users.includes(Number(userID?.value || 0))) {
       scrollPosition.value = {
         top: document.getElementById('notificationList')?.scrollTop || 0,
         left: document.getElementById('notificationList')?.scrollLeft || 0,

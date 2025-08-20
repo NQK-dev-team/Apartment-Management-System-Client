@@ -618,7 +618,7 @@ function handleCancel() {
 onMounted(() => {
   getInboxList();
   const config: RuntimeConfig = useRuntimeConfig();
-  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
+  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.index);
 
   websocketConnection.value.onmessage = (event) => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);

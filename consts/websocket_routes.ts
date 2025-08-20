@@ -1,5 +1,5 @@
 const websocketRoutes = {
-  notification: '/notification',
+  index: '/',
 };
 
 export { websocketRoutes };

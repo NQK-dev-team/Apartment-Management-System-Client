@@ -313,7 +313,7 @@ onMounted(() => {
 
   const config: RuntimeConfig = useRuntimeConfig();
 
-  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.notification);
+  websocketConnection.value = new WebSocket(config.public.webSocketURL + websocketRoutes.index);
 
   websocketConnection.value.onmessage = async (event) => {
     const data: { type: number; users: number[] } = JSON.parse(event.data);

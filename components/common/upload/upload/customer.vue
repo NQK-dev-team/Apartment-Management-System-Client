@@ -1,5 +1,5 @@
 <template>
-  <div class="flex overflow-auto">
+  <div class="flex overflow-auto hideBrowserScrollbar">
     <a-table :columns="columns" :data-source="data" :scroll="{ x: 'max-content' }" class="flex-1">
       <template #bodyCell="{ column, value, record }">
         <template v-if="column.dataIndex === 'file_name'">

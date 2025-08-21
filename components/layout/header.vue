@@ -117,7 +117,7 @@
                       },
                     ]"
                   >
-                    {{ $dayjs(notification.sendTime).fromNow() }}
+                    {{ getTimeDifferenceFromNow(notification.sendTime, locale) }}
                   </div>
                 </NuxtLink>
               </div>
@@ -191,7 +191,7 @@ import { roles } from '~/consts/roles';
 import DoubleTick from '~/public/svg/double_tick.svg';
 
 // ---------------------- Variables ----------------------
-const { setLocale } = useI18n();
+const { setLocale, locale } = useI18n();
 const { $event } = useNuxtApp();
 const lightModeCookie = useCookie('lightMode');
 const userNameCookie = useCookie('userName');

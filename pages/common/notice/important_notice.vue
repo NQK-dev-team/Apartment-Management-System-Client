@@ -80,7 +80,7 @@
                     },
                   ]"
                 >
-                  {{ $t('sender') }}:&nbsp;
+                  {{ $t('sender') }}:
                   {{ getUserName(notification.sender) }}
                 </div>
                 <div
@@ -93,9 +93,9 @@
                     },
                   ]"
                 >
-                  {{ $t('send_time') }}:&nbsp;
+                  {{ $t('send_time') }}:
                   <!-- {{ convertToDateTime2(notification.sendTime, locale) }} -->
-                  {{ $dayjs(notification.sendTime).fromNow() }}
+                  {{ getTimeDifferenceFromNow(notification.sendTime, locale) }}
                 </div>
               </a-badge>
               <div
@@ -138,7 +138,7 @@
                     },
                   ]"
                 >
-                  {{ $t('sender') }}:&nbsp;
+                  {{ $t('sender') }}:
                   {{ getUserName(notification.sender) }}
                 </div>
                 <div
@@ -151,9 +151,9 @@
                     },
                   ]"
                 >
-                  {{ $t('send_time') }}:&nbsp;
+                  {{ $t('send_time') }}:
                   <!-- {{ convertToDateTime2(notification.sendTime, locale) }} -->
-                  {{ $dayjs(notification.sendTime).fromNow() }}
+                  {{ getTimeDifferenceFromNow(notification.sendTime, locale) }}
                 </div>
               </div>
             </div>
@@ -207,7 +207,7 @@
           <div v-if="notificationDetail" class="h-full w-full px-5">
             <div class="flex items-center justify-between">
               <div :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
-                {{ $t('sender') }}:&nbsp;
+                {{ $t('sender') }}:
                 {{ getUserName(notificationDetail.sender) }}
               </div>
               <a-dropdown>
@@ -274,7 +274,7 @@
               </a-dropdown>
             </div>
             <div class="mt-5" :class="[lightMode ? 'text-gray-700' : 'text-gray-300']">
-              {{ $t('send_time') }}:&nbsp;
+              {{ $t('send_time') }}:
               {{ convertToDateTime2(notificationDetail.sendTime, locale) }}
             </div>
             <h2 class="mt-10 text-center text-2xl">{{ notificationDetail.title }}</h2>

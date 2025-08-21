@@ -1,6 +1,7 @@
 import { COMMON } from '~/consts/common';
 import type { User } from '~/types/user';
 import type { RoomResident } from '~/types/contract';
+import dayjs from 'dayjs';
 
 function getUserName(user: User | RoomResident | undefined): string {
   if (!user) {
@@ -129,6 +130,10 @@ function getFileSizeString(size: number): string {
   return `${size.toFixed(2)} ${units[i]}`;
 }
 
+function getTimeDifferenceFromNow(time: string, locale: string): string {
+  return dayjs(time).locale(locale).fromNow();
+}
+
 export {
   getContractType,
   getContractStatus,
@@ -138,4 +143,5 @@ export {
   getBillStatus,
   getImportTypeLabel,
   getFileSizeString,
+  getTimeDifferenceFromNow,
 };

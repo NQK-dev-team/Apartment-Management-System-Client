@@ -1,3 +1,5 @@
+import { COMMON } from '~/consts/common';
+
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('vn-VN', { style: 'currency', currency: 'VND' }).format(price);
 }
@@ -45,7 +47,7 @@ function convertToDateTime2(date: string, locale: string): string {
     day: 'numeric',
   };
 
-  return `${d.toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', options)} ${hour}:${minute}:${second}`;
+  return `${d.toLocaleDateString(locale === COMMON.LOCALE.VI ? COMMON.LOCALE.VI_FULL : COMMON.LOCALE.EN_FULL, options)} ${hour}:${minute}:${second}`;
 }
 
 export { formatPrice, convertToDate, convertToDateTime, convertToMonthYear, convertToDateTime2 };

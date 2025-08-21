@@ -11,16 +11,16 @@
           <div>
             <a-dropdown :trigger="['click']" placement="bottomRight">
               <p class="text-center cursor-pointer flex items-center">
-                <img v-show="locale === 'vi'" :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
-                <img v-show="locale === 'en'" :src="svgPaths.en" alt="English" class="w-[20px]" />
+                <img v-show="locale === COMMON.LOCALE.VI" :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
+                <img v-show="locale === COMMON.LOCALE.EN" :src="svgPaths.en" alt="English" class="w-[20px]" />
                 <down-outlined style="font-size: 11px" class="ms-1"></down-outlined>
               </p>
               <template #overlay>
                 <a-menu>
-                  <a-menu-item key="vi" @click="setLocale('vi')">
+                  <a-menu-item :key="COMMON.LOCALE.VI" @click="setLocale(COMMON.LOCALE.VI as any)">
                     <img :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
                   </a-menu-item>
-                  <a-menu-item key="en" @click="setLocale('en')">
+                  <a-menu-item :key="COMMON.LOCALE.EN" @click="setLocale(COMMON.LOCALE.EN as any)">
                     <img :src="svgPaths.en" alt="English" class="w-[20px]" />
                   </a-menu-item>
                 </a-menu>
@@ -46,16 +46,16 @@
           <div>
             <a-dropdown :trigger="['click']" placement="bottomRight">
               <p class="text-center cursor-pointer flex items-center">
-                <img v-show="locale === 'vi'" :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
-                <img v-show="locale === 'en'" :src="svgPaths.en" alt="English" class="w-[20px]" />
+                <img v-show="locale === COMMON.LOCALE.VI" :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
+                <img v-show="locale === COMMON.LOCALE.EN" :src="svgPaths.en" alt="English" class="w-[20px]" />
                 <down-outlined style="font-size: 11px" class="ms-1"></down-outlined>
               </p>
               <template #overlay>
                 <a-menu>
-                  <a-menu-item key="vi" @click="setLocale('vi')">
+                  <a-menu-item :key="COMMON.LOCALE.VI" @click="setLocale(COMMON.LOCALE.VI as any)">
                     <img :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
                   </a-menu-item>
-                  <a-menu-item key="en" @click="setLocale('en')">
+                  <a-menu-item :key="COMMON.LOCALE.EN" @click="setLocale(COMMON.LOCALE.EN as any)">
                     <img :src="svgPaths.en" alt="English" class="w-[20px]" />
                   </a-menu-item>
                 </a-menu>

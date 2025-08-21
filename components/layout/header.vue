@@ -28,13 +28,21 @@
           </div>
           <template #overlay>
             <a-menu>
-              <a-menu-item key="vi" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']" @click="setLocale('vi')">
+              <a-menu-item
+                :key="COMMON.LOCALE.VI"
+                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
+                @click="setLocale(COMMON.LOCALE.VI as any)"
+              >
                 <div class="flex items-center">
                   <img :src="svgPaths.vi" alt="Vietnamese" class="w-[24px] h-[24px] select-none" />
                   <p class="ms-2" :class="[lightMode ? '' : 'text-white']">Tiếng Việt</p>
                 </div>
               </a-menu-item>
-              <a-menu-item key="en" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']" @click="setLocale('en')">
+              <a-menu-item
+                :key="COMMON.LOCALE.EN"
+                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
+                @click="setLocale(COMMON.LOCALE.EN as any)"
+              >
                 <div class="flex items-center">
                   <img :src="svgPaths.en" alt="English" class="w-[24px] h-[24px] select-none" />
                   <p class="ms-2" :class="[lightMode ? '' : 'text-white']">English</p>

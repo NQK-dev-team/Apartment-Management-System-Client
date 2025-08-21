@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { COMMON } from './consts/common';
 import { appRoutes } from './pages/routes';
 
 export default defineNuxtConfig({
@@ -23,9 +24,9 @@ export default defineNuxtConfig({
     'dayjs-nuxt',
   ],
   dayjs: {
-    locales: ['vi', 'en'],
+    locales: [COMMON.LOCALE.VI as never, COMMON.LOCALE.EN as never],
     plugins: ['quarterOfYear', 'utc', 'timezone'],
-    defaultLocale: 'vi',
+    defaultLocale: COMMON.LOCALE.VI as never,
     defaultTimezone: 'Asia/Ho_Chi_Minh',
   },
   svgo: {

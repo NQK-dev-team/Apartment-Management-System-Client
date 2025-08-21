@@ -2,6 +2,12 @@ import { HTTP_STATUS } from './http_status';
 
 const COMMON = {
   HIDDEN_OPTION: 0,
+  LOCALE: {
+    VI: 'vi',
+    EN: 'en',
+    VI_FULL: 'vi-VN',
+    EN_FULL: 'en-US',
+  },
   SUPPORT_TICKET_STATUS: {
     PENDING: 1,
     APPROVED: 2,

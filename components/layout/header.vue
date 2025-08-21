@@ -53,7 +53,7 @@
         </a-dropdown>
       </div>
       <div v-if="userRole?.toString() === roles.owner || userRole?.toString() === roles.manager" class="mx-3 h-[24px]">
-        <NuxtLink :to="pageRoutes.common.upload.index" target="_blank" class="h-[22px] flex items-center">
+        <NuxtLink :to="pageRoutes.common.upload.index" class="h-[22px] flex items-center">
           <img :src="svgPaths.upload" alt="Import" class="w-[14px] h-[14px] select-none" />
         </NuxtLink>
       </div>

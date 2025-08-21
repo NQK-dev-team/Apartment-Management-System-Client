@@ -163,7 +163,7 @@ export default {
   edit: 'Edit',
   edit_customer: 'Edit customer',
   email: 'Email',
-  example_file: 'Example files',
+  example_file: 'Example file',
   example_file_csv: 'Example CSV file',
   example_file_xls: 'Example XLS/XLSX file',
   email_require: 'Please enter your email!',

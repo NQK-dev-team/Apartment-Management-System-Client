@@ -76,8 +76,10 @@ const COMMON = {
   ALLOW_IMAGE_EXTENSIONS: ['.jpg', '.jpeg', '.png'],
   ALLOW_FILE_EXTENSIONS: ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
   ALLOW_FILE_EXTENSIONS_ADVANCE: ['vnd.openxmlformats-officedocument.wordprocessingml.document', 'msword'],
-  ALLOW_UPLOAD_FILE_EXTENSIONS: ['.xls', '.xlsx'],
-  ALLOW_UPLOAD_FILE_EXTENSIONS_ADVANCE: ['vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'vnd.ms-excel'],
+  // ALLOW_UPLOAD_FILE_EXTENSIONS: ['.xls', '.xlsx'],
+  // ALLOW_UPLOAD_FILE_EXTENSIONS_ADVANCE: ['vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'vnd.ms-excel'],
+  ALLOW_UPLOAD_FILE_EXTENSIONS: ['.xlsx'],
+  ALLOW_UPLOAD_FILE_EXTENSIONS_ADVANCE: ['vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
   IMAGE_SIZE_LIMIT: 2 * 1024 * 1024, // 2MB
   IMAGE_SIZE_LIMIT_STR: '2MB',
   FILE_SIZE_LIMIT: 10 * 1024 * 1024, // 10MB

@@ -21,6 +21,12 @@
         <div class="h-full flex-1 flex flex-col me-24">
           <div class="flex items-center">
             <div class="flex-1 me-2">
+              <label for="building_id" class="flex mb-1">
+                <span>{{ $t('buildingID') }}</span>
+              </label>
+              <a-input id="building_id" :value="buildingData.ID" disabled readonly :placeholder="$t('buildingID')" />
+            </div>
+            <div class="flex-1 ms-2">
               <label for="building_name" class="flex mb-1">
                 <span>{{ $t('building_name') }}</span>
               </label>
@@ -32,7 +38,9 @@
                 :placeholder="$t('building_name')"
               />
             </div>
-            <div class="flex-1 ms-2">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-2">
               <label for="building_address" class="flex mb-1">
                 <span>{{ $t('building_address') }}</span>
               </label>
@@ -44,9 +52,7 @@
                 :placeholder="$t('building_address')"
               />
             </div>
-          </div>
-          <div class="flex items-center mt-5">
-            <div class="flex-1 me-2">
+            <div class="flex-1 ms-2">
               <label for="total_floor" class="flex mb-1">
                 <span>{{ $t('total_floor') }}</span>
               </label>
@@ -58,7 +64,9 @@
                 :placeholder="$t('total_floor')"
               />
             </div>
-            <div class="flex-1 ms-2">
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="flex-1 me-2">
               <label for="total_room" class="flex mb-1">
                 <span>{{ $t('total_room') }}</span>
               </label>
@@ -70,6 +78,7 @@
                 :placeholder="$t('total_room')"
               />
             </div>
+            <div class="flex-1 ms-2"></div>
           </div>
           <!-- <div class="flex items-center"></div>
           <div class="flex items-center"></div>

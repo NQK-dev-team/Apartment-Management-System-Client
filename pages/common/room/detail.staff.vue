@@ -73,6 +73,18 @@
         <div class="h-full flex-1 flex flex-col me-24">
           <div class="flex items-start">
             <div class="flex-1 me-2">
+              <label for="building_id" class="flex mb-1">
+                <span>{{ $t('buildingID') }}</span>
+              </label>
+              <a-input
+                id="building_id"
+                :value="roomData.buildingID"
+                disabled
+                readonly
+                :placeholder="$t('buildingID')"
+              />
+            </div>
+            <div class="flex-1 ms-2">
               <label for="building_name" class="flex mb-1">
                 <span>{{ $t('building') }}</span>
               </label>
@@ -84,7 +96,9 @@
                 :placeholder="$t('building_name')"
               />
             </div>
-            <div class="flex-1 ms-2">
+          </div>
+          <div class="flex items-start mt-5">
+            <div class="flex-1 me-2">
               <label for="building_address" class="flex mb-1">
                 <span>{{ $t('building_address') }}</span>
               </label>
@@ -96,23 +110,21 @@
                 :placeholder="$t('building_address')"
               />
             </div>
-          </div>
-          <div class="flex items-start mt-5">
-            <div class="flex-1 me-2">
+            <div class="flex-1 ms-2">
               <label for="room_floor" class="flex mb-1">
                 <span>{{ $t('floor') }}</span>
               </label>
               <a-input id="room_floor" :value="roomData.floor" disabled readonly :placeholder="$t('floor')" />
             </div>
-            <div class="flex-1 ms-2">
+          </div>
+          <div class="flex items-start mt-5">
+            <div class="flex-1 me-2">
               <label for="room_no" class="flex mb-1">
                 <span>{{ $t('room_no') }}</span>
               </label>
               <a-input id="room_no" :value="roomData.no" disabled readonly :placeholder="$t('room_no')" />
             </div>
-          </div>
-          <div class="flex items-start mt-5">
-            <div class="flex-1 me-2">
+            <div class="flex-1 ms-2">
               <ClientOnly>
                 <a-form-item
                   :rules="[
@@ -157,7 +169,9 @@
                 </a-form-item>
               </ClientOnly>
             </div>
-            <div class="flex-1 ms-2">
+          </div>
+          <div class="flex items-start mt-5">
+            <div class="flex-1 me-2">
               <ClientOnly>
                 <a-form-item
                   :rules="[{ required: true, message: $t('empty_room_status'), trigger: 'blur' }]"
@@ -225,9 +239,7 @@
                 </a-form-item>
               </ClientOnly>
             </div>
-          </div>
-          <div class="flex items-start mt-5">
-            <div class="flex-1 me-2">
+            <div class="flex-1 ms-2">
               <div class="flex items-center justify-between">
                 <label for="room_description" class="flex mb-1">
                   <span>{{ $t('description') }}</span>
@@ -259,7 +271,6 @@
                 :rows="3"
               />
             </div>
-            <div class="flex-1 ms-2"></div>
           </div>
         </div>
         <div v-if="!editMode" class="w-[250px] h-full me-12 select-none">
@@ -357,8 +368,8 @@
           </div>
         </div>
       </div>
-      <hr class="mt-2" />
-      <div class="w-full flex-1 flex flex-col">
+      <hr v-if="!editMode" class="mt-5" />
+      <div v-if="!editMode" class="w-full flex-1 flex flex-col">
         <div class="flex items-center mt-3">
           <p
             class="me-3 cursor-pointer select-none"
@@ -426,11 +437,11 @@
             />
           </div>
         </ClientOnly>
-        <div class="flex flex-col items-center my-5">
-          <a-button class="my-2 w-[100px] rounded-sm">
-            <NuxtLink :to="pageRoutes.common.building.detail(buildingID)">{{ $t('back') }}</NuxtLink>
-          </a-button>
-        </div>
+      </div>
+      <div class="flex flex-col items-center my-5">
+        <a-button class="my-2 w-[100px] rounded-sm">
+          <NuxtLink :to="pageRoutes.common.building.detail(buildingID)">{{ $t('back') }}</NuxtLink>
+        </a-button>
       </div>
     </div>
     <a-modal

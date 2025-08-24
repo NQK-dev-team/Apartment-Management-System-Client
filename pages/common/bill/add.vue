@@ -669,16 +669,16 @@ async function addBill() {
 
     const data: AddBill2 = {
       contractID: bill.value.contractID || 0,
-      title: bill.value.title,
+      title: bill.value.title.trim(),
       period: convertToMonthYear($dayjs(bill.value.period).startOf('month').toDate().toISOString()),
       status: bill.value.status || 0,
-      note: bill.value.note || '',
+      note: bill.value.note.trim(),
       paymentTime: bill.value.paymentTime ? convertToDate($dayjs(bill.value.paymentTime).toDate().toISOString()) : '',
       payerID: bill.value.payerID || 0,
       billPayments: bill.value.billPayments.map((payment) => ({
-        name: payment.name || '',
-        amount: Number(payment.amount),
-        note: payment.note.String || '',
+        name: payment.name.trim(),
+        amount: Number(payment.amount.toString().trim()),
+        note: payment.note.String ? payment.note.String.trim() : '',
       })),
     };
 

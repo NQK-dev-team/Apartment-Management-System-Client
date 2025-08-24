@@ -293,8 +293,8 @@ async function sendNotification() {
     }
 
     const data = new FormData();
-    data.append('title', notificationData.value.title);
-    data.append('content', sanitizeString(notificationData.value.content));
+    data.append('title', notificationData.value.title.trim());
+    data.append('content', sanitizeString(notificationData.value.content.trim()));
     // notificationData.value.receivers.forEach((receiver) => {
     //   data.append('receivers[]', receiver.toString());
     // });

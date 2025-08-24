@@ -218,9 +218,9 @@ async function addTicket() {
   try {
     $event.emit('loading');
     const formData = new FormData();
-    formData.append('title', newTicket.value?.title || '');
-    formData.append('content', newTicket.value?.content || '');
-    formData.append('roomID', newTicket.value?.roomID?.toString() || '');
+    formData.append('title', newTicket.value?.title?.trim() ?? '');
+    formData.append('content', newTicket.value?.content?.trim() ?? '');
+    formData.append('roomID', newTicket.value?.roomID?.toString() ?? '');
     newTicket.value?.fileList.forEach((file) => {
       formData.append('files[]', file.originFileObj as File);
     });

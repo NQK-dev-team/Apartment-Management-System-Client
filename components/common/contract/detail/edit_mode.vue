@@ -556,7 +556,7 @@ async function updateContract() {
       .filter((file) => file.isNew)
       .forEach((file, index) => {
         formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
-        formData.append(`file[${index}]title`, file.title || '');
+        formData.append(`file[${index}]title`, file.title?.trim() || '');
       });
     editContract.value.value.residents.forEach((resident) => {
       if (resident.isDeleted && !resident.isNew) {

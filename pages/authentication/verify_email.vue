@@ -114,7 +114,7 @@ async function checkToken() {
   try {
     $event.emit('loading');
 
-    await api.authentication.verifyEmail(email, token);
+    await api.authentication.verifyEmail(email.trim(), token);
 
     verifySuccess.value = true;
   } catch (err: any) {

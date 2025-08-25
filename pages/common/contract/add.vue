@@ -832,11 +832,11 @@ async function addContract() {
     $event.emit('loading');
 
     const formData = new FormData();
-    formData.append('buildingID', newContract.value.buildingID?.toString() || '');
-    formData.append('roomID', newContract.value.roomID?.toString() || '');
-    formData.append('householderID', newContract.value.householderID?.toString() || '');
-    formData.append('contractType', newContract.value.type?.toString() || '');
-    formData.append('contractValue', newContract.value.value?.toString() || '0');
+    formData.append('buildingID', newContract.value.buildingID?.toString().trim() || '');
+    formData.append('roomID', newContract.value.roomID?.toString().trim() || '');
+    formData.append('householderID', newContract.value.householderID?.toString().trim() || '');
+    formData.append('contractType', newContract.value.type?.toString().trim() || '');
+    formData.append('contractValue', newContract.value.value?.toString().trim() || '0');
     formData.append(
       'createdAt',
       newContract.value.createdAt ? convertToDate(newContract.value.createdAt.toString()) || '' : ''
@@ -857,7 +857,7 @@ async function addContract() {
     formData.append('totalNewFiles', totalNewFiles.toString());
     newContract.value.files.forEach((file, index) => {
       formData.append(`file[${index}]file`, (file.path as UploadFile[])[0].originFileObj as File);
-      formData.append(`file[${index}]title`, file.title || '');
+      formData.append(`file[${index}]title`, file.title?.trim() || '');
     });
     newContract.value.residents.forEach((resident) => {
       const { userAccount, ...residentData } = resident;

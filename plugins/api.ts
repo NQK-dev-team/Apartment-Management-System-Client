@@ -9,8 +9,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // const baseURL = `${config.public.isHttps ? 'https' : 'http'}://${config.public.host}${config.public.port ? `:${config.public.port}` : ''}/api`;
 
-  const url = useRequestURL();
-  const baseURL = `${url.protocol}//${url.host}/api`;
+  // const url = useRequestURL();
+  // const baseURL = `${url.protocol}//${url.host}/api`;
+  const baseURL = '/api';
 
   const api = $fetch.create({
     baseURL,

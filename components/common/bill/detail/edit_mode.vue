@@ -403,23 +403,23 @@ async function updateBill() {
     $event.emit('loading');
 
     const data: UpdateBill = {
-      title: bill.value.value.title,
+      title: bill.value.value.title.trim(),
       status: bill.value.value.status,
-      note: bill.value.value.note.String || '',
+      note: bill.value.value.note.String ? bill.value.value.note.String.trim() : '',
       payments: bill.value.value.billPayments
         .filter((payment) => payment.ID > 0 && !payment.isDeleted)
         .map((payment) => ({
           ID: payment.ID,
-          name: payment.name,
-          amount: Number(payment.amount),
-          note: payment.note.String || '',
+          name: payment.name.trim(),
+          amount: Number(payment.amount.toString().trim()),
+          note: payment.note.String ? payment.note.String.trim() : '',
         })),
       newPayments: bill.value.value.billPayments
         .filter((payment) => payment.ID < 0 && !payment.isDeleted)
         .map((payment) => ({
-          name: payment.name,
-          amount: Number(payment.amount),
-          note: payment.note.String || '',
+          name: payment.name.trim(),
+          amount: Number(payment.amount.toString().trim()),
+          note: payment.note.String ? payment.note.String.trim() : '',
         })),
       deletedPayments: bill.value.value.billPayments
         .filter((payment) => payment.ID > 0 && payment.isDeleted)

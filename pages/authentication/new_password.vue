@@ -182,7 +182,7 @@ const info = () => {
 async function checkToken() {
   try {
     $event.emit('loading');
-    await api.authentication.checkPasswordResetToken(email, token);
+    await api.authentication.checkPasswordResetToken(email.trim(), token);
     showChangePassword.value = true;
     tokenInvalid.value = false;
     userNotFound.value = false;
@@ -216,7 +216,12 @@ async function setNewPassword() {
       return;
     }
 
-    await api.authentication.resetPassword(email, token, formData.value.newPassword, formData.value.confirmPassword);
+    await api.authentication.resetPassword(
+      email.trim(),
+      token,
+      formData.value.newPassword,
+      formData.value.confirmPassword
+    );
 
     if (showResetPasswordModal.value) {
       showResetPasswordModal.value.click();

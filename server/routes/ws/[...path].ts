@@ -2,6 +2,7 @@ import type { RuntimeConfig } from 'nuxt/schema';
 import { apiRoutes } from '~/consts/api_routes';
 import { COMMON } from '~/consts/common';
 import type { APITokenResponse } from '~/types/api_response';
+import WebSocket from 'ws';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
@@ -121,7 +122,8 @@ export default defineWebSocketHandler({
       external.close();
     };
 
-    external.onmessage = (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    external.onmessage = (event: any) => {
       if (peer.websocket && typeof peer.websocket.send === 'function') {
         const data = JSON.parse(event.data);
         const type = data.type;

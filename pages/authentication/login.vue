@@ -172,7 +172,7 @@ async function login() {
   try {
     isValid.value = true;
     $event.emit('loading');
-    await api.authentication.login(formData.value.email, formData.value.password, formData.value.remember);
+    await api.authentication.login(formData.value.email.trim(), formData.value.password, formData.value.remember);
     const roleCookie = useCookie('userRole');
     let targetRoute = '';
     if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.owner) {

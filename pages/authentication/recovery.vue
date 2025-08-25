@@ -128,7 +128,7 @@ async function recover() {
   try {
     isFound.value = true;
     $event.emit('loading');
-    await api.authentication.recovery(formData.value.email);
+    await api.authentication.recovery(formData.value.email.trim());
     if (showEmailRecoveryModal.value) {
       showEmailRecoveryModal.value.click();
     }

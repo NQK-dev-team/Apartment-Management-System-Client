@@ -215,6 +215,9 @@ async function changeEmail() {
   try {
     $event.emit('loading');
 
+    changeEmailModel.value.newEmail = changeEmailModel.value.newEmail.trim();
+    changeEmailModel.value.oldEmail = changeEmailModel.value.oldEmail.trim();
+
     await api.common.security.changeEmail(changeEmailModel.value);
     await api.authentication.logout();
     emailChangeModalVisible.value = true;

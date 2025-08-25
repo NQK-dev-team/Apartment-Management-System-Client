@@ -789,9 +789,9 @@ async function updateRoom() {
     $event.emit('loading');
 
     const formData = new FormData();
-    formData.append('description', updateRoomData.value.description);
-    formData.append('status', updateRoomData.value.status.toString());
-    formData.append('area', updateRoomData.value.area.toString());
+    formData.append('description', updateRoomData.value.description.trim());
+    formData.append('status', updateRoomData.value.status.toString().trim());
+    formData.append('area', updateRoomData.value.area.toString().trim());
     updateRoomData.value.images.forEach((image) => {
       if (image.isDeleted) {
         formData.append('deletedRoomImages[]', (image as RoomImage).ID.toString());

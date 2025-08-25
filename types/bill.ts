@@ -40,6 +40,7 @@ type UpdateBill = {
   title: string;
   status: number;
   note: string;
+  period: string;
   payments: {
     ID: number;
     name: string;

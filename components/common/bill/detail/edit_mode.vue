@@ -405,6 +405,7 @@ async function updateBill() {
     const data: UpdateBill = {
       title: bill.value.value.title.trim(),
       status: bill.value.value.status,
+      period: convertToMonthYear(bill.value.value.period),
       note: bill.value.value.note.String ? bill.value.value.note.String.trim() : '',
       payments: bill.value.value.billPayments
         .filter((payment) => payment.ID > 0 && !payment.isDeleted)

@@ -80,3 +80,12 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 ## Requirement:
 
 # install node.js 22.x.x: https://nodejs.org/en/download
+
+<!-- Testing -->
+# Unit test config: vitest.config.ts
+```bash
+# How to test UT
+npx vitest
+```
+
+# E2E test using playwright --> Follow this video: https://youtu.be/zksrIRwaVlc?si=hd22AzSH53QiVnkS , REMEMBER TO NOT OVERWRITE configuration

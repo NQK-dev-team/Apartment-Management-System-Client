@@ -89,3 +89,6 @@ npx vitest
 ```
 
 # E2E test using playwright --> Follow this video: https://youtu.be/zksrIRwaVlc?si=hd22AzSH53QiVnkS , REMEMBER TO NOT OVERWRITE configuration
+```bash
+npx playwright codegen
+```

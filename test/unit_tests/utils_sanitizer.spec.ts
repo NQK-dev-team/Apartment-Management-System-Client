@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { sanitizeString } from '../utils/sanitizer';
+import { sanitizeString } from '../../utils/sanitizer';
 
 describe('sanitizeString', () => {
   describe('Allowed HTML Tags', () => {

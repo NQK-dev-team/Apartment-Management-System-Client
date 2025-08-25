@@ -1,5 +1,5 @@
 import { expect, describe, it, vi } from 'vitest';
-import { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT, getUserIDFromJWT, getUserNoFromJWT } from '../utils/jwt';
+import { getRoleFromJWT, getUserNameFromJWT, getUserImageFromJWT, getUserIDFromJWT, getUserNoFromJWT } from '../../utils/jwt';
 
 describe('JWT Utility Functions', () => {
   // Helper function to create a mock JWT token

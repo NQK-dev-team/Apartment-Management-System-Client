@@ -9,8 +9,8 @@ import {
   getBillStatus, 
   getImportTypeLabel,
   getTimeDifferenceFromNow 
-} from '../utils/common';
-import type { User } from '../types/user';
+} from '../../utils/common';
+import type { User } from '../../types/user';
 import type { RoomResident } from '~/types/contract';
 import { vi } from 'vitest';
 

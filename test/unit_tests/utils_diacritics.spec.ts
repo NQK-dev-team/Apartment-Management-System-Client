@@ -1,6 +1,6 @@
 import { expect, describe, it, vi } from 'vitest';
-import { removeDiacritics } from '../utils/diacritics';
-import { getBase64 } from '../utils/image';
+import { removeDiacritics } from '../../utils/diacritics';
+import { getBase64 } from '../../utils/image';
 
 describe('removeDiacritics', () => {
   it('removes Vietnamese diacritics', () => {

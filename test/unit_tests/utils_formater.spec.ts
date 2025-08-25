@@ -1,5 +1,5 @@
 import { expect, describe, it, vi, beforeEach } from 'vitest';
-import { formatPrice, convertToDate, convertToDateTime, convertToMonthYear, convertToDateTime2 } from '../utils/formatter';
+import { formatPrice, convertToDate, convertToDateTime, convertToMonthYear, convertToDateTime2 } from '../../utils/formatter';
 
 // Mock the COMMON constants since they're imported from Nuxt aliases
 const COMMON = {

@@ -32,7 +32,7 @@ import { test, expect } from '@playwright/test';
 //   const page1 = await page1Promise;
 //   await page1.locator('div').filter({ hasText: /^Contract$/ }).click();
 // });
-test('test_building_list_1', async ({ page }) => {
+test('Building-List-1', async ({ page }) => {
   await page.goto('http://localhost:3000/login');
   await page.getByRole('textbox', { name: 'Email' }).click();
   await page.getByRole('textbox', { name: 'Email' }).click();
@@ -146,8 +146,116 @@ test('Add-Building-3', async ({ page }) => {
   ).not.toBeVisible({ timeout: 5000 });
 });
 
+test('Delete-Building-1', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.waitForTimeout(250); // the delay is needed for the elements to load properly
+  // Click the <span> inside the second <li> of .ant-card-actions
+  await page.locator('.ant-card-actions li').nth(1).locator('span > span[role="img"][aria-label="delete"]').click();
+  await page.waitForTimeout(250);
+  await page.getByRole('button', { name: 'Delete' }).waitFor({ state: 'visible' });
+  await page.getByRole('button', { name: 'Delete' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.waitForTimeout(250);
+  await page.getByRole('button', { name: 'Confirm' }).click();
+  await page.waitForTimeout(250);
+});
 
+test('Building-Info-1', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.getByRole('link', { name: 'Building name 1 ← Previous' }).click();
+});
 
+test('Room-List-1', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.getByRole('link', { name: 'Building name 1 ← Previous' }).click();
+  await page.getByRole('paragraph').filter({ hasText: 'Room list' }).click();
+  await page.getByRole('heading', { name: 'Room list' }).click();
+});
 
+test('Room-List-2', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.getByRole('link', { name: 'Building name 1 ← Previous' }).click();
+  await page.getByRole('paragraph').filter({ hasText: 'Room list' }).click();
+  await page.getByRole('heading', { name: 'Room list' }).click();
+  await page.getByText('/ page').click();
+  await page.getByText('50 / page').click();
+});
 
+test('Service-List-1', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.getByRole('link', { name: 'Building name 1 ← Previous' }).click();
+  await page.getByRole('paragraph').filter({ hasText: 'Service list' }).click();
+  await page.getByRole('heading', { name: 'Service list' }).click();
+});
 
+test('Service-List-2', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.getByRole('link', { name: 'Building name 1 ← Previous' }).click();
+  await page.getByRole('paragraph').filter({ hasText: 'Service list' }).click();
+  await page.getByRole('heading', { name: 'Service list' }).click();
+});
+
+test('Service-List-3', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.getByRole('link', { name: 'Building name 1 ← Previous' }).click();
+  await page.getByRole('paragraph').filter({ hasText: 'Service list' }).click();
+  await page.getByRole('heading', { name: 'Service list' }).click();
+  await page.getByText('Service price (VND/month)').click();
+  await page.getByText('Service price (VND/month)').click();
+  await page.getByText('Service price (VND/month)').click();
+});
+
+test('Schedule-View-1', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('test1@gmail.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('button', { name: 'Log in' }).click();
+  await page.getByRole('link', { name: 'Building' }).click();
+  await page.getByRole('link', { name: 'Building name 1 ← Previous' }).click();
+  await page.getByRole('paragraph').filter({ hasText: 'Management schedule' }).click();
+  await page.getByRole('heading', { name: 'Management schedule' }).click();
+});

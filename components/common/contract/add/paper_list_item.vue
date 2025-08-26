@@ -26,7 +26,14 @@
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-form-item
           :name="['files', props.index, 'title']"
-          :rules="[{ required: true, message: $t('file_title_require'), trigger: 'blur' }]"
+          :rules="[
+            { required: true, message: $t('file_title_required'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.CONTRACT_FILE_NAME,
+              message: $t('file_name_max_length', { length: COMMON.MAX_LENGTH.CONTRACT_FILE_NAME }),
+              trigger: 'blur',
+            },
+          ]"
           class="px-3 align_validation_message_start"
         >
           <a-input

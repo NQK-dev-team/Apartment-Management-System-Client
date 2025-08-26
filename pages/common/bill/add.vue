@@ -266,7 +266,14 @@
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
             <a-form-item
               :name="['title']"
-              :rules="[{ required: true, message: $t('bill_name_require'), trigger: 'blur' }]"
+              :rules="[
+                { required: true, message: $t('bill_name_require'), trigger: 'blur' },
+                {
+                  max: 255,
+                  message: $t('bill_name_max_length', { length: 255 }),
+                  trigger: 'blur',
+                },
+              ]"
             >
               <label for="bill_name" class="flex mb-1">
                 <span>{{ $t('bill_name') }}</span>
@@ -389,7 +396,16 @@
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item name="bill_note">
+            <a-form-item
+              :name="['note']"
+              :rules="[
+                {
+                  max: 255,
+                  message: $t('note_max_length', { length: 255 }),
+                  trigger: 'blur',
+                },
+              ]"
+            >
               <label for="bill_note" class="flex mb-1">
                 <span>{{ $t('note') }}</span>
               </label>

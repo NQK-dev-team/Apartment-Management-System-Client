@@ -79,6 +79,9 @@ export default {
   bill_status_require: 'Billing status cannot be empty!',
   bill_payment_list_empty: 'Billing payment list cannot be empty!',
   bill_pay: 'Pay bill',
+  bill_name_max_length: 'Bill name must not exceed {length} characters!',
+  building_name_max_length: 'Building name must not exceed {length} characters!',
+  building_address_max_length: 'Building address must not exceed {length} characters!',
 
   C: 'c',
   choose_option: 'Choose an option',
@@ -140,6 +143,8 @@ export default {
   create_ticket_success: 'Support ticket created successfully!',
   choose_all_employee: 'Choose all employees',
   choose_all_customer: 'Choose all customers',
+  customer_first_name_require: 'Please enter customer first name!',
+  customer_last_name_require: 'Please enter customer last name!',
 
   D: 'd',
   delete: 'Delete',
@@ -218,9 +223,7 @@ export default {
   enter_employee_ssn: 'Enter employee SSN',
   enter_customer_ssn: 'Enter customer SSN',
   employee_last_name_require: 'Please enter employee last name!',
-  customer_last_name_require: 'Please enter customer last name!',
   employee_first_name_require: 'Please enter employee first name!',
-  customer_first_name_require: 'Please enter customer first name!',
   enter_employee_old_ssn: 'Enter employee old SSN',
   enter_customer_old_ssn: 'Enter customer old SSN',
   enter_employee_pob: 'Enter employee place of birth',
@@ -260,6 +263,7 @@ export default {
   enter_user_temporary_address: 'Enter user temporary address',
   enter_user_dob: 'Enter user date of birth',
   edit_notice: 'Edit notificaiton',
+  email_max_length: 'Email must not exceed {length} characters!',
 
   F: 'f',
   finish_import: 'Import',
@@ -275,12 +279,14 @@ export default {
   file_name: 'File name',
   file_link: 'File link',
   file_require: 'Please choose a file!',
-  file_title_require: 'Please enter file title!',
+  file_title_required: 'Please enter file name!',
   file: 'File',
   file_size: 'File size',
   file_upload_success: 'File {name} uploaded successfully!',
   file_upload_failed: 'File {name} upload failed!',
   failed: 'Failed',
+  first_name_max_length: 'First name must not exceed {length} characters!',
+  file_name_max_length: 'File name must not exceed {length} characters!',
 
   G: 'g',
   gender: 'Gender',
@@ -324,6 +330,7 @@ export default {
   last_name: 'Last name',
   loading_data: 'Loading data...',
   load_more: 'Load more',
+  last_name_max_length: 'Last name must not exceed {length} characters!',
 
   M: 'm',
   managerName: "Manager's Name",
@@ -339,6 +346,7 @@ export default {
   mark_as_important: 'Mark as important',
   mark_as_unimportant: 'Unmark as important',
   mark_all_as_read: 'Mark all as read',
+  middle_name_max_length: 'Middle name must not exceed {length} characters!',
 
   N: 'n',
   notice: 'Notice',
@@ -378,6 +386,9 @@ export default {
   notification_sent: 'Notification has been sent successfully!',
   notice_important: 'Important',
   notifications: 'Notifications',
+  note_max_length: 'Note must not exceed {length} characters!',
+  notification_title_max_length: 'Notification title must not exceed {length} characters!',
+  room_description_max_length: 'Room {no} description must not exceed {length} characters!',
 
   O: 'o',
   operation: 'Operation',
@@ -457,6 +468,11 @@ export default {
   password_incorrect: 'Password is incorrect!',
   process_result: 'Process result',
   process_date: 'Process date',
+  payment_name_max_length: 'Payment name must not exceed {length} characters!',
+  payment_note_max_length: 'Payment note must not exceed {length} characters!',
+  pob_max_length: 'Place of birth must not exceed {length} characters!',
+  permanent_address_max_length: 'Permanent address must not exceed {length} characters!',
+  password_max_length: 'Password must not exceed {length} characters!',
 
   Q: 'q',
   quarter: 'Q{quarter}',
@@ -546,6 +562,7 @@ export default {
   send_notification: 'Send notification',
   send_time: 'Send time',
   select_upload_category: 'Select upload category',
+  service_name_max_length: 'Service {no} name must not exceed {length} characters!',
 
   T: 't',
   total: 'Total',
@@ -558,6 +575,8 @@ export default {
   ticket_title_required: 'Ticket title cannot be empty!',
   ticket_content_required: 'Ticket content cannot be empty!',
   ticket_info_updated: 'Support ticket information has been updated successfully!',
+  temporary_address_max_length: 'Temporary residence address must not exceed {length} characters!',
+  ticket_title_max_length: 'Ticket title must not exceed {length} characters!',
 
   U: 'u',
   upload_file: 'Upload file',

@@ -1,7 +1,12 @@
 import { COMMON } from '~/consts/common';
 
 function formatPrice(price: number): string {
-  return new Intl.NumberFormat('vn-VN', { style: 'currency', currency: 'VND' }).format(price);
+  return new Intl.NumberFormat('vn-VN', {
+    style: 'currency',
+    currency: 'VND',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 3,
+  }).format(price);
 }
 
 function convertToDate(date: string): string {

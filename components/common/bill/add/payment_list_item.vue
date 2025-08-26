@@ -4,10 +4,10 @@
       <a-form-item
         class="border-r-[1px]"
         :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
-        :name="`check_payment_${props.index + 1}`"
+        :name="`check_payment_${props.index}`"
       >
         <a-checkbox
-          :id="`check_payment_${props.index + 1}`"
+          :id="`check_payment_${props.index}`"
           :checked="checked"
           @click="checked ? removeFromBucket() : addToBucket()"
         ></a-checkbox>
@@ -26,11 +26,18 @@
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
         <a-form-item
           :name="['billPayments', props.index, 'name']"
-          :rules="[{ required: true, message: $t('payment_name_require'), trigger: 'blur' }]"
+          :rules="[
+            { required: true, message: $t('payment_name_require'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.PAYMENT_NAME,
+              message: $t('payment_name_max_length', { length: COMMON.MAX_LENGTH.PAYMENT_NAME }),
+              trigger: 'blur',
+            },
+          ]"
           class="px-3 align_validation_message_start"
         >
           <a-input
-            :id="`payment_${props.index + 1}_name`"
+            :id="`payment_${props.index}_name`"
             v-model:value="payment.name"
             :placeholder="$t('enter_payment_name')"
             type="text"
@@ -53,7 +60,7 @@
           class="px-3 align_validation_message_start"
         >
           <a-input
-            :id="`payment_${props.index + 1}_amount`"
+            :id="`payment_${props.index}_amount`"
             v-model:value="payment.amount"
             :placeholder="$t('enter_payment_amount')"
             type="number"
@@ -64,9 +71,19 @@
     </td>
     <td class="text-sm font-normal text-center align-middle py-[16px]">
       <div class="border-r-[1px]" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
-        <a-form-item :name="`payment_${props.index + 1}_note`" class="px-3 align_validation_message_start">
+        <a-form-item
+          :name="['billPayments', props.index, 'note', 'String']"
+          :rules="[
+            {
+              max: COMMON.MAX_LENGTH.PAYMENT_NOTE,
+              message: $t('payment_note_max_length', { length: COMMON.MAX_LENGTH.PAYMENT_NOTE }),
+              trigger: 'blur',
+            },
+          ]"
+          class="px-3 align_validation_message_start"
+        >
           <a-textarea
-            :id="`payment_${props.index + 1}_note`"
+            :id="`payment_${props.index}_note`"
             v-model:value="payment.note.String as string"
             :placeholder="$t('enter_payment_note')"
             type="text"
@@ -81,6 +98,7 @@
 import { validationRules } from '~/consts/validation_rules';
 import type { BillPayment } from '~/types/bill';
 import type { RuleObject } from 'ant-design-vue/es/form';
+import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------
 const props = defineProps({

@@ -17,8 +17,15 @@
               <div class="flex items-center">
                 <a-form-item
                   class="flex-1 me-2"
-                  name="lastName"
-                  :rules="[{ required: true, message: $t('customer_last_name_require'), trigger: 'blur' }]"
+                  :name="['lastName']"
+                  :rules="[
+                    { required: true, message: $t('customer_last_name_require'), trigger: 'blur' },
+                    {
+                      max: COMMON.MAX_LENGTH.LAST_NAME,
+                      message: t('last_name_max_length', { length: COMMON.MAX_LENGTH.LAST_NAME }),
+                      trigger: 'blur',
+                    },
+                  ]"
                 >
                   <label for="lastName" class="flex mb-1">
                     <span>{{ $t('last_name') }}</span>
@@ -30,7 +37,17 @@
                     :placeholder="$t('enter_customer_last_name')"
                   />
                 </a-form-item>
-                <a-form-item class="flex-1" name="middleName">
+                <a-form-item
+                  class="flex-1"
+                  :name="['middleName']"
+                  :rules="[
+                    {
+                      max: COMMON.MAX_LENGTH.MIDDLE_NAME,
+                      message: t('middle_name_max_length', { length: COMMON.MAX_LENGTH.MIDDLE_NAME }),
+                      trigger: 'blur',
+                    },
+                  ]"
+                >
                   <label for="middleName" class="flex mb-1">
                     <span>{{ $t('middle_name') }}</span>
                   </label>
@@ -44,8 +61,15 @@
               <div class="flex items-center">
                 <a-form-item
                   class="flex-1 me-2"
-                  name="firstName"
-                  :rules="[{ required: true, message: $t('customer_first_name_require'), trigger: 'blur' }]"
+                  :name="['firstName']"
+                  :rules="[
+                    { required: true, message: $t('customer_first_name_require'), trigger: 'blur' },
+                    {
+                      max: COMMON.MAX_LENGTH.FIRST_NAME,
+                      message: t('first_name_max_length', { length: COMMON.MAX_LENGTH.FIRST_NAME }),
+                      trigger: 'blur',
+                    },
+                  ]"
                 >
                   <label for="firstName" class="flex mb-1">
                     <span>{{ $t('name') }}</span>
@@ -136,8 +160,14 @@
                 </a-form-item>
                 <a-form-item
                   class="flex-1"
-                  name="pob"
-                  :rules="[{ required: true, message: $t('please_enter_customer_pob'), trigger: 'blur' }]"
+                  :name="['pob']"
+                  :rules="[
+                    { required: true, message: $t('please_enter_customer_pob'), trigger: 'blur' },
+                    {
+                      max: COMMON.MAX_LENGTH.POB,
+                      message: t('pob_max_length', { length: COMMON.MAX_LENGTH.POB }),
+                    },
+                  ]"
                 >
                   <label for="pob" class="flex mb-1">
                     <span>{{ $t('pob') }}</span>
@@ -168,9 +198,14 @@
                 </a-form-item>
                 <a-form-item
                   class="flex-1"
-                  name="email"
+                  :name="['email']"
                   :rules="[
                     { required: true, message: $t('please_enter_customer_email'), trigger: 'blur' },
+                    {
+                      max: COMMON.MAX_LENGTH.EMAIL,
+                      message: t('email_max_length', { length: COMMON.MAX_LENGTH.EMAIL }),
+                      trigger: 'blur',
+                    },
                     { type: 'email', message: $t('email_invalid'), trigger: 'blur' },
                   ]"
                 >
@@ -189,8 +224,14 @@
               <div class="flex items-center">
                 <a-form-item
                   class="flex-1 me-2"
-                  name="permanentAddress"
-                  :rules="[{ required: true, message: $t('please_enter_customer_permanent_address'), trigger: 'blur' }]"
+                  :name="['permanentAddress']"
+                  :rules="[
+                    { required: true, message: $t('please_enter_customer_permanent_address'), trigger: 'blur' },
+                    {
+                      max: COMMON.MAX_LENGTH.PERMANENT_ADDRESS,
+                      message: t('permanent_address_max_length', { length: COMMON.MAX_LENGTH.PERMANENT_ADDRESS }),
+                    },
+                  ]"
                 >
                   <label for="permanent_address" class="flex mb-1">
                     <span>{{ $t('permanent_address') }}</span>
@@ -206,9 +247,14 @@
                 <div class="flex-1">
                   <a-form-item
                     class="flex-1 me-2"
-                    name="temporaryAddress"
+                    :name="['temporaryAddress']"
                     :rules="[
                       { required: true, message: $t('please_enter_customer_temporary_address'), trigger: 'blur' },
+                      {
+                        max: COMMON.MAX_LENGTH.TEMPORARY_ADDRESS,
+                        message: t('temporary_address_max_length', { length: COMMON.MAX_LENGTH.TEMPORARY_ADDRESS }),
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <label for="temporary_address" class="flex mb-1">

@@ -491,9 +491,21 @@ function checkStep1(): boolean {
     });
     return false;
   }
+  if (buildingInfo.value.name.length > COMMON.MAX_LENGTH.BUILDING_NAME) {
+    notification.error({
+      message: t('building_name_max_length', { length: COMMON.MAX_LENGTH.BUILDING_NAME }),
+    });
+    return false;
+  }
   if (buildingInfo.value.address === '') {
     notification.error({
       message: t('empty_building_address'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.address.length > COMMON.MAX_LENGTH.BUILDING_ADDRESS) {
+    notification.error({
+      message: t('building_address_max_length', { length: COMMON.MAX_LENGTH.BUILDING_ADDRESS }),
     });
     return false;
   }
@@ -507,6 +519,15 @@ function checkStep1(): boolean {
     notification.error({
       message: t('empty_service_name', {
         no: buildingInfo.value.services.findIndex((service) => service.name === '') + 1,
+      }),
+    });
+    return false;
+  }
+  if (buildingInfo.value.services.find((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) !== undefined) {
+    notification.error({
+      message: t('service_name_max_length', {
+        no: buildingInfo.value.services.findIndex((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) + 1,
+        length: COMMON.MAX_LENGTH.SERVICE_NAME,
       }),
     });
     return false;
@@ -586,6 +607,15 @@ function checkStep2(): boolean {
         notification.error({
           message: t('zero_room_area', {
             no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
+          }),
+        });
+        isOK = false;
+      }
+      if(room.description.length > COMMON.MAX_LENGTH.ROOM_DESCRIPTION && isOK) {
+        notification.error({
+          message: t('room_description_max_length', {
+            no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,
+            length: COMMON.MAX_LENGTH.ROOM_DESCRIPTION,
           }),
         });
         isOK = false;

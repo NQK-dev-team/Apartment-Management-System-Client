@@ -272,6 +272,14 @@ async function sendNotification() {
       return;
     }
 
+    if (notificationData.value.title.length > COMMON.MAX_LENGTH.NOTIFICATION_TITLE) {
+      notification.error({
+        message: t('notification_send_fail'),
+        description: t('notification_title_max_length', { length: COMMON.MAX_LENGTH.NOTIFICATION_TITLE }),
+      });
+      return;
+    }
+
     if (
       notificationData.value.content === '' ||
       notificationData.value.content === '<p></p>' ||

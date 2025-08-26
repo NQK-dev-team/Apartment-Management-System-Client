@@ -11,9 +11,9 @@ import {
 
 export default defineEventHandler(async (event) => {
   const config: RuntimeConfig = useRuntimeConfig();
-  let apiUrl = (config.public.apiBaseURL as string) || '';
-  const apiPrefix = (config.public.apiPrefix as string) || '';
-  const apiVersion = (config.public.apiVersion as string) || '';
+  let apiUrl = (config.apiBaseURL as string) || '';
+  const apiPrefix = (config.apiPrefix as string) || '';
+  const apiVersion = (config.apiVersion as string) || '';
   apiUrl = apiUrl + (apiPrefix ? '/' + apiPrefix : '') + (apiVersion ? '/' + apiVersion : '');
   // Append the desired path to the API URL
   const path = event.path.replace('/api', '');
@@ -47,36 +47,36 @@ export default defineEventHandler(async (event) => {
       if (body.jwtToken) {
         setCookie(event, 'jwt', body.jwtToken, {
           httpOnly: true,
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
         });
 
         // Set the user role in the cookie
         setCookie(event, 'userRole', getRoleFromJWT(body.jwtToken), {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
         });
         setCookie(event, 'userName', getUserNameFromJWT(body.jwtToken), {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
         });
         setCookie(event, 'userImage', getUserImageFromJWT(body.jwtToken), {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
         });
         setCookie(event, 'userID', getUserIDFromJWT(body.jwtToken), {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
         });
         setCookie(event, 'userNo', getUserNoFromJWT(body.jwtToken), {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
         });
       }
       if (body.refreshToken) {
         setCookie(event, 'refreshToken', body.refreshToken, {
           httpOnly: true,
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           maxAge: 60 * 60 * 24 * 7,
           sameSite: 'strict',
         });
@@ -86,38 +86,38 @@ export default defineEventHandler(async (event) => {
       if (path.includes(apiRoutes.authentication.logout)) {
         setCookie(event, 'jwt', '', {
           httpOnly: true,
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,
         });
         setCookie(event, 'refreshToken', '', {
           httpOnly: true,
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,
         });
         setCookie(event, 'userRole', '', {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,
         });
         setCookie(event, 'userName', '', {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,
         });
         setCookie(event, 'userImage', '', {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,
         });
         setCookie(event, 'userID', '', {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,
         });
         setCookie(event, 'userNo', '', {
-          secure: config.public.isHttps,
+          secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,
         });

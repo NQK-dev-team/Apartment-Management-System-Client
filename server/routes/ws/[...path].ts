@@ -6,9 +6,9 @@ import WebSocket from 'ws';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
-  let apiUrl = (config.public.apiBaseURL as string) || '';
-  const apiPrefix = (config.public.apiPrefix as string) || '';
-  const apiVersion = (config.public.apiVersion as string) || '';
+  let apiUrl = (config.apiBaseURL as string) || '';
+  const apiPrefix = (config.apiPrefix as string) || '';
+  const apiVersion = (config.apiVersion as string) || '';
   apiUrl = apiUrl + (apiPrefix ? '/' + apiPrefix : '') + (apiVersion ? '/' + apiVersion : '');
 
   return apiUrl;
@@ -115,7 +115,7 @@ export default defineWebSocketHandler({
 
     _externalWSPath = '/'; // Since the list of feature is minimal, there is currently no need to categorize WS connection base on _externalWSPath, we can keep it simple (for now)
     const external = new WebSocket(
-      `${config.public.webSocketURL}/${config.public.webSocketPrefix}/${config.public.webSocketVersion}${_externalWSPath}`
+      `${config.webSocketURL}/${config.webSocketPrefix}/${config.webSocketVersion}${_externalWSPath}`
     );
     peer.websocket.onclose = () => {
       // console.log('WebSocket closed:', peer.id);

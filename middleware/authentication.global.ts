@@ -8,9 +8,9 @@ import { COMMON } from '~/consts/common';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
-  let apiUrl = (config.public.apiBaseURL as string) || '';
-  const apiPrefix = (config.public.apiPrefix as string) || '';
-  const apiVersion = (config.public.apiVersion as string) || '';
+  let apiUrl = (config.apiBaseURL as string) || '';
+  const apiPrefix = (config.apiPrefix as string) || '';
+  const apiVersion = (config.apiVersion as string) || '';
   apiUrl = apiUrl + (apiPrefix ? '/' + apiPrefix : '') + (apiVersion ? '/' + apiVersion : '');
 
   return apiUrl;
@@ -61,38 +61,38 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const config: RuntimeConfig = useRuntimeConfig();
   const jwt = useCookie('jwt', {
     httpOnly: true,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     sameSite: 'lax',
   });
   const refreshToken = useCookie('refreshToken', {
     httpOnly: true,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     maxAge: 60 * 60 * 24 * 7,
     sameSite: 'strict',
   });
   const userRole = useCookie('userRole', {
     httpOnly: false,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     sameSite: 'lax',
   });
   const userName = useCookie('userName', {
     httpOnly: false,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     sameSite: 'lax',
   });
   const userImage = useCookie('userImage', {
     httpOnly: false,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     sameSite: 'lax',
   });
   const userID = useCookie('userID', {
     httpOnly: false,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     sameSite: 'lax',
   });
   const userNo = useCookie('userNo', {
     httpOnly: false,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     sameSite: 'lax',
   });
   const nonAuthRoutes = Object.values(pageRoutes.authentication);

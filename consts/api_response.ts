@@ -23,6 +23,7 @@ const messageList: { [key: string]: string } = {
   CREATE_FAILED: 'MSG_E0017',
   PASSWORD_INCORRECT: 'MSG_E0018',
   FILE_NOT_FOUND: 'MSG_E0019',
+  BILL_ALREADY_PAID: 'MSG_E0020',
 
   // Parameter error messages
   INVALID_PARAMETER: 'MSG_V0001',
@@ -38,6 +39,7 @@ const messageList: { [key: string]: string } = {
   VERIFY_SUCCESS: 'MSG_I0007',
   EMAIL_SENT: 'MSG_I0008',
   PASSWORD_RESET: 'MSG_I0009',
+  PAYMENT_INITIALIZED: 'MSG_I0010',
 };
 
 function getMessageCode(key: string): string {

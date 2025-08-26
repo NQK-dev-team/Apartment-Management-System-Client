@@ -622,7 +622,7 @@ const showUnpaid = ref<boolean>(true);
 const showCancelled = ref<boolean>(true);
 const showOverdue = ref<boolean>(true);
 const isContractDropDownFocused = ref<boolean>(false);
-const contractDropDownRef = ref<HTMLElement | null>(null);
+const contractDropDownRef = ref<HTMLElement | undefined>(undefined);
 const newBillID = ref(0);
 
 // ---------------------- Functions ----------------------

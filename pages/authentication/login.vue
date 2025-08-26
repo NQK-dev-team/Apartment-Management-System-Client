@@ -132,7 +132,7 @@ const info = () => {
     width: '500px',
   });
 };
-const showEmailVerifyModalButton = ref<HTMLButtonElement | null>(null);
+const showEmailVerifyModalButton = ref<HTMLButtonElement | undefined>(undefined);
 const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
@@ -151,7 +151,7 @@ async function login() {
   //     } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.customer) {
   //       targetRoute = pageRoutes.common.room.list;
   //     }
-  //     roleCookie.value = null;
+  //     roleCookie.value = undefined;
   //     await navigateTo(targetRoute);
   //   })
   //   .catch((err) => {
@@ -182,7 +182,7 @@ async function login() {
     } else if (roleCookie && roleCookie.value && roleCookie.value.toString() === roles.customer) {
       targetRoute = pageRoutes.common.room.list;
     }
-    // roleCookie.value = null;
+    // roleCookie.value = undefined;
     await navigateTo(targetRoute);
   } catch (err: any) {
     if (

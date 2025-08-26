@@ -120,8 +120,8 @@ const info = () => {
     content: t('password_recovery_notice'),
   });
 };
-const showSpamModal = ref<HTMLButtonElement | null>(null);
-const showEmailRecoveryModal = ref<HTMLButtonElement | null>(null);
+const showSpamModal = ref<HTMLButtonElement | undefined>(undefined);
+const showEmailRecoveryModal = ref<HTMLButtonElement | undefined>(undefined);
 
 // ---------------------- Functions ----------------------
 async function recover() {

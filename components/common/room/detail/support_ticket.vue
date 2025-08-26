@@ -128,7 +128,7 @@ const tickets = toRef(props, 'tickets');
 const roomData = toRef(props, 'roomData');
 const deleteBucket = ref<number[]>([]);
 const openAddModal = ref({ value: false });
-const ticketDetail = ref<SupportTicket | null>(null);
+const ticketDetail = ref<SupportTicket | undefined>(undefined);
 const detailModalVisible = ref({ value: false });
 const { $event } = useNuxtApp();
 const { t } = useI18n();
@@ -282,8 +282,8 @@ const data = computed(() =>
 
 // ---------------------- Functions ----------------------
 function openDetailModal(id: number) {
-  const result = tickets.value.find((ticket) => ticket.ID === id) || null;
-  ticketDetail.value = result ? JSON.parse(JSON.stringify(result)) : null;
+  const result = tickets.value.find((ticket) => ticket.ID === id) || undefined;
+  ticketDetail.value = result ? JSON.parse(JSON.stringify(result)) : undefined;
   detailModalVisible.value.value = true;
 }
 

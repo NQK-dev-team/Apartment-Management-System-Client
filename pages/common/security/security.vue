@@ -177,7 +177,7 @@ const changeEmailModel = ref<{
   newEmail: '',
   password: '',
 });
-const userInfo = ref<User | null>(null);
+const userInfo = ref<User | undefined>(undefined);
 const emailChangeModalVisible = ref(false);
 
 // ---------------------- Functions ----------------------
@@ -279,7 +279,7 @@ async function getUserInfo() {
         fatal: true,
       });
     }
-    userInfo.value = null;
+    userInfo.value = undefined;
   } finally {
     $event.emit('loading');
   }
@@ -294,7 +294,7 @@ async function closeModal() {
 onMounted(async () => {
   await getUserInfo();
 
-  if (userInfo.value === null || !userInfo.value.ID) {
+  if (!userInfo.value || !userInfo.value.ID) {
     throw createError({
       statusCode: 404,
       statusMessage: 'Page not found',

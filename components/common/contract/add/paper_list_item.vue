@@ -38,7 +38,7 @@
         >
           <a-input
             :id="`contract_file_${props.index + 1}_name`"
-            v-model:value="file.title as string"
+            v-model:value="file.title"
             :placeholder="$t('enter_file_name')"
             type="text"
           />

@@ -194,7 +194,7 @@ const lightMode = computed(
 );
 const route = useRoute();
 const roomID = Number(route.params.id as string);
-const roomData = ref<Room | null>(null);
+const roomData = ref<Room | undefined>(undefined);
 const tickets = ref<SupportTicket[]>([]);
 const { $event } = useNuxtApp();
 const { t } = useI18n();
@@ -211,7 +211,7 @@ async function getroomData(emitLoading = true) {
     const response = await api.common.room.getDetail(roomID);
     roomData.value = response.data;
   } catch (err: any) {
-    roomData.value = null;
+    roomData.value = undefined;
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||

@@ -88,8 +88,8 @@ const lightMode = computed(
 );
 const editMode = ref(false);
 const { $event, $dayjs } = useNuxtApp();
-const userInfo = ref<User | null>(null);
-const oldUserInfo = ref<User | null>(null);
+const userInfo = ref<User | undefined>(undefined);
+const oldUserInfo = ref<User | undefined>(undefined);
 
 // ---------------------- Functions ----------------------
 async function getUserInfo() {
@@ -115,7 +115,7 @@ async function getUserInfo() {
         fatal: true,
       });
     }
-    userInfo.value = null;
+    userInfo.value = undefined;
   } finally {
     $event.emit('loading');
   }
@@ -125,7 +125,7 @@ async function getUserInfo() {
 onMounted(async () => {
   await getUserInfo();
 
-  if (userInfo.value === null || !userInfo.value.ID) {
+  if (!userInfo.value || !userInfo.value.ID) {
     throw createError({
       statusCode: 404,
       statusMessage: 'Page not found',
@@ -135,8 +135,7 @@ onMounted(async () => {
 });
 
 // ---------------------- Events ----------------------
-$event.on('refetchProfile', () =>
-{
+$event.on('refetchProfile', () => {
   editMode.value = false;
   getUserInfo();
 });

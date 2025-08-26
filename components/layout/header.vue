@@ -211,7 +211,7 @@ const { t } = useI18n();
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const websocketConnection = ref<WebSocket | null>(null);
+const websocketConnection = ref<WebSocket | undefined>(undefined);
 const userID = useCookie('userID');
 const noticeOffset = ref(0);
 const noticeLimit = ref(10);

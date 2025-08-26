@@ -233,7 +233,7 @@
           </label>
           <a-select
             id="paid_by"
-            v-model:value="bill.value.payerID.Int64 as number"
+            v-model:value="bill.value.payerID.Int64"
             class="w-full text-left"
             show-search
             :placeholder="$t('select_customer')"
@@ -276,7 +276,7 @@
           </label>
           <a-date-picker
             id="payment_time"
-            v-model:value="bill.value.paymentTime.Time as Dayjs | string"
+            v-model:value="bill.value.paymentTime.Time"
             class="w-full"
             :placeholder="$t('enter_payment_time')"
             :disabled-date="disabledDate"
@@ -305,7 +305,7 @@
               <UndoOutlined />
             </a-button> -->
           </label>
-          <a-textarea id="bill_note" v-model:value="bill.value.note.String as string" :placeholder="$t('enter_note')" />
+          <a-textarea id="bill_note" v-model:value="bill.value.note.String" :placeholder="$t('enter_note')" />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>

@@ -152,7 +152,7 @@
           <label for="bill_note" class="flex mb-1">
             <span>{{ $t('note') }}</span>
           </label>
-          <a-textarea id="bill_note" disabled readonly :value="bill.note.String as string" :placeholder="$t('note')" />
+          <a-textarea id="bill_note" disabled readonly :value="bill.note.String" :placeholder="$t('note')" />
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24"> </a-col>

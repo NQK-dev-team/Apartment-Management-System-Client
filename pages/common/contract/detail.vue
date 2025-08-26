@@ -127,7 +127,7 @@ const lightMode = computed(
 const { $event, $dayjs } = useNuxtApp();
 const editMode = ref<boolean>(false);
 const userRole = useCookie('userRole');
-const contract = ref<Contract | null>(null);
+const contract = ref<Contract | undefined>(undefined);
 const route = useRoute();
 const contractID = Number(route.params.id as string);
 const editContract = ref<{ value: Contract }>({ value: {} as Contract });
@@ -156,7 +156,7 @@ async function getContractDetail(emitLoading = true) {
     }
     editContract.value.value.newSignDate = '';
   } catch (err: any) {
-    contract.value = null;
+    contract.value = undefined;
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||

@@ -37,7 +37,7 @@ const pageRoutes = {
     bill: {
       list: '/bill',
       detail: (billId: number | string) => `/bill/${billId}`,
-      add2: (contractID: number | null = null) => {
+      add2: (contractID: number | undefined = undefined) => {
         return contractID ? `/bill/add?contract=${contractID}` : '/bill/add';
       },
       add: `/bill/add`,
@@ -50,20 +50,24 @@ const pageRoutes = {
       index: '/notice',
       sent: '/notice/sent',
       new: '/notice/new',
-      inbox: (id: number | null = null) => (id ? `/notice/inbox?id=${id}` : '/notice/inbox'),
+      inbox: (id: number | undefined = undefined) => (id ? `/notice/inbox?id=${id}` : '/notice/inbox'),
       important: '/notice/important',
       // edit: (noticeId: number | string) => `/notice/${noticeId}/edit`,
     },
     contract: {
       list: '/contract',
       detail: (contractId: number | string) => `/contract/${contractId}`,
-      add2: (buildingID: number | null = null, floor: number | null = null, roomID: number | null = null) => {
+      add2: (
+        buildingID: number | undefined = undefined,
+        floor: number | undefined = undefined,
+        roomID: number | undefined = undefined
+      ) => {
         return buildingID && floor && roomID
           ? `/contract/add?buildingID=${buildingID}&floor=${floor}&roomID=${roomID}`
           : '/contract/add';
       },
       add: `/contract/add`,
-      add3: (customerID: number | null = null) => {
+      add3: (customerID: number | undefined = undefined) => {
         return customerID ? `/contract/add?customerID=${customerID}` : '/contract/add';
       },
       edit: (contractId: number | string) => `/contract/${contractId}/edit`,

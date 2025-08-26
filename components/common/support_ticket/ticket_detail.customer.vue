@@ -245,9 +245,9 @@ import { api } from '~/services/api';
 // ---------------------- Variables ----------------------
 const props = defineProps({
   ticketDetail: {
-    type: Object as PropType<SupportTicket | null>,
+    type: Object as PropType<SupportTicket | undefined>,
     required: false,
-    default: () => null,
+    default: () => undefined,
   },
   detailModalVisible: {
     type: Object as PropType<{ value: boolean }>,
@@ -325,8 +325,8 @@ function handleFileUpload(event: UploadChangeParam<UploadFile<any>>) {
     event.file.uid = (-fileCounter.value).toString();
     ticketDetail.value!.files.push({
       ID: Number(event.file.uid),
-      title: null,
-      no: null,
+      title: undefined,
+      no: undefined,
       supportTicketID: ticketDetail.value!.ID,
       path: [event.file],
       createdAt: '',

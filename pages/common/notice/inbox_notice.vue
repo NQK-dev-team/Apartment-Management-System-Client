@@ -361,12 +361,12 @@ const offset = ref<number>(0);
 const limit = ref<number>(500);
 const inboxList = ref<Notification[]>([]);
 const filteredInboxList = ref<Notification[]>([]);
-const notificationDetail = ref<Notification | null>(null);
+const notificationDetail = ref<Notification | undefined>(undefined);
 const searchText = ref('');
 const previewVisible = ref(false);
 const previewImage = ref('');
 const previewTitle = ref('');
-const websocketConnection = ref<WebSocket | null>(null);
+const websocketConnection = ref<WebSocket | undefined>(undefined);
 const userID = useCookie('userID');
 $dayjs.locale(locale.value);
 const route = useRoute();
@@ -386,7 +386,7 @@ async function readNotification(notificationId: number) {
       result.isRead = 1;
       await api.common.notice.readNotification(notificationId);
     }
-    notificationDetail.value = result || null;
+    notificationDetail.value = result || undefined;
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -488,7 +488,7 @@ async function getInboxList(emitLoading = true) {
       setTimeout(async () => {
         if (queryID.value && calledByQueryIDWatcher.value) {
           await readNotification(Number(queryID.value));
-          notificationDetail.value = inboxList.value.find((elem) => elem.ID === Number(queryID.value)) || null;
+          notificationDetail.value = inboxList.value.find((elem) => elem.ID === Number(queryID.value)) || undefined;
           // scrollPosition.value = {
           //   top: document.getElementById(`notification_${queryID.value}`)?.offsetTop || 0,
           //   left: document.getElementById(`notification_${queryID.value}`)?.offsetLeft || 0,
@@ -658,7 +658,7 @@ watch(queryID, () => {
   };
   inboxList.value = [];
   filteredInboxList.value = [];
-  notificationDetail.value = null;
+  notificationDetail.value = undefined;
   if (offset.value !== 0) {
     ignoreOffsetWatcher.value = true;
     offset.value = 0;

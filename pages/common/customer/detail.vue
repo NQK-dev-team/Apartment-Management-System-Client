@@ -45,7 +45,7 @@
                 </label>
                 <a-input
                   id="middle_name"
-                  :value="customerInfo.middleName.Valid ? (customerInfo.middleName.String as string) : '-'"
+                  :value="customerInfo.middleName.Valid ? customerInfo.middleName.String : '-'"
                   placeholder="-"
                   disabled
                   readonly
@@ -96,7 +96,7 @@
                 </label>
                 <a-input
                   id="old_ssn"
-                  :value="customerInfo.oldSSN.Valid ? (customerInfo.oldSSN.String as string) : '-'"
+                  :value="customerInfo.oldSSN.Valid ? customerInfo.oldSSN.String : '-'"
                   placeholder="-"
                   disabled
                   readonly
@@ -317,13 +317,17 @@ const customerInfo = ref<User>({
   ssnBackFilePath: '',
   profileFilePath: '',
   emailVerifiedAt: {
-    Time: null,
+    Time: undefined,
     Valid: false,
   },
   isOwner: false,
   isManager: false,
   isCustomer: false,
   gender: 0,
+  dobDayjs: undefined,
+  newProfile: undefined,
+  newFrontSSN: undefined,
+  newBackSSN: undefined,
 });
 const dob = computed<Dayjs>(() => dayjs(customerInfo.value.dob));
 const option = ref<number>(1);

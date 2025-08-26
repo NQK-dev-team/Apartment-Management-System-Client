@@ -84,7 +84,7 @@
         >
           <a-textarea
             :id="`payment_${props.index}_note`"
-            v-model:value="payment.note.String as string"
+            v-model:value="payment.note.String"
             :placeholder="$t('enter_payment_note')"
             type="text"
           />

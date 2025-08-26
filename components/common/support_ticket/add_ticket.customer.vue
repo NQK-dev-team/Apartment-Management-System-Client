@@ -149,8 +149,8 @@ const newTicket = ref<
       buildingID: number | undefined;
       floor: number | undefined;
     })
-  | null
->(null);
+  | undefined
+>(undefined);
 const userName = useCookie('userName');
 const userNo = useCookie('userNo');
 const customerBuilding = ref<

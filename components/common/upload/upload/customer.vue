@@ -180,7 +180,7 @@ const state = reactive({
   searchedColumn: '',
 });
 const timeOut = ref();
-const websocketConnection = ref<WebSocket | null>(null);
+const websocketConnection = ref<WebSocket | undefined>(undefined);
 
 // ---------------------- Functions ----------------------
 async function fetchUploadedFiles() {

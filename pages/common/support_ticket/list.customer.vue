@@ -299,7 +299,7 @@ const data = computed(() =>
     room_no: ticket.roomNo || 0,
   }))
 );
-const ticketDetail = ref<SupportTicket | null>(null);
+const ticketDetail = ref<SupportTicket | undefined>(undefined);
 const detailModalVisible = ref({ value: false });
 const state = reactive({
   searchText: '',
@@ -315,8 +315,8 @@ const openAddModal = ref({ value: false });
 
 // ---------------------- Functions ----------------------
 function openDetailModal(id: number) {
-  const result = tickets.value.find((ticket) => ticket.ID === id) || null;
-  ticketDetail.value = result ? JSON.parse(JSON.stringify(result)) : null;
+  const result = tickets.value.find((ticket) => ticket.ID === id) || undefined;
+  ticketDetail.value = result ? JSON.parse(JSON.stringify(result)) : undefined;
   detailModalVisible.value.value = true;
 }
 

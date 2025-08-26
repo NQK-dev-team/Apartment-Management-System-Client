@@ -45,7 +45,7 @@
             </label>
             <a-input
               id="middle_name"
-              v-model:value="user.middleName.String as string"
+              v-model:value="user.middleName.String"
               :placeholder="$t('enter_user_middle_name')"
             />
           </a-form-item>
@@ -138,7 +138,7 @@
             </label>
             <a-input
               id="old_ssn"
-              v-model:value="user.oldSSN.String as string"
+              v-model:value="user.oldSSN.String"
               :placeholder="$t('enter_user_old_ssn')"
             />
           </a-form-item>

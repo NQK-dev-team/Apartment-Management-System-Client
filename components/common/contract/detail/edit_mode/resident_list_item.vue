@@ -27,7 +27,7 @@
         <a-form-item :name="`resident_${props.index + 1}`" class="px-3">
           <a-select
             :id="`resident_${props.index + 1}`"
-            v-model:value="customerNo as string"
+            v-model:value="customerNo"
             class="w-full text-left"
             :class="[resident.userAccountID.Int64 ? '' : 'text-[#9ca3af]']"
             show-search
@@ -106,7 +106,7 @@
         >
           <a-input
             :id="`resident_${props.index + 1}_middle_name`"
-            v-model:value="resident.middleName.String as string"
+            v-model:value="resident.middleName.String"
             :placeholder="$t('enter_customer_middle_name')"
             @change="
               () => {
@@ -279,7 +279,7 @@
         >
           <a-input
             :id="`resident_${props.index + 1}_ssn`"
-            v-model:value="resident.ssn.String as string"
+            v-model:value="resident.ssn.String"
             :placeholder="$t('enter_customer_ssn')"
           ></a-input>
         </a-form-item>
@@ -303,7 +303,7 @@
         >
           <a-input
             :id="`resident_${props.index + 1}_old_ssn`"
-            v-model:value="resident.oldSSN.String as string"
+            v-model:value="resident.oldSSN.String"
             :placeholder="$t('enter_customer_old_ssn')"
             @change="
               () => {
@@ -332,7 +332,7 @@
         >
           <a-input
             :id="`resident_${props.index + 1}_phone`"
-            v-model:value="resident.phone.String as string"
+            v-model:value="resident.phone.String"
             :placeholder="$t('enter_customer_phone')"
             @change="
               () => {
@@ -368,7 +368,7 @@
         >
           <a-input
             :id="`resident_${props.index + 1}_email`"
-            v-model:value="resident.email.String as string"
+            v-model:value="resident.email.String"
             :placeholder="$t('enter_customer_email')"
             @change="
               () => {
@@ -447,7 +447,7 @@ const deleteBucket = toRef(props, 'deleteBucket');
 const resident = toRef(props, 'resident');
 const checked = computed(() => deleteBucket.value.value.includes(resident.value.ID));
 const customers = toRef(props, 'customers');
-const customerNo = ref<string | null>(null);
+const customerNo = ref<string | undefined>(undefined);
 const { $event, $dayjs } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
@@ -477,12 +477,12 @@ function filterOption(input: string, option: any) {
 watch(customers, () => {
   if (!customerNo.value) {
     customerNo.value =
-      customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || null;
+      customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || undefined;
   }
 });
 
 // ---------------------- Events ----------------------
 $event.on('resetResidentListItemContractEditMode', () => {
-  customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || null;
+  customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || undefined;
 });
 </script>

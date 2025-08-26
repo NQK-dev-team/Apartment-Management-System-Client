@@ -119,7 +119,7 @@ const userRole = useCookie('userRole');
 const editMode = ref(false);
 const route = useRoute();
 const billID = Number(route.params.id as string);
-const bill = ref<Bill | null>(null);
+const bill = ref<Bill | undefined>(undefined);
 const editBill = ref<{ value: Bill }>({ value: {} as Bill });
 const { $event, $dayjs } = useNuxtApp();
 
@@ -129,7 +129,7 @@ async function getBillingDetail() {
     $event.emit('loading');
     const response = await api.common.bill.getDetail(billID);
     response.data.paymentTime.Time = response.data.paymentTime.Valid ? $dayjs(response.data.paymentTime.Time) : '';
-    response.data.payerID.Int64 = response.data.payerID.Valid ? response.data.payerID.Int64 : null;
+    response.data.payerID.Int64 = response.data.payerID.Valid ? response.data.payerID.Int64 : undefined;
     bill.value = response.data;
     editBill.value = { value: JSON.parse(JSON.stringify(bill.value)) };
   } catch (err: any) {

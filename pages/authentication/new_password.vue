@@ -167,7 +167,7 @@ const { $event } = useNuxtApp();
 const route = useRoute();
 const token = route.query.token as string;
 const email = route.query.email as string;
-const showResetPasswordModal = ref<HTMLButtonElement | null>(null);
+const showResetPasswordModal = ref<HTMLButtonElement | undefined>(undefined);
 const info = () => {
   Modal.info({
     title: t('notice'),

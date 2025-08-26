@@ -30,7 +30,7 @@ async function verifyToken(token: string): Promise<boolean> {
   return body.data;
 }
 
-async function getNewToken(refreshToken: string): Promise<APITokenResponse<null> | null> {
+async function getNewToken(refreshToken: string): Promise<APITokenResponse<null> | undefined> {
   // Get a new token
   const response = await fetch(getServerBaseUrl() + apiRoutes.authentication.refreshToken, {
     method: 'POST',
@@ -44,7 +44,7 @@ async function getNewToken(refreshToken: string): Promise<APITokenResponse<null>
   const body: APITokenResponse<null> = await response.json();
 
   if (body.status && body.status !== COMMON.HTTP_STATUS.OK) {
-    return null;
+    return undefined;
   }
 
   return body;

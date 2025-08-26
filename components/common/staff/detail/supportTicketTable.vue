@@ -385,7 +385,7 @@ const data = computed(() =>
     room_no: ticket.roomNo,
   }))
 );
-const ticketDetail = ref<SupportTicket | null>(null);
+const ticketDetail = ref<SupportTicket | undefined>(undefined);
 const detailModalVisible = ref(false);
 const state = reactive({
   searchText: '',
@@ -395,7 +395,7 @@ const { $event } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
 function openDetailModal(id: number) {
-  ticketDetail.value = props.tickets.find((ticket) => ticket.ID === id) || null;
+  ticketDetail.value = props.tickets.find((ticket) => ticket.ID === id) || undefined;
   detailModalVisible.value = true;
 }
 

@@ -394,7 +394,7 @@ const data = computed(() => {
       paid_by: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.no + ' - ' + getUserName(bill.payer) : '-',
       // customer_no: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.no : '-',
       action: bill.ID,
-      payerID: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.ID : null,
+      payerID: bill.paymentTime.Valid && bill.paymentTime.Time ? bill.payer.ID : undefined,
       key: bill.ID,
       status: t(getBillStatus(bill.status)),
       status_numeric: bill.status,

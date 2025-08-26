@@ -288,7 +288,7 @@ const props = defineProps({
     required: true,
   },
 });
-const ticketDetail = ref<SupportTicket | null>(null);
+const ticketDetail = ref<SupportTicket | undefined>(undefined);
 const detailModalVisible = ref(false);
 const searchInput = ref();
 const state = reactive({
@@ -414,7 +414,7 @@ function handleReset(clearFilters: any) {
 }
 
 function openDetailModal(id: number) {
-  ticketDetail.value = props.tickets.find((ticket) => ticket.ID === id) || null;
+  ticketDetail.value = props.tickets.find((ticket) => ticket.ID === id) || undefined;
   ticketDetail.value!.roomNo = props.roomData.no;
   ticketDetail.value!.roomFloor = props.roomData.floor;
   ticketDetail.value!.buildingName = props.roomData.buildingName;

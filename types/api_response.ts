@@ -11,6 +11,6 @@ export type APIResponse<T> = BaseAPIResponse & {
 
 export type APITokenResponse<T> = BaseAPIResponse & {
   jwtToken: string;
-  refreshToken: string | null;
+  refreshToken: string | undefined;
   data: T;
 };

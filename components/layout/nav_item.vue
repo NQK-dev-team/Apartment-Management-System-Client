@@ -53,7 +53,7 @@ const props = defineProps({
   },
   icon: {
     type: [Object, String],
-    default: null,
+    default: undefined,
   },
   href: {
     type: String,

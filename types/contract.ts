@@ -13,11 +13,11 @@ type ContractFile = BasicFileModel & {
 //   ID: number;
 //   createdAt: string;
 //   createdBy: number;
-//   // deletedAt: string | null;
-//   // deletedBy: number | null;
-//   no: number | null;
+//   // deletedAt: string | undefined;
+//   // deletedBy: number | undefined;
+//   no: number | undefined;
 //   path: string | UploadFile;
-//   title: string | null;
+//   title: string | undefined;
 //   contractID: number;
 //   isNew: boolean | undefined;
 // };

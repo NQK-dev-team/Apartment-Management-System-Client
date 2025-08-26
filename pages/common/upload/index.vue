@@ -90,7 +90,7 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const importOption = ref<number | null>(null);
+const importOption = ref<number | undefined>(undefined);
 const viewCatory = ref(1);
 const { $dayjs } = useNuxtApp();
 const daySelect = ref<Dayjs>($dayjs());

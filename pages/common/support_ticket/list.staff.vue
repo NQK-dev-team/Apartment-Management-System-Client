@@ -461,7 +461,7 @@ const data = computed(() =>
     room_no: ticket.roomNo || 0,
   }))
 );
-const ticketDetail = ref<SupportTicket | null>(null);
+const ticketDetail = ref<SupportTicket | undefined>(undefined);
 const detailModalVisible = ref(false);
 const state = reactive({
   searchText: '',
@@ -475,7 +475,7 @@ const ticketApiLimit = ref<number>(500);
 
 // ---------------------- Functions ----------------------
 function openDetailModal(id: number) {
-  ticketDetail.value = tickets.value.find((ticket) => ticket.ID === id) || null;
+  ticketDetail.value = tickets.value.find((ticket) => ticket.ID === id) || undefined;
   detailModalVisible.value = true;
 }
 

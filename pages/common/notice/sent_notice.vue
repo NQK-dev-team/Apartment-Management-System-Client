@@ -271,12 +271,12 @@ const offset = ref<number>(0);
 const limit = ref<number>(500);
 const sentList = ref<Notification[]>([]);
 const filteredSentList = ref<Notification[]>([]);
-const notificationDetail = ref<Notification | null>(null);
+const notificationDetail = ref<Notification | undefined>(undefined);
 const searchText = ref('');
 const previewVisible = ref(false);
 const previewImage = ref('');
 const previewTitle = ref('');
-const websocketConnection = ref<WebSocket | null>(null);
+const websocketConnection = ref<WebSocket | undefined>(undefined);
 const userID = useCookie('userID');
 $dayjs.locale(locale.value);
 const scrollPosition = ref({
@@ -369,7 +369,7 @@ async function handlePreview(file: UploadProps['fileList'][number]) {
 //     await api.common.notice.delete(id);
 
 //     if (notificationDetail.value && notificationDetail.value.ID === id) {
-//       notificationDetail.value = null;
+//       notificationDetail.value = undefined;
 //     }
 
 //     filteredSentList.value = filteredSentList.value.filter((elem) => elem.ID !== id);

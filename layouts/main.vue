@@ -18,8 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import { roles } from '~/consts/roles';
-
 // ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
 const userRoleCookie = useCookie('userRole');

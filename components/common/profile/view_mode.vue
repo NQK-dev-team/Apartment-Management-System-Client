@@ -23,7 +23,7 @@
             </label>
             <a-input
               id="middle_name"
-              :value="user.middleName.Valid ? (user.middleName.String as string) : '-'"
+              :value="user.middleName.Valid ? user.middleName.String : '-'"
               placeholder="-"
               disabled
               readonly
@@ -74,7 +74,7 @@
             </label>
             <a-input
               id="old_ssn"
-              :value="user.oldSSN.Valid ? (user.oldSSN.String as string) : '-'"
+              :value="user.oldSSN.Valid ? user.oldSSN.String : '-'"
               placeholder="-"
               disabled
               readonly

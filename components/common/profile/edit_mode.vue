@@ -12,7 +12,14 @@
           <a-form-item
             class="flex-1"
             :name="['lastName']"
-            :rules="[{ required: true, message: t('user_last_name_require'), trigger: 'blur' }]"
+            :rules="[
+              { required: true, message: t('user_last_name_require'), trigger: 'blur' },
+              {
+                max: COMMON.MAX_LENGTH.LAST_NAME,
+                message: t('last_name_max_length', { length: COMMON.MAX_LENGTH.LAST_NAME }),
+                trigger: 'blur',
+              },
+            ]"
           >
             <label for="last_name" class="flex mb-1">
               <span>{{ $t('last_name') }}</span>
@@ -22,7 +29,17 @@
           </a-form-item>
         </div>
         <div class="flex items-center mt-5">
-          <a-form-item class="flex-1 me-5" name="middle_name">
+          <a-form-item
+            class="flex-1 me-5"
+            :name="['middleName', 'String']"
+            :rules="[
+              {
+                max: COMMON.MAX_LENGTH.MIDDLE_NAME,
+                message: t('middle_name_max_length', { length: COMMON.MAX_LENGTH.MIDDLE_NAME }),
+                trigger: 'blur',
+              },
+            ]"
+          >
             <label for="middle_name" class="flex mb-1">
               <span>{{ $t('middle_name') }}</span>
             </label>
@@ -35,7 +52,14 @@
           <a-form-item
             class="flex-1"
             :name="['firstName']"
-            :rules="[{ required: true, message: t('user_first_name_require'), trigger: 'blur' }]"
+            :rules="[
+              { required: true, message: t('user_first_name_require'), trigger: 'blur' },
+              {
+                max: COMMON.MAX_LENGTH.FIRST_NAME,
+                message: t('first_name_max_length', { length: COMMON.MAX_LENGTH.FIRST_NAME }),
+                trigger: 'blur',
+              },
+            ]"
           >
             <label for="first_name" class="flex mb-1">
               <span>{{ $t('name') }}</span>
@@ -122,8 +146,14 @@
         <div class="flex items-center mt-5">
           <a-form-item
             class="flex-1 me-5"
-            name="pob"
-            :rules="[{ required: true, message: t('user_pob_required'), trigger: 'blur' }]"
+            :name="['pob']"
+            :rules="[
+              { required: true, message: t('user_pob_required'), trigger: 'blur' },
+              {
+                max: COMMON.MAX_LENGTH.POB,
+                message: t('pob_max_length', { length: COMMON.MAX_LENGTH.POB }),
+              },
+            ]"
           >
             <label for="pob" class="flex mb-1">
               <span>{{ $t('pob') }}</span>
@@ -155,8 +185,14 @@
           </a-form-item>
           <a-form-item
             class="flex-1"
-            name="permanentAddress"
-            :rules="[{ required: true, message: t('user_permanent_address_required'), trigger: 'blur' }]"
+            :name="['permanentAddress']"
+            :rules="[
+              { required: true, message: t('user_permanent_address_required'), trigger: 'blur' },
+              {
+                max: COMMON.MAX_LENGTH.PERMANENT_ADDRESS,
+                message: t('permanent_address_max_length', { length: COMMON.MAX_LENGTH.PERMANENT_ADDRESS }),
+              },
+            ]"
           >
             <label for="permanent_address" class="flex mb-1">
               <span>{{ $t('permanent_address') }}</span>
@@ -172,8 +208,14 @@
         <div class="flex items-center mt-5">
           <a-form-item
             class="flex-1 me-5"
-            name="temporaryAddress"
-            :rules="[{ required: true, message: t('user_temporary_address_required'), trigger: 'blur' }]"
+            :name="['temporaryAddress']"
+            :rules="[
+              { required: true, message: t('user_temporary_address_required'), trigger: 'blur' },
+              {
+                max: COMMON.MAX_LENGTH.TEMPORARY_ADDRESS,
+                message: t('temporary_address_max_length', { length: COMMON.MAX_LENGTH.TEMPORARY_ADDRESS }),
+              },
+            ]"
           >
             <label for="temporary_address" class="flex mb-1">
               <span>{{ $t('temporary_address') }}</span>

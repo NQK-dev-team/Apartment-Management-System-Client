@@ -29,6 +29,11 @@
           name="newEmail"
           :rules="[
             { required: true, message: $t('new_email_required'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.EMAIL,
+              message: t('email_max_length', { length: COMMON.MAX_LENGTH.EMAIL }),
+              trigger: 'blur',
+            },
             { type: 'email', message: $t('email_invalid'), trigger: 'blur' },
           ]"
         >
@@ -65,6 +70,11 @@
             {
               required: true,
               message: t('new_password_require'),
+              trigger: 'blur',
+            },
+            {
+              max: COMMON.MAX_LENGTH.PASSWORD,
+              message: t('password_max_length', { length: COMMON.MAX_LENGTH.PASSWORD }),
               trigger: 'blur',
             },
             {

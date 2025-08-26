@@ -151,7 +151,13 @@
           "
           class="ms-2 flex-1 flex flex-col"
           :name="['title']"
-          :rules="[{ required: true, message: $t('ticket_title_required') }]"
+          :rules="[
+            { required: true, message: $t('ticket_title_required') },
+            {
+              max: COMMON.MAX_LENGTH.SUPPORT_TICKET_TITLE,
+              message: $t('ticket_title_max_length', { length: COMMON.MAX_LENGTH.SUPPORT_TICKET_TITLE }),
+            },
+          ]"
         >
           <label for="title" class="mb-1">{{ $t('title') }}<span class="text-red-500 ms-1">*</span></label>
           <a-input id="title" v-model:value="ticketDetail.title" />

@@ -62,7 +62,14 @@
         <a-form-item
           v-else
           :name="['residents', props.index, 'lastName']"
-          :rules="[{ required: true, message: $t('customer_last_name_require'), trigger: 'blur' }]"
+          :rules="[
+            { required: true, message: $t('customer_last_name_require'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.LAST_NAME,
+              message: $t('last_name_max_length', { length: COMMON.MAX_LENGTH.LAST_NAME }),
+              trigger: 'blur',
+            },
+          ]"
           class="px-3 align_validation_message_start"
         >
           <a-input
@@ -85,7 +92,18 @@
             readonly
           ></a-input>
         </a-form-item>
-        <a-form-item v-else :name="`resident_${props.index + 1}_middle_name`" class="px-3">
+        <a-form-item
+          v-else
+          :name="['residents', props.index, 'middleName', 'String']"
+          :rules="[
+            {
+              max: COMMON.MAX_LENGTH.MIDDLE_NAME,
+              message: $t('middle_name_max_length', { length: COMMON.MAX_LENGTH.MIDDLE_NAME }),
+              trigger: 'blur',
+            },
+          ]"
+          class="px-3"
+        >
           <a-input
             :id="`resident_${props.index + 1}_middle_name`"
             v-model:value="resident.middleName.String as string"
@@ -112,7 +130,14 @@
         <a-form-item
           v-else
           :name="['residents', props.index, 'firstName']"
-          :rules="[{ required: true, message: $t('customer_first_name_require'), trigger: 'blur' }]"
+          :rules="[
+            { required: true, message: $t('customer_first_name_require'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.FIRST_NAME,
+              message: $t('first_name_max_length', { length: COMMON.MAX_LENGTH.FIRST_NAME }),
+              trigger: 'blur',
+            },
+          ]"
           class="px-3 align_validation_message_start"
         >
           <a-input
@@ -213,7 +238,14 @@
         <a-form-item
           v-else
           :name="['residents', props.index, 'pob']"
-          :rules="[{ required: true, message: $t('please_enter_customer_pob'), trigger: 'blur' }]"
+          :rules="[
+            { required: true, message: $t('please_enter_customer_pob'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.POB,
+              message: $t('pob_max_length', { length: COMMON.MAX_LENGTH.POB }),
+              trigger: 'blur',
+            },
+          ]"
           class="px-3 align_validation_message_start"
         >
           <a-input
@@ -324,7 +356,14 @@
         <a-form-item
           v-else
           :name="['residents', props.index, 'email', 'String']"
-          :rules="[{ type: 'email', message: $t('email_invalid'), trigger: 'blur' }]"
+          :rules="[
+            { type: 'email', message: $t('email_invalid'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.EMAIL,
+              message: $t('email_max_length', { length: COMMON.MAX_LENGTH.EMAIL }),
+              trigger: 'blur',
+            },
+          ]"
           class="px-3 align_validation_message_start"
         >
           <a-input

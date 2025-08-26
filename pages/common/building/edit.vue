@@ -455,9 +455,21 @@ function checkStep1(): boolean {
     });
     return false;
   }
+  if (buildingInfo.value.data.name.length > COMMON.MAX_LENGTH.BUILDING_NAME) {
+    notification.error({
+      message: t('building_name_max_length', { length: COMMON.MAX_LENGTH.BUILDING_NAME }),
+    });
+    return false;
+  }
   if (buildingInfo.value.data.address === '') {
     notification.error({
       message: t('empty_building_address'),
+    });
+    return false;
+  }
+  if (buildingInfo.value.data.address.length > COMMON.MAX_LENGTH.BUILDING_ADDRESS) {
+    notification.error({
+      message: t('building_address_max_length', { length: COMMON.MAX_LENGTH.BUILDING_ADDRESS }),
     });
     return false;
   }
@@ -472,6 +484,15 @@ function checkStep1(): boolean {
     notification.error({
       message: t('empty_service_name', {
         no: finalServices.findIndex((service) => service.name === '') + 1,
+      }),
+    });
+    return false;
+  }
+  if (finalServices.find((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) !== undefined) {
+    notification.error({
+      message: t('service_name_max_length', {
+        no: finalServices.findIndex((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) + 1,
+        length: COMMON.MAX_LENGTH.SERVICE_NAME,
       }),
     });
     return false;
@@ -554,6 +575,18 @@ function checkStep2(): boolean {
     notification.error({
       message: t('zero_room_area', {
         no: invalidRoom.no,
+      }),
+    });
+    return false;
+  }
+  invalidRoom = buildingInfo.value.data.rooms.find(
+    (room) => !room.isDeleted && room.description.length > COMMON.MAX_LENGTH.ROOM_DESCRIPTION
+  );
+  if (invalidRoom) {
+    notification.error({
+      message: t('room_description_max_length', {
+        no: invalidRoom.no,
+        length: COMMON.MAX_LENGTH.ROOM_DESCRIPTION,
       }),
     });
     return false;

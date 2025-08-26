@@ -79,6 +79,9 @@ export default {
   bill_status_require: 'Trạng thái hóa đơn không được để trống!',
   bill_payment_list_empty: 'Danh sách các khoản thanh toán của hóa đơn không được để trống!',
   bill_pay: 'Thanh toán hóa đơn',
+  bill_name_max_length: 'Tên hóa đơn không được vượt quá {length} ký tự!',
+  building_name_max_length: 'Tên tòa nhà không được vượt quá {length} ký tự!',
+  building_address_max_length: 'Địa chỉ tòa nhà không được vượt quá {length} ký tự!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',
@@ -140,6 +143,8 @@ export default {
   create_ticket_success: 'Tạo phiếu hỗ trợ thành công!',
   choose_all_employee: 'Chọn tất cả nhân viên',
   choose_all_customer: 'Chọn tất cả khách hàng',
+  customer_first_name_require: 'Tên của khách hàng không được để trống!',
+  customer_last_name_require: 'Họ của khách hàng không được để trống!',
 
   D: 'd',
   delete: 'Xóa',
@@ -219,9 +224,7 @@ export default {
   enter_employee_ssn: 'Nhập số CCCD của nhân viên',
   enter_customer_ssn: 'Nhập số CCCD của khách hàng',
   employee_last_name_require: 'Họ của nhân viên không được để trống!',
-  customer_last_name_require: 'Họ của khách hàng không được để trống!',
   employee_first_name_require: 'Tên của nhân viên không được để trống!',
-  customer_first_name_require: 'Tên của khách hàng không được để trống!',
   enter_employee_old_ssn: 'Nhập số CMND (cũ) của nhân viên',
   enter_customer_old_ssn: 'Nhập số CMND (cũ) của khách hàng',
   enter_employee_pob: 'Nhập nơi sinh của nhân viên',
@@ -263,6 +266,7 @@ export default {
   email_change_success_content:
     'Địa chỉ email của bạn đã được thay đổi thành công!\nChúng tôi đã gửi một email xác nhận đến địa chỉ email mới của bạn. Vui lòng kiểm tra hộp thư và xác nhận để hoàn tất quá trình thay đổi.',
   edit_notice: 'Cập nhật thông báo',
+  email_max_length: 'Email không được vượt quá {length} ký tự!',
 
   F: 'f',
   finish_import: 'Hoàn tất',
@@ -278,12 +282,14 @@ export default {
   file_name: 'Tên tệp tin',
   file_link: 'Liên kết tệp tin',
   file_require: 'Vui lòng chọn tệp tin!',
-  file_title_require: 'Vui lòng nhập tiêu đề tệp tin!',
+  file_title_required: 'Vui lòng nhập tên tệp tin!',
   file: 'Tệp tin',
   file_size: 'Kích thước tệp tin',
   file_upload_success: 'Tệp tin {name} đã được tải lên thành công!',
   file_upload_failed: 'Tệp tin {name} tải lên thất bại!',
   failed: 'Thất bại',
+  first_name_max_length: 'Tên không được vượt quá {length} ký tự!',
+  file_name_max_length: 'Tên tệp tin không được vượt quá {length} ký tự!',
 
   G: 'g',
   gender: 'Giới tính',
@@ -325,6 +331,7 @@ export default {
   last_name: 'Họ',
   loading_data: 'Đang tải dữ liệu...',
   load_more: 'Tải thêm',
+  last_name_max_length: 'Họ không được vượt quá {length} ký tự!',
 
   M: 'm',
   managerName: 'Tên quản lý',
@@ -340,6 +347,7 @@ export default {
   mark_as_important: 'Đánh dấu quan trọng',
   mark_as_unimportant: 'Đánh dấu không quan trọng',
   mark_all_as_read: 'Đánh dấu tất cả đã đọc',
+  middle_name_max_length: 'Tên đệm không được vượt quá {length} ký tự!',
 
   N: 'n',
   notice: 'Thông báo',
@@ -379,6 +387,8 @@ export default {
   notification_sent: 'Thông báo đã được gửi thành công!',
   notice_important: 'Quan trọng',
   notifications: 'Thông báo',
+  note_max_length: 'Ghi chú không được vượt quá {length} ký tự!',
+  notification_title_max_length: 'Tiêu đề thông báo không được vượt quá {length} ký tự!',
 
   O: 'o',
   operation: 'Thao tác',
@@ -458,6 +468,11 @@ export default {
   password_incorrect: 'Mật khẩu không chính xác!',
   process_result: 'Kết quả xử lý',
   process_date: 'Ngày xử lý',
+  payment_name_max_length: 'Tên khoản thu không được vượt quá {length} ký tự!',
+  payment_note_max_length: 'Ghi chú khoản thu không được vượt quá {length} ký tự!',
+  pob_max_length: 'Nơi sinh không được vượt quá {length} ký tự!',
+  permanent_address_max_length: 'Địa chỉ thường trú không được vượt quá {length} ký tự!',
+  password_max_length: 'Mật khẩu không được vượt quá {length} ký tự!',
 
   Q: 'q',
   quarter: 'Quý {quarter}',
@@ -483,6 +498,7 @@ export default {
   report: 'Báo cáo',
   rent_contract: 'Hợp đồng cho thuê',
   room_image: 'Hình ảnh phòng',
+  room_description_max_length: 'Mô tả phòng {no} không được vượt quá {length} ký tự!',
 
   S: 's',
   staff: 'Nhân viên',
@@ -547,6 +563,7 @@ export default {
   send_notification: 'Gửi thông báo',
   send_time: 'Thời gian gửi',
   select_upload_category: 'Chọn danh mục thêm dữ liệu',
+  service_name_max_length: 'Tên dịch vụ {no} không được vượt quá {length} ký tự!',
 
   T: 't',
   total: 'Tổng',
@@ -559,6 +576,8 @@ export default {
   ticket_title_required: 'Tiêu đề phiếu hỗ trợ không được để trống!',
   ticket_content_required: 'Nội dung phiếu hỗ trợ không được để trống!',
   ticket_info_updated: 'Thông tin phiếu hỗ trợ đã được cập nhật thành công!',
+  temporary_address_max_length: 'Địa chỉ tạm trú không được vượt quá {length} ký tự!',
+  ticket_title_max_length: 'Tiêu đề phiếu hỗ trợ không được vượt quá {length} ký tự!',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

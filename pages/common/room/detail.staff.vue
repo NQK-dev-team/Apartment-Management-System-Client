@@ -240,11 +240,21 @@
               </ClientOnly>
             </div>
             <div class="flex-1 ms-2">
-              <div class="flex items-center justify-between">
-                <label for="room_description" class="flex mb-1">
-                  <span>{{ $t('description') }}</span>
-                </label>
-                <!-- <a-button
+              <a-form-item
+                :rules="[
+                  {
+                    max: COMMON.MAX_LENGTH.ROOM_DESCRIPTION,
+                    message: $t('room_description_max_length', { length: COMMON.MAX_LENGTH.ROOM_DESCRIPTION }),
+                    trigger: 'blur',
+                  },
+                ]"
+                name="description"
+              >
+                <div class="flex items-center justify-between">
+                  <label for="room_description" class="flex mb-1">
+                    <span>{{ $t('description') }}</span>
+                  </label>
+                  <!-- <a-button
                   v-show="editMode"
                   class="mb-1 items-center justify-center rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
                   size="small"
@@ -253,23 +263,24 @@
                 >
                   <UndoOutlined />
                 </a-button> -->
-              </div>
-              <a-textarea
-                v-if="!editMode"
-                id="room_description"
-                :value="roomData.description"
-                disabled
-                readonly
-                :placeholder="$t('description')"
-                :rows="3"
-              />
-              <a-textarea
-                v-else
-                id="room_description"
-                v-model:value="updateRoomData.description"
-                :placeholder="$t('enter_room_description')"
-                :rows="3"
-              />
+                </div>
+                <a-textarea
+                  v-if="!editMode"
+                  id="room_description"
+                  :value="roomData.description"
+                  disabled
+                  readonly
+                  :placeholder="$t('description')"
+                  :rows="3"
+                />
+                <a-textarea
+                  v-else
+                  id="room_description"
+                  v-model:value="updateRoomData.description"
+                  :placeholder="$t('enter_room_description')"
+                  :rows="3"
+                />
+              </a-form-item>
             </div>
           </div>
         </div>

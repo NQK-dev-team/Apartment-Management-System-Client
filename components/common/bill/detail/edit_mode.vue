@@ -86,7 +86,17 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <a-form-item :name="['title']" :rules="[{ required: true, message: $t('bill_name_require'), trigger: 'blur' }]">
+        <a-form-item
+          :name="['title']"
+          :rules="[
+            { required: true, message: $t('bill_name_require'), trigger: 'blur' },
+            {
+              max: COMMON.MAX_LENGTH.BILL_TITLE,
+              message: $t('bill_name_max_length', { length: COMMON.MAX_LENGTH.BILL_TITLE }),
+              trigger: 'blur',
+            },
+          ]"
+        >
           <label for="bill_name" class="flex mb-1 justify-between">
             <div class="flex items-center">
               <span>{{ $t('bill_name') }}</span>
@@ -274,7 +284,16 @@
         </a-form-item>
       </a-col>
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-        <a-form-item name="bill_note">
+        <a-form-item
+          :name="['note', 'String']"
+          :rules="[
+            {
+              max: COMMON.MAX_LENGTH.BILL_NOTE,
+              message: $t('note_max_length', { length: COMMON.MAX_LENGTH.BILL_NOTE }),
+              trigger: 'blur',
+            },
+          ]"
+        >
           <label for="bill_note" class="flex mb-1 justify-between">
             <span>{{ $t('note') }}</span>
             <!-- <a-button

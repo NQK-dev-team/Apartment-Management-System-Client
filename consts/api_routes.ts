@@ -72,7 +72,7 @@ const apiRoutes = {
     edit: (billId: number) => `/bill/${billId}/edit`,
     deleteMany: '/bill/delete-many',
     update: (billId: number) => `/bill/${billId}/update`,
-    momoConfirm: `/bill/momo-confirm`,
+    momoConfirm: `/bill/:id/momo-confirm`,
   },
   support_ticket: {
     approve: (ticketId: number) => `/support-ticket/${ticketId}/approve`,

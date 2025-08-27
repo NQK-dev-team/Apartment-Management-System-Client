@@ -124,12 +124,13 @@ export default defineEventHandler(async (event) => {
         });
       }
 
-      if (!apiUrl.includes(apiRoutes.bill.momoConfirm)) {
-        e.node.res.end(JSON.stringify(body));
-      } else {
+      const momoConfirmPathParts = apiRoutes.bill.momoConfirm.split('/');
+      if (apiUrl.includes(momoConfirmPathParts[1]) && apiUrl.includes(momoConfirmPathParts[3])) {
         // Clear all data from the response and return only 204 No Content status
         e.node.res.writeHead(COMMON.HTTP_STATUS.NO_CONTENT);
         e.node.res.end();
+      } else {
+        e.node.res.end(JSON.stringify(body));
       }
     },
   });

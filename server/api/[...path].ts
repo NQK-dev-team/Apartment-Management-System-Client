@@ -8,6 +8,7 @@ import {
   getUserIDFromJWT,
   getUserNoFromJWT,
 } from '~/utils/jwt';
+import { COMMON } from '~/consts/common';
 
 export default defineEventHandler(async (event) => {
   const config: RuntimeConfig = useRuntimeConfig();
@@ -123,7 +124,13 @@ export default defineEventHandler(async (event) => {
         });
       }
 
-      e.node.res.end(JSON.stringify(body));
+      if (!apiUrl.includes(apiRoutes.bill.momoConfirm)) {
+        e.node.res.end(JSON.stringify(body));
+      } else {
+        // Clear all data from the response and return only 204 No Content status
+        e.node.res.writeHead(COMMON.HTTP_STATUS.NO_CONTENT);
+        e.node.res.end();
+      }
     },
   });
 

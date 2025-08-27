@@ -9,6 +9,7 @@ import {
   getUserNoFromJWT,
 } from '~/utils/jwt';
 import { COMMON } from '~/consts/common';
+import { getMessageCode } from '~/consts/api_response';
 
 export default defineEventHandler(async (event) => {
   const config: RuntimeConfig = useRuntimeConfig();
@@ -126,8 +127,16 @@ export default defineEventHandler(async (event) => {
 
       const momoConfirmPathParts = apiRoutes.bill.momoConfirm.split('/');
       if (apiUrl.includes(momoConfirmPathParts[1]) && apiUrl.includes(momoConfirmPathParts[3])) {
-        // Clear all data from the response and return only 204 No Content status
-        e.node.res.writeHead(COMMON.HTTP_STATUS.NO_CONTENT);
+        if (body.message === getMessageCode('PAYMENT_COMPLETED') || body.message === getMessageCode('PAYMENT_FAILED')) {
+          e.node.res.writeHead(COMMON.HTTP_STATUS.NO_CONTENT);
+        } else if (
+          body.message === getMessageCode('INVALID_PARAMETER') ||
+          body.message === getMessageCode('IPN_PAYLOAD_INVALID')
+        ) {
+          e.node.res.writeHead(COMMON.HTTP_STATUS.BAD_REQUEST);
+        } else if (body.message === getMessageCode('SYSTEM_ERROR')) {
+          e.node.res.writeHead(COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR);
+        }
         e.node.res.end();
       } else {
         e.node.res.end(JSON.stringify(body));

@@ -71,7 +71,8 @@ const apiRoutes = {
     add: '/bill/add',
     edit: (billId: number) => `/bill/${billId}/edit`,
     deleteMany: '/bill/delete-many',
-    update: (billId: number) => `/bill/${billId}/update`,
+    update: (billId: number) => `/bill/${ billId }/update`,
+    initPayment: (billId: number)=>`/bill/${billId}/init-payment`,
     momoConfirm: `/bill/:id/momo-confirm`,
   },
   support_ticket: {

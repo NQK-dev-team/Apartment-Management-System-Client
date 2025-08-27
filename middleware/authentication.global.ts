@@ -109,12 +109,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           userNo.value = getUserNoFromJWT(newToken.jwtToken);
           isJWTValid = true;
           refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
-        } else if (!nonAuthRoutes.includes(to.path)) {
-          return navigateTo(pageRoutes.authentication.login);
         }
-      } else if (!nonAuthRoutes.includes(to.path)) {
-        return navigateTo(pageRoutes.authentication.login);
+        // else if (!nonAuthRoutes.includes(to.path))
+        // {
+        //   return navigateTo(pageRoutes.authentication.login);
+        // }
       }
+      // else if (!nonAuthRoutes.includes(to.path))
+      // {
+      //   return navigateTo(pageRoutes.authentication.login);
+      // }
     } else {
       userRole.value = getRoleFromJWT(jwt.value);
       userName.value = getUserNameFromJWT(jwt.value);
@@ -135,12 +139,20 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         userNo.value = getUserNoFromJWT(newToken.jwtToken);
         isJWTValid = true;
         refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
-      } else if (!nonAuthRoutes.includes(to.path)) {
-        return navigateTo(pageRoutes.authentication.login);
       }
-    } else if (!nonAuthRoutes.includes(to.path)) {
-      return navigateTo(pageRoutes.authentication.login);
+      // else if (!nonAuthRoutes.includes(to.path))
+      // {
+      //   return navigateTo(pageRoutes.authentication.login);
+      // }
     }
+    // else if (!nonAuthRoutes.includes(to.path))
+    // {
+    //   return navigateTo(pageRoutes.authentication.login);
+    // }
+  }
+
+  if (!isJWTValid && !nonAuthRoutes.includes(to.path)) {
+    return navigateTo(pageRoutes.authentication.login);
   }
 
   if (nonAuthRoutes.includes(to.path) && isJWTValid) {

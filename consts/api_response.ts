@@ -40,6 +40,7 @@ const messageList: { [key: string]: string } = {
   EMAIL_SENT: 'MSG_I0008',
   PASSWORD_RESET: 'MSG_I0009',
   PAYMENT_INITIALIZED: 'MSG_I0010',
+  PAYMENT_COMPLETED: 'MSG_I0011',
 };
 
 function getMessageCode(key: string): string {

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type BaseAPIResponse = {
+  status: number | undefined;
   message: string;
   validateError: any;
 };
@@ -10,6 +11,6 @@ export type APIResponse<T> = BaseAPIResponse & {
 
 export type APITokenResponse<T> = BaseAPIResponse & {
   jwtToken: string;
-  refreshToken: string;
+  refreshToken: string | undefined;
   data: T;
 };

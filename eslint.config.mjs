@@ -4,7 +4,8 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt({
   rules: {
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'warn',
+    '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
     'prefer-const': 'error',
     'no-var': 'error',
@@ -16,6 +17,7 @@ export default withNuxt({
     'vue/require-v-for-key': 'warn',
     'vue/html-self-closing': 'off',
     'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   files: [
     'composables/**/*.{js,ts,jsx,tsx}',

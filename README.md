@@ -18,6 +18,9 @@ yarn install
 
 # bun
 bun install
+
+#Set Up Environment Variables: Copy the .env.dist file to .env and fill in the necessary environment variables.
+cp .env.dist .env
 ```
 
 ## Development Server
@@ -73,3 +76,19 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Requirement:
+
+# install node.js 22.x.x: https://nodejs.org/en/download
+
+<!-- Testing -->
+# Unit test config: vitest.config.ts
+```bash
+# How to test UT
+npx vitest
+```
+
+# E2E test using playwright --> Follow this video: https://youtu.be/zksrIRwaVlc?si=hd22AzSH53QiVnkS , REMEMBER TO NOT OVERWRITE configuration
+```bash
+npx playwright codegen
+```

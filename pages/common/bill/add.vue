@@ -469,9 +469,9 @@
         <CommonBillAddPaymentListTable :payments="bill.billPayments" :delete-bucket="deleteBucket" />
         <div class="flex flex-col items-center my-5">
           <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
-          <a-button html-type="button" class="my-2 w-[100px] rounded-sm">
-            <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('back') }}</NuxtLink>
-          </a-button>
+          <NuxtLink :to="pageRoutes.common.bill.list" class="my-2"
+            ><a-button html-type="button" class="w-[100px] rounded-sm"> {{ $t('back') }}</a-button></NuxtLink
+          >
         </div>
       </a-form>
       <ClientOnly>

@@ -450,9 +450,9 @@
         </ClientOnly>
       </div>
       <div class="flex flex-col items-center my-5">
-        <a-button class="my-2 w-[100px] rounded-sm">
-          <NuxtLink :to="pageRoutes.common.building.detail(buildingID)">{{ $t('back') }}</NuxtLink>
-        </a-button>
+        <NuxtLink :to="pageRoutes.common.building.detail(buildingID)" class="my-2">
+          <a-button class="w-[100px] rounded-sm">{{ $t('back') }}</a-button>
+        </NuxtLink>
       </div>
     </div>
     <a-modal

@@ -178,9 +178,9 @@
           </template>
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
-          <a-button class="my-2 w-[100px] rounded-sm">
-            <NuxtLink :to="pageRoutes.common.building.list">{{ $t('back') }}</NuxtLink>
-          </a-button>
+          <NuxtLink :to="pageRoutes.common.building.list" class="my-2"
+            ><a-button class="w-[100px] rounded-sm">{{ $t('back') }}</a-button></NuxtLink
+          >
         </div>
       </div>
     </div>

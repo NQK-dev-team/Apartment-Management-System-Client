@@ -83,6 +83,7 @@ export default {
   building_name_max_length: 'Tên tòa nhà không được vượt quá {length} ký tự!',
   building_address_max_length: 'Địa chỉ tòa nhà không được vượt quá {length} ký tự!',
   bill_already_paid: 'Hóa đơn đã được thanh toán!',
+  bill_processing: 'Hóa đơn đang được xử lý thanh toán. Vui lòng chờ trong giây lát!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',

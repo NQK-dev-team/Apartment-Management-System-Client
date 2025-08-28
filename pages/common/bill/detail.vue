@@ -176,6 +176,11 @@ async function initBillPayment() {
         message: t('notice'),
         description: t('bill_already_paid'),
       });
+    } else if (err.response._data.message === getMessageCode('BILL_PROCESSING')) {
+      notification.info({
+        message: t('notice'),
+        description: t('bill_processing'),
+      });
     }
     await getBillingDetail(false);
   } finally {

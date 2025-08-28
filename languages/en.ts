@@ -83,6 +83,7 @@ export default {
   building_name_max_length: 'Building name must not exceed {length} characters!',
   building_address_max_length: 'Building address must not exceed {length} characters!',
   bill_already_paid: 'This billing has already been paid!',
+  bill_processing: 'This billing is being processed for payment. Please wait a moment!',
 
   C: 'c',
   choose_option: 'Choose an option',

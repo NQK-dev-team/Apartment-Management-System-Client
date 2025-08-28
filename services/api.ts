@@ -380,6 +380,12 @@ const common = {
         body: data,
       });
     },
+    initPayment: async (billId: number): Promise<APIResponse<string>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.bill.initPayment(billId), {
+        method: 'GET',
+      });
+    },
   },
   support_ticket: {
     approve: async (ticketId: number): Promise<APIResponse<null>> => {

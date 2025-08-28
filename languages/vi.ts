@@ -82,6 +82,7 @@ export default {
   bill_name_max_length: 'Tên hóa đơn không được vượt quá {length} ký tự!',
   building_name_max_length: 'Tên tòa nhà không được vượt quá {length} ký tự!',
   building_address_max_length: 'Địa chỉ tòa nhà không được vượt quá {length} ký tự!',
+  bill_already_paid: 'Hóa đơn đã được thanh toán!',
 
   C: 'c',
   choose_option: 'Chọn danh mục',

@@ -72,14 +72,18 @@
       </template>
       <div class="flex flex-col items-center my-5">
         <a-button
-          v-if="userRole?.toString() === roles.customer"
+          v-if="
+            userRole?.toString() === roles.customer &&
+            (bill?.status === COMMON.BILL_STATUS.UN_PAID || bill?.status === COMMON.BILL_STATUS.OVERDUE)
+          "
           type="primary"
-          class="w-[150px] flex items-center justify-center"
+          class="w-[150px] flex items-center justify-center rounded-sm"
+          @click="initBillPayment"
           >{{ $t('bill_pay') }}</a-button
         >
-        <a-button class="my-2 rounded-sm w-[150px]">
-          <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('back') }}</NuxtLink>
-        </a-button>
+        <NuxtLink :to="pageRoutes.common.bill.list" class="my-2">
+          <a-button class="rounded-sm w-[150px]"> {{ $t('back') }} </a-button>
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -124,9 +128,11 @@ const editBill = ref<{ value: Bill }>({ value: {} as Bill });
 const { $event, $dayjs } = useNuxtApp();
 
 // ---------------------- Functions ----------------------
-async function getBillingDetail() {
+async function getBillingDetail(emitLoading = true) {
   try {
-    $event.emit('loading');
+    if (emitLoading) {
+      $event.emit('loading');
+    }
     const response = await api.common.bill.getDetail(billID);
     response.data.paymentTime.Time = response.data.paymentTime.Valid ? $dayjs(response.data.paymentTime.Time) : '';
     response.data.payerID.Int64 = response.data.payerID.Valid ? response.data.payerID.Int64 : undefined;
@@ -143,6 +149,35 @@ async function getBillingDetail() {
         description: t('system_error_description'),
       });
     }
+  } finally {
+    if (emitLoading) {
+      $event.emit('loading');
+    }
+  }
+}
+
+async function initBillPayment() {
+  try {
+    $event.emit('loading');
+    const response = await api.common.bill.initPayment(billID);
+    window.open(response.data, '_blank');
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (err.response._data.message === getMessageCode('BILL_ALREADY_PAID')) {
+      notification.info({
+        message: t('notice'),
+        description: t('bill_already_paid'),
+      });
+    }
+    await getBillingDetail(false);
   } finally {
     $event.emit('loading');
   }

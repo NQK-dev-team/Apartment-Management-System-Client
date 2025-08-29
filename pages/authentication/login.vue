@@ -54,11 +54,11 @@
           type="error"
         />
 
-        <a-form-item class="mb-1" label="Email" name="email">
+        <a-form-item class="mb-1" label="Email" name="email" html-for="email">
           <a-input id="email" v-model:value="formData.email" name="email" autocomplete="email" type="email" />
         </a-form-item>
 
-        <a-form-item class="mb-1" :label="$t('password')" name="password">
+        <a-form-item class="mb-1" :label="$t('password')" name="password" html-for="password">
           <a-input-password id="password" v-model:value="formData.password" name="password" autocomplete="off" />
         </a-form-item>
 

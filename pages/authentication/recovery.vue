@@ -50,7 +50,7 @@
         <a-alert v-show="!isValid" class="my-3 h-[40px] max-h-[40px]" :message="$t('invalid_email')" type="error" />
         <a-alert v-show="!isFound" class="my-3 h-[40px] max-h-[40px]" :message="$t('user_not_found')" type="error" />
 
-        <a-form-item class="mb-1" :label="t('recovery_email')" name="email">
+        <a-form-item class="mb-1" :label="t('recovery_email')" name="email" html-for="email">
           <a-input id="email" v-model:value="formData.email" name="email" autocomplete="email" type="email" />
         </a-form-item>
 

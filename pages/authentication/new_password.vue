@@ -50,7 +50,7 @@
         </div>
         <a-alert v-show="!isValid" class="my-3 h-[40px] max-h-[40px]" :message="$t('invalid_password')" type="error" />
 
-        <a-form-item class="mb-1" :label="t('new_password')" name="newPassword">
+        <a-form-item class="mb-1" :label="t('new_password')" name="newPassword" html-for="newPassword">
           <a-input-password
             id="newPassword"
             v-model:value="formData.newPassword"
@@ -59,7 +59,7 @@
           />
         </a-form-item>
 
-        <a-form-item class="mb-1" :label="t('confirm_new_password')" name="confirmPassword">
+        <a-form-item class="mb-1" :label="t('confirm_new_password')" name="confirmPassword" html-for="confirmPassword">
           <a-input-password
             id="confirmPassword"
             v-model:value="formData.confirmPassword"

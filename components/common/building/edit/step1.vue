@@ -85,7 +85,9 @@
       :original-building-info="props.originalBuildingInfo"
     />
     <a-modal
+      id="confirmDeleteModalEditBuilding"
       v-model:open="openModal"
+      name="confirmDeleteModalEditBuilding"
       :title="$t('confirm_deletion')"
       :ok-text="$t('delete')"
       ok-type="danger"

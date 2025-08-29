@@ -148,7 +148,7 @@
 
 <script lang="ts" setup>
 import { getBase64 } from '#build/imports';
-import { type UploadProps, type UploadFile, type UploadChangeParam, Upload } from 'ant-design-vue';
+import { type UploadProps, type UploadFile,  Upload } from 'ant-design-vue';
 import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------

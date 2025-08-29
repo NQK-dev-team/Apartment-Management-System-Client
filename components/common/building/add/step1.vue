@@ -26,6 +26,8 @@
           <h2 class="text-xl font-bold">{{ $t('service_list') }}</h2>
           <div class="flex items-center">
             <a-button
+              id="deleteService"
+              name="deleteService"
               type="primary"
               danger
               class="flex items-center justify-center w-8 h-8 rounded-sm"
@@ -39,6 +41,8 @@
               ><DeleteOutlined
             /></a-button>
             <a-button
+              id="addService"
+              name="addService"
               type="primary"
               class="ms-2 flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
@@ -168,13 +172,17 @@
             </tbody>
           </table>
         </div>
-        <p>{{ $t('total') }}: {{ buildingInfo.services.length }}</p>
+        <p>
+          {{ $t('total') }}: <span id="totalServicesCount">{{ buildingInfo.services.length }}</span>
+        </p>
       </div>
       <div class="mt-10">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
           <div class="flex items-center">
             <a-button
+              id="deleteSchedule"
+              name="deleteSchedule"
               type="primary"
               danger
               class="flex items-center justify-center w-8 h-8 rounded-sm"
@@ -188,6 +196,8 @@
               ><DeleteOutlined
             /></a-button>
             <a-button
+              id="addSchedule"
+              name="addSchedule"
               type="primary"
               class="ms-2 flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
@@ -344,13 +354,17 @@
             </tbody>
           </table>
         </div>
-        <p>{{ $t('total') }}: {{ buildingInfo.schedules.length }}</p>
+        <p>
+          {{ $t('total') }}: <span id="totalSchedulesCount">{{ buildingInfo.schedules.length }}</span>
+        </p>
       </div>
       <div class="mt-10">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold">{{ $t('floor_list') }}</h2>
           <div class="flex items-center">
             <a-button
+              id="deleteFloor"
+              name="deleteFloor"
               type="primary"
               danger
               class="flex items-center justify-center w-8 h-8 rounded-sm"
@@ -364,6 +378,8 @@
               ><DeleteOutlined
             /></a-button>
             <a-button
+              id="addFloor"
+              name="addFloor"
               type="primary"
               class="ms-2 flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
@@ -469,7 +485,9 @@
             </tbody>
           </table>
         </div>
-        <p>{{ $t('total') }}: {{ buildingInfo.floors.length }}</p>
+        <p>
+          {{ $t('total') }}: <span id="totalFloorCount">{{ buildingInfo.floors.length }}</span>
+        </p>
       </div>
     </div>
     <div class="min-w-[350px] max-w-[350px] h-full">
@@ -485,7 +503,9 @@
       </div>
       <div class="mt-3 text-center">
         <a-upload
+          id="buildingImage"
           v-model:file-list="buildingInfo.images"
+          name="buildingImage"
           :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
           multiple
           list-type="text"
@@ -620,7 +640,7 @@ function removeAllSchedulesFromBucket() {
   scheduleDeleteBucket.value = [];
 }
 
-function beforeUploadBuildingImage(file: any): boolean|string {
+function beforeUploadBuildingImage(file: any): boolean | string {
   let type = file.type || '';
   if (type) {
     type = type.split('/')[1] || '';

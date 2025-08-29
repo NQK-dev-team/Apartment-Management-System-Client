@@ -3,10 +3,16 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.building.list">{{ $t('building_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="buildingListLink" name="buildingListLink" :to="pageRoutes.common.building.list">{{
+            $t('building_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item>
-          <NuxtLink :to="pageRoutes.common.building.detail(buildingID)">
+          <NuxtLink
+            id="buildingDetailLink"
+            name="buildingDetailLink"
+            :to="pageRoutes.common.building.detail(buildingID)"
+          >
             {{ $t('building_information') }}
           </NuxtLink>
         </a-breadcrumb-item>
@@ -16,6 +22,8 @@
       <div class="flex items-center justify-center mt-5">
         <div>
           <div
+            id="step1"
+            name="step1"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -89,6 +97,8 @@
         <RightOutlined class="text-xl mb-0" :class="[lightMode ? 'text-slate-300' : 'text-stone-600']" />
         <div>
           <div
+            id="step2"
+            name="step2"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -162,6 +172,8 @@
         <RightOutlined class="text-xl mb-0" :class="[lightMode ? 'text-slate-300' : 'text-stone-600']" />
         <div>
           <div
+            id="step3"
+            name="step3"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -235,6 +247,8 @@
         <RightOutlined class="text-xl mb-0" :class="[lightMode ? 'text-slate-300' : 'text-stone-600']" />
         <div>
           <div
+            id="step4"
+            name="step4"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -339,7 +353,12 @@
             <p class="text-center my-2">{{ $t('edit_building_success_title') }}</p>
             <p class="text-center my-2">{{ $t('edit_building_success_note') }}</p>
             <div class="my-2 w-[100px]">
-              <NuxtLink v-show="step === 4" :to="pageRoutes.common.building.detail(buildingID)">
+              <NuxtLink
+                v-show="step === 4"
+                id="backToBuildingDetail"
+                name="backToBuildingDetail"
+                :to="pageRoutes.common.building.detail(buildingID)"
+              >
                 <a-button type="primary" class="w-full h-full rounded-sm">{{ $t('back') }}</a-button>
               </NuxtLink>
             </div>
@@ -349,6 +368,8 @@
       <div class="steps-action flex flex-col items-center mb-3 mt-10">
         <a-button
           v-if="step < 4"
+          id="nextStep"
+          name="nextStep"
           type="primary"
           class="w-[100px] rounded-sm"
           @click="
@@ -365,10 +386,22 @@
           "
           >{{ step == 3 ? $t('confirm') : $t('next') }}</a-button
         >
-        <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
-          $t('previous')
-        }}</a-button>
-        <NuxtLink v-if="step < 4" v-show="step === 1" :to="pageRoutes.common.building.detail(buildingID)">
+        <a-button
+          v-if="step < 4"
+          v-show="step > 1 && step < 4"
+          id="previousStep"
+          name="previousStep"
+          class="my-2 w-[100px] rounded-sm"
+          @click="step--"
+          >{{ $t('previous') }}</a-button
+        >
+        <NuxtLink
+          v-if="step < 4"
+          v-show="step === 1"
+          id="cancel"
+          name="cancel"
+          :to="pageRoutes.common.building.detail(buildingID)"
+        >
           <a-button class="my-2 w-[100px] rounded-sm">{{ $t('cancel') }}</a-button>
         </NuxtLink>
       </div>

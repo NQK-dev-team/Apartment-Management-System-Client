@@ -22,6 +22,8 @@
           <UndoOutlined />
         </a-button> -->
         <a-button
+          id="deleteFloor"
+          name="deleteFloor"
           type="primary"
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
@@ -34,6 +36,8 @@
           ><DeleteOutlined
         /></a-button>
         <a-button
+          id="addFloor"
+          name="addFloor"
           type="primary"
           class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="floors.push({ value: floors.length + 1, disable: false })"
@@ -131,7 +135,9 @@
         </tbody>
       </table>
     </div>
-    <p>{{ $t('total') }}: {{ floors.length }}</p>
+    <p>
+      {{ $t('total') }}: <span id="totalFloorCount">{{ floors.length }}</span>
+    </p>
   </div>
 </template>
 

@@ -24,6 +24,8 @@
         <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
         <div class="flex items-center">
           <a-button
+            id="resetRoom"
+            name="resetRoom"
             class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
             @click="handleUndo"
           >
@@ -31,6 +33,8 @@
           </a-button>
           <a-button
             v-if="userRole?.toString() === roles.owner"
+            id="deleteRoom"
+            name="deleteRoom"
             type="primary"
             danger
             class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
@@ -44,6 +48,8 @@
           /></a-button>
           <a-button
             v-if="userRole?.toString() === roles.owner"
+            id="addRoom"
+            name="addRoom"
             type="primary"
             class="flex items-center justify-center w-8 h-8 rounded-sm"
             @click="
@@ -209,7 +215,9 @@
           </tbody>
         </table>
       </div>
-      <p>{{ $t('total') }}: {{ totalRooms }}</p>
+      <p>
+        {{ $t('total') }}: <span id="totalRoomCount">{{ totalRooms }}</span>
+      </p>
     </div>
   </div>
 </template>

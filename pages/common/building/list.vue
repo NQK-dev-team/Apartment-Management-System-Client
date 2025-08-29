@@ -15,7 +15,12 @@
           enter-button
           @search="filterBuildingList"
         /> -->
-        <NuxtLink v-if="userRole?.toString() === roles.owner" :to="pageRoutes.common.building.add">
+        <NuxtLink
+          v-if="userRole?.toString() === roles.owner"
+          id="addBuildingLink"
+          name="addBuildingLink"
+          :to="pageRoutes.common.building.add"
+        >
           <a-button type="primary" class="flex items-center rounded-sm"><PlusOutlined /></a-button>
         </NuxtLink>
       </div>

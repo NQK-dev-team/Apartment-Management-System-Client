@@ -14,6 +14,8 @@
           <span
             >{{ value }}
             <NuxtLink
+              :id="`manager_${record.no}_detail_link`"
+              :name="`manager_${record.no}_detail_link`"
               :to="pageRoutes.common.staff.detail(record.ID)"
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
               target="_blank"

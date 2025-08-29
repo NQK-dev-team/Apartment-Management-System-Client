@@ -34,7 +34,9 @@
     <div class="mt-3 text-center">
       <a-upload
         v-if="!props.readOnly && userRole?.toString() === roles.owner"
+        id="buildingImage"
         v-model:file-list="imageList"
+        name="buildingImage"
         :accept="COMMON.ALLOW_IMAGE_EXTENSIONS.join(',')"
         multiple
         list-type="text"

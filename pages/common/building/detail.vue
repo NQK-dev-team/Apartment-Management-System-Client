@@ -3,14 +3,20 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.building.list">{{ $t('building_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="buildingListLink" name="buildingListLink" :to="pageRoutes.common.building.list">{{
+            $t('building_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item>{{ $t('building_information') }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div class="flex items-center justify-between">
         <h1 class="mt-3 text-2xl">{{ $t('building', { name: buildingData.name }) }}</h1>
         <div>
-          <NuxtLink :to="pageRoutes.common.building.edit(buildingID)">
+          <NuxtLink
+            :id="`building_edit_${buildingID}_link`"
+            :name="`building_edit_${buildingID}_link`"
+            :to="pageRoutes.common.building.edit(buildingID)"
+          >
             <a-button type="primary" class="rounded-sm">{{ $t('edit') }}</a-button>
           </NuxtLink>
         </div>
@@ -98,6 +104,8 @@
             </template> -->
             <div v-for="(image, index) in buildingData.images" :key="index">
               <img
+                :id="`building_image_${index}`"
+                :name="`building_image_${index}`"
                 :src="image.path as string"
                 class="w-[250px] h-[300px] cursor-pointer"
                 @click="
@@ -115,6 +123,8 @@
       <div class="w-full flex-1 flex flex-col">
         <div class="flex items-center mt-3">
           <p
+            id="room_list_option"
+            name="room_list_option"
             class="me-3 cursor-pointer select-none"
             :class="[
               option === 1
@@ -126,6 +136,8 @@
             {{ $t('room_list') }}
           </p>
           <p
+            id="service_list_option"
+            name="service_list_option"
             class="mx-3 cursor-pointer select-none"
             :class="[
               option === 2
@@ -137,6 +149,8 @@
             {{ $t('service_list') }}
           </p>
           <p
+            id="management_schedule_option"
+            name="management_schedule_option"
             class="mx-3 cursor-pointer select-none"
             :class="[
               option === 3
@@ -148,6 +162,8 @@
             {{ $t('management_schedule') }}
           </p>
           <p
+            id="statistic_option"
+            name="statistic_option"
             class="ms-3 cursor-pointer select-none"
             :class="[
               option === 4
@@ -160,10 +176,18 @@
           </p>
         </div>
         <div class="flex items-center justify-center mt-3">
-          <h2 v-show="option === 1" class="text-xl font-bold">{{ $t('room_list') }}</h2>
-          <h2 v-show="option === 2" class="text-xl font-bold">{{ $t('service_list') }}</h2>
-          <h2 v-show="option === 3" class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
-          <h2 v-show="option === 4" class="text-xl font-bold">{{ $t('statistic') }}</h2>
+          <h2 v-show="option === 1" class="text-xl font-bold">
+            {{ $t('room_list') }}
+          </h2>
+          <h2 v-show="option === 2" class="text-xl font-bold">
+            {{ $t('service_list') }}
+          </h2>
+          <h2 v-show="option === 3" class="text-xl font-bold">
+            {{ $t('management_schedule') }}
+          </h2>
+          <h2 v-show="option === 4" class="text-xl font-bold">
+            {{ $t('statistic') }}
+          </h2>
         </div>
         <ClientOnly>
           <CommonBuildingDetailRoomListTable
@@ -178,7 +202,11 @@
           </template>
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
-          <NuxtLink :to="pageRoutes.common.building.list" class="my-2"
+          <NuxtLink
+            id="buildingListBackLink"
+            name="buildingListBackLink"
+            :to="pageRoutes.common.building.list"
+            class="my-2"
             ><a-button class="w-[100px] rounded-sm">{{ $t('back') }}</a-button></NuxtLink
           >
         </div>

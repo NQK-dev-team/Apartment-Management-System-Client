@@ -7,9 +7,16 @@
       </a-breadcrumb>
       <h1 class="mt-3 text-2xl">{{ $t('support_ticket_list') }}</h1>
       <div class="flex items-center justify-between w-full mt-5">
-        <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
+        <a-range-picker
+          id="timeRangePicker"
+          v-model:value="timeRange"
+          name="timeRangePicker"
+          :disabled-date="disabledDate"
+        />
         <div class="flex items-center">
           <a-button
+            id="deleteTicket"
+            name="deleteTicket"
             type="primary"
             danger
             :disabled="!deleteBucket.length"
@@ -22,7 +29,13 @@
           >
             <img :src="svgPaths.delete" alt="Delete contract" class="w-[12px] h-[12px]" />
           </a-button>
-          <a-button type="primary" class="rounded-sm" @click="openAddModal.value = true">
+          <a-button
+            id="addTicket"
+            name="addTicket"
+            type="primary"
+            class="rounded-sm"
+            @click="openAddModal.value = true"
+          >
             <img :src="svgPaths.plus" alt="Add contract" class="w-[12px] h-[12px]" />
           </a-button>
         </div>
@@ -45,9 +58,11 @@
         class="mt-3"
         :scroll="{ x: 'max-content' }"
       >
-        <template #bodyCell="{ column, value }">
+        <template #bodyCell="{ column, value, record }">
           <template v-if="column.dataIndex === 'action'">
             <InfoCircleOutlined
+              :id="`view_ticket_${record.no}`"
+              :name="`view_ticket_${record.no}`"
               class="text-lg hover:cursor-pointer hover:text-gray-400 active:text-gray-600"
               :title="$t('detail')"
               @click="openDetailModal(value)"
@@ -74,7 +89,9 @@
         <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
           <div class="p-[8px]">
             <a-input
+              :id="`${column.dataIndex}SearchInput`"
               ref="searchInput"
+              :name="`${column.dataIndex}SearchInput`"
               :placeholder="t('enter_search')"
               :value="selectedKeys[0]"
               class="block width-[200px] mb-[8px]"
@@ -83,13 +100,17 @@
             />
             <div class="flex items-center">
               <a-button
+                :id="`${column.dataIndex}ClearButton`"
                 size="small"
+                :name="`${column.dataIndex}ClearButton`"
                 class="w-[90px] h-[25px] inline-flex items-center justify-center"
                 @click="handleReset(clearFilters)"
                 >{{ t('clear') }}</a-button
               >
               <a-button
+                :id="`${column.dataIndex}ApplyButton`"
                 type="primary"
+                :name="`${column.dataIndex}ApplyButton`"
                 size="small"
                 class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
                 @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -105,9 +126,16 @@
         <template #customFilterIcon="{ filtered, column }">
           <SearchOutlined
             v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no' || column.dataIndex === 'customer'"
+            :id="`${column.dataIndex}SearchIcon`"
+            :name="`${column.dataIndex}SearchIcon`"
             :style="{ color: filtered ? '#108ee9' : undefined }"
           />
-          <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+          <FilterFilled
+            v-else
+            :id="`${column.dataIndex}FilterIcon`"
+            :name="`${column.dataIndex}FilterIcon`"
+            :style="{ color: filtered ? '#108ee9' : undefined }"
+          />
         </template>
       </a-table>
       <CommonSupportTicketDetailCustomer :ticket-detail="ticketDetail" :detail-modal-visible="detailModalVisible" />

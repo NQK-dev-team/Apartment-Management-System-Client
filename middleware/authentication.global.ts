@@ -100,7 +100,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (!(await verifyToken(jwt.value))) {
       if (refreshToken && refreshToken.value) {
         const newToken: APITokenResponse<null> | null = await getNewToken(refreshToken.value);
-        if (newToken) {
+        if (newToken && newToken.jwtToken) {
           jwt.value = newToken.jwtToken;
           userRole.value = getRoleFromJWT(newToken.jwtToken);
           userName.value = getUserNameFromJWT(newToken.jwtToken);
@@ -130,7 +130,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   } else {
     if (refreshToken && refreshToken.value) {
       const newToken: APITokenResponse<null> | null = await getNewToken(refreshToken.value);
-      if (newToken) {
+      if (newToken && newToken.jwtToken) {
         jwt.value = newToken.jwtToken;
         userRole.value = getRoleFromJWT(newToken.jwtToken);
         userName.value = getUserNameFromJWT(newToken.jwtToken);

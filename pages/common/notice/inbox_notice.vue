@@ -32,6 +32,7 @@
               :id="`notification_${index + 1}`"
               :key="index"
               :name="`notification_${index + 1}`"
+              :data-id="notification.ID"
               class="cursor-pointer pe-2 my-2"
               @click="
                 (e) => {
@@ -492,7 +493,11 @@ async function getInboxList(emitLoading = true) {
           //   top: document.getElementById(`notification_${queryID.value}`)?.offsetTop || 0,
           //   left: document.getElementById(`notification_${queryID.value}`)?.offsetLeft || 0,
           // };
-          document.getElementById(`notification_${queryID.value}`)?.scrollIntoView({
+          // document.getElementById(`notification_${queryID.value}`)?.scrollIntoView({
+          //   behavior: 'smooth',
+          //   block: 'start',
+          // });
+          document.querySelector(`[data-id="${queryID.value}"]`)?.scrollIntoView({
             behavior: 'smooth',
             block: 'start',
           });

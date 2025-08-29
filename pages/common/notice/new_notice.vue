@@ -48,6 +48,8 @@
           <h2 class="me-3 text-xl font-bold">{{ $t('reciever') }}:</h2>
           <p
             v-if="userRole?.toString() === roles.owner"
+            id="receiverEmployee"
+            name="receiverEmployee"
             class="me-3 cursor-pointer select-none"
             :class="[
               option === 1
@@ -64,6 +66,8 @@
             {{ $t('employee') }}
           </p>
           <p
+            id="receiverCustomer"
+            name="receiverCustomer"
             class="mx-3 cursor-pointer select-none"
             :class="[
               option === 2
@@ -91,14 +95,24 @@
               <h2 class="text-xl font-bold">
                 {{ $t('employee_list') }}
               </h2>
-              <a-checkbox v-model:checked="chooseAllStaff" class="ms-5">{{ $t('choose_all_employee') }}</a-checkbox>
+              <a-checkbox
+                id="chooseAllEmployee"
+                v-model:checked="chooseAllStaff"
+                name="chooseAllEmployee"
+                class="ms-5"
+                >{{ $t('choose_all_employee') }}</a-checkbox
+              >
             </div>
             <div v-show="option === 2" class="items-center justify-between" style="display: flex">
               <div class="flex items-center">
                 <h2 class="text-xl font-bold">{{ $t('customer_list') }}</h2>
-                <a-checkbox v-model:checked="chooseAllCustomer" class="ms-5">{{
-                  $t('choose_all_customer')
-                }}</a-checkbox>
+                <a-checkbox
+                  id="chooseAllCustomer"
+                  v-model:checked="chooseAllCustomer"
+                  name="chooseAllCustomer"
+                  class="ms-5"
+                  >{{ $t('choose_all_customer') }}</a-checkbox
+                >
               </div>
               <div v-show="showLoadingIcon" class="items-center" style="display: flex">
                 <a-spin :indicator="indicator" :class="[lightMode ? 'text-[#737373]' : 'text-black']" />
@@ -119,6 +133,8 @@
         />
         <div class="flex flex-col items-center my-5">
           <a-button
+            id="sendNotificationButton"
+            name="sendNotificationButton"
             class="my-2 rounded-sm"
             type="primary"
             :disabled="

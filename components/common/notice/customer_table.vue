@@ -7,13 +7,19 @@
       onChange: (selectedRowKeys: any) => {
         notificationData.customerReceivers = selectedRowKeys;
       },
+      getCheckboxProps: (record: any) => ({
+        id: `check_customer_${record.no}`,
+        name: `check_customer_${record.no}`,
+      }),
     }"
     class="mt-3"
     :scroll="{ x: 'max-content' }"
   >
-    <template #bodyCell="{ value, column }">
+    <template #bodyCell="{ value, column, record }">
       <template v-if="column.key === 'action'">
         <NuxtLink
+          :id="`customer_${record.no}_detail_link`"
+          :name="`customer_${record.no}_detail_link`"
           :to="pageRoutes.common.customer.detail(value)"
           class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
           target="_blank"
@@ -31,7 +37,9 @@
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
+          :id="`${column.dataIndex}SearchInput`"
           ref="searchInput"
+          :name="`${column.dataIndex}SearchInput`"
           :placeholder="t('enter_search')"
           :value="selectedKeys[0]"
           class="block width-[200px] mb-[8px]"
@@ -40,13 +48,17 @@
         />
         <div class="flex items-center">
           <a-button
+            :id="`${column.dataIndex}ClearButton`"
             size="small"
+            :name="`${column.dataIndex}ClearButton`"
             class="w-[90px] h-[25px] inline-flex items-center justify-center"
             @click="handleReset(clearFilters)"
             >{{ t('clear') }}</a-button
           >
           <a-button
+            :id="`${column.dataIndex}ApplyButton`"
             type="primary"
+            :name="`${column.dataIndex}ApplyButton`"
             size="small"
             class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
             @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -69,9 +81,16 @@
           column.dataIndex === 'phone' ||
           column.dataIndex === 'email'
         "
+        :id="`${column.dataIndex}SearchIcon`"
+        :name="`${column.dataIndex}SearchIcon`"
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
-      <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+      <FilterFilled
+        v-else
+        :id="`${column.dataIndex}FilterIcon`"
+        :name="`${column.dataIndex}FilterIcon`"
+        :style="{ color: filtered ? '#108ee9' : undefined }"
+      />
     </template>
   </a-table>
 </template>

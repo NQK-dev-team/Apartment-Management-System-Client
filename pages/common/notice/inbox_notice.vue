@@ -29,9 +29,10 @@
           >
             <div
               v-for="(notification, index) in filteredInboxList"
-              :id="`notification_${notification.ID}`"
+              :id="`notification_${index + 1}`"
               :key="index"
-              class="cursor-pointer pe-2"
+              :name="`notification_${index + 1}`"
+              class="cursor-pointer pe-2 my-2"
               @click="
                 (e) => {
                   clickNotification(e, notification.ID);
@@ -41,7 +42,7 @@
               <a-badge
                 v-if="notification.isRead === COMMON.NOTIFICATION.UNREAD"
                 dot
-                class="ps-3 rounded-md py-3 block w-full my-2"
+                class="ps-3 rounded-md py-3 block w-full"
                 :class="[
                   {
                     'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]':
@@ -99,7 +100,7 @@
               </a-badge>
               <div
                 v-else-if="notification.isRead === COMMON.NOTIFICATION.READ"
-                class="ps-3 rounded-md py-3 block w-full my-2"
+                class="ps-3 rounded-md py-3 block w-full"
                 :class="[
                   {
                     'hover:bg-[#f0f0f0] active:bg-[#f5f5f5]':
@@ -212,7 +213,7 @@
               <a-dropdown>
                 <template #overlay>
                   <a-menu @click="handleMenuClick">
-                    <a-menu-item :key="1">
+                    <a-menu-item id="notificationDetailOption1" :key="1">
                       <span v-if="notificationDetail.isRead === COMMON.NOTIFICATION.UNREAD" class="flex items-center"
                         ><Read class="text-md" />&nbsp;{{ $t('mark_as_read') }}</span
                       >
@@ -220,7 +221,7 @@
                         ><Unread class="text-md" />&nbsp;{{ $t('mark_as_unread') }}</span
                       >
                     </a-menu-item>
-                    <a-menu-item :key="2">
+                    <a-menu-item id="notificationDetailOption2" :key="2">
                       <span
                         v-if="notificationDetail.isMarked === COMMON.NOTIFICATION.UNMARKED"
                         class="flex items-center"
@@ -284,7 +285,6 @@
               <a-upload
                 :file-list="
                   notificationDetail.files
-
                     .map((file) => ({
                       uid: file.ID.toString(),
                       name: file.title,
@@ -293,7 +293,7 @@
                     }))
                     .filter((file) => isFileImage(file)) as any
                 "
-                class="custom_notice_image_upload custom_notice_image_upload_hide_delete_button"
+                class="custom_notice_image_upload custom_notice_image_upload_hide_delete_button imageList"
                 list-type="picture-card"
                 @preview="handlePreview"
               >
@@ -301,7 +301,6 @@
               <a-upload
                 :file-list="
                   notificationDetail.files
-
                     .map((file) => ({
                       uid: file.ID.toString(),
                       name: file.title,
@@ -310,7 +309,7 @@
                     }))
                     .filter((file) => !isFileImage(file)) as any
                 "
-                class="custom_notice_image_upload custom_notice_image_upload_hide_delete_button"
+                class="custom_notice_image_upload custom_notice_image_upload_hide_delete_button fileList"
               >
               </a-upload>
             </div>

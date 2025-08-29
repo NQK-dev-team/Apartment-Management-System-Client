@@ -25,7 +25,7 @@
             <div class="flex items-center">
               <div>
                 <p class="font-bold mb-1">{{ $t('display_category') }}</p>
-                <a-select v-model:value="viewCatory" class="w-32">
+                <a-select id="viewCatory" v-model:value="viewCatory" name="viewCatory" class="w-32">
                   <a-select-option :value="1">{{ $t('upload_file') }}</a-select-option>
                   <a-select-option :value="2">{{ $t('process_result') }}</a-select-option>
                 </a-select>
@@ -36,7 +36,11 @@
               </div>
             </div>
             <div v-if="viewCatory === 1 && importOption" class="mt-[28px]">
-              <a-button class="flex items-center" @click="downloadExampleFile"
+              <a-button
+                id="downloadExampleFileButton"
+                name="downloadExampleFileButton"
+                class="flex items-center"
+                @click="downloadExampleFile"
                 ><DownloadOutlined />{{ $t('example_file') }}</a-button
               >
             </div>

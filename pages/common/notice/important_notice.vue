@@ -212,7 +212,7 @@
                 {{ $t('sender') }}:
                 {{ getUserName(notificationDetail.sender) }}
               </div>
-              <a-dropdown>
+              <a-dropdown :trigger="['click']">
                 <template #overlay>
                   <a-menu @click="handleMenuClick">
                     <a-menu-item id="notificationDetailOption1" :key="1">

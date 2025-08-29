@@ -25,21 +25,41 @@
             class="w-full text-left"
           >
             <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
-            <a-select-option :value="COMMON.ROOM_STATUS.RENTED" :class="`text-[#50c433]`">{{
-              $t('rented')
-            }}</a-select-option>
-            <a-select-option :value="COMMON.ROOM_STATUS.SOLD" :class="`text-[#43b7f1]`">{{
-              $t('sold')
-            }}</a-select-option>
-            <a-select-option :value="COMMON.ROOM_STATUS.AVAILABLE" :class="`text-[#888888]`">{{
-              $t('available')
-            }}</a-select-option>
-            <a-select-option :value="COMMON.ROOM_STATUS.MAINTANCED" :class="`text-[#d8d535]`">{{
-              $t('maintenance')
-            }}</a-select-option>
-            <a-select-option :value="COMMON.ROOM_STATUS.UNAVAILABLE" :class="`text-[#ff0000]`">{{
-              $t('unavailable')
-            }}</a-select-option>
+            <a-select-option
+              :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_rented`"
+              :name="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_rented`"
+              :value="COMMON.ROOM_STATUS.RENTED"
+              :class="`text-[#50c433]`"
+              >{{ $t('rented') }}</a-select-option
+            >
+            <a-select-option
+              :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_sold`"
+              :name="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_sold`"
+              :value="COMMON.ROOM_STATUS.SOLD"
+              :class="`text-[#43b7f1]`"
+              >{{ $t('sold') }}</a-select-option
+            >
+            <a-select-option
+              :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_available`"
+              :name="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_available`"
+              :value="COMMON.ROOM_STATUS.AVAILABLE"
+              :class="`text-[#888888]`"
+              >{{ $t('available') }}</a-select-option
+            >
+            <a-select-option
+              :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_maintenance`"
+              :name="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_maintenance`"
+              :value="COMMON.ROOM_STATUS.MAINTANCED"
+              :class="`text-[#d8d535]`"
+              >{{ $t('maintenance') }}</a-select-option
+            >
+            <a-select-option
+              :id="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_unavailable`"
+              :name="`room_${1000 * (props.floor + 1) + props.index + 1}_status_1_unavailable`"
+              :value="COMMON.ROOM_STATUS.UNAVAILABLE"
+              :class="`text-[#ff0000]`"
+              >{{ $t('unavailable') }}</a-select-option
+            >
           </a-select>
           <a-select
             v-else
@@ -148,7 +168,7 @@
 
 <script lang="ts" setup>
 import { getBase64 } from '#build/imports';
-import { type UploadProps, type UploadFile,  Upload } from 'ant-design-vue';
+import { type UploadProps, type UploadFile, Upload } from 'ant-design-vue';
 import { COMMON } from '~/consts/common';
 
 // ---------------------- Variables ----------------------

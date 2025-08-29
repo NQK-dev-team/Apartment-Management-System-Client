@@ -28,9 +28,14 @@
             :placeholder="$t('select_building')"
             class="w-full text-left"
           >
-            <a-select-option v-for="(elem, index) in customerBuilding" :key="index" :value="elem.buildingID">{{
-              elem.buildingName
-            }}</a-select-option>
+            <a-select-option
+              v-for="(elem, index) in customerBuilding"
+              :id="`building_name_${index + 1}`"
+              :key="index"
+              :name="`building_name_${index + 1}`"
+              :value="elem.buildingID"
+              >{{ elem.buildingName }}</a-select-option
+            >
           </a-select>
         </a-form-item>
         <a-form-item
@@ -50,7 +55,9 @@
               v-for="(elem, index) in customerBuilding.find(
                 (item) => newTicket && item.buildingID === newTicket.buildingID
               )?.floors"
+              :id="`room_floor_${index + 1}`"
               :key="index"
+              :name="`room_floor_${index + 1}`"
               :value="elem.floorValue"
               >{{ elem.floorValue }}</a-select-option
             >
@@ -75,7 +82,9 @@
               v-for="(elem, index) in customerBuilding
                 .find((item) => newTicket && item.buildingID === newTicket.buildingID)
                 ?.floors.find((f) => newTicket && f.floorValue === newTicket.floor)?.rooms"
+              :id="`room_no_${index + 1}`"
               :key="index"
+              :name="`room_no_${index + 1}`"
               :value="elem.roomID"
               >{{ elem.roomNo }}</a-select-option
             >

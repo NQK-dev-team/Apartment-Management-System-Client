@@ -46,9 +46,14 @@
                 :placeholder="$t('select_building')"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(building, index) in buildingList" :key="index" :value="building.ID">{{
-                  building.name
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(building, index) in buildingList"
+                  :id="`building_name_${index + 1}`"
+                  :key="index"
+                  :name="`building_name_${index + 1}`"
+                  :value="building.ID"
+                  >{{ building.name }}</a-select-option
+                >
               </a-select>
             </a-form-item>
             <a-form-item v-else :name="['buildingID']">
@@ -87,9 +92,14 @@
                 class="w-full text-left"
               >
                 <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_floor') }}</a-select-option>
-                <a-select-option v-for="(floor, index) in floorList" :key="index" :value="floor">{{
-                  floor
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(floor, index) in floorList"
+                  :id="`room_floor_${index + 1}`"
+                  :key="index"
+                  :name="`room_floor_${index + 1}`"
+                  :value="floor"
+                  >{{ floor }}</a-select-option
+                >
               </a-select>
             </a-form-item>
             <a-form-item v-else :name="['floor']">
@@ -128,9 +138,14 @@
                 :placeholder="roomList.length ? $t('select_room') : '-'"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
-                  room.no
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(room, index) in roomList"
+                  :id="`room_no_${index + 1}`"
+                  :key="index"
+                  :name="`room_no_${index + 1}`"
+                  :value="room.ID"
+                  >{{ room.no }}</a-select-option
+                >
               </a-select>
             </a-form-item>
             <a-form-item v-else :name="['roomID']">
@@ -213,7 +228,9 @@
               >
                 <a-select-option
                   v-for="(contract, index) in contractList"
+                  :id="`contract_id_${index + 1}`"
                   :key="index"
+                  :name="`contract_id_${index + 1}`"
                   :value="contract.ID"
                   :label="`${contract.ID} - ${getUserName(contract.householder)}`"
                   ><span>{{ contract.ID }}</span
@@ -321,21 +338,29 @@
                     $t('select_status')
                   }}</a-select-option>
                   <a-select-option
+                    id="bill_status_unpaid"
+                    name="bill_status_unpaid"
                     :value="COMMON.BILL_STATUS.UN_PAID"
                     :class="[`text-[#50c433]`, { hidden: !showUnpaid }]"
                     >{{ $t('unpaid') }}</a-select-option
                   >
                   <a-select-option
+                    id="bill_status_paid"
+                    name="bill_status_paid"
                     :value="COMMON.BILL_STATUS.PAID"
                     :class="[`text-[#888888]`, { hidden: !showPaid }]"
                     >{{ $t('paid') }}</a-select-option
                   >
                   <a-select-option
+                    id="bill_status_cancelled"
+                    name="bill_status_cancelled"
                     :value="COMMON.BILL_STATUS.CANCELLED"
                     :class="[`text-[#ff0000]`, { hidden: !showCancelled }]"
                     >{{ $t('cancelled') }}</a-select-option
                   >
                   <a-select-option
+                    id="bill_status_overdue"
+                    name="bill_status_overdue"
                     :value="COMMON.BILL_STATUS.OVERDUE"
                     :class="[`text-[#888888]`, { hidden: !showOverdue }]"
                     >{{ $t('overdue') }}</a-select-option
@@ -357,9 +382,11 @@
               :class="[bill.payerID ? '' : 'text-[#9ca3af]']"
               show-search
               :options="[
-                ...(Array.isArray(residentAccountList) ? residentAccountList : []).map((customer) => ({
+                ...(Array.isArray(residentAccountList) ? residentAccountList : []).map((customer, index) => ({
                   value: customer.ID,
                   label: `${customer.no} - ${getUserName(customer)}`,
+                  id: `paid_by_${index + 1}`,
+                  name: `paid_by_${index + 1}`,
                 })),
               ]"
               :allow-clear="true"

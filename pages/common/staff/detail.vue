@@ -132,9 +132,15 @@
                     disabled
                     readonly
                   >
-                    <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
-                    <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
-                    <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
+                    <a-select-option id="gender_male" name="gender_male" :value="COMMON.USER_GENDER.MALE">{{
+                      $t('male')
+                    }}</a-select-option>
+                    <a-select-option id="gender_female" name="gender_female" :value="COMMON.USER_GENDER.FEMALE">{{
+                      $t('female')
+                    }}</a-select-option>
+                    <a-select-option id="gender_other" name="gender_other" :value="COMMON.USER_GENDER.OTHER">{{
+                      $t('other')
+                    }}</a-select-option>
                   </a-select>
                 </a-form-item>
                 <a-form-item class="flex-1">

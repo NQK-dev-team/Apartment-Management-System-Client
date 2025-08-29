@@ -27,9 +27,11 @@
             v-model:value="schedule.buildingID"
             class="w-full text-left"
             :options="[
-              ...props.buildingList.map((building: Building) => ({
+              ...props.buildingList.map((building: Building, idx) => ({
                 label: building.name,
                 value: building.ID,
+                id: `schedule_${props.index + 1}_building_${idx + 1}`,
+                name: `schedule_${props.index + 1}_building_${idx + 1}`,
               })),
             ]"
             :placeholder="$t('select_building')"

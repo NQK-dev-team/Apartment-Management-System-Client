@@ -10,9 +10,14 @@
           placeholder="{{ $t('select_floor') }}"
         >
           <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
-          <a-select-option v-for="(floor, index) in props.floors" :key="index" :value="floor.value">{{
-            floor.value
-          }}</a-select-option>
+          <a-select-option
+            v-for="(floor, index) in props.floors"
+            :id="`select_floor_2_${index + 1}`"
+            :key="index"
+            :name="`select_floor_2_${index + 1}`"
+            :value="floor.value"
+            >{{ floor.value }}</a-select-option
+          >
         </a-select>
       </div>
     </div>

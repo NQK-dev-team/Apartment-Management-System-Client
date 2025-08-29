@@ -26,8 +26,8 @@
               <div>
                 <p class="font-bold mb-1">{{ $t('display_category') }}</p>
                 <a-select id="viewCatory" v-model:value="viewCatory" name="viewCatory" class="w-32">
-                  <a-select-option :value="1">{{ $t('upload_file') }}</a-select-option>
-                  <a-select-option :value="2">{{ $t('process_result') }}</a-select-option>
+                  <a-select-option id="viewCatory_upload" :value="1">{{ $t('upload_file') }}</a-select-option>
+                  <a-select-option id="viewCatory_result" :value="2">{{ $t('process_result') }}</a-select-option>
                 </a-select>
               </div>
               <div v-if="viewCatory === 2" class="ms-5">

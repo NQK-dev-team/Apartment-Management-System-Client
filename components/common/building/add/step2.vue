@@ -10,7 +10,13 @@
           placeholder="{{ $t('select_floor') }}"
         >
           <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
-          <a-select-option v-for="(_, index) in buildingInfo.floors" :key="index">{{ index + 1 }}</a-select-option>
+          <a-select-option
+            v-for="(_, index) in buildingInfo.floors"
+            :id="`select_floor_2_${index + 1}`"
+            :key="index"
+            :name="`select_floor_2_${index + 1}`"
+            >{{ index + 1 }}</a-select-option
+          >
         </a-select>
       </div>
     </div>

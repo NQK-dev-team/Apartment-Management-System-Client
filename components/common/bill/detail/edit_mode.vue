@@ -181,21 +181,41 @@
               class="w-full text-left"
             >
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#888888] hidden`">{{
-                $t('unpaid')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.PAID" :class="`text-[#50c433]`">{{
-                $t('paid')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
-                $t('cancelled')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.OVERDUE" :class="`text-[#ff0000] hidden`">{{
-                $t('overdue')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.PROCESSING" :class="`text-[#d8d535] hidden`">{{
-                $t('processing')
-              }}</a-select-option>
+              <a-select-option
+                id="status_un_paid"
+                name="status_un_paid"
+                :value="COMMON.BILL_STATUS.UN_PAID"
+                :class="`text-[#888888] hidden`"
+                >{{ $t('unpaid') }}</a-select-option
+              >
+              <a-select-option
+                id="status_paid"
+                name="status_paid"
+                :value="COMMON.BILL_STATUS.PAID"
+                :class="`text-[#50c433]`"
+                >{{ $t('paid') }}</a-select-option
+              >
+              <a-select-option
+                id="status_cancelled"
+                name="status_cancelled"
+                :value="COMMON.BILL_STATUS.CANCELLED"
+                :class="`text-[#ff0000]`"
+                >{{ $t('cancelled') }}</a-select-option
+              >
+              <a-select-option
+                id="status_overdue"
+                name="status_overdue"
+                :value="COMMON.BILL_STATUS.OVERDUE"
+                :class="`text-[#ff0000] hidden`"
+                >{{ $t('overdue') }}</a-select-option
+              >
+              <a-select-option
+                id="status_processing"
+                name="status_processing"
+                :value="COMMON.BILL_STATUS.PROCESSING"
+                :class="`text-[#d8d535] hidden`"
+                >{{ $t('processing') }}</a-select-option
+              >
             </a-select>
           </ClientOnly>
         </a-form-item>
@@ -247,7 +267,9 @@
           >
             <a-select-option
               v-for="(customer, index) in customerList"
+              :id="`paid_by_selection_${index + 1}`"
               :key="index"
+              :name="`paid_by_selection_${index + 1}`"
               :value="customer.ID"
               :label="`${customer.no} - ${getUserName(customer)}`"
             >

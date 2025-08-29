@@ -263,30 +263,40 @@
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
               <a-select-option
                 v-if="showActiveStatus"
+                id="status_active"
+                name="status_active"
                 :value="COMMON.CONTRACT_STATUS.ACTIVE"
                 :class="`text-[#50c433]`"
                 >{{ $t('active') }}</a-select-option
               >
               <a-select-option
                 v-if="showExpiredStatus"
+                id="status_expired"
+                name="status_expired"
                 :value="COMMON.CONTRACT_STATUS.EXPIRED"
                 :class="`text-[#888888]`"
                 >{{ $t('expired') }}</a-select-option
               >
               <a-select-option
                 v-if="showCancelledStatus"
+                id="status_cancelled"
+                name="status_cancelled"
                 :value="COMMON.CONTRACT_STATUS.CANCELLED"
                 :class="`text-[#ff0000]`"
                 >{{ $t('cancelled') }}</a-select-option
               >
               <a-select-option
                 v-if="showWaitingForSignatureStatus"
+                id="status_waiting_for_signature"
+                name="status_waiting_for_signature"
                 :value="COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE"
                 :class="`text-[#888888]`"
                 >{{ $t('wait_for_signature') }}</a-select-option
               >
               <a-select-option
                 v-if="showNotInEffectStatus"
+                id="status_not_in_effect"
+                name="status_not_in_effect"
                 :value="COMMON.CONTRACT_STATUS.NOT_IN_EFFECT"
                 :class="`text-[#888888]`"
                 >{{ $t('not_in_effect') }}</a-select-option

@@ -235,21 +235,41 @@
                     <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
                       $t('select_status')
                     }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.RENTED" :class="`text-[#50c433]`">{{
-                      $t('rented')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.SOLD" :class="`text-[#43b7f1]`">{{
-                      $t('sold')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.AVAILABLE" :class="`text-[#888888]`">{{
-                      $t('available')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.MAINTANCED" :class="`text-[#d8d535]`">{{
-                      $t('maintenance')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.UNAVAILABLE" :class="`text-[#ff0000]`">{{
-                      $t('unavailable')
-                    }}</a-select-option>
+                    <a-select-option
+                      id="room_status_rented"
+                      name="room_status_rented"
+                      :value="COMMON.ROOM_STATUS.RENTED"
+                      :class="`text-[#50c433]`"
+                      >{{ $t('rented') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_sold"
+                      name="room_status_sold"
+                      :value="COMMON.ROOM_STATUS.SOLD"
+                      :class="`text-[#43b7f1]`"
+                      >{{ $t('sold') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_available"
+                      name="room_status_available"
+                      :value="COMMON.ROOM_STATUS.AVAILABLE"
+                      :class="`text-[#888888]`"
+                      >{{ $t('available') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_maintenance"
+                      name="room_status_maintenance"
+                      :value="COMMON.ROOM_STATUS.MAINTANCED"
+                      :class="`text-[#d8d535]`"
+                      >{{ $t('maintenance') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_unavailable"
+                      name="room_status_unavailable"
+                      :value="COMMON.ROOM_STATUS.UNAVAILABLE"
+                      :class="`text-[#ff0000]`"
+                      >{{ $t('unavailable') }}</a-select-option
+                    >
                   </a-select>
                 </a-form-item>
               </ClientOnly>

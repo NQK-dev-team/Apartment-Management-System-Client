@@ -34,9 +34,14 @@
                 :placeholder="$t('select_building')"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(building, index) in buildingList" :key="index" :value="building.ID">{{
-                  building.name
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(building, index) in buildingList"
+                  :id="`building_name_${index + 1}`"
+                  :key="index"
+                  :name="`building_name_${index + 1}`"
+                  :value="building.ID"
+                  >{{ building.name }}</a-select-option
+                >
               </a-select>
             </a-form-item>
           </a-col>
@@ -71,9 +76,14 @@
                 class="w-full text-left"
               >
                 <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_floor') }}</a-select-option>
-                <a-select-option v-for="(floor, index) in floorList" :key="index" :value="floor">{{
-                  floor
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(floor, index) in floorList"
+                  :id="`room_floor_${index + 1}`"
+                  :key="index"
+                  :name="`room_floor_${index + 1}`"
+                  :value="floor"
+                  >{{ floor }}</a-select-option
+                >
               </a-select>
             </a-form-item>
           </a-col>
@@ -93,9 +103,14 @@
                 :placeholder="roomList.length ? $t('select_room') : '-'"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
-                  room.no
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(room, index) in roomList"
+                  :id="`room_no_${index + 1}`"
+                  :key="index"
+                  :name="`room_no_${index + 1}`"
+                  :value="room.ID"
+                  >{{ room.no }}</a-select-option
+                >
               </a-select>
             </a-form-item>
           </a-col>
@@ -118,7 +133,9 @@
               >
                 <a-select-option
                   v-for="(customer, index) in customerList"
+                  :id="`customer_no_${index + 1}`"
                   :key="index"
+                  :name="`customer_no_${index + 1}`"
                   :value="customer.ID"
                   :label="`${customer.no} - ${getUserName(customer)}`"
                 >
@@ -181,10 +198,10 @@
                 class="w-full text-left"
                 :placeholder="$t('select_contract_type')"
               >
-                <a-select-option :value="COMMON.CONTRACT_TYPE.RENT">
+                <a-select-option id="contract_type_rent" :value="COMMON.CONTRACT_TYPE.RENT">
                   {{ $t('rent_contract') }}
                 </a-select-option>
-                <a-select-option :value="COMMON.CONTRACT_TYPE.BUY">
+                <a-select-option id="contract_type_buy" :value="COMMON.CONTRACT_TYPE.BUY">
                   {{ $t('buy_contract') }}
                 </a-select-option>
               </a-select>

@@ -50,8 +50,10 @@
         v-model:value="selectValue"
         :name="`building_${building.ID}_room_search`"
         :options="
-          roomList.map((room) => ({
+          roomList.map((room, idx) => ({
             value: room.no,
+            id: `building_${building.ID}_room_search_${idx + 1}`,
+            name: `building_${building.ID}_room_search_${idx + 1}`,
           }))
         "
         mode="multiple"

@@ -12,6 +12,8 @@
             record.status_numeric === COMMON.BILL_STATUS.PAID ||
             record.status_numeric === COMMON.BILL_STATUS.PROCESSING ||
             record.status_numeric === COMMON.BILL_STATUS.CANCELLED,
+          id: `check_bill_${record.no}`,
+          name: `check_bill_${record.no}`,
         }),
       }"
       :data-source="data"
@@ -22,6 +24,8 @@
       <template #bodyCell="{ column, value, record }">
         <template v-if="column.dataIndex === 'action'">
           <NuxtLink
+            :id="`bill_${record.no}_detail_link`"
+            :name="`bill_${record.no}_detail_link`"
             :to="pageRoutes.common.bill.detail(value)"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -33,6 +37,8 @@
             {{ value }}
             <NuxtLink
               v-if="record.payerID"
+              :id="`bill_${record.no}_payer_detail_link`"
+              :name="`bill_${record.no}_payer_detail_link`"
               :to="pageRoutes.common.customer.detail(record.payerID)"
               target="_blank"
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -63,7 +69,9 @@
         <div class="p-[8px]">
           <a-date-picker
             v-if="column.dataIndex === 'payment_period'"
+            :id="`${column.dataIndex}_date_picker`"
             ref="searchInput"
+            :name="`${column.dataIndex}_date_picker`"
             class="block width-[200px] mb-[8px]"
             :value="selectedKeys[0]"
             picker="month"
@@ -72,7 +80,9 @@
           />
           <a-input
             v-else
+            :id="`${column.dataIndex}_search_input`"
             ref="searchInput"
+            :name="`${column.dataIndex}_search_input`"
             :placeholder="t('enter_search')"
             :value="selectedKeys[0]"
             class="block width-[200px] mb-[8px]"
@@ -81,12 +91,16 @@
           />
           <div class="flex items-center">
             <a-button
+              :id="`${column.dataIndex}_search_input_clear_button`"
+              :name="`${column.dataIndex}_search_input_clear_button`"
               size="small"
               class="w-[90px] h-[25px] inline-flex items-center justify-center"
               @click="handleReset(clearFilters)"
               >{{ t('clear') }}</a-button
             >
             <a-button
+              :id="`${column.dataIndex}_search_input_apply_button`"
+              :name="`${column.dataIndex}_search_input_apply_button`"
               type="primary"
               size="small"
               class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
@@ -103,6 +117,8 @@
       <template #customFilterIcon="{ filtered, column }">
         <CalendarOutlined
           v-if="column.dataIndex === 'payment_period'"
+          :id="`${column.dataIndex}CalendarIcon`"
+          :name="`${column.dataIndex}CalendarIcon`"
           :style="{ color: filtered ? '#108ee9' : undefined }"
         />
         <SearchOutlined
@@ -112,15 +128,24 @@
             column.dataIndex === 'paid_by' ||
             column.dataIndex === 'bill_name'
           "
+          :id="`${column.dataIndex}SearchIcon`"
+          :name="`${column.dataIndex}SearchIcon`"
           :style="{ color: filtered ? '#108ee9' : undefined }"
         />
-        <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+        <FilterFilled
+          v-else
+          :id="`${column.dataIndex}FilterIcon`"
+          :name="`${column.dataIndex}FilterIcon`"
+          :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
       </template>
     </a-table>
     <a-table v-else :data-source="data" :columns="columns" class="mt-5" :scroll="{ x: 'max-content' }">
       <template #bodyCell="{ column, value, record }">
         <template v-if="column.dataIndex === 'action'">
           <NuxtLink
+            :id="`bill_${record.no}_detail_link`"
+            :name="`bill_${record.no}_detail_link`"
             :to="pageRoutes.common.bill.detail(value)"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -150,7 +175,9 @@
         <div class="p-[8px]">
           <a-date-picker
             v-if="column.dataIndex === 'payment_period'"
+            :id="`${column.dataIndex}_date_picker`"
             ref="searchInput"
+            :name="`${column.dataIndex}_date_picker`"
             class="block width-[200px] mb-[8px]"
             :value="selectedKeys[0]"
             picker="month"
@@ -159,7 +186,9 @@
           />
           <a-input
             v-else
+            :id="`${column.dataIndex}_search_input`"
             ref="searchInput"
+            :name="`${column.dataIndex}_search_input`"
             :placeholder="t('enter_search')"
             :value="selectedKeys[0]"
             class="block width-[200px] mb-[8px]"
@@ -168,12 +197,16 @@
           />
           <div class="flex items-center">
             <a-button
+              :id="`${column.dataIndex}_search_input_clear_button`"
+              :name="`${column.dataIndex}_search_input_clear_button`"
               size="small"
               class="w-[90px] h-[25px] inline-flex items-center justify-center"
               @click="handleReset(clearFilters)"
               >{{ t('clear') }}</a-button
             >
             <a-button
+              :id="`${column.dataIndex}_search_input_apply_button`"
+              :name="`${column.dataIndex}_search_input_apply_button`"
               type="primary"
               size="small"
               class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
@@ -190,9 +223,16 @@
       <template #customFilterIcon="{ filtered, column }">
         <CalendarOutlined
           v-if="column.dataIndex === 'payment_period'"
+          :id="`${column.dataIndex}CalendarIcon`"
+          :name="`${column.dataIndex}CalendarIcon`"
           :style="{ color: filtered ? '#108ee9' : undefined }"
         />
-        <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+        <FilterFilled
+          v-else
+          :id="`${column.dataIndex}FilterIcon`"
+          :name="`${column.dataIndex}FilterIcon`"
+          :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
       </template>
     </a-table>
   </ClientOnly>

@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>
-          <NuxtLink :to="pageRoutes.common.contract.list">{{ $t('contract_list') }}</NuxtLink>
+          <NuxtLink id="toContractListLink" name="toContractListLink" :to="pageRoutes.common.contract.list">{{
+            $t('contract_list')
+          }}</NuxtLink>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ $t('contract_information') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -20,6 +22,8 @@
         >
           <a-button
             v-show="!editMode"
+            id="editModeButton"
+            name="editModeButton"
             type="primary"
             class="rounded-sm"
             @click="
@@ -34,6 +38,8 @@
           >
           <a-button
             v-show="editMode"
+            id="cancelEditModeButton"
+            name="cancelEditModeButton"
             class="rounded-sm me-2"
             @click="
               () => {
@@ -52,6 +58,8 @@
           >
           <a-button
             v-show="editMode"
+            id="saveChangesButton"
+            name="saveChangesButton"
             type="primary"
             class="rounded-sm"
             @click="
@@ -84,7 +92,7 @@
         />
       </template>
       <div class="flex flex-col items-center my-5">
-        <NuxtLink :to="pageRoutes.common.contract.list" class="my-2"
+        <NuxtLink id="backButton" name="backButton" :to="pageRoutes.common.contract.list" class="my-2"
           ><a-button class="w-[100px] rounded-sm">{{ $t('back') }}</a-button></NuxtLink
         >
       </div>

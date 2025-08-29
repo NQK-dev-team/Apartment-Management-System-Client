@@ -23,6 +23,7 @@
             v-for="(room, index) in roomList"
             v-show="current * 8 >= index + 1 && (current - 1) * 8 < index + 1"
             :key="index"
+            :index="index"
             :room="room"
           />
         </div>

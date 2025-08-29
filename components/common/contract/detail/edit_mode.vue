@@ -14,7 +14,6 @@
         <a-form-item name="building_name">
           <label for="building_name" class="flex mb-1">
             <span>{{ $t('building') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
             id="building_name"
@@ -29,7 +28,6 @@
         <a-form-item name="room_floor">
           <label for="room_floor" class="flex mb-1">
             <span>{{ $t('floor') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input id="room_floor" disabled readonly :value="contract.roomFloor" :placeholder="$t('floor')" />
         </a-form-item>
@@ -38,7 +36,6 @@
         <a-form-item name="room_no">
           <label for="room_no" class="flex mb-1">
             <span>{{ $t('room_no') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input id="room_no" disabled readonly :value="contract.roomNo" :placeholder="$t('room_no')" />
         </a-form-item>
@@ -46,12 +43,19 @@
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="customer_no">
           <label for="customer_no" class="flex mb-1">
-            <span>{{ $t('customer_no') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            <span>{{ $t('house_holder') }}</span>
           </label>
-          <a-input id="customer_no" disabled readonly :value="contract.householder.no" :placeholder="$t('customer_no')">
-            <template #suffix>
+          <a-input
+            id="customer_no"
+            disabled
+            readonly
+            :value="contract.householder.no + ' - ' + getUserName(contract.householder)"
+            :placeholder="$t('house_holder')"
+          >
+            <template v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner" #suffix>
               <NuxtLink
+                id="toHouseholderDetailLink"
+                name="toHouseholderDetailLink"
                 :to="pageRoutes.common.customer.detail(contract.householderID)"
                 :title="$t('detail')"
                 target="_blank"
@@ -66,23 +70,32 @@
       <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
         <a-form-item name="employee_number">
           <label for="employee_number" class="flex mb-1">
-            <span>{{ $t('employee_number') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+            <span>{{ $t('contract_creator') }}</span>
           </label>
           <a-input
             id="employee_number"
             disabled
             readonly
-            :value="contract.creator.no"
-            :placeholder="$t('employee_number')"
+            :value="contract.creator.no + ' - ' + getUserName(contract.creator)"
+            :placeholder="$t('contract_creator')"
           >
-            <template v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner" #suffix>
+            <template v-if="userRole?.toString() === roles.owner" #suffix>
               <NuxtLink
-                :to="
-                  userRole?.toString() === roles.manager
-                    ? pageRoutes.common.profile.index
-                    : pageRoutes.common.staff.detail(contract.creatorID)
-                "
+                id="toCreatorDetailLink"
+                name="toCreatorDetailLink"
+                :to="pageRoutes.common.staff.detail(contract.creatorID)"
+                :title="$t('detail')"
+                ><LinkOutlined
+              /></NuxtLink>
+            </template>
+            <template
+              v-else-if="userRole?.toString() === roles.manager && Number(userID || 0) === contract.creatorID"
+              #suffix
+            >
+              <NuxtLink
+                id="toCreatorDetailLink"
+                name="toCreatorDetailLink"
+                :to="pageRoutes.common.profile.index"
                 :title="$t('detail')"
                 ><LinkOutlined
               /></NuxtLink>
@@ -94,7 +107,6 @@
         <a-form-item name="contract_id">
           <label for="contract_id" class="flex mb-1">
             <span>{{ $t('contract_id') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input id="contract_id" disabled readonly :value="contract.ID" :placeholder="$t('contract_id')" />
         </a-form-item>
@@ -103,7 +115,6 @@
         <a-form-item name="contract_type">
           <label for="contract_type" class="flex mb-1">
             <span>{{ $t('contract_type') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
             id="contract_type"
@@ -118,7 +129,6 @@
         <a-form-item name="contract_value">
           <label for="contract_value" class="flex mb-1">
             <span>{{ $t('contract_value') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
             id="contract_value"
@@ -135,7 +145,6 @@
         <a-form-item name="created_date">
           <label for="created_date" class="flex mb-1">
             <span>{{ $t('created_date') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
             id="created_date"
@@ -150,7 +159,6 @@
         <a-form-item name="active_date">
           <label for="active_date" class="flex mb-1">
             <span>{{ $t('active_date') }}</span>
-            <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
           </label>
           <a-input
             id="active_date"
@@ -295,6 +303,8 @@
       <h2 class="text-xl font-bold">{{ $t('paper_list') }}</h2>
       <div class="flex items-center">
         <a-button
+          id="deletePaperButton"
+          name="deletePaperButton"
           type="primary"
           :disabled="!fileListDeleteBucket.value.length"
           danger
@@ -315,6 +325,8 @@
           ><DeleteOutlined
         /></a-button>
         <a-button
+          id="addPaperButton"
+          name="addPaperButton"
           type="primary"
           class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="
@@ -337,12 +349,16 @@
       <h2 class="text-xl font-bold">{{ $t('resident_list') }}</h2>
       <div class="flex items-center">
         <a-button
+          id="resetResidentListButton"
+          name="resetResidentListButton"
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="resetResidentList"
         >
           <UndoOutlined />
         </a-button>
         <a-button
+          id="deleteResidentButton"
+          name="deleteResidentButton"
           type="primary"
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
@@ -366,6 +382,8 @@
           ><DeleteOutlined
         /></a-button>
         <a-button
+          id="addResidentButton"
+          name="addResidentButton"
           type="primary"
           class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="
@@ -479,6 +497,7 @@ const showExpiredStatus = computed(
 const showCancelledStatus = computed(() => true);
 const showWaitingForSignatureStatus = computed(() => !isSignDateSet.value && !isContractActive.value);
 const showNotInEffectStatus = computed(() => isSignDateSet.value && !isContractActive.value);
+const userID = useCookie('userID');
 
 // ---------------------- Functions ----------------------
 async function clearResidentListValidation() {

@@ -19,7 +19,7 @@
         >
           <img :src="svgPaths.delete" alt="Delete contract" class="w-[12px] h-[12px]" />
         </a-button>
-        <NuxtLink :to="pageRoutes.common.contract.add">
+        <NuxtLink id="addContractLink" name="addContractLink" :to="pageRoutes.common.contract.add">
           <a-button type="primary" class="rounded-sm">
             <img :src="svgPaths.plus" alt="Add contract" class="w-[12px] h-[12px]" />
           </a-button>
@@ -40,6 +40,8 @@
               (record.status === COMMON.CONTRACT_STATUS.CANCELLED ||
                 record.status === COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE)
             ),
+            id: `contract_${record.no}_checkbox`,
+            name: `contract_${record.no}_checkbox`,
           }),
         }"
         :data-source="data"
@@ -57,6 +59,8 @@
             >
             <div v-else></div> -->
             <NuxtLink
+              :id="`contract_${record.no}_detail_link`"
+              :name="`contract_${record.no}_detail_link`"
               :to="pageRoutes.common.contract.detail(value)"
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
               >{{ $t('detail') }}</NuxtLink
@@ -66,6 +70,8 @@
             <span
               >{{ value }}
               <NuxtLink
+                :id="`contract_${record.no}_customer_detail_link`"
+                :name="`contract_${record.no}_customer_detail_link`"
                 :to="pageRoutes.common.customer.detail(record.customer_id)"
                 target="_blank"
                 class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -76,7 +82,9 @@
             <span
               >{{ value }}
               <NuxtLink
-                v-if="userRole?.toString() === roles.owner && record.creator_role !== roles.owner"
+                v-if="userRole?.toString() === roles.owner"
+                :id="`contract_${record.no}_staff_detail_link`"
+                :name="`contract_${record.no}_staff_detail_link`"
                 :to="pageRoutes.common.staff.detail(record.employee_id)"
                 target="_blank"
                 class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -84,6 +92,8 @@
               /></NuxtLink>
               <NuxtLink
                 v-if="userRole?.toString() === roles.manager && record.employee_id.toString() === userID?.toString()"
+                :id="`contract_${record.no}_staff_detail_link`"
+                :name="`contract_${record.no}_staff_detail_link`"
                 :to="pageRoutes.common.profile.index"
                 target="_blank"
                 class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -111,7 +121,9 @@
         <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
           <div class="p-[8px]">
             <a-input
+              :id="`${column.dataIndex}SearchInput`"
               ref="searchInput"
+              :name="`${column.dataIndex}SearchInput`"
               :placeholder="t('enter_search')"
               :value="selectedKeys[0]"
               class="block width-[200px] mb-[8px]"
@@ -120,13 +132,17 @@
             />
             <div class="flex items-center">
               <a-button
+                :id="`${column.dataIndex}ClearButton`"
                 size="small"
+                :name="`${column.dataIndex}ClearButton`"
                 class="w-[90px] h-[25px] inline-flex items-center justify-center"
                 @click="handleReset(clearFilters)"
                 >{{ t('clear') }}</a-button
               >
               <a-button
+                :id="`${column.dataIndex}ApplyButton`"
                 type="primary"
+                :name="`${column.dataIndex}ApplyButton`"
                 size="small"
                 class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
                 @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -149,9 +165,16 @@
               column.dataIndex === 'employee_number' ||
               column.dataIndex === 'contract_id'
             "
+            :id="`${column.dataIndex}SearchIcon`"
+            :name="`${column.dataIndex}SearchIcon`"
             :style="{ color: filtered ? '#108ee9' : undefined }"
           />
-          <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+          <FilterFilled
+            v-else
+            :id="`${column.dataIndex}FilterIcon`"
+            :name="`${column.dataIndex}FilterIcon`"
+            :style="{ color: filtered ? '#108ee9' : undefined }"
+          />
         </template>
       </a-table>
     </div>

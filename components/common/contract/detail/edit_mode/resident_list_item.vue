@@ -483,6 +483,7 @@ watch(customers, () => {
 
 // ---------------------- Events ----------------------
 $event.on('resetResidentListItemContractEditMode', () => {
-  customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || undefined;
+  customerNo.value =
+    customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || undefined;
 });
 </script>

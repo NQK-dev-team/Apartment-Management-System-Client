@@ -155,7 +155,11 @@
                 readonly
               >
                 <template #suffix>
-                  <NuxtLink :to="pageRoutes.common.customer.detail(ticketDetail.customer.ID)" target="_blank"
+                  <NuxtLink
+                    id="customerDetailLink"
+                    name="customerDetailLink"
+                    :to="pageRoutes.common.customer.detail(ticketDetail.customer.ID)"
+                    target="_blank"
                     ><LinkOutlined
                   /></NuxtLink>
                 </template>
@@ -202,6 +206,8 @@
                 <template #suffix>
                   <NuxtLink
                     v-if="ticketDetail.managerID && userRole?.toString() === roles.owner"
+                    id="managerDetailLink"
+                    name="managerDetailLink"
                     :to="pageRoutes.common.staff.detail(ticketDetail.manager.ID)"
                     target="_blank"
                     ><LinkOutlined

@@ -11,6 +11,8 @@
         <span>
           {{ value }}
           <NuxtLink
+            :id="`view_resident_${record.no}_account_detail_link`"
+            :name="`view_resident_${record.no}_account_detail_link`"
             :to="pageRoutes.common.customer.detail(record.id)"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"

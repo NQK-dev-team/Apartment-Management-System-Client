@@ -1,8 +1,13 @@
 <template>
-  <a-modal v-if="ticketDetail" v-model:open="detailModalVisible.value" class="w-[700px]">
+  <a-modal v-if="ticketDetail" id="ticketDetailModal" v-model:open="detailModalVisible.value" class="w-[700px]">
     <template #title>{{ $t('support_ticket_detail') }}</template>
     <template #footer>
-      <a-button @click="detailModalVisible.value = false">{{ $t('close') }}</a-button>
+      <a-button
+        id="closeTicketDetailModalButton"
+        name="closeTicketDetailModalButton"
+        @click="detailModalVisible.value = false"
+        >{{ $t('close') }}</a-button
+      >
       <a-button
         v-if="
           ticketDetail.status === COMMON.SUPPORT_TICKET_STATUS.PENDING &&
@@ -10,6 +15,8 @@
           !ticketDetail.ownerID &&
           ticketDetail.customerID === Number(userID || 0)
         "
+        id="saveChangesButton"
+        name="saveChangesButton"
         type="primary"
         class="ms-2"
         @click="handleSaveChanges"

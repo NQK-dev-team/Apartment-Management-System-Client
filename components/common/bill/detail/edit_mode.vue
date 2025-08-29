@@ -49,6 +49,8 @@
           <a-input id="contract_id" disabled readonly :value="bill.value.contractID" :placeholder="$t('contract_id')">
             <template #suffix>
               <NuxtLink
+                id="contractDetailLink"
+                name="contractDetailLink"
                 :to="pageRoutes.common.contract.detail(bill.value.contractID)"
                 :title="$t('detail')"
                 target="_blank"
@@ -75,6 +77,8 @@
           >
             <template #suffix>
               <NuxtLink
+                id="contractHouseholderDetailLink"
+                name="contractHouseholderDetailLink"
                 :to="pageRoutes.common.customer.detail(bill.value.contract.householderID)"
                 :title="$t('detail')"
                 target="_blank"
@@ -213,6 +217,8 @@
           >
             <template v-if="bill.value.payerID.Valid" #suffix>
               <NuxtLink
+                id="payerDetailLink"
+                name="payerDetailLink"
                 :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
                 :title="$t('detail')"
                 target="_blank"
@@ -314,6 +320,8 @@
       <h2 class="text-xl font-bold">{{ $t('payment_list') }}</h2>
       <div class="flex items-center">
         <a-button
+          id="resetPayment"
+          name="resetPayment"
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
             () => {
@@ -330,6 +338,8 @@
           <UndoOutlined />
         </a-button>
         <a-button
+          id="deletePayment"
+          name="deletePayment"
           type="primary"
           :disabled="deleteBucket.value.length === 0"
           danger
@@ -360,6 +370,8 @@
           ><DeleteOutlined
         /></a-button>
         <a-button
+          id="addPayment"
+          name="addPayment"
           type="primary"
           class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="

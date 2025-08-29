@@ -65,6 +65,7 @@
         >
           <NuxtLink
             v-if="!file.isNew"
+            :id="`contract_file_${props.index + 1}_file`"
             :to="file.path as string"
             target="_blank"
             class="text-[#1890FF]"

@@ -4,7 +4,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.staff.list">{{ $t('employee_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="staffListLink" name="staffListLink" :to="pageRoutes.common.staff.list">{{
+            $t('employee_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item>{{ $t('employee_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -13,6 +15,8 @@
         <div class="flex justify-end">
           <a-button
             v-show="!editMode"
+            id="editModeButton"
+            name="editModeButton"
             type="primary"
             class="rounded-sm"
             @click="
@@ -27,6 +31,8 @@
           >
           <a-button
             v-show="editMode"
+            id="cancelEditModeButton"
+            name="cancelEditModeButton"
             class="rounded-sm me-2"
             @click="
               () => {
@@ -39,9 +45,15 @@
             "
             >{{ $t('cancel') }}</a-button
           >
-          <a-button v-show="editMode" type="primary" class="rounded-sm" @click="validateUpdateForm">{{
-            $t('save_changes')
-          }}</a-button>
+          <a-button
+            v-show="editMode"
+            id="saveChangesButton"
+            name="saveChangesButton"
+            type="primary"
+            class="rounded-sm"
+            @click="validateUpdateForm"
+            >{{ $t('save_changes') }}</a-button
+          >
         </div>
       </div>
     </div>
@@ -276,7 +288,12 @@
           </div>
         </div>
         <div class="flex flex-col items-center mt-5">
-          <a-button class="w-[100px] rounded-sm mt-3" @click.prevent="navigateTo(pageRoutes.common.staff.list)">
+          <a-button
+            id="goBackToStaffListButton"
+            name="goBackToStaffListButton"
+            class="w-[100px] rounded-sm mt-3"
+            @click.prevent="navigateTo(pageRoutes.common.staff.list)"
+          >
             {{ $t('back') }}
           </a-button>
         </div>

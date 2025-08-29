@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.staff.list">{{ $t('employee_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="staffListLink" name="staffListLink" :to="pageRoutes.common.staff.list">{{
+            $t('employee_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item>{{ $t('add_employee') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -372,8 +374,20 @@
           </div>
         </div>
         <div class="flex flex-col items-center mt-5">
-          <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
-          <a-button class="w-[100px] rounded-sm mt-3" @click.prevent="navigateTo(pageRoutes.common.staff.list)">
+          <a-button
+            id="confirmButton"
+            name="confirmButton"
+            class="w-[100px] rounded-sm"
+            type="primary"
+            html-type="submit"
+            >{{ $t('confirm') }}</a-button
+          >
+          <a-button
+            id="cancelButton"
+            name="cancelButton"
+            class="w-[100px] rounded-sm mt-3"
+            @click.prevent="navigateTo(pageRoutes.common.staff.list)"
+          >
             {{ $t('cancel') }}
           </a-button>
         </div>
@@ -387,10 +401,19 @@
           <p class="text-center my-2">{{ $t('add_staff_success_title') }}</p>
           <p class="text-center my-2">{{ $t('add_staff_success_note') }}</p>
           <div class="my-2 flex flex-col items-center">
-            <NuxtLink :to="pageRoutes.common.staff.detail(newStaffID)">
+            <NuxtLink
+              id="newStaffDetailLink"
+              name="newStaffDetailLink"
+              :to="pageRoutes.common.staff.detail(newStaffID)"
+            >
               <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_staff_detail') }}</a-button>
             </NuxtLink>
-            <NuxtLink :to="pageRoutes.common.staff.list" class="w-full">
+            <NuxtLink
+              id="goBackToStaffListLink"
+              name="goBackToStaffListLink"
+              :to="pageRoutes.common.staff.list"
+              class="w-full"
+            >
               <a-button class="rounded-sm w-full">{{ $t('back') }}</a-button>
             </NuxtLink>
           </div>

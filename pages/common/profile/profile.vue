@@ -9,6 +9,8 @@
         <div class="flex justify-end">
           <a-button
             v-show="!editMode"
+            id="editModeButton"
+            name="editModeButton"
             type="primary"
             class="rounded-sm"
             @click="
@@ -23,6 +25,8 @@
           >
           <a-button
             v-show="editMode"
+            id="cancelEditModeButton"
+            name="cancelEditModeButton"
             class="rounded-sm me-2"
             @click="
               () => {
@@ -39,6 +43,8 @@
           >
           <a-button
             v-show="editMode"
+            id="saveChangesButton"
+            name="saveChangesButton"
             type="primary"
             class="rounded-sm"
             @click="

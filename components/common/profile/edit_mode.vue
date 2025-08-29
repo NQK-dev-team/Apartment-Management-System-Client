@@ -1,5 +1,5 @@
 <template>
-  <a-form ref="editForm" :model="user" class="grid grid-cols-6 gap-x-2 py-3">
+  <a-form id="editForm" ref="editForm" name="editForm" :model="user" class="grid grid-cols-6 gap-x-2 py-3">
     <div class="col-span-5">
       <div class="flex-1 flex flex-col me-6">
         <div class="flex items-center">
@@ -136,11 +136,7 @@
             <label for="old_ssn" class="flex mb-1">
               <span>{{ $t('old_ssn') }}</span>
             </label>
-            <a-input
-              id="old_ssn"
-              v-model:value="user.oldSSN.String"
-              :placeholder="$t('enter_user_old_ssn')"
-            />
+            <a-input id="old_ssn" v-model:value="user.oldSSN.String" :placeholder="$t('enter_user_old_ssn')" />
           </a-form-item>
         </div>
         <div class="flex items-center mt-5">

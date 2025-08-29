@@ -1,5 +1,7 @@
 <template>
   <NuxtLink
+    :id="`${props.rawLabel}_link`"
+    :name="`${props.rawLabel}_link`"
     class="h-[40px] items-center pe-5"
     :to="props.href"
     :class="[
@@ -74,6 +76,10 @@ const props = defineProps({
   itemLevel: {
     type: Number,
     default: 0,
+  },
+  rawLabel: {
+    type: String,
+    default: '',
   },
 });
 const lightMode = computed(

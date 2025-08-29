@@ -1,6 +1,8 @@
 <template>
   <div class="mb-1">
     <NuxtLink
+      id="toBuildingListLink"
+      name="toBuildingListLink"
       class="h-[40px] items-center flex-1 flex"
       :to="pageRoutes.common.building.list"
       :class="[
@@ -22,6 +24,8 @@
         {{ $t('building') }}
       </span>
       <span
+        id="buildingListDropdown"
+        name="buildingListDropdown"
         class="items-center w-12 h-full justify-center"
         :class="[!props.collapse ? 'flex' : 'hidden']"
         @click="toggleDropdown"

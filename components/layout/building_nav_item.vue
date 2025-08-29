@@ -1,6 +1,8 @@
 <template>
   <div>
     <NuxtLink
+      :id="`to_building_${building.ID}_link`"
+      :name="`to_building_${building.ID}_link`"
       class="h-[40px] items-center flex-1"
       :to="pageRoutes.common.building.detail(building.ID)"
       :class="[
@@ -22,6 +24,8 @@
         {{ building.name }}
       </span>
       <span
+        :id="`building_${building.ID}_dropdown`"
+        :name="`building_${building.ID}_dropdown`"
         class="items-center w-12 h-full justify-center"
         :class="[!props.collapse ? 'flex' : 'hidden']"
         @click="toggleDropdown"
@@ -42,7 +46,9 @@
     <div class="px-5">
       <a-select
         v-show="!props.collapse"
+        :id="`building_${building.ID}_room_search`"
         v-model:value="selectValue"
+        :name="`building_${building.ID}_room_search`"
         :options="
           roomList.map((room) => ({
             value: room.no,
@@ -60,6 +66,7 @@
         <div v-show="selectValue.length === 0 || selectValue.includes(room.no)">
           <LayoutNavItem
             :label="$t('room', { name: room.no.toString() })"
+            :raw-label="`room_${room.no}`"
             :collapse="props.collapse"
             :href="pageRoutes.common.building.roomDetail(building.ID, room.ID)"
             :is-child="true"

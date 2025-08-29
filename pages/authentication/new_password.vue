@@ -20,17 +20,27 @@
         <div class="flex justify-end">
           <div>
             <a-dropdown :trigger="['click']" placement="bottomRight">
-              <p class="text-center cursor-pointer flex items-center">
+              <p id="languageOption" name="languageOption" class="text-center cursor-pointer flex items-center">
                 <img v-show="locale === COMMON.LOCALE.VI" :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
                 <img v-show="locale === COMMON.LOCALE.EN" :src="svgPaths.en" alt="English" class="w-[20px]" />
                 <down-outlined style="font-size: 11px" class="ms-1"></down-outlined>
               </p>
               <template #overlay>
                 <a-menu>
-                  <a-menu-item :key="COMMON.LOCALE.VI" @click="setLocale(COMMON.LOCALE.VI as any)">
+                  <a-menu-item
+                    id="lang_vi"
+                    :key="COMMON.LOCALE.VI"
+                    name="lang_vi"
+                    @click="setLocale(COMMON.LOCALE.VI as any)"
+                  >
                     <img :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
                   </a-menu-item>
-                  <a-menu-item :key="COMMON.LOCALE.EN" @click="setLocale(COMMON.LOCALE.EN as any)">
+                  <a-menu-item
+                    id="lang_en"
+                    :key="COMMON.LOCALE.EN"
+                    name="lang_en"
+                    @click="setLocale(COMMON.LOCALE.EN as any)"
+                  >
                     <img :src="svgPaths.en" alt="English" class="w-[20px]" />
                   </a-menu-item>
                 </a-menu>
@@ -41,19 +51,38 @@
         <a-alert v-show="!isValid" class="my-3 h-[40px] max-h-[40px]" :message="$t('invalid_password')" type="error" />
 
         <a-form-item class="mb-1" :label="t('new_password')" name="newPassword">
-          <a-input-password v-model:value="formData.newPassword" autocomplete="off" />
+          <a-input-password
+            id="newPassword"
+            v-model:value="formData.newPassword"
+            name="newPassword"
+            autocomplete="off"
+          />
         </a-form-item>
 
         <a-form-item class="mb-1" :label="t('confirm_new_password')" name="confirmPassword">
-          <a-input-password v-model:value="formData.confirmPassword" autocomplete="off" />
+          <a-input-password
+            id="confirmPassword"
+            v-model:value="formData.confirmPassword"
+            name="confirmPassword"
+            autocomplete="off"
+          />
         </a-form-item>
 
         <a-form-item class="mb-0 mt-5">
-          <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
+          <a-button
+            id="confirmButton"
+            name="confirmButton"
+            class="w-full rounded-sm"
+            type="primary"
+            html-type="submit"
+            >{{ $t('confirm') }}</a-button
+          >
         </a-form-item>
 
         <a-form-item class="flex justify-center mb-0">
-          <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
+          <a-button id="loginLink" name="loginLink" type="link" :href="pageRoutes.authentication.login">{{
+            $t('return_to_login')
+          }}</a-button>
         </a-form-item>
       </a-form>
       <div v-if="tokenInvalid || userNotFound" class="w-96 bg-white p-8 rounded-lg shadow-lg">
@@ -64,17 +93,27 @@
         <div class="flex justify-end">
           <div>
             <a-dropdown :trigger="['click']" placement="bottomRight">
-              <p class="text-center cursor-pointer flex items-center">
+              <p id="languageOption" name="languageOption" class="text-center cursor-pointer flex items-center">
                 <img v-show="locale === COMMON.LOCALE.VI" :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
                 <img v-show="locale === COMMON.LOCALE.EN" :src="svgPaths.en" alt="English" class="w-[20px]" />
                 <down-outlined style="font-size: 11px" class="ms-1"></down-outlined>
               </p>
               <template #overlay>
                 <a-menu>
-                  <a-menu-item :key="COMMON.LOCALE.VI" @click="setLocale(COMMON.LOCALE.VI as any)">
+                  <a-menu-item
+                    id="lang_vi"
+                    :key="COMMON.LOCALE.VI"
+                    name="lang_vi"
+                    @click="setLocale(COMMON.LOCALE.VI as any)"
+                  >
                     <img :src="svgPaths.vi" alt="Vietnamese" class="w-[20px]" />
                   </a-menu-item>
-                  <a-menu-item :key="COMMON.LOCALE.EN" @click="setLocale(COMMON.LOCALE.EN as any)">
+                  <a-menu-item
+                    id="lang_en"
+                    :key="COMMON.LOCALE.EN"
+                    name="lang_en"
+                    @click="setLocale(COMMON.LOCALE.EN as any)"
+                  >
                     <img :src="svgPaths.en" alt="English" class="w-[20px]" />
                   </a-menu-item>
                 </a-menu>
@@ -88,7 +127,9 @@
         <p v-if="tokenInvalid" class="my-2 text-center">{{ $t('invalid_link') }}</p>
         <p v-if="userNotFound" class="my-2 text-center">{{ $t('user_not_found') }}</p>
         <div class="flex items-center justify-center">
-          <a-button type="link" :href="pageRoutes.authentication.login">{{ $t('return_to_login') }}</a-button>
+          <a-button id="loginLink" name="loginLink" type="link" :href="pageRoutes.authentication.login">{{
+            $t('return_to_login')
+          }}</a-button>
         </div>
       </div>
     </div>

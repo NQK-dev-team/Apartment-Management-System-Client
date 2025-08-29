@@ -5,7 +5,7 @@ import { COMMON } from '~/consts/common';
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export default defineNuxtPlugin((nuxtApp) => {
   const config: RuntimeConfig = useRuntimeConfig();
-  const isDevMode = config.isDevMode as boolean;
+  const isDevMode = config.public.isDevMode as boolean;
 
   // const baseURL = `${config.isHttps ? 'https' : 'http'}://${config.host}${config.port ? `:${config.port}` : ''}/api`;
 

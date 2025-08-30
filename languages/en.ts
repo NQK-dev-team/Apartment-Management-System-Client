@@ -49,6 +49,8 @@ export default {
   add_bill_success_note:
     'You can access the newly created billing detail page by clicking the "New billing detail" button, or go back to the billing list page by clicking the "Back" button below',
   attached_file: 'Attached file',
+  april: 'April',
+  august: 'August',
 
   B: 'b',
   balance: 'Balance',
@@ -147,6 +149,7 @@ export default {
   choose_all_customer: 'Choose all customers',
   customer_first_name_require: 'Please enter customer first name!',
   customer_last_name_require: 'Please enter customer last name!',
+  calendar: 'Calendar',
 
   D: 'd',
   delete: 'Delete',
@@ -165,6 +168,7 @@ export default {
   dashboard: 'Dashboard',
   display_category: 'Display category',
   drag_and_drop_file: 'Drag and drop file here or click to select file',
+  december: 'December',
 
   E: 'e',
   edit: 'Edit',
@@ -289,6 +293,7 @@ export default {
   failed: 'Failed',
   first_name_max_length: 'First name must not exceed {length} characters!',
   file_name_max_length: 'File name must not exceed {length} characters!',
+  february: 'February',
 
   G: 'g',
   gender: 'Gender',
@@ -323,6 +328,9 @@ export default {
   invalid_file_type: 'Invalid file type! Please upload a file with one of the following extensions: {types}',
 
   J: 'j',
+  january: 'January',
+  june: 'June',
+  july: 'July',
 
   K: 'k',
 
@@ -349,6 +357,8 @@ export default {
   mark_as_unimportant: 'Unmark as important',
   mark_all_as_read: 'Mark all as read',
   middle_name_max_length: 'Middle name must not exceed {length} characters!',
+  march: 'March',
+  may: 'May',
 
   N: 'n',
   notice: 'Notice',
@@ -390,7 +400,7 @@ export default {
   notifications: 'Notifications',
   note_max_length: 'Note must not exceed {length} characters!',
   notification_title_max_length: 'Notification title must not exceed {length} characters!',
-  room_description_max_length: 'Room {no} description must not exceed {length} characters!',
+  november: 'November',
 
   O: 'o',
   operation: 'Operation',
@@ -404,6 +414,7 @@ export default {
   old_ssn_exists: 'Old SSN already exists!',
   other_resident_list: 'Other resident list',
   overdue: 'Payment overdue',
+  october: 'October',
 
   P: 'p',
   payer: 'Payer',
@@ -500,6 +511,8 @@ export default {
   report: 'Report',
   rent_contract: 'Rent contract',
   room_image: 'Room image',
+  room_description_max_length: 'Room {no} description must not exceed {length} characters!',
+  revenue_overview: 'Revenue overview',
 
   S: 's',
   staff: 'Staff',
@@ -565,6 +578,11 @@ export default {
   send_time: 'Send time',
   select_upload_category: 'Select upload category',
   service_name_max_length: 'Service {no} name must not exceed {length} characters!',
+  statistic_room: 'Room statistic',
+  statistic_contract: 'Contract statistic',
+  statistic_bill: 'Billing statistic current month',
+  select_year: 'Select year',
+  september: 'September',
 
   T: 't',
   total: 'Total',
@@ -579,6 +597,13 @@ export default {
   ticket_info_updated: 'Support ticket information has been updated successfully!',
   temporary_address_max_length: 'Temporary residence address must not exceed {length} characters!',
   ticket_title_max_length: 'Ticket title must not exceed {length} characters!',
+  total_building: 'Total building',
+  total_customer: 'Total customer',
+  total_contract: 'Total contract',
+  total_bill: 'Total billings',
+  total_expected_revenue: 'Total expected revenue',
+  total_actual_revenue: 'Actual revenue',
+  total_remaining_revenue: 'Uncollected revenue',
 
   U: 'u',
   upload_file: 'Upload file',

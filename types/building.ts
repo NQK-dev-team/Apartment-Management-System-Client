@@ -107,6 +107,16 @@ type EditBuilding = BasicModel & {
   schedules: EditManagerSchedule[];
 };
 
+type BuildingStatistic = {
+  totalBuildings: number | undefined;
+  totalRooms: number;
+  totalRentedRooms: number;
+  totalBoughtRooms: number;
+  totalAvailableRooms: number;
+  totalMaintenancedRooms: number;
+  totalUnavailableRooms: number;
+};
+
 export type {
   Building,
   Room,
@@ -117,4 +127,5 @@ export type {
   EditBuilding,
   EditManagerSchedule,
   RoomImage,
+  BuildingStatistic,
 };

@@ -86,4 +86,17 @@ type AddBill2 = {
   }[];
 };
 
-export type { Bill, Service, BillPayment, UpdateBill, AddBill1, AddBill2 };
+type BillStatistic = {
+  totalBill: number;
+  totalPaid: number;
+  totalUnpaid: number;
+  totalOverdue: number;
+  revenueStatistic: {
+    period: string;
+    totalExpectedRevenue: number;
+    totalActualRevenue: number;
+    totalRemainingRevenue: number;
+  }[];
+};
+
+export type { Bill, Service, BillPayment, UpdateBill, AddBill1, AddBill2, BillStatistic };

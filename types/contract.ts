@@ -80,4 +80,19 @@ type AddContract = {
   residents: RoomResident[];
 };
 
-export type { Contract, ContractFile, RoomResident, AddContract };
+type ContractStatistic = {
+  total_contract: number;
+  total_rent: number;
+  total_buy: number;
+  total_active_rent: number;
+  total_active_buy: number;
+  total_expire_rent: number;
+  total_cancel_rent: number;
+  total_cancel_buy: number;
+  total_wait_for_signature_rent: number;
+  total_wait_for_signature_buy: number;
+  total_not_in_effect_rent: number;
+  total_not_in_effect_buy: number;
+};
+
+export type { Contract, ContractFile, RoomResident, AddContract, ContractStatistic };

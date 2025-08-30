@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 const apiRoutes = {
   authentication: {
     login: '/authentication/login',
@@ -25,6 +27,12 @@ const apiRoutes = {
     delete: (buildingID: number) => `/building/${buildingID}`,
     getSchedule: (buildingID: number) => `/building/${buildingID}/schedule`,
     updateBuilding: (buildingID: number) => `/building/${buildingID}/update`,
+    buildingStatistic: (buildingID: number | undefined = undefined) => {
+      if (buildingID) {
+        return `/building/${buildingID}/statistic`;
+      }
+      return `/building/statistic`;
+    },
   },
   room: {
     getList: '/room',
@@ -63,6 +71,7 @@ const apiRoutes = {
     deleteMany: '/customer/delete-many',
     getContract: (customerId: number) => `/customer/${customerId}/contract`,
     getTicket: (customerId: number) => `/customer/${customerId}/ticket`,
+    getTotal: `/customer/total`,
   },
   bill: {
     list: (limit: number = 500, offset: number = 0, startMonth: string = '', endMonth: string = '') =>
@@ -71,9 +80,10 @@ const apiRoutes = {
     add: '/bill/add',
     edit: (billId: number) => `/bill/${billId}/edit`,
     deleteMany: '/bill/delete-many',
-    update: (billId: number) => `/bill/${ billId }/update`,
-    initPayment: (billId: number)=>`/bill/${billId}/init-payment`,
+    update: (billId: number) => `/bill/${billId}/update`,
+    initPayment: (billId: number) => `/bill/${billId}/init-payment`,
     momoConfirm: `/bill/:id/momo-confirm`,
+    getStatistic: (year: number = dayjs().year()) => `/bill/statistic?year=${year}`,
   },
   support_ticket: {
     approve: (ticketId: number) => `/support-ticket/${ticketId}/approve`,
@@ -104,6 +114,7 @@ const apiRoutes = {
     deleteMany: '/contract/delete-many',
     bill: (contractId: number) => `/contract/${contractId}/bill`,
     activeList: (limit: number = 500, offset: number = 0) => `/contract/active-list?limit=${limit}&offset=${offset}`,
+    getStatistic: `/contract/statistic`,
   },
   upload: {
     getUploadFiles: (type: number) => `upload/not-process?type=${type}`,

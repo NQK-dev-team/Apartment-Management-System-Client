@@ -352,7 +352,8 @@ const customerInfo = ref<User>({
   newBackSSN: undefined,
 });
 const dob = computed<Dayjs>(() => dayjs(customerInfo.value.dob));
-const option = ref<number>(1);
+const tab = Number((route.query.tab as string) || 1);
+const option = ref<number>(tab);
 const contracts = ref<Contract[]>([]);
 const tickets = ref<SupportTicket[]>([]);
 const deleteContractBucket = ref<{ value: number[] }>({
@@ -423,5 +424,10 @@ onMounted(async () => {
       fatal: true,
     });
   }
+});
+
+// ---------------------- Watchers ----------------------
+watch(option, async () => {
+  await navigateTo(pageRoutes.common.customer.detail(customerID) + '?tab=' + option.value);
 });
 </script>

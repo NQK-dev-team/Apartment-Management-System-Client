@@ -553,6 +553,7 @@ useHead({
 
 // ---------------------- Variables ----------------------
 const route = useRoute();
+const router = useRouter();
 const buildingID = Number(route.params.buildingID as string);
 const roomID = Number(route.params.roomID as string);
 const { $event, $dayjs } = useNuxtApp();
@@ -578,13 +579,19 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const option = ref<number>(1);
+const tab = Number((route.query.tab as string) || 1);
+const option = ref<number>(tab);
 const previewVisible = ref(false);
 const previewImage = ref('');
 const deleteBucket = ref<{ value: number[] }>({ value: [] });
 const { t } = useI18n();
-const now = $dayjs();
-const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
+const startDate = $dayjs(route.query.start as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.start as string, 'YYYY-MM-DD', true)
+  : $dayjs().startOf('quarter');
+const endDate = $dayjs(route.query.end as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.end as string, 'YYYY-MM-DD', true)
+  : $dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([startDate, endDate]);
 const editMode = ref<boolean>(false);
 const updateRoomData = ref({
   description: '',
@@ -913,6 +920,23 @@ onMounted(async () => {
 // ---------------------- Watchers ----------------------
 watch(timeRange, () => {
   getSupporTickets();
+
+  router.push({
+    query: {
+      ...route.query,
+      start: timeRange.value[0].format('YYYY-MM-DD'),
+      end: timeRange.value[1].format('YYYY-MM-DD'),
+    },
+  });
+});
+
+watch(option, async () => {
+  router.push({
+    query: {
+      ...route.query,
+      tab: option.value,
+    },
+  });
 });
 </script>
 

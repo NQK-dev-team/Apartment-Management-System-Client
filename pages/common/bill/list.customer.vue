@@ -154,7 +154,15 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const userRole = useCookie('userRole');
-const timeRange = ref<[Dayjs, Dayjs]>([$dayjs().startOf('quarter'), $dayjs()]);
+const router = useRouter();
+const route = useRoute();
+const startMonth = $dayjs(route.query.start as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.start as string, 'YYYY-MM-DD', true)
+  : $dayjs().startOf('quarter');
+const endMonth = $dayjs(route.query.end as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.end as string, 'YYYY-MM-DD', true)
+  : $dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([startMonth, endMonth]);
 const searchInput = ref();
 const state = reactive({
   searchText: '',
@@ -460,5 +468,12 @@ watch(timeRange, () => {
   } else {
     getBillList();
   }
+  router.push({
+    query: {
+      ...route.query,
+      start: timeRange.value[0].format('YYYY-MM-DD'),
+      end: timeRange.value[1].format('YYYY-MM-DD'),
+    },
+  });
 });
 </script>

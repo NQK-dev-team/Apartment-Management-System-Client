@@ -503,8 +503,15 @@ const state = reactive({
   searchedColumn: '',
 });
 const { $event, $dayjs } = useNuxtApp();
-const now = $dayjs();
-const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
+const router = useRouter();
+const route = useRoute();
+const startDate = $dayjs(route.query.start as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.start as string, 'YYYY-MM-DD', true)
+  : $dayjs().startOf('quarter');
+const endDate = $dayjs(route.query.end as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.end as string, 'YYYY-MM-DD', true)
+  : $dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([startDate, endDate]);
 const ticketApiOffset = ref<number>(0);
 const ticketApiLimit = ref<number>(500);
 
@@ -660,10 +667,16 @@ onMounted(() => {
 // ---------------------- Watchers ----------------------
 watch(timeRange, async () => {
   $event.emit('loading');
-
   await refetchSupportTickets();
-
   $event.emit('loading');
+
+  router.push({
+    query: {
+      ...route.query,
+      start: timeRange.value[0].format('YYYY-MM-DD'),
+      end: timeRange.value[1].format('YYYY-MM-DD'),
+    },
+  });
 });
 
 watch(ticketApiOffset, async (newTicketApiOffset, oldTicketApiOffset) => {

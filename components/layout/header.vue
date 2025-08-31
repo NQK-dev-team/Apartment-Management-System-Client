@@ -256,6 +256,7 @@ const newNotificationCount = computed(() => {
 });
 const scrollPosition = ref({ top: 0, left: 0 });
 const previousOffset = ref(0);
+const inChargeRooms = useCookie('inChargeRooms');
 
 // ---------------------- Functions ----------------------
 function switchThemeMode() {
@@ -267,6 +268,7 @@ function switchThemeMode() {
 async function logout() {
   try {
     await api.authentication.logout();
+    inChargeRooms.value = null;
     await navigateTo(pageRoutes.authentication.login);
     $event.emit('loading');
   } catch (err: any) {

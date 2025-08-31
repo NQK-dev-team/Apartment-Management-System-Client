@@ -57,7 +57,7 @@ import { api } from '~/services/api';
 import { getMessageCode } from '~/consts/api_response';
 import type { Building } from '~/types/building';
 import { COMMON } from '~/consts/common';
-import { managerScheduleStore } from '#build/imports';
+import type { RuntimeConfig } from 'nuxt/schema';
 
 // ---------------------- Variables ----------------------
 const { t } = useI18n();
@@ -74,7 +74,11 @@ const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
 const buildingList = ref<Building[]>([]);
-const scheduleStore = managerScheduleStore();
+const config: RuntimeConfig = useRuntimeConfig();
+const inChargeRooms = useCookie('inChargeRooms', {
+  secure: config.public.isHttps,
+  sameSite: 'lax',
+});
 
 // ---------------------- Functions ----------------------
 function toggleDropdown(e: Event) {
@@ -92,7 +96,7 @@ async function getBuildingList() {
     data.forEach((building) => {
       roomIDs.push(...building.rooms.map((room) => room.ID));
     });
-    scheduleStore.setRooms(roomIDs);
+    inChargeRooms.value = JSON.stringify(roomIDs);
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

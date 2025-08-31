@@ -7,7 +7,7 @@
       },
       getCheckboxProps: (record: any) => ({
         disabled: !(
-          (scheduleStore.getRooms().includes(record.room_id) || userRole?.toString() === roles.owner) &&
+          ((inChargeRooms || []).includes(record.room_id) || userRole?.toString() === roles.owner) &&
           (record.status === COMMON.CONTRACT_STATUS.CANCELLED ||
             record.status === COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE)
         ),
@@ -157,11 +157,10 @@ import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { roles } from '~/consts/roles';
 import { COMMON } from '~/consts/common';
-import { getUserRole, managerScheduleStore } from '#build/imports';
+import { getUserRole } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const userID = useCookie('userID');
-const scheduleStore = managerScheduleStore();
 const userRole = useCookie('userRole');
 const { t } = useI18n();
 const props = defineProps({
@@ -340,6 +339,7 @@ const data = computed(() => {
     action: contract.ID,
     key: contract.ID,
     creator_role: getUserRole(contract.creator),
+    room_id: contract.roomID,
   }));
 });
 const deleteBucket = toRef(props, 'deleteBucket');
@@ -347,6 +347,7 @@ const state = reactive({
   searchText: '',
   searchedColumn: '',
 });
+const inChargeRooms = useCookie<number[]>('inChargeRooms');
 
 // ---------------------- Functions ----------------------
 function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {

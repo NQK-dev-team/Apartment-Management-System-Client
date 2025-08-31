@@ -1,13 +1,14 @@
 import { useNuxtApp } from '#app';
 import type { APIResponse } from '~/types/api_response';
 import { apiRoutes } from '~/consts/api_routes';
-import type { Building, Room } from '~/types/building';
-import type { AddBill2, Bill, UpdateBill } from '~/types/bill';
+import type { Building, BuildingStatistic, Room } from '~/types/building';
+import type { AddBill2, Bill, BillStatistic, UpdateBill } from '~/types/bill';
 import type { ManagerSchedule, User } from '~/types/user';
-import type { Contract } from '~/types/contract';
+import type { Contract, ContractStatistic } from '~/types/contract';
 import type { SupportTicket } from '~/types/support_ticket';
 import type { Notification } from '~/types/notification';
 import type { Upload } from '~/types/upload';
+import dayjs from 'dayjs';
 
 function getApiInstance() {
   const { $api } = useNuxtApp();
@@ -180,6 +181,15 @@ const common = {
         body: data,
       });
     },
+    buildingStatistic: async (
+      buildingID: number | undefined = undefined,
+      year: number = dayjs().year()
+    ): Promise<APIResponse<BuildingStatistic>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.building.buildingStatistic(buildingID,year), {
+        method: 'GET',
+      });
+    },
   },
   room: {
     getList: async (): Promise<APIResponse<Room[]>> => {
@@ -338,6 +348,12 @@ const common = {
         body: data,
       });
     },
+    getTotal: async (): Promise<APIResponse<number>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.customer.getTotal, {
+        method: 'GET',
+      });
+    },
   },
   bill: {
     getList: async (
@@ -383,6 +399,12 @@ const common = {
     initPayment: async (billId: number): Promise<APIResponse<string>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.bill.initPayment(billId), {
+        method: 'GET',
+      });
+    },
+    getStatistic: async (year: number = dayjs().year()): Promise<APIResponse<BillStatistic>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.bill.getStatistic(year), {
         method: 'GET',
       });
     },
@@ -547,6 +569,12 @@ const common = {
     getActiveList: async (limit: number = 500, offset: number = 0): Promise<APIResponse<Contract[]>> => {
       const $api = getApiInstance();
       return $api(apiRoutes.contract.activeList(limit, offset), {
+        method: 'GET',
+      });
+    },
+    getStatistic: async (): Promise<APIResponse<ContractStatistic>> => {
+      const $api = getApiInstance();
+      return $api(apiRoutes.contract.getStatistic, {
         method: 'GET',
       });
     },

@@ -5,6 +5,8 @@
   >
     <div class="fixed top-[50%] collapse_button_transform" :class="[!collapse ? 'left-[230px]' : 'left-[55px]']">
       <DoubleLeftOutlined
+        id="collapseNavButton"
+        name="collapseNavButton"
         class="text-xl border-[1px] border-solid rounded-full w-10 h-10 flex items-center justify-center"
         :class="[
           lightMode
@@ -21,6 +23,7 @@
         :href="pageRoutes.common.report.index"
         :icon="House"
         :label="$t('dashboard')"
+        raw-label="dashboard"
         :collapse="collapse"
       />
       <template v-if="props.role !== roles.customer">
@@ -30,41 +33,65 @@
           :href="pageRoutes.common.staff.list"
           :icon="Staff"
           :label="$t('staff')"
+          raw-label="staff"
           :collapse="collapse"
         />
         <LayoutNavItem
           :href="pageRoutes.common.customer.list"
           :icon="User"
           :label="$t('customer')"
+          raw-label="customer"
           :collapse="collapse"
         />
         <LayoutNavItem
           :href="pageRoutes.common.contract.list"
           :icon="Contract"
           :label="$t('contract')"
+          raw-label="contract"
           :collapse="collapse"
         />
-        <LayoutNavItem :href="pageRoutes.common.bill.list" :icon="Card" :label="$t('bill')" :collapse="collapse" />
+        <LayoutNavItem
+          :href="pageRoutes.common.bill.list"
+          :icon="Card"
+          :label="$t('bill')"
+          raw-label="bill"
+          :collapse="collapse"
+        />
         <LayoutNavItem
           :href="pageRoutes.common.support_ticket.list"
           :icon="Edit"
           :label="$t('support_ticket')"
+          raw-label="support_ticket"
           :collapse="collapse"
         />
       </template>
       <template v-if="props.role === roles.customer">
-        <LayoutNavItem :href="pageRoutes.common.room.list" :icon="Room" :label="$t('room')" :collapse="collapse" />
+        <LayoutNavItem
+          :href="pageRoutes.common.room.list"
+          :icon="Room"
+          :label="$t('room')"
+          raw-label="room"
+          :collapse="collapse"
+        />
         <LayoutNavItem
           :href="pageRoutes.common.contract.list"
           :icon="Contract"
           :label="$t('contract')"
+          raw-label="contract"
           :collapse="collapse"
         />
-        <LayoutNavItem :href="pageRoutes.common.bill.list" :icon="Card" :label="$t('bill')" :collapse="collapse" />
+        <LayoutNavItem
+          :href="pageRoutes.common.bill.list"
+          :icon="Card"
+          :label="$t('bill')"
+          raw-label="bill"
+          :collapse="collapse"
+        />
         <LayoutNavItem
           :href="pageRoutes.common.support_ticket.list"
           :icon="Edit"
           :label="$t('support_ticket')"
+          raw-label="support_ticket"
           :collapse="collapse"
         />
       </template>

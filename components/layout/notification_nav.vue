@@ -1,6 +1,8 @@
 <template>
   <div>
     <div
+      id="notificationNavDropdown"
+      name="notificationNavDropdown"
       class="h-[40px] items-center flex-1 cursor-pointer select-none"
       :class="[
         lightMode ? 'light_nav' : 'dark_nav',
@@ -31,6 +33,7 @@
         <LayoutNavItem
           v-if="props.role !== roles.owner"
           :label="$t('notice_inbox')"
+          raw-label="notice_inbox"
           :icon="Inbox"
           :collapse="props.collapse"
           :href="pageRoutes.common.notice.inbox()"
@@ -40,6 +43,7 @@
         <LayoutNavItem
           v-if="props.role !== roles.owner"
           :label="$t('notice_important')"
+          raw-label="notice_important"
           :icon="Star"
           :collapse="props.collapse"
           :href="pageRoutes.common.notice.important"
@@ -49,6 +53,7 @@
         <LayoutNavItem
           v-if="props.role !== roles.customer"
           :label="$t('notice_sent')"
+          raw-label="notice_sent"
           :icon="Sent"
           :collapse="props.collapse"
           :href="pageRoutes.common.notice.sent"
@@ -58,6 +63,7 @@
         <LayoutNavItem
           v-if="props.role !== roles.customer"
           :label="$t('new_notice')"
+          raw-label="new_notice"
           :icon="Write"
           :collapse="props.collapse"
           :href="pageRoutes.common.notice.new"

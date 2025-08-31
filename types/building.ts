@@ -107,6 +107,40 @@ type EditBuilding = BasicModel & {
   schedules: EditManagerSchedule[];
 };
 
+type BuildingStatistic = {
+  totalBuildings: number | undefined;
+  totalRooms: number;
+  totalRentedRooms: number;
+  totalBoughtRooms: number;
+  totalAvailableRooms: number;
+  totalMaintenancedRooms: number;
+  totalUnavailableRooms: number;
+  totalBill: number | undefined;
+  totalPaid: number | undefined;
+  totalUnpaid: number | undefined;
+  totalOverdue: number | undefined;
+  revenueStatistic:
+    | {
+        period: string;
+        totalExpectedRevenue: number;
+        totalActualRevenue: number;
+        totalRemainingRevenue: number;
+      }[]
+    | undefined;
+  total_contract: number | undefined;
+  total_rent: number | undefined;
+  total_buy: number | undefined;
+  total_active_rent: number | undefined;
+  total_active_buy: number | undefined;
+  total_expire_rent: number | undefined;
+  total_cancel_rent: number | undefined;
+  total_cancel_buy: number | undefined;
+  total_wait_for_signature_rent: number | undefined;
+  total_wait_for_signature_buy: number | undefined;
+  total_not_in_effect_rent: number | undefined;
+  total_not_in_effect_buy: number | undefined;
+};
+
 export type {
   Building,
   Room,
@@ -117,4 +151,5 @@ export type {
   EditBuilding,
   EditManagerSchedule,
   RoomImage,
+  BuildingStatistic,
 };

@@ -1,6 +1,8 @@
 <template>
   <a-modal
+    id="confirmDeleteModalAddBuilding"
     v-model:open="open"
+    name="confirmDeleteModalAddBuilding"
     :title="$t('confirm_deletion')"
     :ok-text="$t('delete')"
     ok-type="danger"

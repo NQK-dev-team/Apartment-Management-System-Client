@@ -39,6 +39,8 @@
         >
           <template v-if="userRole?.toString() === roles.manager || userRole?.toString() === roles.owner" #suffix>
             <NuxtLink
+              id="toHouseholderDetailLink"
+              name="toHouseholderDetailLink"
               :to="pageRoutes.common.customer.detail(contract.householderID)"
               :title="$t('detail')"
               target="_blank"
@@ -61,7 +63,11 @@
           :placeholder="$t('contract_creator')"
         >
           <template v-if="userRole?.toString() === roles.owner" #suffix>
-            <NuxtLink :to="pageRoutes.common.staff.detail(contract.creatorID)" :title="$t('detail')"
+            <NuxtLink
+              id="toCreatorDetailLink"
+              name="toCreatorDetailLink"
+              :to="pageRoutes.common.staff.detail(contract.creatorID)"
+              :title="$t('detail')"
               ><LinkOutlined
             /></NuxtLink>
           </template>
@@ -69,7 +75,13 @@
             v-else-if="userRole?.toString() === roles.manager && Number(userID || 0) === contract.creatorID"
             #suffix
           >
-            <NuxtLink :to="pageRoutes.common.profile.index" :title="$t('detail')"><LinkOutlined /></NuxtLink>
+            <NuxtLink
+              id="toCreatorDetailLink"
+              name="toCreatorDetailLink"
+              :to="pageRoutes.common.profile.index"
+              :title="$t('detail')"
+              ><LinkOutlined
+            /></NuxtLink>
           </template>
         </a-input>
       </a-col>
@@ -192,6 +204,8 @@
         class="flex items-center"
       >
         <a-button
+          id="deleteBillButton"
+          name="deleteBillButton"
           type="primary"
           danger
           :disabled="!deleteBillBucket.value.length"
@@ -204,7 +218,7 @@
         >
           <img :src="svgPaths.delete" alt="Delete bill" class="w-[12px] h-[12px]" />
         </a-button>
-        <NuxtLink :to="pageRoutes.common.bill.add2(contractID)">
+        <NuxtLink id="addBillPageLink" name="addBillPageLink" :to="pageRoutes.common.bill.add2(contractID)">
           <a-button type="primary" class="rounded-sm">
             <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]" />
           </a-button>

@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>
-          <NuxtLink :to="pageRoutes.common.customer.list">{{ $t('customer_list') }}</NuxtLink>
+          <NuxtLink id="customerListLink" name="customerListLink" :to="pageRoutes.common.customer.list">{{
+            $t('customer_list')
+          }}</NuxtLink>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ $t('customer_detail') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -71,9 +73,15 @@
                   <span>{{ $t('gender') }}</span>
                 </label>
                 <a-select id="gender" :value="customerInfo.gender" class="w-full" disabled readonly>
-                  <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
-                  <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
-                  <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
+                  <a-select-option id="gender_male" name="gender_male" :value="COMMON.USER_GENDER.MALE">{{
+                    $t('male')
+                  }}</a-select-option>
+                  <a-select-option id="gender_female" name="gender_female" :value="COMMON.USER_GENDER.FEMALE">{{
+                    $t('female')
+                  }}</a-select-option>
+                  <a-select-option id="gender_other" name="gender_other" :value="COMMON.USER_GENDER.OTHER">{{
+                    $t('other')
+                  }}</a-select-option>
                 </a-select>
               </div>
               <div class="flex-1">
@@ -164,6 +172,8 @@
           <div class="w-full flex-1 flex flex-col">
             <div class="flex items-center mt-3">
               <p
+                id="contractOption"
+                name="contractOption"
                 class="me-3 cursor-pointer select-none"
                 :class="[
                   option === 1
@@ -175,6 +185,8 @@
                 {{ $t('contract') }}
               </p>
               <p
+                id="supportTicketOption"
+                name="supportTicketOption"
                 class="mx-3 cursor-pointer select-none"
                 :class="[
                   option === 2
@@ -192,6 +204,8 @@
                 <h2 class="text-xl font-bold">{{ $t('contract') }}</h2>
                 <div class="flex items-center justify-end">
                   <a-button
+                    id="deleteContract"
+                    name="deleteContract"
                     type="primary"
                     danger
                     class="flex items-center justify-center w-8 h-8 rounded-sm me-2"
@@ -204,7 +218,11 @@
                     ><DeleteOutlined
                   /></a-button>
                   <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm"
-                    ><NuxtLink :to="pageRoutes.common.contract.add3(customerID)" target="_blank"
+                    ><NuxtLink
+                      id="addContract"
+                      name="addContract"
+                      :to="pageRoutes.common.contract.add3(customerID)"
+                      target="_blank"
                       ><PlusOutlined /></NuxtLink
                   ></a-button>
                 </div>
@@ -228,7 +246,11 @@
               <CommonCustomerDetailSupportTicketTable v-else v-show="option === 2" :tickets="[]" />
             </ClientOnly>
             <div class="flex flex-col items-center my-5">
-              <NuxtLink :to="pageRoutes.common.customer.list" class="my-2"
+              <NuxtLink
+                id="customerListButton"
+                name="customerListButton"
+                :to="pageRoutes.common.customer.list"
+                class="my-2"
                 ><a-button class="w-[100px] rounded-sm">{{ $t('back') }}</a-button></NuxtLink
               >
             </div>
@@ -330,7 +352,8 @@ const customerInfo = ref<User>({
   newBackSSN: undefined,
 });
 const dob = computed<Dayjs>(() => dayjs(customerInfo.value.dob));
-const option = ref<number>(1);
+const tab = Number((route.query.tab as string) || 1);
+const option = ref<number>(tab);
 const contracts = ref<Contract[]>([]);
 const tickets = ref<SupportTicket[]>([]);
 const deleteContractBucket = ref<{ value: number[] }>({
@@ -390,6 +413,28 @@ async function deleteContracts() {
   }
 }
 
+async function refetchTicketList() {
+  try {
+    $event.emit('loading');
+    const ticketResponse = await api.common.customer.getTicket(customerID);
+
+    tickets.value = ticketResponse.data;
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
   await getCustomerDetail();
@@ -402,4 +447,12 @@ onMounted(async () => {
     });
   }
 });
+
+// ---------------------- Watchers ----------------------
+watch(option, async () => {
+  await navigateTo(pageRoutes.common.customer.detail(customerID) + '?tab=' + option.value);
+});
+
+// ---------------------- Events ----------------------
+$event.on('refetchCustomerTicketList', refetchTicketList);
 </script>

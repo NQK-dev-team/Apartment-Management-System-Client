@@ -33,7 +33,12 @@
           </label>
           <a-input id="contract_id" disabled readonly :value="bill.contractID" :placeholder="$t('contract_id')">
             <template #suffix>
-              <NuxtLink :to="pageRoutes.common.contract.detail(bill.contractID)" :title="$t('detail')" target="_blank"
+              <NuxtLink
+                id="contractDetailLink"
+                name="contractDetailLink"
+                :to="pageRoutes.common.contract.detail(bill.contractID)"
+                :title="$t('detail')"
+                target="_blank"
                 ><LinkOutlined
               /></NuxtLink>
             </template>
@@ -57,6 +62,8 @@
           >
             <template v-if="userRole?.toString() === roles.owner || userRole?.toString() === roles.manager" #suffix>
               <NuxtLink
+                id="contractHouseholderDetailLink"
+                name="contractHouseholderDetailLink"
                 :to="pageRoutes.common.customer.detail(bill.contract.householderID)"
                 :title="$t('detail')"
                 target="_blank"
@@ -170,7 +177,9 @@
           <a-table-summary-cell class="font-bold text-lg">{{ $t('total_payment') }}</a-table-summary-cell>
           <a-table-summary-cell></a-table-summary-cell>
           <a-table-summary-cell>
-            <a-typography-text class="font-bold text-lg">{{ formatPrice(bill.amount) }}</a-typography-text>
+            <a-typography-text id="totalPaymentCalculation" class="font-bold text-lg">{{
+              formatPrice(bill.amount)
+            }}</a-typography-text>
           </a-table-summary-cell>
         </a-table-summary-row>
       </template>

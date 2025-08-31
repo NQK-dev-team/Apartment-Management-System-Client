@@ -1,9 +1,18 @@
 <template>
-  <a-modal v-model:open="openAddModal.value" class="w-[700px]">
+  <a-modal id="addTicketModal" v-model:open="openAddModal.value" name="addTicketModal" class="w-[700px]">
     <template #title>{{ $t('support_ticket_detail') }}</template>
     <template #footer>
-      <a-button @click="openAddModal.value = false">{{ $t('close') }}</a-button>
-      <a-button type="primary" class="ms-2" @click="handleCreateClick">{{ $t('create_ticket') }}</a-button>
+      <a-button id="closeAddTicketModalButton" name="closeAddTicketModalButton" @click="openAddModal.value = false">{{
+        $t('close')
+      }}</a-button>
+      <a-button
+        id="createTicketButton"
+        name="createTicketButton"
+        type="primary"
+        class="ms-2"
+        @click="handleCreateClick"
+        >{{ $t('create_ticket') }}</a-button
+      >
     </template>
     <a-form v-if="newTicket" ref="ticketFormRef" :model="newTicket">
       <div class="flex w-full">
@@ -19,9 +28,14 @@
             :placeholder="$t('select_building')"
             class="w-full text-left"
           >
-            <a-select-option v-for="(elem, index) in customerBuilding" :key="index" :value="elem.buildingID">{{
-              elem.buildingName
-            }}</a-select-option>
+            <a-select-option
+              v-for="(elem, index) in customerBuilding"
+              :id="`building_name_${index + 1}`"
+              :key="index"
+              :name="`building_name_${index + 1}`"
+              :value="elem.buildingID"
+              >{{ elem.buildingName }}</a-select-option
+            >
           </a-select>
         </a-form-item>
         <a-form-item
@@ -41,7 +55,9 @@
               v-for="(elem, index) in customerBuilding.find(
                 (item) => newTicket && item.buildingID === newTicket.buildingID
               )?.floors"
+              :id="`room_floor_${index + 1}`"
               :key="index"
+              :name="`room_floor_${index + 1}`"
               :value="elem.floorValue"
               >{{ elem.floorValue }}</a-select-option
             >
@@ -66,7 +82,9 @@
               v-for="(elem, index) in customerBuilding
                 .find((item) => newTicket && item.buildingID === newTicket.buildingID)
                 ?.floors.find((f) => newTicket && f.floorValue === newTicket.floor)?.rooms"
+              :id="`room_no_${index + 1}`"
               :key="index"
+              :name="`room_no_${index + 1}`"
               :value="elem.roomID"
               >{{ elem.roomNo }}</a-select-option
             >

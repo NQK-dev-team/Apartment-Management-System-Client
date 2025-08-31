@@ -42,7 +42,9 @@
       <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
         <div class="p-[8px]">
           <a-input
+            :id="`${column.dataIndex}SearchInput`"
             ref="searchInput"
+            :name="`${column.dataIndex}SearchInput`"
             :placeholder="t('enter_search')"
             :value="selectedKeys[0]"
             class="block width-[200px] mb-[8px]"
@@ -51,13 +53,17 @@
           />
           <div class="flex items-center">
             <a-button
+              :id="`${column.dataIndex}ClearButton`"
               size="small"
+              :name="`${column.dataIndex}ClearButton`"
               class="w-[90px] h-[25px] inline-flex items-center justify-center"
               @click="handleReset(clearFilters)"
               >{{ t('clear') }}</a-button
             >
             <a-button
+              :id="`${column.dataIndex}ApplyButton`"
               type="primary"
+              :name="`${column.dataIndex}ApplyButton`"
               size="small"
               class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
               @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -73,15 +79,27 @@
       <template #customFilterIcon="{ filtered, column }">
         <SearchOutlined
           v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no'"
+          :id="`${column.dataIndex}SearchIcon`"
+          :name="`${column.dataIndex}SearchIcon`"
           :style="{ color: filtered ? '#108ee9' : undefined }"
         />
-        <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+        <FilterFilled
+          v-else
+          :id="`${column.dataIndex}FilterIcon`"
+          :name="`${column.dataIndex}FilterIcon`"
+          :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
       </template>
     </a-table>
-    <a-modal v-model:open="detailModalVisible" class="w-[700px]">
+    <a-modal id="ticketDetailModal" v-model:open="detailModalVisible" name="ticketDetailModal" class="w-[700px]">
       <template #title>{{ $t('support_ticket_detail') }}</template>
       <template #footer>
-        <a-button @click="detailModalVisible = false">{{ $t('close') }}</a-button>
+        <a-button
+          id="closeSupportTicketDetailModalButton"
+          name="closeSupportTicketDetailModalButton"
+          @click="detailModalVisible = false"
+          >{{ $t('close') }}</a-button
+        >
       </template>
       <div v-if="ticketDetail">
         <div class="flex w-full">
@@ -155,6 +173,8 @@
               <template #suffix>
                 <NuxtLink
                   v-if="ticketDetail.managerID && userRole?.toString() === roles.owner"
+                  id="managerDetailLink"
+                  name="managerDetailLink"
                   :to="pageRoutes.common.staff.detail(ticketDetail.manager.ID)"
                   target="_blank"
                   ><LinkOutlined
@@ -270,6 +290,7 @@ const props = defineProps({
   },
 });
 const { t } = useI18n();
+const { $event } = useNuxtApp();
 const searchInput = ref();
 const columns = computed<any[]>(() => {
   const buildings = [...new Set(props.tickets.map((ticket) => ticket.buildingName || ''))];
@@ -300,6 +321,8 @@ const columns = computed<any[]>(() => {
           }, 100);
         }
       },
+      sorter: (a: any, b: any) => a.ticket_id - b.ticket_id,
+      sortDirections: ['ascend', 'descend'],
       class: 'text-nowrap',
     },
     {
@@ -384,6 +407,7 @@ const columns = computed<any[]>(() => {
   ];
 });
 const userRole = useCookie('userRole');
+const ticketByPass = useCookie('ticketByPass');
 const data = computed(() =>
   props.tickets.map((ticket, index) => ({
     no: index + 1,
@@ -396,8 +420,10 @@ const data = computed(() =>
       ticketID: ticket.ID,
       allowAction:
         ticket.status === COMMON.SUPPORT_TICKET_STATUS.PENDING &&
-        ((userRole?.toString() === roles.owner && !ticket.ownerID) ||
-          (userRole?.toString() === roles.manager && !ticket.managerID)),
+        ((!ticket.ownerID &&
+          userRole.value?.toString() === roles.owner &&
+          (Number(ticketByPass.value || 0) === 1 || ticket.managerID)) ||
+          (!ticket.managerID && userRole.value?.toString() === roles.manager)),
     },
     building: ticket.buildingName,
     floor: ticket.roomFloor,
@@ -424,6 +450,7 @@ async function approve(id: number) {
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
+    $event.emit('refetchCustomerTicketList');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -445,6 +472,7 @@ async function deny(id: number) {
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
+    $event.emit('refetchCustomerTicketList');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.contract.list">{{ $t('contract_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="toContractListLink" name="toContractListLink" :to="pageRoutes.common.contract.list">{{
+            $t('contract_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item>{{ $t('add_contract') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -32,9 +34,14 @@
                 :placeholder="$t('select_building')"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(building, index) in buildingList" :key="index" :value="building.ID">{{
-                  building.name
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(building, index) in buildingList"
+                  :id="`building_name_${index + 1}`"
+                  :key="index"
+                  :name="`building_name_${index + 1}`"
+                  :value="building.ID"
+                  >{{ building.name }}</a-select-option
+                >
               </a-select>
             </a-form-item>
           </a-col>
@@ -69,9 +76,14 @@
                 class="w-full text-left"
               >
                 <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_floor') }}</a-select-option>
-                <a-select-option v-for="(floor, index) in floorList" :key="index" :value="floor">{{
-                  floor
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(floor, index) in floorList"
+                  :id="`room_floor_${index + 1}`"
+                  :key="index"
+                  :name="`room_floor_${index + 1}`"
+                  :value="floor"
+                  >{{ floor }}</a-select-option
+                >
               </a-select>
             </a-form-item>
           </a-col>
@@ -91,9 +103,14 @@
                 :placeholder="roomList.length ? $t('select_room') : '-'"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
-                  room.no
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(room, index) in roomList"
+                  :id="`room_no_${index + 1}`"
+                  :key="index"
+                  :name="`room_no_${index + 1}`"
+                  :value="room.ID"
+                  >{{ room.no }}</a-select-option
+                >
               </a-select>
             </a-form-item>
           </a-col>
@@ -116,7 +133,9 @@
               >
                 <a-select-option
                   v-for="(customer, index) in customerList"
+                  :id="`customer_no_${index + 1}`"
                   :key="index"
+                  :name="`customer_no_${index + 1}`"
                   :value="customer.ID"
                   :label="`${customer.no} - ${getUserName(customer)}`"
                 >
@@ -179,10 +198,10 @@
                 class="w-full text-left"
                 :placeholder="$t('select_contract_type')"
               >
-                <a-select-option :value="COMMON.CONTRACT_TYPE.RENT">
+                <a-select-option id="contract_type_rent" :value="COMMON.CONTRACT_TYPE.RENT">
                   {{ $t('rent_contract') }}
                 </a-select-option>
-                <a-select-option :value="COMMON.CONTRACT_TYPE.BUY">
+                <a-select-option id="contract_type_buy" :value="COMMON.CONTRACT_TYPE.BUY">
                   {{ $t('buy_contract') }}
                 </a-select-option>
               </a-select>
@@ -425,6 +444,8 @@
           <h2 class="text-xl font-bold">{{ $t('paper_list') }}</h2>
           <div class="flex items-center">
             <a-button
+              id="deleteFileButton"
+              name="deleteFileButton"
               type="primary"
               :disabled="!fileListDeleteBucket.value.length"
               danger
@@ -445,6 +466,8 @@
               ><DeleteOutlined
             /></a-button>
             <a-button
+              id="addFileButton"
+              name="addFileButton"
               type="primary"
               class="flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
@@ -466,6 +489,8 @@
           <h2 class="text-xl font-bold">{{ $t('resident_list') }}</h2>
           <div class="flex items-center">
             <a-button
+              id="deleteResidentButton"
+              name="deleteResidentButton"
               type="primary"
               danger
               class="flex items-center justify-center w-8 h-8 rounded-sm"
@@ -486,6 +511,8 @@
               ><DeleteOutlined
             /></a-button>
             <a-button
+              id="addResidentButton"
+              name="addResidentButton"
               type="primary"
               class="flex items-center justify-center w-8 h-8 rounded-sm ms-2"
               @click="
@@ -541,8 +568,20 @@
           :customers="customerList"
         />
         <div class="flex flex-col items-center mt-5">
-          <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
-          <a-button class="w-[100px] rounded-sm mt-3" @click.prevent="navigateTo(pageRoutes.common.contract.list)">
+          <a-button
+            id="confirmButton"
+            name="confirmButton"
+            class="w-[100px] rounded-sm"
+            type="primary"
+            html-type="submit"
+            >{{ $t('confirm') }}</a-button
+          >
+          <a-button
+            id="cancelButton"
+            name="cancelButton"
+            class="w-[100px] rounded-sm mt-3"
+            @click.prevent="navigateTo(pageRoutes.common.contract.list)"
+          >
             {{ $t('cancel') }}
           </a-button>
         </div>
@@ -556,10 +595,19 @@
           <p class="text-center my-2">{{ $t('add_contract_success_title') }}</p>
           <p class="text-center my-2">{{ $t('add_contract_success_note') }}</p>
           <div class="my-2 flex flex-col items-center">
-            <NuxtLink :to="pageRoutes.common.contract.detail(newContractID)">
+            <NuxtLink
+              id="newContractDetailLink"
+              name="newContractDetailLink"
+              :to="pageRoutes.common.contract.detail(newContractID)"
+            >
               <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_contract_detail') }}</a-button>
             </NuxtLink>
-            <NuxtLink :to="pageRoutes.common.contract.list" class="w-full">
+            <NuxtLink
+              id="backToContractListLink"
+              name="backToContractListLink"
+              :to="pageRoutes.common.contract.list"
+              class="w-full"
+            >
               <a-button class="rounded-sm w-full">{{ $t('back') }}</a-button>
             </NuxtLink>
           </div>

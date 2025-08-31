@@ -17,7 +17,9 @@
         <NuxtPage />
       </NuxtLayout>
       <a-modal
+        id="confirmDeleteModal"
         v-model:open="deleteConfirmModal"
+        name="confirmDeleteModal"
         ok-type="danger"
         :ok-text="$t('delete')"
         :title="$t('confirm_deletion')"
@@ -37,7 +39,9 @@
         <p>{{ $t('delete_modal_content') }}</p>
       </a-modal>
       <a-modal
+        id="confirmUpdateModal"
         v-model:open="updateConfirmModal"
+        name="confirmUpdateModal"
         :ok-text="$t('confirm')"
         :title="$t('confirm_update')"
         @ok="
@@ -56,7 +60,9 @@
         <p>{{ updateModalContent }}</p>
       </a-modal>
       <a-modal
+        id="confirmPasswordModal"
         v-model:open="confirmPasswordModal"
+        name="confirmPasswordModal"
         :ok-type="isDeleteModalOpen ? 'danger' : 'primary'"
         :ok-text="$t('confirm')"
         :title="$t(isDeleteModalOpen ? 'confirm_deletion_with_password' : 'confirm_update_with_password')"
@@ -74,6 +80,7 @@
             <a-input-password
               id="confirmPasswordForDeletion"
               v-model:value="passwordDeletionfForm.confirmPasswordForDeletion"
+              name="confirmPasswordForDeletion"
               :placeholder="$t('password')"
               autocomplete="off"
             />

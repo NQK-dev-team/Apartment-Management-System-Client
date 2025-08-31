@@ -1,5 +1,5 @@
 <template>
-  <a-form ref="editForm" :model="user" class="grid grid-cols-6 gap-x-2 py-3">
+  <a-form id="editForm" ref="editForm" name="editForm" :model="user" class="grid grid-cols-6 gap-x-2 py-3">
     <div class="col-span-5">
       <div class="flex-1 flex flex-col me-6">
         <div class="flex items-center">
@@ -84,9 +84,15 @@
               <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
             </label>
             <a-select id="gender" v-model:value="user.gender" class="w-full" :placeholder="$t('select_user_gender')">
-              <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
-              <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
-              <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
+              <a-select-option id="gender_male" name="gender_male" :value="COMMON.USER_GENDER.MALE">{{
+                $t('male')
+              }}</a-select-option>
+              <a-select-option id="gender_female" name="gender_female" :value="COMMON.USER_GENDER.FEMALE">{{
+                $t('female')
+              }}</a-select-option>
+              <a-select-option id="gender_other" name="gender_other" :value="COMMON.USER_GENDER.OTHER">{{
+                $t('other')
+              }}</a-select-option>
             </a-select>
           </a-form-item>
           <a-form-item
@@ -136,11 +142,7 @@
             <label for="old_ssn" class="flex mb-1">
               <span>{{ $t('old_ssn') }}</span>
             </label>
-            <a-input
-              id="old_ssn"
-              v-model:value="user.oldSSN.String"
-              :placeholder="$t('enter_user_old_ssn')"
-            />
+            <a-input id="old_ssn" v-model:value="user.oldSSN.String" :placeholder="$t('enter_user_old_ssn')" />
           </a-form-item>
         </div>
         <div class="flex items-center mt-5">

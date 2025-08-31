@@ -121,7 +121,11 @@
             </div>
           </td>
           <td :colspan="1" class="border-t-[1px]" :class="[lightMode ? 'border-[#f0f0f0]' : 'border-[#303030]']">
-            <div class="font-bold text-lg ps-5" :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']">
+            <div
+              id="totalPaymentCalculation"
+              class="font-bold text-lg ps-5"
+              :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"
+            >
               {{ formatPrice(totalPayment) }}
             </div>
           </td>

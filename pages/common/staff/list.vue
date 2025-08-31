@@ -9,7 +9,9 @@
       <div class="flex justify-between">
         <div></div>
         <a-input-search
+          id="searchStaff"
           v-model:value="searchValue"
+          name="searchStaff"
           class="w-[500px]"
           :placeholder="$t('enter_search')"
           enter-button
@@ -17,6 +19,8 @@
         />
         <div class="flex">
           <a-button
+            id="deleteStaff"
+            name="deleteStaff"
             type="primary"
             danger
             :disabled="!deleteBucket.length"
@@ -29,7 +33,7 @@
           >
             <img :src="svgPaths.delete" alt="Delete employee" class="w-[12px] h-[12px]" />
           </a-button>
-          <NuxtLink :to="pageRoutes.common.staff.add">
+          <NuxtLink id="addStaffLink" name="addStaffLink" :to="pageRoutes.common.staff.add">
             <a-button type="primary" class="rounded-sm">
               <img :src="svgPaths.plus" alt="Add employee" class="w-[12px] h-[12px]" />
             </a-button>
@@ -56,13 +60,19 @@
               });
             }
           },
+          getCheckboxProps: (record: any) => ({
+            name: `check_staff_${record.no}`,
+            id: `check_staff_${record.no}`,
+          }),
         }"
         class="mt-3"
         :scroll="{ x: 'max-content' }"
       >
-        <template #bodyCell="{ value, column }">
+        <template #bodyCell="{ value, column, record }">
           <template v-if="column.key === 'action'">
             <NuxtLink
+              :id="`customer_staff_${record.no}_link`"
+              :name="`customer_staff_${record.no}_link`"
               :to="pageRoutes.common.staff.detail(value)"
               class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
             >

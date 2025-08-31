@@ -188,7 +188,7 @@ const commonRoutes: Route[] = [
   {
     name: 'Report',
     path: pageRoutes.common.report.index,
-    file: reportBaseRoute + 'detail.vue',
+    file: reportBaseRoute + 'index.vue',
   },
   // Security
   {

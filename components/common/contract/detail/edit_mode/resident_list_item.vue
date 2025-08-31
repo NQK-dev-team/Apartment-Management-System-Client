@@ -32,9 +32,11 @@
             :class="[resident.userAccountID.Int64 ? '' : 'text-[#9ca3af]']"
             show-search
             :options="[
-              ...customers.map((customer) => ({
+              ...customers.map((customer, idx) => ({
                 value: customer.ID,
                 label: `${customer.no} - ${getUserName(customer)}`,
+                id: `resident_${props.index + 1}_${idx + 1}`,
+                name: `resident_${props.index + 1}_${idx + 1}`,
               })),
             ]"
             :allow-clear="true"
@@ -184,9 +186,24 @@
             <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
               $t('select_customer_gender')
             }}</a-select-option>
-            <a-select-option :value="COMMON.USER_GENDER.MALE">{{ $t('male') }}</a-select-option>
-            <a-select-option :value="COMMON.USER_GENDER.FEMALE">{{ $t('female') }}</a-select-option>
-            <a-select-option :value="COMMON.USER_GENDER.OTHER">{{ $t('other') }}</a-select-option>
+            <a-select-option
+              :id="`resident_${props.index + 1}_gender_male`"
+              :name="`resident_${props.index + 1}_gender_male`"
+              :value="COMMON.USER_GENDER.MALE"
+              >{{ $t('male') }}</a-select-option
+            >
+            <a-select-option
+              :id="`resident_${props.index + 1}_gender_female`"
+              :name="`resident_${props.index + 1}_gender_female`"
+              :value="COMMON.USER_GENDER.FEMALE"
+              >{{ $t('female') }}</a-select-option
+            >
+            <a-select-option
+              :id="`resident_${props.index + 1}_gender_other`"
+              :name="`resident_${props.index + 1}_gender_other`"
+              :value="COMMON.USER_GENDER.OTHER"
+              >{{ $t('other') }}</a-select-option
+            >
           </a-select>
         </a-form-item>
       </div>
@@ -401,10 +418,30 @@
             <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
               $t('select_relationship')
             }}</a-select-option>
-            <a-select-option :value="COMMON.RESIDENT_TYPE.SPOUSE">{{ $t('spouse') }}</a-select-option>
-            <a-select-option :value="COMMON.RESIDENT_TYPE.CHILD">{{ $t('child') }}</a-select-option>
-            <a-select-option :value="COMMON.RESIDENT_TYPE.PARENT">{{ $t('parent') }}</a-select-option>
-            <a-select-option :value="COMMON.RESIDENT_TYPE.OTHER">{{ $t('other') }}</a-select-option>
+            <a-select-option
+              :id="`resident_${props.index + 1}_relationship_with_owner_spouse`"
+              :name="`resident_${props.index + 1}_relationship_with_owner_spouse`"
+              :value="COMMON.RESIDENT_TYPE.SPOUSE"
+              >{{ $t('spouse') }}</a-select-option
+            >
+            <a-select-option
+              :id="`resident_${props.index + 1}_relationship_with_owner_child`"
+              :name="`resident_${props.index + 1}_relationship_with_owner_child`"
+              :value="COMMON.RESIDENT_TYPE.CHILD"
+              >{{ $t('child') }}</a-select-option
+            >
+            <a-select-option
+              :id="`resident_${props.index + 1}_relationship_with_owner_parent`"
+              :name="`resident_${props.index + 1}_relationship_with_owner_parent`"
+              :value="COMMON.RESIDENT_TYPE.PARENT"
+              >{{ $t('parent') }}</a-select-option
+            >
+            <a-select-option
+              :id="`resident_${props.index + 1}_relationship_with_owner_other`"
+              :name="`resident_${props.index + 1}_relationship_with_owner_other`"
+              :value="COMMON.RESIDENT_TYPE.OTHER"
+              >{{ $t('other') }}</a-select-option
+            >
           </a-select>
         </a-form-item>
       </div>
@@ -483,6 +520,7 @@ watch(customers, () => {
 
 // ---------------------- Events ----------------------
 $event.on('resetResidentListItemContractEditMode', () => {
-  customerNo.value = customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || undefined;
+  customerNo.value =
+    customers.value.find((customer) => customer.ID === resident.value.userAccountID.Int64)?.no || undefined;
 });
 </script>

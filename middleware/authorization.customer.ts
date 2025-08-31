@@ -8,6 +8,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const userRole: string = userRoleCookie && userRoleCookie.value ? userRoleCookie.value.toString() : '';
 
   if (userRole !== roles.customer) {
-    return abortNavigation();
+    // return abortNavigation();
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Page not found',
+      fatal: true,
+    });
   }
 });

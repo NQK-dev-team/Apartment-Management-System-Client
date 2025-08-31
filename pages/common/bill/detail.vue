@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>
-          <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('bill_list') }}</NuxtLink>
+          <NuxtLink id="toBillListLink" name="toBillListLink" :to="pageRoutes.common.bill.list">{{
+            $t('bill_list')
+          }}</NuxtLink>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ $t('bill_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -20,6 +22,8 @@
         >
           <a-button
             v-show="!editMode"
+            id="editModeButton"
+            name="editModeButton"
             type="primary"
             class="rounded-sm"
             @click="
@@ -34,6 +38,8 @@
           >
           <a-button
             v-show="editMode"
+            id="cancelEditModeButton"
+            name="cancelEditModeButton"
             class="rounded-sm me-2"
             @click="
               () => {
@@ -49,6 +55,8 @@
           >
           <a-button
             v-show="editMode"
+            id="saveChangesButton"
+            name="saveChangesButton"
             type="primary"
             class="rounded-sm"
             @click="
@@ -76,12 +84,14 @@
             userRole?.toString() === roles.customer &&
             (bill?.status === COMMON.BILL_STATUS.UN_PAID || bill?.status === COMMON.BILL_STATUS.OVERDUE)
           "
+          id="payBillButton"
+          name="payBillButton"
           type="primary"
           class="w-[150px] flex items-center justify-center rounded-sm"
           @click="initBillPayment"
           >{{ $t('bill_pay') }}</a-button
         >
-        <NuxtLink :to="pageRoutes.common.bill.list" class="my-2">
+        <NuxtLink id="backButton" name="backButton" :to="pageRoutes.common.bill.list" class="my-2">
           <a-button class="rounded-sm w-[150px]"> {{ $t('back') }} </a-button>
         </NuxtLink>
       </div>

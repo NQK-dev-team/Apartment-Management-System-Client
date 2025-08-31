@@ -1,6 +1,8 @@
 <template>
   <div class="w-full h-full bg-[#1f1f1f] flex justify-between items-center px-3">
     <NuxtLink
+      id="homeLink"
+      name="homeLink"
       :to="
         userRole?.toString() === roles.owner
           ? pageRoutes.common.report.index
@@ -16,14 +18,18 @@
     <div class="flex items-center">
       <div class="me-3 h-[24px] flex items-center">
         <div
-          v-show="lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie)"
+          v-if="lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie)"
+          id="lightModeButton"
+          name="lightModeButton"
           class="cursor-pointer"
           @click="switchThemeMode"
         >
           <img :src="svgPaths.lightMode" alt="Light mode" class="w-[24px] h-[24px] select-none" />
         </div>
         <div
-          v-show="!(lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie))"
+          v-if="!(lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie))"
+          id="darkModeButton"
+          name="darkModeButton"
           class="cursor-pointer"
           @click="switchThemeMode"
         >
@@ -32,13 +38,15 @@
       </div>
       <div class="mx-3 h-[24px]">
         <a-dropdown class="h-[22px] flex items-center" :trigger="['click']" placement="bottomRight">
-          <div class="ant-dropdown-link cursor-pointer">
+          <div id="languageOption" name="languageOption" class="ant-dropdown-link cursor-pointer">
             <img :src="svgPaths.locale" alt="Choose locale" class="w-[15px] h-[15px] select-none" />
           </div>
           <template #overlay>
             <a-menu>
               <a-menu-item
+                id="lang_vi"
                 :key="COMMON.LOCALE.VI"
+                name="lang_vi"
                 :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
                 @click="setLocale(COMMON.LOCALE.VI as any)"
               >
@@ -48,7 +56,9 @@
                 </div>
               </a-menu-item>
               <a-menu-item
+                id="lang_en"
                 :key="COMMON.LOCALE.EN"
+                name="lang_en"
                 :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
                 @click="setLocale(COMMON.LOCALE.EN as any)"
               >
@@ -62,13 +72,22 @@
         </a-dropdown>
       </div>
       <div v-if="userRole?.toString() === roles.owner || userRole?.toString() === roles.manager" class="mx-3 h-[24px]">
-        <NuxtLink :to="pageRoutes.common.upload.index" class="h-[22px] flex items-center">
+        <NuxtLink
+          id="uploadLink"
+          name="uploadLink"
+          :to="pageRoutes.common.upload.index"
+          class="h-[22px] flex items-center"
+        >
           <img :src="svgPaths.upload" alt="Import" class="w-[14px] h-[14px] select-none" />
         </NuxtLink>
       </div>
       <div v-if="userRole?.toString() !== roles.owner" class="mx-3 h-[24px]">
         <a-dropdown :trigger="['click']" placement="bottomRight">
-          <div class="ant-dropdown-link cursor-pointer h-[22px] flex items-center">
+          <div
+            id="notificationDropdown"
+            name="notificationDropdown"
+            class="ant-dropdown-link cursor-pointer h-[22px] flex items-center"
+          >
             <a-badge dot :count="newNotificationCount">
               <img :src="svgPaths.notification" alt="Notification" class="w-[17px] h-[17px] select-none" />
             </a-badge>
@@ -78,6 +97,8 @@
               <div class="flex items-center justify-between">
                 <p class="font-bold text-lg select-none">{{ $t('notifications') }}</p>
                 <div
+                  id="markAllAsRead"
+                  name="markAllAsRead"
                   class="flex items-center cursor-pointer text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
                   @click="readAllNotification"
                 >
@@ -89,7 +110,9 @@
               <div id="notificationDropdownList" class="overflow-auto max-h-[400px]">
                 <NuxtLink
                   v-for="(notification, index) in notificationList"
+                  :id="pageRoutes.common.notice.inbox(notification.ID)"
                   :key="index"
+                  :name="pageRoutes.common.notice.inbox(notification.ID)"
                   :to="pageRoutes.common.notice.inbox(notification.ID)"
                   class="pb-5 pt-3 cursor-pointer rounded-md px-2 flex flex-col"
                   :class="[
@@ -144,7 +167,7 @@
       </div>
       <div class="ms-3 h-[24px]">
         <a-dropdown :trigger="['click']" placement="bottomRight">
-          <div class="ant-dropdown-link cursor-pointer">
+          <div id="profileDropdown" name="profileDropdown" class="ant-dropdown-link cursor-pointer">
             <img :src="imageSrc" alt="avatar" class="w-[22px] h-[22px] rounded-full select-none" />
           </div>
           <template #overlay>
@@ -155,6 +178,8 @@
               <a-menu-divider />
               <a-menu-item key="profile" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
                 <NuxtLink
+                  id="profileLink"
+                  name="profileLink"
                   :to="pageRoutes.common.profile.index"
                   class="flex items-center"
                   :class="[lightMode ? '' : 'text-white']"
@@ -165,6 +190,8 @@
               </a-menu-item>
               <a-menu-item key="security" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']">
                 <NuxtLink
+                  id="securitySetting"
+                  name="securitySetting"
                   :to="pageRoutes.common.security.index"
                   class="flex items-center"
                   :class="[lightMode ? '' : 'text-white']"
@@ -173,7 +200,13 @@
                   <p class="ms-2">{{ $t('security_setting') }}</p>
                 </NuxtLink>
               </a-menu-item>
-              <a-menu-item key="logout" :class="[lightMode ? '' : 'hover:bg-[#222F3C]']" @click="logout">
+              <a-menu-item
+                id="logoutButton"
+                key="logout"
+                name="logoutButton"
+                :class="[lightMode ? '' : 'hover:bg-[#222F3C]']"
+                @click="logout"
+              >
                 <div class="flex items-center">
                   <img :src="svgPaths.signOut" alt="Log out" class="w-[12px] h-[12px] select-none" />
                   <p class="ms-2 text-red-500">{{ $t('log_out') }}</p>
@@ -223,6 +256,7 @@ const newNotificationCount = computed(() => {
 });
 const scrollPosition = ref({ top: 0, left: 0 });
 const previousOffset = ref(0);
+const inChargeRooms = useCookie('inChargeRooms');
 
 // ---------------------- Functions ----------------------
 function switchThemeMode() {
@@ -234,6 +268,7 @@ function switchThemeMode() {
 async function logout() {
   try {
     await api.authentication.logout();
+    inChargeRooms.value = null;
     await navigateTo(pageRoutes.authentication.login);
     $event.emit('loading');
   } catch (err: any) {

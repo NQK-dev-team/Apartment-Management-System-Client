@@ -7,26 +7,37 @@
       </a-breadcrumb>
       <h1 class="mt-3 text-2xl">{{ $t('support_ticket_list') }}</h1>
       <div class="flex justify-end w-full">
-        <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
+        <a-range-picker
+          id="timeRangePicker"
+          v-model:value="timeRange"
+          name="timeRangePicker"
+          :disabled-date="disabledDate"
+        />
       </div>
     </div>
     <!-- Page main content -->
     <div class="flex-1 flex flex-col px-4 mt-5" :class="[lightMode ? 'bg-white' : 'bg-[#1f1f1f] text-white']">
       <a-table :columns="columns" :data-source="data" class="mt-3" :scroll="{ x: 'max-content' }">
-        <template #bodyCell="{ column, value }">
+        <template #bodyCell="{ column, value, record }">
           <template v-if="column.dataIndex === 'action'">
             <InfoCircleOutlined
+              :id="`view_ticket_${record.no}`"
+              :name="`view_ticket_${record.no}`"
               class="text-lg hover:cursor-pointer hover:text-gray-400 active:text-gray-600"
               :title="$t('detail')"
               @click="openDetailModal(value.ticketID)"
             />
             <template v-if="value.allowAction">
               <CheckCircleOutlined
+                :id="`approve_ticket_${record.no}`"
+                :name="`approve_ticket_${record.no}`"
                 class="mx-3 text-green-500 text-lg hover:cursor-pointer hover:text-green-400 active:text-green-600"
                 :title="$t('approve')"
                 @click="approve(value.ticketID)"
               />
               <CloseCircleOutlined
+                :id="`deny_ticket_${record.no}`"
+                :name="`deny_ticket_${record.no}`"
                 class="text-red-500 text-lg hover:cursor-pointer hover:text-red-400 active:text-red-600"
                 :title="$t('deny')"
                 @click="deny(value.ticketID)"
@@ -54,7 +65,9 @@
         <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
           <div class="p-[8px]">
             <a-input
+              :id="`${column.dataIndex}SearchInput`"
               ref="searchInput"
+              :name="`${column.dataIndex}SearchInput`"
               :placeholder="t('enter_search')"
               :value="selectedKeys[0]"
               class="block width-[200px] mb-[8px]"
@@ -63,13 +76,17 @@
             />
             <div class="flex items-center">
               <a-button
+                :id="`${column.dataIndex}ClearButton`"
                 size="small"
+                :name="`${column.dataIndex}ClearButton`"
                 class="w-[90px] h-[25px] inline-flex items-center justify-center"
                 @click="handleReset(clearFilters)"
                 >{{ t('clear') }}</a-button
               >
               <a-button
+                :id="`${column.dataIndex}ApplyButton`"
                 type="primary"
+                :name="`${column.dataIndex}ApplyButton`"
                 size="small"
                 class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
                 @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -85,15 +102,27 @@
         <template #customFilterIcon="{ filtered, column }">
           <SearchOutlined
             v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no' || column.dataIndex === 'customer'"
+            :id="`${column.dataIndex}SearchIcon`"
+            :name="`${column.dataIndex}SearchIcon`"
             :style="{ color: filtered ? '#108ee9' : undefined }"
           />
-          <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+          <FilterFilled
+            v-else
+            :id="`${column.dataIndex}FilterIcon`"
+            :name="`${column.dataIndex}FilterIcon`"
+            :style="{ color: filtered ? '#108ee9' : undefined }"
+          />
         </template>
       </a-table>
-      <a-modal v-model:open="detailModalVisible" class="w-[700px]">
+      <a-modal id="ticketDetailModal" v-model:open="detailModalVisible" name="ticketDetailModal" class="w-[700px]">
         <template #title>{{ $t('support_ticket_detail') }}</template>
         <template #footer>
-          <a-button @click="detailModalVisible = false">{{ $t('close') }}</a-button>
+          <a-button
+            id="closeTicketDetailModalButton"
+            name="closeTicketDetailModalButton"
+            @click="detailModalVisible = false"
+            >{{ $t('close') }}</a-button
+          >
         </template>
         <div v-if="ticketDetail">
           <div class="flex w-full">
@@ -126,7 +155,11 @@
                 readonly
               >
                 <template #suffix>
-                  <NuxtLink :to="pageRoutes.common.customer.detail(ticketDetail.customer.ID)" target="_blank"
+                  <NuxtLink
+                    id="customerDetailLink"
+                    name="customerDetailLink"
+                    :to="pageRoutes.common.customer.detail(ticketDetail.customer.ID)"
+                    target="_blank"
                     ><LinkOutlined
                   /></NuxtLink>
                 </template>
@@ -173,6 +206,8 @@
                 <template #suffix>
                   <NuxtLink
                     v-if="ticketDetail.managerID && userRole?.toString() === roles.owner"
+                    id="managerDetailLink"
+                    name="managerDetailLink"
                     :to="pageRoutes.common.staff.detail(ticketDetail.manager.ID)"
                     target="_blank"
                     ><LinkOutlined
@@ -308,6 +343,7 @@ const lightMode = computed(
 );
 const { t } = useI18n();
 const searchInput = ref();
+const ticketByPass = useCookie('ticketByPass');
 const columns = computed<any[]>(() => {
   const buildings = [...new Set(tickets.value.map((ticket) => ticket.buildingName || ''))];
   const floors = [...new Set(tickets.value.map((ticket) => ticket.roomFloor || 0))];
@@ -453,7 +489,9 @@ const data = computed(() =>
       ticketID: ticket.ID,
       allowAction:
         ticket.status === COMMON.SUPPORT_TICKET_STATUS.PENDING &&
-        ((!ticket.ownerID && userRole.value?.toString() === roles.owner && ticket.managerID) ||
+        ((!ticket.ownerID &&
+          userRole.value?.toString() === roles.owner &&
+          (Number(ticketByPass.value || 0) === 1 || ticket.managerID)) ||
           (!ticket.managerID && userRole.value?.toString() === roles.manager)),
     },
     building: ticket.buildingName || '',
@@ -468,8 +506,15 @@ const state = reactive({
   searchedColumn: '',
 });
 const { $event, $dayjs } = useNuxtApp();
-const now = $dayjs();
-const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
+const router = useRouter();
+const route = useRoute();
+const startDate = $dayjs(route.query.start as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.start as string, 'YYYY-MM-DD', true)
+  : $dayjs().startOf('quarter');
+const endDate = $dayjs(route.query.end as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.end as string, 'YYYY-MM-DD', true)
+  : $dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([startDate, endDate]);
 const ticketApiOffset = ref<number>(0);
 const ticketApiLimit = ref<number>(500);
 
@@ -625,10 +670,16 @@ onMounted(() => {
 // ---------------------- Watchers ----------------------
 watch(timeRange, async () => {
   $event.emit('loading');
-
   await refetchSupportTickets();
-
   $event.emit('loading');
+
+  router.push({
+    query: {
+      ...route.query,
+      start: timeRange.value[0].format('YYYY-MM-DD'),
+      end: timeRange.value[1].format('YYYY-MM-DD'),
+    },
+  });
 });
 
 watch(ticketApiOffset, async (newTicketApiOffset, oldTicketApiOffset) => {

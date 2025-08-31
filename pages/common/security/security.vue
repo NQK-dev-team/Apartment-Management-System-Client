@@ -50,7 +50,14 @@
           </label>
           <a-input-password id="password" v-model:value="changeEmailModel.password" autocomplete="off" />
         </a-form-item>
-        <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
+        <a-button
+          id="confirmChangeEmail"
+          name="confirmChangeEmail"
+          class="w-full rounded-sm"
+          type="primary"
+          html-type="submit"
+          >{{ $t('confirm') }}</a-button
+        >
       </a-form>
       <a-form :model="changePasswordModel" class="mt-20 min-w-[600px] max-w-[600px]" @finish="changePassword">
         <h2 class="text-xl font-bold">{{ $t('change_password') }}</h2>
@@ -114,7 +121,14 @@
             autocomplete="off"
           />
         </a-form-item>
-        <a-button class="w-full rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
+        <a-button
+          id="confirmChangePassword"
+          name="confirmChangePassword"
+          class="w-full rounded-sm"
+          type="primary"
+          html-type="submit"
+          >{{ $t('confirm') }}</a-button
+        >
       </a-form>
     </div>
     <a-modal v-model:open="emailChangeModalVisible" @cancel="closeModal">

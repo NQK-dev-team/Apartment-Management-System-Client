@@ -1,5 +1,9 @@
 <template>
-  <NuxtLink :to="pageRoutes.common.room.detail(room.ID)">
+  <NuxtLink
+    :id="`to_room_${props.index + 1}_detail_link`"
+    :name="`to_room_${props.index + 1}_detail_link`"
+    :to="pageRoutes.common.room.detail(room.ID)"
+  >
     <a-card hoverable class="w-[275px] border-2 select-none" :title="$t('room', { name: room.no })">
       <template #cover>
         <a-carousel :autoplay="true" arrows>
@@ -29,6 +33,10 @@ import type { Room } from '~/types/building';
 const props = defineProps({
   room: {
     type: Object as PropType<Room>,
+    required: true,
+  },
+  index: {
+    type: Number,
     required: true,
   },
 });

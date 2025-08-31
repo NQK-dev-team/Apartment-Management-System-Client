@@ -49,6 +49,8 @@
           <a-input id="contract_id" disabled readonly :value="bill.value.contractID" :placeholder="$t('contract_id')">
             <template #suffix>
               <NuxtLink
+                id="contractDetailLink"
+                name="contractDetailLink"
                 :to="pageRoutes.common.contract.detail(bill.value.contractID)"
                 :title="$t('detail')"
                 target="_blank"
@@ -75,6 +77,8 @@
           >
             <template #suffix>
               <NuxtLink
+                id="contractHouseholderDetailLink"
+                name="contractHouseholderDetailLink"
                 :to="pageRoutes.common.customer.detail(bill.value.contract.householderID)"
                 :title="$t('detail')"
                 target="_blank"
@@ -177,21 +181,41 @@
               class="w-full text-left"
             >
               <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_status') }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.UN_PAID" :class="`text-[#888888] hidden`">{{
-                $t('unpaid')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.PAID" :class="`text-[#50c433]`">{{
-                $t('paid')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.CANCELLED" :class="`text-[#ff0000]`">{{
-                $t('cancelled')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.OVERDUE" :class="`text-[#ff0000] hidden`">{{
-                $t('overdue')
-              }}</a-select-option>
-              <a-select-option :value="COMMON.BILL_STATUS.PROCESSING" :class="`text-[#d8d535] hidden`">{{
-                $t('processing')
-              }}</a-select-option>
+              <a-select-option
+                id="status_un_paid"
+                name="status_un_paid"
+                :value="COMMON.BILL_STATUS.UN_PAID"
+                :class="`text-[#888888] hidden`"
+                >{{ $t('unpaid') }}</a-select-option
+              >
+              <a-select-option
+                id="status_paid"
+                name="status_paid"
+                :value="COMMON.BILL_STATUS.PAID"
+                :class="`text-[#50c433]`"
+                >{{ $t('paid') }}</a-select-option
+              >
+              <a-select-option
+                id="status_cancelled"
+                name="status_cancelled"
+                :value="COMMON.BILL_STATUS.CANCELLED"
+                :class="`text-[#ff0000]`"
+                >{{ $t('cancelled') }}</a-select-option
+              >
+              <a-select-option
+                id="status_overdue"
+                name="status_overdue"
+                :value="COMMON.BILL_STATUS.OVERDUE"
+                :class="`text-[#ff0000] hidden`"
+                >{{ $t('overdue') }}</a-select-option
+              >
+              <a-select-option
+                id="status_processing"
+                name="status_processing"
+                :value="COMMON.BILL_STATUS.PROCESSING"
+                :class="`text-[#d8d535] hidden`"
+                >{{ $t('processing') }}</a-select-option
+              >
             </a-select>
           </ClientOnly>
         </a-form-item>
@@ -213,6 +237,8 @@
           >
             <template v-if="bill.value.payerID.Valid" #suffix>
               <NuxtLink
+                id="payerDetailLink"
+                name="payerDetailLink"
                 :to="pageRoutes.common.customer.detail(bill.value.payerID.Int64 as number)"
                 :title="$t('detail')"
                 target="_blank"
@@ -241,7 +267,9 @@
           >
             <a-select-option
               v-for="(customer, index) in customerList"
+              :id="`paid_by_selection_${index + 1}`"
               :key="index"
+              :name="`paid_by_selection_${index + 1}`"
               :value="customer.ID"
               :label="`${customer.no} - ${getUserName(customer)}`"
             >
@@ -314,6 +342,8 @@
       <h2 class="text-xl font-bold">{{ $t('payment_list') }}</h2>
       <div class="flex items-center">
         <a-button
+          id="resetPayment"
+          name="resetPayment"
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
             () => {
@@ -330,6 +360,8 @@
           <UndoOutlined />
         </a-button>
         <a-button
+          id="deletePayment"
+          name="deletePayment"
           type="primary"
           :disabled="deleteBucket.value.length === 0"
           danger
@@ -360,6 +392,8 @@
           ><DeleteOutlined
         /></a-button>
         <a-button
+          id="addPayment"
+          name="addPayment"
           type="primary"
           class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="

@@ -7,6 +7,7 @@ import {
   getUserImageFromJWT,
   getUserIDFromJWT,
   getUserNoFromJWT,
+  getTicketByPassPermission,
 } from '~/utils/jwt';
 import { COMMON } from '~/consts/common';
 import { getMessageCode } from '~/consts/api_response';
@@ -74,6 +75,10 @@ export default defineEventHandler(async (event) => {
           secure: config.isHttps,
           sameSite: 'lax',
         });
+        setCookie(event, 'ticketByPass', getTicketByPassPermission(body.jwtToken), {
+          secure: config.isHttps,
+          sameSite: 'lax',
+        });
       }
       if (body.refreshToken) {
         setCookie(event, 'refreshToken', body.refreshToken, {
@@ -119,6 +124,11 @@ export default defineEventHandler(async (event) => {
           maxAge: 0,
         });
         setCookie(event, 'userNo', '', {
+          secure: config.isHttps,
+          sameSite: 'lax',
+          maxAge: 0,
+        });
+        setCookie(event, 'ticketByPass', '', {
           secure: config.isHttps,
           sameSite: 'lax',
           maxAge: 0,

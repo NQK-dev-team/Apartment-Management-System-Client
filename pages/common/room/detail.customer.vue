@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.room.list">{{ $t('room_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="to_room_list_link" name="to_room_list_link" :to="pageRoutes.common.room.list">{{
+            $t('room_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item>{{ $t('room_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -112,6 +114,8 @@
             <div class="flex-1 ms-2">
               <div class="flex items-end justify-end w-full h-full">
                 <NuxtLink
+                  id="roomContractDetailLink"
+                  name="roomContractDetailLink"
                   :to="pageRoutes.common.contract.detail(roomData?.contracts[0]?.ID as number)"
                   class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
                   target="_blank"
@@ -143,7 +147,7 @@
       <div class="w-full flex-1 flex flex-col">
         <CommonRoomDetailSupportTicket v-if="roomData" :tickets="tickets" :room-data="roomData" />
         <div class="flex flex-col items-center my-5">
-          <NuxtLink :to="pageRoutes.common.room.list" class="my-2">
+          <NuxtLink id="backButton" name="backButton" :to="pageRoutes.common.room.list" class="my-2">
             <a-button class="w-[100px] rounded-sm"> {{ $t('back') }}</a-button></NuxtLink
           >
         </div>

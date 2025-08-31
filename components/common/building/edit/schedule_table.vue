@@ -4,6 +4,8 @@
       <h2 class="text-xl font-bold">{{ $t('management_schedule') }}</h2>
       <div v-if="userRole?.toString() === roles.owner && !props.readOnly" class="flex items-center">
         <a-button
+          id="resetSchedule"
+          name="resetSchedule"
           class="flex items-center justify-center w-8 h-8 rounded-sm bg-gray-500 border-gray-500 text-white hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:border-gray-600"
           @click="
             () => {
@@ -23,6 +25,8 @@
           <UndoOutlined />
         </a-button>
         <a-button
+          id="deleteSchedule"
+          name="deleteSchedule"
           type="primary"
           danger
           class="flex items-center justify-center w-8 h-8 rounded-sm mx-2"
@@ -34,6 +38,8 @@
           ><DeleteOutlined
         /></a-button>
         <a-button
+          id="addSchedule"
+          name="addSchedule"
           type="primary"
           class="flex items-center justify-center w-8 h-8 rounded-sm"
           @click="
@@ -204,7 +210,12 @@
         />
       </div>
     </div>
-    <p>{{ $t('total') }}: {{ buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length }}</p>
+    <p>
+      {{ $t('total') }}:
+      <span id="totalSchedulesCount">{{
+        buildingInfo.data.schedules.filter((schedule) => !schedule.isDeleted).length
+      }}</span>
+    </p>
   </div>
 </template>
 

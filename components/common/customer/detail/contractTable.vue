@@ -7,10 +7,12 @@
       },
       getCheckboxProps: (record: any) => ({
         disabled: !(
-          (scheduleStore.getRooms().includes(record.room_id) || userRole?.toString() === roles.owner) &&
+          ((inChargeRooms || []).includes(record.room_id) || userRole?.toString() === roles.owner) &&
           (record.status === COMMON.CONTRACT_STATUS.CANCELLED ||
             record.status === COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE)
         ),
+        name: `check_contract_${record.no}`,
+        id: `check_contract_${record.no}`,
       }),
     }"
     :data-source="data"
@@ -29,11 +31,13 @@
         >
         <div v-else></div> -->
         <NuxtLink
+          v-if="(inChargeRooms || []).includes(record.room_id) || userRole?.toString() === roles.owner"
           :to="pageRoutes.common.contract.detail(value)"
           target="_blank"
           class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
           >{{ $t('detail') }}</NuxtLink
         >
+        <div v-else></div>
       </template>
       <template v-if="column.dataIndex === 'customer_no'">
         <span
@@ -84,7 +88,9 @@
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
+          :id="`${column.dataIndex}SearchInput`"
           ref="searchInput"
+          :name="`${column.dataIndex}SearchInput`"
           :placeholder="t('enter_search')"
           :value="selectedKeys[0]"
           class="block width-[200px] mb-[8px]"
@@ -93,13 +99,17 @@
         />
         <div class="flex items-center">
           <a-button
+            :id="`${column.dataIndex}ClearButton`"
             size="small"
+            :name="`${column.dataIndex}ClearButton`"
             class="w-[90px] h-[25px] inline-flex items-center justify-center"
             @click="handleReset(clearFilters)"
             >{{ t('clear') }}</a-button
           >
           <a-button
+            :id="`${column.dataIndex}ApplyButton`"
             type="primary"
+            :name="`${column.dataIndex}ApplyButton`"
             size="small"
             class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
             @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -122,9 +132,16 @@
           column.dataIndex === 'employee_number' ||
           column.dataIndex === 'contract_id'
         "
+        :id="`${column.dataIndex}SearchIcon`"
+        :name="`${column.dataIndex}SearchIcon`"
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
-      <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+      <FilterFilled
+        v-else
+        :id="`${column.dataIndex}FilterIcon`"
+        :name="`${column.dataIndex}FilterIcon`"
+        :style="{ color: filtered ? '#108ee9' : undefined }"
+      />
     </template>
   </a-table>
 </template>
@@ -133,7 +150,6 @@
 import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { COMMON } from '~/consts/common';
-import { managerScheduleStore } from '#build/imports';
 import { roles } from '~/consts/roles';
 
 // ---------------------- Variables ----------------------
@@ -377,12 +393,13 @@ const data = computed(() => {
     floor: contract.roomFloor,
     room_no: contract.roomNo,
     creator_role: getUserRole(contract.creator),
+    room_id: contract.roomID,
   }));
 });
-const scheduleStore = managerScheduleStore();
 const userRole = useCookie('userRole');
 const deleteBucket = toRef(props, 'deleteBucket');
 const userID = useCookie('userID');
+const inChargeRooms = useCookie<number[]>('inChargeRooms');
 
 // ---------------------- Functions ----------------------
 function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {

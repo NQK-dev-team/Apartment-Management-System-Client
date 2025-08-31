@@ -24,9 +24,11 @@
             class="w-full text-left"
             show-search
             :options="[
-              ...props.managers.map((manager) => ({
+              ...props.managers.map((manager, index) => ({
                 value: manager.no,
                 label: `${manager.no} - ${getUserName(manager)}`,
+                id: `schedule_${props.index + 1}_manager_no_${props.step}_${index + 1}`,
+                name: `schedule_${props.index + 1}_manager_no_${props.step}_${index + 1}`,
               })),
             ]"
             :placeholder="$t('search_by_employee_no')"

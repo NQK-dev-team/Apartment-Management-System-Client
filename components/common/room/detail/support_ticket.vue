@@ -4,6 +4,8 @@
     <h2 class="text-xl font-bold">{{ $t('support_ticket_list') }}</h2>
     <div class="flex items-center">
       <a-button
+        id="deleteTicketButton"
+        name="deleteTicketButton"
         type="primary"
         danger
         :disabled="!deleteBucket.length"
@@ -16,7 +18,13 @@
       >
         <img :src="svgPaths.delete" alt="Delete contract" class="w-[12px] h-[12px]" />
       </a-button>
-      <a-button type="primary" class="rounded-sm" @click="openAddModal.value = true">
+      <a-button
+        id="addTicketButton"
+        name="addTicketButton"
+        type="primary"
+        class="rounded-sm"
+        @click="openAddModal.value = true"
+      >
         <img :src="svgPaths.plus" alt="Add contract" class="w-[12px] h-[12px]" />
       </a-button>
     </div>
@@ -31,6 +39,8 @@
       },
       getCheckboxProps: (record: any) => ({
         disabled: !record.allowDelete,
+        id: `selectTicket${record.no}`,
+        name: `selectTicket${record.no}`,
       }),
     }"
     class="mt-3"
@@ -65,7 +75,9 @@
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
+          :id="`${column.dataIndex}SearchInput`"
           ref="searchInput"
+          :name="`${column.dataIndex}SearchInput`"
           :placeholder="t('enter_search')"
           :value="selectedKeys[0]"
           class="block width-[200px] mb-[8px]"
@@ -74,13 +86,17 @@
         />
         <div class="flex items-center">
           <a-button
+            :id="`${column.dataIndex}ClearButton`"
             size="small"
+            :name="`${column.dataIndex}ClearButton`"
             class="w-[90px] h-[25px] inline-flex items-center justify-center"
             @click="handleReset(clearFilters)"
             >{{ t('clear') }}</a-button
           >
           <a-button
+            :id="`${column.dataIndex}ApplyButton`"
             type="primary"
+            :name="`${column.dataIndex}ApplyButton`"
             size="small"
             class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
             @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -96,9 +112,16 @@
     <template #customFilterIcon="{ filtered, column }">
       <SearchOutlined
         v-if="column.dataIndex === 'ticket_id' || column.dataIndex === 'room_no' || column.dataIndex === 'customer'"
+        :id="`${column.dataIndex}SearchIcon`"
+        :name="`${column.dataIndex}SearchIcon`"
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
-      <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+      <FilterFilled
+        v-else
+        :id="`${column.dataIndex}FilterIcon`"
+        :name="`${column.dataIndex}FilterIcon`"
+        :style="{ color: filtered ? '#108ee9' : undefined }"
+      />
     </template>
   </a-table>
   <CommonRoomDetailTicketDetailCustomer :ticket-detail="ticketDetail" :detail-modal-visible="detailModalVisible" />

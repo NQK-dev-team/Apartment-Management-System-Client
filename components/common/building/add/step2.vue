@@ -10,7 +10,13 @@
           placeholder="{{ $t('select_floor') }}"
         >
           <a-select-option :value="-1" class="hidden">{{ $t('select_floor') }}</a-select-option>
-          <a-select-option v-for="(_, index) in buildingInfo.floors" :key="index">{{ index + 1 }}</a-select-option>
+          <a-select-option
+            v-for="(_, index) in buildingInfo.floors"
+            :id="`select_floor_2_${index + 1}`"
+            :key="index"
+            :name="`select_floor_2_${index + 1}`"
+            >{{ index + 1 }}</a-select-option
+          >
         </a-select>
       </div>
     </div>
@@ -22,6 +28,8 @@
         <h2 class="text-xl font-bold">{{ $t('room_list') }}</h2>
         <div class="flex items-center">
           <a-button
+            id="deleteRoom"
+            name="deleteRoom"
             type="primary"
             danger
             class="flex items-center justify-center w-8 h-8 rounded-sm"
@@ -35,6 +43,8 @@
             ><DeleteOutlined
           /></a-button>
           <a-button
+            id="addRoom"
+            name="addRoom"
             type="primary"
             class="ms-2 flex items-center justify-center w-8 h-8 rounded-sm"
             @click="
@@ -166,7 +176,12 @@
           </tbody>
         </table>
       </div>
-      <p>{{ $t('total') }}: {{ selectedFloor !== -1 ? buildingInfo.floors[selectedFloor].rooms.length : 0 }}</p>
+      <p>
+        {{ $t('total') }}:
+        <span id="totalRoomCount">{{
+          selectedFloor !== -1 ? buildingInfo.floors[selectedFloor].rooms.length : 0
+        }}</span>
+      </p>
     </div>
     <CommonBuildingAddConfirmDeleteModal :open="openModal" :fallback="fallback" />
   </div>

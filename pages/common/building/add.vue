@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.building.list">{{ $t('building_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="buildingListLink" name="buildingListLink" :to="pageRoutes.common.building.list">{{
+            $t('building_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item>{{ $t('add_building') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -11,6 +13,8 @@
       <div class="flex items-center justify-center mt-5">
         <div>
           <div
+            id="step1"
+            name="step1"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -84,6 +88,8 @@
         <RightOutlined class="text-xl mb-0" :class="[lightMode ? 'text-slate-300' : 'text-stone-600']" />
         <div>
           <div
+            id="step2"
+            name="step2"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -157,6 +163,8 @@
         <RightOutlined class="text-xl mb-0" :class="[lightMode ? 'text-slate-300' : 'text-stone-600']" />
         <div>
           <div
+            id="step3"
+            name="step3"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -230,6 +238,8 @@
         <RightOutlined class="text-xl mb-0" :class="[lightMode ? 'text-slate-300' : 'text-stone-600']" />
         <div>
           <div
+            id="step4"
+            name="step4"
             class="h-[48px] w-[250px] flex items-center justify-center select-none px-8"
             @click="
               () => {
@@ -320,10 +330,19 @@
             <p class="text-center my-2">{{ $t('add_building_success_title') }}</p>
             <p class="text-center my-2">{{ $t('add_building_success_note') }}</p>
             <div class="my-2 flex flex-col items-center">
-              <NuxtLink :to="pageRoutes.common.building.detail(newBuildingID)">
+              <NuxtLink
+                id="goToBuildingDetail"
+                name="goToBuildingDetail"
+                :to="pageRoutes.common.building.detail(newBuildingID)"
+              >
                 <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_building_detail') }}</a-button>
               </NuxtLink>
-              <NuxtLink :to="pageRoutes.common.building.list" class="w-full">
+              <NuxtLink
+                id="backToBuildingList"
+                name="backToBuildingList"
+                :to="pageRoutes.common.building.list"
+                class="w-full"
+              >
                 <a-button class="w-full rounded-sm">{{ $t('back') }}</a-button>
               </NuxtLink>
             </div>
@@ -333,6 +352,8 @@
       <div class="steps-action flex flex-col items-center mb-3 mt-10">
         <a-button
           v-if="step < 4"
+          id="nextStep"
+          name="nextStep"
           type="primary"
           class="w-[100px] rounded-sm"
           @click="
@@ -348,10 +369,16 @@
           "
           >{{ step == 3 ? $t('confirm') : $t('next') }}</a-button
         >
-        <a-button v-if="step < 4" v-show="step > 1 && step < 4" class="my-2 w-[100px] rounded-sm" @click="step--">{{
-          $t('previous')
-        }}</a-button>
-        <NuxtLink v-if="step < 4" v-show="step === 1" :to="pageRoutes.common.building.list">
+        <a-button
+          v-if="step < 4"
+          v-show="step > 1 && step < 4"
+          id="previousStep"
+          name="previousStep"
+          class="my-2 w-[100px] rounded-sm"
+          @click="step--"
+          >{{ $t('previous') }}</a-button
+        >
+        <NuxtLink v-if="step < 4" v-show="step === 1" id="cancel" name="cancel" :to="pageRoutes.common.building.list">
           <a-button class="my-2 w-[100px] rounded-sm">{{ $t('cancel') }}</a-button>
         </NuxtLink>
       </div>
@@ -523,10 +550,13 @@ function checkStep1(): boolean {
     });
     return false;
   }
-  if (buildingInfo.value.services.find((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) !== undefined) {
+  if (
+    buildingInfo.value.services.find((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) !== undefined
+  ) {
     notification.error({
       message: t('service_name_max_length', {
-        no: buildingInfo.value.services.findIndex((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) + 1,
+        no:
+          buildingInfo.value.services.findIndex((service) => service.name.length > COMMON.MAX_LENGTH.SERVICE_NAME) + 1,
         length: COMMON.MAX_LENGTH.SERVICE_NAME,
       }),
     });
@@ -611,7 +641,7 @@ function checkStep2(): boolean {
         });
         isOK = false;
       }
-      if(room.description.length > COMMON.MAX_LENGTH.ROOM_DESCRIPTION && isOK) {
+      if (room.description.length > COMMON.MAX_LENGTH.ROOM_DESCRIPTION && isOK) {
         notification.error({
           message: t('room_description_max_length', {
             no: 1000 * (floorIdx + 1) + buildingInfo.value.floors.findIndex((floor) => floor.rooms.includes(room)) + 1,

@@ -134,6 +134,46 @@ function getTimeDifferenceFromNow(time: string, locale: string): string {
   return dayjs(time).locale(locale).fromNow();
 }
 
+function convertMonthToText(month: number): string {
+  switch (month) {
+    case 1:
+      return 'january';
+    case 2:
+      return 'february';
+    case 3:
+      return 'march';
+    case 4:
+      return 'april';
+    case 5:
+      return 'may';
+    case 6:
+      return 'june';
+    case 7:
+      return 'july';
+    case 8:
+      return 'august';
+    case 9:
+      return 'september';
+    case 10:
+      return 'october';
+    case 11:
+      return 'november';
+    case 12:
+      return 'december';
+    default:
+      return '';
+  }
+}
+
+function generateArrayFromRange(n: number, m: number) {
+  // Calculate the length of the array
+  const length = m - n + 1;
+
+  // Use Array.from to create an array of the correct length
+  // The map function adds the starting value 'n' to each index 'i'
+  return Array.from({ length: length }, (_, i) => n + i);
+}
+
 export {
   getContractType,
   getContractStatus,
@@ -144,4 +184,6 @@ export {
   getImportTypeLabel,
   getFileSizeString,
   getTimeDifferenceFromNow,
+  convertMonthToText,
+  generateArrayFromRange,
 };

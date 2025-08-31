@@ -33,6 +33,8 @@
               class="cursor-pointer pe-2 flex items-center"
             >
               <div
+                :id="`notification_${index + 1}`"
+                :name="`notification_${index + 1}`"
                 class="ps-3 rounded-md py-3 block w-full my-2 overflow-hidden"
                 :class="[
                   {

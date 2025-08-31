@@ -14,12 +14,17 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.building.list">{{ $t('building_list') }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink id="toBuildingListLink" name="toBuildingListLink" :to="pageRoutes.common.building.list">{{
+            $t('building_list')
+          }}</NuxtLink></a-breadcrumb-item
         >
         <a-breadcrumb-item
-          ><NuxtLink :to="pageRoutes.common.building.detail(buildingID)">{{
-            roomData.buildingName
-          }}</NuxtLink></a-breadcrumb-item
+          ><NuxtLink
+            id="toBuildingDetailLink"
+            name="toBuildingDetailLink"
+            :to="pageRoutes.common.building.detail(buildingID)"
+            >{{ roomData.buildingName }}</NuxtLink
+          ></a-breadcrumb-item
         >
         <a-breadcrumb-item>{{ $t('room_info') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -28,6 +33,8 @@
         <div>
           <a-button
             v-show="!editMode"
+            id="editModeButton"
+            name="editModeButton"
             type="primary"
             class="rounded-sm"
             html-type="button"
@@ -43,6 +50,8 @@
           >
           <a-button
             v-show="editMode"
+            id="cancelEditModeButton"
+            name="cancelEditModeButton"
             class="rounded-sm me-2"
             html-type="button"
             @click="
@@ -62,9 +71,15 @@
             "
             >{{ $t('cancel') }}</a-button
           >
-          <a-button v-show="editMode" type="primary" class="rounded-sm" html-type="submit">{{
-            $t('save_changes')
-          }}</a-button>
+          <a-button
+            v-show="editMode"
+            id="saveChangesButton"
+            name="saveChangesButton"
+            type="primary"
+            class="rounded-sm"
+            html-type="submit"
+            >{{ $t('save_changes') }}</a-button
+          >
         </div>
       </div>
     </div>
@@ -220,21 +235,41 @@
                     <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{
                       $t('select_status')
                     }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.RENTED" :class="`text-[#50c433]`">{{
-                      $t('rented')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.SOLD" :class="`text-[#43b7f1]`">{{
-                      $t('sold')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.AVAILABLE" :class="`text-[#888888]`">{{
-                      $t('available')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.MAINTANCED" :class="`text-[#d8d535]`">{{
-                      $t('maintenance')
-                    }}</a-select-option>
-                    <a-select-option :value="COMMON.ROOM_STATUS.UNAVAILABLE" :class="`text-[#ff0000]`">{{
-                      $t('unavailable')
-                    }}</a-select-option>
+                    <a-select-option
+                      id="room_status_rented"
+                      name="room_status_rented"
+                      :value="COMMON.ROOM_STATUS.RENTED"
+                      :class="`text-[#50c433]`"
+                      >{{ $t('rented') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_sold"
+                      name="room_status_sold"
+                      :value="COMMON.ROOM_STATUS.SOLD"
+                      :class="`text-[#43b7f1]`"
+                      >{{ $t('sold') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_available"
+                      name="room_status_available"
+                      :value="COMMON.ROOM_STATUS.AVAILABLE"
+                      :class="`text-[#888888]`"
+                      >{{ $t('available') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_maintenance"
+                      name="room_status_maintenance"
+                      :value="COMMON.ROOM_STATUS.MAINTANCED"
+                      :class="`text-[#d8d535]`"
+                      >{{ $t('maintenance') }}</a-select-option
+                    >
+                    <a-select-option
+                      id="room_status_unavailable"
+                      name="room_status_unavailable"
+                      :value="COMMON.ROOM_STATUS.UNAVAILABLE"
+                      :class="`text-[#ff0000]`"
+                      >{{ $t('unavailable') }}</a-select-option
+                    >
                   </a-select>
                 </a-form-item>
               </ClientOnly>
@@ -288,6 +323,8 @@
           <a-carousel :autoplay="true" arrows>
             <div v-for="(image, index) in roomData.images" :key="index">
               <img
+                :id="`room_image_${index}`"
+                :name="`room_image_${index}`"
                 :src="image.path as string"
                 class="w-[250px] h-[300px] cursor-pointer"
                 @click="
@@ -347,6 +384,7 @@
             name="imageList"
           >
             <a-upload
+              id="roomImageList"
               v-model:file-list="updateRoomData.imageList"
               multiple
               list-type="text"
@@ -383,6 +421,8 @@
       <div v-if="!editMode" class="w-full flex-1 flex flex-col">
         <div class="flex items-center mt-3">
           <p
+            id="contractListOption"
+            name="contractListOption"
             class="me-3 cursor-pointer select-none"
             :class="[
               option === 1
@@ -394,6 +434,8 @@
             {{ $t('contract_list') }}
           </p>
           <p
+            id="ticketListOption"
+            name="ticketListOption"
             class="mx-3 cursor-pointer select-none"
             :class="[
               option === 2
@@ -411,6 +453,8 @@
             <h2 class="text-xl font-bold">{{ $t('contract_list') }}</h2>
             <div class="flex items-center justify-end">
               <a-button
+                id="deleteRoomContract"
+                name="deleteRoomContract"
                 type="primary"
                 danger
                 class="flex items-center justify-center w-8 h-8 rounded-sm me-2"
@@ -423,7 +467,11 @@
                 ><DeleteOutlined
               /></a-button>
               <a-button type="primary" class="flex items-center justify-center w-8 h-8 rounded-sm"
-                ><NuxtLink :to="pageRoutes.common.contract.add2(buildingID, roomData.floor, roomID)" target="_blank"
+                ><NuxtLink
+                  id="addContractLink"
+                  name="addContractLink"
+                  :to="pageRoutes.common.contract.add2(buildingID, roomData.floor, roomID)"
+                  target="_blank"
                   ><PlusOutlined /></NuxtLink
               ></a-button>
             </div>
@@ -438,7 +486,12 @@
           />
           <div v-show="option === 2">
             <div class="flex items-center justify-end me-2">
-              <a-range-picker v-model:value="timeRange" :disabled-date="disabledDate" />
+              <a-range-picker
+                id="timeRangePicker"
+                v-model:value="timeRange"
+                name="timeRangePicker"
+                :disabled-date="disabledDate"
+              />
             </div>
             <CommonBuildingRoomDetailSupportTicketList
               :tickets="tickets"
@@ -450,7 +503,7 @@
         </ClientOnly>
       </div>
       <div class="flex flex-col items-center my-5">
-        <NuxtLink :to="pageRoutes.common.building.detail(buildingID)" class="my-2">
+        <NuxtLink id="backButton" name="backButton" :to="pageRoutes.common.building.detail(buildingID)" class="my-2">
           <a-button class="w-[100px] rounded-sm">{{ $t('back') }}</a-button>
         </NuxtLink>
       </div>
@@ -500,6 +553,7 @@ useHead({
 
 // ---------------------- Variables ----------------------
 const route = useRoute();
+const router = useRouter();
 const buildingID = Number(route.params.buildingID as string);
 const roomID = Number(route.params.roomID as string);
 const { $event, $dayjs } = useNuxtApp();
@@ -525,13 +579,19 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const option = ref<number>(1);
+const tab = Number((route.query.tab as string) || 1);
+const option = ref<number>(tab);
 const previewVisible = ref(false);
 const previewImage = ref('');
 const deleteBucket = ref<{ value: number[] }>({ value: [] });
 const { t } = useI18n();
-const now = $dayjs();
-const timeRange = ref<[Dayjs, Dayjs]>([now.startOf('quarter'), now]);
+const startDate = $dayjs(route.query.start as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.start as string, 'YYYY-MM-DD', true)
+  : $dayjs().startOf('quarter');
+const endDate = $dayjs(route.query.end as string, 'YYYY-MM-DD', true).isValid()
+  ? $dayjs(route.query.end as string, 'YYYY-MM-DD', true)
+  : $dayjs();
+const timeRange = ref<[Dayjs, Dayjs]>([startDate, endDate]);
 const editMode = ref<boolean>(false);
 const updateRoomData = ref({
   description: '',
@@ -860,6 +920,23 @@ onMounted(async () => {
 // ---------------------- Watchers ----------------------
 watch(timeRange, () => {
   getSupporTickets();
+
+  router.push({
+    query: {
+      ...route.query,
+      start: timeRange.value[0].format('YYYY-MM-DD'),
+      end: timeRange.value[1].format('YYYY-MM-DD'),
+    },
+  });
+});
+
+watch(option, async () => {
+  router.push({
+    query: {
+      ...route.query,
+      tab: option.value,
+    },
+  });
 });
 </script>
 

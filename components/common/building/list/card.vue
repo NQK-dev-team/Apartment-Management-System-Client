@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="pageRoutes.common.building.detail(props.id)">
+  <NuxtLink :id="`building_${props.id}_link`" :to="pageRoutes.common.building.detail(props.id)">
     <a-card hoverable class="w-[275px] border-2 select-none" :title="props.name">
       <template #cover>
         <a-carousel :autoplay="true" arrows>
@@ -9,11 +9,12 @@
         </a-carousel>
       </template>
       <template #actions>
-        <NuxtLink :to="pageRoutes.common.building.edit(props.id)">
+        <NuxtLink :id="`edit_building_${props.id}_link`" :to="pageRoutes.common.building.edit(props.id)">
           <EditOutlined />
         </NuxtLink>
         <DeleteOutlined
           v-if="userRole?.toString() === roles.owner"
+          :id="`delete_building_${props.id}_link`"
           class="text-red-500 hover:text-red-300 active:text-red-600"
           @click="
             (e: any) => {

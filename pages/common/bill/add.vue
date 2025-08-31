@@ -3,7 +3,9 @@
     <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
       <a-breadcrumb>
         <a-breadcrumb-item>
-          <NuxtLink :to="pageRoutes.common.bill.list">{{ $t('bill_list') }}</NuxtLink>
+          <NuxtLink id="goToBillListLink" name="goToBillListLink" :to="pageRoutes.common.bill.list">{{
+            $t('bill_list')
+          }}</NuxtLink>
         </a-breadcrumb-item>
         <a-breadcrumb-item>{{ $t('add_bill') }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -20,8 +22,10 @@
           <p>{{ $t('search_contract_by') }}:</p>
           <div class="flex items-center ms-3">
             <a-radio-group v-model:value="searchByRoom">
-              <a-radio :value="true">{{ $t('room') }}</a-radio>
-              <a-radio :value="false">{{ $t('contract_id') }}</a-radio>
+              <a-radio id="searchByRoomRadio" name="searchByRoom" :value="true">{{ $t('room') }}</a-radio>
+              <a-radio id="searchByContractIdRadio" name="searchByContractId" :value="false">{{
+                $t('contract_id')
+              }}</a-radio>
             </a-radio-group>
           </div>
         </div>
@@ -42,9 +46,14 @@
                 :placeholder="$t('select_building')"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(building, index) in buildingList" :key="index" :value="building.ID">{{
-                  building.name
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(building, index) in buildingList"
+                  :id="`building_name_${index + 1}`"
+                  :key="index"
+                  :name="`building_name_${index + 1}`"
+                  :value="building.ID"
+                  >{{ building.name }}</a-select-option
+                >
               </a-select>
             </a-form-item>
             <a-form-item v-else :name="['buildingID']">
@@ -83,9 +92,14 @@
                 class="w-full text-left"
               >
                 <a-select-option :value="COMMON.HIDDEN_OPTION" class="hidden">{{ $t('select_floor') }}</a-select-option>
-                <a-select-option v-for="(floor, index) in floorList" :key="index" :value="floor">{{
-                  floor
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(floor, index) in floorList"
+                  :id="`room_floor_${index + 1}`"
+                  :key="index"
+                  :name="`room_floor_${index + 1}`"
+                  :value="floor"
+                  >{{ floor }}</a-select-option
+                >
               </a-select>
             </a-form-item>
             <a-form-item v-else :name="['floor']">
@@ -124,9 +138,14 @@
                 :placeholder="roomList.length ? $t('select_room') : '-'"
                 class="w-full text-left"
               >
-                <a-select-option v-for="(room, index) in roomList" :key="index" :value="room.ID">{{
-                  room.no
-                }}</a-select-option>
+                <a-select-option
+                  v-for="(room, index) in roomList"
+                  :id="`room_no_${index + 1}`"
+                  :key="index"
+                  :name="`room_no_${index + 1}`"
+                  :value="room.ID"
+                  >{{ room.no }}</a-select-option
+                >
               </a-select>
             </a-form-item>
             <a-form-item v-else :name="['roomID']">
@@ -209,7 +228,9 @@
               >
                 <a-select-option
                   v-for="(contract, index) in contractList"
+                  :id="`contract_id_${index + 1}`"
                   :key="index"
+                  :name="`contract_id_${index + 1}`"
                   :value="contract.ID"
                   :label="`${contract.ID} - ${getUserName(contract.householder)}`"
                   ><span>{{ contract.ID }}</span
@@ -317,21 +338,29 @@
                     $t('select_status')
                   }}</a-select-option>
                   <a-select-option
+                    id="bill_status_unpaid"
+                    name="bill_status_unpaid"
                     :value="COMMON.BILL_STATUS.UN_PAID"
                     :class="[`text-[#50c433]`, { hidden: !showUnpaid }]"
                     >{{ $t('unpaid') }}</a-select-option
                   >
                   <a-select-option
+                    id="bill_status_paid"
+                    name="bill_status_paid"
                     :value="COMMON.BILL_STATUS.PAID"
                     :class="[`text-[#888888]`, { hidden: !showPaid }]"
                     >{{ $t('paid') }}</a-select-option
                   >
                   <a-select-option
+                    id="bill_status_cancelled"
+                    name="bill_status_cancelled"
                     :value="COMMON.BILL_STATUS.CANCELLED"
                     :class="[`text-[#ff0000]`, { hidden: !showCancelled }]"
                     >{{ $t('cancelled') }}</a-select-option
                   >
                   <a-select-option
+                    id="bill_status_overdue"
+                    name="bill_status_overdue"
                     :value="COMMON.BILL_STATUS.OVERDUE"
                     :class="[`text-[#888888]`, { hidden: !showOverdue }]"
                     >{{ $t('overdue') }}</a-select-option
@@ -353,9 +382,11 @@
               :class="[bill.payerID ? '' : 'text-[#9ca3af]']"
               show-search
               :options="[
-                ...(Array.isArray(residentAccountList) ? residentAccountList : []).map((customer) => ({
+                ...(Array.isArray(residentAccountList) ? residentAccountList : []).map((customer, index) => ({
                   value: customer.ID,
                   label: `${customer.no} - ${getUserName(customer)}`,
+                  id: `paid_by_${index + 1}`,
+                  name: `paid_by_${index + 1}`,
                 })),
               ]"
               :allow-clear="true"
@@ -418,6 +449,8 @@
           <h2 class="text-xl font-bold">{{ $t('payment_list') }}</h2>
           <div class="flex items-center">
             <a-button
+              id="deletePayment"
+              name="deletePayment"
               type="primary"
               :disabled="deleteBucket.value.length === 0"
               danger
@@ -446,6 +479,8 @@
               ><DeleteOutlined
             /></a-button>
             <a-button
+              id="addPayment"
+              name="addPayment"
               type="primary"
               class="flex items-center justify-center w-8 h-8 rounded-sm"
               @click="
@@ -468,8 +503,15 @@
         </div>
         <CommonBillAddPaymentListTable :payments="bill.billPayments" :delete-bucket="deleteBucket" />
         <div class="flex flex-col items-center my-5">
-          <a-button class="w-[100px] rounded-sm" type="primary" html-type="submit">{{ $t('confirm') }}</a-button>
-          <NuxtLink :to="pageRoutes.common.bill.list" class="my-2"
+          <a-button
+            id="confirmButton"
+            name="confirmButton"
+            class="w-[100px] rounded-sm"
+            type="primary"
+            html-type="submit"
+            >{{ $t('confirm') }}</a-button
+          >
+          <NuxtLink id="backButton" name="backButton" :to="pageRoutes.common.bill.list" class="my-2"
             ><a-button html-type="button" class="w-[100px] rounded-sm"> {{ $t('back') }}</a-button></NuxtLink
           >
         </div>
@@ -483,10 +525,19 @@
           <p class="text-center my-2">{{ $t('add_bill_success_title') }}</p>
           <p class="text-center my-2">{{ $t('add_bill_success_note') }}</p>
           <div class="my-2 flex flex-col items-center">
-            <NuxtLink :to="pageRoutes.common.bill.detail(newBillID)">
+            <NuxtLink
+              id="toNewBillDetailButton"
+              name="toNewBillDetailButton"
+              :to="pageRoutes.common.bill.detail(newBillID)"
+            >
               <a-button type="primary" class="rounded-sm mb-2">{{ $t('new_bill_detail') }}</a-button>
             </NuxtLink>
-            <NuxtLink :to="pageRoutes.common.bill.list" class="w-full">
+            <NuxtLink
+              id="backAfterCreateButton"
+              name="backAfterCreateButton"
+              :to="pageRoutes.common.bill.list"
+              class="w-full"
+            >
               <a-button class="rounded-sm w-full">{{ $t('back') }}</a-button>
             </NuxtLink>
           </div>

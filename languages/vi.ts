@@ -49,6 +49,8 @@ export default {
   add_bill_success_note:
     'Bạn có thể truy cập vào trang thông tin hóa đơn mới tạo bằng nút "Chi tiết hóa đơn mới", hoặc quay lại trang danh sách hóa đơn bằng nút "Quay lại" ở dưới',
   attached_file: 'Tệp đính kèm',
+  april: 'Tháng 4',
+  august: 'Tháng 8',
 
   B: 'b',
   balance: 'Dư nợ',
@@ -147,6 +149,7 @@ export default {
   choose_all_customer: 'Chọn tất cả khách hàng',
   customer_first_name_require: 'Tên của khách hàng không được để trống!',
   customer_last_name_require: 'Họ của khách hàng không được để trống!',
+  calendar: 'Lịch',
 
   D: 'd',
   delete: 'Xóa',
@@ -165,6 +168,7 @@ export default {
   dashboard: 'Trang chủ',
   display_category: 'Chế độ hiển thị',
   drag_and_drop_file: 'Kéo và thả tệp tin vào đây hoặc nhấp để chọn tệp tin',
+  december: 'Tháng 12',
 
   E: 'e',
   edit: 'Chỉnh sửa',
@@ -292,6 +296,7 @@ export default {
   failed: 'Thất bại',
   first_name_max_length: 'Tên không được vượt quá {length} ký tự!',
   file_name_max_length: 'Tên tệp tin không được vượt quá {length} ký tự!',
+  february: 'Tháng 2',
 
   G: 'g',
   gender: 'Giới tính',
@@ -324,6 +329,9 @@ export default {
   invalid_file_type: 'Tệp tin không hợp lệ! Vui lòng chọn tệp tin có các định dạng {types}',
 
   J: 'j',
+  january: 'Tháng 1',
+  june: 'Tháng 6',
+  july: 'Tháng 7',
 
   K: 'k',
 
@@ -350,6 +358,8 @@ export default {
   mark_as_unimportant: 'Đánh dấu không quan trọng',
   mark_all_as_read: 'Đánh dấu tất cả đã đọc',
   middle_name_max_length: 'Tên đệm không được vượt quá {length} ký tự!',
+  march: 'Tháng 3',
+  may: 'Tháng 5',
 
   N: 'n',
   notice: 'Thông báo',
@@ -391,6 +401,7 @@ export default {
   notifications: 'Thông báo',
   note_max_length: 'Ghi chú không được vượt quá {length} ký tự!',
   notification_title_max_length: 'Tiêu đề thông báo không được vượt quá {length} ký tự!',
+  november: 'Tháng 11',
 
   O: 'o',
   operation: 'Thao tác',
@@ -404,6 +415,7 @@ export default {
   old_ssn_exists: 'Số CMND (cũ) đã tồn tại!',
   other_resident_list: 'Danh sách người cư trú khác',
   overdue: 'Quá hạn thanh toán',
+  october: 'Tháng 10',
 
   P: 'p',
   payer: 'Người thanh toán',
@@ -501,6 +513,7 @@ export default {
   rent_contract: 'Hợp đồng cho thuê',
   room_image: 'Hình ảnh phòng',
   room_description_max_length: 'Mô tả phòng {no} không được vượt quá {length} ký tự!',
+  revenue_overview: 'Thống kê doanh thu',
 
   S: 's',
   staff: 'Nhân viên',
@@ -566,6 +579,11 @@ export default {
   send_time: 'Thời gian gửi',
   select_upload_category: 'Chọn danh mục thêm dữ liệu',
   service_name_max_length: 'Tên dịch vụ {no} không được vượt quá {length} ký tự!',
+  statistic_room: 'Thống kê phòng',
+  statistic_contract: 'Thống kê hợp đồng',
+  statistic_bill: 'Thống kê hóa đơn tháng hiện tại',
+  select_year: 'Chọn năm',
+  september: 'Tháng 9',
 
   T: 't',
   total: 'Tổng',
@@ -580,6 +598,13 @@ export default {
   ticket_info_updated: 'Thông tin phiếu hỗ trợ đã được cập nhật thành công!',
   temporary_address_max_length: 'Địa chỉ tạm trú không được vượt quá {length} ký tự!',
   ticket_title_max_length: 'Tiêu đề phiếu hỗ trợ không được vượt quá {length} ký tự!',
+  total_building: 'Tổng số tòa nhà',
+  total_customer: 'Tổng số khách hàng',
+  total_contract: 'Tổng số hợp đồng',
+  total_bill: 'Tổng số hóa đơn',
+  total_expected_revenue: 'Tổng doanh thu dự kiến',
+  total_actual_revenue: 'Doanh thu thực tế',
+  total_remaining_revenue: 'Doanh thu còn thiếu',
 
   U: 'u',
   upload_file: 'Tải tệp tin',

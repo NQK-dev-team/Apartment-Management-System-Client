@@ -1,9 +1,18 @@
 <template>
-  <a-modal v-model:open="openAddModal.value" class="w-[700px]">
+  <a-modal id="addTicketModal" v-model:open="openAddModal.value" name="addTicketModal" class="w-[700px]">
     <template #title>{{ $t('support_ticket_detail') }}</template>
     <template #footer>
-      <a-button @click="openAddModal.value = false">{{ $t('close') }}</a-button>
-      <a-button type="primary" class="ms-2" @click="handleCreateClick">{{ $t('create_ticket') }}</a-button>
+      <a-button id="closeAddTicketModal" name="closeAddTicketModal" @click="openAddModal.value = false">{{
+        $t('close')
+      }}</a-button>
+      <a-button
+        id="createTicketButton"
+        name="createTicketButton"
+        type="primary"
+        class="ms-2"
+        @click="handleCreateClick"
+        >{{ $t('create_ticket') }}</a-button
+      >
     </template>
     <a-form v-if="newTicket" ref="ticketFormRef" :model="newTicket">
       <div class="flex w-full">

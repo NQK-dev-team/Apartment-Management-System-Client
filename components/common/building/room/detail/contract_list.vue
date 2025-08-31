@@ -7,10 +7,12 @@
       },
       getCheckboxProps: (record: any) => ({
         disabled: !(
-          (scheduleStore.getRooms().includes(record.room_id) || userRole?.toString() === roles.owner) &&
+          ((inChargeRooms || []).includes(record.room_id) || userRole?.toString() === roles.owner) &&
           (record.status === COMMON.CONTRACT_STATUS.CANCELLED ||
             record.status === COMMON.CONTRACT_STATUS.WAITING_FOR_SIGNATURE)
         ),
+        id: `selectContract${record.no}`,
+        name: `selectContract${record.no}`,
       }),
     }"
     :data-source="data"
@@ -29,6 +31,8 @@
         >
         <div v-else></div> -->
         <NuxtLink
+          :id="`contract_${record.no}_detail_link`"
+          :name="`contract_${record.no}_detail_link`"
           :to="pageRoutes.common.contract.detail(value)"
           target="_blank"
           class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -39,6 +43,8 @@
         <span
           >{{ value }}
           <NuxtLink
+            :id="`contract_${record.no}_customer_detail_link`"
+            :name="`contract_${record.no}_customer_detail_link`"
             :to="pageRoutes.common.customer.detail(record.customer_id)"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -49,7 +55,9 @@
         <span
           >{{ value }}
           <NuxtLink
-            v-if="userRole?.toString() === roles.owner && record.creator_role !== roles.owner"
+            v-if="userRole?.toString() === roles.owner"
+            :id="`contract_${record.no}_staff_detail_link`"
+            :name="`contract_${record.no}_staff_detail_link`"
             :to="pageRoutes.common.staff.detail(record.employee_id)"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -57,6 +65,8 @@
           /></NuxtLink>
           <NuxtLink
             v-if="userRole?.toString() === roles.manager && record.employee_id.toString() === userID?.toString()"
+            :id="`contract_${record.no}_staff_detail_link`"
+            :name="`contract_${record.no}_staff_detail_link`"
             :to="pageRoutes.common.profile.index"
             target="_blank"
             class="text-[#1890FF] hover:text-[#40a9ff] active:text-[#096dd9]"
@@ -84,7 +94,9 @@
     <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
       <div class="p-[8px]">
         <a-input
+          :id="`${column.dataIndex}SearchInput`"
           ref="searchInput"
+          :name="`${column.dataIndex}SearchInput`"
           :placeholder="t('enter_search')"
           :value="selectedKeys[0]"
           class="block width-[200px] mb-[8px]"
@@ -93,13 +105,17 @@
         />
         <div class="flex items-center">
           <a-button
+            :id="`${column.dataIndex}ClearButton`"
             size="small"
+            :name="`${column.dataIndex}ClearButton`"
             class="w-[90px] h-[25px] inline-flex items-center justify-center"
             @click="handleReset(clearFilters)"
             >{{ t('clear') }}</a-button
           >
           <a-button
+            :id="`${column.dataIndex}ApplyButton`"
             type="primary"
+            :name="`${column.dataIndex}ApplyButton`"
             size="small"
             class="inline-flex items-center justify-center w-[100px] h-[25px] ms-[8px]"
             @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -122,9 +138,16 @@
           column.dataIndex === 'employee_number' ||
           column.dataIndex === 'contract_id'
         "
+        :id="`${column.dataIndex}SearchIcon`"
+        :name="`${column.dataIndex}SearchIcon`"
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
-      <FilterFilled v-else :style="{ color: filtered ? '#108ee9' : undefined }" />
+      <FilterFilled
+        v-else
+        :id="`${column.dataIndex}FilterIcon`"
+        :name="`${column.dataIndex}FilterIcon`"
+        :style="{ color: filtered ? '#108ee9' : undefined }"
+      />
     </template>
   </a-table>
 </template>
@@ -134,11 +157,10 @@ import { pageRoutes } from '~/consts/page_routes';
 import type { Contract } from '~/types/contract';
 import { roles } from '~/consts/roles';
 import { COMMON } from '~/consts/common';
-import { getUserRole, managerScheduleStore } from '#build/imports';
+import { getUserRole } from '#build/imports';
 
 // ---------------------- Variables ----------------------
 const userID = useCookie('userID');
-const scheduleStore = managerScheduleStore();
 const userRole = useCookie('userRole');
 const { t } = useI18n();
 const props = defineProps({
@@ -317,6 +339,7 @@ const data = computed(() => {
     action: contract.ID,
     key: contract.ID,
     creator_role: getUserRole(contract.creator),
+    room_id: contract.roomID,
   }));
 });
 const deleteBucket = toRef(props, 'deleteBucket');
@@ -324,6 +347,7 @@ const state = reactive({
   searchText: '',
   searchedColumn: '',
 });
+const inChargeRooms = useCookie<number[]>('inChargeRooms');
 
 // ---------------------- Functions ----------------------
 function handleSearch(selectedKeys: any, confirm: any, dataIndex: any) {

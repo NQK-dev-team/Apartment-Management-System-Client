@@ -4,6 +4,7 @@ import { pageRoutes } from '~/consts/page_routes';
 import { apiRoutes } from '~/consts/api_routes';
 import { roles } from '~/consts/roles';
 import { COMMON } from '~/consts/common';
+import { getTicketByPassPermission } from '~/utils/jwt';
 // import { getRoleFromJWT, getUserIDFromJWT } from '~/utils/jwt';
 
 function getServerBaseUrl(): string {
@@ -95,6 +96,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     secure: config.isHttps,
     sameSite: 'lax',
   });
+  const ticketByPass = useCookie('ticketByPass', {
+    httpOnly: false,
+    secure: config.isHttps,
+    sameSite: 'lax',
+  });
   const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
@@ -107,6 +113,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           userImage.value = getUserImageFromJWT(newToken.jwtToken);
           userID.value = getUserIDFromJWT(newToken.jwtToken);
           userNo.value = getUserNoFromJWT(newToken.jwtToken);
+          ticketByPass.value = getTicketByPassPermission(newToken.jwtToken);
           isJWTValid = true;
           refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
         }
@@ -125,6 +132,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       userImage.value = getUserImageFromJWT(jwt.value);
       userID.value = getUserIDFromJWT(jwt.value);
       userNo.value = getUserNoFromJWT(jwt.value);
+      ticketByPass.value = getTicketByPassPermission(jwt.value);
       isJWTValid = true;
     }
   } else {
@@ -137,6 +145,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         userImage.value = getUserImageFromJWT(newToken.jwtToken);
         userID.value = getUserIDFromJWT(newToken.jwtToken);
         userNo.value = getUserNoFromJWT(newToken.jwtToken);
+        ticketByPass.value = getTicketByPassPermission(newToken.jwtToken);
         isJWTValid = true;
         refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
       }

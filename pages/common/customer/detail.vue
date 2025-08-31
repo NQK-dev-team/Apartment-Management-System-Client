@@ -413,6 +413,28 @@ async function deleteContracts() {
   }
 }
 
+async function refetchTicketList() {
+  try {
+    $event.emit('loading');
+    const ticketResponse = await api.common.customer.getTicket(customerID);
+
+    tickets.value = ticketResponse.data;
+  } catch (err: any) {
+    if (
+      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
+      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
+    ) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    }
+  } finally {
+    $event.emit('loading');
+  }
+}
+
 // ---------------------- Lifecycles ----------------------
 onMounted(async () => {
   await getCustomerDetail();
@@ -430,4 +452,7 @@ onMounted(async () => {
 watch(option, async () => {
   await navigateTo(pageRoutes.common.customer.detail(customerID) + '?tab=' + option.value);
 });
+
+// ---------------------- Events ----------------------
+$event.on('refetchCustomerTicketList', refetchTicketList);
 </script>

@@ -314,6 +314,7 @@ const state = reactive({
   searchText: '',
   searchedColumn: '',
 });
+const ticketByPass = useCookie('ticketByPass');
 const columns = computed<any[]>(() => {
   return [
     {
@@ -414,7 +415,9 @@ const data = computed(() =>
       ticketID: ticket.ID,
       allowAction:
         ticket.status === COMMON.SUPPORT_TICKET_STATUS.PENDING &&
-        ((!ticket.ownerID && userRole.value?.toString() === roles.owner && ticket.managerID) ||
+        ((!ticket.ownerID &&
+          userRole.value?.toString() === roles.owner &&
+          (Number(ticketByPass.value || 0) === 1 || ticket.managerID)) ||
           (!ticket.managerID && userRole.value?.toString() === roles.manager)),
     },
   }))

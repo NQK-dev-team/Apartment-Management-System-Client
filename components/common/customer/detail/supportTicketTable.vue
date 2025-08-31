@@ -290,6 +290,7 @@ const props = defineProps({
   },
 });
 const { t } = useI18n();
+const { $event } = useNuxtApp();
 const searchInput = ref();
 const columns = computed<any[]>(() => {
   const buildings = [...new Set(props.tickets.map((ticket) => ticket.buildingName || ''))];
@@ -320,6 +321,8 @@ const columns = computed<any[]>(() => {
           }, 100);
         }
       },
+      sorter: (a: any, b: any) => a.ticket_id - b.ticket_id,
+      sortDirections: ['ascend', 'descend'],
       class: 'text-nowrap',
     },
     {
@@ -404,6 +407,7 @@ const columns = computed<any[]>(() => {
   ];
 });
 const userRole = useCookie('userRole');
+const ticketByPass = useCookie('ticketByPass');
 const data = computed(() =>
   props.tickets.map((ticket, index) => ({
     no: index + 1,
@@ -416,8 +420,10 @@ const data = computed(() =>
       ticketID: ticket.ID,
       allowAction:
         ticket.status === COMMON.SUPPORT_TICKET_STATUS.PENDING &&
-        ((userRole?.toString() === roles.owner && !ticket.ownerID) ||
-          (userRole?.toString() === roles.manager && !ticket.managerID)),
+        ((!ticket.ownerID &&
+          userRole.value?.toString() === roles.owner &&
+          (Number(ticketByPass.value || 0) === 1 || ticket.managerID)) ||
+          (!ticket.managerID && userRole.value?.toString() === roles.manager)),
     },
     building: ticket.buildingName,
     floor: ticket.roomFloor,
@@ -444,6 +450,7 @@ async function approve(id: number) {
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
+    $event.emit('refetchCustomerTicketList');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
@@ -465,6 +472,7 @@ async function deny(id: number) {
       message: t('support_ticket_updated_title'),
       description: t('support_ticket_status_updated_content'),
     });
+    $event.emit('refetchCustomerTicketList');
   } catch (err: any) {
     if (
       err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||

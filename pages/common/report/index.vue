@@ -455,29 +455,29 @@ async function getStatisticData() {
         {
           label: t('total_expected_revenue'),
           data: [
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 1)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 2)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 3)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 4)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 5)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 6)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 7)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 8)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 9)?.totalExpectedRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 10)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 1)
               ?.totalExpectedRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 11)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 2)
               ?.totalExpectedRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 12)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 3)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 4)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 5)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 6)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 7)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 8)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 9)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 10)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 11)
+              ?.totalExpectedRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 12)
               ?.totalExpectedRevenue || 0,
           ],
           borderColor: '#888888',
@@ -488,30 +488,30 @@ async function getStatisticData() {
         {
           label: t('total_actual_revenue'),
           data: [
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 1)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 2)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 3)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 4)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 5)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 6)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 7)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 8)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 9)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 10)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 11)?.totalActualRevenue ||
-              0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 12)?.totalActualRevenue ||
-              0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 1)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 2)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 3)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 4)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 5)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 6)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 7)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 8)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 9)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 10)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 11)
+              ?.totalActualRevenue || 0,
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 12)
+              ?.totalActualRevenue || 0,
           ],
           borderColor: '#50c433',
           backgroundColor: '#50c433',
@@ -521,29 +521,29 @@ async function getStatisticData() {
         {
           label: t('total_remaining_revenue'),
           data: [
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 1)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 1)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 2)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 2)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 3)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 3)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 4)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 4)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 5)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 5)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 6)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 6)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 7)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 7)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 8)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 8)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 9)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 9)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 10)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 10)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 11)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 11)
               ?.totalRemainingRevenue || 0,
-            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() === 12)
+            billStats.value?.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 12)
               ?.totalRemainingRevenue || 0,
           ],
           borderColor: '#ff0000',
@@ -632,18 +632,30 @@ async function getBillStatisticData() {
         {
           label: t('total_expected_revenue'),
           data: [
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 1)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 2)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 3)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 4)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 5)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 6)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 7)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 8)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 9)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 10)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 11)?.totalExpectedRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 12)?.totalExpectedRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 1)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 2)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 3)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 4)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 5)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 6)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 7)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 8)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 9)?.totalExpectedRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 10)
+              ?.totalExpectedRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 11)
+              ?.totalExpectedRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 12)
+              ?.totalExpectedRevenue || 0,
           ],
           borderColor: '#888888',
           backgroundColor: '#888888',
@@ -653,18 +665,30 @@ async function getBillStatisticData() {
         {
           label: t('total_actual_revenue'),
           data: [
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 1)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 2)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 3)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 4)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 5)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 6)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 7)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 8)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 9)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 10)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 11)?.totalActualRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 12)?.totalActualRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 1)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 2)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 3)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 4)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 5)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 6)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 7)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 8)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 9)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 10)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 11)?.totalActualRevenue ||
+              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 12)?.totalActualRevenue ||
+              0,
           ],
           borderColor: '#50c433',
           backgroundColor: '#50c433',
@@ -674,21 +698,30 @@ async function getBillStatisticData() {
         {
           label: t('total_remaining_revenue'),
           data: [
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 1)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 2)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 3)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 4)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 5)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 6)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 7)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 8)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 9)?.totalRemainingRevenue || 0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 10)?.totalRemainingRevenue ||
-              0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 11)?.totalRemainingRevenue ||
-              0,
-            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() === 12)?.totalRemainingRevenue ||
-              0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 1)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 2)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 3)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 4)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 5)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 6)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 7)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 8)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 9)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 10)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 11)
+              ?.totalRemainingRevenue || 0,
+            responseData.revenueStatistic.find((item) => $dayjs(item.period).month() + 1 === 12)
+              ?.totalRemainingRevenue || 0,
           ],
           borderColor: '#ff0000',
           backgroundColor: '#ff0000',

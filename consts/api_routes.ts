@@ -27,9 +27,9 @@ const apiRoutes = {
     delete: (buildingID: number) => `/building/${buildingID}`,
     getSchedule: (buildingID: number) => `/building/${buildingID}/schedule`,
     updateBuilding: (buildingID: number) => `/building/${buildingID}/update`,
-    buildingStatistic: (buildingID: number | undefined = undefined) => {
+    buildingStatistic: (buildingID: number | undefined = undefined, year: number = dayjs().year()) => {
       if (buildingID) {
-        return `/building/${buildingID}/statistic`;
+        return `/building/${buildingID}/statistic?year=${year}`;
       }
       return `/building/statistic`;
     },

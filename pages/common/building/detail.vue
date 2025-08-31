@@ -200,6 +200,7 @@
           <template v-if="schedules.length > 0">
             <CommonBuildingDetailManagementSchedule v-show="option === 3" :schedules="schedules" />
           </template>
+          <CommonBuildingDetailStatistic v-if="buildingStats" v-show="option === 4" :statistic="buildingStats" />
         </ClientOnly>
         <div class="flex flex-col items-center my-5">
           <NuxtLink
@@ -231,7 +232,7 @@ import { COMMON } from '~/consts/common';
 import { pageRoutes } from '~/consts/page_routes';
 import { api } from '~/services/api';
 import type { NullTime } from '~/types/basic_model';
-import type { Service, Building, Room } from '~/types/building';
+import type { Service, Building, Room, BuildingStatistic } from '~/types/building';
 import type { ManagerSchedule } from '~/types/user';
 
 // ---------------------- Metadata ----------------------
@@ -276,9 +277,11 @@ const lightModeCookie = useCookie('lightMode');
 const lightMode = computed(
   () => lightModeCookie.value === null || lightModeCookie.value === undefined || parseInt(lightModeCookie.value) === 1
 );
-const option = ref<number>(1);
+const tab = ref(Number((route.query.tab as string) || 1));
+const option = ref<number>(tab.value);
 const previewVisible = ref(false);
 const previewImage = ref('');
+const buildingStats = ref<BuildingStatistic | null>(null);
 
 // ---------------------- Functions ----------------------
 async function getBuildingData(emitLoading = true) {
@@ -288,8 +291,11 @@ async function getBuildingData(emitLoading = true) {
     }
     const response = await api.common.building.getDetail(buildingID);
     const scheduleResponse = await api.common.building.getSchedule(buildingID);
+    const statisticResponse = await api.common.building.buildingStatistic(buildingID);
+
     const data = response.data;
     const scheduleData = scheduleResponse.data;
+    buildingStats.value = statisticResponse.data;
 
     buildingData.value = data;
     rooms.value = data.rooms.sort((a, b) => a.no - b.no);
@@ -329,6 +335,11 @@ onMounted(async () => {
       fatal: true,
     });
   }
+});
+
+// ---------------------- Watchers ----------------------
+watch(option, async () => {
+  await navigateTo(pageRoutes.common.building.detail(buildingID) + '?tab=' + option.value);
 });
 </script>
 

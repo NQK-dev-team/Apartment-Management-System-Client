@@ -165,6 +165,15 @@ function convertMonthToText(month: number): string {
   }
 }
 
+function generateArrayFromRange(n: number, m: number) {
+  // Calculate the length of the array
+  const length = m - n + 1;
+
+  // Use Array.from to create an array of the correct length
+  // The map function adds the starting value 'n' to each index 'i'
+  return Array.from({ length: length }, (_, i) => n + i);
+}
+
 export {
   getContractType,
   getContractStatus,
@@ -176,4 +185,5 @@ export {
   getFileSizeString,
   getTimeDifferenceFromNow,
   convertMonthToText,
+  generateArrayFromRange,
 };

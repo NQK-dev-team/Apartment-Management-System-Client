@@ -107,6 +107,7 @@ const COMMON = {
     BUILDING_ADDRESS: 255,
     SERVICE_NAME: 255,
   },
+  SYSTEM_START_YEAR: 2020,
 };
 
 export { COMMON };

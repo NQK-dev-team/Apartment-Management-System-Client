@@ -181,9 +181,12 @@ const common = {
         body: data,
       });
     },
-    buildingStatistic: async (buildingID: number | undefined = undefined): Promise<APIResponse<BuildingStatistic>> => {
+    buildingStatistic: async (
+      buildingID: number | undefined = undefined,
+      year: number = dayjs().year()
+    ): Promise<APIResponse<BuildingStatistic>> => {
       const $api = getApiInstance();
-      return $api(apiRoutes.building.buildingStatistic(buildingID), {
+      return $api(apiRoutes.building.buildingStatistic(buildingID,year), {
         method: 'GET',
       });
     },

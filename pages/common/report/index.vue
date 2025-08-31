@@ -154,7 +154,7 @@
                 <label for="selectRevenueYear">{{ $t('select_year') }}:&nbsp;&nbsp;</label>
                 <a-select id="selectRevenueYear" v-model:value="yearSelect">
                   <a-select-option
-                    v-for="year in generateArrayFromRange(2020, $dayjs().year())"
+                    v-for="year in generateArrayFromRange(COMMON.SYSTEM_START_YEAR, $dayjs().year())"
                     :id="`revenueYear_${year}`"
                     :key="year"
                     :name="`revenueYear_${year}`"
@@ -165,7 +165,7 @@
                 </a-select>
               </div>
             </div>
-            <div class="max-w-[1200px]">
+            <div class="flex-1">
               <Line
                 v-if="revenueLineChartData"
                 id="revenueLineChart"
@@ -781,15 +781,6 @@ async function getBillStatisticData() {
   } finally {
     $event.emit('loading');
   }
-}
-
-function generateArrayFromRange(n: number, m: number) {
-  // Calculate the length of the array
-  const length = m - n + 1;
-
-  // Use Array.from to create an array of the correct length
-  // The map function adds the starting value 'n' to each index 'i'
-  return Array.from({ length: length }, (_, i) => n + i);
 }
 
 // ---------------------- Lifecycles ----------------------

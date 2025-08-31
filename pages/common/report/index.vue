@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <div class="w-full h-full flex flex-col px-5">
-      <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']">
+      <div class="px-4 mt-3 py-3" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']">
         <a-breadcrumb>
           <a-breadcrumb-item>{{ $t('dashboard') }}</a-breadcrumb-item>
         </a-breadcrumb>
@@ -11,7 +11,7 @@
         <div class="mt-5 flex items-center min-w-[1600px]">
           <div
             class="flex-1 h-52 rounded-lg flex items-center px-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="h-full flex items-center justify-center">
               <div class="p-5 rounded-[50%]" :class="[lightMode ? 'bg-gray-100' : 'bg-gray-500']">
@@ -25,7 +25,7 @@
           </div>
           <div
             class="flex-1 h-52 rounded-lg flex items-center px-5 ms-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="h-full flex items-center justify-center">
               <div class="p-5 rounded-[50%]" :class="[lightMode ? 'bg-gray-100' : 'bg-gray-500']">
@@ -39,7 +39,7 @@
           </div>
           <div
             class="flex-1 h-52 rounded-lg flex items-center px-5 ms-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="h-full flex items-center justify-center">
               <div class="p-5 rounded-[50%]" :class="[lightMode ? 'bg-gray-100' : 'bg-gray-500']">
@@ -53,7 +53,7 @@
           </div>
           <div
             class="flex-1 h-52 rounded-lg flex items-center px-5 ms-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="h-full flex items-center justify-center">
               <div class="p-5 rounded-[50%]" :class="[lightMode ? 'bg-gray-100' : 'bg-gray-500']">
@@ -69,7 +69,7 @@
         <div class="mt-10 flex items-center min-w-[1600px]">
           <div
             class="flex-1 px-5 rounded-lg h-[650px] py-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="text-lg mb-[56px]">
               {{ $t('statistic_room') }}
@@ -85,7 +85,7 @@
           </div>
           <div
             class="flex-1 ms-5 px-5 rounded-lg h-[650px] py-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="text-lg">
               {{ $t('statistic_contract') }}
@@ -121,7 +121,7 @@
           </div>
           <div
             class="flex-1 ms-5 px-5 rounded-lg h-[650px] py-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="text-lg mb-[56px]">
               {{ $t('statistic_bill') }}
@@ -140,7 +140,7 @@
         <div class="mt-10 flex min-w-[1600px]">
           <div
             class="flex-1 h-full rounded-lg py-5 px-5"
-            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#1f1f1f] text-white']"
+            :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']"
           >
             <div class="flex items-center justify-between mb-3">
               <div class="text-lg">

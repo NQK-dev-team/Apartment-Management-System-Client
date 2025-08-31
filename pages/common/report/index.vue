@@ -74,13 +74,15 @@
             <div class="text-lg mb-[56px]">
               {{ $t('statistic_room') }}
             </div>
-            <div class="w-[500px]">
-              <Doughnut
-                v-if="roomDoughnutChartData"
-                id="roomDoughnutChart"
-                :data="roomDoughnutChartData"
-                :options="roomDoughnutChartOptions"
-              />
+            <div class="flex items-center justify-center">
+              <div class="w-[450px]">
+                <Doughnut
+                  v-if="roomDoughnutChartData"
+                  id="roomDoughnutChart"
+                  :data="roomDoughnutChartData"
+                  :options="roomDoughnutChartOptions"
+                />
+              </div>
             </div>
           </div>
           <div
@@ -100,8 +102,8 @@
                 }}</a-radio-button>
               </a-radio-group>
             </div>
-            <div v-if="rentContractDoughnutChartData">
-              <div v-show="contractChartType === 1" class="w-[500px]">
+            <div v-if="rentContractDoughnutChartData" class="flex items-center justify-center">
+              <div v-show="contractChartType === 1" class="w-[450px]">
                 <Doughnut
                   id="contractRentDoughnutChart"
                   :options="rentContractDoughnutChartOptions"
@@ -110,7 +112,7 @@
               </div>
             </div>
             <div v-if="saleContractDoughnutChartData">
-              <div v-show="contractChartType === 2" class="w-[500px]">
+              <div v-show="contractChartType === 2" class="w-[450px]">
                 <Doughnut
                   id="contractSaleDoughnutChart"
                   :options="saleContractDoughnutChartOptions"
@@ -126,14 +128,16 @@
             <div class="text-lg mb-[56px]">
               {{ $t('statistic_bill') }}
             </div>
-            <div class="w-[500px]">
-              <Doughnut
-                v-if="billDoughnutChartData"
-                id="billDoughnutChart"
-                class="w-full h-full"
-                :data="billDoughnutChartData"
-                :options="billDoughnutChartOptions"
-              />
+            <div class="flex items-center justify-center">
+              <div class="w-[450px]">
+                <Doughnut
+                  v-if="billDoughnutChartData"
+                  id="billDoughnutChart"
+                  class="w-full h-full"
+                  :data="billDoughnutChartData"
+                  :options="billDoughnutChartOptions"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -161,12 +165,14 @@
                 </a-select>
               </div>
             </div>
-            <Line
-              v-if="revenueLineChartData"
-              id="revenueLineChart"
-              :data="revenueLineChartData"
-              :options="revenueLineChartOptions"
-            />
+            <div class="max-w-[1200px]">
+              <Line
+                v-if="revenueLineChartData"
+                id="revenueLineChart"
+                :data="revenueLineChartData"
+                :options="revenueLineChartOptions"
+              />
+            </div>
           </div>
           <div class="w-[400px] ms-5">
             <div class="px-5 py-5 rounded-md" :class="[lightMode ? 'bg-[#ffffff]' : 'bg-[#141414] text-white']">

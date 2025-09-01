@@ -1,3 +1,6 @@
+# Install Node.js 22.11.0:
+https://nodejs.org/en/download or use `nvm`
+
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
@@ -77,18 +80,18 @@ bun run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
-## Requirement:
-
-# install node.js 22.x.x: https://nodejs.org/en/download
-
 <!-- Testing -->
-# Unit test config: vitest.config.ts
+# Testing:
+## Unit test:
+Config file: `vitest.config.ts`
 ```bash
-# How to test UT
+# UT run command
 npx vitest
 ```
 
-# E2E test using playwright --> Follow this video: https://youtu.be/zksrIRwaVlc?si=hd22AzSH53QiVnkS , REMEMBER TO NOT OVERWRITE configuration
+## E2E test using playwright
+Follow this video: https://youtu.be/zksrIRwaVlc?si=hd22AzSH53QiVnkS , `REMEMBER TO NOT OVERWRITE THE CONFIG`
 ```bash
+# E2E test run command
 npx playwright codegen
 ```

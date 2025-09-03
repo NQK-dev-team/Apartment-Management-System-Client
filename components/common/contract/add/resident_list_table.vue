@@ -21,7 +21,7 @@
               {{ $t('no') }}
             </div>
           </th>
-          <th class="text-sm font-normal text-center align-middle py-[16px] w-[400px]">
+          <th class="text-sm font-normal text-center align-middle py-[16px] min-w-[250px] max-w-[250px]">
             <div
               class="border-r-[1px] h-[20px] flex items-center justify-center"
               :class="[lightMode ? 'border-[#8080801a]' : 'border-[#80808040]']"

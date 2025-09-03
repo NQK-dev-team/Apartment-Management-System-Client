@@ -34,10 +34,10 @@
             :options="[
               ...customers
                 .filter((customer) => {
-                  if (props.newContract.householderID) {
-                    return customer.ID !== props.newContract.householderID;
+                  if (props.newContract.householderID && customer.ID === props.newContract.householderID) {
+                    return false;
                   }
-                  return true;
+                  return !props.newContract.residents.find((resident) => resident.userAccountID.Int64 === customer.ID);
                 })
                 .map((customer, idx) => ({
                   value: customer.ID,

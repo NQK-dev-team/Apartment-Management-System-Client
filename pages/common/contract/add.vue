@@ -368,12 +368,12 @@
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item :name="['status']">
-              <label for="status" class="flex mb-1">
-                <span>{{ $t('status') }}</span>
-                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-              </label>
-              <ClientOnly>
+            <ClientOnly>
+              <a-form-item :name="['status']">
+                <label for="status" class="flex mb-1">
+                  <span>{{ $t('status') }}</span>
+                  <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                </label>
                 <a-select
                   id="status"
                   disabled
@@ -398,8 +398,8 @@
                     $t('not_in_effect')
                   }}</a-select-option>
                 </a-select>
-              </ClientOnly>
-            </a-form-item>
+              </a-form-item>
+            </ClientOnly>
           </a-col>
         </a-row>
         <!-- <a-row :gutter="16">

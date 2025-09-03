@@ -144,11 +144,7 @@ async function checkToken() {
   } catch (err: any) {
     verifySuccess.value = false;
 
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),

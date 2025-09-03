@@ -169,6 +169,8 @@ export default {
   display_category: 'Display category',
   drag_and_drop_file: 'Drag and drop file here or click to select file',
   december: 'December',
+  data_invalid: 'Data sent to the server is invalid!',
+  data_not_found: 'Requested data not found!',
 
   E: 'e',
   edit: 'Edit',
@@ -401,6 +403,7 @@ export default {
   note_max_length: 'Note must not exceed {length} characters!',
   notification_title_max_length: 'Notification title must not exceed {length} characters!',
   november: 'November',
+  no_permission: 'You do not have permission to perform this action.',
 
   O: 'o',
   operation: 'Operation',
@@ -513,6 +516,7 @@ export default {
   room_image: 'Room image',
   room_description_max_length: 'Room {no} description must not exceed {length} characters!',
   revenue_overview: 'Revenue overview',
+  request_error: 'An error occurred while sending the request to the server.',
 
   S: 's',
   staff: 'Staff',

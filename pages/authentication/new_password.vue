@@ -228,11 +228,7 @@ async function checkToken() {
     tokenInvalid.value = false;
     userNotFound.value = false;
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
       notification.error({
         message: t('system_error_title'),
         description: t('system_error_description'),
@@ -268,14 +264,18 @@ async function setNewPassword() {
       showResetPasswordModal.value.click();
     }
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
       });
     } else if (err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')) {
       tokenInvalid.value = true;

@@ -201,14 +201,18 @@ async function login() {
     // roleCookie.value = undefined;
     await navigateTo(targetRoute);
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
       });
     } else if (err.response._data.message === getMessageCode('EMAIL_NOT_VERIFIED')) {
       if (showEmailVerifyModalButton.value) {

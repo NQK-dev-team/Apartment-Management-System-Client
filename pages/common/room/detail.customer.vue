@@ -216,11 +216,7 @@ async function getroomData(emitLoading = true) {
     roomData.value = response.data;
   } catch (err: any) {
     roomData.value = undefined;
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
       throw createError({
         status: 500,
         message: 'Internal server error',
@@ -243,14 +239,41 @@ async function getRoomSupportTicket(emitLoading = true) {
     const response = await api.common.room.getTicket(roomID);
     tickets.value = response.data;
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   } finally {

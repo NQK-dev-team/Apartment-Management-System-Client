@@ -143,7 +143,9 @@ test('Delete-Bill-1', async ({ page }) => {
   await page.getByTitle('2025-01').locator('div').click();
   await page.getByTitle('2025-09').locator('div').click();
   await page.waitForTimeout(1000);
-  await page.getByRole('row', { name: '1 Building name 1 2 2003 62' }).getByLabel('').check();
+  // await page.getByRole('row', { name: '1 Building name 1 2 2003 62' }).getByLabel('').check();
+  // Select the first row and check its checkbox
+  await page.getByRole('row').nth(1).getByLabel('').check();
   await page.getByRole('button', { name: 'Delete bill' }).click();
   await page.getByRole('button', { name: 'Delete', exact: true }).click();
   await page.getByRole('textbox', { name: 'Password Asterisk' }).click();
@@ -163,10 +165,14 @@ test('Delete-Bill-2', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Start month' }).click();
   await page.getByTitle('2025-01').locator('div').click();
   await page.getByTitle('2025-09').locator('div').click();
-  await page.waitForTimeout(1000);
-  await page.getByRole('row', { name: '1 Building name 1 2 2001 53' }).getByLabel('').check();
-  await page.getByRole('row', { name: '2 Building name 1 2 2003 64' }).getByLabel('').check();
-  await page.getByRole('row', { name: '3 Building name 1 2 2005 71' }).getByLabel('').check();
+  await page.getByRole('cell', { name: 'Room number search' }).getByRole('button').click();
+  await page.getByRole('cell', { name: 'Floor filter' }).getByRole('button').click();
+  await page.getByRole('menuitem', { name: '1', exact: true }).getByLabel('').check();
+  await page.getByRole('button', { name: 'OK' }).click();
+  await page.getByRole('row').nth(2).getByLabel('').check(); // second data row
+  await page.getByRole('row').nth(3).getByLabel('').check(); // third data row
+  await page.getByRole('row').nth(1).getByLabel('').check(); // first data row
+  // await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Delete bill' }).click();
   await page.getByRole('button', { name: 'Delete', exact: true }).click();
   await page.getByRole('textbox', { name: 'Password Asterisk' }).click();

@@ -32,12 +32,24 @@
             :class="[resident.userAccountID.Int64 ? '' : 'text-[#9ca3af]']"
             show-search
             :options="[
-              ...customers.map((customer, idx) => ({
-                value: customer.ID,
-                label: `${customer.no} - ${getUserName(customer)}`,
-                id: `resident_${props.index + 1}_${idx + 1}`,
-                name: `resident_${props.index + 1}_${idx + 1}`,
-              })),
+              ...customers
+                .filter((customer) => {
+                  if (
+                    props.editContract.value.householderID &&
+                    customer.ID === props.editContract.value.householderID
+                  ) {
+                    return false;
+                  }
+                  return !props.editContract.value.residents.find(
+                    (resident) => resident.userAccountID.Int64 === customer.ID
+                  );
+                })
+                .map((customer, idx) => ({
+                  value: customer.ID,
+                  label: `${customer.no} - ${getUserName(customer)}`,
+                  id: `resident_${props.index + 1}_${idx + 1}`,
+                  name: `resident_${props.index + 1}_${idx + 1}`,
+                })),
             ]"
             :allow-clear="true"
             :placeholder="$t('search_by_customer_no')"
@@ -450,7 +462,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { RoomResident } from '~/types/contract';
+import type { Contract, RoomResident } from '~/types/contract';
 import type { User } from '~/types/user';
 import { validationRules } from '~/consts/validation_rules';
 import type { RuleObject } from 'ant-design-vue/es/form';
@@ -477,6 +489,10 @@ const props = defineProps({
   },
   customers: {
     type: Array as PropType<User[]>,
+    required: true,
+  },
+  editContract: {
+    type: Object as PropType<{ value: Contract }>,
     required: true,
   },
 });

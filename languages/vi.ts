@@ -169,6 +169,8 @@ export default {
   display_category: 'Chế độ hiển thị',
   drag_and_drop_file: 'Kéo và thả tệp tin vào đây hoặc nhấp để chọn tệp tin',
   december: 'Tháng 12',
+  data_invalid: 'Dữ liệu gửi đến máy chủ không hợp lệ!',
+  data_not_found: 'Không tìm thấy dữ liệu yêu cầu!',
 
   E: 'e',
   edit: 'Chỉnh sửa',
@@ -402,6 +404,7 @@ export default {
   note_max_length: 'Ghi chú không được vượt quá {length} ký tự!',
   notification_title_max_length: 'Tiêu đề thông báo không được vượt quá {length} ký tự!',
   november: 'Tháng 11',
+  no_permission: 'Bạn không có quyền thực hiện tác vụ này',
 
   O: 'o',
   operation: 'Thao tác',
@@ -514,6 +517,7 @@ export default {
   room_image: 'Hình ảnh phòng',
   room_description_max_length: 'Mô tả phòng {no} không được vượt quá {length} ký tự!',
   revenue_overview: 'Thống kê doanh thu',
+  request_error: 'Xuất hiện lỗi khi gửi yêu cầu đến máy chủ',
 
   S: 's',
   staff: 'Nhân viên',

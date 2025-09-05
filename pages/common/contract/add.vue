@@ -368,12 +368,12 @@
             </a-form-item>
           </a-col>
           <a-col class="mt-3" :xl="6" :md="12" :sm="24" :span="24">
-            <a-form-item :name="['status']">
-              <label for="status" class="flex mb-1">
-                <span>{{ $t('status') }}</span>
-                <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
-              </label>
-              <ClientOnly>
+            <ClientOnly>
+              <a-form-item :name="['status']">
+                <label for="status" class="flex mb-1">
+                  <span>{{ $t('status') }}</span>
+                  <img :src="svgPaths.asterisk" alt="Asterisk" class="ms-1 select-none" />
+                </label>
                 <a-select
                   id="status"
                   disabled
@@ -398,8 +398,8 @@
                     $t('not_in_effect')
                   }}</a-select-option>
                 </a-select>
-              </ClientOnly>
-            </a-form-item>
+              </a-form-item>
+            </ClientOnly>
           </a-col>
         </a-row>
         <!-- <a-row :gutter="16">
@@ -844,14 +844,41 @@ async function getCustomerList() {
       offsetCustomer.value += limitCustomer.value;
     }
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   }
@@ -862,14 +889,41 @@ async function getBuildingList() {
     const response = await api.common.building.getList();
     buildingList.value = response.data;
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   }
@@ -937,14 +991,41 @@ async function addContract() {
     newContractID.value = response.data;
     addSuccess.value = true;
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   } finally {

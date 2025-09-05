@@ -110,11 +110,7 @@ async function getUserInfo() {
     userInfo.value.newBackSSN = []; // Reset new back SSN file
     oldUserInfo.value = JSON.parse(JSON.stringify(userInfo.value)); // Deep copy to oldUserInfo
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
-      err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
-      err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
-    ) {
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
       throw createError({
         status: 500,
         message: 'Internal server error',

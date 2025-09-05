@@ -414,14 +414,41 @@ async function getInboxList(emitLoading = true) {
       }, 100);
     }
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   } finally {
@@ -440,14 +467,41 @@ async function readNotification(notificationId: number) {
     }
     notificationDetail.value = result || undefined;
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   }
@@ -461,14 +515,41 @@ async function unreadNotification(notificationId: number) {
       await api.common.notice.unreadNotification(notificationId);
     }
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   }
@@ -482,14 +563,41 @@ async function markNotification(notificationId: number) {
       await api.common.notice.markNotification(notificationId);
     }
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   }
@@ -503,14 +611,41 @@ async function unmarkNotification(notificationId: number) {
       await api.common.notice.unmarkNotification(notificationId);
     }
   } catch (err: any) {
-    if (
-      err.status === COMMON.HTTP_STATUS.INTERNAL_SERVER_ERROR ||
+    if (err.response._data.message === getMessageCode('SYSTEM_ERROR')) {
+      notification.error({
+        message: t('system_error_title'),
+        description: t('system_error_description'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('PERMISSION_DENIED') ||
+      err.response._data.message === getMessageCode('INVALID_CREDENTIALS') ||
+      err.response._data.message === getMessageCode('TOKEN_REFRESH_FAILED') ||
+      err.response._data.message === getMessageCode('TOKEN_VERIFY_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('no_permission'),
+      });
+    } else if (
       err.response._data.message === getMessageCode('INVALID_PARAMETER') ||
       err.response._data.message === getMessageCode('PARAMETER_VALIDATION')
     ) {
       notification.error({
-        message: t('system_error_title'),
-        description: t('system_error_description'),
+        message: t('failed'),
+        description: t('request_error'),
+      });
+    } else if (
+      err.response._data.message === getMessageCode('UPDATE_FAILED') ||
+      err.response._data.message === getMessageCode('CREATE_FAILED')
+    ) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_invalid'),
+      });
+    } else if (err.response._data.message === getMessageCode('DATA_NOT_FOUND')) {
+      notification.error({
+        message: t('failed'),
+        description: t('data_not_found'),
       });
     }
   }

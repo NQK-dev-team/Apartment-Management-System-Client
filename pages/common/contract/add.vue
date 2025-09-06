@@ -1027,6 +1027,16 @@ async function addContract() {
         message: t('failed'),
         description: t('data_not_found'),
       });
+    } else if (err.response._data.message === getMessageCode('ROOM_UNAVAILABLE')) {
+      notification.error({
+        message: t('failed'),
+        description: t('room_unavailable'),
+      });
+    } else if (err.response._data.message === getMessageCode('CONTRACT_OVERLAP')) {
+      notification.error({
+        message: t('failed'),
+        description: t('contract_overlap'),
+      });
     }
   } finally {
     $event.emit('loading');

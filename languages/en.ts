@@ -150,6 +150,7 @@ export default {
   customer_first_name_require: 'Please enter customer first name!',
   customer_last_name_require: 'Please enter customer last name!',
   calendar: 'Calendar',
+  contract_overlap: 'The contract time period overlaps with another contract!',
 
   D: 'd',
   delete: 'Delete',
@@ -517,6 +518,7 @@ export default {
   room_description_max_length: 'Room {no} description must not exceed {length} characters!',
   revenue_overview: 'Revenue overview',
   request_error: 'An error occurred while sending the request to the server.',
+  room_unavailable: 'The selected room is currently unavailable, please choose another room!',
 
   S: 's',
   staff: 'Staff',

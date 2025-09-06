@@ -150,6 +150,7 @@ export default {
   customer_first_name_require: 'Tên của khách hàng không được để trống!',
   customer_last_name_require: 'Họ của khách hàng không được để trống!',
   calendar: 'Lịch',
+  contract_overlap: 'Khoảng thời gian của hợp đồng bị trùng với hợp đồng khác!',
 
   D: 'd',
   delete: 'Xóa',
@@ -518,6 +519,7 @@ export default {
   room_description_max_length: 'Mô tả phòng {no} không được vượt quá {length} ký tự!',
   revenue_overview: 'Thống kê doanh thu',
   request_error: 'Xuất hiện lỗi khi gửi yêu cầu đến máy chủ',
+  room_unavailable: 'Phòng đã chọn hiện tại không khả dụng, vui lòng chọn phòng khác!',
 
   S: 's',
   staff: 'Nhân viên',

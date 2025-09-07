@@ -10,8 +10,7 @@
         getCheckboxProps: (record: any) => ({
           disabled:
             record.status_numeric === COMMON.BILL_STATUS.PAID ||
-            record.status_numeric === COMMON.BILL_STATUS.PROCESSING ||
-            record.status_numeric === COMMON.BILL_STATUS.CANCELLED,
+            record.status_numeric === COMMON.BILL_STATUS.PROCESSING,
           id: `check_bill_${record.no}`,
           name: `check_bill_${record.no}`,
         }),

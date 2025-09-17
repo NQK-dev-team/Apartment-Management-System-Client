@@ -50,9 +50,11 @@
             :placeholder="$t('search_by_customer_no')"
             :filter-option="filterOption"
             @change="
-              resident.userAccountID.Int64 =
-                customers.find((customer) => customerNo && customer.no.includes(customerNo))?.ID || 0;
-              resident.userAccountID.Valid = !!resident.userAccountID.Int64;
+              () => {
+                const findResult = customers.find((customer) => customerNo && customer.no.includes(customerNo));
+                resident.userAccountID.Int64 = findResult?.ID || 0;
+                resident.userAccountID.Valid = !!resident.userAccountID.Int64;
+              }
             "
           ></a-select>
         </a-form-item>

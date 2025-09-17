@@ -1,12 +1,17 @@
-import { jwtStore } from '~/stores/token';
 import type { RuntimeConfig } from 'nuxt/schema';
 import type { APITokenResponse } from '~/types/api_response';
+import { pageRoutes } from '~/consts/page_routes';
+import { apiRoutes } from '~/consts/api_routes';
+import { roles } from '~/consts/roles';
+import { COMMON } from '~/consts/common';
+import { getTicketByPassPermission } from '~/utils/jwt';
+// import { getRoleFromJWT, getUserIDFromJWT } from '~/utils/jwt';
 
 function getServerBaseUrl(): string {
   const config: RuntimeConfig = useRuntimeConfig();
-  let apiUrl = (config.public.apiBaseURL as string) || '';
-  const apiPrefix = (config.public.apiPrefix as string) || '';
-  const apiVersion = (config.public.apiVersion as string) || '';
+  let apiUrl = (config.apiBaseURL as string) || '';
+  const apiPrefix = (config.apiPrefix as string) || '';
+  const apiVersion = (config.apiVersion as string) || '';
   apiUrl = apiUrl + (apiPrefix ? '/' + apiPrefix : '') + (apiVersion ? '/' + apiVersion : '');
 
   return apiUrl;
@@ -14,7 +19,7 @@ function getServerBaseUrl(): string {
 
 async function verifyToken(token: string): Promise<boolean> {
   // Verify the token
-  const response = await fetch(getServerBaseUrl() + '/authentication/verify-token', {
+  const response = await fetch(getServerBaseUrl() + apiRoutes.authentication.verifyToken, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json, multipart/form-data, image/*',
@@ -28,9 +33,9 @@ async function verifyToken(token: string): Promise<boolean> {
   return body.data;
 }
 
-async function getNewToken(refreshToken: string): Promise<string> {
+async function getNewToken(refreshToken: string): Promise<APITokenResponse<null> | null> {
   // Get a new token
-  const response = await fetch(getServerBaseUrl() + '/authentication/refresh-token', {
+  const response = await fetch(getServerBaseUrl() + apiRoutes.authentication.refreshToken, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json, multipart/form-data, image/*',
@@ -41,15 +46,11 @@ async function getNewToken(refreshToken: string): Promise<string> {
 
   const body: APITokenResponse<null> = await response.json();
 
-  return body.jwtToken;
-}
+  if (body.status && body.status !== COMMON.HTTP_STATUS.OK) {
+    return null;
+  }
 
-function storeToken(token: string) {
-  // Store the token
-  const jwtPayload = token.split('.')[1];
-  const json = JSON.parse(Buffer.from(jwtPayload, 'base64url').toString('utf8'));
-  const tokenStore = jwtStore();
-  tokenStore.setStorage(json.fullName, json.imagePath, json.isOwner, json.isManager, json.isCustomer, json.userID);
+  return body;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -57,46 +58,121 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // skip middleware on client side entirely
   if (import.meta.client) return;
 
+  let isJWTValid = false;
   const config: RuntimeConfig = useRuntimeConfig();
   const jwt = useCookie('jwt', {
     httpOnly: true,
-    secure: config.public.isHttps,
-    sameSite: 'strict',
+    secure: config.isHttps,
+    sameSite: 'lax',
   });
   const refreshToken = useCookie('refreshToken', {
     httpOnly: true,
-    secure: config.public.isHttps,
+    secure: config.isHttps,
     maxAge: 60 * 60 * 24 * 7,
     sameSite: 'strict',
   });
-  const nonAuthRoutes = ['/login', '/forgot-password', '/reset-password'];
+  const userRole = useCookie('userRole', {
+    httpOnly: false,
+    secure: config.isHttps,
+    sameSite: 'lax',
+  });
+  const userName = useCookie('userName', {
+    httpOnly: false,
+    secure: config.isHttps,
+    sameSite: 'lax',
+  });
+  const userImage = useCookie('userImage', {
+    httpOnly: false,
+    secure: config.isHttps,
+    sameSite: 'lax',
+  });
+  const userID = useCookie('userID', {
+    httpOnly: false,
+    secure: config.isHttps,
+    sameSite: 'lax',
+  });
+  const userNo = useCookie('userNo', {
+    httpOnly: false,
+    secure: config.isHttps,
+    sameSite: 'lax',
+  });
+  const ticketByPass = useCookie('ticketByPass', {
+    httpOnly: false,
+    secure: config.isHttps,
+    sameSite: 'lax',
+  });
+  const nonAuthRoutes = Object.values(pageRoutes.authentication);
   if (jwt && jwt.value) {
     if (!(await verifyToken(jwt.value))) {
       if (refreshToken && refreshToken.value) {
-        const newToken = await getNewToken(refreshToken.value);
-        if (newToken) {
-          jwt.value = newToken;
-          storeToken(newToken);
-        } else if (!nonAuthRoutes.includes(to.path)) {
-          return navigateTo('/login');
+        const newToken: APITokenResponse<null> | null = await getNewToken(refreshToken.value);
+        if (newToken && newToken.jwtToken) {
+          jwt.value = newToken.jwtToken;
+          userRole.value = getRoleFromJWT(newToken.jwtToken);
+          userName.value = getUserNameFromJWT(newToken.jwtToken);
+          userImage.value = getUserImageFromJWT(newToken.jwtToken);
+          userID.value = getUserIDFromJWT(newToken.jwtToken);
+          userNo.value = getUserNoFromJWT(newToken.jwtToken);
+          ticketByPass.value = getTicketByPassPermission(newToken.jwtToken);
+          isJWTValid = true;
+          refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
         }
-      } else if (!nonAuthRoutes.includes(to.path)) {
-        return navigateTo('/login');
+        // else if (!nonAuthRoutes.includes(to.path))
+        // {
+        //   return navigateTo(pageRoutes.authentication.login);
+        // }
       }
+      // else if (!nonAuthRoutes.includes(to.path))
+      // {
+      //   return navigateTo(pageRoutes.authentication.login);
+      // }
     } else {
-      storeToken(jwt.value);
+      userRole.value = getRoleFromJWT(jwt.value);
+      userName.value = getUserNameFromJWT(jwt.value);
+      userImage.value = getUserImageFromJWT(jwt.value);
+      userID.value = getUserIDFromJWT(jwt.value);
+      userNo.value = getUserNoFromJWT(jwt.value);
+      ticketByPass.value = getTicketByPassPermission(jwt.value);
+      isJWTValid = true;
     }
   } else {
     if (refreshToken && refreshToken.value) {
-      const newToken = await getNewToken(refreshToken.value);
-      if (newToken) {
-        jwt.value = newToken;
-        storeToken(newToken);
-      } else if (!nonAuthRoutes.includes(to.path)) {
-        return navigateTo('/login');
+      const newToken: APITokenResponse<null> | null = await getNewToken(refreshToken.value);
+      if (newToken && newToken.jwtToken) {
+        jwt.value = newToken.jwtToken;
+        userRole.value = getRoleFromJWT(newToken.jwtToken);
+        userName.value = getUserNameFromJWT(newToken.jwtToken);
+        userImage.value = getUserImageFromJWT(newToken.jwtToken);
+        userID.value = getUserIDFromJWT(newToken.jwtToken);
+        userNo.value = getUserNoFromJWT(newToken.jwtToken);
+        ticketByPass.value = getTicketByPassPermission(newToken.jwtToken);
+        isJWTValid = true;
+        refreshToken.value = newToken.refreshToken || refreshToken.value; // Update refresh token if available
       }
-    } else if (!nonAuthRoutes.includes(to.path)) {
-      return navigateTo('/login');
+      // else if (!nonAuthRoutes.includes(to.path))
+      // {
+      //   return navigateTo(pageRoutes.authentication.login);
+      // }
+    }
+    // else if (!nonAuthRoutes.includes(to.path))
+    // {
+    //   return navigateTo(pageRoutes.authentication.login);
+    // }
+  }
+
+  if (!isJWTValid && !nonAuthRoutes.includes(to.path)) {
+    return navigateTo(pageRoutes.authentication.login);
+  }
+
+  if (nonAuthRoutes.includes(to.path) && isJWTValid) {
+    const role = jwt && jwt.value ? getRoleFromJWT(jwt.value) : '';
+
+    if (role === roles.owner) {
+      return navigateTo(pageRoutes.common.report.index);
+    } else if (role === roles.manager) {
+      return navigateTo(pageRoutes.common.building.list);
+    } else if (role === roles.customer) {
+      return navigateTo(pageRoutes.common.room.list);
     }
   }
 });

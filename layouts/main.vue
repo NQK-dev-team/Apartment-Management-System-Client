@@ -1,18 +1,35 @@
 <template>
-  <div class="w-full h-full flex flex-col">
-    <GeneralHeader :is-admin="tokenStore.getRole !== '001'" />
-    <div
-      class="w-full flex-1"
-      :class="{
-        dark_theme: !(lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie)),
-      }"
-    >
-      <slot />
+  <div class="w-full h-full flex flex-col bg-[#efefef]">
+    <div class="header">
+      <LayoutHeader />
+    </div>
+    <div class="flex w-full content">
+      <LayoutNavMenu :role="userRole" />
+      <div
+        class="flex-1 w-full overflow-auto"
+        :class="{
+          dark_theme: !(lightModeCookie === null || lightModeCookie === undefined ? 1 : parseInt(lightModeCookie)),
+        }"
+      >
+        <slot />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+// ---------------------- Variables ----------------------
 const lightModeCookie = useCookie('lightMode');
-const tokenStore = jwtStore();
+const userRoleCookie = useCookie('userRole');
+const userRole: string = userRoleCookie && userRoleCookie.value ? userRoleCookie.value.toString() : '';
 </script>
+
+<style lang="css" scope>
+.header {
+  height: 50px;
+}
+
+.content{
+  height: calc(100% - 50px);
+}
+</style>

@@ -1,12 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import authenticationRoutes from './pages/authentication/routes';
-import type { NuxtPage } from 'nuxt/schema';
-import commonRoutes from './pages/common/routes';
+import { COMMON } from './consts/common';
+import { appRoutes } from './pages/routes';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   ssr: true,
+  nitro: {
+    // preset: 'node-server', // Set nitro preset for the building process
+    experimental: {
+      websocket: true,
+    },
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxtjs/i18n',
@@ -14,7 +19,19 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
+    'nuxt-svgo',
+    '@vueuse/nuxt',
+    'dayjs-nuxt',
   ],
+  dayjs: {
+    locales: [COMMON.LOCALE.VI as never, COMMON.LOCALE.EN as never],
+    plugins: ['quarterOfYear', 'utc', 'timezone'],
+    defaultLocale: COMMON.LOCALE.VI as never,
+    defaultTimezone: 'Asia/Ho_Chi_Minh',
+  },
+  svgo: {
+    autoImportPath: './public/svg/',
+  },
   plugins: ['~/plugins/api.ts'],
   eslint: {
     config: {
@@ -27,12 +44,27 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBaseURL: process.env.API_BASE_URL,
-      apiPrefix: process.env.API_PREFIX,
-      apiVersion: process.env.API_VERSION,
+      // apiBaseURL: process.env.API_BASE_URL,
+      // apiPrefix: process.env.API_PREFIX,
+      // apiVersion: process.env.API_VERSION,
       isDevMode: process.env.NODE_ENV === 'development',
       isHttps: process.env.IS_HTTPS === 'true',
+      // port: process.env.APP_PORT,
+      // host: process.env.APP_HOST,
+      // webSocketURL: process.env.WEBSOCKET_URL,
+      // webSocketPrefix: process.env.WEBSOCKET_PREFIX,
+      // webSocketVersion: process.env.WEBSOCKET_VERSION,
     },
+    apiBaseURL: process.env.API_BASE_URL,
+    apiPrefix: process.env.API_PREFIX,
+    apiVersion: process.env.API_VERSION,
+    // isDevMode: process.env.NODE_ENV === 'development',
+    isHttps: process.env.IS_HTTPS === 'true',
+    port: process.env.APP_PORT,
+    host: process.env.APP_HOST,
+    webSocketURL: process.env.WEBSOCKET_URL,
+    webSocketPrefix: process.env.WEBSOCKET_PREFIX,
+    webSocketVersion: process.env.WEBSOCKET_VERSION,
   },
   app: {
     head: {
@@ -40,9 +72,17 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
     },
   },
+  vite: {
+    server: {
+      hmr: {
+        host: process.env.APP_HOST || 'localhost',
+        port: process.env.APP_PORT ? Number(process.env.APP_PORT) : 3000,
+      },
+    },
+  },
   devServer: {
-    port: 3000,
-    host: 'localhost',
+    port: process.env.APP_PORT ? Number(process.env.APP_PORT) : 3000,
+    host: process.env.APP_HOST || 'localhost',
     // https: {
     //   key: '',
     //   cert: '',
@@ -75,22 +115,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'pages:extend'(pages) {
-      pages.push(...authenticationRoutes, ...commonRoutes);
-
-      function removePagesMatching(pattern: RegExp, pages: NuxtPage[] = []) {
-        const pagesToRemove: NuxtPage[] = [];
-        for (const page of pages) {
-          if (page.file && pattern.test(page.file)) {
-            pagesToRemove.push(page);
-          } else {
-            removePagesMatching(pattern, page.children);
-          }
-        }
-        for (const page of pagesToRemove) {
-          pages.splice(pages.indexOf(page), 1);
-        }
-      }
-      removePagesMatching(/\.ts$/, pages);
+      pages.push(...appRoutes);
     },
   },
   piniaPluginPersistedstate: {

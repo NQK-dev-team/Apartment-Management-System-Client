@@ -45,7 +45,7 @@
                   );
                 })
                 .map((customer, idx) => ({
-                  value: customer.ID,
+                  value: customer.no,
                   label: `${customer.no} - ${getUserName(customer)}`,
                   id: `resident_${props.index + 1}_${idx + 1}`,
                   name: `resident_${props.index + 1}_${idx + 1}`,
